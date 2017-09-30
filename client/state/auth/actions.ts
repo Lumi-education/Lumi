@@ -16,7 +16,7 @@ import {
 
 export function login(username: string, password: string, id: string = shortid()) {
 	return (dispatch) => {
-		dispatch({ type: AUTH_LOGIN_REQUEST, payload: { username } });
+		dispatch({ type: AUTH_LOGIN_REQUEST, id,  payload: { username } });
 
 		API
 		.login(username, password)
@@ -25,17 +25,17 @@ export function login(username: string, password: string, id: string = shortid()
 
 				case 200:
 					window.localStorage.jwt_token = res.body.jwt_token;
-					dispatch( { type: AUTH_LOGIN_SUCCESS, payload: res.body } );
+					dispatch( { type: AUTH_LOGIN_SUCCESS, id, payload: res.body } );
 					dispatch( get_session() );
 					break;
 
 				case 404:
 				default:
-					dispatch({ type: AUTH_LOGIN_ERROR, payload: res });
+					dispatch({ type: AUTH_LOGIN_ERROR, id, payload: res });
 			}
 		})
 		.catch((err) => {
-			dispatch({ type: AUTH_LOGIN_ERROR, payload: err });
+			dispatch({ type: AUTH_LOGIN_ERROR, id, payload: err });
 		});
 	};
 }
@@ -109,9 +109,10 @@ export function login(username: string, password: string, id: string = shortid()
 // 	};
 // }
 
-export function get_session() {
+export function get_session(id = shortid()) {
 	return {
 		types: [AUTH_GET_SESSION_REQUEST, AUTH_GET_SESSION_SUCCESS, AUTH_GET_SESSION_ERROR],
-		api: API.get_session()
+		api: API.get_session(),
+		payload: { id }
 	};
 }

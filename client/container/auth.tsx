@@ -3,16 +3,21 @@ import { connect } 			from 'react-redux';
 import { push } 			from 'react-router-redux';
 import { Dispatch } 		from 'redux';
 
+import * as shortid 		from 'shortid';
+
 import { State as Root_State } 			from '../state';
 
 import {
 	get_session,
+	login
  } 		from '../state/auth/actions';
 
-// import Login 						from 'lib/auth/components/login';
+import Login 						from '../components/login';
 
 interface StateProps {
 	is_authed: boolean;
+	response: { status: number; };
+	request: {};
 }
 
 interface DispatchProps {
@@ -24,8 +29,18 @@ interface Props extends StateProps, DispatchProps {}
 interface State {}
 
 export class Auth extends React.Component<Props, State> {
+
+	public request_id: string;
+	
 	constructor(props: Props) {
 		super(props);
+
+		this.login = this.login.bind(this);
+	}
+
+	public login(username: string, password: string) {
+		this.request_id = shortid();
+		this.props.dispatch( login(username, password, this.request_id) );
 	}
 
 	public componentWillMount() {
@@ -38,15 +53,22 @@ export class Auth extends React.Component<Props, State> {
 				<div id="auth">{this.props.children}</div>
 			);
 		} else {
-			this.props.dispatch( push( '/login' ) );
-			return (<div id="auth">not authed</div>);
+			return (
+				<Login 
+					login={this.login} 
+					request={this.props.request[this.request_id]}
+					response={this.props.response}
+				/>
+			);
 		}
 			
 	}
 }
 function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
     return {
-		is_authed: state.auth.is_authed
+		is_authed: state.auth.is_authed,
+		response: state.auth.response,
+		request: state.request
 	};
 }
 
