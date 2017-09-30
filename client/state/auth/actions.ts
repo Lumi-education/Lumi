@@ -5,13 +5,17 @@ declare var window;
 import * as API 	from './api';
 
 import {
+	AUTH_GET_SESSION_REQUEST,
+	AUTH_GET_SESSION_SUCCESS,
+	AUTH_GET_SESSION_ERROR,
+
 	AUTH_LOGIN_REQUEST,
 	AUTH_LOGIN_SUCCESS,
 	AUTH_LOGIN_ERROR,
 
-	AUTH_GET_SESSION_REQUEST,
-	AUTH_GET_SESSION_SUCCESS,
-	AUTH_GET_SESSION_ERROR
+	AUTH_REGISTER_REQUEST,
+	AUTH_REGISTER_SUCCESS,
+	AUTH_REGISTER_ERROR
 }					from '../action-types';
 
 export function login(username: string, password: string, id: string = shortid()) {
@@ -40,28 +44,29 @@ export function login(username: string, password: string, id: string = shortid()
 	};
 }
 
-// export function register_user(username: string) {
-// 	return (dispatch) => {
-// 		dispatch({ type: AUTH_REGISTER_USER_REQUEST, payload: { username } });
+export function register(username: string, password: string) {
+	return (dispatch) => {
+		dispatch({ type: AUTH_REGISTER_REQUEST, payload: { username } });
 
-// 		AUTH_API
-// 		.register(username, 'test')
-// 		// .db_put('/_users/org.couchdb.user:'+username, 
-// {"name": username, "password": "test", "roles": [], "type": "user"} )
-// 		.then((res) => {
-// 			switch (res.status) {
-// 				case 201:
-// 				case 200:
-// 					dispatch({ type: AUTH_REGISTER_USER_SUCCESS, payload: { username } });
-// 					dispatch(login_user(username, 'test'));
-// 				 break;
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			dispatch({ type: AUTH_REGISTER_USER_ERROR, payload: { username } });
-// 		});
-// 	};
-// }
+		API
+		.register(username, password)
+		// .db_put('/_users/org.couchdb.user:'+username, 
+		.then((res) => {
+			switch (res.status) {
+				case 201:
+				case 200:
+					dispatch({ type: AUTH_REGISTER_SUCCESS, payload: { username, response: res } });
+					dispatch( login(username, password) );
+				 break;
+				 default:
+				 break;
+			}
+		})
+		.catch((err) => {
+			dispatch({ type: AUTH_REGISTER_ERROR, payload: { username, response: err } });
+		});
+	};
+}
 
 // export function request_username(username: string) {
 // 	return (dispatch) => {

@@ -1,22 +1,29 @@
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
-import { push } 			from 'react-router-redux';
-import { Dispatch } 		from 'redux';
-
 import * as shortid 		from 'shortid';
 
-import { State as Root_State } 			from '../state';
+// types
+import { Dispatch } 		from 'redux';
+import { 
+	State as Root_State 
+} 							from '../state';
 
+// components
+import { Tabs, Tab } 		from 'material-ui/Tabs';
+import Login 				from '../components/login';
+import Register 			from '../components/register';
+
+// actions
+import { push } 			from 'react-router-redux';
 import {
 	get_session,
-	login
- } 		from '../state/auth/actions';
-
-import Login 						from '../components/login';
+	login,
+	register
+ } 							from '../state/auth/actions';
 
 interface StateProps {
 	is_authed: boolean;
-	response: { status: number; };
+	response: number;
 	request: {};
 }
 
@@ -54,11 +61,23 @@ export class Auth extends React.Component<Props, State> {
 			);
 		} else {
 			return (
-				<Login 
-					login={this.login} 
-					request={this.props.request[this.request_id]}
-					response={this.props.response}
-				/>
+				<Tabs tabItemContainerStyle={{ background: '#FFFFFF' }}>
+					<Tab label="Login">
+						<Login 
+							login={this.login} 
+							request={this.props.request[this.request_id]}
+							response={this.props.response}
+						/>
+					</Tab>
+					<Tab label="Register">
+						<Register 
+							register={(username: string, password: string) => this.props.dispatch( register(username, password ) )} 
+							request={this.props.request[this.request_id]}
+							response={this.props.response}
+						/>
+					</Tab>
+				</Tabs>
+				
 			);
 		}
 			

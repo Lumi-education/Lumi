@@ -49,6 +49,7 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "classnames": "2.2.5",
     "debug": "2.3.3",
     "express": "^4.16.0",

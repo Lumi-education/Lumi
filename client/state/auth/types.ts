@@ -1,8 +1,6 @@
 export interface Auth {
 	is_authed: boolean;
-	response: {
-		status: number;
-	};
+	response: number;
 }
 
 export interface State {
