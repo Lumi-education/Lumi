@@ -13,13 +13,13 @@ import { State as Root_State } 			from '../state';
 
 import * as Socket_io 	from 'socket.io-client';
 
-// import {
-// 	left_drawer_close,
-// 	left_drawer_open,
-// } from 'lib/ui/actions';
+import {
+	left_drawer_close,
+	left_drawer_open,
+} from '../state/ui/actions';
 
 import AppBar 				from 'material-ui/AppBar';
-// import LeftDrawer 			from '../components/left-drawer';
+import LeftDrawer 			from './left-drawer';
 
 interface StateProps {
 	// left_drawer_show: boolean;
@@ -78,9 +78,10 @@ export class Root extends React.Component<Props, State> {
 					style={{ backgroundColor: '#FFFFFF', position: 'fixed'}}
 					titleStyle={{ color: '#222222'}}
 					showMenuIconButton={true}
+					onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_open() )}
 				/>
+				<LeftDrawer />
 				<div style={{ paddingTop: '64px', paddingBottom: '40px' }}>
-				{/* <LeftDrawer {...this.props} /> */}
 				{this.props.children}
 				</div>
 			</div>

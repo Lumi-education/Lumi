@@ -1,5 +1,6 @@
-// import { State as UI } 			from 'lib/ui/types';
 import { State as Auth } 		from './auth/types';
+import { State as UI } 			from './ui/types';
+
 // import { State as Material }  	from 'lib/material/types';
 // import { State as Collection }	from 'lib/collection/types';
 // import { State as User } 		from 'lib/user/types';
@@ -10,4 +11,5 @@ import { State as Request } 	from './request/types';
 
 export interface State extends 
 Auth,
+UI,
 Request {}
