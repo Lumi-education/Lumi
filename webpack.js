@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var version = require('./package.json').version;
 
 module.exports = {
   target: 'web',
@@ -101,7 +102,7 @@ module.exports = {
     new webpack.DefinePlugin({
   'process.env':{
     'NODE_ENV': JSON.stringify( process.env.NODE_ENV ),
-    'VERSION': JSON.stringify( process.env.VERSION )
+    'VERSION': JSON.stringify( version )
     }
 }),
   ]
