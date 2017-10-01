@@ -17,11 +17,16 @@ import {
 	left_drawer_open,
 } from '../state/ui/actions';
 
+// selector
+import { collection_list } 		from '../state/collection/selector';
+
 // types
 import { State as Root_State }  			from '../state';
+import { Collection } 		from '../state/collection/selector';
 
 interface StateProps {
 	left_drawer_show: boolean;
+	collections: Array<Collection>;
 }
 
 interface DispatchProps {
@@ -41,6 +46,7 @@ export class LeftDrawer extends React.Component<Props, State> {
 	}
 
 	public render() {
+		console.log( this.props.collections );
 			return (
 				<div>
 
@@ -57,6 +63,9 @@ export class LeftDrawer extends React.Component<Props, State> {
 					onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_close() )}
 				/>
 
+				<List>
+					{this.props.collections.map(c => <ListItem primaryText={c.name} />)}
+				</List>
 				</Drawer>
 				</div>
 			);
@@ -66,7 +75,8 @@ export class LeftDrawer extends React.Component<Props, State> {
 
 function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
     return {
-		left_drawer_show: state.ui.left_drawer_show
+		left_drawer_show: state.ui.left_drawer_show,
+		collections: collection_list(state)
 	};
 }
 

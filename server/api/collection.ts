@@ -25,7 +25,7 @@ class CollectionMeta {
 export default function boot(server: express.Application, db: nano) {
 
 	server.post('/api/v0/collectionmeta', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-		req.doc = new CollectionMeta(req.user.user_id, req.body.collection_id);
+		req.doc = new CollectionMeta(req.user._id, req.body.collection_id);
 		next();
 	},
 	create()

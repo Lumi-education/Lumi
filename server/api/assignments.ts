@@ -1,11 +1,17 @@
 import * as express 		from 'express';
 import * as nano 			from 'nano';
 
+import { auth, level } 		from '../core/auth';
+
 export default function boot(server: express.Application, db: nano) {
-    server.get('/assignments', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.get('/api/user/assignments', auth, level('guest'), (
+		req: express.Request, 
+		res: express.Response, 
+		next: express.NextFunction
+	) => {
 
 		// get groups 
-		db.view('user', 'groups', { key: req.user.user_id, include_docs: true }, (err, body) => {
+		db.view('user', 'groups', { key: req.user._id, include_docs: true }, (err, body) => {
 			const assignedCollectionIds = body.rows.map(r => r.doc)
 		.map(d => d.assigned_collections).reduce((p, c) =>  p.concat(c), []);
 
@@ -14,7 +20,7 @@ export default function boot(server: express.Application, db: nano) {
 					include_docs: true
 				},     (err, collectionWithMaterial) => {
 
-					let b = assignedCollectionIds.map(a => [req.user.user_id, a]);
+					let b = assignedCollectionIds.map(a => [req.user._id, a]);
 					db.view('user', 'meta', {
 						keys: b,
 						include_docs: true

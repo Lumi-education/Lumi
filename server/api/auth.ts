@@ -2,8 +2,7 @@ import * as express from 'express';
 import * as nano 	from 'nano';
 import * as bcrypt 	from 'bcrypt-nodejs';
 import * as jwt 	from 'jwt-simple';
-import auth 		from '../core/auth';
-import { level } 	from '../core/auth';
+import { auth, level } 	from '../core/auth';
 
 import session 		from '../core/session';
 
@@ -52,7 +51,7 @@ export default function boot(server: express.Application, db: nano) {
 		res: express.Response, 
 		next: express.NextFunction
 	) => {
-			db.view('user', 'session', { key: [ req.user.user_id, req.user.session_id ] }, (err, body) => {
+			db.view('user', 'session', { key: [ req.user._id, req.user.session_id ] }, (err, body) => {
 				if (err) { res.status(500).json(err); return; }
 
 				let session = body.rows[0].value;

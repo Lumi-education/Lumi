@@ -2,7 +2,7 @@ import * as express 	from 'express';
 import * as jwt 		from 'jwt-simple';
 import session 	from './session';
 
-export default function auth(req: express.Request, res: express.Response, next: express.NextFunction) {
+export function auth(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const jwt_token = req.headers['x-auth'];
 
 	if (jwt_token) {

@@ -13,13 +13,19 @@ import { State as Root_State } 			from '../state';
 
 import * as Socket_io 	from 'socket.io-client';
 
+// components 
+import AppBar 				from 'material-ui/AppBar';
+import LeftDrawer 			from './left-drawer';
+
+// actions
 import {
 	left_drawer_close,
 	left_drawer_open,
 } from '../state/ui/actions';
 
-import AppBar 				from 'material-ui/AppBar';
-import LeftDrawer 			from './left-drawer';
+import {
+	get_collections
+} 							from '../state/collection/actions';
 
 interface StateProps {
 	// left_drawer_show: boolean;
@@ -47,6 +53,10 @@ export class Root extends React.Component<Props, State> {
 	}
 
 	// public socket: Socket_io;
+
+	componentWillMount() {
+		this.props.dispatch( get_collections() );
+	}
 
 	// public componentDidMount() {
 	// 	if (this.props.settings.entry_point) {
