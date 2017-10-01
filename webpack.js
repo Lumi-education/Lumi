@@ -66,7 +66,7 @@ module.exports = {
       index: 'user.html'
     },
     proxy: {
-      '/api/auth': {
+      '/api/*': {
         target: process.env.AUTH_SERVICE || 'http://localhost:3000',
         secure: false
       },
@@ -85,10 +85,6 @@ module.exports = {
         target: process.env.CHANGES_SERVICE || 'http://localhost:3001',
         secure: false,
         ws: true
-      },
-      '/api/v0/*': {
-        target: process.env.PROXY_SERVER || 'http://localhost:3002',
-        secure: false
       },
       '/write/*': {
         target: process.env.PROXY_SERVER ? process.env.PROXY_SERVER : 'http://localhost:9001',
