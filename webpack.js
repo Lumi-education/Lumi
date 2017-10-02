@@ -4,7 +4,7 @@ var version = require('./package.json').version;
 module.exports = {
   target: 'web',
   entry: process.env.NODE_ENV === 'development' ? [
-    'webpack-dev-server/client?http://localhost',
+    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     './client/index.ts',
     './client/style/main.scss'
@@ -60,7 +60,7 @@ module.exports = {
   },
   devServer: {
     contentBase: 'build/client/',
-    port: 80,
+    port: 8080,
     hot: true,
     historyApiFallback: {
       index: 'user.html'
