@@ -9,7 +9,7 @@ import {
 import Auth 						from '../container/auth';
 // import Init 						from '../container/init';
 import Landing 						from '../container/landing';
-// import Material 					from '../container/material';
+import Material 					from '../container/material';
 import Root 						from '../container/root';
 
 interface Props {
@@ -31,7 +31,7 @@ export default class RouterWrapper extends React.Component<Props, State> {
 					<Route component={Auth}>
 								<Route component={Root}>
 									<Route path="/" component={Landing} />
-									{/* <Route path="material" component={Material} /> */}
+									<Route path="material" component={Material} />
 								</Route>
 					</Route>
 					<Route path="/login" component={Landing} />

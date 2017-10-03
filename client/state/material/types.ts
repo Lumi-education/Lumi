@@ -39,7 +39,7 @@ export interface FreeText extends Task {
 }
 
 export interface Markdown extends Material {
-	text: Markdown;
+	text: string;
 }
 
 export interface Sort extends Task {}

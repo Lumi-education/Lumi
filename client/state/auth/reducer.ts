@@ -9,6 +9,7 @@ import {
 	Action,
 	AUTH_GET_SESSION_SUCCESS,
 	AUTH_LOGIN_ERROR,
+	AUTH_LOGIN_SUCCESS,
 	AUTH_REGISTER_ERROR
 } from '../action-types';
 
@@ -25,7 +26,7 @@ export default function(state: Auth = initialState, action: Action): Auth {
 
 		case AUTH_LOGIN_ERROR:
 		case AUTH_REGISTER_ERROR:
-			return assign({}, state, { response: action.payload.response.status });
+			return assign({}, state, { response: action.payload.status });
 
 		case '@@INIT':
 			return initialState;
