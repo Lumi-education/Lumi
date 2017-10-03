@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as nano 	from 'nano';
+import { auth } 	from '../core/auth';
 
 import { assign } 	from 'lodash';
 
@@ -24,7 +25,9 @@ class CollectionMeta {
 
 export default function boot(server: express.Application, db: nano) {
 
-	server.post('/api/v0/collectionmeta', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.post('/api/v0/collectionmeta', 
+	auth,
+	(req: express.Request, res: express.Response, next: express.NextFunction) => {
 		req.doc = new CollectionMeta(req.user._id, req.body.collection_id);
 		next();
 	},

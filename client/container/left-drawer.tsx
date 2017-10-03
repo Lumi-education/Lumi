@@ -18,7 +18,7 @@ import {
 } from '../state/ui/actions';
 
 // selector
-import { collection_list } 		from '../state/collection/selector';
+import { get_collection_list } 		from '../state/collection/selector';
 
 // types
 import { State as Root_State }  			from '../state';
@@ -46,7 +46,6 @@ export class LeftDrawer extends React.Component<Props, State> {
 	}
 
 	public render() {
-		console.log( this.props.collections );
 			return (
 				<div>
 
@@ -56,16 +55,24 @@ export class LeftDrawer extends React.Component<Props, State> {
 					onRequestChange={() => this.props.dispatch( left_drawer_close() )}
 					containerStyle={{ backgroundColor: '#FFFFFF' }}
 				>
-				<AppBar
-					style={{ backgroundColor: '#FFFFFF'}}
-					showMenuIconButton={true}
-					iconElementLeft={<IconButton><SVGClose /></IconButton>}
-					onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_close() )}
-				/>
+					<AppBar
+						style={{ backgroundColor: '#FFFFFF'}}
+						showMenuIconButton={true}
+						iconElementLeft={<IconButton><SVGClose /></IconButton>}
+						onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_close() )}
+					/>
 
-				<List>
-					{this.props.collections.map(c => <ListItem primaryText={c.name} />)}
-				</List>
+					<List>
+						{this.props.collections.map(c => 
+							<ListItem 
+								primaryText={c.name} 
+								onClick={() => 
+									this.props.dispatch( push('/material?collection=' + c._id + '&material=' + c.material[0] + '&type=worksheet') )
+								}
+							/>
+							)
+						}
+					</List>
 				</Drawer>
 				</div>
 			);
@@ -76,7 +83,7 @@ export class LeftDrawer extends React.Component<Props, State> {
 function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
     return {
 		left_drawer_show: state.ui.left_drawer_show,
-		collections: collection_list(state)
+		collections: get_collection_list(state)
 	};
 }
 
