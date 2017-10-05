@@ -28,7 +28,7 @@ export function material_meta_update(material_meta_id: string, update: Object) {
 	return {
 		types: [MATERIAL_UPDATE_META_REQUEST, MATERIAL_UPDATE_META_SUCCESS, MATERIAL_UPDATE_META_ERROR],
 		api: API.update_material_meta(material_meta_id, update),
-		payload: { update, material_meta_id }
+		payload: { payload: { update, material_meta_id } }
 	};
 }
 
@@ -58,19 +58,8 @@ export function create_material_meta(material_meta: MaterialMeta, id: string = s
 	};
 }
 
-// export function material_meta_get(material_id: string, query: Object, user_id?: string, id: string = shortid()) {
-// 	return (dispatch) => {
-// 				dispatch({ type: MATERIAL_META_GET_REQUEST, id, payload: { material_id, query } });
-
-// 				MATERIAL_API.material_meta_get(material_id, query, user_id)
-// 				.then((res) => {
-// 					if (res.body.docs.length !== 0) {
-// 						dispatch({ type: MATERIAL_META_GET_SUCCESS, payload: res.body.docs });
-// 					} else {
-// 						dispatch({ type: MATERIAL_META_GET_ERROR, payload: { material_id, query, user_id }});
-// 					}
-
-// 				})
-// 				.catch();
-// 		};
+// export function get_material_meta(material_id: string, query: Object, user_id?: string, id: string = shortid()) {
+// 	return {
+// 		type: [MATERIAL_META_GET_REQUEST, MATERIAL_META_GET_SUCCESS, MATERIAL_META_GET_SUCCESS]
+// 	}
 // }

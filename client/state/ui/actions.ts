@@ -1,4 +1,5 @@
 import { UI } 	from './types';
+import { push as _push } from 'react-router-redux';
 
 import {
 	UI_DIALOG_CLOSE,
@@ -8,6 +9,14 @@ import {
 	UI_RIGHT_DRAWER_CLOSE,
 	UI_RIGHT_DRAWER_OPEN,
 } from './constants';
+
+export function push(url: string) {
+	return dispatch => {
+		dispatch( left_drawer_close() );
+		dispatch( _push( url ) );
+	    // dispatch( session_update({ query: qs.parse(url_parse(url).query) }) );
+	};
+}
 
 export function dialog_open() {
 	return {

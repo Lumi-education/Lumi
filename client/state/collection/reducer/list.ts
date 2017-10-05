@@ -6,7 +6,7 @@ import {
 import { Collection }						from '../types';
 
 import {
-	COLLECTION_GET_SUCCESS,
+	COLLECTION_GET_SUCCESS
 } from '../../action-types';
 
 const initialState: Collection[] = [];

@@ -6,6 +6,8 @@ export interface Material {
 	type: string;
 	tag_list: string[];
 	image?: string;
+	task?: string;
+	items?: string[];
 }
 
 export interface MaterialMeta {
@@ -20,9 +22,9 @@ export interface MaterialMeta {
 		type?: string;
 		material?: string;
 	};
-	score?: number;
-	hints?: number;
-	value?: string[] | string;
+	score: number;
+	// hints: number;
+	value: string[];
 }
 
 export interface Task extends Material {
@@ -50,9 +52,9 @@ export interface SortMeta extends TaskMeta {}
 
 export interface MultipleChoiceMeta extends TaskMeta {}
 
-export interface FreeTextMeta extends MaterialMeta {
-	value: string;
-}
+// export interface FreeTextMeta extends MaterialMeta {
+// 	value: string;
+// }
 
 export interface State {
 	material: {

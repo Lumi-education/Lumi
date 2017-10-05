@@ -1,6 +1,5 @@
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
-import { push } 			from 'react-router-redux';
 
 import * as qs 				from 'query-string';
 import * as url_parse 		from 'url-parse';
@@ -21,7 +20,12 @@ import LeftDrawer 			from './left-drawer';
 import {
 	left_drawer_close,
 	left_drawer_open,
+	push
 } from '../state/ui/actions';
+
+import {
+	init
+} 	from '../state/user/actions';
 
 import {
 	get_collections
@@ -38,7 +42,6 @@ interface StateProps {
 }
 interface DispatchProps {
 	dispatch: (action) => void;
-	push: (url: string) => void;
 }
 
 interface Props extends StateProps, DispatchProps {}
@@ -56,6 +59,7 @@ export class Root extends React.Component<Props, State> {
 
 	componentWillMount() {
 		this.props.dispatch( get_collections() );
+		this.props.dispatch( init() );
 	}
 
 	// public componentDidMount() {
@@ -113,11 +117,6 @@ function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
 
 function mapDispatchToProps(dispatch): DispatchProps {
   return {
-		  push: (url: string) => {
-			  dispatch( push(url) );
-			//   dispatch( left_drawer_close() );
-			//   dispatch( session_update({ query: qs.parse(url_parse(url).query) }) );
-			},
 		  dispatch: (action) => dispatch(action)
   };
 }
