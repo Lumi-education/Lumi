@@ -50,7 +50,7 @@ export function collection_create_meta(collection_id: string, id: string = short
 	return {
 		types: [COLLECTION_CREATEMETA_REQUEST, COLLECTION_CREATEMETA_SUCCESS, COLLECTION_CREATEMETA_ERROR],
 		api: API.post_collectionmeta(collection_id),
-		payload: { id }
+		payload: { id, collection_id }
 	};
 	// return (dispatch) => {
 
