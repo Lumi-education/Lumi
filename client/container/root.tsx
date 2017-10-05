@@ -3,6 +3,7 @@ import { connect } 			from 'react-redux';
 
 import * as qs 				from 'query-string';
 import * as url_parse 		from 'url-parse';
+import * as shortid 		from 'shortid';
 import { State as Root_State } 			from '../state';
 
 // import { Collection } 		from 'lib/collection/types';
@@ -15,6 +16,7 @@ import * as Socket_io 	from 'socket.io-client';
 // components 
 import AppBar 				from 'material-ui/AppBar';
 import LeftDrawer 			from './left-drawer';
+import Load_page 			from '../components/load-page';
 
 // actions
 import {
@@ -32,6 +34,7 @@ import {
 } 							from '../state/collection/actions';
 
 interface StateProps {
+	request: {};
 	// left_drawer_show: boolean;
 	// collection_list: Collection[];
 	// material_list: Material[];
@@ -49,6 +52,8 @@ interface Props extends StateProps, DispatchProps {}
 interface State {}
 
 export class Root extends React.Component<Props, State> {
+
+	private init_action_id: string;
 	constructor(props: Props) {
 		super(props);
 
@@ -59,7 +64,8 @@ export class Root extends React.Component<Props, State> {
 
 	componentWillMount() {
 		this.props.dispatch( get_collections() );
-		this.props.dispatch( init() );
+		this.init_action_id = shortid();
+		this.props.dispatch( init(this.init_action_id) );
 	}
 
 	// public componentDidMount() {
@@ -96,7 +102,13 @@ export class Root extends React.Component<Props, State> {
 				/>
 				<LeftDrawer />
 				<div style={{ paddingTop: '64px', paddingBottom: '40px' }}>
-				{this.props.children}
+				{
+					this.props.request[this.init_action_id] === 'success' 
+					? 
+					this.props.children 
+					: 
+					<Load_page><div>loading init data</div></Load_page>
+				}
 				</div>
 			</div>
 			);
@@ -105,13 +117,7 @@ export class Root extends React.Component<Props, State> {
 }
 function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
     return {
-			// collection_list: state.collection.list,
-			// left_drawer_show: state.ui.left_drawer_show,
-			// material_list: state.material.list,
-			// user_id: state.auth.user_id,
-			// settings: state.settings,
-			// location: ownProps.router.location,
-			// query: ownProps.location.query,
+		request: state.request
 		};
 }
 
