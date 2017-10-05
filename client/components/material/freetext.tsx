@@ -45,12 +45,12 @@ export default class Freetext extends React.Component<Props, State> {
 
 				 <Paper>
 					<TextField
-					multiLine
-					fullWidth
-					onChange={this.handle_input}
-					value={this.props.user_answer}
-					hintText="Antwort"
-					 />
+						multiLine={true}
+						fullWidth={true}
+						onChange={this.handle_input}
+						value={this.props.user_answer}
+						hintText="Antwort"
+					/>
 				 </Paper>
 
 			</div>

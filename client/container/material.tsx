@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { State as Root_State } from '../state';
 
 import SortComponent 			from '../components/material/sort';
-
+import MultiplechoiceComponent  from '../components/material/multiple-choice';
+import FreetextComponent 		from '../components/material/freetext';
 import { Sort } 				from '../state/material/types';
 
 interface Props extends StateProps, DispatchProps { }
@@ -34,6 +35,30 @@ export class MaterialContainer extends React.Component<Props, State> {
 									} 
 								/>
 								);
+						case 'multiplechoice':
+							return (
+								<MultiplechoiceComponent 
+									material={this.props.material as any}
+									cb={(value, score) => this.props.dispatch( 
+										material_meta_update( this.props.material.meta._id, { value, score })
+									)}
+									answer={this.props.material.meta.value}
+									show_correct_answers={false}
+									task={this.props.material.task}
+								/>
+							);
+
+						case 'freetext':
+							return (
+								<FreetextComponent
+									cb={(value: string, score: number) => this.props.dispatch( 
+										material_meta_update( this.props.material.meta._id, { value: [value], score })
+									)}
+									answer_options={this.props.material.items}
+									user_answer={this.props.material.meta.value[0]}
+									task={this.props.material.task}
+								/>
+							);
 						default:
 							return <div>Bitte warten.</div>;
 					}

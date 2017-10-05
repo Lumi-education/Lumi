@@ -16,12 +16,6 @@ export class MaterialMetaContainer extends React.Component<Props, State> {
 	init(props: Props) {
 		if (!props.material.meta && props.material.material_type) {
 			let meta;
-
-			// switch (props.material.material_type) {
-			// 	case 'sort':
-
-			// 		break;
-			// 	default:
 			meta = {
 						_id: undefined,
 						type: 'material_meta',
