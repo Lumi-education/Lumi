@@ -67,7 +67,7 @@ export class LeftDrawer extends React.Component<Props, State> {
 							<ListItem 
 								primaryText={c.name} 
 								onClick={() => 
-									this.props.dispatch( push('/material?collection=' + c._id + '&material=' + c.material[0] + '&type=worksheet') )
+									this.props.dispatch( push('/worksheet/' + c._id + '/material/' + c.material[0]) )
 								}
 							/>
 							)
