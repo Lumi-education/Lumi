@@ -11,6 +11,8 @@ import Auth 						from '../container/auth';
 import Landing 						from '../container/landing';
 import Material 					from '../container/material';
 import Root 						from '../container/root';
+import MaterialMeta 						from '../container/material_meta';
+import Worksheet 					from '../container/worksheet';
 
 interface Props {
 	history: {};
@@ -31,6 +33,11 @@ export default class RouterWrapper extends React.Component<Props, State> {
 					<Route component={Auth}>
 								<Route component={Root}>
 									<Route path="/" component={Landing} />
+									<Route path="worksheet/:collection_id" component={Worksheet} >
+										<Route component={MaterialMeta}>
+											<Route path="material/:material_id" component={Material} />
+										</Route>
+									</Route>
 									<Route path="material" component={Material} />
 								</Route>
 					</Route>
