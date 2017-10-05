@@ -26,13 +26,13 @@ export class MaterialContainer extends React.Component<Props, State> {
 					switch ( this.props.material.material_type ) {
 						case 'sort':
 							return (
-								<SortComponent 
-									task={this.props.material.task} 
-									items={this.props.material.meta.value} 
-									cb={(items) => { 
-										this.props.dispatch( material_meta_update(this.props.material.meta._id, { value: items })); 
-										}
-									} 
+								<SortComponent
+									task={this.props.material.task}
+									material_items={this.props.material.items}
+									user_items={this.props.material.meta.value}
+									cb={(value, score) => this.props.dispatch( 
+										material_meta_update( this.props.material.meta._id, { value, score })
+									)}
 								/>
 								);
 						case 'multiplechoice':
