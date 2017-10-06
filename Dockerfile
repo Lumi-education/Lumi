@@ -11,8 +11,8 @@ WORKDIR /srv
 RUN npm install --production
 RUN npm run build:server
 
-# Open Port 3000
-EXPOSE 3000
+# Open Port 80
+EXPOSE 80
 
 # Run Node.js
 CMD ["node", "build/index.js"]
