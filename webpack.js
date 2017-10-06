@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: __dirname + '/build/client/',
     publicPath: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : '',
-    filename: "user-client.js",
+    filename: "user.js",
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -63,7 +63,7 @@ module.exports = {
     port: 8080,
     hot: true,
     historyApiFallback: {
-      index: 'user.html'
+      index: 'index.html'
     },
     proxy: {
       '/api/*': {

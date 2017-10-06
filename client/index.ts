@@ -4,7 +4,7 @@ declare var require: {
     ensure: (paths: string[], callback: (require: <T>(path: string) => T) => void) => void;
 };
 
-require('file?name=[name].[ext]!./user.html');
+require('file?name=[name].[ext]!./index.html');
 
 import boot from './core/boot';
 
