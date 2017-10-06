@@ -25,7 +25,7 @@ export class MaterialMetaContainer extends React.Component<Props, State> {
 							collection: props.collection_id,
 							type: 'worksheet'
 						},
-						value: shuffle(props.material.items),
+						value: (props.material.material_type === 'sort' ? shuffle(props.material.items) : []),
 						score: 0
 					};
 			// 		break;
