@@ -7,7 +7,7 @@ export function auth(req: express.Request, res: express.Response, next: express.
 
 	if (jwt_token) {
 		try {
-			req['user'] = jwt.decode( jwt_token, process.env.KEY );
+			req['user'] = jwt.decode( jwt_token, process.env.KEY || 'KEY');
 
 			if (req['user'].session_id != session.id && req['user'].level < userlevel['teacher']) {
 				res.status(401).end('session expired');

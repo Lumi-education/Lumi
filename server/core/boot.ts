@@ -16,7 +16,7 @@ const express_debug = _debug('boot:express');
 
 export default function () {
 
-	if (process.env.NODE_ENV == 'development') {
+	if (process.env.NODE_ENV !== 'production') {
 		wait_for_couchdb( boot_db );
 		boot();
 	} else {
@@ -41,12 +41,12 @@ export default function () {
 function boot() {
 	debug('starting boot-sequence');
 
-	const _nano = nano( process.env.DB_HOST );
+	const _nano = nano( process.env.DB_HOST || 'http://localhost:5984');
 
-	const lumidb = _nano.db.use( process.env.DB );
+	const lumidb = _nano.db.use( process.env.DB || 'lumidb');
 
-	const httpServer = server.listen(process.env.PORT, function () {
-		express_debug('express-server successfully booted on port ' + process.env.PORT);
+	const httpServer = server.listen(process.env.PORT || 80, function () {
+		express_debug('express-server successfully booted on port ' + process.env.PORT || 80);
 	});
 
 	boot_api(server, lumidb);

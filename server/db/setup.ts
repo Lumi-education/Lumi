@@ -14,7 +14,7 @@ export default function () {
 }
 
 function update(db: string, id: string, update: Object) {
-	const _nano = nano(process.env.DB_HOST);
+	const _nano = nano(process.env.DB_HOST || 'http://localhost:5984');
 	_nano.db.create(db, (err, body) => {
 		debug(body);
 		const _db = _nano.db.use(db);
