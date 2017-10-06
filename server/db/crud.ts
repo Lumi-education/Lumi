@@ -2,8 +2,8 @@ import { assign } 	   from 'lodash';
 import * as express 	from 'express';
 import * as nano 	   from 'nano';
 
-const _nano = nano( process.env.DB_HOST );
-const _db = _nano.db.use( process.env.DB );
+const _nano = nano( process.env.DB_HOST || 'http://localhost:5984' );
+const _db = _nano.db.use( process.env.DB || 'lumidb' );
 
 export function create(): any {
 	return (req: express.Request, res: express.Response, next: express.NextFunction) => {

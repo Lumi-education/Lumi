@@ -134,7 +134,7 @@ function send_auth(user_id: string, session_id: string, level: number, res: expr
 			_id: user_id,
 			session_id,
 			level
-		},         process.env.KEY);
+		},         process.env.KEY || 'KEY');
 
 	res.status(200).json({
 		jwt_token,

@@ -8,7 +8,7 @@ export default function (done: () => void) {
 
 	debug('check for db: '+process.env.DB);
 	superagent
-	.get(process.env.DB_HOST+'/'+process.env.DB)
+	.get((process.env.DB_HOST || 'http://localhost:5984') + '/' + (process.env.DB || 'lumidb'))
 	.then(res => {
 		debug('OK db '+process.env.DB+' exists.');
 		done();
@@ -19,7 +19,7 @@ export default function (done: () => void) {
 		debug('creating db '+process.env.DB);
 
 		superagent
-		.put(process.env.DB_HOST+'/'+process.env.DB)
+		.put((process.env.DB_HOST || 'http://localhost:5984') + '/' + (process.env.DB || 'lumidb'))
 		.then(res => {
 			debug('db '+process.env.DB+' created.');
 			done();
