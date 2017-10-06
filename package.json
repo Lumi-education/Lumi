@@ -1,6 +1,6 @@
 {
   "name": "lumi_user",
-  "version": "1.0.0-develop.0",
+  "version": "1.0.0-develop.1",
   "description": "",
   "repository": {
     "type": "git",
@@ -60,8 +60,8 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
-    "@types/node": "7.0.2",    
-    "@types/lodash": "4.14.50",    
+    "@types/node": "7.0.2",
+    "@types/lodash": "4.14.50",
     "bcrypt-nodejs": "0.0.3",
     "classnames": "2.2.5",
     "debug": "2.3.3",
@@ -71,7 +71,7 @@
     "nano": "^6.4.2",
     "shortid": "2.2.8",
     "superagent": "3.5.2",
-    "typescript": "2.1.5",    
+    "typescript": "2.1.5",
     "url-parse": "1.1.9"
   }
 }
