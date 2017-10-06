@@ -8,6 +8,7 @@ import material                    from '../state//material/reducer';
 import request                     from '../state/request/reducer';
 // import settings                    from 'lib/settings/reducer';
 import ui                          from '../state/ui/reducer';
+import session                     from '../state/session/reducer';
 // import user                        from 'lib/user/reducer';
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     ui,
     request,
     routing: routerReducer,
+    session
     // material,
     // ui,
     // settings,

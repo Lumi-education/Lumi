@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as nano 	from 'nano';
 import * as bcrypt 	from 'bcrypt-nodejs';
+import { assign } 	from 'lodash';
 import * as jwt 	from 'jwt-simple';
 import { auth, level } 	from '../core/auth';
 
@@ -103,6 +104,26 @@ export default function boot(server: express.Application, db: nano) {
 				});
 			 }
 		});
+	});
+
+	server.put('/api/user/auth/session', 
+		auth, 
+		level('student'), 
+		(req: express.Request, res: express.Response, next: express.NextFunction) => {
+			db.view('user', 'session', { key: [ req.user._id, req['user'].session_id ] }, (err, body) => {
+				if (err) { res.status(500).json(err); return; }
+
+				let session = body.rows[0].value;
+
+				if (!session) { res.status(404).end('session not found'); return; }
+
+				assign(session, req.body);
+				db.insert(session, (err, body) => {
+					if (err) { res.status(500).json(err); return; }
+
+					res.status(200).end();
+				})
+			});
 	});
 
 }

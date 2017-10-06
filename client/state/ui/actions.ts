@@ -1,6 +1,9 @@
 import { UI } 	from './types';
 import { push as _push } from 'react-router-redux';
+import * as qs 				from 'query-string';
+import * as url_parse 		from 'url-parse';
 
+import { session_update } from '../session/actions';
 import {
 	UI_DIALOG_CLOSE,
 	UI_DIALOG_OPEN,
@@ -14,7 +17,7 @@ export function push(url: string) {
 	return dispatch => {
 		dispatch( left_drawer_close() );
 		dispatch( _push( url ) );
-	    // dispatch( session_update({ query: qs.parse(url_parse(url).query) }) );
+	 dispatch( session_update({ query: qs.parse( url_parse( url ).query ) }) );
 	};
 }
 

@@ -6,6 +6,7 @@ import { State as UI } 			from './ui/types';
 // import { State as Settings } 	from 'lib/settings/types';
 // import { State as Lesson } 		from 'lib/lesson/types';
 import { State as Request } 	from './request/types';
+import { State as Session } 	from './session/types';
 // import { State as Group } 		from 'lib/group/types';
 
 export interface State extends 
@@ -13,4 +14,5 @@ Auth,
 Collection,
 Material,
 UI,
-Request {}
+Request,
+Session {}
