@@ -8,8 +8,8 @@ ADD . /srv
 WORKDIR /srv
 
 # Install app dependencies & build
-RUN npm install
-RUN npm run build
+RUN npm install --production
+RUN npm run build:server
 
 # Open Port 3000
 EXPOSE 3000

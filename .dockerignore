@@ -1,7 +1,6 @@
 .git
 .gitignore
 .env
-build
 dist
 node_modules
 *.log
