@@ -25,7 +25,7 @@ class CollectionMeta {
 
 export default function boot(server: express.Application, db: nano) {
 
-	server.post('/api/v0/collectionmeta', 
+	server.post('/api/user/v0/collectionmeta', 
 	auth,
 	(req: express.Request, res: express.Response, next: express.NextFunction) => {
 		req.doc = new CollectionMeta(req.user._id, req.body.collection_id);
@@ -35,7 +35,7 @@ export default function boot(server: express.Application, db: nano) {
 	);
 	
 	 server.put(
-		'/api/v0/collectionmeta/:_id/submit', 
+		'/api/user/v0/collectionmeta/:_id/submit', 
 		update({ submitted: true })
 	);
 

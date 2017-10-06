@@ -1,6 +1,8 @@
 import * as express 	from 'express';
 import * as nano 		from 'nano';
 import * as bodyParser	from 'body-parser';
+import * as path 		from 'path';
+
 import boot_assignments from './assignments';
 import boot_collection 	from './collection';
 import boot_auth 		from './auth';
@@ -21,5 +23,9 @@ export default function boot(server: express.Application, db: nano) {
 	boot_user(server, db);
 	
 	server.use(express.static( __dirname + '/../client'));
+
+	server.get('*', function(req, res){
+		res.sendfile(path.resolve('build/client/index.html') );
+	});
 	
 }

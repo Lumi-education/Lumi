@@ -8,7 +8,7 @@ import session 		from '../core/session';
 
 export default function boot(server: express.Application, db: nano) {
 
-	server.post('/api/auth/login', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.post('/api/user/auth/login', (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		try {
 			if ( !req.body.password || !req.body.username ) { 
 				res.status(400).end();
@@ -46,7 +46,7 @@ export default function boot(server: express.Application, db: nano) {
 		}
 	});
 
-	server.post('/api/auth/logout', auth, level('student'), (
+	server.post('/api/user/auth/logout', auth, level('student'), (
 		req: express.Request, 
 		res: express.Response, 
 		next: express.NextFunction
@@ -68,11 +68,11 @@ export default function boot(server: express.Application, db: nano) {
 			});
 	});
 
-	server.get('/api/auth/session_id', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.get('/api/user/auth/session_id', (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		res.status(200).json({ session_id: session.id });
 	});
 
-	server.put('/api/auth/session_id', auth, level('teacher'), (
+	server.put('/api/user/auth/session_id', auth, level('teacher'), (
 		req: express.Request, 
 		res: express.Response, 
 		next: express.NextFunction
@@ -83,11 +83,11 @@ export default function boot(server: express.Application, db: nano) {
 			}
 	});
 	
-	server.get('/api/auth/session', auth, (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.get('/api/user/auth/session', auth, (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		res.status(200).json(req.user);
 	});
 
-	server.post('/api/auth/register', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.post('/api/user/auth/register', (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		db.view('user', 'username', { key: req.body.username }, (err, body) => {
 			if (body.rows.length > 0) { res.status(409).end(); } else { 
 				db.insert({
