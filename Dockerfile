@@ -1,5 +1,4 @@
-FROM hypriot/rpi-node:latest
-MAINTAINER Jan Philip Schellenberg <jps@Lumi.education>
+FROM arm32v7/node:8.6.0
 
 # Adding source files into container
 ADD . /srv

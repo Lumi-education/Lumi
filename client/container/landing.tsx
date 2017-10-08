@@ -27,16 +27,16 @@ export class Landing extends React.Component<Props, State> {
 }
 
 function mapStateToProps(state: State, ownProps: {}): StateProps {
-    return {
+	return {
 	};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-  };
+	return {
+	};
 }
 
 export default connect<{}, {}, {}>(
-  mapStateToProps,
-  mapDispatchToProps,
+	mapStateToProps,
+	mapDispatchToProps,
 )(Landing);
