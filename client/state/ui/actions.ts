@@ -17,7 +17,7 @@ export function push(url: string) {
 	return dispatch => {
 		dispatch( left_drawer_close() );
 		dispatch( _push( url ) );
-	 dispatch( session_update({ query: qs.parse( url_parse( url ).query ) }) );
+		dispatch( session_update({ location: url }) );
 	};
 }
 

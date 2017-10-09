@@ -10,7 +10,7 @@ export interface Session {
 	login: Date;
 	logout: Date;
 	online: boolean;
-	query: any;
+	location: string;
 	type: 'session';
 }
 
