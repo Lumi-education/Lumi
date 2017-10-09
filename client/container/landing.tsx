@@ -1,7 +1,7 @@
 // modules
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
-import { push } 			from 'react-router-redux';
+import { push } 			from '../state/ui/actions';
 
 // local
 import { State as Root_State }  			from '../state';
@@ -22,7 +22,7 @@ export class Landing extends React.Component<Props, State> {
 	}
 
 	public render() {
-		return (<div>Login</div>);
+		return (<div>Hallo</div>);
 	}
 }
 

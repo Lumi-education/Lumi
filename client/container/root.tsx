@@ -30,6 +30,10 @@ import {
 } 	from '../state/user/actions';
 
 import {
+	session_update
+}	from '../state/session/actions';
+
+import {
 	get_collections
 } 							from '../state/collection/actions';
 
@@ -40,7 +44,7 @@ interface StateProps {
 	// material_list: Material[];
 	// user_id: string;
 	// settings: Settings;
-	// location: {};
+	location;
 	// query: any;
 }
 interface DispatchProps {
@@ -56,8 +60,6 @@ export class Root extends React.Component<Props, State> {
 	private init_action_id: string;
 	constructor(props: Props) {
 		super(props);
-
-		this.push = this.push.bind(this);
 	}
 
 	// public socket: Socket_io;
@@ -66,24 +68,8 @@ export class Root extends React.Component<Props, State> {
 		this.props.dispatch( get_collections() );
 		this.init_action_id = shortid();
 		this.props.dispatch( init(this.init_action_id) );
-	}
-
-	// public componentDidMount() {
-	// 	if (this.props.settings.entry_point) {
-	// 		this.props.push(this.props.settings.url);
-	// 	}
-	// }
-
-	// public componentWillReceiveProps(nextProps: Props) {
-	// 	if (nextProps.settings.entry_point && (nextProps.settings.url !== this.props.settings.url)) {
-	// 		this.props.push(nextProps.settings.url);
-	// 	}
-	// }
-
-	public push(url: string) {
-		// if (!this.props.settings.controlled) {
-			this.props.dispatch( push( url ) );
-		// }
+		this.props.dispatch( session_update({ location: this.props.location.pathname }) );
+		
 	}
 
 	public render() {
@@ -115,19 +101,20 @@ export class Root extends React.Component<Props, State> {
 
 	}
 }
-function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
-    return {
-		request: state.request
-		};
+function mapStateToProps(state: Root_State, ownProps): StateProps {
+	return {
+		request: state.request,
+		location: ownProps.location
+	};
 }
 
 function mapDispatchToProps(dispatch): DispatchProps {
-  return {
-		  dispatch: (action) => dispatch(action)
-  };
+	return {
+		dispatch: (action) => dispatch(action)
+	};
 }
 
 export default connect<{}, {}, {}>(
-  mapStateToProps,
-  mapDispatchToProps,
+	mapStateToProps,
+	mapDispatchToProps,
 )(Root);

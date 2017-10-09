@@ -11,7 +11,7 @@ import { List, ListItem } 	from 'material-ui/List';
 import SVGClose 			from 'material-ui/svg-icons/navigation/close';
 
 // actions
-import { push } 			from 'react-router-redux';
+import { push } 			from '../state/ui/actions';
 import {
 	left_drawer_close,
 	left_drawer_open,
