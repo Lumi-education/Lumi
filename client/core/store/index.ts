@@ -35,7 +35,7 @@ export function saveState(state: {}) {
 	localStorage.setItem('state', serializedState);
 }
 
-const persistentState = process.env.NODE_ENV === 'production' ? loadState() : undefined;
+const persistentState = undefined;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -51,10 +51,10 @@ const store = createStore<{}>(
 	)
 );
 
-if (process.env.NODE_ENV === 'production') {
-	store.subscribe(throttle( () => {
-		saveState( store.getState() );
-	},                        1000) );
-}
+// if (process.env.NODE_ENV === 'production') {
+// 	store.subscribe(throttle( () => {
+// 		saveState( store.getState() );
+// 	},                        1000) );
+// }
 
 export default store;
