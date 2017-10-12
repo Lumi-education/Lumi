@@ -14,6 +14,7 @@ interface Props {
 	answer_options: string[];
 	user_answer: string;
 	task: Markdown;
+	show_answer: boolean;
 }
 
 interface State {}
@@ -38,20 +39,29 @@ export default class Freetext extends React.Component<Props, State> {
 		return (
 			<div>
 				<Paper>
-					<div dangerouslySetInnerHTML={{
-					__html: md.render(this.props.task),
-				  }}></div>
+					<div 
+						dangerouslySetInnerHTML={{
+							__html: md.render(this.props.task),
+						}}
+					/>
 				</Paper>
 
-				 <Paper>
+				<Paper>
 					<TextField
 						multiLine={true}
 						fullWidth={true}
 						onChange={this.handle_input}
 						value={this.props.user_answer}
+						errorText={ 
+							this.props.show_answer 
+							? 
+							'Richtige Antworten: ' + this.props.answer_options.reduce((p, c) => p  + c + ', ', '') : null }
+						errorStyle={{
+							color: this.evaluate(this.props.user_answer) ? 'green' : 'red'
+						}}
 						hintText="Antwort"
 					/>
-				 </Paper>
+				</Paper>
 
 			</div>
 		);
