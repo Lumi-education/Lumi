@@ -8,6 +8,7 @@ import boot_collection 	from './collection';
 import boot_auth 		from './auth';
 import boot_material	from './material';
 import boot_user 		from './user';
+import boot_file 		from './file';
 
 export default function boot(server: express.Application, db: nano) {
 
@@ -21,6 +22,7 @@ export default function boot(server: express.Application, db: nano) {
 	boot_collection(server, db);
 	boot_material(server, db);
 	boot_user(server, db);
+	boot_file(server);
 	
 	server.use(express.static( __dirname + '/../client'));
 

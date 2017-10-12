@@ -1,0 +1,19 @@
+import * as express from 'express';
+import proxy 			from '../core/proxy';
+
+export default function boot(server: express.Application) {
+
+	server.get(
+		'/api/material/:id/:attachment', 
+		(req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+			req.url = req.url.replace('/api/material', '/' + process.env.DB);
+
+			proxy.web(req, res, {
+				target: process.env.DB_HOST ? process.env.DB_HOST : 'http://127.0.0.1:5984'
+			});
+
+		}
+	);
+
+}
