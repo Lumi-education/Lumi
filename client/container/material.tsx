@@ -5,6 +5,7 @@ import { State as Root_State } from '../state';
 import SortComponent 			from '../components/material/sort';
 import MultiplechoiceComponent  from '../components/material/multiple-choice';
 import FreetextComponent 		from '../components/material/freetext';
+import Video 					from '../components/material/video';
 import { Sort } 				from '../state/material/types';
 
 interface Props extends StateProps, DispatchProps { }
@@ -51,6 +52,9 @@ export class MaterialContainer extends React.Component<Props, State> {
 										)}
 								/>
 							);
+
+						case 'video':
+							return <Video url={this.props.material.task} />;
 
 						case 'freetext':
 							return (

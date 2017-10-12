@@ -2,7 +2,7 @@ export interface Material {
 	_id: string;
 	name: string;
 	description: string;
-	material_type: "markdown" | "multiplechoice" | "freetext" | "sort";
+	material_type: 'video' | "markdown" | "multiplechoice" | "freetext" | "sort";
 	type: string;
 	tag_list: string[];
 	image?: string;
