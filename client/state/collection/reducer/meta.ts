@@ -1,13 +1,14 @@
 import {
 	assign,
 	unionBy,
- } 		from 'lodash';
+} 		from 'lodash';
 
 import { CollectionMeta }						from '../types';
 
 import { 
 	COLLECTION_CREATEMETA_REQUEST,	
 	COLLECTION_CREATEMETA_SUCCESS,
+	COLLECTION_SUBMIT_REQUEST,
 	USER_INIT_SUCCESS
 } 												from '../../action-types';
 
@@ -18,7 +19,10 @@ export default function(state: CollectionMeta[] = initialState, action): Collect
 	switch (action.type) {
 
 		case COLLECTION_CREATEMETA_SUCCESS:
-			return state.map(c => c._id === action.id ? action.payload : c); // unionBy([action.payload], state, '_id' );
+			return state.map(c => c._id === action.id ? action.payload : c);
+		
+		case COLLECTION_SUBMIT_REQUEST:
+			return state.map(c => c._id === action.payload.collection_meta_id ? assign({}, c, { submitted: true }) : c);
 
 		case COLLECTION_CREATEMETA_REQUEST:
 			return [ ...state, {

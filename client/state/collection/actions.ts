@@ -74,6 +74,7 @@ export function collection_create_meta(collection_id: string, id: string = short
 export function submit_collection(collection_meta_id: string, id: string = shortid()) {
 	return {
 		types: [COLLECTION_SUBMIT_REQUEST, COLLECTION_SUBMIT_SUCCESS, COLLECTION_SUBMIT_ERROR],
-		api: API.submit_collection(collection_meta_id)
+		api: API.submit_collection(collection_meta_id),
+		payload: { payload: { collection_meta_id } }
 	};
 }

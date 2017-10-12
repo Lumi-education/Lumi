@@ -13,16 +13,36 @@ import {
 } 						from 'material-ui/BottomNavigation';
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import SVGNote from 'material-ui/svg-icons/av/note';
+import SVGHelp from 'material-ui/svg-icons/action/help';
+import SVGCamera from 'material-ui/svg-icons/image/photo-camera';
+import SVGAssist from 'material-ui/svg-icons/image/assistant';
+import SVGFlag from 'material-ui/svg-icons/content/flag';
+import SVGOverview from 'material-ui/svg-icons/av/featured-play-list';
+
+import SVGAssignment from 'material-ui/svg-icons/action/assignment';
+import SVGAssignmentTurnIn from 'material-ui/svg-icons/action/assignment-turned-in';
+import MenuItem from 'material-ui/MenuItem';
+import Menu 	from 'material-ui/Menu';
+import Popover 	from 'material-ui/Popover';
 
 interface Props extends StateProps, DispatchProps { }
 
-interface State {}
+interface State {
+	anchorEl?;
+	open?: boolean;
+}
 
 export class WorksheetContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
 		this.init = this.init.bind(this);
+		this.state = {
+			anchorEl: null,
+			open: false
+		};
+		this.handleTouchTap = this.handleTouchTap.bind(this);
 	}
 
 	init(props: Props) {
@@ -41,6 +61,16 @@ export class WorksheetContainer extends React.Component<Props, State> {
 	componentWillMount() { this.init( this.props ); }
 	componentWillReceiveProps(nextProps: Props) { this.init(nextProps); }
 
+	handleTouchTap = (event) => {
+		// This prevents ghost click.
+		event.preventDefault();
+	
+		this.setState({
+			open: true,
+			anchorEl: event.currentTarget,
+		});
+	}
+
 	public render() { 
 		return (
 			<div id="worksheet">
@@ -51,6 +81,29 @@ export class WorksheetContainer extends React.Component<Props, State> {
 					: 
 					<div>Loading worksheet</div>
 				}
+				<Popover 
+					open={this.state.open} 
+					anchorEl={this.state.anchorEl} 
+					anchorOrigin={{horizontal: 'middle', vertical: 'top'}} 
+					targetOrigin={{horizontal:'middle', vertical: 'bottom'}} 
+					onRequestClose={() => this.setState({ open: false })}
+				>
+					<Menu>
+							{/* <MenuItem leftIcon={<SVGHelp />} primaryText="Frage" />
+							<MenuItem leftIcon={<SVGNote />} primaryText="Notiz" />
+							<MenuItem leftIcon={<SVGFlag />} primaryText="Markieren" />
+							<MenuItem leftIcon={<SVGAssist />} primaryText="Hilfe" /> */}
+						<MenuItem 
+							onClick={() => { 
+								this.props.dispatch( submit_collection(this.props.collection.meta._id) ); 
+								this.setState({ open: false}); 
+							}} 
+							leftIcon={<SVGAssignmentTurnIn />} 
+							primaryText="Abgeben" 
+						/>
+					</Menu>
+				</Popover>
+
 				<BottomNavigation style={{ position: 'fixed', bottom: '0px', left: '0px', right: '0px', zIndex: 501 }}>
 						<BottomNavigationItem 
 							style={{
@@ -63,7 +116,7 @@ export class WorksheetContainer extends React.Component<Props, State> {
 							icon={<SVGLeft />} 
 						/>
 
-						{/* <BottomNavigationItem onTouchTap={this.handleTouchTap} icon={<SVGAssignment />} /> */}
+						{<BottomNavigationItem onTouchTap={this.handleTouchTap} icon={<SVGAssignment />} />}
 
 						<BottomNavigationItem 
 							style={{display: 
@@ -88,6 +141,10 @@ export class WorksheetContainer extends React.Component<Props, State> {
 import {
 	push 
 } from '../state/ui/actions';
+
+import {
+	submit_collection
+} from '../state/collection/actions';
 
 interface DispatchProps {
 	dispatch: (action) => void;
