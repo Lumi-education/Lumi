@@ -5,7 +5,8 @@ import * as markdownit from 'markdown-it';
 const md = markdownit();
 
 import { isEqual, pull } 	from 'lodash';
-
+import SVGHelp 	from 'material-ui/svg-icons/action/help';
+import IconButton 	from 'material-ui/IconButton';
 import Paper 		from 'material-ui/Paper';
 
 import {
@@ -20,6 +21,8 @@ interface Props {
 	answer: string[];
 	show_correct_answers: boolean;
 	task: Markdown;
+	hints: number;
+	hint: () => void;
 }
 
 interface State {}
@@ -88,6 +91,25 @@ export default class MultipleChoiceContainer extends React.Component<Props, Stat
 					</Paper>,
 					 )
 				 }
+				<Paper 
+					onClick={this.props.hint} 
+					style={{
+						padding: '2px',
+						margin: '10px',
+					}}
+				><IconButton><SVGHelp /></IconButton>Hilfe
+				</Paper>
+				{this.props.material.hints.map((hint, i) => {
+					if (i < this.props.hints) { return (
+					<Paper 
+						style={{
+							padding: '2px',
+							margin: '10px',
+						}}
+					><IconButton><SVGHelp /></IconButton><div dangerouslySetInnerHTML={{ __html: md.render(hint)}} /> 
+					</Paper>
+					); }
+				})}
 
 			</div>
 		);

@@ -45,6 +45,10 @@ export class MaterialContainer extends React.Component<Props, State> {
 									answer={this.props.material.meta.value}
 									show_correct_answers={false}
 									task={this.props.material.task}
+									hints={this.props.material.meta.hints}
+									hint={() => this.props.dispatch( 
+										material_meta_update( this.props.material.meta._id, { hints: this.props.material.meta.hints + 1 })
+										)}
 								/>
 							);
 

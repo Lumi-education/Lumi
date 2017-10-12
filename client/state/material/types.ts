@@ -8,6 +8,7 @@ export interface Material {
 	image?: string;
 	task?: string;
 	items?: string[];
+	hints?: string[];
 }
 
 export interface MaterialMeta {
@@ -23,7 +24,7 @@ export interface MaterialMeta {
 		material?: string;
 	};
 	score: number;
-	// hints: number;
+	hints: number;
 	value: string[];
 }
 
