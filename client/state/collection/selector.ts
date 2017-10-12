@@ -3,8 +3,10 @@ import {
 	Collection as PCollection,
 	CollectionMeta
 } 						from './types';
-import { Material } 	from '../material/types';
-import { get_material } from '../material/selector';
+import { 
+	Material,
+	get_material 
+} from '../material/selector';
 
 export interface Collection extends PCollection {
 	material_list: Array<Material>;
