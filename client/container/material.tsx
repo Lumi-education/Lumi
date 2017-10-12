@@ -43,7 +43,7 @@ export class MaterialContainer extends React.Component<Props, State> {
 										material_meta_update( this.props.material.meta._id, { value, score })
 									)}
 									answer={this.props.material.meta.value}
-									show_correct_answers={false}
+									show_correct_answers={this.props.collection.meta.submitted}
 									task={this.props.material.task}
 									hints={this.props.material.meta.hints}
 									hint={() => this.props.dispatch( 
@@ -60,6 +60,7 @@ export class MaterialContainer extends React.Component<Props, State> {
 									)}
 									answer_options={this.props.material.items}
 									user_answer={this.props.material.meta.value[0]}
+									show_answer={this.props.collection.meta.submitted}
 									task={this.props.material.task}
 								/>
 							);
@@ -97,9 +98,15 @@ import {
 	get_material
 } 				from '../state/material/selector';
 
+import {
+	Collection,
+	get_collection
+}				from '../state/collection/selector';
+
 interface StateProps {
 	material: Material;
 	collection_id: string;
+	collection: Collection;
 }
 
 function mapStateToProps(state: Root_State, ownProps): StateProps {
@@ -109,6 +116,7 @@ function mapStateToProps(state: Root_State, ownProps): StateProps {
 			collection: ownProps.params.collection_id, 
 			type: 'worksheet' 
 		}),
+		collection: get_collection(state, ownProps.params.collection_id),
 		collection_id: ownProps.params.collection_id
 	};
 }

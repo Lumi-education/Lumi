@@ -6,6 +6,8 @@ const md = markdownit();
 
 import { isEqual, pull } 	from 'lodash';
 import SVGHelp 	from 'material-ui/svg-icons/action/help';
+import SVGCheck from 'material-ui/svg-icons/navigation/check';
+import SVGClose from 'material-ui/svg-icons/navigation/close';
 import IconButton 	from 'material-ui/IconButton';
 import Paper 		from 'material-ui/Paper';
 
@@ -55,8 +57,6 @@ export default class MultipleChoiceContainer extends React.Component<Props, Stat
 	}
 
 	public render() {
-
-		if (!this.props.show_correct_answers) {
 			return (
 			<div>
 				<Paper 
@@ -83,6 +83,13 @@ export default class MultipleChoiceContainer extends React.Component<Props, Stat
 							margin: '10px',
 						}}
 					>
+					{ 
+						this.props.show_correct_answers 
+						? 
+						 item.charAt(0) === 'x' ? <SVGCheck /> : <SVGClose />
+						: 
+						null 
+					}
 						<div 
 							dangerouslySetInnerHTML={{
 								__html: md.render(item.replace(/^x |^o /, '')),
@@ -113,36 +120,6 @@ export default class MultipleChoiceContainer extends React.Component<Props, Stat
 
 			</div>
 		);
-		} else {
-			return (
-			<div>
-				<Paper 
-					style={{
-						padding: '20px',
-						margin: '10px',
-				 	}}
-				>
-					{this.props.material.task}
-				</Paper>
-
-				 {
-					 this.props.material.items.map((item) =>
-					<Paper
-						zDepth={this.props.answer.some((answerv) => answerv === item) ? 5 : 1}
-						style={{
-							backgroundColor: this.props.material.solution.some((answerv) => answerv === item) ? '#27ae60' : '#c0392b',
-							padding: '20px',
-							margin: '10px',
-				 		}}
-					>
-						{item}
-					</Paper>,
-					 )
-				 }
-
-			</div>
-		);
-		}
 
 	}
 }
