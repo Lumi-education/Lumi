@@ -9,6 +9,7 @@ import {
 	COLLECTION_CREATEMETA_REQUEST,	
 	COLLECTION_CREATEMETA_SUCCESS,
 	COLLECTION_SUBMIT_REQUEST,
+	COLLECTION_RESET_REQUEST,
 	USER_INIT_SUCCESS
 } 												from '../../action-types';
 
@@ -24,7 +25,10 @@ export default function(state: CollectionMeta[] = initialState, action): Collect
 		case COLLECTION_SUBMIT_REQUEST:
 			return state.map(c => c._id === action.payload.collection_meta_id ? assign({}, c, { submitted: true }) : c);
 
-		case COLLECTION_CREATEMETA_REQUEST:
+		case COLLECTION_RESET_REQUEST:
+			return state.map(c => c._id === action.payload.collection_meta_id ? assign({}, c, { submitted: false }) : c);
+		
+			case COLLECTION_CREATEMETA_REQUEST:
 			return [ ...state, {
 				_id: action.id,
 				user_id: undefined,

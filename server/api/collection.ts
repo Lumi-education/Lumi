@@ -40,9 +40,14 @@ export default function boot(server: express.Application, db: nano) {
 		create()
 	);
 	
-	 server.put(
+	server.put(
 		'/api/user/v0/collectionmeta/:_id/submit', 
 		update({ submitted: true })
+	);
+
+	server.put(
+		'/api/user/collection/:_id/reset',
+		update({ submitted: false })
 	);
 
 }

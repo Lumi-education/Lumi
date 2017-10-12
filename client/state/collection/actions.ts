@@ -18,7 +18,11 @@ import {
 
 	COLLECTION_SUBMIT_ERROR,
 	COLLECTION_SUBMIT_REQUEST,
-	COLLECTION_SUBMIT_SUCCESS
+	COLLECTION_SUBMIT_SUCCESS,
+
+	COLLECTION_RESET_REQUEST,
+	COLLECTION_RESET_SUCCESS,
+	COLLECTION_RESET_ERROR
 
 }							from '../action-types';
 
@@ -75,6 +79,14 @@ export function submit_collection(collection_meta_id: string, id: string = short
 	return {
 		types: [COLLECTION_SUBMIT_REQUEST, COLLECTION_SUBMIT_SUCCESS, COLLECTION_SUBMIT_ERROR],
 		api: API.submit_collection(collection_meta_id),
+		payload: { payload: { collection_meta_id } }
+	};
+}
+
+export function reset_collection(collection_meta_id: string) {
+	return {
+		types: [COLLECTION_RESET_REQUEST, COLLECTION_RESET_SUCCESS, COLLECTION_RESET_ERROR],
+		api: API.reset_collection(collection_meta_id),
 		payload: { payload: { collection_meta_id } }
 	};
 }
