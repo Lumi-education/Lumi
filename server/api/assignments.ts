@@ -1,13 +1,18 @@
 import * as express 		from 'express';
 import * as nano 			from 'nano';
 
-import { auth, level } 		from '../core/auth';
+import { 
+	auth, 
+	level,
+	Request
+} 		from '../core/auth';
 
 export default function boot(server: express.Application, db: nano) {
-	server.get('/api/user/assignments', auth, level('guest'), (
-		req: express.Request, 
-		res: express.Response, 
-		next: express.NextFunction
+	server.get(
+		'/api/user/assignments', 
+		auth, 
+		level('guest'), 
+		(req: Request, res: express.Response, next: express.NextFunction
 	) => {
 
 		// get groups 
@@ -37,6 +42,6 @@ export default function boot(server: express.Application, db: nano) {
 				});
 			
 		});
- 	});
+	});
 
 }

@@ -1,11 +1,11 @@
 import * as shortid from 'shortid';
 
 class Session {
-	constructor() {
-		this._id = 'fixed_id'; //shortid();
-	}
-
 	private _id: string;
+
+	constructor() {
+		this._id = 'fixed_id';
+	}
 
 	public get id(): string {
 		return this._id;

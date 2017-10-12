@@ -67,29 +67,8 @@ module.exports = {
     },
     proxy: {
       '/api/*': {
-        target: process.env.AUTH_SERVICE || 'http://localhost:3000',
+        target: process.env.SERVER || 'http://localhost:3000',
         secure: false
-      },
-      '/api/v0/db/*': {
-        target: (process.env.DB || 'http://localhost:5984'),
-        secure: false,
-        pathRewrite: {'^/api/v0/db/' : ''}
-      },
-      '/api/changes': {
-        target: process.env.CHANGES_SERVICE || 'http://localhost:3001',
-        secure: false,
-        ws: true,
-        pathRewrite: {'^/api/changes' : ''}
-      },
-      '/socket.io': {
-        target: process.env.CHANGES_SERVICE || 'http://localhost:3001',
-        secure: false,
-        ws: true
-      },
-      '/write/*': {
-        target: process.env.PROXY_SERVER ? process.env.PROXY_SERVER : 'http://localhost:9001',
-        secure: false,
-        pathRewrite: {'^/write' : ''}
       }
     }
   },

@@ -3,18 +3,22 @@ import * as nano 	from 'nano';
 import * as bcrypt 	from 'bcrypt-nodejs';
 import { assign } 	from 'lodash';
 import * as jwt 	from 'jwt-simple';
-import { auth, level } 	from '../core/auth';
+import { 
+	auth, 
+	level,
+	Request
+} 	from '../core/auth';
 
 import session 		from '../core/session';
 
 export default function boot(server: express.Application, db: nano) {
 
-	server.post('/api/user/auth/login', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.post('/api/user/auth/login', (req: Request, res: express.Response, next: express.NextFunction) => {
 		try {
 			if ( !req.body.password || !req.body.username ) { 
 				res.status(400).end();
 				return;
-			 }
+			}
 
 			db.view('user', 'username', { key: req.body.username }, (err, body) => {
 				if (err) { res.status(err.statusCode).json(err); } else {
@@ -47,11 +51,11 @@ export default function boot(server: express.Application, db: nano) {
 		}
 	});
 
-	server.post('/api/user/auth/logout', auth, level('student'), (
-		req: express.Request, 
-		res: express.Response, 
-		next: express.NextFunction
-	) => {
+	server.post(
+		'/api/user/auth/logout', 
+		auth, 
+		level('student'), 
+		(req: Request, res: express.Response, next: express.NextFunction) => {
 			db.view('user', 'session', { key: [ req.user._id, req.user.session_id ] }, (err, body) => {
 				if (err) { res.status(500).json(err); return; }
 
@@ -65,7 +69,7 @@ export default function boot(server: express.Application, db: nano) {
 					if (err) { res.status(500).json(err); return; }
 
 					res.status(200).end();
-				})
+				});
 			});
 	});
 
@@ -84,7 +88,10 @@ export default function boot(server: express.Application, db: nano) {
 			}
 	});
 	
-	server.get('/api/user/auth/session', auth, (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	server.get(
+		'/api/user/auth/session', 
+		auth, 
+		(req: Request, res: express.Response, next: express.NextFunction) => {
 		res.status(200).json(req.user);
 	});
 
@@ -102,15 +109,16 @@ export default function boot(server: express.Application, db: nano) {
 						res.status(201).json(doc);
 					}
 				});
-			 }
+			}
 		});
 	});
 
-	server.put('/api/user/auth/session', 
+	server.put(
+		'/api/user/auth/session', 
 		auth, 
 		level('student'), 
-		(req: express.Request, res: express.Response, next: express.NextFunction) => {
-			db.view('user', 'session', { key: [ req.user._id, req['user'].session_id ] }, (err, body) => {
+		(req: Request, res: express.Response, next: express.NextFunction) => {
+			db.view('user', 'session', { key: [ req.user._id, req.user.session_id ] }, (err, body) => {
 				if (err) { res.status(500).json(err); return; }
 
 				let session = body.rows[0].value;
@@ -122,7 +130,7 @@ export default function boot(server: express.Application, db: nano) {
 					if (err) { res.status(500).json(err); return; }
 
 					res.status(200).end();
-				})
+				});
 			});
 	});
 

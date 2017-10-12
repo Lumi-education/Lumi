@@ -8,11 +8,10 @@ import * as os from 'os';
 
 import wait_for_couchdb from '../utils/wait_for_couchdb';
 import boot_db 			from '../db/boot';
-declare var process: any;
+declare var process;
 
 const debug = _debug('core');
 const express_debug = _debug('boot:express');
-
 
 export default function () {
 
@@ -50,7 +49,6 @@ function boot() {
 	});
 
 	boot_api(server, lumidb);
-
-
+	
 	debug('finished boot-sequence');
 }

@@ -5,7 +5,10 @@ import {
 	assign
 } from 'lodash';
 
-import { auth } 	from '../core/auth';
+import { 
+	auth,
+	Request
+} 	from '../core/auth';
 
 import {
 	create,
@@ -38,7 +41,7 @@ export default function boot(server: express.Application, db: nano) {
 	server.post(
 		'/api/user/material/meta',
 		auth,
-		(req: express.Request, res: express.Response, next: express.NextFunction) => {
+		(req: Request, res: express.Response, next: express.NextFunction) => {
 			db.insert( assign({}, req.body, { user_id: req.user._id }), (err, body) => {
 				if (err) {
 					res.status(500).json(err);
