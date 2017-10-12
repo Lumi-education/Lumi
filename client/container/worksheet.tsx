@@ -26,6 +26,8 @@ import MenuItem from 'material-ui/MenuItem';
 import Menu 	from 'material-ui/Menu';
 import Popover 	from 'material-ui/Popover';
 
+import Summary 	from '../components/summary';
+
 interface Props extends StateProps, DispatchProps { }
 
 interface State {
@@ -81,11 +83,19 @@ export class WorksheetContainer extends React.Component<Props, State> {
 					: 
 					<div>Loading worksheet</div>
 				}
+				<Summary
+					collection={this.props.collection}
+					show={this.props.dialog_show}
+					push={(url: string) => this.props.dispatch( push(url) )}
+					submit={() => { this.props.dispatch( submit_collection(this.props.collection.meta._id) ); }}
+					dialog_close={() => this.props.dispatch( dialog_close() )}
+					reset={() => this.props.dispatch( reset_collection( this.props.collection.meta._id ) )}
+				/>
 				<Popover 
 					open={this.state.open} 
 					anchorEl={this.state.anchorEl} 
 					anchorOrigin={{horizontal: 'middle', vertical: 'top'}} 
-					targetOrigin={{horizontal:'middle', vertical: 'bottom'}} 
+					targetOrigin={{horizontal: 'middle', vertical: 'bottom'}} 
 					onRequestClose={() => this.setState({ open: false })}
 				>
 					<Menu>
@@ -95,11 +105,11 @@ export class WorksheetContainer extends React.Component<Props, State> {
 							<MenuItem leftIcon={<SVGAssist />} primaryText="Hilfe" /> */}
 						<MenuItem 
 							onClick={() => { 
-								this.props.dispatch( submit_collection(this.props.collection.meta._id) ); 
+								this.props.dispatch( dialog_open() );
 								this.setState({ open: false}); 
 							}} 
 							leftIcon={<SVGAssignmentTurnIn />} 
-							primaryText="Abgeben" 
+							primaryText="Übersicht" 
 						/>
 					</Menu>
 				</Popover>
@@ -139,11 +149,14 @@ export class WorksheetContainer extends React.Component<Props, State> {
 // action & props-mapping
 
 import {
-	push 
+	push,
+	dialog_close,
+	dialog_open
 } from '../state/ui/actions';
 
 import {
-	submit_collection
+	submit_collection,
+	reset_collection
 } from '../state/collection/actions';
 
 interface DispatchProps {
@@ -165,11 +178,13 @@ import {
 interface StateProps {
 	collection: Collection;
 	material_id: string;
+	dialog_show: boolean;
 }
 
 function mapStateToProps(state: Root_State, ownProps): StateProps {
 	return {
 		collection: get_collection(state, ownProps.params.collection_id),
+		dialog_show: state.ui.dialog_show,
 		material_id: ownProps.params.material_id
 	};
 }
