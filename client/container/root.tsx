@@ -1,17 +1,8 @@
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
 
-import * as qs 				from 'query-string';
-import * as url_parse 		from 'url-parse';
 import * as shortid 		from 'shortid';
 import { State as Root_State } 			from '../state';
-
-// import { Collection } 		from 'lib/collection/types';
-// import { Material } 		from 'lib/material/types';
-// import { session_update } 	from 'lib/session/actions';
-// import { Settings } 		from 'lib/settings/types';
-
-import * as Socket_io 	from 'socket.io-client';
 
 // components 
 import AppBar 				from 'material-ui/AppBar';
@@ -39,14 +30,9 @@ import {
 
 interface StateProps {
 	request: {};
-	// left_drawer_show: boolean;
-	// collection_list: Collection[];
-	// material_list: Material[];
-	// user_id: string;
-	// settings: Settings;
 	location;
-	// query: any;
 }
+
 interface DispatchProps {
 	dispatch: (action) => void;
 }
@@ -62,8 +48,6 @@ export class Root extends React.Component<Props, State> {
 		super(props);
 	}
 
-	// public socket: Socket_io;
-
 	componentWillMount() {
 		this.props.dispatch( get_collections() );
 		this.init_action_id = shortid();
@@ -73,11 +57,6 @@ export class Root extends React.Component<Props, State> {
 	}
 
 	public render() {
-			// if (this.props.settings.controlled && (this.props.location.pathname + this.props.location.search 
-			// !== this.props.settings.url)) {
-			// 	this.props.push(this.props.settings.url);
-			// }
-
 			return (
 			<div id="root" >
 				<AppBar

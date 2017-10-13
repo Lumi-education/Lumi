@@ -5,7 +5,7 @@ import { State } 		from '../';
 import { 
 	Material as PMaterial,
 	MaterialMeta
- } from './types';
+} from './types';
 
 export interface Material extends PMaterial {
 	meta: MaterialMeta;

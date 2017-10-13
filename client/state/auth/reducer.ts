@@ -1,12 +1,11 @@
 import {
 	assign,
 	unionBy,
- } 		from 'lodash';
+} 		from 'lodash';
 
 import { Auth } from './types';
 
 import {
-	Action,
 	AUTH_GET_SESSION_SUCCESS,
 	AUTH_LOGIN_ERROR,
 	AUTH_LOGIN_SUCCESS,
@@ -18,7 +17,7 @@ const initialState: Auth = {
 	response: 0
 };
 
-export default function(state: Auth = initialState, action: Action): Auth {
+export default function(state: Auth = initialState, action): Auth {
 	switch (action.type) {
 
 		case AUTH_GET_SESSION_SUCCESS:

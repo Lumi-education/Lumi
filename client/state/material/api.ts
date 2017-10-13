@@ -18,9 +18,3 @@ export function create_material_meta(material_meta: MaterialMeta) {
 	.send(material_meta)
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }
-
-// export function get_material_meta(material_id: string, query) {
-// 	return request
-// 	.get('/api/user/material/' + material_id + '/meta' + qs.stringify( query ) )
-// 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
-// }

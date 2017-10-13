@@ -1,27 +1,10 @@
-import { assign } 		from "lodash";
+import { assign } 		from 'lodash';
 
 import {
 	SESSION_GET_SESSION_ID_SUCCESS,
-} from "./constants";
+} from '../action-types';
 
-import * as API from "./api";
-
-export function session_get_session_id() {
-	return (dispatch) => {
-
-		API.get_session_id()
-		.then((res) =>  {
-			switch (res.status) {
-				case 200:
-					dispatch({ type: SESSION_GET_SESSION_ID_SUCCESS, payload: res.body });
-				 break;
-				default:
-					debugger;
-			}
-		})
-		.catch((err) => { debugger; });
-	};
-}
+import * as API from './api';
 
 export function session_update(update: Object) {
 	return (dispatch) => {
@@ -33,9 +16,8 @@ export function session_update(update: Object) {
 							// dispatch({ type: SESSION_GET_SESSION_ID_SUCCESS, payload: res.body });
 						break;
 						default:
-							debugger;
 					}
 				})
-				.catch((err) => { debugger; });
+				.catch();
 			};
 }

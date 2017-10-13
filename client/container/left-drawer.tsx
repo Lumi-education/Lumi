@@ -81,19 +81,19 @@ export class LeftDrawer extends React.Component<Props, State> {
 }
 
 function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
-    return {
+	return {
 		left_drawer_show: state.ui.left_drawer_show,
 		collections: get_collection_list(state)
 	};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-	  dispatch: (action) => dispatch(action)
-  };
+	return {
+		dispatch: (action) => dispatch(action)
+	};
 }
 
 export default connect<{}, {}, {}>(
-  mapStateToProps,
-  mapDispatchToProps,
+	mapStateToProps,
+	mapDispatchToProps,
 )(LeftDrawer);

@@ -27,16 +27,19 @@ export default function boot(server: express.Application, db: nano) {
 						if (!bcrypt.compareSync(req.body.password, user.password)) { res.status(401).end(); } else {
 							const date = new Date().getTime();
 
-							db.insert({
-								session_id: session.id,
-								user_id: user.id,
-								last_active: date,
-								login: date,
-								online: true,
-								logout: null,
-								query: {},
-								type: 'session'
-							}, (err, body) => { send_auth( user.id, session.id, user.level, res); });
+							db.insert(
+								{
+									session_id: session.id,
+									user_id: user.id,
+									last_active: date,
+									login: date,
+									online: true,
+									logout: null,
+									query: {},
+									type: 'session'
+								}, 
+								(err, body) => { send_auth( user.id, session.id, user.level, res); }
+							);
 							
 						}
 					}

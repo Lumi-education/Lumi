@@ -9,7 +9,7 @@ import {
 	UI_OPEN_LEFT_DRAWER,
 	UI_RIGHT_DRAWER_CLOSE,
 	UI_RIGHT_DRAWER_OPEN,
-} from './constants';
+} from '../action-types';
 
 const initialState: UI = {
 	left_drawer_show: false,

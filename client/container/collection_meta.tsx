@@ -2,6 +2,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State as Root_State } from '../state';
 
+import {
+	Collection,
+	get_collection
+} 				from '../state/collection/selector';
+
+import {
+	collection_create_meta
+} 							from '../state/collection/actions';
+
+interface StateProps {
+	collection: Collection;
+}
+
+interface DispatchProps {
+	dispatch: (action) => void;
+}
+
 interface Props extends StateProps, DispatchProps { }
 
 interface State {}
@@ -37,29 +54,10 @@ export class CollectionMetaContainer extends React.Component<Props, State> {
 	}
 }
 
-// action & props-mapping
-import {
-	collection_create_meta
-} 							from '../state/collection/actions';
-
-interface DispatchProps {
-	dispatch: (action) => void;
-}
-
 function mapDispatchToProps(dispatch): DispatchProps {
 	return {
 		dispatch: (action) => dispatch(action)
 	};
-}
-
-// selector & state-mapping
-import {
-	Collection,
-	get_collection
-} 				from '../state/collection/selector';
-
-interface StateProps {
-	collection: Collection;
 }
 
 function mapStateToProps(state: Root_State, ownProps): StateProps {

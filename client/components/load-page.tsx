@@ -1,20 +1,18 @@
-import * as React 		from "react";
+import * as React 		from 'react';
 
-interface IStateProps  {}
+interface StateProps  {}
 
-interface IDispatchProps {}
+interface DispatchProps {}
 
-interface IProps extends IStateProps, IDispatchProps {}
+interface Props extends StateProps, DispatchProps {}
 
-interface IState {}
+interface State {}
 
-export default class Load_page extends React.Component<IProps, IState> {
-	constructor(props: IProps) {
+export default class LoadPage extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 	}
-
-	public componentWillMount() {}
-
+	
 	public render() {
 		return (
 			<div id="load-page" className="load-page">

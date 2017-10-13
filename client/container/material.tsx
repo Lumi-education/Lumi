@@ -8,6 +8,31 @@ import FreetextComponent 		from '../components/material/freetext';
 import Video 					from '../components/material/video';
 import { Sort } 				from '../state/material/types';
 
+import {
+	Material,
+	get_material
+} 				from '../state/material/selector';
+
+import {
+	Collection,
+	get_collection
+}				from '../state/collection/selector';
+
+import {
+	create_material_meta,
+	material_meta_update
+} 							from '../state/material/actions';
+
+interface StateProps {
+	material: Material;
+	collection_id: string;
+	collection: Collection;
+}
+
+interface DispatchProps {
+	dispatch: (action) => void;
+}
+
 interface Props extends StateProps, DispatchProps { }
 
 interface State {}
@@ -80,37 +105,10 @@ export class MaterialContainer extends React.Component<Props, State> {
 	}
 }
 
-// action & props-mapping
-import {
-	create_material_meta,
-	material_meta_update
-} 							from '../state/material/actions';
-
-interface DispatchProps {
-	dispatch: (action) => void;
-}
-
 function mapDispatchToProps(dispatch): DispatchProps {
 	return {
 		dispatch: (action) => dispatch(action)
 	};
-}
-
-// selector & state-mapping
-import {
-	Material,
-	get_material
-} 				from '../state/material/selector';
-
-import {
-	Collection,
-	get_collection
-}				from '../state/collection/selector';
-
-interface StateProps {
-	material: Material;
-	collection_id: string;
-	collection: Collection;
 }
 
 function mapStateToProps(state: Root_State, ownProps): StateProps {

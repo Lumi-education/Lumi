@@ -27,6 +27,5 @@ export default class MaterialMarkdown extends React.Component<Props, State> {
 				</Paper>
 			</div>
 		);
-
 	}
 }

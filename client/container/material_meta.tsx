@@ -1,6 +1,25 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State as Root_State } from '../state';
+// selector & state-mapping
+import {
+	Material,
+	get_material
+} 				from '../state/material/selector';
+
+// action & props-mapping
+import {
+	create_material_meta
+} 							from '../state/material/actions';
+
+interface StateProps {
+	material: Material;
+	collection_id: string;
+}
+
+interface DispatchProps {
+	dispatch: (action) => void;
+}
 
 interface Props extends StateProps, DispatchProps { }
 
@@ -53,30 +72,10 @@ export class MaterialMetaContainer extends React.Component<Props, State> {
 	}
 }
 
-// action & props-mapping
-import {
-	create_material_meta
-} 							from '../state/material/actions';
-
-interface DispatchProps {
-	dispatch: (action) => void;
-}
-
 function mapDispatchToProps(dispatch): DispatchProps {
 	return {
 		dispatch: (action) => dispatch(action)
 	};
-}
-
-// selector & state-mapping
-import {
-	Material,
-	get_material
-} 				from '../state/material/selector';
-
-interface StateProps {
-	material: Material;
-	collection_id: string;
 }
 
 function mapStateToProps(state: Root_State, ownProps): StateProps {
@@ -97,21 +96,19 @@ export default connect<{}, {}, {}>(
 function shuffle(a: string[]): string[] {
 	const array = a.slice(0); // copy array
 	let counter = array.length;
-  
 	// While there are elements in the array
 	while (counter > 0) {
 		// Pick a random index
 		const index = Math.floor(Math.random() * counter);
-  
+
 		// Decrease counter by 1
 		counter--;
-  
+
 		// And swap the last element with it
 		const temp = array[counter];
 		array[counter] = array[index];
 		array[index] = temp;
 	}
-  
+
 	return array;
-  }
-  
+}

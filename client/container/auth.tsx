@@ -19,7 +19,7 @@ import {
 	get_session,
 	login,
 	register
- } 							from '../state/auth/actions';
+} 							from '../state/auth/actions';
 
 interface StateProps {
 	is_authed: boolean;
@@ -84,7 +84,7 @@ export class Auth extends React.Component<Props, State> {
 	}
 }
 function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
-    return {
+	return {
 		is_authed: state.auth.is_authed,
 		response: state.auth.response,
 		request: state.request
@@ -92,12 +92,12 @@ function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
 }
 
 function mapDispatchToProps(dispatch: Dispatch<{}>): DispatchProps {
-  return {
-	  dispatch: (action) => dispatch(action)
-  };
+	return {
+		dispatch: (action) => dispatch(action)
+	};
 }
 
 export default connect<{}, {}, {}>(
-  mapStateToProps,
-  mapDispatchToProps,
+	mapStateToProps,
+	mapDispatchToProps,
 )(Auth);

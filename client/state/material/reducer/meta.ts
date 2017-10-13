@@ -1,7 +1,7 @@
 import {
 	assign,
 	unionBy,
- } 		from 'lodash';
+} 		from 'lodash';
 
 import { MaterialMeta }						from '../types';
 

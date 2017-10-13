@@ -3,11 +3,9 @@ import {
 	unionBy,
 }				from 'lodash';
 
-import { Action }		from '../action-types';
-
 const initialState: {} = {};
 
-export default function(state: {} = initialState, action: Action): {} {
+export default function(state: {} = initialState, action): {} {
 
 	const a: Array<string> = action.type.split('_');
 	const status = a[ a.length - 1 ];

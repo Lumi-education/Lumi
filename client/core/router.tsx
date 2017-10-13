@@ -7,11 +7,10 @@ import {
 } 									from 'react-router';
 
 import Auth 						from '../container/auth';
-// import Init 						from '../container/init';
 import Landing 						from '../container/landing';
 import Material 					from '../container/material';
 import Root 						from '../container/root';
-import MaterialMeta 						from '../container/material_meta';
+import MaterialMeta 				from '../container/material_meta';
 import CollectionMeta 				from '../container/collection_meta';
 import Worksheet 					from '../container/worksheet';
 

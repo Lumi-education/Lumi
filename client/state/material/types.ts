@@ -2,7 +2,7 @@ export interface Material {
 	_id: string;
 	name: string;
 	description: string;
-	material_type: 'video' | "markdown" | "multiplechoice" | "freetext" | "sort";
+	material_type: 'video' | 'markdown' | 'multiplechoice' | 'freetext' | 'sort';
 	type: string;
 	tag_list: string[];
 	image?: string;
@@ -52,10 +52,6 @@ export interface TaskMeta extends MaterialMeta {}
 export interface SortMeta extends TaskMeta {}
 
 export interface MultipleChoiceMeta extends TaskMeta {}
-
-// export interface FreeTextMeta extends MaterialMeta {
-// 	value: string;
-// }
 
 export interface State {
 	material: {

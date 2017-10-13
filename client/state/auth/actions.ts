@@ -57,9 +57,9 @@ export function register(username: string, password: string) {
 				case 200:
 					dispatch({ type: AUTH_REGISTER_SUCCESS, payload: { username, response: res } });
 					dispatch( login(username, password) );
-				 break;
-				 default:
-				 break;
+					break;
+				default:
+				break;
 			}
 		})
 		.catch((err) => {
@@ -67,52 +67,6 @@ export function register(username: string, password: string) {
 		});
 	};
 }
-
-// export function request_username(username: string) {
-// 	return (dispatch) => {
-// 		AUTH_API
-// 		.request_username(username)
-// 		// .db_get('/_users/org.couchdb.user:'+ username )
-// 		.then((res) => {
-// 				switch (res.status) {
-// 					case 200:
-// 						dispatch({ type: AUTH_USERNAME_TAKEN });
-// 					 break;
-// 					case 404:
-// 						dispatch({ type: AUTH_USERNAME_AVAILABLE });
-// 				}
-
-// 		})
-// 		.catch((err) => {
-// 			switch (err.status) {
-// 				case 404:
-// 				dispatch({ type: AUTH_USERNAME_AVAILABLE });
-// 				break;
-// 			}
-
-// 		});
-// 	};
-// }
-
-// export function logout_user() {
-// 	return (dispatch) => {
-
-// 		dispatch({ type: AUTH_LOGOUT_USER_REQUEST });
-
-// 		window.localStorage.clear();
-
-// 		AUTH_API
-// 		.logout()
-// 		.then((res) => {
-// 			// res.json().then(json => {
-// 			dispatch({ type: AUTH_LOGOUT_USER_SUCCESS });
-// 			// })
-// 		})
-// 		.catch((err) => {
-// 			dispatch({ type: AUTH_LOGOUT_USER_ERROR, payload: err });
-// 		});
-// 	};
-// }
 
 export function get_session(id = shortid()) {
 	return {

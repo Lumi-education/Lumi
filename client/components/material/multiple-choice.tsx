@@ -59,52 +59,45 @@ export default class MultipleChoiceContainer extends React.Component<Props, Stat
 	public render() {
 			return (
 			<div>
-				<Paper 
-					style={{
-						padding: '20px',
-						margin: '10px',
-				 	}}
-				>
-				<div 
-				 	dangerouslySetInnerHTML={{
-						__html: md.render(this.props.task),
-				  	}}
-				/>
+				<Paper style={{ padding: '20px', margin: '10px' }} >
+					<div dangerouslySetInnerHTML={{ __html: md.render(this.props.task) }} />
 				</Paper>
 
-				 {
-					 this.props.material.items.map((item) =>
-					<Paper
-						onClick={() => { this.handleClick(item); }}
-						zDepth={this.props.answer.some((answerv) => answerv === item) ? 5 : 1}
-						style={{
-							backgroundColor: this.props.answer.some((answerv) => answerv === item) ? '#2980b9' : '#FFFFFF',
-							padding: '2px',
-							margin: '10px',
-						}}
-					>
-					{ 
-						this.props.show_correct_answers 
-						? 
-						 item.charAt(0) === 'x' ? <SVGCheck /> : <SVGClose />
-						: 
-						null 
-					}
-						<div 
-							dangerouslySetInnerHTML={{
-								__html: md.render(item.replace(/^x |^o /, '')),
-				  			}}
-						/>
-					</Paper>,
-					 )
-				 }
+				{
+					this.props.material.items.map((item) =>
+						<Paper
+							onClick={() => { this.handleClick(item); }}
+							zDepth={this.props.answer.some((answerv) => answerv === item) ? 5 : 1}
+							style={{
+								backgroundColor: this.props.answer.some((answerv) => answerv === item) ? '#2980b9' : '#FFFFFF',
+								padding: '2px',
+								margin: '10px',
+							}}
+						>
+							{ 
+								this.props.show_correct_answers 
+								? 
+								item.charAt(0) === 'x' ? <SVGCheck /> : <SVGClose />
+								: 
+								null 
+							}
+							<div dangerouslySetInnerHTML={{ __html: md.render(item.replace(/^x |^o /, '')) }} />
+						</Paper>,
+					)
+				}
 				<Paper 
 					onClick={this.props.hint} 
 					style={{
 						padding: '2px',
 						margin: '10px',
 					}}
-				><IconButton><SVGHelp /></IconButton>Hilfe
+				>
+					<IconButton>
+						<SVGHelp />
+					</IconButton>
+					
+					Hilfe
+					
 				</Paper>
 				{this.props.material.hints.map((hint, i) => {
 					if (i < this.props.hints) { return (
