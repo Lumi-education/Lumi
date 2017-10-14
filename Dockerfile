@@ -14,4 +14,4 @@ RUN npm run build:server
 EXPOSE 80
 
 # Run Node.js
-CMD ["node", "build/index.js"]
+CMD ["node", "build/boot.js"]
