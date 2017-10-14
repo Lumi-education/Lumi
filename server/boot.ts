@@ -1,7 +1,6 @@
 import * as _debug from 'debug';
 
 import server from './server';
-import * as nano from 'nano';
 import * as cluster from 'cluster';
 import * as os from 'os';
 
