@@ -1,0 +1,9 @@
+#!/bin/sh
+sudo curl -sSL https://get.docker.com | sh
+curl --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
+sudo pip install docker-compose
+sudo mkdir -p lumi/db
+sudo curl http://get.lumi.education/${BRANCH}/docker-compose.yml -o lumi/docker-compose.yml
+sudo curl http://get.lumi.education/${BRANCH}/env -o lumi/.env
+cd lumi; sudo docker-compose up -d
+sudo reboot
