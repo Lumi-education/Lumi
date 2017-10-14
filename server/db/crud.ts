@@ -2,7 +2,7 @@ import { assign } 	   from 'lodash';
 import * as express 	from 'express';
 import * as nano 	   from 'nano';
 
-import { Request } 		from '../core/auth';
+import { Request } 		from '../middleware/auth';
 const _nano = nano( process.env.DB_HOST || 'http://localhost:5984' );
 const _db = _nano.db.use( process.env.DB || 'lumidb' );
 

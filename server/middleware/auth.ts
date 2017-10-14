@@ -1,6 +1,6 @@
 import * as express 	from 'express';
 import * as jwt 		from 'jwt-simple';
-import session 	from './session';
+import session 	from '../core/session';
 
 export function auth(req: Request, res: express.Response, next: express.NextFunction) {
 	const jwt_token = req.headers['x-auth'];

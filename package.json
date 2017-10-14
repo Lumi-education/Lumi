@@ -11,7 +11,7 @@
     "clean": "rm -rf build && rm -rf dist",
     "uninstall": "npm run clean && rm -rf node_modules",
     "dev": "NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config './webpack.js' --progress --colors",
-    "build:server": "./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/",
+    "build:server": "./node_modules/.bin/tsc server/boot.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/",
     "build:client": "NODE_ENV=production VERSION=$(git describe --dirty) ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors",
     "build:docker": "npm run clean && npm run build:client && docker build -t jpschellenberg/lumi_user:develop .",
     "build": "npm run clean && npm run build:client && npm run build:server",
