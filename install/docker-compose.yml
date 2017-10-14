@@ -1,0 +1,59 @@
+version: "3"
+services:
+  nginx:
+    image: lumieducation/nginx:${BRANCH}
+    restart: always
+    networks:
+        - webnet
+    ports:
+        - 80:80
+  apd:
+    image: lumieducation/apd:${BRANCH}
+    privileged: true
+    restart: always
+    ports:
+      - "53:53"
+    network_mode: "host"
+  user:
+    # replace username/repo:tag with your name and image details
+    image: lumieducation/user:${BRANCH}
+    restart: always
+    environment:
+        - PORT=80
+        - NODE_ENV=${NODE_ENV}
+        - KEY=${KEY}
+        - DEBUG=${DEBUG}
+        - DB_HOST=${DB_HOST}
+        - DB=${DB}
+    networks:
+      - webnet
+    depends_on:
+      - "couchdb"
+  admin:
+    # replace username/repo:tag with your name and image details
+    image: lumieducation/admin:${BRANCH}
+    restart: always
+    environment:
+        - PORT=80
+        - NODE_ENV=${NODE_ENV}
+        - KEY=${KEY}
+        - DEBUG=${DEBUG}
+        - DB_HOST=${DB_HOST}
+        - DB=${DB}
+    networks:
+      - webnet
+    depends_on:
+      - "couchdb"
+    ports:
+      - 8088:8088
+  couchdb:
+    image: ${COUCHDB_IMAGE}
+    restart: always
+    volumes:
+      - ./db:/opt/couchdb/data
+    networks:
+      - webnet
+    ports:
+      - "5984:5984"
+networks:
+  webnet:
