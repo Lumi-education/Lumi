@@ -5,4 +5,5 @@ KEY=${KEY}
 NODE_ENV=production
 DB_HOST=http://couchdb:5984
 DB=lumidb
+DEBUG=no
 PORT=80
