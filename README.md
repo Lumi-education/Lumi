@@ -1,4 +1,4 @@
-#Lumi
+# Lumi
 Lumi befindet sich noch in einer sehr frühen Entwicklungsphase. Diese Anleitung kann sich daher noch häufig ändern. 
 
 # Hardware & Betriebssystem
