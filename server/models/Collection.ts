@@ -1,26 +1,49 @@
 import { assign } 		from 'lodash';
-import { ICollection } 	from '../../types';
+import { 
+	ICollection,
+	Card_id,
+	Tag_id
+} 	from '../../types';
 
-export default class Collection implements ICollection {
+import Card 			from './Card';
+import Tag 				from './Tag';
+import { DB, Relations } from 		'../db';
+
+export default class Collection extends Relations implements ICollection {
 	public _id: string;
 	public description: string;
 	public type: 'collection';
-	public material: Array<string>;
-	public tag_list: Array<string>;
+	public cards: Array<Card_id>;
+	public tags: Array<Tag_id>;
 	public name: string;
 	
 	constructor(c?: Collection) {
-		if (c) {
-			return assign(this, c);
-		} else {
-			this._id = undefined;
-			this.type = 'collection';
-		}
+		super();
+		return assign(
+			this, 
+			{
+				type: 'collection',
+				description: '',
+				cards: [],
+				tags: [],
+				name: 'new collection'
+			},
+			c
+		);
 	}
 
 	public set_name(name: string): void { this.name = name; }
 
-	public add_material(material_id: string): void { 
-		this.material.push( material_id );
+	public add_card(card_id: string): void { 
+		this.cards.push( card_id );
 	}
+
+	public get_cards(db: DB, cb: (cards: Array<Card>) => void): void {
+		this.hasMany(db, this.cards, cb, Card);
+	}
+
+	public get_tags(db: DB, cb: (tags: Array<Tag>) => void) {
+		this.hasMany(db, this.tags, cb, Tag);
+	}
+
 }
