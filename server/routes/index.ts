@@ -5,6 +5,7 @@ import static_routes 					from './static';
 
 const router = Router();
 
+router.use('/api/v0', api_routes);
 router.use('/api', api_routes);
 router.use('/', static_routes);
 
