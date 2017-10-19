@@ -3,6 +3,68 @@ import { assign } 		from 'lodash';
 
 import { Request } 		from '../../../middleware/auth';
 import db 				from '../../../db';
+import { DB } 			from '../../../db';
+
+import CollectionData	from '../../../models/CollectionData';
+import Collection 		from '../../../models/Collection';
+import Controller 		from '../../controller';
+
+class CollectionDataController extends Controller<CollectionData> {
+	public list(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.find(
+			{ 
+				type: 'collectiondata',
+				user_id: req.user._id
+			},
+			{}, 
+			(collectiondata: Array<CollectionData>) => {
+				const collection_ids = collectiondata.map(d => d.collection_id);
+
+				db.find(
+					{ _id: { $in: collection_ids }},
+					{ limit: 1000 },
+					(collections: Array<Collection>) => {
+						res.status(200).json({
+							collections: collections,
+							collectiondata: collectiondata
+						});
+					}
+				);
+				
+			}
+		);
+	}
+
+	public list_for_user(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.find(
+			{ 
+				type: 'collectiondata',
+				user_id: req.params.user_id
+			},
+			req.query, 
+			(docs: Array<CollectionData>) => { 
+				res.status(200).json( docs );
+			}
+		);
+	}
+
+	public create(req: Request, res: express.Response) {
+		
+			const db = new DB(res);
+		
+			db.insert( new CollectionData( assign({ user_id: req.user._id }, req.body) ) );
+	
+	}
+
+}
+
+export default new CollectionDataController('collectiondata');
 
 class CollectionMeta {
 	private _id: string;

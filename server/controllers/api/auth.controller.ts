@@ -5,7 +5,41 @@ import { assign } 		from 'lodash';
 
 import { Request } 		from '../../middleware/auth';
 import db 				from '../../db';
+import { DB } 			from '../../db';
+import User 			from '../../models/user';
 import session 			from '../../core/session';
+
+class AuthController {
+	public login(req: Request, res: express.Response) {
+		const db = new DB(res);
+
+		db.findOne(
+			{
+				type: 'user',
+				name: req.body.username
+			},
+			{},
+			(user: User) => {
+				db.findOne(
+					{
+						type: 'password',
+						user_id: user._id
+					},
+					{},
+					(pw) => {
+						if (!bcrypt.compareSync(req.body.password, pw.password)) { 
+							res.status(401).end(); 
+						} else { 
+							send_auth( user._id, session.id, user.level, res);
+						}
+					});
+			},
+			User
+		);
+	}
+}
+
+export default new AuthController();
 
 export function login(req: Request, res: express.Response, next: express.NextFunction) {
 	try {
