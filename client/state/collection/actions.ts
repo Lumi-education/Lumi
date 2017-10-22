@@ -26,10 +26,11 @@ import {
 
 }							from '../action-types';
 
-export function get_collections() {
+export function get_collections( id = shortid ) {
 	return {
 		types: [COLLECTION_GET_REQUEST, COLLECTION_GET_SUCCESS, COLLECTION_GET_ERROR],
-		api: API.get_collections()
+		api: API.get_collections(),
+		payload: { id }
 	};
 }
 

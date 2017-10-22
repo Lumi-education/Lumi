@@ -4,7 +4,7 @@ declare var window;
 
 export function get_collections() {
 	return request
-	.get('/api/user/assignments')
+	.get('/api/v0/user/collections')
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }
 

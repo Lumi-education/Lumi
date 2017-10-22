@@ -1,4 +1,4 @@
-import { State }		from '../';
+import { IState }		from '../';
 import { 
 	Collection as PCollection,
 	CollectionMeta
@@ -8,7 +8,7 @@ import {
 	get_material 
 } from '../material/selector';
 
-export interface Collection extends PCollection {
+export interface ICollection extends ICollection {
 	material_list: Array<Material>;
 	meta: CollectionMeta;
 }
