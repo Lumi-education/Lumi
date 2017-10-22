@@ -3,8 +3,6 @@ import {
 	unionBy,
 }				from 'lodash';
 
-import { arrayToObject }	from 'client/utils';
-
 import { IGroup } 			from 'lib/types';
 
 import { 
