@@ -6,7 +6,7 @@ import { assign } 		from 'lodash';
 import { Request } 		from '../../middleware/auth';
 import db 				from '../../db';
 import { DB } 			from '../../db';
-import User 			from '../../models/user';
+import User 			from '../../models/User';
 import session 			from '../../core/session';
 
 class AuthController {
