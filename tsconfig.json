@@ -9,10 +9,10 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": false,
-	  "outDir": "build/",
+	"outDir": "build/",
     "allowJs": true
   },
   "files": [
-    "client/index.ts"
+    "client/boot.tsx"
   ]
 }
