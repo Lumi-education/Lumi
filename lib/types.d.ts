@@ -65,7 +65,7 @@ export interface ICollectionData extends IData {
 	completed: boolean;
 }
 
-export interface IGroups {
+export interface IGroup {
 	_id: Group_id;
 	type: 'group';
 	name: string;

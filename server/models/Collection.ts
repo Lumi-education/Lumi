@@ -3,7 +3,7 @@ import {
 	ICollection,
 	Card_id,
 	Tag_id
-} 	from '../../types';
+} 	from 'lib/types';
 
 import Card 			from './Card';
 import Tag 				from './Tag';

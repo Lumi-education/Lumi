@@ -1,4 +1,4 @@
-import { State } from '../../state';
+import { IState } from 'client/state';
 import { Dispatch } 	from 'redux';
 import { assign } 		from 'lodash';
 
@@ -7,7 +7,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
 	const {
 		types,
 		api,
-		shouldCallAPI = (state: State) => true,
+		shouldCallAPI = (state: IState) => true,
 		payload = {}
 	} = action;
 

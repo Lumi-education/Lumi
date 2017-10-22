@@ -81,11 +81,13 @@ export class DB {
 	}
 
 	public delete(_id: string) {
-		request.delete( db + _id )
-		.then(() => {
-			this.res.status(200).end();
-		})
-		.catch(this.handle_error);
+		this.findById(_id, (doc) => {
+			request.delete( db + _id + '?rev=' + doc._rev )
+			.then(() => {
+				this.res.status(200).end();
+			})
+			.catch(this.handle_error);
+		});
 	}
 
 	private handle_error(err) {

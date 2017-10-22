@@ -5,13 +5,13 @@ import * as shortid 		from 'shortid';
 // types
 import { Dispatch } 		from 'redux';
 import { 
-	State as Root_State 
-} 							from '../state';
+	IState 
+} 							from 'client/state';
 
 // components
 import { Tabs, Tab } 		from 'material-ui/Tabs';
-import Login 				from '../components/login';
-import Register 			from '../components/register';
+import Login 				from 'client/components/login';
+import Register 			from 'client/components/register';
 
 // actions
 import { push } 			from 'react-router-redux';
@@ -19,27 +19,27 @@ import {
 	get_session,
 	login,
 	register
-} 							from '../state/auth/actions';
+} 							from 'client/state/auth/actions';
 
-interface StateProps {
+interface IStateProps {
 	is_authed: boolean;
 	response: number;
 	request: {};
 }
 
-interface DispatchProps {
+interface IDispatchProps {
 	dispatch: (action) => void;
 }
 
-interface Props extends StateProps, DispatchProps {}
+interface IProps extends IStateProps, IDispatchProps {}
 
-interface State {}
+interface IComponentState {}
 
-export class Auth extends React.Component<Props, State> {
+export class Auth extends React.Component<IProps, IComponentState> {
 
 	public request_id: string;
 	
-	constructor(props: Props) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.login = this.login.bind(this);
@@ -83,7 +83,7 @@ export class Auth extends React.Component<Props, State> {
 			
 	}
 }
-function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
+function mapStateToProps(state: IState, ownProps: {}): IStateProps {
 	return {
 		is_authed: state.auth.is_authed,
 		response: state.auth.response,
@@ -91,7 +91,7 @@ function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
 	};
 }
 
-function mapDispatchToProps(dispatch: Dispatch<{}>): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<{}>): IDispatchProps {
 	return {
 		dispatch: (action) => dispatch(action)
 	};

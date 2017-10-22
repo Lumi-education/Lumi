@@ -6,13 +6,12 @@ module.exports = {
   entry: process.env.NODE_ENV === 'development' ? [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './client/index.ts',
-    './client/style/main.scss'
-  ] : ['./client/index.ts', './client/style/main.scss'],
+    './client/boot.tsx',
+  ] : ['./client/boot.tsx'],
   output: {
     path: __dirname + '/build/client/',
     publicPath: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : '',
-    filename: "user.js",
+    filename: "lumi.js",
   },
 
   // Enable sourcemaps for debugging webpack's output.

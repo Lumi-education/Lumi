@@ -1,7 +1,7 @@
 import { assign } 		from 'lodash';
 import { 
 	ITag
-} 	from '../../types';
+} 	from 'lib/types';
 
 import { DB, Relations } from 		'../db';
 

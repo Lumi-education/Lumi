@@ -1,14 +1,14 @@
 import { assign } 		from 'lodash';
 import { 
-	IGroups,
+	IGroup,
 	Collection_id
-} 	from '../../types';
+} 	from 'lib/types';
 
 import Collection 		from './Collection';
 
 import { DB, Relations } from 		'../db';
 
-export default class Group extends Relations implements IGroups {
+export default class Group extends Relations implements IGroup {
 	public _id: string;
 	public type: 'group';
 	public name: string;

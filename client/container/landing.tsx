@@ -4,7 +4,7 @@ import { connect } 			from 'react-redux';
 import { push } 			from '../state/ui/actions';
 
 // local
-import { State as Root_State }  			from '../state';
+import { IState }  			from '../state';
 
 interface StateProps {}
 
@@ -26,7 +26,7 @@ export class Landing extends React.Component<Props, State> {
 	}
 }
 
-function mapStateToProps(state: State, ownProps: {}): StateProps {
+function mapStateToProps(state: IState, ownProps: {}): StateProps {
 	return {
 	};
 }
