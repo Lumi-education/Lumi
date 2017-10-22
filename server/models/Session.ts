@@ -2,7 +2,7 @@ import { assign } 		from 'lodash';
 import { 
 	ISession,
 	User_id
-} 	from '../../types';
+} 	from 'lib/types';
 
 import User 			from './User';
 

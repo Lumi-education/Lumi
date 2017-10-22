@@ -4,7 +4,7 @@ import {
 	Card_id,
 	Collection_id,
 	User_id
-} 	from '../../types';
+} 	from 'lib/types';
 
 import Card 			from './Card';
 import Collection 				from './Collection';
