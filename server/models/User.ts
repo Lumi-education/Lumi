@@ -2,7 +2,7 @@ import { assign } 		from 'lodash';
 import { 
 	IUser,
 	Group_id
-} 	from '../../types';
+} 	from 'lib/types';
 
 import  Group 	from './Group';
 
