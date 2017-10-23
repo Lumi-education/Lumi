@@ -6,6 +6,8 @@ import {
 } 									from 'redux';
 import { routerReducer }           	from 'react-router-redux';
 
+import { Map } 						from 'immutable';
+
 import { 
 	browserHistory, 
 	Route, 
@@ -33,8 +35,10 @@ import { State as Material }  		from './material/types';
 import { State as UI } 				from './ui/types';
 import { State as Request } 		from './request/types';
 import { State as Session } 		from './session/types';
-import { IUser } 					from 'lib/types';
-import { IGroup } 					from 'lib/types';
+import { 
+	IGroup,
+	IUser
+} 									from 'lib/types';
 
 export interface IState extends 
 Auth,
@@ -47,7 +51,7 @@ Session {
 		list: Array<IUser>;
 	};
 	groups: {
-		list: Array<IGroup>;
+		list: Map<string, IGroup>;
 	};
 }
 

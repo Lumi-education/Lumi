@@ -3,6 +3,7 @@ import * as React 			from 'react';
 import { connect } 			from 'react-redux';
 import { push } 			from 'react-router-redux';
 
+import { Map } 				from 'immutable';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip 				from 'material-ui/Chip';
 
@@ -37,7 +38,7 @@ import {
 
 interface IStateProps {
 	users: Array<IUser>;
-	groups: Array<IGroup>;
+	groups: Map<string, IGroup>;
 }
 
 interface IDispatchProps {
@@ -87,7 +88,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 										flexWrap: 'wrap'
 										}}
 								>
-									{user.groups.map(group_id => <Chip>{this.props.groups.filter(g => g._id === group_id)[0].name}</Chip>)}
+									{user.groups.map(group_id => <Chip>{this.props.groups.get( group_id ).name}</Chip>)}
 								</div>
 							</CardText>
 							<CardActions>
