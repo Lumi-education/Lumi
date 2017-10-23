@@ -35,6 +35,24 @@ class UserController extends Controller<User> {
 		);
 	}
 
+	public read(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.findById(
+			req.params.id, 
+			(user: User) => { 
+				user.get_groups(db, (groups: Array<Group>) => {
+					res.status(200).json({
+						user,
+						groups
+					});
+				});
+			},
+			User
+		);
+	}
+
 	public create(req: Request, res: express.Response) {
 		
 		const db = new DB(res);

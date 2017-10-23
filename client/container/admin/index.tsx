@@ -14,14 +14,6 @@ import {
 	left_drawer_open
 } from 'client/state/ui/actions';
 
-import {
-	init
-} 	from 'client/state/user/actions';
-
-import {
-	get_collections
-} 							from 'client/state/collection/actions';
-
 interface IStateProps {
 	request: {};
 	location;
@@ -37,15 +29,8 @@ interface IComponentState {}
 
 export class AdminRoot extends React.Component<IProps, IComponentState> {
 
-	private init_action_id: string;
-
 	constructor(props: IProps) {
 		super(props);
-	}
-
-	componentWillMount() {
-		this.init_action_id = shortid();
-		this.props.dispatch( get_collections( this.init_action_id ) );
 	}
 
 	public render() {
@@ -58,13 +43,7 @@ export class AdminRoot extends React.Component<IProps, IComponentState> {
 				/>
 				<LeftDrawer />
 				<div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
-				{
-					this.props.request[this.init_action_id] === 'success' 
-					? 
-					this.props.children 
-					: 
-					<div>loading init data</div>
-				}
+					{this.props.children}
 				</div>
 			</div>
 			);

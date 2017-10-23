@@ -1,6 +1,7 @@
 // modules
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
+import { push } 			from 'react-router-redux';
 
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip 				from 'material-ui/Chip';
@@ -90,7 +91,11 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 								</div>
 							</CardText>
 							<CardActions>
-								<FlatButton primary={true}label="Edit" />
+								<FlatButton 
+									onClick={() => this.props.dispatch( push('/admin/users/' + user._id ) )}
+									primary={true}
+									label="Edit" 
+								/>
 								<FlatButton 
 									onClick={() => this.props.dispatch( delete_user( user._id ))}
 									secondary={true} 

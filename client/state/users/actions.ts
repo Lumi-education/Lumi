@@ -13,6 +13,10 @@ import {
 	USERS_GET_USERS_SUCCESS,
 	USERS_GET_USERS_ERROR,
 
+	USERS_GET_USER_REQUEST,
+	USERS_GET_USER_SUCCESS,
+	USERS_GET_USER_ERROR,
+
 	USERS_DELETE_USER_REQUEST,
 	USERS_DELETE_USER_SUCCESS,
 	USERS_DELETE_USER_ERROR
@@ -31,6 +35,14 @@ export function get_users(id = shortid() ) {
 		types: [USERS_GET_USERS_REQUEST, USERS_GET_USERS_SUCCESS, USERS_GET_USERS_ERROR],
 		api: API.get_users(),
 		payload: { id }
+	};
+}
+
+export function get_user(user_id: string, id = shortid() ) {
+	return {
+		types: [USERS_GET_USER_REQUEST, USERS_GET_USER_SUCCESS, USERS_GET_USER_ERROR],
+		api: API.get_user( user_id ),
+		payload: { id, payload: { user_id } }
 	};
 }
 

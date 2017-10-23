@@ -13,6 +13,8 @@ import AdminIndex 					from 'client/container/admin';
 import AdminCollections 			from 'client/container/admin/collections';
 import AdminGroups 					from 'client/container/admin/groups';
 import AdminUsers 					from 'client/container/admin/users';
+import AdminUser 					from 'client/container/admin/users/user';
+
 // import Material 					from 'client/container/material';
 // import Root 						from 'client/container/root';
 // import MaterialMeta 				from 'client/container/material_meta';
@@ -42,6 +44,7 @@ export default class RouterWrapper extends React.Component<IProps, IState> {
 						<Route path="collections" component={AdminCollections} />
 						<Route path="groups" component={AdminGroups} />
 						<Route path="users" component={AdminUsers} />
+						<Route path="users/:user_id" component={AdminUser} />
 					</Route>
 				</Route>
 
