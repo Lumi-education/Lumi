@@ -27,12 +27,14 @@ export class DB {
 		.catch(this.handle_error);
 	}
 
-	public save(doc) {
+	public save(doc, options = { do_not_respond: false }) {
 		request
 		.put( db + doc._id )
 		.send( doc )
 		.then(res => {
-			this.res.status(200).json( assign({}, doc, { _id: res.body.id, _rev: res.body.rev } ));
+			if (!options.do_not_respond) {
+				this.res.status(200).json( assign({}, doc, { _id: res.body.id, _rev: res.body.rev } ));
+			}
 		})
 		.catch(this.handle_error);
 	}

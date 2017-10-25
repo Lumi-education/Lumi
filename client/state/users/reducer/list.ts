@@ -11,7 +11,8 @@ import {
 	USERS_CREATE_USER_SUCCESS,
 	USERS_GET_USERS_SUCCESS,
 	USERS_GET_USER_SUCCESS,
-	USERS_DELETE_USER_REQUEST
+	USERS_DELETE_USER_REQUEST,
+	GROUPS_DELETE_SUCCESS
 } 							from 'client/state/action-types';
 
 export default function(state: Array<IUser> = [], action): Array<IUser> {
@@ -34,6 +35,10 @@ export default function(state: Array<IUser> = [], action): Array<IUser> {
 				: 
 				u
 			);		
+		case GROUPS_DELETE_SUCCESS:
+			return state.map(user => 
+				assign({}, user, { groups: user.groups.filter(group_id => group_id !== action.group_id) }) 
+			);
 
 		case USERS_CREATE_USER_SUCCESS:
 			return [ ...state, action.payload ];

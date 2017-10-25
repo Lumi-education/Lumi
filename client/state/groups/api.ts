@@ -8,6 +8,12 @@ export function create_group(name: string) {
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }
 
+export function delete_group(_id: string) {
+	return request
+	.delete('/api/v0/groups/' + _id )
+	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
+}
+
 export function get_groups() {
 	return request
 	.get('/api/v0/groups')

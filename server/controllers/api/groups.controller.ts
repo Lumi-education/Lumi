@@ -45,6 +45,29 @@ class GroupController extends Controller<Group> {
 		);
 			
 	}
+
+	public delete(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+
+		db.find(
+			{
+				groups: { $in: [req.params.id] },
+				type: 'user'
+			},
+			{ limit: 1000 },
+			(users: Array<User>) => {
+				users.forEach(user => {
+					user.rem_group( req.params.id );
+					db.save( user , { do_not_respond: true });
+				});
+			},
+			User
+		);
+		
+		db.delete( req.params.id );
+
+	}
 }
 
 export default new GroupController('group');

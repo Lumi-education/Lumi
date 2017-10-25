@@ -5,6 +5,10 @@ import {
 	GROUPS_CREATE_SUCCESS,
 	GROUPS_CREATE_ERROR,
 
+	GROUPS_DELETE_REQUEST,
+	GROUPS_DELETE_SUCCESS,
+	GROUPS_DELETE_ERROR,
+
 	GROUPS_GET_GROUPS_REQUEST,
 	GROUPS_GET_GROUPS_SUCCESS,
 	GROUPS_GET_GROUPS_ERROR
@@ -19,6 +23,14 @@ export function create_group(name: string) {
 		types: [GROUPS_CREATE_REQUEST, GROUPS_CREATE_SUCCESS, GROUPS_CREATE_ERROR],
 		api: API.create_group( name ),
 		payload: { payload: { name }}
+	};
+}
+
+export function delete_group(group_id: string) {
+	return {
+		types: [GROUPS_DELETE_REQUEST, GROUPS_DELETE_SUCCESS, GROUPS_DELETE_ERROR],
+		api: API.delete_group( group_id ),
+		payload: { group_id }
 	};
 }
 
