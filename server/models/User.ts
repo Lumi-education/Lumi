@@ -29,7 +29,13 @@ export default class User extends Relations implements IUser {
 		);
 	}
 
-	public set_name(name: string): void { this.name = name; }
+	public add_group(group_id: string): void {
+		this.groups.push( group_id );
+	}
+
+	public rem_group(group_id: string): void {
+		this.groups = this.groups.filter(g => g !== group_id);
+	}
 
 	public get_groups(db: DB, cb: (tags: Array<Group>) => void): void {
 		this.hasMany(db, this.groups, cb, Group);

@@ -75,6 +75,7 @@ router.get(	'/users', UsersController.list );
 router.post('/users', UsersController.create );
 router.get(	'/users/:id', UsersController.read );
 router.put(	'/users/:id', UsersController.update );
+router.put(	'/users/:id/action', UsersController.action );
 router.delete('/users/:id', UsersController.delete );
 
 router.get(	'/users/:user_id/collections/:collection_id', mw.auth );

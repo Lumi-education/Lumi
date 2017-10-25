@@ -14,21 +14,17 @@ export default class Group extends Relations implements IGroup {
 	public name: string;
 	public assigned_collections: Array<Collection_id>;
 	
-	constructor(t?: Group) {
+	constructor(g?: Group) {
 		super();
-		if (t) {
-			return assign(
-				this, 
-				{
-					type: 'group',
-					name: 'new Group'
-				},
-				t);
-		} else {
-			this._id = undefined;
-			this.type = 'group';
-			return this;
-		}
+		return assign(
+			this, 
+			{
+				type: 'group',
+				name: 'new Group',
+				assigned_collections: []
+			},
+			g
+		);
 	}
 
 	public set_name(name: string): void { this.name = name; }

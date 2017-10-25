@@ -5,6 +5,14 @@ import * as API from './api';
 import { IUser } 	from 'lib/types';
 
 import {
+	USERS_ADD_GROUP_REQUEST,
+	USERS_ADD_GROUP_SUCCESS,
+	USERS_ADD_GROUP_ERROR,
+
+	USERS_REM_GROUP_REQUEST,
+	USERS_REM_GROUP_SUCCESS,
+	USERS_REM_GROUP_ERROR,
+
 	USERS_CREATE_USER_REQUEST,
 	USERS_CREATE_USER_SUCCESS,
 	USERS_CREATE_USER_ERROR,
@@ -21,6 +29,22 @@ import {
 	USERS_DELETE_USER_SUCCESS,
 	USERS_DELETE_USER_ERROR
 } from '../action-types';
+
+export function add_group(user_id: string, group_id: string) {
+	return {
+		types: [USERS_ADD_GROUP_REQUEST, USERS_ADD_GROUP_SUCCESS, USERS_ADD_GROUP_ERROR],
+		api: API.add_group(user_id, group_id),
+		payload: { payload: { user_id, group_id } }
+	};
+}
+
+export function rem_group(user_id: string, group_id: string) {
+	return {
+		types: [USERS_REM_GROUP_REQUEST, USERS_REM_GROUP_SUCCESS, USERS_REM_GROUP_ERROR],
+		api: API.rem_group(user_id, group_id),
+		payload: { payload: { user_id, group_id } }
+	};
+}
 
 export function create_user(user: IUser, id = shortid() ) {
 	return {

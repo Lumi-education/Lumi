@@ -60,6 +60,31 @@ class UserController extends Controller<User> {
 		db.insert( new User(req.body) );
 			
 	}
+
+	public action(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.findById(
+			req.params.id,
+			(user: User) => {
+				switch (req.body.type) {
+					case 'ADD_GROUP':
+						user.add_group( req.body.payload.group_id );
+						db.save(user);						
+						break;
+					case 'REM_GROUP':
+						user.rem_group( req.body.payload.group_id );
+						db.save( user );
+						break;
+					default:
+						break;
+				}
+			},
+			User
+		);
+			
+	}
 }
 
 export default new UserController('user');

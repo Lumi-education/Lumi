@@ -8,6 +8,20 @@ import { DB } 				from '../../db';
 import Controller 			from '../controller';
 
 class GroupController extends Controller<Group> {
+
+	public list(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.find(
+			{ type: 'group' },
+			req.query, 
+			(groups: Array<Group>) => { 
+				res.status(200).json({ groups: groups });
+			}
+		);
+	}
+
 	public create(req: Request, res: express.Response) {
 		
 		const db = new DB(res);
