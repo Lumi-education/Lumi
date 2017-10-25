@@ -9,17 +9,22 @@ import {
 	UI_OPEN_LEFT_DRAWER,
 	UI_RIGHT_DRAWER_CLOSE,
 	UI_RIGHT_DRAWER_OPEN,
+	UI_SNACKBAR_OPEN
 } from '../action-types';
 
 const initialState: UI = {
 	left_drawer_show: false,
 	right_drawer_show: false,
 	dialog_show: false,
+	snackbar_open: false,
+	snackbar_text: ''
 };
 
 export default function(state: UI = initialState, action): UI {
 
 	switch (action.type) {
+		case UI_SNACKBAR_OPEN:
+			return assign({}, state, { snackbar_open: true, snackbar_text: action.payload.text });
 
 		case UI_OPEN_LEFT_DRAWER:
 			return assign({}, state, { left_drawer_show: true });

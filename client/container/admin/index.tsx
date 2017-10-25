@@ -7,6 +7,7 @@ import { IState } 			from 'client/state';
 // components 
 import AppBar 				from 'material-ui/AppBar';
 import LeftDrawer 			from './left-drawer';
+import Snackbar 			from './snackbar';
 
 // actions
 import {
@@ -45,6 +46,7 @@ export class AdminRoot extends React.Component<IProps, IComponentState> {
 				<div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
 					{this.props.children}
 				</div>
+				<Snackbar />
 			</div>
 			);
 

@@ -11,6 +11,8 @@ import {
 	UI_OPEN_LEFT_DRAWER,
 	UI_RIGHT_DRAWER_CLOSE,
 	UI_RIGHT_DRAWER_OPEN,
+	UI_SNACKBAR_OPEN,
+	UI_SNACKBAR_CLOSE
 } from '../action-types';
 
 export function push(url: string) {
@@ -18,6 +20,13 @@ export function push(url: string) {
 		dispatch( left_drawer_close() );
 		dispatch( _push( url ) );
 		dispatch( session_update({ location: url }) );
+	};
+}
+
+export function snackbar_open(text: string) {
+	return {
+		type: UI_SNACKBAR_OPEN,
+		payload: { text }
 	};
 }
 
