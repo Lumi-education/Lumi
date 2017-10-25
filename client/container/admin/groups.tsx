@@ -1,17 +1,34 @@
 // modules
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
+import { Map } 				from 'immutable';
 
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import FlatButton 			from 'material-ui/FlatButton';
+import Paper from 'material-ui/Paper';
 import { List, ListItem } 	from 'material-ui/List';
+import IconButton 			from 'material-ui/IconButton';
+import SVGClose 			from 'material-ui/svg-icons/navigation/close';
 import FilterBar 			from 'client/components/filter-bar';
-// local
+
+// selectors
+import { groups_list } 		from 'client/state/groups/selectors';
+
+// types
 import { IState }  			from 'client/state';
+import { IGroup } 			from 'lib/types';
 
-interface IStateProps {}
+// actions
+import { 
+	get_groups,
+	delete_group 
+}							from 'client/state/groups/actions';
 
-interface IDispatchProps {}
+interface IStateProps {
+	groups: Array<IGroup>;
+}
+
+interface IDispatchProps {
+	dispatch: (action) => void;
+}
 
 interface IProps extends IStateProps, IDispatchProps {}
 
@@ -28,25 +45,32 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 		};
 	}
 
+	componentWillMount() {
+		this.props.dispatch( get_groups() );
+	}
+
 	public render() {
 		return (
 			<div>
 				<FilterBar filter={this.state.filter} set_filter={(filter) => this.setState({ filter })} />
-				<Card style={{ margin: '10px' }}>
-					<CardHeader
-						title="9a"
-						actAsExpander={true}
-						showExpandableButton={true}						
-					/>
-					<CardActions>
-						<FlatButton label="edit" />
-					</CardActions>
-					<CardText expandable={true}>
-						<List>
-							<ListItem primaryText="1. Azra" />
-						</List>
-					</CardText>
-				</Card>
+				<Paper style={{ margin: '20px', padding: '20px'}}>
+					<List>
+						{
+							this.props.groups
+							.filter(group => this.state.filter.length > 0 ? this.state.filter.indexOf(group.name) > -1 : true)
+							.map(group => 
+								<ListItem 
+									primaryText={group.name} 
+									rightIconButton={
+										<IconButton onClick={() => this.props.dispatch( delete_group( group._id) )}>
+												<SVGClose />
+										</IconButton>
+									}
+								/>
+							)
+						}
+					</List>
+				</Paper>
 			</div>
 		);
 	}
@@ -54,11 +78,13 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
 	return {
+		groups: groups_list(state)
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
+		dispatch: (action) => dispatch( action )
 	};
 }
 
