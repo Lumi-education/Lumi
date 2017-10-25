@@ -15,7 +15,7 @@ import Divider 				from 'material-ui/Divider';
 import Avatar 				from 'material-ui/Avatar';
 import { pinkA200, transparent } from 'material-ui/styles/colors';
 import Paper 				from 'material-ui/Paper';
-import FilterBar 			from 'client/components/filter-bar';
+import TextField 			from 'material-ui/TextField';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import CreateUserDialog 	from './create_user_dialog';
@@ -49,6 +49,7 @@ interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
 	filter?: Array<string>;
+	search_text?: string;
 	show_create_user_dialog?: boolean;
 }
 
@@ -58,6 +59,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 
 		this.state = {
 			filter: [],
+			search_text: '',
 			show_create_user_dialog: false
 		};
 	}
@@ -69,10 +71,27 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 	public render() {
 		return (
 			<div>
-				<FilterBar filter={this.state.filter} set_filter={(filter) => this.setState({ filter })} />
+				<Paper 
+					zDepth={1}
+					style={{ position: 'fixed', backgroundColor: '#FFFFFF', top: '64px', zIndex: 1099, width: '100%'}}
+				>
+					<TextField
+						fullWidth={true}  
+						value={this.state.search_text}
+						hintText="Search"
+						onChange={(e, v) => this.setState({ search_text: v })}
+					/>
+				</Paper>
 				{
 					this.props.users
-					.filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
+					.filter(user => { 
+						return this.state.search_text === '' 
+						? 
+						true 
+						: 
+						user.name.toLocaleLowerCase().indexOf( this.state.search_text.toLocaleLowerCase() ) > -1; 
+					})
+					// .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
 					.map(user => 
 						<Card style={{ margin: '10px' }}>
 							<CardHeader
