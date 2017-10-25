@@ -24,7 +24,8 @@ export default function(state: Array<IUser> = [], action): Array<IUser> {
 				add_group(u, action.payload.group_id)
 				: 
 				u
-			);		
+			);	
+
 		case USERS_REM_GROUP_REQUEST:
 			return state.map(
 				u => u._id === action.payload.user_id 
@@ -32,7 +33,8 @@ export default function(state: Array<IUser> = [], action): Array<IUser> {
 				rem_group(u, action.payload.group_id)
 				: 
 				u
-			);	
+			);		
+
 		case USERS_CREATE_USER_SUCCESS:
 			return [ ...state, action.payload ];
 

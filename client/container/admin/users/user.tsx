@@ -29,7 +29,8 @@ import {
 }							from 'client/state/users/actions';
 
 import {
-	get_groups
+	get_groups,
+	create_and_add_group
 } 							from 'client/state/groups/actions';
 
 interface IStateProps {
@@ -80,14 +81,13 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 							dataSource={this.props.groups.toArray()}
 							dataSourceConfig={{ text: 'name', value: '_id' }}
 							openOnFocus={true}
-							onBeforeRequestAdd={(test) => console.log(test)}
 							filter={AutoComplete.fuzzyFilter}
 							onRequestAdd={(group) => { 
 								this.props.groups.get(group._id)
 								? 
 								this.props.dispatch( add_group(this.props.user._id, group._id)) 
 								: 
-								this.props.dispatch( snackbar_open('group ' + group.name + ' does not exist.') );
+								this.props.dispatch( create_and_add_group( this.props.user._id, group.name ) );
 							}}
 							onRequestDelete={(group_id) => this.props.dispatch( rem_group(this.props.user._id, group_id))}
 						/>
