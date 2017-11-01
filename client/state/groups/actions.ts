@@ -11,7 +11,11 @@ import {
 
 	GROUPS_GET_GROUPS_REQUEST,
 	GROUPS_GET_GROUPS_SUCCESS,
-	GROUPS_GET_GROUPS_ERROR
+	GROUPS_GET_GROUPS_ERROR,
+
+	GROUPS_GET_GROUP_REQUEST,
+	GROUPS_GET_GROUP_SUCCESS,
+	GROUPS_GET_GROUP_ERROR
 } 				from 'client/state/action-types';
 
 import { add_group } 		from 'client/state/users/actions';
@@ -54,5 +58,13 @@ export function get_groups() {
 	return {
 		types: [GROUPS_GET_GROUPS_REQUEST, GROUPS_GET_GROUPS_SUCCESS, GROUPS_GET_GROUPS_ERROR],
 		api: API.get_groups()
+	};
+}
+
+export function get_group(group_id: string) {
+	return {
+		types: [GROUPS_GET_GROUP_REQUEST, GROUPS_GET_GROUP_SUCCESS, GROUPS_GET_GROUP_ERROR],
+		api: API.get_group( group_id ),
+		payload: { group_id }
 	};
 }

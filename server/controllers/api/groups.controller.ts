@@ -30,6 +30,31 @@ class GroupController extends Controller<Group> {
 			
 	}
 
+	public read(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.findById(
+			req.params.id, 
+			(group: Group) => { 
+				db.find(
+					{
+						groups: { $in: [ req.params.id ] }
+					},
+					{},
+					(users: Array<User>) => {
+						res.status(200).json({
+							groups: [ group ],
+							users: users
+						});
+					},
+					User
+				);
+				
+			}
+		);
+	}
+
 	public for_user(req: Request, res: express.Response) {
 		
 		const db = new DB(res);

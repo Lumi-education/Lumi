@@ -19,3 +19,9 @@ export function get_groups() {
 	.get('/api/v0/groups')
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }
+
+export function get_group(group_id: string) {
+	return request
+	.get('/api/v0/groups/' + group_id)
+	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
+}
