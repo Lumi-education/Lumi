@@ -24,7 +24,7 @@ require('file?name=[name].[ext]!./index.html');
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-import darkBaseTheme 				from 'client/style/Theme';
+import lightBaseTheme 				from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme 					from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider 			from 'material-ui/styles/MuiThemeProvider';
 
@@ -37,7 +37,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
 	<Provider store={store}>
-		<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+		<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
 			<Router history={history} />
 		</MuiThemeProvider>
 	</Provider>
