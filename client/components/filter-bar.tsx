@@ -1,11 +1,11 @@
 import * as React 		from 'react';
 
-import ChipInput from 'material-ui-chip-input';
-import Paper 	from 'material-ui/Paper';
+import TextField 		from 'material-ui/TextField';
+import Paper 			from 'material-ui/Paper';
 
 interface IStateProps {
-	filter: Array<string>;
-	set_filter: (filter: Array<string>) => void;
+	filter: string;
+	set_filter: (filter: string) => void;
 }
 
 interface IDispatchProps {}
@@ -25,13 +25,11 @@ export default class FilterBar extends React.Component<IProps, IState> {
 				zDepth={1}
 				style={{ position: 'fixed', backgroundColor: '#FFFFFF', top: '64px', zIndex: 1099, width: '100%'}}
 			>
-				<ChipInput
-					className="filter-bar"
-					fullWidth={true}
-					inputStyle={{ height: '20px'}}
-					underlineShow={false}
-					defaultValue={ this.props.filter }
-					onChange={this.props.set_filter}
+				<TextField
+					fullWidth={true}  
+					value={this.props.filter}
+					hintText="Search"
+					onChange={(e, v) => this.props.set_filter( v )}
 				/>
 			</Paper>
 		);
