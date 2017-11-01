@@ -46,11 +46,11 @@ export function rem_group(user_id: string, group_id: string) {
 	};
 }
 
-export function create_user(user: IUser, id = shortid() ) {
+export function create_user(name: string, options?, id = shortid() ) {
 	return {
 		types: [USERS_CREATE_USER_REQUEST, USERS_CREATE_USER_SUCCESS, USERS_CREATE_USER_ERROR],
-		api: API.create_user( user ),
-		payload: { id, payload: { user } }
+		api: API.create_user( name, options ),
+		payload: { id, payload: { name } }
 	};
 }
 

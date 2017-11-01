@@ -7,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import { IUser } 		from 'lib/types';
 
 interface IStateProps {
-	create_user: (user: IUser) => void;
+	create_user: (name: string) => void;
 	close: () => void;
 }
 
@@ -31,15 +31,7 @@ export default class FilterBar extends React.Component<IProps, IState> {
 	}
 
 	create_user() {
-		const user: IUser = {
-			_id: undefined,
-			type: 'user',
-			name: this.state.name,
-			level: 1,
-			groups: []
-		};
-
-		this.props.create_user( user );
+		this.props.create_user( this.state.name );
 		this.props.close();
 	}
 

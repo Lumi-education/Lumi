@@ -1,4 +1,5 @@
 import * as request from 'superagent';
+import { assign } 	from 'lodash';
 declare var window;
 
 import { IUser } 	from 'lib/types';
@@ -23,10 +24,10 @@ export function rem_group(user_id: string, group_id: string) {
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }
 
-export function create_user(user: IUser) {
+export function create_user(name: string, options?) {
 	return request
 	.post('/api/v0/users')
-	.send( user )
+	.send( assign({}, { name }, options) )
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }
 

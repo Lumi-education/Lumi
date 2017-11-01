@@ -20,6 +20,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import CreateUserDialog 	from './create_user_dialog';
 
+import FilterBar 			from 'client/components/filter-bar';
+
 // local
 import { IState }  			from 'client/state';
 
@@ -71,17 +73,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 	public render() {
 		return (
 			<div>
-				<Paper 
-					zDepth={1}
-					style={{ position: 'fixed', backgroundColor: '#FFFFFF', top: '64px', zIndex: 1099, width: '100%'}}
-				>
-					<TextField
-						fullWidth={true}  
-						value={this.state.search_text}
-						hintText="Search"
-						onChange={(e, v) => this.setState({ search_text: v })}
-					/>
-				</Paper>
+				<FilterBar filter={this.state.search_text} set_filter={(filter) => this.setState({ search_text: filter})} />
+				<List>
 				{
 					this.props.users
 					.filter(user => { 
@@ -93,45 +86,17 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 					})
 					// .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
 					.map(user => 
-						<Card style={{ margin: '10px' }}>
-							<CardHeader
-								title={user.name}
-								avatar="images/ok-128.jpg"
-								actAsExpander={true}
-								showExpandableButton={true}
+						<div>
+							<ListItem 
+								leftAvatar={<Avatar>{user.name.substring(0, 3)}</Avatar>}
+								primaryText={user.name} 
+								onClick={() => this.props.dispatch( push('/admin/users/' + user._id ))}
 							/>
-							<CardText>
-								<div 
-									style={{
-										display: 'flex',
-										flexWrap: 'wrap'
-										}}
-								>
-									{user.groups.map(group_id => <Chip>{this.props.groups.get( group_id ).name}</Chip>)}
-								</div>
-							</CardText>
-							<CardActions>
-								<FlatButton 
-									onClick={() => this.props.dispatch( push('/admin/users/' + user._id ) )}
-									primary={true}
-									label="Edit" 
-								/>
-								<FlatButton 
-									onClick={() => this.props.dispatch( delete_user( user._id ))}
-									secondary={true} 
-									label="Delete" 
-								/>
-							</CardActions>
-							<CardText expandable={true}>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-								Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-								Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-							</CardText>
-						</Card>
+							<Divider inset={true} />
+						</div>
 					)
 				}
-
+				</List>
 				<FloatingActionButton 
 					onClick={() => this.setState({ show_create_user_dialog: true })}
 					style={{ margin: '20px', bottom: '0px', right: '20px', position: 'fixed' }}
@@ -143,7 +108,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 					this.state.show_create_user_dialog
 					? 
 					<CreateUserDialog 
-						create_user={(user: IUser) => this.props.dispatch( create_user( user ))}
+						create_user={(name: string) => this.props.dispatch( create_user( name ))}
 						close={() => this.setState({ show_create_user_dialog: false })}
 					/>
 					: 

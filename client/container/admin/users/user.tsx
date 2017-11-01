@@ -62,9 +62,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 	public render() {
 		if (this.props.user) {
 			return (
-				<div style={{ display: 'flex' }}>
-					<div style={{ flex: 2 }} />
-					<Paper style={{ flex: 8, padding: '10px' }}>
+				<div>
+					<Paper>
 						<TextField 
 							hintText="Name" 
 							floatingLabelText="Name" 
@@ -76,7 +75,12 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 							floatingLabelText="Groups"
 							className="filter-bar"
 							fullWidth={true}
-							value={this.props.user.groups.map(group_id => this.props.groups.get( group_id ) )}
+							value={this.props.user.groups.map(group_id => this.props.groups.get( group_id, {
+								_id: 'noid',
+								name: 'loading',
+								type: 'group',
+								assigned_collections: []
+							}) )}
 							allowDuplicates={false}
 							dataSource={this.props.groups.toArray()}
 							dataSourceConfig={{ text: 'name', value: '_id' }}
@@ -92,7 +96,6 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 							onRequestDelete={(group_id) => this.props.dispatch( rem_group(this.props.user._id, group_id))}
 						/>
 					</Paper>
-					<div style={{ flex: 2 }} />
 				</div>
 			);
 		} else {

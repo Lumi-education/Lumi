@@ -12,7 +12,8 @@ import {
 	USERS_GET_USERS_SUCCESS,
 	USERS_GET_USER_SUCCESS,
 	USERS_DELETE_USER_REQUEST,
-	GROUPS_DELETE_SUCCESS
+	GROUPS_DELETE_SUCCESS,
+	GROUPS_GET_GROUP_SUCCESS
 } 							from 'client/state/action-types';
 
 export default function(state: Array<IUser> = [], action): Array<IUser> {
@@ -47,6 +48,7 @@ export default function(state: Array<IUser> = [], action): Array<IUser> {
 			return unionBy( [action.payload.user ], state, '_id' );
 
 		case USERS_GET_USERS_SUCCESS:
+		case GROUPS_GET_GROUP_SUCCESS:
 			return unionBy( action.payload.users, state, '_id');
 
 		case USERS_DELETE_USER_REQUEST:
