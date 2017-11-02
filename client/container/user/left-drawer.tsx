@@ -15,10 +15,10 @@ import { push } 			from 'client/state/ui/actions';
 import {
 	left_drawer_close,
 	left_drawer_open,
-} from '../state/ui/actions';
+} from 'client/state/ui/actions';
 
 // selector
-import { get_collection_list } 		from '../state/collection/selector';
+// import { get_collection_list } 		from '../state/collection/selector';
 
 // types
 import { State as Root_State }  			from '../state';

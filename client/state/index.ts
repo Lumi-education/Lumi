@@ -21,7 +21,7 @@ declare var window;
 declare var process;
 
 import auth                        	from 'client/state/auth/reducer';
-import collection                	from 'client/state/collection/reducer';
+import collections                	from 'client/state/collections/reducer';
 import groups 						from 'client/state/groups/reducer';
 import material                  	from 'client/state//material/reducer';
 import request                    	from 'client/state/request/reducer';
@@ -30,19 +30,18 @@ import session                   	from 'client/state/session/reducer';
 import users 						from 'client/state/users/reducer';
 
 import { State as Auth } 			from './auth/types';
-import { State as Collection }		from './collection/types';
 import { State as Material }  		from './material/types';
 import { State as UI } 				from './ui/types';
 import { State as Request } 		from './request/types';
 import { State as Session } 		from './session/types';
 import { 
 	IGroup,
-	IUser
+	IUser,
+	ICollection
 } 									from 'lib/types';
 
 export interface IState extends 
 Auth,
-Collection,
 Material,
 UI,
 Request,
@@ -53,11 +52,14 @@ Session {
 	groups: {
 		list: Map<string, IGroup>;
 	};
+	collections: {
+		list: Array<ICollection>;
+	};
 }
 
 const rootReducer = combineReducers({
 	auth,
-	collection,
+	collections,
 	groups,
 	material,    
 	ui,

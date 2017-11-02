@@ -25,7 +25,7 @@ import {
 
 import {
 	get_collections
-} 							from 'client/state/collection/actions';
+} 							from 'client/state/collections/actions';
 
 interface IStateProps {
 	request: {};
