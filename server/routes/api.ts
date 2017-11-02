@@ -49,6 +49,7 @@ router.post('/groups', GroupController.create );
 router.get(	'/groups/:id', GroupController.read );
 router.put('/groups/:id', GroupController.update );
 router.delete('/groups/:id', GroupController.delete );
+router.put(	'/groups/:id/action', GroupController.action );
 
 // user
 router.get('/user', mw.auth, UserController.get_user );

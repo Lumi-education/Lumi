@@ -15,6 +15,7 @@ export interface ICollection {
 	description: string;
 	cards: Array<Card_id>;
 	tags: Array<Tag_id>;
+	created_at: Date;
 }
 
 export interface ITag {

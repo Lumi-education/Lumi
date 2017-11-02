@@ -17,7 +17,9 @@ import {
 	GROUPS_GET_GROUPS_SUCCESS,
 	GROUPS_GET_GROUP_SUCCESS,
 	GROUPS_CREATE_SUCCESS,
-	GROUPS_DELETE_SUCCESS
+	GROUPS_DELETE_SUCCESS,
+	GROUPS_ADD_COLLECTION_SUCCESS,
+	GROUPS_REM_COLLECTION_SUCCESS
 } 							from 'client/state/action-types';
 
 export default function(state: Map<string, IGroup> = Map<string, IGroup>({}), action): Map<string, IGroup> {
@@ -33,6 +35,8 @@ export default function(state: Map<string, IGroup> = Map<string, IGroup>({}), ac
 			return state.delete( action.group_id );
 
 		case GROUPS_CREATE_SUCCESS:
+		case GROUPS_ADD_COLLECTION_SUCCESS:
+		case GROUPS_REM_COLLECTION_SUCCESS:
 			let o = {};
 			o[ action.payload._id ] = action.payload;
 			return state.merge( Map<string, IGroup>( o ) );

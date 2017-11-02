@@ -15,12 +15,36 @@ import {
 
 	GROUPS_GET_GROUP_REQUEST,
 	GROUPS_GET_GROUP_SUCCESS,
-	GROUPS_GET_GROUP_ERROR
+	GROUPS_GET_GROUP_ERROR,
+
+	GROUPS_ADD_COLLECTION_REQUEST,
+	GROUPS_ADD_COLLECTION_SUCCESS,
+	GROUPS_ADD_COLLECTION_ERROR,
+
+	GROUPS_REM_COLLECTION_REQUEST,
+	GROUPS_REM_COLLECTION_SUCCESS,
+	GROUPS_REM_COLLECTION_ERROR
 } 				from 'client/state/action-types';
 
 import { add_group } 		from 'client/state/users/actions';
 
 import * as API from './api';
+
+export function add_collection_to_group(group_id: string, collection_id: string, id = shortid() ) {
+	return {
+		types: [GROUPS_ADD_COLLECTION_REQUEST, GROUPS_ADD_COLLECTION_SUCCESS, GROUPS_ADD_COLLECTION_ERROR],
+		api: API.add_collection_to_group(group_id, collection_id),
+		payload: { id, group_id, collection_id }
+	};
+}
+
+export function rem_collection_from_group(group_id: string, collection_id: string) {
+	return {
+		types: [GROUPS_REM_COLLECTION_REQUEST, GROUPS_REM_COLLECTION_SUCCESS, GROUPS_REM_COLLECTION_ERROR],
+		api: API.rem_collection_from_group(group_id, collection_id),
+		payload: { group_id, collection_id }
+	};
+}
 
 export function create_group(name: string) {
 	return {

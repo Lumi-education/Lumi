@@ -14,6 +14,8 @@ import AdminCollections 			from 'client/container/admin/collections';
 import AdminGroups 					from 'client/container/admin/groups';
 import AdminGroup					from 'client/container/admin/groups/group/group_index';
 import AdminGroupCreateOrAddUser	from 'client/container/admin/groups/group/create_or_add_user_dialog';
+import AdminAddCollectionToGroup	from 'client/container/admin/groups/group/add_collection_dialog';
+
 import AdminUsers 					from 'client/container/admin/users';
 import AdminUser 					from 'client/container/admin/users/user';
 
@@ -45,9 +47,10 @@ export default class RouterWrapper extends React.Component<IProps, IState> {
 					<Route path="/admin" component={AdminIndex}>
 						<Route path="collections" component={AdminCollections} />
 						<Route path="groups" component={AdminGroups} />
-						<Redirect from="groups/:group_id" to ="groups/:group_id/settings" />
+						<Redirect from="groups/:group_id" to ="groups/:group_id/users" />
 						<Route path="groups/:group_id/:tab" component={AdminGroup} />
 						<Route path="groups/:group_id/users/add" component={AdminGroupCreateOrAddUser} />
+						<Route path="groups/:group_id/collections/add" component={AdminAddCollectionToGroup} />
 						<Route path="users" component={AdminUsers} />
 						<Route path="users/:user_id" component={AdminUser} />
 					</Route>

@@ -16,15 +16,19 @@ import Divider 				from 'material-ui/Divider';
 import { Tabs, Tab } 		from 'material-ui/Tabs';
 
 import GroupUsers 			from './group_users';
+import GroupCollections 	from './group_collections';
+
 // selectors
 import { select_group } 		from 'client/state/groups/selectors';
 import { get_users_by_group } from 'client/state/users/selectors';
+import { select_collections_by_ids }	from 'client/state/collections/selectors';
 
 // types
 import { IState }  			from 'client/state';
 import { 
 	IGroup,
-	IUser
+	IUser,
+	ICollection
 } 							from 'lib/types';
 
 // actions
@@ -36,6 +40,7 @@ import {
 
 interface IStateProps {
 	group: IGroup;
+	collections: Array<ICollection>;
 	users: Array<IUser>;
 	group_id: string;
 	tab: string;
@@ -85,13 +90,11 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 						<GroupUsers {...this.props} />
 					</Tab>
 					<Tab 
-						label="Assignments"
-						value="assignments" 
-						onActive={() => this.props.dispatch( push('/admin/groups/' + this.props.group_id + '/assignments') )}
+						label="Collections"
+						value="collections" 
+						onActive={() => this.props.dispatch( push('/admin/groups/' + this.props.group_id + '/collections') )}
 					>
-						<div>
-							test2
-						</div>
+						<GroupCollections {...this.props} />
 					</Tab>
 				</Tabs>
 			</div>
@@ -103,6 +106,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
 	return {
 		group: select_group(state, ownProps.params.group_id),
 		users: get_users_by_group(state, ownProps.params.group_id ),
+		collections: select_collections_by_ids(state, select_group(state, ownProps.params.group_id).assigned_collections ),
 		tab: ownProps.params.tab,
 		group_id: ownProps.params.group_id
 	};

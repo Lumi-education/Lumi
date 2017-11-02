@@ -3,6 +3,8 @@ import { Request } 		from '../../middleware/auth';
 
 import Group 		from '../../models/Group';
 import User 		from '../../models/User';
+import Collection 	from '../../models/Collection';
+
 import { DB } 				from '../../db';
 
 import Controller 			from '../controller';
@@ -38,15 +40,21 @@ class GroupController extends Controller<Group> {
 			req.params.id, 
 			(group: Group) => { 
 				db.find(
-					{
-						groups: { $in: [ req.params.id ] }
-					},
+					{ groups: { $in: [ req.params.id ] } },
 					{},
 					(users: Array<User>) => {
-						res.status(200).json({
-							groups: [ group ],
-							users: users
-						});
+						db.find(
+							{ _id: { $in: group.assigned_collections }},
+							{},
+							(collections: Array<Collection>) => {
+								res.status(200).json({
+									groups: [ group ],
+									users: users,
+									collections: collections
+								});
+							},
+							Collection
+						);
 					},
 					User
 				);
@@ -92,6 +100,31 @@ class GroupController extends Controller<Group> {
 		
 		db.delete( req.params.id );
 
+	}
+
+	public action(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.findById(
+			req.params.id,
+			(group: Group) => {
+				switch (req.body.type) {
+					case 'ADD_COLLECTION':
+						group.add_collection( req.body.payload.collection_id );
+						db.save( group );						
+						break;
+					case 'REM_COLLECTION':
+						group.rem_collection( req.body.payload.collection_id );
+						db.save( group );						
+						break;
+					default:
+						break;
+				}
+			},
+			Group
+		);
+			
 	}
 }
 

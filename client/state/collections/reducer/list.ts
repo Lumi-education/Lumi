@@ -4,7 +4,8 @@ import {
 } 						from 'lodash';
 
 import {
-	COLLECTION_GET_SUCCESS
+	COLLECTION_GET_SUCCESS,
+	GROUPS_GET_GROUP_SUCCESS
 } 						from '../../action-types';
 
 import {
@@ -17,6 +18,7 @@ export default function(state: Array<ICollection> = initialState, action): Array
 
 	switch (action.type) {
 
+		case GROUPS_GET_GROUP_SUCCESS:		
 		case COLLECTION_GET_SUCCESS:
 			return unionBy(action.payload.collections, state, '_id');
 

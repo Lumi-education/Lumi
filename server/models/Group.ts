@@ -29,6 +29,12 @@ export default class Group extends Relations implements IGroup {
 
 	public set_name(name: string): void { this.name = name; }
 
+	public add_collection(collection_id: string): void { this.assigned_collections.push( collection_id ); }
+
+	public rem_collection(collection_id: string): void { 
+		this.assigned_collections = this.assigned_collections.filter(id => id !== collection_id); 
+	}
+
 	public get_collections(db: DB, cb: (collections: Array<Collection>) => void) {
 		this.hasMany(db, this.assigned_collections, cb, Collection);
 	}

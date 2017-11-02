@@ -16,6 +16,7 @@ export default class Collection extends Relations implements ICollection {
 	public cards: Array<Card_id>;
 	public tags: Array<Tag_id>;
 	public name: string;
+	public created_at: Date;
 	
 	constructor(c?: Collection) {
 		super();
@@ -26,7 +27,8 @@ export default class Collection extends Relations implements ICollection {
 				description: '',
 				cards: [],
 				tags: [],
-				name: 'new collection'
+				name: 'new collection',
+				created_at: new Date()
 			},
 			c
 		);
