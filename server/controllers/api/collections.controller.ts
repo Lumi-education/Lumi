@@ -9,6 +9,20 @@ import Controller 		from '../controller';
 import { DB } 				from '../../db';
 
 class CollectionController extends Controller<Collection> {
+
+	public list(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.find(
+			{ type: 'collection' },
+			req.query, 
+			(collections: Array<Collection>) => { 
+				res.status(200).json({ collections: collections });
+			}
+		);
+	}
+
 	public create(req: Request, res: express.Response) {
 	
 		const db = new DB(res);
