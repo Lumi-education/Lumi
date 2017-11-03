@@ -16,6 +16,7 @@ import CardsController 					from '../controllers/api/cards.controller';
 import CollectionController 			from '../controllers/api/collections.controller';
 import GroupController 					from '../controllers/api/groups.controller';
 import UsersController 					from '../controllers/api/users.controller';
+import TagsController 					from '../controllers/api/tags.controller';
 
 const router = Router();
 
@@ -50,6 +51,13 @@ router.get(	'/groups/:id', GroupController.read );
 router.put('/groups/:id', GroupController.update );
 router.delete('/groups/:id', GroupController.delete );
 router.put(	'/groups/:id/action', GroupController.action );
+
+// tags
+router.get(	'/tags', mw.auth, TagsController.list );
+router.post('/tags', TagsController.create );
+router.get(	'/tags/:id', TagsController.read );
+router.put('/tags/:id', TagsController.update );
+router.delete('/tags/:id', TagsController.delete );
 
 // user
 router.get('/user', mw.auth, UserController.get_user );
