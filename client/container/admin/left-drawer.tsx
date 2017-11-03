@@ -18,6 +18,7 @@ import SVGAdmin 			from 'material-ui/svg-icons/image/details';
 import SVGWorksheet 		from 'material-ui/svg-icons/action/book';
 import SVGMaterial 			from 'material-ui/svg-icons/action/work';
 import SVGGroup 			from 'material-ui/svg-icons/social/group';
+import SVGLabel 			from 'material-ui/svg-icons/action/label';
 import SVGPerson 			from 'material-ui/svg-icons/social/person';
 import SVGProgress 			from 'material-ui/svg-icons/action/trending-up';
 import SVGPower 			from 'material-ui/svg-icons/action/power-settings-new';
@@ -109,7 +110,7 @@ export class LeftDrawer extends React.Component<IProps, IComponentState> {
 						/>
 						<ListItem 
 							primaryText="Tags"
-							leftIcon={<SVGWorksheet />}
+							leftIcon={<SVGLabel />}
 							onTouchTap={() => { this.props.push('/admin/tags'); }}
 						/>
 						<Divider />

@@ -22,6 +22,10 @@ export interface ITag {
 	_id: Tag_id;
 	type: 'tag';
 	name: string;
+	short_name: string;
+	description: string;
+	color: string;
+	created_at: Date;
 }
 
 export interface ICard {

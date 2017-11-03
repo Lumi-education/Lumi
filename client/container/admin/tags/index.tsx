@@ -8,6 +8,8 @@ import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip 				from 'material-ui/Chip';
 
 import FlatButton 			from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import { List, ListItem } 	from 'material-ui/List';
 import Subheader 			from 'material-ui/Subheader';
@@ -16,7 +18,12 @@ import Avatar 				from 'material-ui/Avatar';
 import { pinkA200, transparent } from 'material-ui/styles/colors';
 import Paper 				from 'material-ui/Paper';
 import TextField 			from 'material-ui/TextField';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import IconButton 			from 'material-ui/IconButton';
+import SVGContentCreate		from 'material-ui/svg-icons/content/create';
+import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 import FilterBar 			from 'client/components/filter-bar';
 
@@ -35,7 +42,9 @@ import {
 
 // actions
 import {
-	get_tags
+	get_tags,
+	create_tag,
+	delete_tag
 }							from 'client/state/tags/actions';
 
 interface IStateProps {
@@ -51,7 +60,8 @@ interface IProps extends IStateProps, IDispatchProps {}
 interface IComponentState {
 	filter?: Array<string>;
 	search_text?: string;
-	show_create_user_dialog?: boolean;
+	new_tag_name?: string;
+	new_tag_description?: string;
 }
 
 export class AdminTags extends React.Component<IProps, IComponentState> {
@@ -61,18 +71,50 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
 		this.state = {
 			filter: [],
 			search_text: '',
-			show_create_user_dialog: false
+			new_tag_name: '',
+			new_tag_description: ''
 		};
+
+		this.create_tag = this.create_tag.bind( this );
 	}
 
 	componentWillMount() {
 		this.props.dispatch( get_tags() );
 	}
 
+	create_tag() {
+		if (this.state.new_tag_name !== '') {
+			this.props.dispatch( create_tag(this.state.new_tag_name, this.state.new_tag_description ) );
+			this.setState({ new_tag_name: '', new_tag_description: ''});
+		}
+
+	}
+
 	public render() {
 		return (
 			<div>
 				<FilterBar filter={this.state.search_text} set_filter={(filter) => this.setState({ search_text: filter})} />
+				<Paper>
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+							<TextField
+								style={{ flex: 4 }}
+								hintText="Tag"
+								value={this.state.new_tag_name}
+								onChange={(e, v) => this.setState({ new_tag_name: v })}
+							/>
+							<TextField
+								style={{ flex: 7 }}
+								hintText="Description"
+								value={this.state.new_tag_description}
+								onChange={(e, v) => this.setState({ new_tag_description: v })}
+							/>
+							<RaisedButton 
+								style={{ flex: 1 }}
+								label="Add" 
+								onClick={this.create_tag}
+							/>
+						</div>
+				</Paper>
 				<List>
 				{
 					this.props.tags
@@ -81,14 +123,22 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
 						? 
 						true 
 						: 
-						tag.name.toLocaleLowerCase().indexOf( this.state.search_text.toLocaleLowerCase() ) > -1; 
+						(tag.name + tag.description).toLocaleLowerCase().indexOf( this.state.search_text.toLocaleLowerCase() ) > -1; 
 					})
 					// .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
 					.map(tag => 
 						<div>
 							<ListItem 
-								leftAvatar={<Avatar>{tag.name.substring(0, 3)}</Avatar>}
+								leftAvatar={
+									<Avatar
+										backgroundColor={tag.color || '#BCBCBC'}
+									>{tag.short_name || tag.name.substring(0, 3)}
+									</Avatar>}
 								primaryText={tag.name} 
+								secondaryText={tag.description || 'this tag has no description'}
+								rightIconButton={rightIconMenu([
+												<MenuItem onClick={() => this.props.dispatch( delete_tag(tag._id) )}>Delete</MenuItem>
+											])}
 							/>
 							<Divider inset={true} />
 						</div>
@@ -116,3 +166,21 @@ export default connect<{}, {}, {}>(
 	mapStateToProps,
 	mapDispatchToProps,
 )(AdminTags);
+
+const iconButtonElement = (
+	<IconButton
+		touch={true}
+		tooltip="more"
+		tooltipPosition="bottom-left"
+	>
+		<MoreVertIcon color={grey400} />
+	</IconButton>
+);
+
+function rightIconMenu(menuItems) {
+	return (
+		<IconMenu iconButtonElement={iconButtonElement}>
+			{menuItems}
+		</IconMenu>
+	);
+}
