@@ -28,6 +28,7 @@ import request                    	from 'client/state/request/reducer';
 import ui                        	from 'client/state/ui/reducer';
 import session                   	from 'client/state/session/reducer';
 import users 						from 'client/state/users/reducer';
+import tags 						from 'client/state/tags/reducer';
 
 import { State as Auth } 			from './auth/types';
 import { State as Material }  		from './material/types';
@@ -37,7 +38,8 @@ import { State as Session } 		from './session/types';
 import { 
 	IGroup,
 	IUser,
-	ICollection
+	ICollection,
+	ITag
 } 									from 'lib/types';
 
 export interface IState extends 
@@ -55,6 +57,9 @@ Session {
 	collections: {
 		list: Array<ICollection>;
 	};
+	tags: {
+		list: Map<string, ITag>;
+	};
 }
 
 const rootReducer = combineReducers({
@@ -66,6 +71,7 @@ const rootReducer = combineReducers({
 	request,
 	routing: routerReducer,
 	users,
+	tags,
 	session
 });
 
