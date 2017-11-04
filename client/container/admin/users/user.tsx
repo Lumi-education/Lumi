@@ -79,7 +79,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 								_id: 'noid',
 								name: 'loading',
 								type: 'group',
-								assigned_collections: []
+								assigned_collections: [],
+								created_at: new Date()
 							}) )}
 							allowDuplicates={false}
 							dataSource={this.props.groups.toArray()}

@@ -21,6 +21,7 @@ declare var window;
 declare var process;
 
 import auth                        	from 'client/state/auth/reducer';
+import cards 						from 'client/state/cards/reducer';
 import collections                	from 'client/state/collections/reducer';
 import groups 						from 'client/state/groups/reducer';
 import material                  	from 'client/state//material/reducer';
@@ -28,6 +29,7 @@ import request                    	from 'client/state/request/reducer';
 import ui                        	from 'client/state/ui/reducer';
 import session                   	from 'client/state/session/reducer';
 import users 						from 'client/state/users/reducer';
+import tags 						from 'client/state/tags/reducer';
 
 import { State as Auth } 			from './auth/types';
 import { State as Material }  		from './material/types';
@@ -35,9 +37,11 @@ import { State as UI } 				from './ui/types';
 import { State as Request } 		from './request/types';
 import { State as Session } 		from './session/types';
 import { 
+	ICard,
 	IGroup,
 	IUser,
-	ICollection
+	ICollection,
+	ITag
 } 									from 'lib/types';
 
 export interface IState extends 
@@ -46,6 +50,9 @@ Material,
 UI,
 Request,
 Session {
+	cards: {
+		map: Map<string, ICard>;
+	};
 	users: {
 		list: Array<IUser>;
 	};
@@ -55,10 +62,14 @@ Session {
 	collections: {
 		list: Array<ICollection>;
 	};
+	tags: {
+		list: Map<string, ITag>;
+	};
 }
 
 const rootReducer = combineReducers({
 	auth,
+	cards,
 	collections,
 	groups,
 	material,    
@@ -66,6 +77,7 @@ const rootReducer = combineReducers({
 	request,
 	routing: routerReducer,
 	users,
+	tags,
 	session
 });
 

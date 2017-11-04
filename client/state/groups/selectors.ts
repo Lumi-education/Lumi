@@ -14,6 +14,7 @@ export function select_group(state: IState, group_id: string): IGroup {
 		_id: undefined,
 		name: 'group ' + group_id + ' not found',
 		type: 'group',
-		assigned_collections: []
+		assigned_collections: [],
+		created_at: new Date()
 	});
 }

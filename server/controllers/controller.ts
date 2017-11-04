@@ -20,7 +20,9 @@ export default class Controller<T> {
 			{ type: this.type },
 			req.query, 
 			(docs: Array<T>) => { 
-				res.status(200).json( docs );
+				let o = {};
+				o[ this.type + 's' ] = docs;
+				res.status(200).json( o );
 			}
 		);
 	}
