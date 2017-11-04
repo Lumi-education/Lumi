@@ -115,36 +115,38 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
 							/>
 						</div>
 				</Paper>
-				<List>
-				{
-					this.props.tags
-					.filter(tag => { 
-						return this.state.search_text === '' 
-						? 
-						true 
-						: 
-						(tag.name + tag.description).toLocaleLowerCase().indexOf( this.state.search_text.toLocaleLowerCase() ) > -1; 
-					})
-					// .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
-					.map(tag => 
-						<div>
-							<ListItem 
-								leftAvatar={
-									<Avatar
-										backgroundColor={tag.color || '#BCBCBC'}
-									>{tag.short_name || tag.name.substring(0, 3)}
-									</Avatar>}
-								primaryText={tag.name} 
-								secondaryText={tag.description || 'this tag has no description'}
-								rightIconButton={rightIconMenu([
-												<MenuItem onClick={() => this.props.dispatch( delete_tag(tag._id) )}>Delete</MenuItem>
-											])}
-							/>
-							<Divider inset={true} />
-						</div>
-					)
-				}
-				</List>
+				<Paper>
+					<List>
+					{
+						this.props.tags
+						.filter(tag => { 
+							return this.state.search_text === '' 
+							? 
+							true 
+							: 
+							(tag.name + tag.description).toLocaleLowerCase().indexOf( this.state.search_text.toLocaleLowerCase() ) > -1; 
+						})
+						// .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
+						.map(tag => 
+							<div>
+								<ListItem 
+									leftAvatar={
+										<Avatar
+											style={{ background: tag.color || 'linear-gradient(120deg, #8e44ad, #3498db)' }}// || '#BCBCBC'}
+										>{tag.short_name || tag.name.substring(0, 3)}
+										</Avatar>}
+									primaryText={tag.name} 
+									secondaryText={tag.description || 'this tag has no description'}
+									rightIconButton={rightIconMenu([
+													<MenuItem onClick={() => this.props.dispatch( delete_tag(tag._id) )}>Delete</MenuItem>
+												])}
+								/>
+								<Divider inset={true} />
+							</div>
+						)
+					}
+					</List>
+				</Paper>
 			</div>
 		);
 	}
