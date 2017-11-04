@@ -75,6 +75,7 @@ export interface IGroup {
 	type: 'group';
 	name: string;
 	assigned_collections: Array<Collection_id>;
+	created_at: Date;
 }
 
 export interface ISession {

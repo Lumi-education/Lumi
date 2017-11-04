@@ -13,6 +13,7 @@ export default class Group extends Relations implements IGroup {
 	public type: 'group';
 	public name: string;
 	public assigned_collections: Array<Collection_id>;
+	public created_at: Date;
 	
 	constructor(g?: Group) {
 		super();
@@ -21,7 +22,8 @@ export default class Group extends Relations implements IGroup {
 			{
 				type: 'group',
 				name: 'new Group',
-				assigned_collections: []
+				assigned_collections: [],
+				created_at: new Date()
 			},
 			g
 		);
