@@ -38,7 +38,7 @@ export class AdminRoot extends React.Component<IProps, IComponentState> {
 			return (
 			<div id="AdminRoot" >
 				<AppBar
-					style={{ position: 'fixed' }}
+					style={{ position: 'fixed', background: 'linear-gradient(120deg, #8e44ad, #3498db)' }}
 					showMenuIconButton={true}
 					onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_open() )}
 				/>

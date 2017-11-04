@@ -22,6 +22,10 @@ export interface ITag {
 	_id: Tag_id;
 	type: 'tag';
 	name: string;
+	short_name: string;
+	description: string;
+	color: string;
+	created_at: Date;
 }
 
 export interface ICard {
@@ -30,10 +34,12 @@ export interface ICard {
 	card_type: Card_types;
 	tags: Array<Tag_id>;
 	name: string;
-	task: Markdown;
+	text: Markdown;
 	items: Array<Markdown>;
 	hints: Array<Markdown>;
+	description: string;
 	url: string;
+	created_at: Date;
 	_attachments;	
 }
 
@@ -71,6 +77,7 @@ export interface IGroup {
 	type: 'group';
 	name: string;
 	assigned_collections: Array<Collection_id>;
+	created_at: Date;
 }
 
 export interface ISession {
