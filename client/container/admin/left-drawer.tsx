@@ -80,6 +80,7 @@ export class LeftDrawer extends React.Component<IProps, IComponentState> {
 					}} 
 				>	
 					<AppBar 
+						style={{ backgroundColor: '#8e44ad' }}
 						showMenuIconButton={true}
 						iconElementLeft={<IconButton><SVGClose /></IconButton>}
 						onLeftIconButtonTouchTap={() => this.props.left_drawer_close()}
