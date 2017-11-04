@@ -34,10 +34,12 @@ export interface ICard {
 	card_type: Card_types;
 	tags: Array<Tag_id>;
 	name: string;
-	task: Markdown;
+	text: Markdown;
 	items: Array<Markdown>;
 	hints: Array<Markdown>;
+	description: string;
 	url: string;
+	created_at: Date;
 	_attachments;	
 }
 

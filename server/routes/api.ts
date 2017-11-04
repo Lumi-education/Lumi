@@ -33,6 +33,7 @@ router.post('/cards', CardsController.create );
 router.get(	'/cards/:id', CardsController.read );
 router.put(	'/cards/:id', CardsController.update );
 router.delete('/cards/:id', CardsController.delete);
+router.put(	'/cards/:id/action', CardsController.action );
 
 // collections
 router.get(	'/collections', CollectionController.list );
