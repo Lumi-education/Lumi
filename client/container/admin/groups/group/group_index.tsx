@@ -71,6 +71,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 			<div>
 				<Tabs 
 					style={{ position: 'fixed', backgroundColor: '#FFFFFF', top: '64px', zIndex: 1099, width: '100%'}}
+					tabItemContainerStyle={{ background: 'linear-gradient(120deg, #8e44ad, #3498db)' }}
 					value={this.props.tab}
 				>
 					<Tab 
