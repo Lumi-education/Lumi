@@ -6,18 +6,6 @@ import { DB } 				from '../../db';
 
 export function get_test(req: Request, res: express.Response) {
 
-	// const db = new DB(res);
-
-	// db.findById(
-	// 	req.query._id, 
-	// 	(collection: Collection) => { 
-	// 		collection.get_cards(db, (docs) => {
-	// 			res.status(200).json([ collection, ...docs ]); 
-	// 		});
-	// 	},
-	// 	Collection
-	// );
-
 	res.status(200).end('ok');
 	
 }
