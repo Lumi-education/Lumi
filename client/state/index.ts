@@ -31,7 +31,6 @@ import session                   	from 'client/state/session/reducer';
 import users 						from 'client/state/users/reducer';
 import tags 						from 'client/state/tags/reducer';
 
-import { State as Auth } 			from './auth/types';
 import { State as Material }  		from './material/types';
 import { State as UI } 				from './ui/types';
 import { State as Request } 		from './request/types';
@@ -45,11 +44,15 @@ import {
 } 									from 'lib/types';
 
 export interface IState extends 
-Auth,
 Material,
 UI,
 Request,
 Session {
+	auth: {
+		is_authed: boolean;
+		response: number;
+		userlevel: number;
+	};
 	cards: {
 		map: Map<string, ICard>;
 	};
