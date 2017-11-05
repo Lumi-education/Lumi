@@ -53,12 +53,12 @@ export default class AuthLogin extends React.Component<Props, State> {
 			<div>
 				<div className="app-content" style={{ paddingTop: '5px', height: '100vh' }}>
 					<Paper style={{ padding: '20px', margin: '10px' }} zDepth={1}>
-						<h1>Anmeldung</h1>
+						<h1>Login</h1>
 						<TextField
 								fullWidth={true}
-								hintText="Benutzername"
+								hintText="Username"
 								type="text"
-								errorText={this.props.response === 404 ? 'Benutzername nicht gefunden' : null}
+								errorText={this.props.response === 404 ? 'Benutzername not found' : null}
 								value={this.state.username}
 								onChange={this.handle_username_input}
 						/>
@@ -66,7 +66,7 @@ export default class AuthLogin extends React.Component<Props, State> {
 								fullWidth={true}
 								hintText="Passwort"
 								floatingLabelText="Passwort"
-								errorText={this.props.response === 401 ? 'Password falsch.' : null}
+								errorText={this.props.response === 401 ? 'Password incorrect' : null}
 								type="password"
 								value={this.state.password}
 								onChange={this.handle_password_input}
@@ -74,7 +74,7 @@ export default class AuthLogin extends React.Component<Props, State> {
 						<RaisedButton
 							fullWidth={true}
 							disabled={this.state.username === ''}
-							label={this.props.request === 'pending' ? 'Lade..' : 'Anmelden'}
+							label={this.props.request === 'pending' ? 'Loading..' : 'Login'}
 							buttonStyle={{ backgroundColor: state_color(this.props.request) }}
 							onClick={() => { this.props.login(this.state.username, this.state.password); }}
 							style={{ marginTop: '20px' }} 
