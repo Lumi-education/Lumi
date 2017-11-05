@@ -10,48 +10,39 @@ import IconButton 			from 'material-ui/IconButton';
 import { List, ListItem } 	from 'material-ui/List';
 import Subheader 			from 'material-ui/Subheader';
 import Divider 				from 'material-ui/Divider';
-import Toggle 				from 'material-ui/Toggle';
 
 // material-ui -> icons
 import SVGClose 			from 'material-ui/svg-icons/navigation/close';
-import SVGAdmin 			from 'material-ui/svg-icons/image/details';
-import SVGWorksheet 		from 'material-ui/svg-icons/action/book';
-import SVGMaterial 			from 'material-ui/svg-icons/action/work';
+import SVGCollections 		from 'material-ui/svg-icons/action/book';
+import SVGCards 			from 'material-ui/svg-icons/action/perm-device-information';
 import SVGGroup 			from 'material-ui/svg-icons/social/group';
-import SVGLabel 			from 'material-ui/svg-icons/action/label';
+import SVGTags 				from 'material-ui/svg-icons/action/label';
 import SVGPerson 			from 'material-ui/svg-icons/social/person';
-import SVGProgress 			from 'material-ui/svg-icons/action/trending-up';
-import SVGPower 			from 'material-ui/svg-icons/action/power-settings-new';
-import SVGExit 				from 'material-ui/svg-icons/action/exit-to-app';
+
+// types
+import { IState }  			from 'client/state';
 
 // actions
-
 import { 
 	left_drawer_open,
 	left_drawer_close
 } 							from 'client/state/ui/actions';
 
-// local
-import { IState }  			from 'client/state';
-
 interface IStateProps {
 	left_drawer_show: boolean;
-	// left_drawer_show_names: boolean;
 }
 
 interface IDispatchProps {
 	left_drawer_open: () => void;
 	left_drawer_close: () => void;
 	push: (url: string) => void;
-	// logout: () => void;
-	// shutdown: () => void;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {}
 
-export class LeftDrawer extends React.Component<IProps, IComponentState> {
+export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
 	constructor(props: IProps) {
 		super(props);
 
@@ -101,38 +92,20 @@ export class LeftDrawer extends React.Component<IProps, IComponentState> {
 						<Subheader>Material</Subheader>
 						<ListItem 
 							primaryText="Cards"
-							leftIcon={<SVGMaterial />}
+							leftIcon={<SVGCards />}
 							onTouchTap={() => { this.props.push('/admin/cards'); }}
 						/>
 						<ListItem 
 							primaryText="Collections"
-							leftIcon={<SVGWorksheet />}
+							leftIcon={<SVGCollections />}
 							onTouchTap={() => { this.props.push('/admin/collections'); }}
 						/>
 						<ListItem 
 							primaryText="Tags"
-							leftIcon={<SVGLabel />}
+							leftIcon={<SVGTags />}
 							onTouchTap={() => { this.props.push('/admin/tags'); }}
 						/>
 						<Divider />
-						<Subheader>Views</Subheader>
-						<ListItem 
-							primaryText="Peer instruction"
-							leftIcon={<SVGMaterial />}
-							onTouchTap={() => { this.props.push('/peer'); }}
-						/>
-						<ListItem 
-							primaryText="Worksheet"
-							leftIcon={<SVGWorksheet />}
-							onTouchTap={() => { this.props.push('/worksheet'); }}
-						/>
-						<Divider />
-						<Subheader>System</Subheader>
-						<ListItem 
-							onTouchTap={() => { /* this.props.shutdown() */}}
-							primaryText="Shutdown"
-							leftIcon={<SVGPower />} 
-						/>
 					</List>
 
 				</Drawer>
@@ -162,4 +135,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<{}, {}, {}>(
 	mapStateToProps,
 	mapDispatchToProps
-)(LeftDrawer);
+)(AdminLeftDrawer);
