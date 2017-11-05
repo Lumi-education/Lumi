@@ -1,5 +1,6 @@
 import * as React 			from 'react';
 import { connect } 			from 'react-redux';
+import { push } 			from 'react-router-redux';
 
 import * as shortid 		from 'shortid';
 import { IState } 			from 'client/state';
@@ -18,6 +19,7 @@ import {
 interface IStateProps {
 	request: {};
 	location;
+	userlevel: number;
 }
 
 interface IDispatchProps {
@@ -32,6 +34,12 @@ export class AdminRoot extends React.Component<IProps, IComponentState> {
 
 	constructor(props: IProps) {
 		super(props);
+	}
+
+	componentWillMount() {
+		if (this.props.userlevel < 2) {
+			this.props.dispatch( push('/user') );
+		}
 	}
 
 	public render() {
@@ -55,7 +63,8 @@ export class AdminRoot extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
 	return {
 		request: state.request,
-		location: ownProps.location
+		location: ownProps.location,
+		userlevel: state.auth.userlevel
 	};
 }
 
