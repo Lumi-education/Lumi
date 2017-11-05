@@ -61,7 +61,7 @@ export class Auth extends React.Component<IProps, IComponentState> {
 			);
 		} else {
 			return (
-				<Tabs tabItemContainerStyle={{ background: '#FFFFFF' }}>
+				<Tabs tabItemContainerStyle={{ background: 'linear-gradient(120deg, #8e44ad, #3498db)' }}>
 					<Tab label="Login">
 						<Login 
 							login={this.login} 

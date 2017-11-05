@@ -60,29 +60,29 @@ export default class AuthLogin extends React.Component<Props, State> {
 			<div>
 				<div className="app-content" style={{ paddingTop: '5px', height: '100vh' }}>
 					<Paper style={{ padding: '20px', margin: '10px' }} zDepth={1}>
-						<h1>Registrierung</h1>
+						<h1>Register</h1>
 						<TextField
 								fullWidth={true}
-								hintText="Benutzername"
+								hintText="Username"
 								type="text"
-								errorText={this.props.response === 409 ? 'Benutzername bereits vorhanden.' : null}
+								errorText={this.props.response === 409 ? 'Username already exists.' : null}
 								value={this.state.username}
 								onChange={this.handle_username_input}
 						/>
 						<TextField
 								fullWidth={true}
-								hintText="Passwort"
-								floatingLabelText="Passwort"
-								errorText={this.props.response === 401 ? 'Password falsch.' : null}
+								hintText="Password"
+								floatingLabelText="Password"
+								errorText={this.props.response === 401 ? 'Password incorrect.' : null}
 								type="password"
 								value={this.state.password}
 								onChange={this.handle_password_input}
 						/>
 						<TextField
 								fullWidth={true}
-								hintText="Passwort wiederholen"
-								floatingLabelText="Passwort wiederholen"
-								errorText={this.state.password !== this.state.password_repeat ? 'Password nicht identisch.' : null}
+								hintText="Repeat password"
+								floatingLabelText="Repeat password"
+								errorText={this.state.password !== this.state.password_repeat ? 'Passwords not identical.' : null}
 								type="password"
 								value={this.state.password_repeat}
 								onChange={this.handle_password_repeat_input}
@@ -90,7 +90,7 @@ export default class AuthLogin extends React.Component<Props, State> {
 						<RaisedButton
 							fullWidth={true}
 							disabled={this.state.username === '' || this.state.password !== this.state.password_repeat}
-							label={this.props.request === 'pending' ? 'Lade..' : 'Registrieren'}
+							label={this.props.request === 'pending' ? 'Loading..' : 'Register'}
 							buttonStyle={{ backgroundColor: state_color(this.props.request) }}
 							onClick={() => { this.props.register(this.state.username, this.state.password); }}
 							style={{ marginTop: '20px' }} 
@@ -99,7 +99,7 @@ export default class AuthLogin extends React.Component<Props, State> {
 			</div>
 			<Snackbar
 				open={this.props.response >= 500}
-				message={'Fehler: ' + this.props.response}
+				message={'Error: ' + this.props.response}
 				autoHideDuration={60000}
 			/>
 		</div>
