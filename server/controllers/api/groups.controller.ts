@@ -1,13 +1,14 @@
 import * as express 	from 'express';
+import { noop }			from 'lodash';
 import { Request } 		from '../../middleware/auth';
 
-import Group 		from '../../models/Group';
-import User 		from '../../models/User';
-import Collection 	from '../../models/Collection';
+import Group 			from '../../models/Group';
+import User 			from '../../models/User';
+import Collection 		from '../../models/Collection';
 
-import { DB } 				from '../../db';
+import { DB } 			from '../../db';
 
-import Controller 			from '../controller';
+import Controller 		from '../controller';
 
 class GroupController extends Controller<Group> {
 
@@ -92,7 +93,7 @@ class GroupController extends Controller<Group> {
 			(users: Array<User>) => {
 				users.forEach(user => {
 					user.rem_group( req.params.id );
-					db.save( user , { do_not_respond: true });
+					db.save( user , noop );
 				});
 			},
 			User

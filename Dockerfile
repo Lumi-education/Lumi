@@ -1,4 +1,4 @@
-FROM arm32v7/node:8.6.0
+FROM arm64v8/node:8.6.0
 
 # Adding source files into container
 ADD . /srv

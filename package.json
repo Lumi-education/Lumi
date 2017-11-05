@@ -1,13 +1,13 @@
 {
   "name": "lumi_user",
-  "version": "1.0.0-develop.9",
+  "version": "1.0.0-develop.10",
   "description": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/Lumi-education/user"
   },
   "scripts": {
-	"start": "npm run build && npm run dev",
+    "start": "npm run build && npm run dev",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --watch --watch-extensions tsx,ts,test.ts --require ts-node/register --recursive ./**/*.test.ts",
     "clean": "rm -rf build && rm -rf dist",
     "uninstall": "npm run clean && rm -rf node_modules",
@@ -15,8 +15,8 @@
     "build:server": "./node_modules/.bin/tsc server/boot.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/",
     "build:client": "NODE_ENV=production ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors",
     "build:docker": "npm run clean && npm run build:client && docker build -t jpschellenberg/lumi_user:develop .",
-	"build": "npm run clean && npm run build:client && npm run build:server",
-	"link": "node -e \"var s='../client',d='node_modules/client',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\" && node -e \"var s='../server',d='node_modules/server',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\" && node -e \"var s='../lib',d='node_modules/lib',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\"" ,
+    "build": "npm run clean && npm run build:client && npm run build:server",
+    "link": "node -e \"var s='../client',d='node_modules/client',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\" && node -e \"var s='../server',d='node_modules/server',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\" && node -e \"var s='../lib',d='node_modules/lib',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\"",
     "postinstall": "npm run link && npm run build"
   },
   "author": "Jan Philip Schellenberg",
@@ -62,7 +62,8 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
-    "@types/express": "^4.0.37",
+    "@types/express": "4.0.37",
+    "@types/express-serve-static-core": "4.0.49",
     "@types/lodash": "4.14.50",
     "@types/node": "7.0.2",
     "bcrypt-nodejs": "0.0.3",

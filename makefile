@@ -4,11 +4,11 @@ VERSION = $(shell git describe)
 build:
 	npm run clean
 	npm run build:client
-	docker build -t lumieducation/user:${BRANCH} .
+	docker build -t lumieducation/lumi:${BRANCH} .
 
 release:
 	lumi-release prerelease ${BRANCH}
 	make build
-	docker push lumieducation/user:${BRANCH}
+	docker push lumieducation/lumi:${BRANCH}
 
 .PHONY: build release
