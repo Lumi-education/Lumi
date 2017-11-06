@@ -37,6 +37,39 @@ class AuthController {
 			User
 		);
 	}
+
+	public register(req: Request, res: express.Response) {
+
+		const db = new DB(res);
+
+		db.findOne(
+			{ username: req.body.username },
+			{},
+			(user: User) => {
+				if (user) { res.status(409).end(); } else {
+					db.insert(
+						new User({
+							name: req.body.username
+						}), 
+						(doc) => {
+							db.insert(
+								{
+									user_id: doc.body.id,
+									password: bcrypt.hashSync( req.body.password ),
+									type: 'password'
+								},
+								() => {
+									res.status(201).end();
+								}
+							);
+						}
+					);
+				}
+			},
+			User
+		);
+	}
+
 }
 
 export default new AuthController();

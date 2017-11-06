@@ -15,7 +15,7 @@ export default class User extends Relations implements IUser {
 	public level: number;
 	public groups: Array<Group_id>;
 	
-	constructor(u?: User) {
+	constructor(u?) {
 		super();
 		return assign(
 			this, 
