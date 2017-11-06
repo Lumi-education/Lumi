@@ -27,11 +27,16 @@ class AuthController {
 					},
 					{},
 					(pw) => {
-						if (!bcrypt.compareSync(req.body.password, pw.password)) { 
-							res.status(401).end(); 
-						} else { 
+						if (pw) {
+							if (!bcrypt.compareSync(req.body.password, pw.password)) { 
+								res.status(401).end(); 
+							} else { 
+								send_auth( user._id, session.id, user.level, res);
+							}
+						} else {
 							send_auth( user._id, session.id, user.level, res);
 						}
+						
 					});
 			},
 			User
