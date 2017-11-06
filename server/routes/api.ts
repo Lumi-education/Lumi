@@ -110,8 +110,6 @@ router.route('/user/auth/session').put( mw.auth, OldAuthController.put_session )
 router.route('/user/material/meta')	.post( mw.auth, UserMaterialController.create_userdata );
 router.route('/user/material/meta/:_id').put( mw.auth, UserMaterialController.update_userdata );
 router.route('/user/assignments')	.get( mw.auth, UserCollectionController.get_collection );
-// router.route('/user/auth/login')	.post( AuthController.login );
-// router.route('/user/auth/register') .post( OldAuthController.register );
 router.route('/user/auth/session')	.get( mw.auth, OldAuthController.get_session );
 router.route('/user/v0/collectionmeta').post( mw.auth, UserCollectionController.create_collection );
 router.route('/user/v0/collectionmeta/:_id/submit').put( mw.auth, UserCollectionController.submit_collection );
