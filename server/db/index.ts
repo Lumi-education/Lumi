@@ -40,12 +40,14 @@ export class DB {
 		.catch(this.handle_error);
 	}
 
-	public insert(doc) {
+	public insert(doc, cb?: (res) => void) {
 		request
 		.post( db )
 		.send( doc )
 		.then(res => {
-			this.res.status(200).json( assign({}, doc, { _id: res.body.id, _rev: res.body.rev } ));
+			if (cb) { cb(res); } else {
+				this.res.status(200).json( assign({}, doc, { _id: res.body.id, _rev: res.body.rev } ));
+			}
 		})
 		.catch(this.handle_error);
 	}
