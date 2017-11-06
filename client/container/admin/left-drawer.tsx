@@ -21,7 +21,7 @@ import SVGPerson 			from 'material-ui/svg-icons/social/person';
 
 // types
 import { IState }  			from 'client/state';
-
+declare var process; 
 // actions
 import { 
 	left_drawer_open,
@@ -106,6 +106,7 @@ export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
 							onTouchTap={() => { this.props.push('/admin/tags'); }}
 						/>
 						<Divider />
+						<Subheader>{'Lumi v' + process.env.VERSION}</Subheader>
 					</List>
 
 				</Drawer>
