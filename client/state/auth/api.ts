@@ -4,7 +4,7 @@ declare var window;
 
 export function login(username: string, password: string) {
 	return request
-	.post('/api/user/auth/login')
+	.post('/api/auth/login')
 	.send({ username, password })
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');
 }
@@ -17,7 +17,7 @@ export function logout() {
 
 export function register(username: string, password: string) {
 	return request
-	.post('/api/user/auth/register')
+	.post('/api/auth/register')
 	.send({ username, password });
 }
 
