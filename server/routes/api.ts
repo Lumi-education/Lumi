@@ -7,7 +7,7 @@ import * as UserMaterialController 		from '../controllers/api/user/material.cont
 import AuthController 					from '../controllers/api/auth.controller';
 import * as OldAuthController			from '../controllers/api/auth.controller';
 import * as TestController				from '../controllers/api/test.controller';
-import * as UserController 				from '../controllers/api/user/user.controller';
+import UserController 					from '../controllers/api/user/user.controller';
 
 import CollectionDataController			from '../controllers/api/user/collection.controller';
 import * as MaterialController 			from '../controllers/api/material.controller';
@@ -62,7 +62,7 @@ router.put('/tags/:id', TagsController.update );
 router.delete('/tags/:id', TagsController.delete );
 
 // user
-router.get('/user', mw.auth, UserController.get_user );
+// router.get('/user', mw.auth, UserController.get_user );
 
 // user -> carddata
 router.get('/user/card', mw.auth, CardsController.list );
@@ -72,7 +72,7 @@ router.put('/user/card/:id', mw.auth, CardsController.update );
 router.delete('/user/card/:id', mw.auth, CardsController.delete );
 
 // user -> collectiondata
-router.get(	'/user/collections', mw.auth, CollectionDataController.list );
+router.get(	'/user/collections', mw.auth, UserController.collections );
 router.post('/user/collections', mw.auth, CollectionDataController.create );
 router.get(	'/user/collections/:id', mw.auth, CollectionDataController.read );
 router.put(	'/user/collections/:id', mw.auth, CollectionDataController.update );
