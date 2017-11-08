@@ -8,7 +8,6 @@ import {
 
 import Auth 						from 'client/container/auth';
 import Landing 						from 'client/container/landing';
-import UserIndex 					from 'client/container/user';
 import AdminIndex 					from 'client/container/admin';
 import AdminCollections 			from 'client/container/admin/collections';
 import AdminGroups 					from 'client/container/admin/groups';
@@ -18,9 +17,13 @@ import AdminAddCollectionToGroup	from 'client/container/admin/groups/group/add_c
 import AdminTags 					from 'client/container/admin/tags';
 import AdminCards 					from 'client/container/admin/cards';
 import AdminCard 					from 'client/container/admin/cards/card';
-
 import AdminUsers 					from 'client/container/admin/users';
 import AdminUser 					from 'client/container/admin/users/user';
+
+import UserIndex 					from 'client/container/user';
+import UserCollections				from 'client/container/user/collections';
+import UserCollectionCardsList 		from 'client/container/user/collections/cards/list';
+import UserCollectionCard 			from 'client/container/user/collections/cards/card';
 
 // import Material 					from 'client/container/material';
 // import Root 						from 'client/container/root';
@@ -46,7 +49,12 @@ export default class RouterWrapper extends React.Component<IProps, IState> {
 
 				<Route component={Auth}>
 					<Route path="/" component={Landing} />
-					<Route path="/user" component={UserIndex} />
+					<Route path="/user" component={UserIndex}>
+						<Route path="collections/:collection_id" component={UserCollections}>
+							<Route path="cards" component={UserCollectionCardsList} />
+							<Route path="cards/:card_id" component={UserCollectionCard} />
+						</Route>
+					</Route>
 					<Route path="/admin" component={AdminIndex}>
 						<Route path="collections" component={AdminCollections} />
 						<Route path="groups" component={AdminGroups} />
