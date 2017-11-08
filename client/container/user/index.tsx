@@ -6,7 +6,7 @@ import { IState } 			from 'client/state';
 
 // components 
 import AppBar 				from 'material-ui/AppBar';
-// import LeftDrawer 			from './left-drawer';
+import LeftDrawer 			from './left-drawer';
 
 // actions
 import {
@@ -24,7 +24,7 @@ import {
 }	from 'client/state/session/actions';
 
 import {
-	get_collections
+	get_user_collections
 } 							from 'client/state/collections/actions';
 
 interface IStateProps {
@@ -42,36 +42,26 @@ interface IComponentState {}
 
 export class Root extends React.Component<IProps, IComponentState> {
 
-	private init_action_id: string;
-
 	constructor(props: IProps) {
 		super(props);
 	}
 
 	componentWillMount() {
-		this.init_action_id = shortid();
-		this.props.dispatch( get_collections( this.init_action_id ) );
-		
-		// this.props.dispatch( init(this.init_action_id) );
-		// this.props.dispatch( session_update({ location: this.props.location.pathname }) );
-		
+		this.props.dispatch( get_user_collections( ) );
 	}
 
 	public render() {
 			return (
 			<div id="root" >
 				<AppBar
+					style={{ position: 'fixed', background: 'linear-gradient(120deg, #3498db, #1abc9c)' }}
 					showMenuIconButton={true}
 					onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_open() )}
 				/>
-				{/* <LeftDrawer /> */}
-				<div style={{ paddingBottom: '40px' }}>
+				<LeftDrawer />
+				<div style={{ paddingTop: '64px', paddingBottom: '40px' }}>
 				{
-					this.props.request[this.init_action_id] === 'success' 
-					? 
 					this.props.children 
-					: 
-					<div>loading init data</div>
 				}
 				</div>
 			</div>
