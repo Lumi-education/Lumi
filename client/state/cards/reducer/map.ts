@@ -12,7 +12,8 @@ import {
 	CARDS_UPDATE_CARD_SUCCESS,
 	CARDS_DELETE_CARD_SUCCESS,
 	CARDS_GET_CARD_SUCCESS,
-	CARDS_CREATE_CARD_SUCCESS
+	CARDS_CREATE_CARD_SUCCESS,
+	COLLECTION_GET_SUCCESS
 } 							from 'client/state/action-types';
 
 export default function(state: Map<string, ICard> = Map<string, ICard>({}), action): Map<string, ICard> {
@@ -20,6 +21,7 @@ export default function(state: Map<string, ICard> = Map<string, ICard>({}), acti
 
 		case CARDS_GET_CARDS_SUCCESS:
 		case CARDS_GET_CARD_SUCCESS:
+		case COLLECTION_GET_SUCCESS:
 			return state.merge( Map<string, ICard>( arrayToObject(action.payload.cards) ) );
 
 		case CARDS_REM_TAG_SUCCESS:
