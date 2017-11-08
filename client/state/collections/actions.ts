@@ -29,6 +29,21 @@ export function get_collections( id = shortid() ) {
 	};
 }
 
+export function get_collection(collection_id: string) {
+	return {
+		types: [COLLECTION_GET_REQUEST, COLLECTION_GET_SUCCESS, COLLECTION_GET_ERROR],
+		api: API.get_collections( collection_id ),
+		payload: { collection_id }
+	};
+}
+
+export function get_user_collections() {
+	return {
+		types: [COLLECTION_GET_REQUEST, COLLECTION_GET_SUCCESS, COLLECTION_GET_ERROR],
+		api: API.get_user_collections(),
+	};
+}
+
 export function collection_create_meta(collection_id: string, id: string = shortid()) {
 	return {
 		types: [COLLECTION_CREATEMETA_REQUEST, COLLECTION_CREATEMETA_SUCCESS, COLLECTION_CREATEMETA_ERROR],
