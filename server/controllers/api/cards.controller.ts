@@ -2,6 +2,7 @@ import * as express 	from 'express';
 import { Request } 		from '../../middleware/auth';
 
 import Card 		from '../../models/Card';
+import Tag 			from '../../models/Tag';
 import { DB } 				from '../../db';
 
 import Controller 			from '../controller';
@@ -12,7 +13,28 @@ class CardController extends Controller<Card> {
 			const db = new DB(res);
 		
 			db.insert( new Card(req.body) );
-			
+	}
+	
+	public read(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		
+		db.findById(
+			req.params.id, 
+			(card: Card) => { 
+				db.find(
+					{ _id: { $in: card.tags }},
+					{},
+					(tags: Array<Tag>) => {
+						res.status(200).json({
+							cards: [ card ],
+							tags: tags
+						});
+					},
+					Tag
+				);
+			}
+		);
 	}
 
 	public action(req: Request, res: express.Response) {

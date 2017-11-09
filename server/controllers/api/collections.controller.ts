@@ -31,6 +31,23 @@ class CollectionController extends Controller<Collection> {
 		
 	}
 
+	public read(req: Request, res: express.Response) {
+		
+		const db = new DB(res);
+		db.findById(
+			req.params.id, 
+			(collection: Collection) => { 
+				collection.get_cards(db, (cards: Array<Card>) => {
+					res.status(200).json({
+						collections: [ collection ],
+						cards: cards
+					});
+				});
+			},
+			Collection
+		);
+	}
+
 	public cards(req: Request, res: express.Response) {
 		
 			const db = new DB(res);

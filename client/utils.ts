@@ -112,5 +112,6 @@ export function compare(o: Object, c: Object): boolean {
 }
 
 export function arrayToObject(array: Array<{ _id: string }>): Object {
+	if (!array) { return {}; }
 	return array.reduce((a, c, i) => { a[c._id] = c; return a; }, {});
 }
