@@ -4,7 +4,7 @@ import { connect } 			from 'react-redux';
 import { push } 			from 'react-router-redux';
 
 import { Map } 				from 'immutable';
-import { assign } 			from 'lodash';
+import { assign, noop } 			from 'lodash';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip 				from 'material-ui/Chip';
 
@@ -48,7 +48,8 @@ import {
 	select_collection_by_id
 }							from 'client/state/collections/selectors';
 import {
-	select_data
+	select_data,
+	select_data_for_collection
 } 							from 'client/state/data/selectors';
 // actions
 import {
@@ -65,6 +66,7 @@ interface IStateProps {
 	collection_id: string;
 	card: ICard;
 	data;
+	collection_data;
 }
 
 interface IDispatchProps {
@@ -113,12 +115,17 @@ export class UserCollectionCard extends React.Component<IProps, IComponentState>
 						)}
 				/>
 				<Multiplechoicecard 
+					show_correct_values={this.props.collection_data.submitted}
 					text={this.props.card.text}
 					items={this.props.card.items}
 					selected_items={this.props.data.items || []}
 					cb={(items, score) => {
+						this.props.collection_data.submitted 
+						?
+						noop()
+						:
 						this.props.dispatch( 
-							this.props.data
+							this.props.data._id
 							?
 							update_data(assign({}, this.props.data, {
 								items,
@@ -128,6 +135,7 @@ export class UserCollectionCard extends React.Component<IProps, IComponentState>
 							create_data({
 								items,
 								score,
+								data_type: 'card',
 								card_id: this.props.card._id,
 								collection_id: this.props.collection_id
 							})	
@@ -169,6 +177,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
 		collection: select_collection_by_id(state, ownProps.params.collection_id),
 		collection_id: ownProps.params.collection_id,
 		card: select_card(state, ownProps.params.card_id ),
+		collection_data: select_data_for_collection(state, ownProps.params.collection_id),
 		data: select_data(state, ownProps.params.collection_id, ownProps.params.card_id)
 	};
 }
