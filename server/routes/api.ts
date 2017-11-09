@@ -2,15 +2,16 @@ import { Router } 						from 'express';
 import { auth, level } 					from '../middleware/auth';
 import mw 								from '../middleware';
 
-import * as UserCollectionController 	from '../controllers/api/user/collection.controller';
+// import * as UserCollectionController 	from '../controllers/api/user/collection.controller';
 import * as UserMaterialController 		from '../controllers/api/user/material.controller';
 import AuthController 					from '../controllers/api/auth.controller';
 import * as OldAuthController			from '../controllers/api/auth.controller';
 import * as TestController				from '../controllers/api/test.controller';
-import * as UserController 				from '../controllers/api/user/user.controller';
+import UserController 					from '../controllers/api/user/user.controller';
 
-import CollectionDataController			from '../controllers/api/user/collection.controller';
+// import CollectionDataController			from '../controllers/api/user/collection.controller';
 import * as MaterialController 			from '../controllers/api/material.controller';
+import DataController 					from '../controllers/api/user/data.controller';
 
 import CardsController 					from '../controllers/api/cards.controller';
 import CollectionController 			from '../controllers/api/collections.controller';
@@ -62,7 +63,7 @@ router.put('/tags/:id', TagsController.update );
 router.delete('/tags/:id', TagsController.delete );
 
 // user
-router.get('/user', mw.auth, UserController.get_user );
+// router.get('/user', mw.auth, UserController.get_user );
 
 // user -> carddata
 router.get('/user/card', mw.auth, CardsController.list );
@@ -71,12 +72,17 @@ router.get('/user/card/:id', mw.auth, CardsController.read );
 router.put('/user/card/:id', mw.auth, CardsController.update );
 router.delete('/user/card/:id', mw.auth, CardsController.delete );
 
+// user -> data
+router.get('/user/data', mw.auth, DataController.find );
+router.post('/user/data', mw.auth, DataController.create );
+router.put('/user/data/:id', mw.auth, DataController.update );
+
 // user -> collectiondata
-router.get(	'/user/collections', mw.auth, CollectionDataController.list );
-router.post('/user/collections', mw.auth, CollectionDataController.create );
-router.get(	'/user/collections/:id', mw.auth, CollectionDataController.read );
-router.put(	'/user/collections/:id', mw.auth, CollectionDataController.update );
-router.delete('/user/collections/:id', mw.auth, CollectionDataController.delete );
+router.get(	'/user/collections', mw.auth, UserController.collections );
+// router.post('/user/collections', mw.auth, CollectionDataController.create );
+// router.get(	'/user/collections/:id', mw.auth, CollectionDataController.read );
+// router.put(	'/user/collections/:id', mw.auth, CollectionDataController.update );
+// router.delete('/user/collections/:id', mw.auth, CollectionDataController.delete );
 
 // user -> groups
 router.get('/user/groups', mw.auth );
@@ -90,7 +96,7 @@ router.put(	'/users/:id/action', UsersController.action );
 router.delete('/users/:id', UsersController.delete );
 
 router.get(	'/users/:user_id/collections/:collection_id', mw.auth );
-router.get(	'/users/:user_id/collections' , mw.auth, CollectionDataController.list_for_user );
+// router.get(	'/users/:user_id/collections' , mw.auth, CollectionDataController.list_for_user );
 router.put(	'/users/:user_id/collections/:collection_id', mw.auth );
 router.get(	'/users/:user_id/cards/:card_id', mw.auth );
 router.put(	'/users/:user_id/cards/:card_id', mw.auth );
@@ -103,17 +109,17 @@ router.delete('/users/:user_id/groups/:group_id', mw.auth );
 // deprecate
 
 router.route('/material/:id/:attachment').get( MaterialController.attachment );
-router.route('/user/collection')	.get( mw.auth, UserCollectionController.get_collection );
-router.route('/user/collection/:_id/submit').put( mw.auth, UserCollectionController.submit_collection );
-router.route('/user/collection/:_id/reset').put( mw.auth, UserCollectionController.reset_collection );
+// router.route('/user/collection')	.get( mw.auth, UserCollectionController.get_collection );
+// router.route('/user/collection/:_id/submit').put( mw.auth, UserCollectionController.submit_collection );
+// router.route('/user/collection/:_id/reset').put( mw.auth, UserCollectionController.reset_collection );
 router.route('/user/auth/session').put( mw.auth, OldAuthController.put_session );
 router.route('/user/material/meta')	.post( mw.auth, UserMaterialController.create_userdata );
 router.route('/user/material/meta/:_id').put( mw.auth, UserMaterialController.update_userdata );
-router.route('/user/assignments')	.get( mw.auth, UserCollectionController.get_collection );
+// router.route('/user/assignments')	.get( mw.auth, UserCollectionController.get_collection );
 router.route('/user/auth/session')	.get( mw.auth, OldAuthController.get_session );
-router.route('/user/v0/collectionmeta').post( mw.auth, UserCollectionController.create_collection );
-router.route('/user/v0/collectionmeta/:_id/submit').put( mw.auth, UserCollectionController.submit_collection );
-router.route('/user/v0/collectionmeta/:_id/reset').put( mw.auth, UserCollectionController.reset_collection );
+// router.route('/user/v0/collectionmeta').post( mw.auth, UserCollectionController.create_collection );
+// router.route('/user/v0/collectionmeta/:_id/submit').put( mw.auth, UserCollectionController.submit_collection );
+// router.route('/user/v0/collectionmeta/:_id/reset').put( mw.auth, UserCollectionController.reset_collection );
 router.get('/test', TestController.get_test );
 
 export default router;
