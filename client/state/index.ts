@@ -30,6 +30,7 @@ import ui                        	from 'client/state/ui/reducer';
 import session                   	from 'client/state/session/reducer';
 import users 						from 'client/state/users/reducer';
 import tags 						from 'client/state/tags/reducer';
+import data 						from 'client/state/data/reducer';
 
 import { State as Material }  		from './material/types';
 import { State as UI } 				from './ui/types';
@@ -40,7 +41,8 @@ import {
 	IGroup,
 	IUser,
 	ICollection,
-	ITag
+	ITag,
+	IData
 } 									from 'lib/types';
 
 export interface IState extends 
@@ -68,6 +70,9 @@ Session {
 	tags: {
 		list: Map<string, ITag>;
 	};
+	data: {
+		map: Map<string, {}>;
+	};
 }
 
 const rootReducer = combineReducers({
@@ -81,7 +86,8 @@ const rootReducer = combineReducers({
 	routing: routerReducer,
 	users,
 	tags,
-	session
+	session,
+	data
 });
 
 const persistentState = undefined;
