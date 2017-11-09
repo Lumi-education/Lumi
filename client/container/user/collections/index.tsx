@@ -9,6 +9,8 @@ import Chip 				from 'material-ui/Chip';
 
 import FlatButton 			from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import IconButton 			from 'material-ui/IconButton';
+import SVGLeft 				from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import { List, ListItem } 	from 'material-ui/List';
 import Subheader 			from 'material-ui/Subheader';
 import Divider 				from 'material-ui/Divider';
@@ -16,7 +18,7 @@ import Avatar 				from 'material-ui/Avatar';
 import Paper 				from 'material-ui/Paper';
 import TextField 			from 'material-ui/TextField';
 import ContentAdd 			from 'material-ui/svg-icons/content/add';
-
+import AppBar 				from 'material-ui/AppBar';
 import FilterBar 			from 'client/components/filter-bar';
 
 // local

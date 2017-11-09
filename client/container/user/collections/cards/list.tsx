@@ -16,7 +16,9 @@ import Avatar 				from 'material-ui/Avatar';
 import Paper 				from 'material-ui/Paper';
 import TextField 			from 'material-ui/TextField';
 import ContentAdd 			from 'material-ui/svg-icons/content/add';
-
+import AppBar 				from 'material-ui/AppBar';
+import IconButton 			from 'material-ui/IconButton';
+import SVGLeft 					from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import FilterBar 			from 'client/components/filter-bar';
 
 // local
@@ -76,6 +78,13 @@ export class UserCollectionsCards extends React.Component<IProps, IComponentStat
 	public render() {
 		return (
 			<div>
+				<AppBar
+					style={{ background: 'linear-gradient(120deg, #3498db, #1abc9c)' }}
+					showMenuIconButton={true}
+					title={this.props.collection.name}
+					iconElementLeft={<IconButton><SVGLeft /></IconButton>}
+					onLeftIconButtonTouchTap={() => this.props.dispatch( push('/user'))}
+				/>
 				<List>
 				{
 					this.props.cards
