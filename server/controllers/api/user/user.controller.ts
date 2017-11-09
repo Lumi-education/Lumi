@@ -15,7 +15,7 @@ export class UserController {
 			{},
 			(user: User) => {
 				user.get_groups(db, (groups: Array<Group>) => {
-					const groups_ids = groups.map(group => group.assigned_collections).reduce((p, a) => [...p, ...a]);
+					const groups_ids = groups.map(group => group.assigned_collections).reduce((p, a) => [...p, ...a], []);
 
 					db.find(
 						{
@@ -28,7 +28,7 @@ export class UserController {
 							res.status(200).json({
 								collections: collections
 							});
-							
+
 						}
 					);
 					
