@@ -1,32 +1,33 @@
-import { Map } 				from 'immutable';
-import { ICard } 			from 'lib/types';
+import { Map } from 'immutable';
+import { ICard } from 'lib/types';
+
+import { arrayToObject } from 'client/utils';
 
 import {
-	arrayToObject
-} 							from 'client/utils';
+    CARDS_GET_CARDS_SUCCESS,
+    CARDS_REM_TAG_SUCCESS,
+    CARDS_ADD_TAG_SUCCESS
+} from 'client/state/action-types';
 
-import { 
-	CARDS_GET_CARDS_SUCCESS,
-	CARDS_REM_TAG_SUCCESS,
-	CARDS_ADD_TAG_SUCCESS
-} 							from 'client/state/action-types';
+export default function(
+    state: Map<string, ICard> = Map<string, ICard>({}),
+    action
+): Map<string, ICard> {
+    switch (action.type) {
+        case CARDS_GET_CARDS_SUCCESS:
+            return state.merge(
+                Map<string, ICard>(arrayToObject(action.payload.cards))
+            );
 
-export default function(state: Map<string, ICard> = Map<string, ICard>({}), action): Map<string, ICard> {
-	switch (action.type) {
+        case CARDS_REM_TAG_SUCCESS:
+        case CARDS_ADD_TAG_SUCCESS:
+            let o = {};
+            o[action.payload._id] = action.payload;
+            return state.merge(Map<string, ICard>(o));
 
-		case CARDS_GET_CARDS_SUCCESS:
-			return state.merge( Map<string, ICard>( arrayToObject(action.payload.cards) ) );
-
-		case CARDS_REM_TAG_SUCCESS:
-		case CARDS_ADD_TAG_SUCCESS:
-			let o = {};
-			o[ action.payload._id ] = action.payload;
-			return state.merge( Map<string, ICard>( o ) );
-
-		default:
-			return state;
-	}
-
+        default:
+            return state;
+    }
 }
 
 // export function add_group(user: IUser, group_id: string) {

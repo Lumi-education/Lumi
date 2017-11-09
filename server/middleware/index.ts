@@ -1,9 +1,6 @@
-import {
-	auth,
-	level
-}					from './auth';
+import { auth, level } from './auth';
 
 export default {
-	auth,
-	level
+    auth,
+    level
 };

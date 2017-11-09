@@ -1,48 +1,45 @@
 // modules
-import * as React 			from 'react';
-import { connect } 			from 'react-redux';
-import { push } 			from 'react-router-redux';
-import { Map } 				from 'immutable';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { Map } from 'immutable';
 
-import Avatar 				from 'material-ui/Avatar';
-import Paper 				from 'material-ui/Paper';
-import { List, ListItem } 	from 'material-ui/List';
-import IconButton 			from 'material-ui/IconButton';
-import SVGClose 			from 'material-ui/svg-icons/navigation/close';
-import FilterBar 			from 'client/components/filter-bar';
+import Avatar from 'material-ui/Avatar';
+import Paper from 'material-ui/Paper';
+import { List, ListItem } from 'material-ui/List';
+import IconButton from 'material-ui/IconButton';
+import SVGClose from 'material-ui/svg-icons/navigation/close';
+import FilterBar from 'client/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd 			from 'material-ui/svg-icons/content/add';
-import Divider 				from 'material-ui/Divider';
-import { Tabs, Tab } 		from 'material-ui/Tabs';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import Divider from 'material-ui/Divider';
+import { Tabs, Tab } from 'material-ui/Tabs';
 
-import CreateGroupDialog 	from './create_group_dialog';
+import CreateGroupDialog from './create_group_dialog';
 
 // selectors
-import { select_group } 		from 'client/state/groups/selectors';
+import { select_group } from 'client/state/groups/selectors';
 import { get_users_by_group } from 'client/state/users/selectors';
 
 // types
-import { IState }  			from 'client/state';
-import { 
-	IGroup,
-	IUser
-} 							from 'lib/types';
+import { IState } from 'client/state';
+import { IGroup, IUser } from 'lib/types';
 
 // actions
-import { 
-	get_group,
-	delete_group,
-	create_group
-}							from 'client/state/groups/actions';
+import {
+    get_group,
+    delete_group,
+    create_group
+} from 'client/state/groups/actions';
 
 interface IStateProps {
-	group: IGroup;
-	users: Array<IUser>;
-	group_id: string;
+    group: IGroup;
+    users: Array<IUser>;
+    group_id: string;
 }
 
 interface IDispatchProps {
-	dispatch: (action) => void;
+    dispatch: (action) => void;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -50,70 +47,78 @@ interface IProps extends IStateProps, IDispatchProps {}
 interface IComponentState {}
 
 export class AdminGroup extends React.Component<IProps, IComponentState> {
-	constructor(props: IProps) {
-		super(props);
+    constructor(props: IProps) {
+        super(props);
 
-		this.state = {};
-	}
+        this.state = {};
+    }
 
-	componentWillMount() {
-		this.props.dispatch( get_group( this.props.group_id ) );
-	}
+    componentWillMount() {
+        this.props.dispatch(get_group(this.props.group_id));
+    }
 
-	public render() {
-		if ( !this.props.group ) { return <div>Loading ... </div> }
-		return (
-			<div>
-				<Tabs style={{ position: 'fixed', backgroundColor: '#FFFFFF', top: '64px', zIndex: 1099, width: '100%'}}>
-					<Tab label="Settings" >
-						<div>
-							test
-						</div>
-					</Tab>
-					<Tab label="Users" >
-						<List>
-							{
-								this.props.users
-								.map(user => 
-									<div>
-										<ListItem 
-											leftAvatar={<Avatar>{user.name.substring(0, 3)}</Avatar>}
-											primaryText={user.name} 
-											onClick={() => this.props.dispatch( push('/admin/users/' + user._id ))}
-										/>
-										<Divider inset={true} />
-									</div>
-								)
-							}
-							
-						</List>
-					</Tab>
-					<Tab label="Assignments" >
-						<div>
-							test2
-						</div>
-					</Tab>
-				</Tabs>
-			</div>
-		);
-	}
+    public render() {
+        if (!this.props.group) {
+            return <div>Loading ... </div>;
+        }
+        return (
+            <div>
+                <Tabs
+                    style={{
+                        position: 'fixed',
+                        backgroundColor: '#FFFFFF',
+                        top: '64px',
+                        zIndex: 1099,
+                        width: '100%'
+                    }}
+                >
+                    <Tab label="Settings">
+                        <div>test</div>
+                    </Tab>
+                    <Tab label="Users">
+                        <List>
+                            {this.props.users.map(user => (
+                                <div>
+                                    <ListItem
+                                        leftAvatar={
+                                            <Avatar>
+                                                {user.name.substring(0, 3)}
+                                            </Avatar>
+                                        }
+                                        primaryText={user.name}
+                                        onClick={() =>
+                                            this.props.dispatch(
+                                                push('/admin/users/' + user._id)
+                                            )}
+                                    />
+                                    <Divider inset={true} />
+                                </div>
+                            ))}
+                        </List>
+                    </Tab>
+                    <Tab label="Assignments">
+                        <div>test2</div>
+                    </Tab>
+                </Tabs>
+            </div>
+        );
+    }
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-	return {
-		group: select_group(state, ownProps.params.group_id),
-		users: get_users_by_group(state, ownProps.params.group_id ),
-		group_id: ownProps.params.group_id
-	};
+    return {
+        group: select_group(state, ownProps.params.group_id),
+        users: get_users_by_group(state, ownProps.params.group_id),
+        group_id: ownProps.params.group_id
+    };
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		dispatch: (action) => dispatch( action )
-	};
+    return {
+        dispatch: action => dispatch(action)
+    };
 }
 
-export default connect<{}, {}, {}>(
-	mapStateToProps,
-	mapDispatchToProps,
-)(AdminGroup);
+export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
+    AdminGroup
+);
