@@ -3,6 +3,7 @@ import * as React 					from 'react';
 import {
 	Redirect,
 	Route,
+	IndexRoute,
 	Router,
 } 									from 'react-router';
 
@@ -24,7 +25,7 @@ import UserIndex 					from 'client/container/user';
 import UserCollections				from 'client/container/user/collections';
 import UserCollectionCardsList 		from 'client/container/user/collections/cards/list';
 import UserCollectionCard 			from 'client/container/user/collections/cards/card';
-
+import UserDashboard				from 'client/container/user/dashboard';
 // import Material 					from 'client/container/material';
 // import Root 						from 'client/container/root';
 // import MaterialMeta 				from 'client/container/material_meta';
@@ -50,6 +51,7 @@ export default class RouterWrapper extends React.Component<IProps, IState> {
 				<Route component={Auth}>
 					<Route path="/" component={Landing} />
 					<Route path="/user" component={UserIndex}>
+						<IndexRoute component={UserDashboard} />
 						<Route path="collections/:collection_id" component={UserCollections}>
 							<Route path="cards" component={UserCollectionCardsList} />
 							<Route path="cards/:card_id" component={UserCollectionCard} />
