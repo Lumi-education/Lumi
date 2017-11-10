@@ -13,7 +13,8 @@ import {
 	USERS_GET_USER_SUCCESS,
 	USERS_DELETE_USER_REQUEST,
 	GROUPS_DELETE_SUCCESS,
-	GROUPS_GET_GROUP_SUCCESS
+	GROUPS_GET_GROUP_SUCCESS,
+	DB_CHANGE
 } 							from 'client/state/action-types';
 
 export default function(state: Array<IUser> = [], action): Array<IUser> {
@@ -53,6 +54,9 @@ export default function(state: Array<IUser> = [], action): Array<IUser> {
 
 		case USERS_DELETE_USER_REQUEST:
 			return state.filter(u => u._id !== action.payload.user_id);
+
+		case DB_CHANGE:
+			return unionBy( action.payload.filter(d => d.type === 'user'), state, '_id');
 
 		default:
 			return state;

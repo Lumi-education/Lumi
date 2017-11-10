@@ -15,7 +15,8 @@ import {
 	TAGS_GET_TAGS_SUCCESS,
 	TAGS_CREATE_TAG_SUCCESS,
 	TAGS_DELETE_TAG_REQUEST,
-	CARDS_GET_CARD_SUCCESS
+	CARDS_GET_CARD_SUCCESS,
+	DB_CHANGE
 } 							from 'client/state/action-types';
 
 export default function(state: Map<string, ITag> = Map<string, ITag>({}), action): Map<string, ITag> {
@@ -32,6 +33,11 @@ export default function(state: Map<string, ITag> = Map<string, ITag>({}), action
 
 		case TAGS_DELETE_TAG_REQUEST:
 			return state.delete( action.tag_id );
+
+		case DB_CHANGE:
+			return state.merge( Map<string, ITag>(
+					arrayToObject( action.payload.filter(d => d.type === 'tag') )
+				));
 
 		default:
 			return state;

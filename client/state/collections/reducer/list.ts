@@ -5,7 +5,8 @@ import {
 
 import {
 	COLLECTION_GET_SUCCESS,
-	GROUPS_GET_GROUP_SUCCESS
+	GROUPS_GET_GROUP_SUCCESS,
+	DB_CHANGE
 } 						from '../../action-types';
 
 import {
@@ -22,6 +23,9 @@ export default function(state: Array<ICollection> = initialState, action): Array
 		case COLLECTION_GET_SUCCESS:
 			return unionBy(action.payload.collections, state, '_id');
 
+		case DB_CHANGE:
+			return unionBy( action.payload.filter(d => d.type === 'collection'), state, '_id');
+			
 		default:
 			return state;
 	}

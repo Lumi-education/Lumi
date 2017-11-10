@@ -19,7 +19,8 @@ import {
 	GROUPS_CREATE_SUCCESS,
 	GROUPS_DELETE_SUCCESS,
 	GROUPS_ADD_COLLECTION_SUCCESS,
-	GROUPS_REM_COLLECTION_SUCCESS
+	GROUPS_REM_COLLECTION_SUCCESS,
+	DB_CHANGE
 } 							from 'client/state/action-types';
 
 export default function(state: Map<string, IGroup> = Map<string, IGroup>({}), action): Map<string, IGroup> {
@@ -40,6 +41,11 @@ export default function(state: Map<string, IGroup> = Map<string, IGroup>({}), ac
 			let o = {};
 			o[ action.payload._id ] = action.payload;
 			return state.merge( Map<string, IGroup>( o ) );
+
+		case DB_CHANGE:
+			return state.merge( Map<string, IGroup>(
+					arrayToObject( action.payload.filter(d => d.type === 'group') )
+				));
 
 		default:
 			return state;

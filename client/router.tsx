@@ -8,6 +8,7 @@ import {
 } 									from 'react-router';
 
 import Auth 						from 'client/container/auth';
+import Websocket 					from 'client/container/websocket';
 import Landing 						from 'client/container/landing';
 import AdminIndex 					from 'client/container/admin';
 import AdminCollections 			from 'client/container/admin/collections';
@@ -49,26 +50,28 @@ export default class RouterWrapper extends React.Component<IProps, IState> {
 			<Router history={this.props.history}>
 
 				<Route component={Auth}>
-					<Route path="/" component={Landing} />
-					<Route path="/user" component={UserIndex}>
-						<IndexRoute component={UserDashboard} />
-						<Route path="collections/:collection_id" component={UserCollections}>
-							<Route path="cards" component={UserCollectionCardsList} />
-							<Route path="cards/:card_id" component={UserCollectionCard} />
+					<Route component={Websocket}>
+						<Route path="/" component={Landing} />
+						<Route path="/user" component={UserIndex}>
+							<IndexRoute component={UserDashboard} />
+							<Route path="collections/:collection_id" component={UserCollections}>
+								<Route path="cards" component={UserCollectionCardsList} />
+								<Route path="cards/:card_id" component={UserCollectionCard} />
+							</Route>
 						</Route>
-					</Route>
-					<Route path="/admin" component={AdminIndex}>
-						<Route path="collections" component={AdminCollections} />
-						<Route path="groups" component={AdminGroups} />
-						<Redirect from="groups/:group_id" to ="groups/:group_id/users" />
-						<Route path="groups/:group_id/:tab" component={AdminGroup} />
-						<Route path="groups/:group_id/users/add" component={AdminGroupCreateOrAddUser} />
-						<Route path="groups/:group_id/collections/add" component={AdminAddCollectionToGroup} />
-						<Route path="users" component={AdminUsers} />
-						<Route path="users/:user_id" component={AdminUser} />
-						<Route path="tags" component={AdminTags} />
-						<Route path="cards" component={AdminCards} />
-						<Route path="cards/:card_id" component={AdminCard} />
+						<Route path="/admin" component={AdminIndex}>
+							<Route path="collections" component={AdminCollections} />
+							<Route path="groups" component={AdminGroups} />
+							<Redirect from="groups/:group_id" to ="groups/:group_id/users" />
+							<Route path="groups/:group_id/:tab" component={AdminGroup} />
+							<Route path="groups/:group_id/users/add" component={AdminGroupCreateOrAddUser} />
+							<Route path="groups/:group_id/collections/add" component={AdminAddCollectionToGroup} />
+							<Route path="users" component={AdminUsers} />
+							<Route path="users/:user_id" component={AdminUser} />
+							<Route path="tags" component={AdminTags} />
+							<Route path="cards" component={AdminCards} />
+							<Route path="cards/:card_id" component={AdminCard} />
+						</Route>
 					</Route>
 				</Route>
 
