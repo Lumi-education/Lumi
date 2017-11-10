@@ -13,6 +13,7 @@ RUN npm run build:server
 
 # Open Port 80
 EXPOSE 80
+EXPOSE 8081
 
 # Run Node.js
 CMD ["node", "build/boot.js"]

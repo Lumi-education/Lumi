@@ -24,7 +24,7 @@ const router = Router();
 // mw.auth
 router.post('/auth/login', AuthController.login );
 router.post('/auth/register', AuthController.register );
-// router.post('/auth/logout', mw.auth, AuthController.logout );
+router.post('/auth/logout', mw.auth, AuthController.logout );
 // router.post('/auth/register', AuthController.register );
 // router.put(	'/auth/session', mw.auth, AuthController.put_session );
 // router.get(	'/auth/session_id', mw.auth, AuthController.get_session_id );

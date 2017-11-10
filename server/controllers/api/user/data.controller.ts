@@ -2,7 +2,7 @@ import * as express 		from 'express';
 import { assign } 			from 'lodash';
 import { Request } 			from '../../../middleware/auth';
 
-import Data 				from '../../../models/DAta';
+import Data 				from '../../../models/Data';
 import { DB } 				from '../../../db';
 
 import Controller 			from '../../controller';
