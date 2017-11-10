@@ -6,16 +6,22 @@ import AppBar 				from 'material-ui/AppBar';
 import Drawer 				from 'material-ui/Drawer';
 import IconButton 			from 'material-ui/IconButton';
 import { List, ListItem } 	from 'material-ui/List';
+import Subheader 			from 'material-ui/Subheader';
+import Divider 				from 'material-ui/Divider';
 
 // material-ui -> icons
 import SVGClose 			from 'material-ui/svg-icons/navigation/close';
-
+import SVGPower 			from 'material-ui/svg-icons/action/power-settings-new';
 // actions
 import { push } 			from 'client/state/ui/actions';
 import {
 	left_drawer_close,
 	left_drawer_open,
-} from 'client/state/ui/actions';
+} 							from 'client/state/ui/actions';
+
+import {
+	logout
+}							from 'client/state/auth/actions';
 
 // selector
 import {
@@ -25,6 +31,8 @@ import {
 // types
 import { ICollection } 		from 'lib/types';
 import { IState }  			from 'client/state';
+
+declare var process;
 
 interface IStateProps {
 	left_drawer_show: boolean;
@@ -72,6 +80,14 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
 							/>
 							)
 						}
+						<Subheader>User</Subheader>
+						<ListItem 
+							primaryText="Logout"
+							leftIcon={<SVGPower />}
+							onClick={() => this.props.dispatch( logout() )}
+						/>
+						<Divider />
+						<Subheader>{'Lumi v' + process.env.VERSION}</Subheader>
 					</List>
 				</Drawer>
 				</div>
