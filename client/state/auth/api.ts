@@ -11,7 +11,7 @@ export function login(username: string, password: string) {
 
 export function logout() {
 	return request
-	.post('/api/user/auth/logout')
+	.post('/api/auth/logout')
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');
 }
 
