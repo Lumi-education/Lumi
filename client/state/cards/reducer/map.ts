@@ -13,7 +13,8 @@ import {
 	CARDS_DELETE_CARD_SUCCESS,
 	CARDS_GET_CARD_SUCCESS,
 	CARDS_CREATE_CARD_SUCCESS,
-	COLLECTION_GET_SUCCESS
+	COLLECTION_GET_SUCCESS,
+	DB_CHANGE
 } 							from 'client/state/action-types';
 
 export default function(state: Map<string, ICard> = Map<string, ICard>({}), action): Map<string, ICard> {
@@ -34,6 +35,11 @@ export default function(state: Map<string, ICard> = Map<string, ICard>({}), acti
 
 		case CARDS_DELETE_CARD_SUCCESS:
 			return state.delete(action.card_id);
+
+		case DB_CHANGE:
+			return state.merge( Map<string, ICard>(
+					arrayToObject( action.payload.filter(d => d.type === 'card') )
+				));
 
 		default:
 			return state;
