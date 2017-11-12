@@ -2,6 +2,7 @@ const _ = require('lodash');
 const webpack = require('webpack');
 const path = require('path');
 const version = require('./package.json').version;
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const babelOptions = {
   presets: 'es2015'
@@ -86,6 +87,7 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         VERSION: JSON.stringify(version)
       }
-    })
+    }),
+    new UglifyJSPlugin()
   ]
 };
