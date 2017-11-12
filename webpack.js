@@ -55,7 +55,6 @@ module.exports = {
   devServer: {
     contentBase: 'build/client',
     port: 8080,
-    hot: true,
     historyApiFallback: {
       index: 'index.html'
     },
