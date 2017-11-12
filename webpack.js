@@ -1,8 +1,9 @@
-let _ = require('lodash');
-let webpack = require('webpack');
-let path = require('path');
+const _ = require('lodash');
+const webpack = require('webpack');
+const path = require('path');
+const version = require('./package.json').version;
 
-let babelOptions = {
+const babelOptions = {
   presets: 'es2015'
 };
 
@@ -10,7 +11,7 @@ function isVendor(module) {
   return module.context && module.context.indexOf('node_modules') !== -1;
 }
 
-let entries = {
+const entries = {
   client: './client/boot'
 };
 
@@ -50,6 +51,20 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
+  devServer: {
+    contentBase: 'build/client',
+    port: 8080,
+    hot: true,
+    historyApiFallback: {
+      index: 'index.html'
+    },
+    proxy: {
+      '/api/*': {
+        target: process.env.SERVER || 'http://localhost:3000',
+        secure: false
+      }
+    }
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor'],
@@ -62,8 +77,14 @@ module.exports = {
       name: 'commons',
       chunks: _.keys(entries),
       minChunks: function(module, count) {
-        // creates a common vendor js file for libraries in node_modules
+        // creates the main js file
         return !isVendor(module) && count > 1;
+      }
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        VERSION: JSON.stringify(version)
       }
     })
   ]
