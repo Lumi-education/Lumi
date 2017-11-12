@@ -1,83 +1,70 @@
-var webpack = require('webpack');
-var version = require('./package.json').version;
+let _ = require('lodash');
+let webpack = require('webpack');
+let path = require('path');
+
+let babelOptions = {
+  presets: 'es2015'
+};
+
+function isVendor(module) {
+  return module.context && module.context.indexOf('node_modules') !== -1;
+}
+
+let entries = {
+  client: './client/boot'
+};
 
 module.exports = {
-  target: 'web',
-  entry: process.env.NODE_ENV === 'development' ? [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './client/boot.tsx',
-  ] : ['./client/boot.tsx'],
+  entry: entries,
   output: {
-    path: __dirname + '/build/client/',
-    publicPath: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : '',
-    filename: "lumi.js",
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'build')
   },
-
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: process.env.NODE_ENV === 'development' ? "source-map" : null,
-
-  resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js", "svg", "ttf", "eot", "woff2"]
-  },
-
   module: {
-    loaders: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+    rules: [
       {
-        test: /\.tsx?$/,
-        loader: "react-hot!ts-loader"
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions
+          },
+          {
+            loader: 'ts-loader'
+          }
+        ]
       },
-      { test: /\.css$/, exclude: /\.useable\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.scss$/, loader: "style-loader!css-loader!sass-loader" },
-      //{ test: /\.(woff2?|ttf|eot|svg)$/, loader: 'url?limit=10000' },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
       {
-        test: /\.json$/,
-        loader: 'json-loader'
-      }
-    ],
-
-    preLoaders: process.env.NODE_ENV === 'development' ? [
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-       {
         test: /\.js$/,
-        loader: "source-map-loader"
-      },
-      {
-        test: /\.ts$/,
-        loader: 'tslint-loader'
-      }
-    ] : [
-      {
-        test: /\.ts$/,
-        loader: 'tslint-loader'
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions
+          }
+        ]
       }
     ]
   },
-  devServer: {
-    contentBase: 'build/client/',
-    port: 8080,
-    hot: true,
-    historyApiFallback: {
-      index: 'index.html'
-    },
-    proxy: {
-      '/api/*': {
-        target: process.env.SERVER || 'http://localhost:3000',
-        secure: false
-      }
-    }
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-  'process.env':{
-    'NODE_ENV': JSON.stringify( process.env.NODE_ENV ),
-    'VERSION': JSON.stringify( version )
-    }
-}),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor'],
+      minChunks: function(module, count) {
+        // creates a common vendor js file for libraries in node_modules
+        return isVendor(module);
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      chunks: _.keys(entries),
+      minChunks: function(module, count) {
+        // creates a common vendor js file for libraries in node_modules
+        return !isVendor(module) && count > 1;
+      }
+    })
   ]
 };
