@@ -1,3 +1,13 @@
 {
-    "extends": ["tslint-config-airbnb", "tslint-config-prettier"]
+    "rules": {
+        "function-name": false,
+        "import-name": [false],
+        "ordered-imports": [false]
+    },
+    "extends": [
+        "tslint:latest",
+        "tslint-config-airbnb",
+        "tslint-config-prettier",
+        "tslint-react"
+    ]
 }
