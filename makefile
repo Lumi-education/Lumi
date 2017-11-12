@@ -2,8 +2,6 @@ BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 VERSION = $(shell git describe)
 
 build:
-	npm run clean
-	npm run build:client
 	docker build -t lumieducation/lumi:${BRANCH} .
 
 release:
