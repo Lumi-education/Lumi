@@ -19,7 +19,7 @@ export function push(url: string) {
 	return dispatch => {
 		dispatch( left_drawer_close() );
 		dispatch( _push( url ) );
-		dispatch( session_update({ location: url }) );
+		// dispatch( session_update({ location: url }) );
 	};
 }
 

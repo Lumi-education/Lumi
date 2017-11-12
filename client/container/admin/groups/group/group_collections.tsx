@@ -78,10 +78,10 @@ export default class AdminGroupCollections extends React.Component<IProps, IComp
 											rightIconButton={rightIconMenu([
 												<MenuItem 
 													onClick={() => this.props.dispatch( 
-														push('/admin/collections/' + collection._id )
+														push('/admin/analytics/progress?group_id=' + this.props.group_id + '&collection_id=' + collection._id )
 													)}
 												>
-													View
+													Progress
 												</MenuItem>,
 												<MenuItem 
 													onClick={() => this.props.dispatch( rem_collection_from_group( this.props.group_id, collection._id ))}

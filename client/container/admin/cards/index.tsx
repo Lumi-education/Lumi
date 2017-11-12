@@ -9,7 +9,7 @@ import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip 				from 'material-ui/Chip';
 
 import FlatButton 			from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton 		from 'material-ui/RaisedButton';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import { List, ListItem } 	from 'material-ui/List';
@@ -22,9 +22,10 @@ import TextField 			from 'material-ui/TextField';
 import IconButton 			from 'material-ui/IconButton';
 import SVGContentCreate		from 'material-ui/svg-icons/content/create';
 import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon 		from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu 			from 'material-ui/IconMenu';
+import MenuItem 			from 'material-ui/MenuItem';
+import ContentAdd 			from 'material-ui/svg-icons/content/add';
 
 import Tag 					from 'client/components/tag';
 import FilterBar 			from 'client/components/filter-bar';
@@ -48,7 +49,8 @@ import {
 
 // actions
 import {
-	get_cards
+	get_cards,
+	create_card
 }							from 'client/state/cards/actions';
 import {
 	get_tags
@@ -104,7 +106,9 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 	public render() {
 		return (
 			<div>
+				
 				<FilterBar filter={this.state.search_text} set_filter={(filter) => this.setState({ search_text: filter})} />
+				<List>
 				{
 					this.props.cards
 					.filter(card => { 
@@ -116,39 +120,24 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 					})
 					// .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
 					.map(card => 
-						<Card>
-						<CardHeader
-							title={card.name}
-							subtitle={card.description}
-							avatar={<Avatar>{
-								(() => {
-									switch (card.card_type) {
-										case 'multiplechoice':
-											return 'MC';
-										case 'freetext':
-											return 'FT';
-										case 'sort':
-											return 'S';
-										default:
-											return 'C';
-									}
-								})()
-							}</Avatar>}
-							actAsExpander={true}
-							showExpandableButton={true}
-						/>
-						<CardText style={{ display: 'flex', flexWrap: 'wrap'}}>
-							{card.tags.map(tag_id => <Tag tags={this.props.tags} tag_id={tag_id} />)}
-						</CardText>
-						<CardText expandable={true}>
-							<div dangerouslySetInnerHTML={{ __html: md.render(card.text || '# ERROR \n No markdown!' )}} />
-						</CardText>
-						<CardActions>
-							<FlatButton onClick={() => this.props.dispatch( push('/admin/cards/' + card._id) )} label="Edit" />
-						</CardActions>
-					</Card>
+								<div>
+									<ListItem 
+										leftAvatar={<Avatar>{card.name.substring(0, 3)}</Avatar>}
+										primaryText={card.name} 
+										secondaryText={card.description}
+										onClick={() => this.props.dispatch( push('/admin/cards/' + card._id ))}
+									/>
+									<Divider inset={true} />
+								</div>
 					)
 				}
+				</List>
+				<FloatingActionButton 
+					onClick={() => this.props.dispatch( create_card() )}
+					style={{ margin: '20px', bottom: '0px', right: '20px', position: 'fixed' }}
+				>
+					<ContentAdd />
+				</FloatingActionButton>
 			</div>
 		);
 	}

@@ -4,9 +4,21 @@ import { connect } 			from 'react-redux';
 import * as shortid 		from 'shortid';
 import { IState } 			from 'client/state';
 
+import {
+	ICollection
+}							from 'lib/types';
+
+import { List, ListItem } 	from 'material-ui/List';
+import Paper 				from 'material-ui/Paper';
+
 // components 
 import AppBar 				from 'material-ui/AppBar';
 import LeftDrawer 			from './left-drawer';
+
+// selectors
+import {
+	select_collections_as_array
+}							from 'client/state/collections/selectors';
 
 // actions
 import {
@@ -28,8 +40,7 @@ import {
 } 							from 'client/state/collections/actions';
 
 interface IStateProps {
-	request: {};
-	location;
+	collections: Array<ICollection>;
 }
 
 interface IDispatchProps {
@@ -40,7 +51,7 @@ interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {}
 
-export class Root extends React.Component<IProps, IComponentState> {
+export class UserDashboard extends React.Component<IProps, IComponentState> {
 
 	constructor(props: IProps) {
 		super(props);
@@ -52,13 +63,25 @@ export class Root extends React.Component<IProps, IComponentState> {
 
 	public render() {
 			return (
-			<div id="root" >
-				<LeftDrawer />
-				<div style={{ paddingBottom: '40px' }}>
-				{
-					this.props.children 
-				}
-				</div>
+			<div id="dashboard" >
+				<AppBar
+					style={{ background: 'linear-gradient(120deg, #3498db, #1abc9c)' }}
+					showMenuIconButton={true}
+					onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_open() )}
+				/>
+				<Paper>
+					<List>
+						{
+							this.props.collections.map(collection =>
+								<ListItem 
+									primaryText={collection.name} 
+									secondaryText={collection.description}
+									onClick={() => this.props.dispatch( push('/user/collections/' + collection._id + '/cards'))}
+								/>
+							)
+						}
+					</List>
+				</Paper>
 			</div>
 			);
 
@@ -66,8 +89,7 @@ export class Root extends React.Component<IProps, IComponentState> {
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
 	return {
-		request: state.request,
-		location: ownProps.location
+		collections: select_collections_as_array( state )
 	};
 }
 
@@ -80,4 +102,4 @@ function mapDispatchToProps(dispatch): IDispatchProps {
 export default connect<{}, {}, {}>(
 	mapStateToProps,
 	mapDispatchToProps,
-)(Root);
+)(UserDashboard);

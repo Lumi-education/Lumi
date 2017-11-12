@@ -53,7 +53,6 @@ export interface IUser {
 
 export interface IData {
 	_id: Data_id;
-	user_id: User_id;
 }
 
 export interface ICardData extends IData {

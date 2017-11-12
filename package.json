@@ -1,6 +1,6 @@
 {
   "name": "lumi_user",
-  "version": "1.0.0-develop.13",
+  "version": "1.0.0-develop.16",
   "description": "",
   "repository": {
     "type": "git",
@@ -70,6 +70,7 @@
     "@types/lodash": "4.14.50",
     "@types/node": "7.0.2",
     "bcrypt-nodejs": "0.0.3",
+    "changes-stream": "^2.2.0",
     "classnames": "2.2.5",
     "debug": "2.3.3",
     "express": "^4.16.0",
@@ -78,9 +79,11 @@
     "jwt-simple": "^0.5.1",
     "lodash": "4.15.0",
     "nano": "^6.4.2",
+    "query-string": "^5.0.1",
     "shortid": "2.2.8",
     "superagent": "3.5.2",
     "typescript": "2.1.5",
-    "url-parse": "1.1.9"
+    "url-parse": "1.1.9",
+    "ws": "^3.3.1"
   }
 }

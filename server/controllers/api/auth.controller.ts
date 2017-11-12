@@ -75,6 +75,10 @@ class AuthController {
 		);
 	}
 
+	public logout(req: Request, res: express.Response) {
+		res.status(200).end();
+	}
+
 }
 
 export default new AuthController();

@@ -13,6 +13,10 @@ import {
 	AUTH_LOGIN_SUCCESS,
 	AUTH_LOGIN_ERROR,
 
+	AUTH_LOGOUT_REQUEST,
+	AUTH_LOGOUT_SUCCESS,
+	AUTH_LOGOUT_ERROR,
+
 	AUTH_REGISTER_REQUEST,
 	AUTH_REGISTER_SUCCESS,
 	AUTH_REGISTER_ERROR
@@ -41,6 +45,14 @@ export function login(username: string, password: string, id: string = shortid()
 		.catch((err) => {
 			dispatch({ type: AUTH_LOGIN_ERROR, id, payload: err });
 		});
+	};
+}
+
+export function logout(id = shortid()) {
+	return {
+		types: [AUTH_LOGOUT_REQUEST, AUTH_LOGOUT_SUCCESS, AUTH_LOGOUT_ERROR],
+		api: API.logout(),
+		payload: { id }
 	};
 }
 

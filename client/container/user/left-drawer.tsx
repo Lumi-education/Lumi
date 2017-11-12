@@ -6,40 +6,50 @@ import AppBar 				from 'material-ui/AppBar';
 import Drawer 				from 'material-ui/Drawer';
 import IconButton 			from 'material-ui/IconButton';
 import { List, ListItem } 	from 'material-ui/List';
+import Subheader 			from 'material-ui/Subheader';
+import Divider 				from 'material-ui/Divider';
 
 // material-ui -> icons
 import SVGClose 			from 'material-ui/svg-icons/navigation/close';
-
+import SVGPower 			from 'material-ui/svg-icons/action/power-settings-new';
 // actions
 import { push } 			from 'client/state/ui/actions';
 import {
 	left_drawer_close,
 	left_drawer_open,
-} from 'client/state/ui/actions';
+} 							from 'client/state/ui/actions';
+
+import {
+	logout
+}							from 'client/state/auth/actions';
 
 // selector
-// import { get_collection_list } 		from '../state/collection/selector';
+import {
+	select_collections_as_array
+}							from 'client/state/collections/selectors';
 
 // types
-import { State as Root_State }  			from '../state';
-import { Collection } 		from '../state/collection/selector';
+import { ICollection } 		from 'lib/types';
+import { IState }  			from 'client/state';
 
-interface StateProps {
+declare var process;
+
+interface IStateProps {
 	left_drawer_show: boolean;
-	collections: Array<Collection>;
+	collections: Array<ICollection>;
 }
 
-interface DispatchProps {
+interface IDispatchProps {
 	push: (url: string) => void;
 	dispatch: (action) => void;
 }
 
-interface Props extends StateProps, DispatchProps {}
+interface IProps extends IStateProps, IDispatchProps {}
 
-interface State {}
+interface IComponentState {}
 
-export class LeftDrawer extends React.Component<Props, State> {
-	constructor(props: Props) {
+export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
+	constructor(props: IProps) {
 		super(props);
 
 		this.state = {};
@@ -56,22 +66,28 @@ export class LeftDrawer extends React.Component<Props, State> {
 					containerStyle={{ backgroundColor: '#FFFFFF' }}
 				>
 					<AppBar
-						style={{ backgroundColor: '#FFFFFF'}}
 						showMenuIconButton={true}
 						iconElementLeft={<IconButton><SVGClose /></IconButton>}
 						onLeftIconButtonTouchTap={() => this.props.dispatch( left_drawer_close() )}
 					/>
 
 					<List>
-						{this.props.collections.map(c => 
+						{
+							this.props.collections.map(c => 
 							<ListItem 
 								primaryText={c.name} 
-								onClick={() => 
-									this.props.dispatch( push('/worksheet/' + c._id + '/material/' + c.material[0]) )
-								}
+								onClick={() => this.props.dispatch( push('/user/collections/' + c._id + '/cards') )}
 							/>
 							)
 						}
+						<Subheader>User</Subheader>
+						<ListItem 
+							primaryText="Logout"
+							leftIcon={<SVGPower />}
+							onClick={() => this.props.dispatch( logout() )}
+						/>
+						<Divider />
+						<Subheader>{'Lumi v' + process.env.VERSION}</Subheader>
 					</List>
 				</Drawer>
 				</div>
@@ -80,10 +96,10 @@ export class LeftDrawer extends React.Component<Props, State> {
 	}
 }
 
-function mapStateToProps(state: Root_State, ownProps: {}): StateProps {
+function mapStateToProps(state: IState, ownProps: {}): IStateProps {
 	return {
 		left_drawer_show: state.ui.left_drawer_show,
-		collections: get_collection_list(state)
+		collections: select_collections_as_array(state)
 	};
 }
 
@@ -96,4 +112,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<{}, {}, {}>(
 	mapStateToProps,
 	mapDispatchToProps,
-)(LeftDrawer);
+)(UserLeftDrawer);

@@ -11,22 +11,23 @@ import thunk from 'redux-thunk';
 declare var window;
 declare var process;
 
-import auth from './auth/reducer';
-import cards from './cards/reducer';
-import collections from './collections/reducer';
-import groups from './groups/reducer';
-import material from './material/reducer';
-import request from './request/reducer';
-import ui from './ui/reducer';
-import session from './session/reducer';
-import users from './users/reducer';
-import tags from './tags/reducer';
+import auth from 'client/state/auth/reducer';
+import cards from 'client/state/cards/reducer';
+import collections from 'client/state/collections/reducer';
+import groups from 'client/state/groups/reducer';
+import material from 'client/state//material/reducer';
+import request from 'client/state/request/reducer';
+import ui from 'client/state/ui/reducer';
+import session from 'client/state/session/reducer';
+import users from 'client/state/users/reducer';
+import tags from 'client/state/tags/reducer';
+import data from 'client/state/data/reducer';
 
 import { State as Material } from './material/types';
 import { State as UI } from './ui/types';
 import { State as Request } from './request/types';
 import { State as Session } from './session/types';
-import { ICard, IGroup, IUser, ICollection, ITag } from 'lib/types';
+import { ICard, IGroup, IUser, ICollection, ITag, IData } from 'lib/types';
 
 export interface IState extends Material, UI, Request, Session {
   auth: {
@@ -49,6 +50,9 @@ export interface IState extends Material, UI, Request, Session {
   tags: {
     list: Map<string, ITag>;
   };
+  data: {
+    map: Map<string, {}>;
+  };
 }
 
 const rootReducer = combineReducers({
@@ -62,7 +66,8 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   users,
   tags,
-  session
+  session,
+  data
 });
 
 const persistentState = undefined;

@@ -10,6 +10,7 @@ export default class Controller<T> {
 		this.type = type; 
 
 		this.list = this.list.bind( this );
+		this.read = this.read.bind( this );
 	}
 
 	public list(req: Request, res: express.Response) {
@@ -30,11 +31,12 @@ export default class Controller<T> {
 	public read(req: Request, res: express.Response) {
 		
 		const db = new DB(res);
-		
 		db.findById(
 			req.params.id, 
 			(doc: T) => { 
-				res.status(200).json( doc );
+				const o = {};
+				o[ this.type + 's' ] = [doc];
+				res.status(200).json( o );
 			}
 		);
 	}
