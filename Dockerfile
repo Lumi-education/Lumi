@@ -7,8 +7,9 @@ ADD . /srv
 WORKDIR /srv
 
 # Install app dependencies & build
-RUN npm install --production
+RUN npm install
 RUN npm run link
+RUN npm run build:client
 RUN npm run build:server
 
 # Open Port 80

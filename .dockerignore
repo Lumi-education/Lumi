@@ -2,6 +2,7 @@
 .gitignore
 .env
 dist
+build
 node_modules
 *.log
 .vscode
