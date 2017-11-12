@@ -1,33 +1,28 @@
-import * as React 					from 'react';
+import * as React from 'react';
 
-import {
-	Redirect,
-	Route,
-	IndexRoute,
-	Router,
-} 									from 'react-router';
+import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
-import Auth 						from 'client/container/auth';
-import Websocket 					from 'client/container/websocket';
-import Landing 						from 'client/container/landing';
-import AdminIndex 					from 'client/container/admin';
-import AdminCollections 			from 'client/container/admin/collections';
-import AdminGroups 					from 'client/container/admin/groups';
-import AdminGroup					from 'client/container/admin/groups/group/group_index';
-import AdminGroupCreateOrAddUser	from 'client/container/admin/groups/group/create_or_add_user_dialog';
-import AdminAddCollectionToGroup	from 'client/container/admin/groups/group/add_collection_dialog';
-import AdminTags 					from 'client/container/admin/tags';
-import AdminCards 					from 'client/container/admin/cards';
-import AdminCard 					from 'client/container/admin/cards/card';
-import AdminUsers 					from 'client/container/admin/users';
-import AdminUser 					from 'client/container/admin/users/user';
-import AdminCollectionProgress 		from 'client/container/admin/analytics/progress';
+import Auth from 'client/container/auth';
+import Websocket from 'client/container/websocket';
+import Landing from 'client/container/landing';
+import AdminIndex from 'client/container/admin';
+import AdminCollections from 'client/container/admin/collections';
+import AdminGroups from 'client/container/admin/groups';
+import AdminGroup from 'client/container/admin/groups/group/group_index';
+import AdminGroupCreateOrAddUser from 'client/container/admin/groups/group/create_or_add_user_dialog';
+import AdminAddCollectionToGroup from 'client/container/admin/groups/group/add_collection_dialog';
+import AdminTags from 'client/container/admin/tags';
+import AdminCards from 'client/container/admin/cards';
+import AdminCard from 'client/container/admin/cards/card';
+import AdminUsers from 'client/container/admin/users';
+import AdminUser from 'client/container/admin/users/user';
+import AdminCollectionProgress from 'client/container/admin/analytics/progress';
 
-import UserIndex 					from 'client/container/user';
-import UserCollections				from 'client/container/user/collections';
-import UserCollectionCardsList 		from 'client/container/user/collections/cards/list';
-import UserCollectionCard 			from 'client/container/user/collections/cards/card';
-import UserDashboard				from 'client/container/user/dashboard';
+import UserIndex from 'client/container/user';
+import UserCollections from 'client/container/user/collections';
+import UserCollectionCardsList from 'client/container/user/collections/cards/list';
+import UserCollectionCard from 'client/container/user/collections/cards/card';
+import UserDashboard from 'client/container/user/dashboard';
 // import Material 					from 'client/container/material';
 // import Root 						from 'client/container/root';
 // import MaterialMeta 				from 'client/container/material_meta';
@@ -35,49 +30,79 @@ import UserDashboard				from 'client/container/user/dashboard';
 // import Worksheet 					from 'client/container/worksheet';
 
 interface IProps {
-	history: {};
+    history: {};
 }
 
-interface IState {
-}
+interface IState {}
 
 export default class RouterWrapper extends React.Component<IProps, IState> {
-	constructor(props: IProps) {
-		super(props);
-	}
+    constructor(props: IProps) {
+        super(props);
+    }
 
-	public render() {
-		return(
-			<Router history={this.props.history}>
-
-				<Route component={Auth}>
-					<Route component={Websocket}>
-						<Route path="/" component={Landing} />
-						<Route path="/user" component={UserIndex}>
-							<IndexRoute component={UserDashboard} />
-							<Route path="collections/:collection_id" component={UserCollections}>
-								<Route path="cards" component={UserCollectionCardsList} />
-								<Route path="cards/:card_id" component={UserCollectionCard} />
-							</Route>
-						</Route>
-						<Route path="/admin" component={AdminIndex}>
-							<Route path="collections" component={AdminCollections} />
-							<Route path="groups" component={AdminGroups} />
-							<Redirect from="groups/:group_id" to ="groups/:group_id/users" />
-							<Route path="groups/:group_id/:tab" component={AdminGroup} />
-							<Route path="groups/:group_id/users/add" component={AdminGroupCreateOrAddUser} />
-							<Route path="groups/:group_id/collections/add" component={AdminAddCollectionToGroup} />
-							<Route path="analytics/progress" component={AdminCollectionProgress} />
-							<Route path="users" component={AdminUsers} />
-							<Route path="users/:user_id" component={AdminUser} />
-							<Route path="tags" component={AdminTags} />
-							<Route path="cards" component={AdminCards} />
-							<Route path="cards/:card_id" component={AdminCard} />
-						</Route>
-					</Route>
-				</Route>
-
-			</Router>
-			);
-	}
+    public render() {
+        return (
+            <Router history={this.props.history}>
+                <Route component={Auth}>
+                    <Route component={Websocket}>
+                        <Route path="/" component={Landing} />
+                        <Route path="/user" component={UserIndex}>
+                            <IndexRoute component={UserDashboard} />
+                            <Route
+                                path="collections/:collection_id"
+                                component={UserCollections}
+                            >
+                                <Route
+                                    path="cards"
+                                    component={UserCollectionCardsList}
+                                />
+                                <Route
+                                    path="cards/:card_id"
+                                    component={UserCollectionCard}
+                                />
+                            </Route>
+                        </Route>
+                        <Route path="/admin" component={AdminIndex}>
+                            <Route
+                                path="collections"
+                                component={AdminCollections}
+                            />
+                            <Route path="groups" component={AdminGroups} />
+                            <Redirect
+                                from="groups/:group_id"
+                                to="groups/:group_id/users"
+                            />
+                            <Route
+                                path="groups/:group_id/:tab"
+                                component={AdminGroup}
+                            />
+                            <Route
+                                path="groups/:group_id/users/add"
+                                component={AdminGroupCreateOrAddUser}
+                            />
+                            <Route
+                                path="groups/:group_id/collections/add"
+                                component={AdminAddCollectionToGroup}
+                            />
+                            <Route
+                                path="analytics/progress"
+                                component={AdminCollectionProgress}
+                            />
+                            <Route path="users" component={AdminUsers} />
+                            <Route
+                                path="users/:user_id"
+                                component={AdminUser}
+                            />
+                            <Route path="tags" component={AdminTags} />
+                            <Route path="cards" component={AdminCards} />
+                            <Route
+                                path="cards/:card_id"
+                                component={AdminCard}
+                            />
+                        </Route>
+                    </Route>
+                </Route>
+            </Router>
+        );
+    }
 }

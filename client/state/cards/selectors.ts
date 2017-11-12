@@ -11,8 +11,13 @@ export function select_cards_as_map(state: IState): Map<string, ICard> {
     return state.cards.map;
 }
 
-export function select_cards_by_ids(state: IState, card_ids: Array<string> = []): Array<ICard> {
-	return state.cards.map.toArray().filter(card => card_ids.indexOf(card._id) > -1);
+export function select_cards_by_ids(
+    state: IState,
+    card_ids: Array<string> = []
+): Array<ICard> {
+    return state.cards.map
+        .toArray()
+        .filter(card => card_ids.indexOf(card._id) > -1);
 }
 
 export function select_card(state: IState, card_id: string): ICard {

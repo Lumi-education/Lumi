@@ -1,5 +1,5 @@
 // import { assign } 		from 'lodash';
-// import { 
+// import {
 // 	ICollectionData,
 // 	Card_id,
 // 	Collection_id,
@@ -17,11 +17,11 @@
 // 	public collection_id: Collection_id;
 // 	public user_id: User_id;
 // 	public completed: boolean;
-	
+
 // 	constructor(c?: CollectionData) {
 // 		super();
 // 		return assign(
-// 			this, 
+// 			this,
 // 			{
 // 				type: 'collectiondata',
 // 				completed: false

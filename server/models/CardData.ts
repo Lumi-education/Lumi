@@ -1,5 +1,5 @@
 // import { assign } 		from 'lodash';
-// import { 
+// import {
 // 	ICardData,
 // 	Card_id,
 // 	Collection_id,
@@ -21,11 +21,11 @@
 // 	public score: number;
 // 	public hints: number;
 // 	public completed: boolean;
-	
+
 // 	constructor(c?: CardData) {
 // 		super();
 // 		return assign(
-// 			this, 
+// 			this,
 // 			{
 // 				type: 'carddata',
 // 				completed: false,

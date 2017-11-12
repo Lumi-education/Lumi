@@ -2,12 +2,15 @@
     "rules": {
         "function-name": false,
         "import-name": [false],
-        "ordered-imports": [false]
+        "ordered-imports": [false],
+        "object-literal-sort-keys": false,
+        "jsx-no-lambda": false,
+        "no-submodule-imports": ["material-ui"]
     },
     "extends": [
         "tslint:latest",
         "tslint-config-airbnb",
-        "tslint-config-prettier",
-        "tslint-react"
+        "tslint-react",
+        "tslint-config-prettier"
     ]
 }

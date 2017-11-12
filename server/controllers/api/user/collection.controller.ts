@@ -11,15 +11,15 @@
 
 // class CollectionDataController extends Controller<CollectionData> {
 // 	public list(req: Request, res: express.Response) {
-		
+
 // 		const db = new DB(res);
-		
+
 // 		db.find(
-// 			{ 
+// 			{
 // 				type: 'collectiondata',
 // 				user_id: req.user._id
 // 			},
-// 			{}, 
+// 			{},
 // 			(collectiondata: Array<CollectionData>) => {
 // 				const collection_ids = collectiondata.map(d => d.collection_id);
 
@@ -33,33 +33,33 @@
 // 						});
 // 					}
 // 				);
-				
+
 // 			}
 // 		);
 // 	}
 
 // 	public list_for_user(req: Request, res: express.Response) {
-		
+
 // 		const db = new DB(res);
-		
+
 // 		db.find(
-// 			{ 
+// 			{
 // 				type: 'collectiondata',
 // 				user_id: req.params.user_id
 // 			},
-// 			req.query, 
-// 			(docs: Array<CollectionData>) => { 
+// 			req.query,
+// 			(docs: Array<CollectionData>) => {
 // 				res.status(200).json( docs );
 // 			}
 // 		);
 // 	}
 
 // 	public create(req: Request, res: express.Response) {
-		
+
 // 			const db = new DB(res);
-		
+
 // 			db.insert( new CollectionData( assign({ user_id: req.user._id }, req.body) ) );
-	
+
 // 	}
 
 // }
@@ -84,7 +84,7 @@
 
 // export function get_collection(req: Request, res: express.Response) {
 
-// 	// get groups 
+// 	// get groups
 // 	db.view('user', 'groups', { key: req.user._id, include_docs: true }, (err, body) => {
 // 		const assignedCollectionIds = body.rows.map(r => r.doc)
 // 	.map(d => d.assigned_collections).reduce((p, c) =>  p.concat(c), []);
@@ -109,7 +109,7 @@
 // 				});
 
 // 			});
-		
+
 // 	});
 // }
 
@@ -117,7 +117,7 @@
 // 	db.insert( new CollectionMeta(req.user._id, req.body.collection_id) , (err, body) => {
 // 		if (err) { res.status(500).json(err); return; }
 // 		db.get(body.id, (err, body) => {
-// 			if (err) { res.status(500).json(err); return; }				
+// 			if (err) { res.status(500).json(err); return; }
 // 			res.status(201).json(body);
 // 		});
 // 	});
@@ -129,7 +129,7 @@
 // 		const updated_doc = assign({}, body, { submitted: true });
 
 // 		db.insert(updated_doc, (err, body) => {
-// 			if (err) { res.status(500).json(err); return; }				
+// 			if (err) { res.status(500).json(err); return; }
 // 			res.status(200).json(body);
 // 		});
 
@@ -142,7 +142,7 @@
 // 		const updated_doc = assign({}, body, { submitted: false });
 
 // 		db.insert(updated_doc, (err, body) => {
-// 			if (err) { res.status(500).json(err); return; }				
+// 			if (err) { res.status(500).json(err); return; }
 // 			res.status(200).json(body);
 // 		});
 
