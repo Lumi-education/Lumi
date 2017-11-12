@@ -20,6 +20,6 @@ export function update_data( data ) {
 
 export function get_data( query ) {
 	return request
-	.get('/api/v0/user/data?' + qs.stringify( query ) )
+	.get('/api/v0/data?' + qs.stringify( query ) )
 	.set('x-auth',  window.localStorage.jwt_token || window.jwt_token || '');	
 }

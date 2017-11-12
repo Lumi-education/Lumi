@@ -22,7 +22,6 @@ if (process.env.NODE_ENV !== 'production') {
 } else {
 	const numCPUs = os.cpus().length;
 	if (cluster.isMaster) {
-		boot_websocket();
 		wait_for_couchdb(() => {
 			boot_db();
 			boot_websocket();

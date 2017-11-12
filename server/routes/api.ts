@@ -11,8 +11,8 @@ import UserController 					from '../controllers/api/user/user.controller';
 
 // import CollectionDataController			from '../controllers/api/user/collection.controller';
 import * as MaterialController 			from '../controllers/api/material.controller';
-import DataController 					from '../controllers/api/user/data.controller';
-
+import UserDataController 				from '../controllers/api/user/data.controller';
+import DataController 					from '../controllers/api/data.controller';
 import CardsController 					from '../controllers/api/cards.controller';
 import CollectionController 			from '../controllers/api/collections.controller';
 import GroupController 					from '../controllers/api/groups.controller';
@@ -62,6 +62,13 @@ router.get(	'/tags/:id', TagsController.read );
 router.put('/tags/:id', TagsController.update );
 router.delete('/tags/:id', TagsController.delete );
 
+// data
+router.get(	'/data', mw.auth, DataController.find );
+router.post('/data', DataController.create );
+router.get(	'/data/:id', DataController.read );
+router.put('/data/:id', DataController.update );
+router.delete('/data/:id', DataController.delete );
+
 // user
 // router.get('/user', mw.auth, UserController.get_user );
 
@@ -73,9 +80,9 @@ router.put('/user/card/:id', mw.auth, CardsController.update );
 router.delete('/user/card/:id', mw.auth, CardsController.delete );
 
 // user -> data
-router.get('/user/data', mw.auth, DataController.find );
-router.post('/user/data', mw.auth, DataController.create );
-router.put('/user/data/:id', mw.auth, DataController.update );
+router.get('/user/data', mw.auth, UserDataController.find );
+router.post('/user/data', mw.auth, UserDataController.create );
+router.put('/user/data/:id', mw.auth, UserDataController.update );
 
 // user -> collectiondata
 router.get(	'/user/collections', mw.auth, UserController.collections );

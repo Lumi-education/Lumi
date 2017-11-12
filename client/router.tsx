@@ -21,6 +21,7 @@ import AdminCards 					from 'client/container/admin/cards';
 import AdminCard 					from 'client/container/admin/cards/card';
 import AdminUsers 					from 'client/container/admin/users';
 import AdminUser 					from 'client/container/admin/users/user';
+import AdminCollectionProgress 		from 'client/container/admin/analytics/progress';
 
 import UserIndex 					from 'client/container/user';
 import UserCollections				from 'client/container/user/collections';
@@ -66,6 +67,7 @@ export default class RouterWrapper extends React.Component<IProps, IState> {
 							<Route path="groups/:group_id/:tab" component={AdminGroup} />
 							<Route path="groups/:group_id/users/add" component={AdminGroupCreateOrAddUser} />
 							<Route path="groups/:group_id/collections/add" component={AdminAddCollectionToGroup} />
+							<Route path="analytics/progress" component={AdminCollectionProgress} />
 							<Route path="users" component={AdminUsers} />
 							<Route path="users/:user_id" component={AdminUser} />
 							<Route path="tags" component={AdminTags} />

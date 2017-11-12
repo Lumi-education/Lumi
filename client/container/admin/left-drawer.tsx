@@ -19,6 +19,7 @@ import SVGGroup 			from 'material-ui/svg-icons/social/group';
 import SVGTags 				from 'material-ui/svg-icons/action/label';
 import SVGPerson 			from 'material-ui/svg-icons/social/person';
 import SVGPower 			from 'material-ui/svg-icons/action/power-settings-new';
+import SVGTrendingUp 		from 'material-ui/svg-icons/action/trending-up';
 
 // types
 import { IState }  			from 'client/state';
@@ -94,6 +95,7 @@ export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
 							leftIcon={<SVGGroup />}
 							onTouchTap={() => { this.props.push('/admin/groups'); }}
 						/>
+						<Divider />
 						<Subheader>Material</Subheader>
 						<ListItem 
 							primaryText="Cards"
@@ -109,6 +111,13 @@ export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
 							primaryText="Tags"
 							leftIcon={<SVGTags />}
 							onTouchTap={() => { this.props.push('/admin/tags'); }}
+						/>
+						<Divider />
+						<Subheader>Analytics</Subheader>
+						<ListItem 
+							primaryText="Progress"
+							leftIcon={<SVGTrendingUp />}
+							onTouchTap={() => { this.props.push('/admin/analytics/progress'); }}
 						/>
 						<Divider />
 						<Subheader>User</Subheader>
