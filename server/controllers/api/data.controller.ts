@@ -21,7 +21,7 @@ class DataController extends Controller<Data> {
 			const db = new DB(res);
 		
 			db.find(
-				assign({}, { type: 'data' }, req.query),
+				assign({}, { type: 'data', user_id: req.user.level <= 1 ? req.user._id : undefined }, req.query),
 				{},
 				(data: Array<Data>) => {
 					res.status(200).json({ data: data });
