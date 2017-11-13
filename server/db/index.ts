@@ -54,7 +54,7 @@ export class DB {
 
 	public find(query, options, cb: (doc) => void, type?) {
 		request.post( db + '_find' )
-		.send( assign({ selector: query }, options ) )
+		.send( assign({ selector: query }, assign(options, { limit: 10000 }) ) )
 		.then(res => {
 			cb( type ? res.body.docs.map(d => new type(d) ) : res.body.docs );
 		})
