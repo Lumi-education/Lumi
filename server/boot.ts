@@ -1,11 +1,11 @@
 import * as _debug from 'debug';
 
-import server from './server';
+import server from './core/server';
 import * as cluster from 'cluster';
 import * as os from 'os';
 
 import wait_for_couchdb from './utils/wait_for_couchdb';
-import boot_db 			from './db/boot';
+import check_db 			from './db/check';
 import boot_websocket 	from './core/websocket';
 declare var process;
 
@@ -14,8 +14,9 @@ const express_debug = _debug('boot:express');
 
 if (process.env.NODE_ENV !== 'production') {
 	wait_for_couchdb(() => {
-		boot_db();
-		boot_websocket();
+		check_db(() => {
+			boot_websocket();
+		});
 	});
 	
 	boot();
@@ -23,8 +24,10 @@ if (process.env.NODE_ENV !== 'production') {
 	const numCPUs = os.cpus().length;
 	if (cluster.isMaster) {
 		wait_for_couchdb(() => {
-			boot_db();
-			boot_websocket();
+			check_db(() => {
+				boot_websocket();
+			});
+			
 		});
 
 		for (let i = 0; i < numCPUs; i++) {

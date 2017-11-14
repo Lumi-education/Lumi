@@ -16,21 +16,14 @@ export default class Session extends Relations implements ISession {
 	
 	constructor(t?: Session) {
 		super();
-		if (t) {
-			return assign(
-				this, 
-				{
-					type: 'session',
-					online: false
-				},
-				t);
-		} else {
-			this._id = undefined;
-			this.user_id = undefined;
-			this.type = 'session';
-			this.online = false;
-			return this;
-		}
+		return assign(
+			this, 
+			{
+				type: 'session',
+				online: false
+			},
+			t
+		);
 	}
 
 	get_user(db: DB, cb: (user: User) => void) {

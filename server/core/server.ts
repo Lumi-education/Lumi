@@ -3,7 +3,7 @@ import * as express		from 'express';
 import * as bodyParser	from 'body-parser';
 import * as path 		from 'path';
 
-import routes 			from './routes';
+import routes 			from '../routes';
 
 const debug = _debug('server');
 
