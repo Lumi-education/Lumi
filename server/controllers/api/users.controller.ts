@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Request } from '../../middleware/auth';
+import { IRequest } from '../../middleware/auth';
 
 import User from '../../models/User';
 import Group from '../../models/Group';
@@ -8,36 +8,36 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 class UserController extends Controller<User> {
-    public list(req: Request, res: express.Response) {
+    public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.find({ type: 'user' }, req.query, (users: Array<User>) => {
-            const group_ids = users
+        db.find({ type: 'user' }, req.query, (users: User[]) => {
+            const groupIds = users
                 .map(u => u.groups)
                 .reduce((p, c) => p.concat(c), []);
             db.find(
                 {
                     type: 'group',
-                    _id: { $in: group_ids }
+                    _id: { $in: groupIds }
                 },
                 {},
-                (groups: Array<Group>) => {
+                (groups: Group[]) => {
                     res.status(200).json({
-                        users: users,
-                        groups: groups
+						users,
+						groups
                     });
                 }
             );
         });
     }
 
-    public read(req: Request, res: express.Response) {
+    public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(
             req.params.id,
             (user: User) => {
-                user.get_groups(db, (groups: Array<Group>) => {
+                user.get_groups(db, (groups: Group[]) => {
                     res.status(200).json({
                         user,
                         groups
@@ -48,13 +48,13 @@ class UserController extends Controller<User> {
         );
     }
 
-    public create(req: Request, res: express.Response) {
+    public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.insert(new User(req.body));
     }
 
-    public action(req: Request, res: express.Response) {
+    public action(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(

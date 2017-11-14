@@ -1,7 +1,8 @@
 import { assign } from 'lodash';
 import { ITag } from 'lib/types';
 
-import { DB, Relations } from '../db';
+import { DB } from '../db';
+import Relations from '../db/relations';
 
 export default class Tag extends Relations implements ITag {
     public _id: string;

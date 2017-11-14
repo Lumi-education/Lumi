@@ -1,7 +1,8 @@
 import { assign } from 'lodash';
 import { IData } from 'lib/types';
 
-import { DB, Relations } from '../db';
+import { DB } from '../db';
+import Relations from '../db/relations';
 
 export default class Data extends Relations implements IData {
     public _id: string;

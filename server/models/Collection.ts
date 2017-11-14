@@ -3,14 +3,15 @@ import { ICollection, Card_id, Tag_id } from 'lib/types';
 
 import Card from './Card';
 import Tag from './Tag';
-import { DB, Relations } from '../db';
+import { DB } from '../db';
+import Relations from '../db/relations';
 
 export default class Collection extends Relations implements ICollection {
     public _id: string;
     public description: string;
     public type: 'collection';
-    public cards: Array<Card_id>;
-    public tags: Array<Tag_id>;
+    public cards: Card_id[];
+    public tags: Tag_id[];
     public name: string;
     public created_at: Date;
 
@@ -38,11 +39,11 @@ export default class Collection extends Relations implements ICollection {
         this.cards.push(card_id);
     }
 
-    public get_cards(db: DB, cb: (cards: Array<Card>) => void): void {
+    public get_cards(db: DB, cb: (cards: Card[]) => void): void {
         this.hasMany(db, this.cards, cb, Card);
     }
 
-    public get_tags(db: DB, cb: (tags: Array<Tag>) => void) {
+    public get_tags(db: DB, cb: (tags: Tag[]) => void) {
         this.hasMany(db, this.tags, cb, Tag);
     }
 }

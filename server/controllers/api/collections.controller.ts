@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Request } from '../../middleware/auth';
+import { IRequest } from '../../middleware/auth';
 
 import Collection from '../../models/Collection';
 import Card from '../../models/Card';
@@ -9,33 +9,33 @@ import Controller from '../controller';
 import { DB } from '../../db';
 
 class CollectionController extends Controller<Collection> {
-    public list(req: Request, res: express.Response) {
+    public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.find(
             { type: 'collection' },
             req.query,
-            (collections: Array<Collection>) => {
-                res.status(200).json({ collections: collections });
+            (collections: Collection[]) => {
+                res.status(200).json({ collections });
             }
         );
     }
 
-    public create(req: Request, res: express.Response) {
+    public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.insert(new Collection(req.body));
     }
 
-    public read(req: Request, res: express.Response) {
+    public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
         db.findById(
             req.params.id,
             (collection: Collection) => {
-                collection.get_cards(db, (cards: Array<Card>) => {
+                collection.get_cards(db, (cards: Card[]) => {
                     res.status(200).json({
-                        collections: [collection],
-                        cards: cards
+						cards,
+                        collections: [collection]
                     });
                 });
             },
@@ -43,13 +43,13 @@ class CollectionController extends Controller<Collection> {
         );
     }
 
-    public cards(req: Request, res: express.Response) {
+    public cards(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(
             req.params.id,
             (collection: Collection) => {
-                collection.get_cards(db, (cards: Array<Card>) => {
+                collection.get_cards(db, (cards: Card[]) => {
                     res.status(200).json(cards);
                 });
             },
@@ -57,13 +57,13 @@ class CollectionController extends Controller<Collection> {
         );
     }
 
-    public tags(req: Request, res: express.Response) {
+    public tags(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(
             req.params.id,
             (collection: Collection) => {
-                collection.get_tags(db, (tags: Array<Tag>) => {
+                collection.get_tags(db, (tags: Tag[]) => {
                     res.status(200).json(tags);
                 });
             },

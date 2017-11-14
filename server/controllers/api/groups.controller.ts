@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { noop } from 'lodash';
-import { Request } from '../../middleware/auth';
+import { IRequest } from '../../middleware/auth';
 
 import Group from '../../models/Group';
 import User from '../../models/User';
@@ -11,36 +11,36 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 class GroupController extends Controller<Group> {
-    public list(req: Request, res: express.Response) {
+    public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.find({ type: 'group' }, req.query, (groups: Array<Group>) => {
-            res.status(200).json({ groups: groups });
+        db.find({ type: 'group' }, req.query, (groups: Group[]) => {
+            res.status(200).json({ groups });
         });
     }
 
-    public create(req: Request, res: express.Response) {
+    public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.insert(new Group(req.body));
     }
 
-    public read(req: Request, res: express.Response) {
+    public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(req.params.id, (group: Group) => {
             db.find(
                 { groups: { $in: [req.params.id] } },
                 {},
-                (users: Array<User>) => {
+                (users: User[]) => {
                     db.find(
                         { _id: { $in: group.assigned_collections } },
                         {},
-                        (collections: Array<Collection>) => {
+                        (collections: Collection[]) => {
                             res.status(200).json({
-                                groups: [group],
-                                users: users,
-                                collections: collections
+								users,
+								collections,
+                                groups: [group]
                             });
                         },
                         Collection
@@ -51,13 +51,13 @@ class GroupController extends Controller<Group> {
         });
     }
 
-    public for_user(req: Request, res: express.Response) {
+    public for_user(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(
             req.params.user_id,
             (user: User) => {
-                user.get_groups(db, (groups: Array<Group>) => {
+                user.get_groups(db, (groups: Group[]) => {
                     res.status(200).json(groups);
                 });
             },
@@ -65,7 +65,7 @@ class GroupController extends Controller<Group> {
         );
     }
 
-    public delete(req: Request, res: express.Response) {
+    public delete(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.find(
@@ -74,7 +74,7 @@ class GroupController extends Controller<Group> {
                 type: 'user'
             },
             { limit: 1000 },
-            (users: Array<User>) => {
+            (users: User[]) => {
                 users.forEach(user => {
                     user.rem_group(req.params.id);
                     db.save(user, noop);
@@ -86,7 +86,7 @@ class GroupController extends Controller<Group> {
         db.delete(req.params.id);
     }
 
-    public action(req: Request, res: express.Response) {
+    public action(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findById(

@@ -5,7 +5,7 @@ const debug = _debug('wait_for_couchdb');
 
 export default function wait_for_couchdb(boot: () => void) {
 	debug('start polling for dbs');
-	let couchdb_polling = setInterval(
+	const couchdb_polling = setInterval(
 	() => {
 		debug('polling ' + process.env.DB_HOST);
 		superagent

@@ -3,13 +3,15 @@ import { IGroup, Collection_id } from 'lib/types';
 
 import Collection from './Collection';
 
-import { DB, Relations } from '../db';
+import { DB } from '../db';
+import Relations from '../db/relations';
+
 
 export default class Group extends Relations implements IGroup {
     public _id: string;
     public type: 'group';
     public name: string;
-    public assigned_collections: Array<Collection_id>;
+    public assigned_collections: Collection_id[];
     public created_at: Date;
 
     constructor(g?: Group) {
@@ -42,7 +44,7 @@ export default class Group extends Relations implements IGroup {
 
     public get_collections(
         db: DB,
-        cb: (collections: Array<Collection>) => void
+        cb: (collections: Collection[]) => void
     ) {
         this.hasMany(db, this.assigned_collections, cb, Collection);
     }

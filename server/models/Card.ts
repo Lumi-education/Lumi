@@ -11,18 +11,19 @@ import {
 
 import Tag from './Tag';
 
-import { DB, Relations } from '../db';
+import { DB } from '../db';
+import Relations from '../db/relations';
 
 export default class Card extends Relations implements ICard {
     public _id: string;
     public type: 'card';
     public card_type: Card_types;
-    public tags: Array<Tag_id>;
+    public tags: Tag_id[];
     public name: string;
     public text: Markdown;
     public description: string;
-    public items: Array<Markdown>;
-    public hints: Array<Markdown>;
+    public items: Markdown[];
+    public hints: Markdown[];
     public url: string;
     public created_at: Date;
     public _attachments;
@@ -56,7 +57,7 @@ export default class Card extends Relations implements ICard {
         this.tags = this.tags.filter(tag => tag !== tag_id);
     }
 
-    public get_tags(db: DB, cb: (tags: Array<Tag>) => void): void {
+    public get_tags(db: DB, cb: (tags: Tag[]) => void): void {
         this.hasMany(db, this.tags, cb, Tag);
     }
 }

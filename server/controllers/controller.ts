@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Request } from '../middleware/auth';
+import { IRequest } from '../middleware/auth';
 
 import { DB } from '../db';
 
@@ -13,17 +13,17 @@ export default class Controller<T> {
         this.read = this.read.bind(this);
     }
 
-    public list(req: Request, res: express.Response) {
+    public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.find({ type: this.type }, req.query, (docs: Array<T>) => {
-            let o = {};
+        db.find({ type: this.type }, req.query, (docs: T[]) => {
+            const o = {};
             o[this.type + 's'] = docs;
             res.status(200).json(o);
         });
     }
 
-    public read(req: Request, res: express.Response) {
+    public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
         db.findById(req.params.id, (doc: T) => {
             const o = {};
@@ -32,7 +32,7 @@ export default class Controller<T> {
         });
     }
 
-    public update(req: Request, res: express.Response) {
+    public update(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.update_one(req.params.id, req.body, (doc: T) => {
@@ -40,7 +40,7 @@ export default class Controller<T> {
         });
     }
 
-    public delete(req: Request, res: express.Response) {
+    public delete(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.delete(req.params.id);

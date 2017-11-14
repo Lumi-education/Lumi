@@ -3,12 +3,12 @@ import * as bcrypt from 'bcrypt-nodejs';
 import * as jwt from 'jwt-simple';
 import { assign } from 'lodash';
 
-import { Request } 		from '../../middleware/auth';
+import { IRequest } 		from '../../middleware/auth';
 import { DB } 			from '../../db';
 import User 			from '../../models/User';
 
 class AuthController {
-    public login(req: Request, res: express.Response) {
+    public login(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
 		db.findOne(
@@ -44,7 +44,7 @@ class AuthController {
 		);
 	}
 
-    public register(req: Request, res: express.Response) {
+    public register(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.findOne(
@@ -79,11 +79,11 @@ class AuthController {
         );
     }
 
-	public logout(req: Request, res: express.Response) {
+	public logout(req: IRequest, res: express.Response) {
 		res.status(200).end();
 	}
 
-	public get_session(req: Request, res: express.Response) {
+	public get_session(req: IRequest, res: express.Response) {
 		res.status(200).json(req.user);
 	}
 
@@ -94,8 +94,8 @@ export default new AuthController();
 function send_auth(user_id: string, level: number, res: express.Response): void {
 	const jwt_token =
 		jwt.encode({
-			_id: user_id,
-			level
+			level,
+			_id: user_id
 		},         process.env.KEY || 'KEY');
 
     res.status(200).json({

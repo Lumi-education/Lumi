@@ -14,8 +14,8 @@ export class DB {
 		this.handle_error = this.handle_error.bind( this );
 	}
 
-	public findById(_id: string, cb: (doc) => void, type?)  {
-		request.get( db + _id )
+	public findById(id: string, cb: (doc) => void, type?)  {
+		request.get( db + id )
 		.then(res => {
 			cb( type ? new type( res.body ) : res.body );
 		})
@@ -67,22 +67,22 @@ export class DB {
 		);
 	}
 
-	public update_one(_id: string, update, cb: (doc) => void) {
-		request.get( db + _id )
+	public update_one(id: string, update, cb: (doc) => void) {
+		request.get( db + id )
 		.then(({ body }) => {
-			const _update = assign({}, body, update, { updated_at: new Date() });
+			const newDoc = assign({}, body, update, { updated_at: new Date() });
 			request
 			.put( db + body._id )
-			.send( _update )
-			.then(res => cb( assign({}, _update, { _rev: res.body.rev } )))
+			.send( newDoc )
+			.then(res => cb( assign({}, newDoc, { _rev: res.body.rev } )))
 			.catch(this.handle_error);
 		})
 		.catch(this.handle_error);
 	}
 
-	public delete(_id: string) {
-		this.findById(_id, (doc) => {
-			request.delete( db + _id + '?rev=' + doc._rev )
+	public delete(id: string) {
+		this.findById(id, (doc) => {
+			request.delete( db + id + '?rev=' + doc._rev )
 			.then(() => {
 				this.res.status(200).end();
 			})
@@ -94,14 +94,4 @@ export class DB {
 		this.res.status(500).end('db error: ' + JSON.stringify(err) );
 	}
 
-} 
-
-export class Relations {
-	protected hasMany(_db: DB, ids: Array<string>, cb: (docs) => void, type?) {
-		_db.find({ _id: { $in: ids }}, { limit: 1000 }, cb, type);
-	}
-
-	protected hasOne(_db: DB, id: string, cb: (doc) => void, type?) {
-		_db.findById(id, cb, type);
-	}
 }

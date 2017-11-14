@@ -45,7 +45,7 @@ if (process.env.NODE_ENV !== 'production') {
 function boot() {
     debug('starting boot-sequence');
 
-    server.listen(process.env.PORT || 80, function() {
+    server.listen(process.env.PORT || 80, () => {
         debug(
             'express-server successfully booted on port ' + process.env.PORT ||
                 80

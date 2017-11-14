@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.use(express.static(path.resolve('build/client')));
 
-router.get('*', function(req, res) {
+router.get('*', (req, res) => {
     res.sendFile(path.resolve('build/client/index.html'));
 });
 
