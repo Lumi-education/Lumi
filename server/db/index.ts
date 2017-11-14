@@ -1,45 +1,26 @@
 import * as request from 'superagent';
-import { assign } from 'lodash';
+import { assign }	from 'lodash';
 import * as express from 'express';
 
-const db = process.env.DB_HOST + '/' + process.env.DB + '/';
+const db = process.env.DB_HOST + '/' + process.env.DB + '/' ;
 
 export class DB {
-    private res: express.Response;
 
-    constructor(res: express.Response) {
-        this.res = res;
+	private res: express.Response;
 
-        this.handle_error = this.handle_error.bind(this);
-    }
+	constructor(res: express.Response) {
+		this.res = res;
 
-    public findById(_id: string, cb: (doc) => void, type?) {
-        request
-            .get(db + _id)
-            .then(res => {
-                cb(type ? new type(res.body) : res.body);
-            })
-            .catch(this.handle_error);
-    }
+		this.handle_error = this.handle_error.bind( this );
+	}
 
-    public save(doc, cb?: (res) => void) {
-        request
-            .put(db + doc._id)
-            .send(doc)
-            .then(res => {
-                if (cb) {
-                    cb(res);
-                } else {
-                    this.res.status(200).json(
-                        assign({}, doc, {
-                            _id: res.body.id,
-                            _rev: res.body.rev
-                        })
-                    );
-                }
-            })
-            .catch(this.handle_error);
-    }
+	public findById(_id: string, cb: (doc) => void, type?)  {
+		request.get( db + _id )
+		.then(res => {
+			cb( type ? new type( res.body ) : res.body );
+		})
+		.catch(this.handle_error);
+	}
 
 	public save(doc, cb?: (res) => void) {
 		request
@@ -75,21 +56,16 @@ export class DB {
 		.catch(this.handle_error);
 	}
 
-    public update_one(_id: string, update, cb: (doc) => void) {
-        request
-            .get(db + _id)
-            .then(({ body }) => {
-                const _update = assign({}, body, update);
-                request
-                    .put(db + body._id)
-                    .send(_update)
-                    .then(res =>
-                        cb(assign({}, _update, { _rev: res.body.rev }))
-                    )
-                    .catch(this.handle_error);
-            })
-            .catch(this.handle_error);
-    }
+	public findOne(query, options, cb: (doc) => void, type?) {
+		this.find(
+			query, 
+			options, 
+			(docs) => {
+				cb( docs[0] );
+			}, 
+			type
+		);
+	}
 
 	public update_one(_id: string, update, cb: (doc) => void) {
 		request.get( db + _id )
@@ -104,17 +80,28 @@ export class DB {
 		.catch(this.handle_error);
 	}
 
-    private handle_error(err) {
-        this.res.status(500).end('db error: ' + JSON.stringify(err));
-    }
-}
+	public delete(_id: string) {
+		this.findById(_id, (doc) => {
+			request.delete( db + _id + '?rev=' + doc._rev )
+			.then(() => {
+				this.res.status(200).end();
+			})
+			.catch(this.handle_error);
+		});
+	}
+
+	private handle_error(err) {
+		this.res.status(500).end('db error: ' + JSON.stringify(err) );
+	}
+
+} 
 
 export class Relations {
-    protected hasMany(_db: DB, ids: Array<string>, cb: (docs) => void, type?) {
-        _db.find({ _id: { $in: ids } }, { limit: 1000 }, cb, type);
-    }
+	protected hasMany(_db: DB, ids: Array<string>, cb: (docs) => void, type?) {
+		_db.find({ _id: { $in: ids }}, { limit: 1000 }, cb, type);
+	}
 
-    protected hasOne(_db: DB, id: string, cb: (doc) => void, type?) {
-        _db.findById(id, cb, type);
-    }
+	protected hasOne(_db: DB, id: string, cb: (doc) => void, type?) {
+		_db.findById(id, cb, type);
+	}
 }
