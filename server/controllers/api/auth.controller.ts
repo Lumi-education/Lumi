@@ -79,34 +79,6 @@ class AuthController {
         );
     }
 
-		db.findOne(
-			{ username: req.body.username },
-			{},
-			(user: User) => {
-				if (user) { res.status(409).end(); } else {
-					db.insert(
-						new User({
-							name: req.body.username
-						}), 
-						(doc) => {
-							db.insert(
-								{
-									user_id: doc.body.id,
-									password: bcrypt.hashSync( req.body.password ),
-									type: 'password'
-								},
-								() => {
-									res.status(201).end();
-								}
-							);
-						}
-					);
-				}
-			},
-			User
-		);
-	}
-
 	public logout(req: Request, res: express.Response) {
 		res.status(200).end();
 	}
