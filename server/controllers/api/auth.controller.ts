@@ -7,7 +7,6 @@ import { Request } 		from '../../middleware/auth';
 import db 				from '../../db';
 import { DB } 			from '../../db';
 import User 			from '../../models/User';
-import session 			from '../../core/session';
 
 class AuthController {
 	public login(req: Request, res: express.Response) {
@@ -31,10 +30,10 @@ class AuthController {
 							if (!bcrypt.compareSync(req.body.password, pw.password)) { 
 								res.status(401).end(); 
 							} else { 
-								send_auth( user._id, session.id, user.level, res);
+								send_auth( user._id, user.level, res);
 							}
 						} else {
-							send_auth( user._id, session.id, user.level, res);
+							send_auth( user._id, user.level, res);
 						}
 						
 					});
@@ -126,11 +125,10 @@ export function put_session(req: Request, res: express.Response) {
 	});
 }
 
-function send_auth(user_id: string, session_id: string, level: number, res: express.Response): void {
+function send_auth(user_id: string, level: number, res: express.Response): void {
 	const jwt_token =
 		jwt.encode({
 			_id: user_id,
-			session_id,
 			level
 		},         process.env.KEY || 'KEY');
 
