@@ -4,7 +4,6 @@ import * as jwt 		from 'jwt-simple';
 import { assign } 		from 'lodash';
 
 import { Request } 		from '../../middleware/auth';
-import db 				from '../../db';
 import { DB } 			from '../../db';
 import User 			from '../../models/User';
 

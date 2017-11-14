@@ -1,13 +1,8 @@
-import * as nano from 'nano';
 import * as request from 'superagent';
 import { assign }	from 'lodash';
 import * as express from 'express';
 
 const db = process.env.DB_HOST + '/' + process.env.DB + '/' ;
-
-const _nano = nano( process.env.DB_HOST || 'http://localhost:5984');
-
-export default _nano.db.use( process.env.DB || 'lumidb');
 
 export class DB {
 
