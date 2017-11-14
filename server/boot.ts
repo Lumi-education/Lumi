@@ -1,6 +1,6 @@
 import * as _debug from 'debug';
 
-import server from './server';
+import server from './core/server';
 import * as cluster from 'cluster';
 import * as os from 'os';
 
