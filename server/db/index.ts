@@ -25,7 +25,7 @@ export class DB {
 	public save(doc, cb?: (res) => void) {
 		request
 		.put( db + doc._id )
-		.send( doc )
+		.send( assign(doc, { updated_at: new Date() } ) )
 		.then(res => {
 			if (cb) { cb( res ); }
 			else {
@@ -38,7 +38,7 @@ export class DB {
 	public insert(doc, cb?: (res) => void) {
 		request
 		.post( db )
-		.send( doc )
+		.send( assign(doc, { created_at: new Date() } ) )
 		.then(res => {
 			if (cb) { cb(res); } else {
 				this.res.status(200).json( assign({}, doc, { _id: res.body.id, _rev: res.body.rev } ));
@@ -70,7 +70,7 @@ export class DB {
 	public update_one(_id: string, update, cb: (doc) => void) {
 		request.get( db + _id )
 		.then(({ body }) => {
-			const _update = assign({}, body, update);
+			const _update = assign({}, body, update, { updated_at: new Date() });
 			request
 			.put( db + body._id )
 			.send( _update )
