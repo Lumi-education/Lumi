@@ -18,6 +18,9 @@ class AuthController {
 			},
 			{},
 			(user: User) => {
+
+				if (!user) { res.status(404).end(); }
+				
 				db.findOne(
 					{
 						type: 'password',
