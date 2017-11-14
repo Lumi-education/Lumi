@@ -7,11 +7,11 @@ export default function wait_for_couchdb(boot: () => void) {
 	debug('start polling for dbs');
 	let couchdb_polling = setInterval(
 	() => {
-		debug('polling ' + (process.env.DB_HOST || 'http://localhost:5984'));
+		debug('polling ' + process.env.DB_HOST);
 		superagent
-			.get(process.env.DB_HOST || 'http://localhost:5984')
+			.get(process.env.DB_HOST)
 			.then(res => {
-				debug('CouchDB on ' + (process.env.DB_HOST || 'http://localhost:5984') + ' is up.');
+				debug('CouchDB on ' + process.env.DB_HOST  + ' is up.');
 
 				debug('canceling couchdb polling');
 				clearInterval(couchdb_polling);
@@ -19,7 +19,7 @@ export default function wait_for_couchdb(boot: () => void) {
 				boot();
 			})
 			.catch(err => {
-				debug('CouchDB on ' + (process.env.DB_HOST || 'http://localhost:5984')+ ' is not up.', err);
+				debug('CouchDB on ' + process.env.DB_HOST + ' is not up.', err);
 			});
 	}, 
 	process.env.POLLING_INTERVAL || 1000);
