@@ -1,6 +1,5 @@
-import * as express from 'express';
-import * as jwt from 'jwt-simple';
-import session from '../core/session';
+import * as express 	from 'express';
+import * as jwt 		from 'jwt-simple';
 
 export function auth(
     req: Request,
@@ -13,20 +12,14 @@ export function auth(
         try {
             req.user = jwt.decode(jwt_token, process.env.KEY || 'KEY');
 
-            if (
-                req.user.session_id !== session.id &&
-                req.user.level < userlevel['teacher']
-            ) {
-                res.status(401).end('session expired');
-            } else {
-                next();
-            }
-        } catch (err) {
-            res.status(401).end();
-        }
-    } else {
-        res.status(401).end();
-    }
+			next();
+			
+		} catch (err) {
+			res.status(401).end();
+		}
+	} else {
+		res.status(401).end();
+	}
 }
 
 export function level(

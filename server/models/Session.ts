@@ -6,10 +6,29 @@ import User from './User';
 import { DB, Relations } from '../db';
 
 export default class Session extends Relations implements ISession {
+<<<<<<< HEAD
     public _id: string;
     public user_id: User_id;
     public type: 'session';
     public online: boolean;
+=======
+	public _id: string;
+	public user_id: User_id;
+	public type: 'session';
+	public online: boolean;
+	
+	constructor(t?: Session) {
+		super();
+		return assign(
+			this, 
+			{
+				type: 'session',
+				online: false
+			},
+			t
+		);
+	}
+>>>>>>> develop
 
     constructor(t?: Session) {
         super();

@@ -21,7 +21,7 @@ declare var require: {
     ) => void;
 };
 
-require('file?name=[name].[ext]!./index.html');
+require('file-loader?name=[name].[ext]!./index.html');
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
