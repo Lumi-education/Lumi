@@ -4,8 +4,8 @@ import { ICollection } from 'lib/types';
 
 export function select_collections_by_ids(
     state: IState,
-    collections_ids: Array<string>
-): Array<ICollection> {
+    collections_ids: string[]
+): ICollection[] {
     return state.collections.list.filter(
         collection => collections_ids.indexOf(collection._id) > -1
     );
@@ -30,6 +30,6 @@ export function select_collection_by_id(
     );
 }
 
-export function select_collections_as_array(state: IState): Array<ICollection> {
+export function select_collections_as_array(state: IState): ICollection[] {
     return state.collections.list;
 }

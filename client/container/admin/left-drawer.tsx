@@ -41,9 +41,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
+export class AdminLeftDrawer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
@@ -52,11 +50,11 @@ export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
         this.state = {};
     }
 
-    handleClose() {
+    public handleClose() {
         this.props.left_drawer_close();
     }
 
-    render() {
+    public render() {
         return (
             <div>
                 <Drawer
@@ -77,8 +75,7 @@ export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
                             </IconButton>
                         }
                         onLeftIconButtonTouchTap={() =>
-                            this.props.left_drawer_close()
-                        }
+                            this.props.left_drawer_close()}
                     />
 
                     <List style={{ backgroundColor: '#FFFFFF' }}>

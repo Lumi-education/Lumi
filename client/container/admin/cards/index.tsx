@@ -16,12 +16,17 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import { pinkA200, transparent } from 'material-ui/styles/colors';
+import {
+    pinkA200,
+    transparent,
+    grey400,
+    darkBlack,
+    lightBlack
+} from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import SVGContentCreate from 'material-ui/svg-icons/content/create';
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -47,7 +52,7 @@ import { get_tags } from 'client/state/tags/actions';
 const md = markdownit();
 
 interface IStateProps {
-    cards: Array<ICard>;
+    cards: ICard[];
     tags: Map<string, ITag>;
 }
 
@@ -58,7 +63,7 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    filter?: Array<string>;
+    filter?: string[];
     search_text?: string;
     new_tag_name?: string;
     new_tag_description?: string;
@@ -74,22 +79,12 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             new_tag_name: '',
             new_tag_description: ''
         };
-
-        // this.create_tag = this.create_tag.bind( this );
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_cards());
         this.props.dispatch(get_tags());
     }
-
-    // create_tag() {
-    // 	if (this.state.new_tag_name !== '') {
-    // 		this.props.dispatch( create_tag(this.state.new_tag_name, this.state.new_tag_description ) );
-    // 		this.setState({ new_tag_name: '', new_tag_description: ''});
-    // 	}
-
-    // }
 
     public render() {
         return (
@@ -97,8 +92,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
+                        this.setState({ search_text: filter })}
                 />
                 <List>
                     {this.props.cards
@@ -111,7 +105,6 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                           this.state.search_text.toLocaleLowerCase()
                                       ) > -1;
                         })
-                        // .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
                         .map(card => (
                             <div>
                                 <ListItem
@@ -125,8 +118,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                     onClick={() =>
                                         this.props.dispatch(
                                             push('/admin/cards/' + card._id)
-                                        )
-                                    }
+                                        )}
                                 />
                                 <Divider inset={true} />
                             </div>

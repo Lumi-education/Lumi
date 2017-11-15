@@ -30,12 +30,12 @@ export default class FilterBar extends React.Component<IProps, IState> {
         this.create_user = this.create_user.bind(this);
     }
 
-    create_user() {
+    public create_user() {
         this.props.create_user(this.state.name);
         this.props.close();
     }
 
-    render() {
+    public render() {
         const actions = [
             <FlatButton
                 label="Cancel"

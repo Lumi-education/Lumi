@@ -48,12 +48,12 @@ import { get_data } from 'client/state/data/actions';
 
 interface IStateProps {
     collection: ICollection;
-    collections: Array<ICollection>;
+    collections: ICollection[];
     collection_id: string;
     group_id: string;
-    cards: Array<ICard>;
-    groups: Array<IGroup>;
-    users: Array<IUser>;
+    cards: ICard[];
+    groups: IGroup[];
+    users: IUser[];
     data;
 }
 
@@ -63,19 +63,14 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminCollectionProgress extends React.Component<
-    IProps,
-    IComponentState
-> {
+export class AdminCollectionProgress extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
     }
 
-    componentWillReceiveProps(nextProps: IProps) {
+    public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.collection_id !== nextProps.collection_id) {
             this.props.dispatch(get_collection(nextProps.collection_id));
             this.props.dispatch(
@@ -88,7 +83,7 @@ export class AdminCollectionProgress extends React.Component<
         }
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_groups());
         this.props.dispatch(get_collections());
         this.props.dispatch(get_collection(this.props.collection_id));
@@ -122,8 +117,7 @@ export class AdminCollectionProgress extends React.Component<
                                         '&collection_id=' +
                                         this.props.collection_id
                                 )
-                            )
-                        }
+                            )}
                     >
                         {this.props.groups.map(group => (
                             <MenuItem
@@ -143,8 +137,7 @@ export class AdminCollectionProgress extends React.Component<
                                         '&collection_id=' +
                                         v
                                 )
-                            )
-                        }
+                            )}
                     >
                         {this.props.collections.map(collection => (
                             <MenuItem
@@ -252,14 +245,14 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     const group_id = ownProps.location.query.group_id;
 
     return {
+        collection_id,
+        group_id,
         collection: select_collection_by_id(state, collection_id),
         collections: select_collections_as_array(state),
         cards: select_cards_by_ids(
             state,
             select_collection_by_id(state, collection_id).cards
         ),
-        collection_id: collection_id,
-        group_id: group_id,
         groups: groups_list(state),
         users: get_users_by_group(state, group_id),
         data: select_data_as_map(state)

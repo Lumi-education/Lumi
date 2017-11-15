@@ -25,7 +25,7 @@ export function login(
     id: string = shortid()
 ) {
     return dispatch => {
-        dispatch({ type: AUTH_LOGIN_REQUEST, id, payload: { username } });
+        dispatch({ id, type: AUTH_LOGIN_REQUEST, payload: { username } });
 
         API.login(username, password)
             .then(res => {
@@ -33,8 +33,8 @@ export function login(
                     case 200:
                         window.localStorage.jwt_token = res.body.jwt_token;
                         dispatch({
-                            type: AUTH_LOGIN_SUCCESS,
                             id,
+                            type: AUTH_LOGIN_SUCCESS, 
                             payload: res.body
                         });
                         dispatch(get_session());
@@ -42,11 +42,11 @@ export function login(
 
                     case 404:
                     default:
-                        dispatch({ type: AUTH_LOGIN_ERROR, id, payload: res });
+                        dispatch({ id, type: AUTH_LOGIN_ERROR, payload: res });
                 }
             })
             .catch(err => {
-                dispatch({ type: AUTH_LOGIN_ERROR, id, payload: err });
+                dispatch({ id, type: AUTH_LOGIN_ERROR, payload: err });
             });
     };
 }
@@ -64,7 +64,6 @@ export function register(username: string, password: string) {
         dispatch({ type: AUTH_REGISTER_REQUEST, payload: { username } });
 
         API.register(username, password)
-            // .db_put('/_users/org.couchdb.user:'+username,
             .then(res => {
                 switch (res.status) {
                     case 201:

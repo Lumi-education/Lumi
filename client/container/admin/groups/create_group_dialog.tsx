@@ -6,12 +6,12 @@ import TextField from 'material-ui/TextField';
 
 import { IGroup } from 'lib/types';
 
-interface IStateProps {
+interface IStateProps {}
+
+interface IDispatchProps {
     create_group: (name: string) => void;
     close: () => void;
 }
-
-interface IDispatchProps {}
 
 interface IProps extends IStateProps, IDispatchProps {}
 
@@ -30,12 +30,12 @@ export default class CreateGroupDialog extends React.Component<IProps, IState> {
         this.create_group = this.create_group.bind(this);
     }
 
-    create_group() {
+    public create_group() {
         this.props.create_group(this.state.name);
         this.props.close();
     }
 
-    render() {
+    public render() {
         const actions = [
             <FlatButton
                 label="Cancel"

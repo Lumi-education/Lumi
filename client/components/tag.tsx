@@ -18,9 +18,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export default class Tag extends React.Component<IProps, IComponentState> {
+export default class Tag extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 

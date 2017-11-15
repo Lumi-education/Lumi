@@ -14,8 +14,8 @@ export function state_color(state: string): string {
     }
 }
 
-export function get_grade_color(grade: number) {
-    grade = Math.ceil(grade / 5) * 5;
+export function get_grade_color(g: number) {
+    const grade = Math.ceil(g / 5) * 5;
     return classnames({
         '#2ecc71': grade >= 85,
         '#27ae60': grade >= 70 && grade < 85,

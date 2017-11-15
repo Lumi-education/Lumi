@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 import { Map } from 'immutable';
-import { assign, noop } from 'lodash';
+import { assign, noop, last, first } from 'lodash';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 
@@ -20,7 +20,6 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import IconButton from 'material-ui/IconButton';
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import { last, first } from 'lodash';
 import {
     BottomNavigation,
     BottomNavigationItem
@@ -73,7 +72,7 @@ export class UserCollectionCard extends React.Component<
         this.state = {};
     }
 
-    componentWillReceiveProps(nextProps: IProps) {
+    public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.card._id !== nextProps.card._id) {
             this.props.dispatch(
                 get_data({
@@ -84,7 +83,7 @@ export class UserCollectionCard extends React.Component<
         }
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(
             get_data({
                 collection_id: this.props.collection_id,
@@ -114,8 +113,7 @@ export class UserCollectionCard extends React.Component<
                                     this.props.collection_id +
                                     '/cards'
                             )
-                        )
-                    }
+                        )}
                 />
                 <Multiplechoicecard
                     show_correct_values={this.props.collection_data.submitted}
@@ -172,8 +170,7 @@ export class UserCollectionCard extends React.Component<
                                             this.props.card._id
                                         )
                                 )
-                            )
-                        }
+                            )}
                         icon={<SVGLeft />}
                     />
 
@@ -196,8 +193,7 @@ export class UserCollectionCard extends React.Component<
                                             this.props.card._id
                                         )
                                 )
-                            )
-                        }
+                            )}
                         icon={<SVGRight />}
                     />
                 </BottomNavigation>

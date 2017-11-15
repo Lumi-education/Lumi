@@ -22,16 +22,14 @@ interface IDispatchProps {}
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class Snackbar extends React.Component<IProps, IComponentState> {
+export class Snackbar extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
     }
 
-    render() {
+    public render() {
         return (
             <MUISnackbar
                 open={this.props.open}

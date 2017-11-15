@@ -39,7 +39,7 @@ import {
 import { rem_group } from 'client/state/users/actions';
 
 interface IStateProps {
-    users: Array<IUser>;
+    users: IUser[];
     group_id: string;
 }
 

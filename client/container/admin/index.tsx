@@ -25,14 +25,12 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminRoot extends React.Component<IProps, IComponentState> {
+export class AdminRoot extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         if (this.props.userlevel < 2) {
             this.props.dispatch(push('/user'));
         }
@@ -48,8 +46,7 @@ export class AdminRoot extends React.Component<IProps, IComponentState> {
                     }}
                     showMenuIconButton={true}
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())
-                    }
+                        this.props.dispatch(left_drawer_open())}
                 />
                 <LeftDrawer />
                 <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>

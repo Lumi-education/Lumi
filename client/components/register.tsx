@@ -10,24 +10,25 @@ import Snackbar from 'material-ui/Snackbar';
 
 import { state_color } from '../style/utils';
 
-interface StateProps {}
-
-interface DispatchProps {
-    register: (username: string, password: string) => void;
+interface IStateProps {
     request: 'pending' | 'success' | 'error';
     response: number;
 }
 
-interface Props extends StateProps, DispatchProps {}
+interface IDispatchProps {
+    register: (username: string, password: string) => void;
+}
 
-interface State {
+interface IProps extends IStateProps, IDispatchProps {}
+
+interface IState {
     password?: string;
     password_repeat?: string;
     username?: string;
 }
 
-export default class AuthLogin extends React.Component<Props, State> {
-    constructor(props: Props) {
+export default class AuthLogin extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {

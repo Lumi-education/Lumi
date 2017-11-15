@@ -13,7 +13,7 @@ import { IGroup, IUser } from 'lib/types';
 import { get_users, add_group, create_user } from 'client/state/users/actions';
 
 interface IStateProps {
-    users: Array<IUser>;
+    users: IUser[];
     group_id: string;
 }
 
@@ -42,11 +42,11 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         this.close = this.close.bind(this);
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_users());
     }
 
-    create_or_add_user(user) {
+    public create_or_add_user(user) {
         if (user._id) {
             this.props.dispatch(add_group(user._id, this.props.group_id));
         } else {
@@ -58,13 +58,13 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         this.close();
     }
 
-    close() {
+    public close() {
         this.props.dispatch(
             push('/admin/groups/' + this.props.group_id + '/users')
         );
     }
 
-    render() {
+    public render() {
         const actions = [
             <FlatButton label="Cancel" primary={true} onClick={this.close} />,
             <FlatButton

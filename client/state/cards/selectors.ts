@@ -3,7 +3,7 @@ import { IState } from '../';
 
 import { ICard } from 'lib/types';
 
-export function select_all_cards(state: IState): Array<ICard> {
+export function select_all_cards(state: IState): ICard[] {
     return state.cards.map.toArray();
 }
 
@@ -13,8 +13,8 @@ export function select_cards_as_map(state: IState): Map<string, ICard> {
 
 export function select_cards_by_ids(
     state: IState,
-    card_ids: Array<string> = []
-): Array<ICard> {
+    card_ids: string[] = []
+): ICard[] {
     return state.cards.map
         .toArray()
         .filter(card => card_ids.indexOf(card._id) > -1);

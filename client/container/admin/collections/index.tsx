@@ -29,7 +29,7 @@ import { ICollection } from 'lib/types';
 import { get_collections } from 'client/state/collections/actions';
 
 interface IStateProps {
-    collections: Array<ICollection>;
+    collections: ICollection[];
 }
 
 interface IDispatchProps {
@@ -51,7 +51,7 @@ export class AdminCollections extends React.Component<IProps, IComponentState> {
         };
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_collections());
     }
 
@@ -61,8 +61,7 @@ export class AdminCollections extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
+                        this.setState({ search_text: filter })}
                 />
                 <List>
                     {this.props.collections
@@ -75,7 +74,6 @@ export class AdminCollections extends React.Component<IProps, IComponentState> {
                                           this.state.search_text.toLocaleLowerCase()
                                       ) > -1;
                         })
-                        // .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
                         .map(collection => (
                             <div>
                                 <ListItem
@@ -91,8 +89,7 @@ export class AdminCollections extends React.Component<IProps, IComponentState> {
                                                 '/admin/collections/' +
                                                     collection._id
                                             )
-                                        )
-                                    }
+                                        )}
                                 />
                                 <Divider inset={true} />
                             </div>

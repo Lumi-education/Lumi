@@ -19,11 +19,9 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
 export class WebsocketContainer extends React.Component<
     IProps,
-    IComponentState
+    {}
 > {
     constructor(props: IProps) {
         super(props);

@@ -13,8 +13,11 @@ import Divider from 'material-ui/Divider';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 // actions
-import { push } from 'client/state/ui/actions';
-import { left_drawer_close, left_drawer_open } from 'client/state/ui/actions';
+import {
+    push,
+    left_drawer_close,
+    left_drawer_open
+} from 'client/state/ui/actions';
 
 import { logout } from 'client/state/auth/actions';
 
@@ -29,7 +32,7 @@ declare var process;
 
 interface IStateProps {
     left_drawer_show: boolean;
-    collections: Array<ICollection>;
+    collections: ICollection[];
 }
 
 interface IDispatchProps {
@@ -39,9 +42,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
+export class UserLeftDrawer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
@@ -55,8 +56,7 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
                     docked={false}
                     open={this.props.left_drawer_show}
                     onRequestChange={() =>
-                        this.props.dispatch(left_drawer_close())
-                    }
+                        this.props.dispatch(left_drawer_close())}
                     containerStyle={{ backgroundColor: '#FFFFFF' }}
                 >
                     <AppBar
@@ -67,8 +67,7 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
                             </IconButton>
                         }
                         onLeftIconButtonTouchTap={() =>
-                            this.props.dispatch(left_drawer_close())
-                        }
+                            this.props.dispatch(left_drawer_close())}
                     />
 
                     <List>
@@ -82,8 +81,7 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
                                                 c._id +
                                                 '/cards'
                                         )
-                                    )
-                                }
+                                    )}
                             />
                         ))}
                         <Subheader>User</Subheader>

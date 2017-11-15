@@ -16,16 +16,14 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class Landing extends React.Component<IProps, IComponentState> {
+export class Landing extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(
             this.props.userlevel > 1 ? push('/admin') : push('/user')
         );

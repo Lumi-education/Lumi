@@ -23,19 +23,12 @@ import UserCollections from 'client/container/user/collections';
 import UserCollectionCardsList from 'client/container/user/collections/cards/list';
 import UserCollectionCard from 'client/container/user/collections/cards/card';
 import UserDashboard from 'client/container/user/dashboard';
-// import Material 					from 'client/container/material';
-// import Root 						from 'client/container/root';
-// import MaterialMeta 				from 'client/container/material_meta';
-// import CollectionMeta 				from 'client/container/collection_meta';
-// import Worksheet 					from 'client/container/worksheet';
 
 interface IProps {
     history: {};
 }
 
-interface IState {}
-
-export default class RouterWrapper extends React.Component<IProps, IState> {
+export default class RouterWrapper extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }

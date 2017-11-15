@@ -27,9 +27,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class Auth extends React.Component<IProps, IComponentState> {
+export class Auth extends React.Component<IProps, {}> {
     public request_id: string;
 
     constructor(props: IProps) {
