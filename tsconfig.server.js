@@ -7,7 +7,9 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
-        "outDir": "build/"
+        "outDir": "build/",
+        "baseUrl": ".",
+        "paths": {"common/types": ["app/common"]}
     },
-    "include": ["node_modules/@types/**/*.d.ts", "server/boot.ts"]
+    "include": ["node_modules/@types/**/*.d.ts", "app/common/types.d.ts", "app/server/boot.ts"]
 }

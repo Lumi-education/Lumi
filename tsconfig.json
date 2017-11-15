@@ -9,5 +9,5 @@
         "noImplicitAny": false,
         "allowJs": true
     },
-    "include": ["node_modules/@types/**/*.d.ts"]
+    "include": ["node_modules/@types/**/*.d.ts", "app/common/types.d.ts"]
 }

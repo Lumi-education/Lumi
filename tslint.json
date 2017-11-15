@@ -9,7 +9,6 @@
         "jsx-equals-spacing": false,
         "jsx-no-multiline-js": false,
         "no-submodule-imports": [false, "material-ui"],
-        "no-implicit-dependencies": true,
         "strict-boolean-expressions": false,
         "no-increment-decrement": false,
         "variable-name": [
