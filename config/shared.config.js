@@ -18,7 +18,7 @@ const entries = {
 module.exports = {
     entry: entries,
     output: {
-        filename: '[name].js',
+        filename: '[name].[hash].js',
         path: path.resolve(__dirname, '../build/client')
     },
     module: {
@@ -28,15 +28,15 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'tslint-loader',
-                        options: tslintOptions
-                    },
-                    {
                         loader: 'babel-loader',
                         options: babelOptions
                     },
                     {
                         loader: 'ts-loader'
+                    },
+                    {
+                        loader: 'tslint-loader',
+                        options: tslintOptions
                     }
                 ]
             },
