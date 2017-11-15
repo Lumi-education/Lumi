@@ -7,6 +7,7 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
+        "sourceMap": true,
         "outDir": "build/"
     },
     "include": ["node_modules/@types/**/*.d.ts", "server/boot.ts"]
