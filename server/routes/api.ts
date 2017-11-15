@@ -22,6 +22,7 @@ router.get('/user/auth/session', mw.auth, AuthController.get_session);
 router.get('/cards', CardsController.list);
 router.post('/cards', CardsController.create);
 router.get('/cards/:id', CardsController.read);
+router.get('/cards/:id/attachment/:attachment', CardsController.attachment );
 router.put('/cards/:id', CardsController.update);
 router.delete('/cards/:id', CardsController.delete);
 router.put('/cards/:id/action', CardsController.action);
