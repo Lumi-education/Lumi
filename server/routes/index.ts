@@ -1,7 +1,7 @@
-import { Router } 						from 'express';
+import { Router } from 'express';
 
-import api_routes						from './api';
-import static_routes 					from './static';
+import api_routes from './api';
+import static_routes from './static';
 
 const router = Router();
 

@@ -1,9 +1,9 @@
-import { combineReducers }         from 'redux';
+import { combineReducers } from 'redux';
 
-import list					from './list';
+import list from './list';
 
 const reducer = combineReducers({
-	list
+    list
 });
 
 export default reducer;
