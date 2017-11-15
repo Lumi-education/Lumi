@@ -102,7 +102,7 @@ export function sum(a, c, i, ar) {
     return a + c;
 }
 
-export function compare(o: object, c: object): boolean {
+export function compare(o, c): boolean {
     for (const key in c) {
         if (c[key] !== o[key]) {
             return false;
@@ -111,7 +111,7 @@ export function compare(o: object, c: object): boolean {
     return true;
 }
 
-export function arrayToObject(array: Array<{ _id: string }>): object {
+export function arrayToObject(array) {
     if (!array) {
         return {};
     }
