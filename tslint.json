@@ -5,13 +5,23 @@
         "ordered-imports": [false],
         "object-literal-sort-keys": false,
         "jsx-no-lambda": false,
-		"no-submodule-imports": [false, "material-ui"],
-		"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-snake-case"]
+        "jsx-key": false,
+        "jsx-equals-spacing": false,
+        "jsx-no-multiline-js": false,
+        "no-submodule-imports": [false, "material-ui"],
+        "no-implicit-dependencies": [true, "dev"],
+        "strict-boolean-expressions": false,
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore",
+            "allow-snake-case"
+        ]
     },
     "extends": [
-        "tslint:latest",
         "tslint-config-airbnb",
-        "tslint-react",
-        "tslint-config-prettier"
+        "tslint-config-prettier",
+        "tslint-react"
     ]
 }

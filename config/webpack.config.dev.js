@@ -1,6 +1,8 @@
+const path = require('path');
 const webpack = require('webpack');
 const version = require('../package.json').version;
 const sharedConfig = require('./shared.config.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     devServer: {
@@ -20,6 +22,9 @@ module.exports = Object.assign(sharedConfig, {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: ({ resource }) => /node_modules/.test(resource)
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../client/index.html')
         }),
         new webpack.DefinePlugin({
             'process.env': {
