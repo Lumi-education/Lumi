@@ -6,6 +6,8 @@
         "object-literal-sort-keys": false,
         "jsx-no-lambda": false,
         "jsx-key": false,
+        "jsx-equals-spacing": false,
+        "jsx-no-multiline-js": false,
         "no-submodule-imports": [false, "material-ui"],
         "no-implicit-dependencies": [true, "dev"],
         "variable-name": [
@@ -17,9 +19,8 @@
         ]
     },
     "extends": [
-        "tslint:latest",
         "tslint-config-airbnb",
-        "tslint-react",
-        "tslint-config-prettier"
+        "tslint-config-prettier",
+        "tslint-react"
     ]
 }
