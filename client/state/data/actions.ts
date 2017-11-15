@@ -12,8 +12,6 @@ import {
     DATA_UPDATE_ERROR
 } from '../action-types';
 
-import * as types from '../action-types';
-
 export function create_data(data) {
     return {
         types: [DATA_CREATE_REQUEST, DATA_CREATE_SUCCESS, DATA_CREATE_ERROR],

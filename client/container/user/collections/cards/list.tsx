@@ -46,7 +46,7 @@ import { create_data, update_data, get_data } from 'client/state/data/actions';
 interface IStateProps {
     collection: ICollection;
     collection_id: string;
-    cards: Array<ICard>;
+    cards: ICard[];
     data;
     card_data: Map<string, any>;
 }
@@ -71,14 +71,14 @@ export class UserCollectionsCards extends React.Component<
         this.state = {};
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_collection(this.props.collection_id));
         this.props.dispatch(
             get_data({ collection_id: this.props.collection_id })
         );
     }
 
-    componentWillReceiveProps(nextProps: IProps) {
+    public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.collection_id !== nextProps.collection_id) {
             this.props.dispatch(get_collection(nextProps.collection_id));
             this.props.dispatch(
@@ -102,8 +102,7 @@ export class UserCollectionsCards extends React.Component<
                         </IconButton>
                     }
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(push('/user'))
-                    }
+                        this.props.dispatch(push('/user'))}
                 />
                 <Paper>
                     <List>
@@ -120,23 +119,21 @@ export class UserCollectionsCards extends React.Component<
                                                     '/cards/' +
                                                     card._id
                                             )
-                                        )
-                                    }
+                                        )}
                                     rightIcon={
                                         this.props.data.submitted ? (
-                                            (
-                                                this.props.card_data
-                                                    .toArray()
-                                                    .filter(
-                                                        data =>
-                                                            data.collection_id ===
-                                                                this.props
-                                                                    .collection_id &&
-                                                            data.card_id ===
-                                                                card._id &&
-                                                            data.data_type ===
-                                                                'card'
-                                                    )[0] || {}
+                                            (this.props.card_data
+                                                .toArray()
+                                                .filter(
+                                                    data =>
+                                                        data.collection_id ===
+                                                            this.props
+                                                                .collection_id &&
+                                                        data.card_id ===
+                                                            card._id &&
+                                                        data.data_type ===
+                                                            'card'
+                                                )[0] || {}
                                             ).score > 0 ? (
                                                 <SVGCorrect />
                                             ) : (

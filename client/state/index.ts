@@ -1,10 +1,9 @@
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
 
 import { Map } from 'immutable';
 
 import { browserHistory, Route, Router } from 'react-router';
-import { routerMiddleware } from 'react-router-redux';
 import apiMiddleware from 'client/middleware/redux-api-middleware';
 import thunk from 'redux-thunk';
 
@@ -15,7 +14,6 @@ import auth from 'client/state/auth/reducer';
 import cards from 'client/state/cards/reducer';
 import collections from 'client/state/collections/reducer';
 import groups from 'client/state/groups/reducer';
-import material from 'client/state//material/reducer';
 import request from 'client/state/request/reducer';
 import ui from 'client/state/ui/reducer';
 import session from 'client/state/session/reducer';
@@ -23,13 +21,17 @@ import users from 'client/state/users/reducer';
 import tags from 'client/state/tags/reducer';
 import data from 'client/state/data/reducer';
 
-import { State as Material } from './material/types';
-import { State as UI } from './ui/types';
-import { State as Request } from './request/types';
-import { State as Session } from './session/types';
-import { ICard, IGroup, IUser, ICollection, ITag, IData } from 'lib/types';
+import {
+    ICard,
+    IGroup,
+    IUser,
+    ICollection,
+    ITag,
+    IData,
+    ISession
+} from 'lib/types';
 
-export interface IState extends Material, UI, Request, Session {
+export interface IState {
     auth: {
         is_authed: boolean;
         response: number;
@@ -39,19 +41,28 @@ export interface IState extends Material, UI, Request, Session {
         map: Map<string, ICard>;
     };
     users: {
-        list: Array<IUser>;
+        list: IUser[];
     };
     groups: {
         list: Map<string, IGroup>;
     };
     collections: {
-        list: Array<ICollection>;
+        list: ICollection[];
     };
     tags: {
         list: Map<string, ITag>;
     };
+    request: {};
+    session: ISession[];
     data: {
         map: Map<string, {}>;
+    };
+    ui: {
+        left_drawer_show: boolean;
+        right_drawer_show: boolean;
+        dialog_show: boolean;
+        snackbar_open: boolean;
+        snackbar_text: string;
     };
 }
 
@@ -60,14 +71,13 @@ const rootReducer = combineReducers({
     cards,
     collections,
     groups,
-    material,
     ui,
     request,
-    routing: routerReducer,
     users,
     tags,
     session,
-    data
+    data,
+    routing: routerReducer
 });
 
 const persistentState = undefined;

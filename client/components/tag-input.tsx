@@ -12,7 +12,7 @@ import { ITag } from 'lib/types';
 
 interface IStateProps {
     tags: Map<string, ITag>;
-    tag_ids: Array<string>;
+    tag_ids: string[];
 }
 
 interface IDispatchProps {
@@ -22,9 +22,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export default class TagInput extends React.Component<IProps, IComponentState> {
+export default class TagInput extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
@@ -76,12 +74,3 @@ export default class TagInput extends React.Component<IProps, IComponentState> {
         );
     }
 }
-
-// onRequestAdd={(group) => {
-// 	this.props.groups.get(group._id)
-// 	?
-// 	this.props.dispatch( add_group(this.props.user._id, group._id))
-// 	:
-// 	this.props.dispatch( create_and_add_group( this.props.user._id, group.name ) );
-// }}
-// onRequestDelete={(group_id) => this.props.dispatch( rem_group(this.props.user._id, group_id))}

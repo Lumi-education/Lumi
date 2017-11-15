@@ -55,22 +55,6 @@ export interface IData {
 	_id: Data_id;
 }
 
-export interface ICardData extends IData {
-	type: string;
-	collection_id: Collection_id;
-	card_id: Card_id;
-	completed: boolean;
-	data: Array<Markdown>;
-	score: number;
-	hints: number;
-}
-
-export interface ICollectionData extends IData {
-	// type: 'collectiondata';
-	collection_id: Collection_id;
-	completed: boolean;
-}
-
 export interface IGroup {
 	_id: Group_id;
 	type: 'group';

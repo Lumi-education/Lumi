@@ -1,5 +1,3 @@
-import { Session } from '../types';
-
 import { SESSION_GET_SESSION_ID_SUCCESS } from '../../action-types';
 
 export default function(state: string = 'no_id', action): string {

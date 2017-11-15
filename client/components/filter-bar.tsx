@@ -5,21 +5,20 @@ import Paper from 'material-ui/Paper';
 
 interface IStateProps {
     filter: string;
+}
+
+interface IDispatchProps {
     set_filter: (filter: string) => void;
 }
 
-interface IDispatchProps {}
-
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IState {}
-
-export default class FilterBar extends React.Component<IProps, IState> {
+export default class FilterBar extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
 
-    render() {
+    public render() {
         return (
             <Paper
                 zDepth={1}

@@ -14,7 +14,7 @@ import {
     DB_CHANGE
 } from 'client/state/action-types';
 
-export default function(state: Array<IUser> = [], action): Array<IUser> {
+export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {
         case USERS_ADD_GROUP_REQUEST:
             return state.map(

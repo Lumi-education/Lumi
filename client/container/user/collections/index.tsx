@@ -36,7 +36,7 @@ import { get_collection } from 'client/state/collections/actions';
 interface IStateProps {
     collection: ICollection;
     collection_id: string;
-    cards: Array<ICard>;
+    cards: ICard[];
 }
 
 interface IDispatchProps {
@@ -56,11 +56,11 @@ export class UserCollections extends React.Component<IProps, IComponentState> {
         this.state = {};
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_collection(this.props.collection_id));
     }
 
-    componentWillReceiveProps(nextProps: IProps) {
+    public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.collection_id !== nextProps.collection_id) {
             this.props.dispatch(get_collection(nextProps.collection_id));
         }

@@ -31,7 +31,7 @@ import {
 } from 'client/state/groups/actions';
 
 interface IStateProps {
-    groups: Array<IGroup>;
+    groups: IGroup[];
 }
 
 interface IDispatchProps {
@@ -55,7 +55,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
         };
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_groups());
     }
 
@@ -65,8 +65,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
+                        this.setState({ search_text: filter })}
                 />
                 <List>
                     {this.props.groups
@@ -91,8 +90,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                                     onClick={() =>
                                         this.props.dispatch(
                                             push('/admin/groups/' + group._id)
-                                        )
-                                    }
+                                        )}
                                 />
                                 <Divider inset={true} />
                             </div>
@@ -100,8 +98,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 </List>
                 <FloatingActionButton
                     onClick={() =>
-                        this.setState({ show_create_group_dialog: true })
-                    }
+                        this.setState({ show_create_group_dialog: true })}
                     style={{
                         margin: '20px',
                         bottom: '0px',
@@ -114,11 +111,9 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 {this.state.show_create_group_dialog ? (
                     <CreateGroupDialog
                         create_group={(name: string) =>
-                            this.props.dispatch(create_group(name))
-                        }
+                            this.props.dispatch(create_group(name))}
                         close={() =>
-                            this.setState({ show_create_group_dialog: false })
-                        }
+                            this.setState({ show_create_group_dialog: false })}
                     />
                 ) : null}
             </div>

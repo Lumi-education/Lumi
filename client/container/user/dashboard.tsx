@@ -30,7 +30,7 @@ import { session_update } from 'client/state/session/actions';
 import { get_user_collections } from 'client/state/collections/actions';
 
 interface IStateProps {
-    collections: Array<ICollection>;
+    collections: ICollection[];
 }
 
 interface IDispatchProps {
@@ -39,14 +39,12 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class UserDashboard extends React.Component<IProps, IComponentState> {
+export class UserDashboard extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_user_collections());
     }
 
@@ -59,8 +57,7 @@ export class UserDashboard extends React.Component<IProps, IComponentState> {
                     }}
                     showMenuIconButton={true}
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())
-                    }
+                        this.props.dispatch(left_drawer_open())}
                 />
                 <Paper>
                     <List>
@@ -75,8 +72,7 @@ export class UserDashboard extends React.Component<IProps, IComponentState> {
                                                 collection._id +
                                                 '/cards'
                                         )
-                                    )
-                                }
+                                    )}
                             />
                         ))}
                     </List>

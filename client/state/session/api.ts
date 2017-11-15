@@ -8,7 +8,7 @@ export function get_session_id() {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function session_update(update: Object) {
+export function session_update(update) {
     return request
         .put('/api/user/auth/session')
         .send(update)

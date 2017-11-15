@@ -9,7 +9,7 @@ export function add_group(user_id: string, group_id: string) {
         .put('/api/v0/users/' + user_id + '/action')
         .send({
             type: 'ADD_GROUP',
-            payload: { group_id: group_id }
+            payload: { group_id }
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
@@ -19,7 +19,7 @@ export function rem_group(user_id: string, group_id: string) {
         .put('/api/v0/users/' + user_id + '/action')
         .send({
             type: 'REM_GROUP',
-            payload: { group_id: group_id }
+            payload: { group_id }
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

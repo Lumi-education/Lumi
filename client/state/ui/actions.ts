@@ -1,4 +1,3 @@
-import { UI } from './types';
 import { push as _push } from 'react-router-redux';
 import * as qs from 'query-string';
 import * as url_parse from 'url-parse';
