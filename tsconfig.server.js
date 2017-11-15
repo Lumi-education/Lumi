@@ -2,7 +2,6 @@
     "compilerOptions": {
         "module": "commonjs",
         "moduleResolution": "node",
-        "jsx": "react",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "removeComments": false,
