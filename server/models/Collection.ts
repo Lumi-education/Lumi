@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { ICollection, Card_id, Tag_id } from 'lib/types';
+import { ICollection, Card_id, Tag_id } from '../../lib/types';
 
 import Card from './Card';
 import Tag from './Tag';

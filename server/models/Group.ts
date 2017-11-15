@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { IGroup, Collection_id } from 'lib/types';
+import { IGroup, Collection_id } from '../../lib/types';
 
 import Collection from './Collection';
 
