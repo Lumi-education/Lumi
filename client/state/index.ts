@@ -14,7 +14,6 @@ import auth from 'client/state/auth/reducer';
 import cards from 'client/state/cards/reducer';
 import collections from 'client/state/collections/reducer';
 import groups from 'client/state/groups/reducer';
-import material from 'client/state//material/reducer';
 import request from 'client/state/request/reducer';
 import ui from 'client/state/ui/reducer';
 import session from 'client/state/session/reducer';
@@ -72,7 +71,6 @@ const rootReducer = combineReducers({
     cards,
     collections,
     groups,
-    material,
     ui,
     request,
     users,
