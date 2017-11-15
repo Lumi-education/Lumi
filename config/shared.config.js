@@ -28,15 +28,15 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'tslint-loader',
-                        options: tslintOptions
-                    },
-                    {
                         loader: 'babel-loader',
                         options: babelOptions
                     },
                     {
                         loader: 'ts-loader'
+                    },
+                    {
+                        loader: 'tslint-loader',
+                        options: tslintOptions
                     }
                 ]
             },
