@@ -10,19 +10,16 @@ import ChipInput from 'material-ui-chip-input';
 import AutoComplete from 'material-ui/AutoComplete';
 
 // local
-import { IState } from './../../../state';
+import { IState } from 'client/state';
 
 // types
 import { IUser, IGroup } from 'common/types';
 
 // actions
-import { snackbar_open } from './../../../state/ui/actions';
-import { get_user, add_group, rem_group } from './../../../state/users/actions';
+import { snackbar_open } from 'client/state/ui/actions';
+import { get_user, add_group, rem_group } from 'client/state/users/actions';
 
-import {
-    get_groups,
-    create_and_add_group
-} from './../../../state/groups/actions';
+import { get_groups, create_and_add_group } from 'client/state/groups/actions';
 
 interface IStateProps {
     user: IUser;
