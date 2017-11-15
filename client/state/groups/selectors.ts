@@ -3,7 +3,7 @@ import { IState } from '../';
 
 import { IGroup } from 'lib/types';
 
-export function groups_list(state: IState): Array<IGroup> {
+export function groups_list(state: IState): IGroup[] {
     return state.groups.list.toArray();
 }
 

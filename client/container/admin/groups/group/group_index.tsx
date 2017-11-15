@@ -36,8 +36,8 @@ import {
 
 interface IStateProps {
     group: IGroup;
-    collections: Array<ICollection>;
-    users: Array<IUser>;
+    collections: ICollection[];
+    users: IUser[];
     group_id: string;
     tab: string;
 }
@@ -48,16 +48,14 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminGroup extends React.Component<IProps, IComponentState> {
+export class AdminGroup extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_group(this.props.group_id));
     }
 

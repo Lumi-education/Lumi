@@ -89,11 +89,6 @@ export function create_and_add_group(user_id: string, group_name: string) {
             })
             .catch();
     };
-    // return {
-    // 	types: [GROUPS_CREATE_AND_ADD_REQUEST, GROUPS_CREATE_AND_ADD_SUCCESS, GROUPS_CREATE_AND_ADD_ERROR],
-    // 	api: API.create_group( group_name ),
-    // 	payload: { group_name, user_id }
-    // };
 }
 
 export function get_groups() {

@@ -10,18 +10,13 @@ type Markdown = string;
 
 interface IProps {
     text: Markdown;
-    items: Array<Markdown>;
+    items: Markdown[];
     show_correct_values?: boolean;
-    selected_items?: Array<Markdown>;
-    cb?: (selected_items: Array<Markdown>, score: number) => void;
+    selected_items?: Markdown[];
+    cb?: (selected_items: Markdown[], score: number) => void;
 }
 
-interface IState {}
-
-export default class MultiplechoiceCard extends React.Component<
-    IProps,
-    IState
-> {
+export default class MultiplechoiceCard extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
@@ -89,7 +84,7 @@ export default class MultiplechoiceCard extends React.Component<
 function backgroundColor(
     show_correct_values: boolean,
     item: string,
-    selected_items: Array<string>
+    selected_items: string[]
 ): string {
     if (show_correct_values) {
         if (item.charAt(0) === 'x') {

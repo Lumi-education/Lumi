@@ -37,11 +37,3 @@ export default function(
             return state;
     }
 }
-
-// export function add_group(user: IUser, group_id: string) {
-// 	return assign({}, user, { groups: [ ...user.groups, group_id ]});
-// }
-
-// export function rem_group(user: IUser, group_id: string) {
-// 	return assign({}, user, { groups: user.groups.filter(g => g !== group_id)});
-// }

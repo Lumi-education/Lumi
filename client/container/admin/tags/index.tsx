@@ -15,12 +15,17 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import { pinkA200, transparent } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import SVGContentCreate from 'material-ui/svg-icons/content/create';
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+import {
+    grey400,
+    darkBlack,
+    lightBlack,
+    pinkA200,
+    transparent
+} from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -40,7 +45,7 @@ import { select_all_tags } from 'client/state/tags/selectors';
 import { get_tags, create_tag, delete_tag } from 'client/state/tags/actions';
 
 interface IStateProps {
-    tags: Array<ITag>;
+    tags: ITag[];
 }
 
 interface IDispatchProps {
@@ -50,7 +55,7 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    filter?: Array<string>;
+    filter?: string[];
     search_text?: string;
     new_tag_name?: string;
     new_tag_description?: string;
@@ -70,11 +75,11 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
         this.create_tag = this.create_tag.bind(this);
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_tags());
     }
 
-    create_tag() {
+    public create_tag() {
         if (this.state.new_tag_name !== '') {
             this.props.dispatch(
                 create_tag(
@@ -92,8 +97,7 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
+                        this.setState({ search_text: filter })}
                 />
                 <Paper>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -102,16 +106,14 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                             hintText="Tag"
                             value={this.state.new_tag_name}
                             onChange={(e, v) =>
-                                this.setState({ new_tag_name: v })
-                            }
+                                this.setState({ new_tag_name: v })}
                         />
                         <TextField
                             style={{ flex: 7 }}
                             hintText="Description"
                             value={this.state.new_tag_description}
                             onChange={(e, v) =>
-                                this.setState({ new_tag_description: v })
-                            }
+                                this.setState({ new_tag_description: v })}
                         />
                         <RaisedButton
                             style={{ flex: 1 }}
@@ -132,7 +134,6 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                                               this.state.search_text.toLocaleLowerCase()
                                           ) > -1;
                             })
-                            // .filter(user => this.state.filter.length > 0 ? (this.state.filter.indexOf( user.name ) > -1) : true )
                             .map(tag => (
                                 <div>
                                     <ListItem
@@ -158,8 +159,7 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                                                 onClick={() =>
                                                     this.props.dispatch(
                                                         delete_tag(tag._id)
-                                                    )
-                                                }
+                                                    )}
                                             >
                                                 Delete
                                             </MenuItem>

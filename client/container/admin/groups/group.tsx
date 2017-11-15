@@ -34,7 +34,7 @@ import {
 
 interface IStateProps {
     group: IGroup;
-    users: Array<IUser>;
+    users: IUser[];
     group_id: string;
 }
 
@@ -44,16 +44,14 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminGroup extends React.Component<IProps, IComponentState> {
+export class AdminGroup extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_group(this.props.group_id));
     }
 
@@ -89,8 +87,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                         onClick={() =>
                                             this.props.dispatch(
                                                 push('/admin/users/' + user._id)
-                                            )
-                                        }
+                                            )}
                                     />
                                     <Divider inset={true} />
                                 </div>

@@ -58,7 +58,7 @@ interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
     text?: string;
-    items?: Array<string>;
+    items?: string[];
     description?: string;
     name?: string;
     card_type?: 'multiplechoice' | 'freetext' | 'sort' | 'text' | 'video';
@@ -77,12 +77,12 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
         };
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_card(this.props.card_id));
         this.props.dispatch(get_tags());
     }
 
-    componentWillReceiveProps(nextProps: IProps) {
+    public componentWillReceiveProps(nextProps: IProps) {
         this.setState({
             text: nextProps.card.text,
             items: nextProps.card.items,
@@ -105,8 +105,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                                     value={this.state.name}
                                     fullWidth={true}
                                     onChange={(e, v) =>
-                                        this.setState({ name: v })
-                                    }
+                                        this.setState({ name: v })}
                                 />
                             </div>
                             <div style={{ flex: 4 }}>
@@ -114,8 +113,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                                     floatingLabelText="Card Type"
                                     value={this.state.card_type}
                                     onChange={(e, i, v) =>
-                                        this.setState({ card_type: v })
-                                    }
+                                        this.setState({ card_type: v })}
                                 >
                                     <MenuItem
                                         value="text"
@@ -143,8 +141,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                             value={this.state.description}
                             fullWidth={true}
                             onChange={(e, v) =>
-                                this.setState({ description: v })
-                            }
+                                this.setState({ description: v })}
                         />
                         <TagInput
                             tags={this.props.tags}
@@ -170,8 +167,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                                         this.props.card._id,
                                         tag_id
                                     )
-                                )
-                            }
+                                )}
                         />
                         <div style={{ display: 'flex' }}>
                             <div style={{ flex: 6 }}>
@@ -182,8 +178,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                                     fullWidth={true}
                                     multiLine={true}
                                     onChange={(e, v) =>
-                                        this.setState({ text: v })
-                                    }
+                                        this.setState({ text: v })}
                                 />
                                 <TextField
                                     hintText="Items"
@@ -192,8 +187,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                                     fullWidth={true}
                                     multiLine={true}
                                     onChange={(e, v) =>
-                                        this.setState({ items: v.split('\n') })
-                                    }
+                                        this.setState({ items: v.split('\n') })}
                                 />
                                 <TextField
                                     hintText="Hints"
@@ -219,8 +213,7 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                             label="Cancel"
                             style={{ margin: '10px' }}
                             onClick={() =>
-                                this.props.dispatch(push('/admin/cards'))
-                            }
+                                this.props.dispatch(push('/admin/cards'))}
                         />
                         <RaisedButton
                             label="Delete"

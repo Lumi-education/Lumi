@@ -8,12 +8,12 @@ import {
 
 import { ICollection } from 'lib/types';
 
-const initialState: Array<ICollection> = [];
+const initialState: ICollection[] = [];
 
 export default function(
-    state: Array<ICollection> = initialState,
+    state: ICollection[] = initialState,
     action
-): Array<ICollection> {
+): ICollection[] {
     switch (action.type) {
         case GROUPS_GET_GROUP_SUCCESS:
         case COLLECTION_GET_SUCCESS:

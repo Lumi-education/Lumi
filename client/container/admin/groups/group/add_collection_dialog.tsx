@@ -19,7 +19,7 @@ import { get_collections } from 'client/state/collections/actions';
 import { add_collection_to_group } from 'client/state/groups/actions';
 
 interface IStateProps {
-    collections: Array<ICollection>;
+    collections: ICollection[];
     group: IGroup;
     group_id: string;
     request: {};
@@ -39,7 +39,7 @@ export class AdminAddCollectionDialog extends React.Component<
     IProps,
     IComponentState
 > {
-    action_id: string;
+    public action_id: string;
 
     constructor(props: IProps) {
         super(props);
@@ -54,11 +54,11 @@ export class AdminAddCollectionDialog extends React.Component<
         this.action_id = shortid();
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_collections());
     }
 
-    add_collection(collection) {
+    public add_collection(collection) {
         if (collection._id) {
             this.action_id = shortid();
             this.props.dispatch(
@@ -73,19 +73,19 @@ export class AdminAddCollectionDialog extends React.Component<
         }
     }
 
-    componentWillReceiveProps(nextProps: IProps) {
+    public componentWillReceiveProps(nextProps: IProps) {
         if (nextProps.request[this.action_id] === 'success') {
             this.close();
         }
     }
 
-    close() {
+    public close() {
         this.props.dispatch(
             push('/admin/groups/' + this.props.group_id + '/collections')
         );
     }
 
-    render() {
+    public render() {
         const actions = [
             <FlatButton label="Cancel" primary={true} onClick={this.close} />,
             <FlatButton

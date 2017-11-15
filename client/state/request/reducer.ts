@@ -3,7 +3,7 @@ import { assign, unionBy } from 'lodash';
 const initialState: {} = {};
 
 export default function(state: {} = initialState, action): {} {
-    const a: Array<string> = action.type.split('_');
+    const a: string[] = action.type.split('_');
     const status = a[a.length - 1];
 
     let o;

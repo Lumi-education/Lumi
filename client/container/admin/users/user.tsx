@@ -33,16 +33,14 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminUsers extends React.Component<IProps, IComponentState> {
+export class AdminUsers extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.props.dispatch(get_user(this.props.user_id));
         this.props.dispatch(get_groups());
     }
@@ -95,8 +93,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                             onRequestDelete={group_id =>
                                 this.props.dispatch(
                                     rem_group(this.props.user._id, group_id)
-                                )
-                            }
+                                )}
                         />
                     </Paper>
                 </div>

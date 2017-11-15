@@ -3,7 +3,7 @@ import { IState } from '../';
 
 import { ITag } from 'lib/types';
 
-export function select_all_tags(state: IState): Array<ITag> {
+export function select_all_tags(state: IState): ITag[] {
     return state.tags.list.toArray();
 }
 

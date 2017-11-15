@@ -67,8 +67,8 @@ export function get_grade_string_without_points(grade: number) {
     return grade_string;
 }
 
-export function get_grade_color(grade: number) {
-    grade = Math.ceil(grade / 5) * 5;
+export function get_grade_color(g: number) {
+    const grade = Math.ceil(g / 5) * 5;
     return classnames({
         '#2ecc71': grade >= 85,
         '#27ae60': grade >= 70 && grade < 85,
@@ -94,7 +94,7 @@ export function state_color(state: string): string {
     }
 }
 
-export function avg(a, c, i, ar: Array<{}>) {
+export function avg(a, c, i, ar) {
     return a + c / ar.length;
 }
 
@@ -102,8 +102,8 @@ export function sum(a, c, i, ar) {
     return a + c;
 }
 
-export function compare(o: Object, c: Object): boolean {
-    for (let key in c) {
+export function compare(o: object, c: object): boolean {
+    for (const key in c) {
         if (c[key] !== o[key]) {
             return false;
         }
@@ -111,7 +111,7 @@ export function compare(o: Object, c: Object): boolean {
     return true;
 }
 
-export function arrayToObject(array: Array<{ _id: string }>): Object {
+export function arrayToObject(array: Array<{ _id: string }>): object {
     if (!array) {
         return {};
     }

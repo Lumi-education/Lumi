@@ -14,7 +14,7 @@ declare var process;
 
 declare var require: {
     <T>(path: string): T;
-    (paths: string[], callback: (...modules: {}[]) => void): void;
+    (paths: string[], callback: (...modules) => void): void;
     ensure: (
         paths: string[],
         callback: (require: <T>(path: string) => T) => void

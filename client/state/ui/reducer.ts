@@ -1,7 +1,5 @@
 import { assign } from 'lodash';
 
-import { UI } from './types';
-
 import {
     UI_DIALOG_CLOSE,
     UI_DIALOG_OPEN,
@@ -12,7 +10,15 @@ import {
     UI_SNACKBAR_OPEN
 } from '../action-types';
 
-const initialState: UI = {
+interface IUI { 
+    left_drawer_show: boolean;
+    right_drawer_show: boolean;
+    dialog_show: boolean;
+    snackbar_open: boolean;
+    snackbar_text: string;
+}
+
+const initialState: IUI = {
     left_drawer_show: false,
     right_drawer_show: false,
     dialog_show: false,
@@ -20,7 +26,7 @@ const initialState: UI = {
     snackbar_text: ''
 };
 
-export default function(state: UI = initialState, action): UI {
+export default function(state: IUI = initialState, action): IUI {
     switch (action.type) {
         case UI_SNACKBAR_OPEN:
             return assign({}, state, {
