@@ -12,17 +12,6 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 declare var process;
 
-declare var require: {
-    <T>(path: string): T;
-    (paths: string[], callback: (...modules: {}[]) => void): void;
-    ensure: (
-        paths: string[],
-        callback: (require: <T>(path: string) => T) => void
-    ) => void;
-};
-
-require('file-loader?name=[name].[ext]!./index.html');
-
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();

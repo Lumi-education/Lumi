@@ -1,7 +1,9 @@
+const path = require('path');
 const webpack = require('webpack');
 const version = require('../package.json').version;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const sharedConfig = require('./shared.config.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     plugins: [
@@ -15,6 +17,9 @@ module.exports = Object.assign(sharedConfig, {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
                 VERSION: JSON.stringify(version)
             }
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../client/index.html')
         }),
         new UglifyJSPlugin()
     ]
