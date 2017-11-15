@@ -122,7 +122,8 @@ export class AdminCollectionProgress extends React.Component<
                                         '&collection_id=' +
                                         this.props.collection_id
                                 )
-                            )}
+                            )
+                        }
                     >
                         {this.props.groups.map(group => (
                             <MenuItem
@@ -142,7 +143,8 @@ export class AdminCollectionProgress extends React.Component<
                                         '&collection_id=' +
                                         v
                                 )
-                            )}
+                            )
+                        }
                     >
                         {this.props.collections.map(collection => (
                             <MenuItem

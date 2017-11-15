@@ -23,8 +23,8 @@ class UserController extends Controller<User> {
                 {},
                 (groups: Group[]) => {
                     res.status(200).json({
-						users,
-						groups
+                        users,
+                        groups
                     });
                 }
             );

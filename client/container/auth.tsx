@@ -69,7 +69,8 @@ export class Auth extends React.Component<IProps, IComponentState> {
                             register={(username: string, password: string) =>
                                 this.props.dispatch(
                                     register(username, password)
-                                )}
+                                )
+                            }
                             request={this.props.request[this.request_id]}
                             response={this.props.response}
                         />

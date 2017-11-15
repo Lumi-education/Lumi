@@ -97,7 +97,8 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <List>
                     {this.props.cards
@@ -124,7 +125,8 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                     onClick={() =>
                                         this.props.dispatch(
                                             push('/admin/cards/' + card._id)
-                                        )}
+                                        )
+                                    }
                                 />
                                 <Divider inset={true} />
                             </div>

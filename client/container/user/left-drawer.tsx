@@ -55,7 +55,8 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
                     docked={false}
                     open={this.props.left_drawer_show}
                     onRequestChange={() =>
-                        this.props.dispatch(left_drawer_close())}
+                        this.props.dispatch(left_drawer_close())
+                    }
                     containerStyle={{ backgroundColor: '#FFFFFF' }}
                 >
                     <AppBar
@@ -66,7 +67,8 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
                             </IconButton>
                         }
                         onLeftIconButtonTouchTap={() =>
-                            this.props.dispatch(left_drawer_close())}
+                            this.props.dispatch(left_drawer_close())
+                        }
                     />
 
                     <List>
@@ -80,7 +82,8 @@ export class UserLeftDrawer extends React.Component<IProps, IComponentState> {
                                                 c._id +
                                                 '/cards'
                                         )
-                                    )}
+                                    )
+                                }
                             />
                         ))}
                         <Subheader>User</Subheader>

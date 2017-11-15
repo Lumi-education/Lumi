@@ -34,7 +34,7 @@ class CollectionController extends Controller<Collection> {
             (collection: Collection) => {
                 collection.get_cards(db, (cards: Card[]) => {
                     res.status(200).json({
-						cards,
+                        cards,
                         collections: [collection]
                     });
                 });

@@ -90,7 +90,8 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                         this.props.group_id +
                                         '/settings'
                                 )
-                            )}
+                            )
+                        }
                     >
                         <div>test</div>
                     </Tab>
@@ -104,7 +105,8 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                         this.props.group_id +
                                         '/users'
                                 )
-                            )}
+                            )
+                        }
                     >
                         <GroupUsers {...this.props} />
                     </Tab>
@@ -118,7 +120,8 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                         this.props.group_id +
                                         '/collections'
                                 )
-                            )}
+                            )
+                        }
                     >
                         <GroupCollections {...this.props} />
                     </Tab>

@@ -1,6 +1,6 @@
-import * as _debug 		 from 'debug';
-import * as jwt 		 from 'jwt-simple';
-import * as WebSocket 	 from 'ws';
+import * as _debug from 'debug';
+import * as jwt from 'jwt-simple';
+import * as WebSocket from 'ws';
 import * as ChangeStream from 'changes-stream';
 
 const debug = _debug('websocket');
@@ -39,8 +39,8 @@ export default function boot() {
                 try {
                     client.send(JSON.stringify(msg));
                 } catch (err) {
-					debug(err);
-				}
+                    debug(err);
+                }
             });
         } catch (err) {
             debug(err);

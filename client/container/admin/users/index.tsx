@@ -73,7 +73,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <List>
                     {this.props.users
@@ -99,7 +100,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                                     onClick={() =>
                                         this.props.dispatch(
                                             push('/admin/users/' + user._id)
-                                        )}
+                                        )
+                                    }
                                 />
                                 <Divider inset={true} />
                             </div>
@@ -107,7 +109,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                 </List>
                 <FloatingActionButton
                     onClick={() =>
-                        this.setState({ show_create_user_dialog: true })}
+                        this.setState({ show_create_user_dialog: true })
+                    }
                     style={{
                         margin: '20px',
                         bottom: '0px',
@@ -121,9 +124,11 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                 {this.state.show_create_user_dialog ? (
                     <CreateUserDialog
                         create_user={(name: string) =>
-                            this.props.dispatch(create_user(name))}
+                            this.props.dispatch(create_user(name))
+                        }
                         close={() =>
-                            this.setState({ show_create_user_dialog: false })}
+                            this.setState({ show_create_user_dialog: false })
+                        }
                     />
                 ) : null}
             </div>

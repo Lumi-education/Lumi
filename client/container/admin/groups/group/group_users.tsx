@@ -81,7 +81,8 @@ export default class AdminGroupUsers extends React.Component<
                                         onClick={() =>
                                             this.props.dispatch(
                                                 push('/admin/users/' + user._id)
-                                            )}
+                                            )
+                                        }
                                     >
                                         View
                                     </MenuItem>,
@@ -92,7 +93,8 @@ export default class AdminGroupUsers extends React.Component<
                                                     user._id,
                                                     this.props.group_id
                                                 )
-                                            )}
+                                            )
+                                        }
                                     >
                                         Remove
                                     </MenuItem>

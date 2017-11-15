@@ -59,7 +59,8 @@ export class MaterialContainer extends React.Component<Props, State> {
                                                         ._id,
                                                     { value, score }
                                                 )
-                                            )}
+                                            )
+                                        }
                                     />
                                 );
                             case 'multiplechoice':
@@ -73,7 +74,8 @@ export class MaterialContainer extends React.Component<Props, State> {
                                                         ._id,
                                                     { value, score }
                                                 )
-                                            )}
+                                            )
+                                        }
                                         answer={this.props.material.meta.value}
                                         show_correct_answers={
                                             this.props.collection.meta.submitted
@@ -91,7 +93,8 @@ export class MaterialContainer extends React.Component<Props, State> {
                                                                 .meta.hints + 1
                                                     }
                                                 )
-                                            )}
+                                            )
+                                        }
                                     />
                                 );
 
@@ -108,7 +111,8 @@ export class MaterialContainer extends React.Component<Props, State> {
                                                         ._id,
                                                     { value: [value], score }
                                                 )
-                                            )}
+                                            )
+                                        }
                                         answer_options={
                                             this.props.material.items
                                         }

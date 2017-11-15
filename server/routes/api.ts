@@ -2,21 +2,21 @@ import { Router } from 'express';
 import { auth, level } from '../middleware/auth';
 import mw from '../middleware';
 
-import AuthController 					from '../controllers/api/auth.controller';
-import DataController 					from '../controllers/api/data.controller';
-import CardsController 					from '../controllers/api/cards.controller';
-import CollectionController 			from '../controllers/api/collections.controller';
-import GroupController 					from '../controllers/api/groups.controller';
-import UsersController 					from '../controllers/api/users.controller';
-import TagsController 					from '../controllers/api/tags.controller';
+import AuthController from '../controllers/api/auth.controller';
+import DataController from '../controllers/api/data.controller';
+import CardsController from '../controllers/api/cards.controller';
+import CollectionController from '../controllers/api/collections.controller';
+import GroupController from '../controllers/api/groups.controller';
+import UsersController from '../controllers/api/users.controller';
+import TagsController from '../controllers/api/tags.controller';
 
 const router = Router();
 
 // mw.auth
-router.post('/auth/login', AuthController.login );
-router.post('/auth/register', AuthController.register );
-router.post('/auth/logout', mw.auth, AuthController.logout );
-router.get('/user/auth/session', mw.auth, AuthController.get_session );
+router.post('/auth/login', AuthController.login);
+router.post('/auth/register', AuthController.register);
+router.post('/auth/logout', mw.auth, AuthController.logout);
+router.get('/user/auth/session', mw.auth, AuthController.get_session);
 
 // cards
 router.get('/cards', CardsController.list);
@@ -76,10 +76,10 @@ router.put('/users/:id', UsersController.update);
 router.put('/users/:id/action', UsersController.action);
 router.delete('/users/:id', UsersController.delete);
 
-router.get(	'/users/:user_id/collections/:collection_id', mw.auth );
-router.put(	'/users/:user_id/collections/:collection_id', mw.auth );
-router.get(	'/users/:user_id/cards/:card_id', mw.auth );
-router.put(	'/users/:user_id/cards/:card_id', mw.auth );
+router.get('/users/:user_id/collections/:collection_id', mw.auth);
+router.put('/users/:user_id/collections/:collection_id', mw.auth);
+router.get('/users/:user_id/cards/:card_id', mw.auth);
+router.put('/users/:user_id/cards/:card_id', mw.auth);
 
 router.get('/users/:user_id/groups', mw.auth, GroupController.for_user);
 router.post('/users/:user_id/groups', mw.auth);

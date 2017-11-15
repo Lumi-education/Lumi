@@ -59,7 +59,8 @@ export class UserDashboard extends React.Component<IProps, IComponentState> {
                     }}
                     showMenuIconButton={true}
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())}
+                        this.props.dispatch(left_drawer_open())
+                    }
                 />
                 <Paper>
                     <List>
@@ -74,7 +75,8 @@ export class UserDashboard extends React.Component<IProps, IComponentState> {
                                                 collection._id +
                                                 '/cards'
                                         )
-                                    )}
+                                    )
+                                }
                             />
                         ))}
                     </List>

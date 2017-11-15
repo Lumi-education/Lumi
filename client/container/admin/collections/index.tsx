@@ -61,7 +61,8 @@ export class AdminCollections extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <List>
                     {this.props.collections
@@ -90,7 +91,8 @@ export class AdminCollections extends React.Component<IProps, IComponentState> {
                                                 '/admin/collections/' +
                                                     collection._id
                                             )
-                                        )}
+                                        )
+                                    }
                                 />
                                 <Divider inset={true} />
                             </div>

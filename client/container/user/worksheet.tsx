@@ -94,7 +94,8 @@ export class WorksheetContainer extends React.Component<Props, State> {
                     reset={() =>
                         this.props.dispatch(
                             reset_collection(this.props.collection.meta._id)
-                        )}
+                        )
+                    }
                 />
                 <Popover
                     open={this.state.open}
@@ -143,7 +144,8 @@ export class WorksheetContainer extends React.Component<Props, State> {
                                             this.props.material_id
                                         )
                                 )
-                            )}
+                            )
+                        }
                         icon={<SVGLeft />}
                     />
 
@@ -173,7 +175,8 @@ export class WorksheetContainer extends React.Component<Props, State> {
                                             this.props.material_id
                                         )
                                 )
-                            )}
+                            )
+                        }
                         icon={<SVGRight />}
                     />
                 </BottomNavigation>

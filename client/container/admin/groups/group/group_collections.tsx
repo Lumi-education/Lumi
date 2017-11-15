@@ -87,7 +87,8 @@ export default class AdminGroupCollections extends React.Component<
                                                         '&collection_id=' +
                                                         collection._id
                                                 )
-                                            )}
+                                            )
+                                        }
                                     >
                                         Progress
                                     </MenuItem>,
@@ -98,7 +99,8 @@ export default class AdminGroupCollections extends React.Component<
                                                     this.props.group_id,
                                                     collection._id
                                                 )
-                                            )}
+                                            )
+                                        }
                                     >
                                         Remove
                                     </MenuItem>

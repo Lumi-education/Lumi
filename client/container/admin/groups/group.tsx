@@ -89,7 +89,8 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                         onClick={() =>
                                             this.props.dispatch(
                                                 push('/admin/users/' + user._id)
-                                            )}
+                                            )
+                                        }
                                     />
                                     <Divider inset={true} />
                                 </div>

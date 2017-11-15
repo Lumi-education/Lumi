@@ -114,7 +114,8 @@ export class UserCollectionCard extends React.Component<
                                     this.props.collection_id +
                                     '/cards'
                             )
-                        )}
+                        )
+                    }
                 />
                 <Multiplechoicecard
                     show_correct_values={this.props.collection_data.submitted}
@@ -171,7 +172,8 @@ export class UserCollectionCard extends React.Component<
                                             this.props.card._id
                                         )
                                 )
-                            )}
+                            )
+                        }
                         icon={<SVGLeft />}
                     />
 
@@ -194,7 +196,8 @@ export class UserCollectionCard extends React.Component<
                                             this.props.card._id
                                         )
                                 )
-                            )}
+                            )
+                        }
                         icon={<SVGRight />}
                     />
                 </BottomNavigation>

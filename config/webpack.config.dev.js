@@ -1,53 +1,8 @@
-const _ = require('lodash');
 const webpack = require('webpack');
-const path = require('path');
 const version = require('../package.json').version;
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const sharedConfig = require('./shared.config.js');
 
-const babelOptions = {
-    presets: 'es2015'
-};
-
-const entries = {
-    client: './client/boot'
-};
-
-module.exports = {
-    entry: entries,
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, '../build/client')
-    },
-    module: {
-        rules: [
-            {
-                test: /\.ts(x?)$/,
-                exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: babelOptions
-                    },
-                    {
-                        loader: 'ts-loader'
-                    }
-                ]
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: babelOptions
-                    }
-                ]
-            }
-        ]
-    },
-    resolve: {
-        extensions: ['.tsx', '.ts', '.js']
-    },
+module.exports = Object.assign(sharedConfig, {
     devServer: {
         contentBase: 'build/client',
         port: 8080,
@@ -73,4 +28,4 @@ module.exports = {
             }
         })
     ]
-};
+});

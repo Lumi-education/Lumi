@@ -6,7 +6,6 @@ import Collection from './Collection';
 import { DB } from '../db';
 import Relations from '../db/relations';
 
-
 export default class Group extends Relations implements IGroup {
     public _id: string;
     public type: 'group';
@@ -42,10 +41,7 @@ export default class Group extends Relations implements IGroup {
         );
     }
 
-    public get_collections(
-        db: DB,
-        cb: (collections: Collection[]) => void
-    ) {
+    public get_collections(db: DB, cb: (collections: Collection[]) => void) {
         this.hasMany(db, this.assigned_collections, cb, Collection);
     }
 }

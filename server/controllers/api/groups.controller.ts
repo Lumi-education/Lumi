@@ -38,8 +38,8 @@ class GroupController extends Controller<Group> {
                         {},
                         (collections: Collection[]) => {
                             res.status(200).json({
-								users,
-								collections,
+                                users,
+                                collections,
                                 groups: [group]
                             });
                         },

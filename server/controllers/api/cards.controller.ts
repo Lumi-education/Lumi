@@ -23,7 +23,7 @@ class CardController extends Controller<Card> {
                 {},
                 (tags: Tag[]) => {
                     res.status(200).json({
-						tags,
+                        tags,
                         cards: [card]
                     });
                 },

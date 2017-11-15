@@ -95,7 +95,8 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                             onRequestDelete={group_id =>
                                 this.props.dispatch(
                                     rem_group(this.props.user._id, group_id)
-                                )}
+                                )
+                            }
                         />
                     </Paper>
                 </div>

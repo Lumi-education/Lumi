@@ -102,7 +102,8 @@ export class UserCollectionsCards extends React.Component<
                         </IconButton>
                     }
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(push('/user'))}
+                        this.props.dispatch(push('/user'))
+                    }
                 />
                 <Paper>
                     <List>
@@ -119,21 +120,23 @@ export class UserCollectionsCards extends React.Component<
                                                     '/cards/' +
                                                     card._id
                                             )
-                                        )}
+                                        )
+                                    }
                                     rightIcon={
                                         this.props.data.submitted ? (
-                                            (this.props.card_data
-                                                .toArray()
-                                                .filter(
-                                                    data =>
-                                                        data.collection_id ===
-                                                            this.props
-                                                                .collection_id &&
-                                                        data.card_id ===
-                                                            card._id &&
-                                                        data.data_type ===
-                                                            'card'
-                                                )[0] || {}
+                                            (
+                                                this.props.card_data
+                                                    .toArray()
+                                                    .filter(
+                                                        data =>
+                                                            data.collection_id ===
+                                                                this.props
+                                                                    .collection_id &&
+                                                            data.card_id ===
+                                                                card._id &&
+                                                            data.data_type ===
+                                                                'card'
+                                                    )[0] || {}
                                             ).score > 0 ? (
                                                 <SVGCorrect />
                                             ) : (

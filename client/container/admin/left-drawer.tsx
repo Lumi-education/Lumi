@@ -77,7 +77,8 @@ export class AdminLeftDrawer extends React.Component<IProps, IComponentState> {
                             </IconButton>
                         }
                         onLeftIconButtonTouchTap={() =>
-                            this.props.left_drawer_close()}
+                            this.props.left_drawer_close()
+                        }
                     />
 
                     <List style={{ backgroundColor: '#FFFFFF' }}>
