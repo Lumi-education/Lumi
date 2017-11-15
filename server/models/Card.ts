@@ -7,7 +7,7 @@ import {
     Tag_id,
     Markdown,
     ITag
-} from 'lib/types';
+} from '../../lib/types';
 
 import Tag from './Tag';
 

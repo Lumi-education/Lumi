@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { ITag } from 'lib/types';
+import { ITag } from '../../lib/types';
 
 import { DB } from '../db';
 import Relations from '../db/relations';
