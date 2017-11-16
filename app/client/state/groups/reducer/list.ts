@@ -37,7 +37,7 @@ export default function(
         case GROUPS_CREATE_SUCCESS:
         case GROUPS_ADD_COLLECTION_SUCCESS:
         case GROUPS_REM_COLLECTION_SUCCESS:
-            let o = {};
+            const o = {};
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, IGroup>(o));
 

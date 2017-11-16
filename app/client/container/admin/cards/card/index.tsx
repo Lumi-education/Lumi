@@ -251,9 +251,9 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
                     </Paper>
                 </div>
             );
-        } else {
-            return <div>loading</div>;
-        }
+        } 
+        
+        return <div>loading</div>;
     }
 }
 

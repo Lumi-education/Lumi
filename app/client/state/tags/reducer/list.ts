@@ -26,7 +26,7 @@ export default function(
             );
 
         case TAGS_CREATE_TAG_SUCCESS:
-            let o = {};
+            const o = {};
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, ITag>(o));
 

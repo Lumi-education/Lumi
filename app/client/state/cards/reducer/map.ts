@@ -31,7 +31,7 @@ export default function(
         case CARDS_ADD_TAG_SUCCESS:
         case CARDS_UPDATE_CARD_SUCCESS:
         case CARDS_CREATE_CARD_SUCCESS:
-            let o = {};
+            const o = {};
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, ICard>(o));
 
@@ -49,11 +49,3 @@ export default function(
             return state;
     }
 }
-
-// export function add_group(user: IUser, group_id: string) {
-// 	return assign({}, user, { groups: [ ...user.groups, group_id ]});
-// }
-
-// export function rem_group(user: IUser, group_id: string) {
-// 	return assign({}, user, { groups: user.groups.filter(g => g !== group_id)});
-// }

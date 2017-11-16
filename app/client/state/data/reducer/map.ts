@@ -22,7 +22,7 @@ export default function(
 
         case DATA_UPDATE_SUCCESS:
         case DATA_CREATE_SUCCESS:
-            let o = {};
+            const o = {};
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, {}>(o));
 
