@@ -25,6 +25,8 @@ router.get('/cards/:id', CardsController.read);
 router.put('/cards/:id', CardsController.update);
 router.delete('/cards/:id', CardsController.delete);
 router.put('/cards/:id/action', CardsController.action);
+// cards -> attachments
+router.all('/cards/:id/attachment/:attachment', CardsController.attachment);
 
 // collections
 router.get('/collections', CollectionController.list);
