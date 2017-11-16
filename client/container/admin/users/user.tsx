@@ -98,9 +98,9 @@ export class AdminUsers extends React.Component<IProps, {}> {
                     </Paper>
                 </div>
             );
-        } else {
-            return <div>loading</div>;
         }
+            
+        return <div>loading</div>;
     }
 }
 

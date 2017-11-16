@@ -48,36 +48,33 @@ export class Auth extends React.Component<IProps, {}> {
     public render() {
         if (this.props.is_authed) {
             return <div id="auth">{this.props.children}</div>;
-        } else {
-            return (
-                <Tabs
-                    tabItemContainerStyle={{
-                        background: 'linear-gradient(120deg, #8e44ad, #3498db)'
-                    }}
-                >
-                    <Tab label="Login">
-                        <Login
-                            login={this.login}
-                            request={this.props.request[this.request_id]}
-                            response={this.props.response}
-                        />
-                    </Tab>
-                    <Tab label="Register">
-                        <Register
-                            register={(username: string, password: string) =>
-                                this.props.dispatch(
-                                    register(username, password)
-                                )
-                            }
-                            request={this.props.request[this.request_id]}
-                            response={this.props.response}
-                        />
-                    </Tab>
-                </Tabs>
-            );
         }
+        return (
+            <Tabs
+                tabItemContainerStyle={{
+                    background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+                }}
+            >
+                <Tab label="Login">
+                    <Login
+                        login={this.login}
+                        request={this.props.request[this.request_id]}
+                        response={this.props.response}
+                    />
+                </Tab>
+                <Tab label="Register">
+                    <Register
+                        register={(username: string, password: string) =>
+                            this.props.dispatch(register(username, password))}
+                        request={this.props.request[this.request_id]}
+                        response={this.props.response}
+                    />
+                </Tab>
+            </Tabs>
+        );
     }
 }
+
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         is_authed: state.auth.is_authed,

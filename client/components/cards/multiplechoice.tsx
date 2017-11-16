@@ -93,12 +93,9 @@ function backgroundColor(
         if (item.charAt(0) === 'o') {
             return '#c0392b';
         }
-        return '#3498db';
-    } else {
-        if (selected_items.indexOf(item) > -1) {
-            return '#3498db';
-        } else {
-            return '#FFFFFF';
-        }
     }
+    if (selected_items.indexOf(item) > -1) {
+         return '#3498db';
+    }
+    return '#FFFFFF';
 }

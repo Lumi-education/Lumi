@@ -7,7 +7,7 @@ const babelOptions = {
 const tslintOptions = {
     configFile: path.resolve(__dirname, '../tslint.json'),
     tsConfigFile: path.resolve(__dirname, '../tsconfig.json'),
-    emitErrors: false, // this should be set to true once all errors are fixed
+    emitErrors: true,
     typeCheck: false
 };
 
