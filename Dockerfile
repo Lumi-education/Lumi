@@ -17,4 +17,4 @@ EXPOSE 80
 EXPOSE 8081
 
 # Run Node.js
-CMD ["node", "build/boot.js"]
+CMD ["node", "build/server/boot.js"]

@@ -17,8 +17,7 @@
     "build:client": "NODE_ENV=production webpack --config './config/webpack.config.prod.js' --progress --colors",
     "build:docker": "npm run clean && npm run build:client && docker build -t jpschellenberg/lumi_user:develop .",
     "lint:server": "./node_modules/.bin/tslint --project tsconfig.server.js --config tslint.json",
-    "link": "node -e \"var s='../client',d='node_modules/client',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\" && node -e \"var s='../server',d='node_modules/server',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\" && node -e \"var s='../lib',d='node_modules/lib',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\"",
-    "postinstall": "npm run link && npm run build"
+    "postinstall": "npm run build"
   },
   "author": "Jan Philip Schellenberg",
   "license": "",

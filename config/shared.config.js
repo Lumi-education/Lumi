@@ -12,7 +12,7 @@ const tslintOptions = {
 };
 
 const entries = {
-    client: './client/boot'
+    client: './app/client/boot'
 };
 
 module.exports = {
@@ -57,6 +57,10 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            client: path.resolve(__dirname, '../app/client'),
+            'common/types': path.resolve(__dirname, '../app/common')
+        }
     }
 };
