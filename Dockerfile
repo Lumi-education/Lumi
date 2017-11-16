@@ -8,9 +8,7 @@ WORKDIR /srv
 
 # Install app dependencies & build
 RUN npm install
-RUN npm run link
-RUN npm run build:client
-RUN npm run build:server
+RUN npm run build
 
 # Open Port 80
 EXPOSE 80
