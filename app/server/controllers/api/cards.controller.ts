@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { IRequest } from '../../middleware/auth';
 
+import proxy from '../../core/proxy';
 import Card from '../../models/Card';
 import Tag from '../../models/Tag';
 import { DB } from '../../db';
@@ -53,6 +54,20 @@ class CardController extends Controller<Card> {
             },
             Card
         );
+    }
+
+    public attachment(req: express.Request, res: express.Response) {
+        req.url =
+            '/' +
+            process.env.DB +
+            '/' +
+            req.params.id +
+            '/' +
+            req.params.attachment;
+
+        proxy.web(req, res, {
+            target: process.env.DB_HOST
+        });
     }
 }
 
