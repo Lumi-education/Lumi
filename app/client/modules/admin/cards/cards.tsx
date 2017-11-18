@@ -32,8 +32,8 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import Tag from 'client/components/tag';
-import FilterBar from 'client/components/filter-bar';
+import Tag from 'client/packages/tags/components/tag';
+import FilterBar from 'client/packages/ui/components/filter-bar';
 
 // local
 import { IState } from 'client/state';

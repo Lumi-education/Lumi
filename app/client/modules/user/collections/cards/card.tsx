@@ -24,7 +24,7 @@ import {
     BottomNavigation,
     BottomNavigationItem
 } from 'material-ui/BottomNavigation';
-import Multiplechoicecard from 'client/components/cards/multiplechoice';
+import Multiplechoicecard from 'client/packages/cards/components/multiplechoice';
 import AppBar from 'material-ui/AppBar';
 
 // local

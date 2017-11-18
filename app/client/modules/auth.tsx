@@ -8,8 +8,8 @@ import { IState } from 'client/state';
 
 // components
 import { Tabs, Tab } from 'material-ui/Tabs';
-import Login from 'client/components/login';
-import Register from 'client/components/register';
+import LoginComponent from 'client/packages/auth/components/login';
+import RegisterComponent from 'client/packages/auth/components/register';
 
 // actions
 import { push } from 'react-router-redux';
@@ -56,14 +56,14 @@ export class Auth extends React.Component<IProps, {}> {
                 }}
             >
                 <Tab label="Login">
-                    <Login
+                    <LoginComponent
                         login={this.login}
                         request={this.props.request[this.request_id]}
                         response={this.props.response}
                     />
                 </Tab>
                 <Tab label="Register">
-                    <Register
+                    <RegisterComponent
                         register={(username: string, password: string) =>
                             this.props.dispatch(register(username, password))}
                         request={this.props.request[this.request_id]}

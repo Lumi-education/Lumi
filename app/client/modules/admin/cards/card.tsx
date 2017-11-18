@@ -12,9 +12,9 @@ import Paper from 'material-ui/Paper';
 import ChipInput from 'material-ui-chip-input';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
-import TagInput from 'client/components/tag-input';
+import TagInput from 'client/packages/tags/components/tag-input';
 
-import MultiplechoiceCard from 'client/components/cards/multiplechoice';
+import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
 
 // local
 import { IState } from 'client/state';

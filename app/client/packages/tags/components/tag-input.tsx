@@ -6,7 +6,7 @@ import Avatar from 'material-ui/Avatar';
 import AutoComplete from 'material-ui/AutoComplete';
 import ChipInput from 'material-ui-chip-input';
 
-import Tag from 'client/components/tag';
+import Tag from './tag';
 
 import { ITag } from 'common/types';
 

@@ -19,7 +19,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import FilterBar from 'client/components/filter-bar';
+import FilterBar from 'client/packages/ui/components/filter-bar';
 import SVGAssignmentReturn from 'material-ui/svg-icons/action/assignment-return';
 import SVGCorrect from 'material-ui/svg-icons/action/done';
 import SVGWrong from 'material-ui/svg-icons/navigation/close';

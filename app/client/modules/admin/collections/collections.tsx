@@ -17,7 +17,7 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import FilterBar from 'client/components/filter-bar';
+import FilterBar from 'client/packages/ui/components/filter-bar';
 
 // local
 import { IState } from 'client/state';

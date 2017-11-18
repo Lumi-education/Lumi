@@ -30,7 +30,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-import FilterBar from 'client/components/filter-bar';
+import FilterBar from 'client/packages/ui/components/filter-bar';
 
 // local
 import { IState } from 'client/state';

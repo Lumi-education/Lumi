@@ -20,7 +20,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import CreateUserDialog from './create_user_dialog';
 
-import FilterBar from 'client/components/filter-bar';
+import FilterBar from 'client/packages/ui/components/filter-bar';
 
 // local
 import { IState } from 'client/state';

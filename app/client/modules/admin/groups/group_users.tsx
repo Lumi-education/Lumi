@@ -9,7 +9,7 @@ import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-import FilterBar from 'client/components/filter-bar';
+import FilterBar from 'client/packages/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Divider from 'material-ui/Divider';
