@@ -2,27 +2,27 @@ import * as React from 'react';
 
 import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
-import Auth from 'client/container/auth';
-import Websocket from 'client/container/websocket';
-import Landing from 'client/container/landing';
-import AdminIndex from 'client/container/admin';
-import { Collections } from 'client/container/admin/collections';
+import Auth from 'client/modules/auth';
+import Websocket from 'client/modules/websocket';
+import Landing from 'client/modules/landing';
+import AdminIndex from 'client/modules/admin';
+import { Collections } from 'client/modules/admin/collections';
 import {
     Group,
     Groups,
     CreateOrAddUserDialog,
     AddCollectionDialog
-} from 'client/container/admin/groups';
-import { Tags } from 'client/container/admin/tags';
-import { Card, Cards } from 'client/container/admin/cards';
-import { User, Users } from 'client/container/admin/users';
-import { Progress } from 'client/container/admin/analytics';
+} from 'client/modules/admin/groups';
+import { Tags } from 'client/modules/admin/tags';
+import { Card, Cards } from 'client/modules/admin/cards';
+import { User, Users } from 'client/modules/admin/users';
+import { Progress } from 'client/modules/admin/analytics';
 
-import UserIndex from 'client/container/user';
-import UserCollections from 'client/container/user/collections';
-import UserCollectionCardsList from 'client/container/user/collections/cards/list';
-import UserCollectionCard from 'client/container/user/collections/cards/card';
-import UserDashboard from 'client/container/user/dashboard';
+import UserIndex from 'client/modules/user';
+import UserCollections from 'client/modules/user/collections';
+import UserCollectionCardsList from 'client/modules/user/collections/cards/list';
+import UserCollectionCard from 'client/modules/user/collections/cards/card';
+import UserDashboard from 'client/modules/user/dashboard';
 
 interface IProps {
     history: {};
