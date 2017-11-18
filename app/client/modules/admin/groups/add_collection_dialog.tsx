@@ -11,12 +11,12 @@ import { IState } from 'client/state';
 import { ICollection, IGroup } from 'common/types';
 
 // selectors
-import { select_group } from 'client/state/groups/selectors';
+import { select_group } from 'client/packages/groups/selectors';
 
 // actions
-import { get_collections } from 'client/state/collections/actions';
+import { get_collections } from 'client/packages/collections/actions';
 
-import { add_collection_to_group } from 'client/state/groups/actions';
+import { add_collection_to_group } from 'client/packages/groups/actions';
 
 interface IStateProps {
     collections: ICollection[];

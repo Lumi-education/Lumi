@@ -13,7 +13,7 @@ import Register from 'client/components/register';
 
 // actions
 import { push } from 'react-router-redux';
-import { get_session, login, register } from 'client/state/auth/actions';
+import { get_session, login, register } from 'client/packages/auth/actions';
 
 interface IStateProps {
     is_authed: boolean;

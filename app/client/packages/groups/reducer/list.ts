@@ -16,7 +16,7 @@ import {
     GROUPS_ADD_COLLECTION_SUCCESS,
     GROUPS_REM_COLLECTION_SUCCESS,
     DB_CHANGE
-} from 'client/state/action-types';
+} from 'client/packages/action-types';
 
 export default function(
     state: Map<string, IGroup> = Map<string, IGroup>({}),

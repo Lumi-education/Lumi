@@ -16,10 +16,13 @@ import { IState } from 'client/state';
 import { IUser, IGroup } from 'common/types';
 
 // actions
-import { snackbar_open } from 'client/state/ui/actions';
-import { get_user, add_group, rem_group } from 'client/state/users/actions';
+import { snackbar_open } from 'client/packages/ui/actions';
+import { get_user, add_group, rem_group } from 'client/packages/users/actions';
 
-import { get_groups, create_and_add_group } from 'client/state/groups/actions';
+import {
+    get_groups,
+    create_and_add_group
+} from 'client/packages/groups/actions';
 
 interface IStateProps {
     user: IUser;
@@ -93,14 +96,13 @@ export class AdminUsers extends React.Component<IProps, {}> {
                             onRequestDelete={group_id =>
                                 this.props.dispatch(
                                     rem_group(this.props.user._id, group_id)
-                                )
-                            }
+                                )}
                         />
                     </Paper>
                 </div>
             );
         }
-            
+
         return <div>loading</div>;
     }
 }

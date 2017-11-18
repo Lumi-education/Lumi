@@ -12,7 +12,7 @@ import {
     GROUPS_DELETE_SUCCESS,
     GROUPS_GET_GROUP_SUCCESS,
     DB_CHANGE
-} from 'client/state/action-types';
+} from 'client/packages/action-types';
 
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {

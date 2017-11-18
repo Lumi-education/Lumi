@@ -13,7 +13,7 @@ import {
     CARDS_CREATE_CARD_SUCCESS,
     COLLECTION_GET_SUCCESS,
     DB_CHANGE
-} from 'client/state/action-types';
+} from 'client/packages/action-types';
 
 export default function(
     state: Map<string, ICard> = Map<string, ICard>({}),

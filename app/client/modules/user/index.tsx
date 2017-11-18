@@ -13,13 +13,13 @@ import {
     left_drawer_close,
     left_drawer_open,
     push
-} from 'client/state/ui/actions';
+} from 'client/packages/ui/actions';
 
-import { init } from 'client/state/user/actions';
+import { init } from 'client/packages/user/actions';
 
-import { session_update } from 'client/state/session/actions';
+import { session_update } from 'client/packages/session/actions';
 
-import { get_user_collections } from 'client/state/collections/actions';
+import { get_user_collections } from 'client/packages/collections/actions';
 
 interface IStateProps {
     request: {};

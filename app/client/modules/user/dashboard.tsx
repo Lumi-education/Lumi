@@ -14,20 +14,20 @@ import AppBar from 'material-ui/AppBar';
 import LeftDrawer from './left-drawer';
 
 // selectors
-import { select_collections_as_array } from 'client/state/collections/selectors';
+import { select_collections_as_array } from 'client/packages/collections/selectors';
 
 // actions
 import {
     left_drawer_close,
     left_drawer_open,
     push
-} from 'client/state/ui/actions';
+} from 'client/packages/ui/actions';
 
-import { init } from 'client/state/user/actions';
+import { init } from 'client/packages/user/actions';
 
-import { session_update } from 'client/state/session/actions';
+import { session_update } from 'client/packages/session/actions';
 
-import { get_user_collections } from 'client/state/collections/actions';
+import { get_user_collections } from 'client/packages/collections/actions';
 
 interface IStateProps {
     collections: ICollection[];

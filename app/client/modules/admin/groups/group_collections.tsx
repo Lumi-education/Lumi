@@ -22,8 +22,8 @@ import MenuItem from 'material-ui/MenuItem';
 import CreateOrAddUserDialog from './create_or_add_user_dialog';
 
 // selectors
-import { select_group } from 'client/state/groups/selectors';
-import { get_users_by_group } from 'client/state/users/selectors';
+import { select_group } from 'client/packages/groups/selectors';
+import { get_users_by_group } from 'client/packages/users/selectors';
 
 // types
 import { IState } from 'client/state';
@@ -35,7 +35,7 @@ import {
     delete_group,
     create_group,
     rem_collection_from_group
-} from 'client/state/groups/actions';
+} from 'client/packages/groups/actions';
 
 interface IStateProps {
     collections: ICollection[];

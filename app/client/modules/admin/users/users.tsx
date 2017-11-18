@@ -33,7 +33,7 @@ import {
     create_user,
     get_users,
     delete_user
-} from 'client/state/users/actions';
+} from 'client/packages/users/actions';
 
 interface IStateProps {
     users: IUser[];

@@ -28,10 +28,10 @@ import { IState } from 'client/state';
 import { ICollection, ICard } from 'common/types';
 
 // selectors
-import { select_cards_by_ids } from 'client/state/cards/selectors';
-import { select_collection_by_id } from 'client/state/collections/selectors';
+import { select_cards_by_ids } from 'client/packages/cards/selectors';
+import { select_collection_by_id } from 'client/packages/collections/selectors';
 // actions
-import { get_collection } from 'client/state/collections/actions';
+import { get_collection } from 'client/packages/collections/actions';
 
 interface IStateProps {
     collection: ICollection;

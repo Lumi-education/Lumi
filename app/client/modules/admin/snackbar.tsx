@@ -8,7 +8,10 @@ import MUISnackbar from 'material-ui/Snackbar';
 
 // actions
 
-import { left_drawer_open, left_drawer_close } from 'client/state/ui/actions';
+import {
+    left_drawer_open,
+    left_drawer_close
+} from 'client/packages/ui/actions';
 
 // local
 import { IState } from 'client/state';

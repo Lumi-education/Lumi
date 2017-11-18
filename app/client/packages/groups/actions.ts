@@ -19,9 +19,9 @@ import {
     GROUPS_REM_COLLECTION_REQUEST,
     GROUPS_REM_COLLECTION_SUCCESS,
     GROUPS_REM_COLLECTION_ERROR
-} from 'client/state/action-types';
+} from 'client/packages/action-types';
 
-import { add_group } from 'client/state/users/actions';
+import { add_group } from 'client/packages/users/actions';
 
 import * as API from './api';
 

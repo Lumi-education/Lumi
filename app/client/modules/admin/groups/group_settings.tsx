@@ -16,8 +16,8 @@ import Divider from 'material-ui/Divider';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 // selectors
-import { select_group } from 'client/state/groups/selectors';
-import { get_users_by_group } from 'client/state/users/selectors';
+import { select_group } from 'client/packages/groups/selectors';
+import { get_users_by_group } from 'client/packages/users/selectors';
 
 // types
 import { IState } from 'client/state';
@@ -28,7 +28,7 @@ import {
     get_group,
     delete_group,
     create_group
-} from 'client/state/groups/actions';
+} from 'client/packages/groups/actions';
 
 interface IStateProps {
     group: IGroup;
@@ -42,10 +42,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class AdminGroupSettings extends React.Component<
-    IProps,
-    {}
-> {
+export class AdminGroupSettings extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 

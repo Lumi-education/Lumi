@@ -39,10 +39,10 @@ import { IState } from 'client/state';
 import { ITag } from 'common/types';
 
 // selectors
-import { select_all_tags } from 'client/state/tags/selectors';
+import { select_all_tags } from 'client/packages/tags/selectors';
 
 // actions
-import { get_tags, create_tag, delete_tag } from 'client/state/tags/actions';
+import { get_tags, create_tag, delete_tag } from 'client/packages/tags/actions';
 
 interface IStateProps {
     tags: ITag[];

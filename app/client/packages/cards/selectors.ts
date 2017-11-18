@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { IState } from '../';
+import { IState } from 'client/state';
 
 import { ICard } from 'common/types';
 

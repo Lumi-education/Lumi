@@ -1,4 +1,4 @@
-import { IState } from '../';
+import { IState } from 'client/state';
 
 import { ICollection } from 'common/types';
 

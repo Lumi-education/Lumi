@@ -11,7 +11,10 @@ import LeftDrawer from './left-drawer';
 import Snackbar from './snackbar';
 
 // actions
-import { left_drawer_close, left_drawer_open } from 'client/state/ui/actions';
+import {
+    left_drawer_close,
+    left_drawer_open
+} from 'client/packages/ui/actions';
 
 interface IStateProps {
     request: {};

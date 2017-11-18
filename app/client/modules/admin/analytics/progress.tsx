@@ -31,20 +31,20 @@ import { ICard, ICollection, IUser, IGroup } from 'common/types';
 import {
     select_collection_by_id,
     select_collections_as_array
-} from 'client/state/collections/selectors';
+} from 'client/packages/collections/selectors';
 
-import { select_cards_by_ids } from 'client/state/cards/selectors';
+import { select_cards_by_ids } from 'client/packages/cards/selectors';
 
-import { get_users_by_group } from 'client/state/users/selectors';
-import { select_data_as_map } from 'client/state/data/selectors';
-import { groups_list } from 'client/state/groups/selectors';
+import { get_users_by_group } from 'client/packages/users/selectors';
+import { select_data_as_map } from 'client/packages/data/selectors';
+import { groups_list } from 'client/packages/groups/selectors';
 // actions
 import {
     get_collections,
     get_collection
-} from 'client/state/collections/actions';
-import { get_groups, get_group } from 'client/state/groups/actions';
-import { get_data } from 'client/state/data/actions';
+} from 'client/packages/collections/actions';
+import { get_groups, get_group } from 'client/packages/groups/actions';
+import { get_data } from 'client/packages/data/actions';
 
 interface IStateProps {
     collection: ICollection;

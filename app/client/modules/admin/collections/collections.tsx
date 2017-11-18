@@ -26,7 +26,7 @@ import { IState } from 'client/state';
 import { ICollection } from 'common/types';
 
 // actions
-import { get_collections } from 'client/state/collections/actions';
+import { get_collections } from 'client/packages/collections/actions';
 
 interface IStateProps {
     collections: ICollection[];

@@ -25,8 +25,11 @@ import SVGTrendingUp from 'material-ui/svg-icons/action/trending-up';
 import { IState } from 'client/state';
 declare var process;
 // actions
-import { left_drawer_open, left_drawer_close } from 'client/state/ui/actions';
-import { logout } from 'client/state/auth/actions';
+import {
+    left_drawer_open,
+    left_drawer_close
+} from 'client/packages/ui/actions';
+import { logout } from 'client/packages/auth/actions';
 
 interface IStateProps {
     left_drawer_show: boolean;

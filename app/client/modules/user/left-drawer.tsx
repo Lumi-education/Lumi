@@ -17,12 +17,12 @@ import {
     push,
     left_drawer_close,
     left_drawer_open
-} from 'client/state/ui/actions';
+} from 'client/packages/ui/actions';
 
-import { logout } from 'client/state/auth/actions';
+import { logout } from 'client/packages/auth/actions';
 
 // selector
-import { select_collections_as_array } from 'client/state/collections/selectors';
+import { select_collections_as_array } from 'client/packages/collections/selectors';
 
 // types
 import { ICollection } from 'common/types';

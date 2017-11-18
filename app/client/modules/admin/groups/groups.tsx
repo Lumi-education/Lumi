@@ -17,7 +17,7 @@ import Divider from 'material-ui/Divider';
 import CreateGroupDialog from './create_group_dialog';
 
 // selectors
-import { groups_list } from 'client/state/groups/selectors';
+import { groups_list } from 'client/packages/groups/selectors';
 
 // types
 import { IState } from 'client/state';
@@ -28,7 +28,7 @@ import {
     get_groups,
     delete_group,
     create_group
-} from 'client/state/groups/actions';
+} from 'client/packages/groups/actions';
 
 interface IStateProps {
     groups: IGroup[];

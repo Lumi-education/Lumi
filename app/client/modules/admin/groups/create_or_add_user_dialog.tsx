@@ -10,7 +10,11 @@ import { IState } from 'client/state';
 import { IGroup, IUser } from 'common/types';
 
 // actions
-import { get_users, add_group, create_user } from 'client/state/users/actions';
+import {
+    get_users,
+    add_group,
+    create_user
+} from 'client/packages/users/actions';
 
 interface IStateProps {
     users: IUser[];

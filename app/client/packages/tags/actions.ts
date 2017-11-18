@@ -10,11 +10,11 @@ import {
     TAGS_GET_TAGS_REQUEST,
     TAGS_GET_TAGS_SUCCESS,
     TAGS_GET_TAGS_ERROR
-} from 'client/state/action-types';
+} from 'client/packages/action-types';
 
 import * as API from './api';
 
-import { add_tag_to_card } from 'client/state/cards/actions';
+import { add_tag_to_card } from 'client/packages/cards/actions';
 
 export function create_tag(name: string, description?: string) {
     return {

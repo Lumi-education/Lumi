@@ -19,9 +19,9 @@ import GroupUsers from './group_users';
 import GroupCollections from './group_collections';
 
 // selectors
-import { select_group } from 'client/state/groups/selectors';
-import { get_users_by_group } from 'client/state/users/selectors';
-import { select_collections_by_ids } from 'client/state/collections/selectors';
+import { select_group } from 'client/packages/groups/selectors';
+import { get_users_by_group } from 'client/packages/users/selectors';
+import { select_collections_by_ids } from 'client/packages/collections/selectors';
 
 // types
 import { IState } from 'client/state';
@@ -32,7 +32,7 @@ import {
     get_group,
     delete_group,
     create_group
-} from 'client/state/groups/actions';
+} from 'client/packages/groups/actions';
 
 interface IStateProps {
     group: IGroup;

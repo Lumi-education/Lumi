@@ -42,12 +42,12 @@ import { IState } from 'client/state';
 import { ICard, ITag } from 'common/types';
 
 // selectors
-import { select_all_cards } from 'client/state/cards/selectors';
-import { select_tags_as_map } from 'client/state/tags/selectors';
+import { select_all_cards } from 'client/packages/cards/selectors';
+import { select_tags_as_map } from 'client/packages/tags/selectors';
 
 // actions
-import { get_cards, create_card } from 'client/state/cards/actions';
-import { get_tags } from 'client/state/tags/actions';
+import { get_cards, create_card } from 'client/packages/cards/actions';
+import { get_tags } from 'client/packages/tags/actions';
 
 const md = markdownit();
 

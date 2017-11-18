@@ -22,8 +22,8 @@ import MenuItem from 'material-ui/MenuItem';
 import CreateOrAddUserDialog from './create_or_add_user_dialog';
 
 // selectors
-import { select_group } from 'client/state/groups/selectors';
-import { get_users_by_group } from 'client/state/users/selectors';
+import { select_group } from 'client/packages/groups/selectors';
+import { get_users_by_group } from 'client/packages/users/selectors';
 
 // types
 import { IState } from 'client/state';
@@ -34,9 +34,9 @@ import {
     get_group,
     delete_group,
     create_group
-} from 'client/state/groups/actions';
+} from 'client/packages/groups/actions';
 
-import { rem_group } from 'client/state/users/actions';
+import { rem_group } from 'client/packages/users/actions';
 
 interface IStateProps {
     users: IUser[];
@@ -81,8 +81,7 @@ export default class AdminGroupUsers extends React.Component<
                                         onClick={() =>
                                             this.props.dispatch(
                                                 push('/admin/users/' + user._id)
-                                            )
-                                        }
+                                            )}
                                     >
                                         View
                                     </MenuItem>,
@@ -93,8 +92,7 @@ export default class AdminGroupUsers extends React.Component<
                                                     user._id,
                                                     this.props.group_id
                                                 )
-                                            )
-                                        }
+                                            )}
                                     >
                                         Remove
                                     </MenuItem>

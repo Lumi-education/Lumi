@@ -8,7 +8,7 @@ import {
     DATA_UPDATE_SUCCESS,
     DATA_CREATE_SUCCESS,
     DB_CHANGE
-} from 'client/state/action-types';
+} from 'client/packages/action-types';
 
 export default function(
     state: Map<string, {}> = Map<string, IData>({}),
