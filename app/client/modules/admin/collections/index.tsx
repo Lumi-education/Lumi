@@ -1,1 +1,1 @@
-export { default as Collections } from './collections';
+export { default as CollectionsPage } from './collections-page';

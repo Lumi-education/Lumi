@@ -6,7 +6,7 @@ import Auth from 'client/modules/auth';
 import Websocket from 'client/modules/websocket';
 import Landing from 'client/modules/landing';
 import AdminIndex from 'client/modules/admin';
-import { Collections } from 'client/modules/admin/collections';
+import { CollectionsPage } from 'client/modules/admin/collections';
 import {
     Group,
     Groups,
@@ -56,7 +56,10 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                             </Route>
                         </Route>
                         <Route path="/admin" component={AdminIndex}>
-                            <Route path="collections" component={Collections} />
+                            <Route
+                                path="collections"
+                                component={CollectionsPage}
+                            />
                             <Route path="groups" component={Groups} />
                             <Redirect
                                 from="groups/:group_id"
