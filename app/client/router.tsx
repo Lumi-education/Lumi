@@ -2,27 +2,27 @@ import * as React from 'react';
 
 import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
-import Auth from 'client/container/auth';
-import Websocket from 'client/container/websocket';
-import Landing from 'client/container/landing';
-import AdminIndex from 'client/container/admin';
-import { Collections } from 'client/container/admin/collections';
+import Auth from 'client/modules/auth';
+import Websocket from 'client/modules/websocket';
+import Landing from 'client/modules/landing';
+import AdminIndex from 'client/modules/admin';
+import { CollectionsPage } from 'client/modules/admin/collections';
 import {
     Group,
     Groups,
     CreateOrAddUserDialog,
     AddCollectionDialog
-} from 'client/container/admin/groups';
-import { Tags } from 'client/container/admin/tags';
-import { Card, Cards } from 'client/container/admin/cards';
-import { User, Users } from 'client/container/admin/users';
-import { Progress } from 'client/container/admin/analytics';
+} from 'client/modules/admin/groups';
+import { TagsPage } from 'client/modules/admin/tags';
+import { CardPage, CardsPage } from 'client/modules/admin/cards';
+import { User, Users } from 'client/modules/admin/users';
+import { Progress } from 'client/modules/admin/analytics';
 
-import UserIndex from 'client/container/user';
-import UserCollections from 'client/container/user/collections';
-import UserCollectionCardsList from 'client/container/user/collections/cards/list';
-import UserCollectionCard from 'client/container/user/collections/cards/card';
-import UserDashboard from 'client/container/user/dashboard';
+import UserIndex from 'client/modules/user';
+import UserCollections from 'client/modules/user/collections';
+import UserCollectionCardsList from 'client/modules/user/collections/cards/list';
+import UserCollectionCard from 'client/modules/user/collections/cards/card';
+import UserDashboard from 'client/modules/user/dashboard';
 
 interface IProps {
     history: {};
@@ -56,7 +56,10 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                             </Route>
                         </Route>
                         <Route path="/admin" component={AdminIndex}>
-                            <Route path="collections" component={Collections} />
+                            <Route
+                                path="collections"
+                                component={CollectionsPage}
+                            />
                             <Route path="groups" component={Groups} />
                             <Redirect
                                 from="groups/:group_id"
@@ -80,9 +83,9 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                             />
                             <Route path="users" component={Users} />
                             <Route path="users/:user_id" component={User} />
-                            <Route path="tags" component={Tags} />
-                            <Route path="cards" component={Cards} />
-                            <Route path="cards/:card_id" component={Card} />
+                            <Route path="tags" component={TagsPage} />
+                            <Route path="cards" component={CardsPage} />
+                            <Route path="cards/:card_id" component={CardPage} />
                         </Route>
                     </Route>
                 </Route>
