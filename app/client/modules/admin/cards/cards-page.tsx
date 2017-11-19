@@ -35,6 +35,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Tag from 'client/packages/tags/components/tag';
 import FilterBar from 'client/packages/ui/components/filter-bar';
 
+import CardListComponent from 'client/packages/cards/components/card-list';
+
 // local
 import { IState } from 'client/state';
 
@@ -94,36 +96,20 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     set_filter={filter =>
                         this.setState({ search_text: filter })}
                 />
-                <List>
-                    {this.props.cards
-                        .filter(card => {
-                            return this.state.search_text === ''
-                                ? true
-                                : (card.name + card.description)
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })
-                        .map(card => (
-                            <div>
-                                <ListItem
-                                    leftAvatar={
-                                        <Avatar>
-                                            {card.name.substring(0, 3)}
-                                        </Avatar>
-                                    }
-                                    primaryText={card.name}
-                                    secondaryText={card.description}
-                                    onClick={() =>
-                                        this.props.dispatch(
-                                            push('/admin/cards/' + card._id)
-                                        )}
-                                />
-                                <Divider inset={true} />
-                            </div>
-                        ))}
-                </List>
+                <CardListComponent
+                    cards={this.props.cards.filter(card => {
+                        return this.state.search_text === ''
+                            ? true
+                            : (card.name + card.description)
+                                  .toLocaleLowerCase()
+                                  .indexOf(
+                                      this.state.search_text.toLocaleLowerCase()
+                                  ) > -1;
+                    })}
+                    onClick={(id: string) =>
+                        this.props.dispatch(push('/admin/cards/' + id))}
+                />
+
                 <FloatingActionButton
                     onClick={() => this.props.dispatch(create_card())}
                     style={{

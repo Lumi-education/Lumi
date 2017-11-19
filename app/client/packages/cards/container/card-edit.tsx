@@ -44,9 +44,12 @@ import {
     delete_card
 } from 'client/packages/cards/actions';
 
-interface IStateProps {
-    card: ICard;
+interface IPassedProps {
     card_id: string;
+}
+
+interface IStateProps extends IPassedProps {
+    card: ICard;
     tags: Map<string, ITag>;
 }
 
@@ -64,7 +67,10 @@ interface IComponentState {
     card_type?: 'multiplechoice' | 'freetext' | 'sort' | 'text' | 'video';
 }
 
-export class AdminCard extends React.Component<IProps, IComponentState> {
+export class CardEditContainer extends React.Component<
+    IProps,
+    IComponentState
+> {
     constructor(props: IProps) {
         super(props);
 
@@ -253,8 +259,8 @@ export class AdminCard extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         tags: select_tags_as_map(state),
-        card: select_card(state, ownProps.params.card_id),
-        card_id: ownProps.params.card_id
+        card: select_card(state, ownProps.card_id),
+        card_id: ownProps.card_id
     };
 }
 
@@ -264,6 +270,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminCard
-);
+export default connect<IStateProps, IDispatchProps, IPassedProps>(
+    mapStateToProps,
+    mapDispatchToProps
+)(CardEditContainer);

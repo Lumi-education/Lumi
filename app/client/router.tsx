@@ -14,7 +14,7 @@ import {
     AddCollectionDialog
 } from 'client/modules/admin/groups';
 import { Tags } from 'client/modules/admin/tags';
-import { Card, Cards } from 'client/modules/admin/cards';
+import { CardPage, CardsPage } from 'client/modules/admin/cards';
 import { User, Users } from 'client/modules/admin/users';
 import { Progress } from 'client/modules/admin/analytics';
 
@@ -81,8 +81,8 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                             <Route path="users" component={Users} />
                             <Route path="users/:user_id" component={User} />
                             <Route path="tags" component={Tags} />
-                            <Route path="cards" component={Cards} />
-                            <Route path="cards/:card_id" component={Card} />
+                            <Route path="cards" component={CardsPage} />
+                            <Route path="cards/:card_id" component={CardPage} />
                         </Route>
                     </Route>
                 </Route>
