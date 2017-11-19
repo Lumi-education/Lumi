@@ -31,7 +31,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
 import FilterBar from 'client/packages/ui/components/filter-bar';
-
+import TagListComponent from 'client/packages/tags/components/tag-list';
 // local
 import { IState } from 'client/state';
 
@@ -123,52 +123,17 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                     </div>
                 </Paper>
                 <Paper>
-                    <List>
-                        {this.props.tags
-                            .filter(tag => {
-                                return this.state.search_text === ''
-                                    ? true
-                                    : (tag.name + tag.description)
-                                          .toLocaleLowerCase()
-                                          .indexOf(
-                                              this.state.search_text.toLocaleLowerCase()
-                                          ) > -1;
-                            })
-                            .map(tag => (
-                                <div>
-                                    <ListItem
-                                        leftAvatar={
-                                            <Avatar
-                                                style={{
-                                                    background:
-                                                        tag.color ||
-                                                        'linear-gradient(120deg, #8e44ad, #3498db)'
-                                                }} // || '#BCBCBC'}
-                                            >
-                                                {tag.short_name ||
-                                                    tag.name.substring(0, 3)}
-                                            </Avatar>
-                                        }
-                                        primaryText={tag.name}
-                                        secondaryText={
-                                            tag.description ||
-                                            'this tag has no description'
-                                        }
-                                        rightIconButton={rightIconMenu([
-                                            <MenuItem
-                                                onClick={() =>
-                                                    this.props.dispatch(
-                                                        delete_tag(tag._id)
-                                                    )}
-                                            >
-                                                Delete
-                                            </MenuItem>
-                                        ])}
-                                    />
-                                    <Divider inset={true} />
-                                </div>
-                            ))}
-                    </List>
+                    <TagListComponent
+                        tags={this.props.tags.filter(tag => {
+                            return this.state.search_text === ''
+                                ? true
+                                : (tag.name + tag.description)
+                                      .toLocaleLowerCase()
+                                      .indexOf(
+                                          this.state.search_text.toLocaleLowerCase()
+                                      ) > -1;
+                        })}
+                    />
                 </Paper>
             </div>
         );

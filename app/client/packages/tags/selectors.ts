@@ -10,3 +10,15 @@ export function select_all_tags(state: IState): ITag[] {
 export function select_tags_as_map(state: IState): Map<string, ITag> {
     return state.tags.list;
 }
+
+export function select_tag(state: IState, tag_id): ITag {
+    return state.tags.list.get(tag_id, {
+        _id: undefined,
+        type: 'tag',
+        name: 'tag not found',
+        short_name: '404',
+        description: 'tag not found',
+        color: 'red',
+        created_at: new Date()
+    });
+}
