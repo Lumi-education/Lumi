@@ -8,13 +8,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import Router from './router';
 import store from 'client/state';
 
-import * as injectTapEventPlugin from 'react-tap-event-plugin';
-
 declare var process;
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
 
 import Theme from './style/theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
