@@ -4,24 +4,18 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Map } from 'immutable';
 
+// components
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
-import ChipInput from 'material-ui-chip-input';
-import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import TagInput from 'client/packages/tags/components/tag-input';
-
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
 
-// local
-import { IState } from 'client/state';
-
-// components
-
 // types
+import { IState } from 'client/state';
 import { ICard, ITag } from 'common/types';
 
 // selectors
@@ -30,7 +24,6 @@ import { select_card } from 'client/packages/cards/selectors';
 import { select_tags_as_map } from 'client/packages/tags/selectors';
 
 // actions
-import { snackbar_open } from 'client/packages/ui/actions';
 import {
     create_tag_and_add_to_card,
     get_tags
@@ -85,7 +78,6 @@ export class CardEditContainer extends React.Component<
 
     public componentWillMount() {
         this.props.dispatch(get_card(this.props.card_id));
-        this.props.dispatch(get_tags());
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
