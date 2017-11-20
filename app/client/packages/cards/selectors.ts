@@ -15,9 +15,7 @@ export function select_cards_by_ids(
     state: IState,
     card_ids: string[] = []
 ): ICard[] {
-    return state.cards.map
-        .toArray()
-        .filter(card => card_ids.indexOf(card._id) > -1);
+    return card_ids.map(card_id => select_card(state, card_id));
 }
 
 export function select_card(state: IState, card_id: string): ICard {
