@@ -21,6 +21,13 @@ export function post_collectionmeta(collection_id: string) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function update_collection(collection_id: string, update) {
+    return request
+        .put('/api/v0/collections/' + collection_id)
+        .send(update)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function submit_collection(collection_meta_id: string) {
     return request
         .put('/api/user/v0/collectionmeta/' + collection_meta_id + '/submit')
