@@ -8,6 +8,7 @@ import CardsController from '../controllers/api/cards.controller';
 import CollectionController from '../controllers/api/collections.controller';
 import GroupController from '../controllers/api/groups.controller';
 import UsersController from '../controllers/api/users.controller';
+import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
 
 const router = Router();
@@ -66,6 +67,8 @@ router.post('/user/card', mw.auth, CardsController.create);
 router.get('/user/card/:id', mw.auth, CardsController.read);
 router.put('/user/card/:id', mw.auth, CardsController.update);
 router.delete('/user/card/:id', mw.auth, CardsController.delete);
+
+router.get('/user/collections', mw.auth, UserController.collections);
 
 // user -> groups
 router.get('/user/groups', mw.auth);
