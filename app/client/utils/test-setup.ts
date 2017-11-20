@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Adapter from 'enzyme-adapter-react-15.4';
 import * as Enzyme from 'enzyme';
 
-import theme from '../style/theme.js';
+import theme from '../style/theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const muiTheme = getMuiTheme(theme);
