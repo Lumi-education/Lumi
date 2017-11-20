@@ -27,6 +27,9 @@ import {
 import Multiplechoicecard from 'client/packages/cards/components/multiplechoice';
 import AppBar from 'material-ui/AppBar';
 
+// container
+import { CardViewContainer } from 'client/packages/cards';
+
 // local
 import { IState } from 'client/state';
 
@@ -54,6 +57,7 @@ interface IStateProps {
     card: ICard;
     data;
     collection_data;
+    card_id: string;
 }
 
 interface IDispatchProps {
@@ -119,32 +123,9 @@ export class UserCollectionCard extends React.Component<
                             )
                         )}
                 />
-                <Multiplechoicecard
-                    show_correct_values={this.props.collection_data.submitted}
-                    text={this.props.card.text}
-                    items={this.props.card.items}
-                    selected_items={this.props.data.items || []}
-                    cb={(items, score) => {
-                        this.props.collection_data.submitted
-                            ? noop()
-                            : this.props.dispatch(
-                                  this.props.data._id
-                                      ? update_data(
-                                            assign({}, this.props.data, {
-                                                items,
-                                                score
-                                            })
-                                        )
-                                      : create_data({
-                                            items,
-                                            score,
-                                            data_type: 'card',
-                                            card_id: this.props.card._id,
-                                            collection_id: this.props
-                                                .collection_id
-                                        })
-                              );
-                    }}
+                <CardViewContainer
+                    card_id={this.props.card_id}
+                    collection_id={this.props.collection_id}
                 />
                 <BottomNavigation
                     style={{
@@ -214,6 +195,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         ),
         collection_id: ownProps.params.collection_id,
         card: select_card(state, ownProps.params.card_id),
+        card_id: ownProps.params.card_id,
         collection_data: select_data_for_collection(
             state,
             ownProps.params.collection_id
