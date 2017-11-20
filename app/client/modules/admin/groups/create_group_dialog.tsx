@@ -6,14 +6,10 @@ import TextField from 'material-ui/TextField';
 
 import { IGroup } from 'common/types';
 
-interface IStateProps {}
-
-interface IDispatchProps {
+interface IProps {
     create_group: (name: string) => void;
     close: () => void;
 }
-
-interface IProps extends IStateProps, IDispatchProps {}
 
 interface IState {
     name: string;

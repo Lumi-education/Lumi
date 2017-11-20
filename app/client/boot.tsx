@@ -10,7 +10,7 @@ import store from 'client/store';
 
 declare var process;
 
-import Theme from './style/theme';
+import theme from './style/theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -23,7 +23,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <MuiThemeProvider muiTheme={getMuiTheme(Theme)}>
+        <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
             <Router history={history} />
         </MuiThemeProvider>
     </Provider>,

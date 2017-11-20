@@ -10,5 +10,5 @@
         "allowJs": true,
         "baseUrl": "./app"
     },
-    "include": ["node_modules/@types/**/*.d.ts", "app/common/types.d.ts"]
+    "files": ["app/client/boot.tsx"]
 }
