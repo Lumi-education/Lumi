@@ -70,6 +70,9 @@ router.delete('/user/card/:id', mw.auth, CardsController.delete);
 
 router.get('/user/collections', mw.auth, UserController.collections);
 
+router.post('/user/data', mw.auth, UserController.createData);
+router.put('/user/data/:id', mw.auth, UserController.updateData);
+
 // user -> groups
 router.get('/user/groups', mw.auth);
 
