@@ -5,9 +5,8 @@ import { push } from 'react-router-redux';
 
 import { Map } from 'immutable';
 
-import FilterBar from 'client/packages/ui/components/filter-bar';
+import { FilterBarComponent, AddButtonComponent } from 'client/packages/ui';
 import { CollectionListComponent } from 'client/packages/collections';
-
 // local
 import { IState } from 'client/state';
 
@@ -47,7 +46,7 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <div>
-                <FilterBar
+                <FilterBarComponent
                     filter={this.state.search_text}
                     set_filter={filter =>
                         this.setState({ search_text: filter })}
@@ -65,6 +64,7 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                     onClick={(id: string) =>
                         this.props.dispatch(push('/admin/collections/' + id))}
                 />
+                <AddButtonComponent action={() => console.log('ok')} />
             </div>
         );
     }
