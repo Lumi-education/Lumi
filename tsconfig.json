@@ -8,7 +8,7 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
-        "rootDirs": ["app"]
+        "baseUrl": "./app"
     },
     "include": ["node_modules/@types/**/*.d.ts", "app/common/types.d.ts"]
 }

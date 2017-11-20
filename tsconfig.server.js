@@ -7,8 +7,8 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
-        "outDir": "build/",
-        "baseUrl": ".",
+        "outDir": "./build",
+        "baseUrl": "./app",
         "paths": {"common/types": ["app/common"]},
         "sourceMap": true
     },

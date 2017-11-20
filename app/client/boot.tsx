@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import Router from './router';
-import store from 'client/state';
+import store from 'client/store';
 
 declare var process;
 
