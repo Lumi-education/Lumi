@@ -103,6 +103,7 @@
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./app/client/utils/test-setup.ts"
   }
 }
