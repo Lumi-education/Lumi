@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import { Map } from 'immutable';
 
 // components
-import CollectionCardsAdminComponent from '../components/collection-cards-admin';
+import CollectionCardsAdminComponent from '../components/collection-cards';
 
 // local
 import { IState } from 'client/state';

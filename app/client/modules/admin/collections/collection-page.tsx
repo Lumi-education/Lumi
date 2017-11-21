@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 import {
-    CollectionCardsAdminContainer,
+    CollectionCardsContainer,
     CollectionSettingsContainer
 } from 'client/packages/collections';
 // local
@@ -102,7 +102,7 @@ export class AdminCollectionPage extends React.Component<
                             );
                         case 'cards':
                             return (
-                                <CollectionCardsAdminContainer
+                                <CollectionCardsContainer
                                     collection_id={this.props.collection_id}
                                 />
                             );

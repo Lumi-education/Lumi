@@ -5,8 +5,6 @@ import { push } from 'react-router-redux';
 import { Map } from 'immutable';
 
 // components
-import CollectionCardsAdminComponent from '../components/collection-cards-admin';
-
 // local
 import { IState } from 'client/state';
 
@@ -53,6 +51,12 @@ export class CollectionSettingsContainer extends React.Component<
         this.state = {
             show_dialog: false
         };
+    }
+
+    public componentWillMount() {
+        if (this.props.collection_id !== 'new') {
+            this.props.dispatch(get_collection(this.props.collection_id));
+        }
     }
 
     public render() {
