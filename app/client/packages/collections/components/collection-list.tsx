@@ -17,11 +17,10 @@ interface IDispatchProps {
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
-interface IState {}
 
 export default class CollectionListComponent extends React.Component<
     IProps,
-    IState
+    {}
 > {
     constructor(props: IProps) {
         super(props);

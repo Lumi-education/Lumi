@@ -10,16 +10,11 @@ import TagListItemContainer from '../container/tag-list-item';
 // types
 import { ITag } from 'common/types';
 
-interface IStateProps {
+interface IProps {
     tags: ITag[];
 }
 
-interface IDispatchProps {}
-
-interface IProps extends IStateProps, IDispatchProps {}
-interface IState {}
-
-export default class TagListComponent extends React.Component<IProps, IState> {
+export default class TagListComponent extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }

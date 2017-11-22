@@ -16,14 +16,10 @@ import {
 // local
 import { IState } from 'client/state';
 
-interface IStateProps {
+interface IProps {
     open: boolean;
     message: string;
 }
-
-interface IDispatchProps {}
-
-interface IProps extends IStateProps, IDispatchProps {}
 
 export class Snackbar extends React.Component<IProps, {}> {
     constructor(props: IProps) {
@@ -43,7 +39,7 @@ export class Snackbar extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState): IStateProps {
+function mapStateToProps(state: IState): IProps {
     return {
         open: state.ui.snackbar_open,
         message: state.ui.snackbar_text

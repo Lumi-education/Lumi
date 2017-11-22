@@ -42,12 +42,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class TagListItemContainer extends React.Component<
-    IProps,
-    IComponentState
-> {
+export class TagListItemContainer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
@@ -75,7 +70,8 @@ export class TagListItemContainer extends React.Component<
                     rightIconButton={rightIconMenu([
                         <MenuItem
                             onClick={() =>
-                                this.props.dispatch(delete_tag(tag._id))}
+                                this.props.dispatch(delete_tag(tag._id))
+                            }
                         >
                             Delete
                         </MenuItem>
