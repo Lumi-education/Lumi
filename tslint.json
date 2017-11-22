@@ -1,4 +1,10 @@
 {
+    "extends": [
+        "tslint:latest",
+        "tslint-config-airbnb",
+        "tslint-react",
+        "tslint-config-prettier"
+    ],
     "rules": {
         "function-name": false,
         "import-name": [false],
@@ -19,10 +25,5 @@
             "allow-leading-underscore",
             "allow-snake-case"
         ]
-    },
-    "extends": [
-        "tslint-config-airbnb",
-        "tslint-react",
-        "tslint-config-prettier"
-    ]
+    }
 }

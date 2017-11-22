@@ -6,14 +6,10 @@ import TextField from 'material-ui/TextField';
 
 import { IUser } from 'common/types';
 
-interface IStateProps {
+interface IProps {
     create_user: (name: string) => void;
     close: () => void;
 }
-
-interface IDispatchProps {}
-
-interface IProps extends IStateProps, IDispatchProps {}
 
 interface IState {
     name: string;

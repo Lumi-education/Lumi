@@ -23,10 +23,6 @@ export class CardPage extends React.Component<IProps, {}> {
         super(props);
     }
 
-    public componentWillMount() {}
-
-    public componentWillReceiveProps(nextProps: IProps) {}
-
     public render() {
         return <CardEditContainer card_id={this.props.card_id} />;
     }
