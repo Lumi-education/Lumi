@@ -5,6 +5,7 @@ import { push } from 'react-router-redux';
 import { Map } from 'immutable';
 
 // components
+import CollectionSettingsComponent from '../components/collection-settings';
 // local
 import { IState } from 'client/state';
 
@@ -60,7 +61,7 @@ export class CollectionSettingsContainer extends React.Component<
     }
 
     public render() {
-        return <div>{this.props.collection.name}</div>;
+        return <CollectionSettingsComponent {...this.props} />;
     }
 }
 

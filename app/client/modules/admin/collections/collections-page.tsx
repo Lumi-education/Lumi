@@ -64,7 +64,10 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                     onClick={(id: string) =>
                         this.props.dispatch(push('/admin/collections/' + id))}
                 />
-                <AddButtonComponent action={() => console.log('ok')} />
+                <AddButtonComponent
+                    action={() =>
+                        this.props.dispatch(push('/admin/collections/new'))}
+                />
             </div>
         );
     }
