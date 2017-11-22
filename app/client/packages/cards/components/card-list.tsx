@@ -17,9 +17,8 @@ interface IDispatchProps {
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
-interface IState {}
 
-export default class CardListComponent extends React.Component<IProps, IState> {
+export default class CardListComponent extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }

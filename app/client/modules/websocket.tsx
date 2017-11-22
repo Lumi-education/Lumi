@@ -11,18 +11,11 @@ import { push } from 'react-router-redux';
 
 declare var window;
 
-interface IStateProps {}
-
-interface IDispatchProps {
+interface IProps {
     dispatch: (action) => void;
 }
 
-interface IProps extends IStateProps, IDispatchProps {}
-
-export class WebsocketContainer extends React.Component<
-    IProps,
-    {}
-> {
+export class WebsocketContainer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
@@ -42,11 +35,12 @@ export class WebsocketContainer extends React.Component<
         return <div>{this.props.children}</div>;
     }
 }
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+
+function mapStateToProps(state: IState, ownProps: {}) {
     return {};
 }
 
-function mapDispatchToProps(dispatch: Dispatch<{}>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<{}>): IProps {
     return {
         dispatch: action => dispatch(action)
     };

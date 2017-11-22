@@ -31,6 +31,7 @@ export default class FilterBar extends React.Component<IProps, {}> {
                 }}
             >
                 <TextField
+                    id="search"
                     fullWidth={true}
                     value={this.props.filter}
                     hintText="Search"
