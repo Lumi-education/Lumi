@@ -51,14 +51,14 @@ export function delete_tag(tag_id: string) {
     };
 }
 
-export function get_tags() {
+export function get_tags(doc_id?: string) {
     return {
         types: [
             types.TAGS_GET_TAGS_REQUEST,
             types.TAGS_GET_TAGS_SUCCESS,
             types.TAGS_GET_TAGS_ERROR
         ],
-        api: API.get_tags()
+        api: API.get_tags(doc_id)
     };
 }
 

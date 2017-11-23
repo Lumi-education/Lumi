@@ -56,20 +56,6 @@ class CollectionController extends Controller<Collection> {
             Collection
         );
     }
-
-    public tags(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.findById(
-            req.params.id,
-            (collection: Collection) => {
-                collection.get_tags(db, (tags: Tag[]) => {
-                    res.status(200).json(tags);
-                });
-            },
-            Collection
-        );
-    }
 }
 
 export default new CollectionController('collection');

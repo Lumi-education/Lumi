@@ -14,7 +14,6 @@ export interface ICollection {
     name: string;
     description: string;
     cards: Array<Card_id>;
-    tags: Array<Tag_id>;
     created_at: Date;
     updated_at: Date;
 }
@@ -29,11 +28,19 @@ export interface ITag {
     created_at: Date;
 }
 
+export interface ITagRef {
+    _id?: string;
+    doc_id: string;
+    tag_id: Tag_id;
+    type: 'tag_ref';
+    created_at?: Date;
+    updated_at?: Date;
+}
+
 export interface ICard {
     _id: Card_id;
     type: 'card';
     card_type: Card_types;
-    tags: Array<Tag_id>;
     name: string;
     text: Markdown;
     items: Array<Markdown>;

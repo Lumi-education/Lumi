@@ -12,7 +12,10 @@ import { IState } from 'client/state';
 import { ITag } from 'common/types';
 
 // selectors
-import { select_tags_as_map } from 'client/packages/tags/selectors';
+import {
+    select_tag_ids_for_doc,
+    select_tags_as_map
+} from 'client/packages/tags/selectors';
 
 // actions
 import {
@@ -24,12 +27,12 @@ import {
 } from 'client/packages/tags/actions';
 
 interface IPassedProps {
-    tag_ids: string[];
     doc_id: string;
 }
 
 interface IStateProps extends IPassedProps {
     tags: Map<string, ITag>;
+    tag_ids: string[];
 }
 
 interface IDispatchProps {
@@ -45,6 +48,12 @@ export class TagInputContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(get_tags());
+    }
+
+    public componentWillReceiveProps(nextProps: IProps) {
+        if (nextProps.doc_id !== this.props.doc_id) {
+            this.props.dispatch(get_tags(nextProps.doc_id));
+        }
     }
 
     public render() {
@@ -78,7 +87,7 @@ export class TagInputContainer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         tags: select_tags_as_map(state),
-        tag_ids: ownProps.tag_ids,
+        tag_ids: select_tag_ids_for_doc(state, ownProps.doc_id),
         doc_id: ownProps.doc_id
     };
 }

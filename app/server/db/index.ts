@@ -30,14 +30,12 @@ export class DB {
                 if (cb) {
                     cb(res);
                 } else {
-                    this.res
-                        .status(200)
-                        .json(
-                            assign({}, doc, {
-                                _id: res.body.id,
-                                _rev: res.body.rev
-                            })
-                        );
+                    this.res.status(200).json(
+                        assign({}, doc, {
+                            _id: res.body.id,
+                            _rev: res.body.rev
+                        })
+                    );
                 }
             })
             .catch(this.handle_error);
@@ -51,14 +49,12 @@ export class DB {
                 if (cb) {
                     cb(res);
                 } else {
-                    this.res
-                        .status(200)
-                        .json(
-                            assign({}, doc, {
-                                _id: res.body.id,
-                                _rev: res.body.rev
-                            })
-                        );
+                    this.res.status(200).json(
+                        assign({}, doc, {
+                            _id: res.body.id,
+                            _rev: res.body.rev
+                        })
+                    );
                 }
             })
             .catch(this.handle_error);
@@ -103,12 +99,14 @@ export class DB {
             .catch(this.handle_error);
     }
 
-    public delete(id: string) {
+    public delete(id: string, cb?: () => void) {
         this.findById(id, doc => {
             request
                 .delete(db + id + '?rev=' + doc._rev)
                 .then(() => {
-                    this.res.status(200).end();
+                    if (!cb) {
+                        this.res.status(200).end();
+                    }
                 })
                 .catch(this.handle_error);
         });

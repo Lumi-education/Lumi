@@ -1,8 +1,9 @@
 import * as express from 'express';
-import { noop } from 'lodash';
+import { assign, noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
 import Card from '../../models/Card';
+import { ITag, ITagRef } from 'common/types';
 import Tag from '../../models/Tag';
 import { DB } from '../../db';
 
@@ -17,27 +18,44 @@ class TagsController extends Controller<Tag> {
             (tag: Tag) => {
                 switch (req.body.type) {
                     case 'ADD_TO_DOC':
-                        db.findById(req.body.payload.doc_id, doc => {
-                            if (!doc.tags) {
-                                doc.tags = [];
-                            }
-                            doc.tags.push(req.params.id);
-                            db.save(doc);
+                        db.insert({
+                            _id: req.body.payload.doc_id + req.params.id,
+                            doc_id: req.body.payload.doc_id,
+                            tag_id: req.params.id,
+                            type: 'tag_ref'
                         });
                         break;
                     case 'REM_FROM_DOC':
-                        db.findById(req.body.payload.doc_id, doc => {
-                            doc.tags = doc.tags.filter(
-                                tag_id => tag_id !== req.params.id
-                            );
-                            db.save(doc);
-                        });
+                        db.delete(req.body.payload.doc_id + req.params.id);
                         break;
                     default:
                         break;
                 }
             },
             Tag
+        );
+    }
+
+    public list(req: IRequest, res: express.Response) {
+        const db = new DB(res);
+
+        db.find(
+            assign({ $or: [{ type: 'tag' }, { type: 'tag_ref' }] }, req.query),
+            {},
+            docs => {
+                const tag_refs = docs.filter(doc => doc.type === 'tag_ref');
+                const tag_ids = tag_refs.map(ref => ref.tag_id);
+
+                db.find({ _id: { $in: tag_ids } }, {}, (tags: ITag[]) => {
+                    res.status(200).json({
+                        tag_refs,
+                        tags: [
+                            ...tags,
+                            ...docs.filter(doc => doc.type === 'tag')
+                        ]
+                    });
+                });
+            }
         );
     }
 
@@ -50,29 +68,43 @@ class TagsController extends Controller<Tag> {
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
         db.findById(req.params.id, (tag: Tag) => {
-            db.find({ tags: { $in: [req.params.id] } }, {}, docs => {
-                res.status(200).json({ docs, tags: [tag] });
+            db.find({ tag_id: req.params.id }, {}, tag_refs => {
+                const doc_ids = tag_refs.map(ref => ref.doc_id);
+                db.find({ _id: { $in: doc_ids } }, {}, docs => {
+                    res.status(200).json({ docs, tags: [tag] });
+                });
             });
         });
     }
+
+    // public readRef(req: IRequest, res: express.Response) {
+    //     const db = new DB(res);
+    //     db.find(
+    //         { doc_id: req.params.id, type: 'tag_ref' },
+    //         {},
+    //         (tag_refs: ITagRef[]) => {
+    //             const tag_ids = tag_refs.map(ref => ref.tag_id);
+    //             db.find({ _id: { $in: tag_ids } }, {}, (tags: Tag[]) => {
+    //                 res.status(200).json({ tags, tag_refs });
+    //             });
+    //         }
+    //     );
+    // }
 
     public delete(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.find(
             {
-                tags: { $in: [req.params.id] }
+                tag_id: req.params.id,
+                type: 'tag_ref'
             },
-            { limit: 1000 },
+            {},
             docs => {
                 docs.forEach(doc => {
-                    doc.tags = doc.tags.filter(
-                        tag_id => tag_id !== req.params.id
-                    );
-                    db.save(doc, noop);
+                    db.delete(doc._id, noop);
                 });
-            },
-            Card
+            }
         );
 
         db.delete(req.params.id);
