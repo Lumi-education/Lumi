@@ -6,6 +6,7 @@ import {
     IUser,
     ICollection,
     ITag,
+    ITagRef,
     IData,
     ISession
 } from 'common/types';
@@ -29,7 +30,8 @@ export interface IState {
         list: ICollection[];
     };
     tags: {
-        list: Map<string, ITag>;
+        map: Map<string, ITag>;
+        refs: Map<string, ITagRef>;
     };
     request: {};
     session: ISession[];

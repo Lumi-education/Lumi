@@ -11,9 +11,9 @@ export default class Collection extends Relations implements ICollection {
     public description: string;
     public type: 'collection';
     public cards: Card_id[];
-    public tags: Tag_id[];
     public name: string;
     public created_at: Date;
+    public updated_at: Date;
 
     constructor(c?: Collection) {
         super();
@@ -41,9 +41,5 @@ export default class Collection extends Relations implements ICollection {
 
     public get_cards(db: DB, cb: (cards: Card[]) => void): void {
         this.hasMany(db, this.cards, cb, Card);
-    }
-
-    public get_tags(db: DB, cb: (tags: Tag[]) => void) {
-        this.hasMany(db, this.tags, cb, Tag);
     }
 }

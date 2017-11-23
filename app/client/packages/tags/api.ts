@@ -14,7 +14,15 @@ export function delete_tag(tag_id: string) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function get_tags() {
+export function get_tags(doc_id?: string) {
+    if (doc_id) {
+        return request
+            .get('/api/v0/tags?doc_id=' + doc_id)
+            .set(
+                'x-auth',
+                window.localStorage.jwt_token || window.jwt_token || ''
+            );
+    }
     return request
         .get('/api/v0/tags')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');

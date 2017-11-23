@@ -23,7 +23,6 @@ export function select_card(state: IState, card_id: string): ICard {
         _id: undefined,
         type: 'card',
         card_type: undefined,
-        tags: [],
         name: 'card not found',
         text: 'card not found',
         items: [],

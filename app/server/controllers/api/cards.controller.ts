@@ -19,17 +19,9 @@ class CardController extends Controller<Card> {
         const db = new DB(res);
 
         db.findById(req.params.id, (card: Card) => {
-            db.find(
-                { _id: { $in: card.tags } },
-                {},
-                (tags: Tag[]) => {
-                    res.status(200).json({
-                        tags,
-                        cards: [card]
-                    });
-                },
-                Tag
-            );
+            res.status(200).json({
+                cards: [card]
+            });
         });
     }
 

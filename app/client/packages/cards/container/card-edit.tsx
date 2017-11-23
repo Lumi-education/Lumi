@@ -137,10 +137,7 @@ export class CardEditContainer extends React.Component<
                                 this.setState({ description: v })
                             }
                         />
-                        <TagInputContainer
-                            tag_ids={this.props.card.tags}
-                            doc_id={this.props.card_id}
-                        />
+                        <TagInputContainer doc_id={this.props.card_id} />
                         <div style={{ display: 'flex' }}>
                             <div style={{ flex: 6 }}>
                                 <TextField
