@@ -5,6 +5,7 @@ import { push } from 'react-router-redux';
 
 // components
 import { Tabs, Tab } from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
 
 import {
     CollectionCardsContainer,
@@ -86,23 +87,25 @@ export class AdminCollectionPage extends React.Component<IProps, {}> {
                             )}
                     />
                 </Tabs>
-                {(() => {
-                    switch (this.props.tab) {
-                        case 'settings':
-                        default:
-                            return (
-                                <CollectionSettingsContainer
-                                    collection_id={this.props.collection_id}
-                                />
-                            );
-                        case 'cards':
-                            return (
-                                <CollectionCardsContainer
-                                    collection_id={this.props.collection_id}
-                                />
-                            );
-                    }
-                })()}
+                <Paper>
+                    {(() => {
+                        switch (this.props.tab) {
+                            case 'settings':
+                            default:
+                                return (
+                                    <CollectionSettingsContainer
+                                        collection_id={this.props.collection_id}
+                                    />
+                                );
+                            case 'cards':
+                                return (
+                                    <CollectionCardsContainer
+                                        collection_id={this.props.collection_id}
+                                    />
+                                );
+                        }
+                    })()}
+                </Paper>
             </div>
         );
     }
