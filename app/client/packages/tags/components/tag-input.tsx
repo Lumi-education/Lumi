@@ -58,6 +58,7 @@ export default class TagInput extends React.Component<IProps, {}> {
                     key
                 ) => (
                     <Tag
+                        key={key}
                         tags={this.props.tags}
                         tag_id={value}
                         delete={handleRequestDelete}

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // components
 import TextField from 'material-ui/TextField';
-
+import { TagInputContainer } from 'client/packages/tags';
 // types
 import { ICollection } from 'common/types';
 
@@ -24,6 +24,10 @@ export default class CollectionEditComponent extends React.Component<
             <div>
                 <TextField value={collection.name} fullWidth={true} />
                 <TextField value={collection.description} fullWidth={true} />
+                <TagInputContainer
+                    tag_ids={collection.tags}
+                    doc_id={collection._id}
+                />
             </div>
         );
     }

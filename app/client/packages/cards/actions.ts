@@ -65,27 +65,3 @@ export function delete_card(card_id: string) {
         payload: { card_id }
     };
 }
-
-export function rem_tag_from_card(card_id: string, tag_id: string) {
-    return {
-        types: [
-            types.CARDS_REM_TAG_REQUEST,
-            types.CARDS_REM_TAG_SUCCESS,
-            types.CARDS_REM_TAG_ERROR
-        ],
-        api: API.rem_tag(card_id, tag_id),
-        payload: { card_id, tag_id }
-    };
-}
-
-export function add_tag_to_card(card_id: string, tag_id: string) {
-    return {
-        types: [
-            types.CARDS_ADD_TAG_REQUEST,
-            types.CARDS_ADD_TAG_SUCCESS,
-            types.CARDS_ADD_TAG_ERROR
-        ],
-        api: API.add_tag(card_id, tag_id),
-        payload: { card_id, tag_id }
-    };
-}

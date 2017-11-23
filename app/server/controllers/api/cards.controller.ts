@@ -40,14 +40,6 @@ class CardController extends Controller<Card> {
             req.params.id,
             (card: Card) => {
                 switch (req.body.type) {
-                    case 'ADD_TAG':
-                        card.add_tag(req.body.payload.tag_id);
-                        db.save(card);
-                        break;
-                    case 'REM_TAG':
-                        card.rem_tag(req.body.payload.tag_id);
-                        db.save(card);
-                        break;
                     default:
                         break;
                 }

@@ -53,6 +53,7 @@ router.post('/tags', TagsController.create);
 router.get('/tags/:id', TagsController.read);
 router.put('/tags/:id', TagsController.update);
 router.delete('/tags/:id', TagsController.delete);
+router.put('/tags/:id/action', TagsController.action);
 
 // data
 router.get('/data', mw.auth, DataController.find);

@@ -54,8 +54,9 @@ export default class MultiplechoiceCard extends React.Component<IProps, {}> {
                     />
                 </Paper>
 
-                {this.props.items.map(item => (
+                {this.props.items.map((item, index) => (
                     <Paper
+                        key={index}
                         style={{
                             padding: '2px',
                             margin: '10px',
@@ -95,7 +96,7 @@ function backgroundColor(
         }
     }
     if (selected_items.indexOf(item) > -1) {
-         return '#3498db';
+        return '#3498db';
     }
     return '#FFFFFF';
 }

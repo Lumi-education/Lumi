@@ -19,3 +19,23 @@ export function get_tags() {
         .get('/api/v0/tags')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function add_tag_to_doc(doc_id: string, tag_id: string) {
+    return request
+        .put('/api/v0/tags/' + tag_id + '/action')
+        .send({
+            type: 'ADD_TO_DOC',
+            payload: { doc_id }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function rem_tag_from_doc(doc_id: string, tag_id: string) {
+    return request
+        .put('/api/v0/tags/' + tag_id + '/action')
+        .send({
+            type: 'REM_FROM_DOC',
+            payload: { doc_id }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
