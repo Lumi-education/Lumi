@@ -7,13 +7,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 // types
 import { ICollection } from 'common/types';
 
-interface IStateProps {}
-
-interface IDispatchProps {
+interface IProps {
     action: () => void;
 }
-
-interface IProps extends IStateProps, IDispatchProps {}
 
 export default class AddButtonComponent extends React.Component<IProps, {}> {
     constructor(props: IProps) {

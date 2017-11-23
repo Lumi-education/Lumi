@@ -27,6 +27,7 @@ import { Dialog } from 'material-ui';
 interface IPassedProps {
     collection_id: string;
 }
+
 interface IStateProps extends IPassedProps {
     collection: ICollection;
 }

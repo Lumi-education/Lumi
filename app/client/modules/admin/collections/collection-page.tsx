@@ -34,12 +34,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminCollectionPage extends React.Component<
-    IProps,
-    IComponentState
-> {
+export class AdminCollectionPage extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
