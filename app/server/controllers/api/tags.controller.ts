@@ -61,14 +61,15 @@ class TagsController extends Controller<Tag> {
 
         db.find(
             {
-                tags: { $in: [req.params.id] },
-                type: 'card'
+                tags: { $in: [req.params.id] }
             },
             { limit: 1000 },
-            (cards: Card[]) => {
-                cards.forEach(card => {
-                    card.rem_tag(req.params.id);
-                    db.save(card, noop);
+            docs => {
+                docs.forEach(doc => {
+                    doc.tags = doc.tags.filter(
+                        tag_id => tag_id !== req.params.id
+                    );
+                    db.save(doc, noop);
                 });
             },
             Card
