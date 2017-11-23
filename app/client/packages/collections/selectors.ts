@@ -25,7 +25,8 @@ export function select_collection_by_id(
             description: '',
             cards: [],
             tags: [],
-            created_at: new Date()
+            created_at: new Date(),
+            updated_at: new Date()
         }
     );
 }

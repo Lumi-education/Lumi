@@ -4,8 +4,6 @@ import * as types from 'client/packages/action-types';
 
 import * as API from './api';
 
-import { add_tag_to_card } from 'client/packages/cards/actions';
-
 export function create_tag(name: string, description?: string) {
     return {
         types: [
