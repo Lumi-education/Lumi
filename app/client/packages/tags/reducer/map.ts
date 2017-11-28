@@ -9,10 +9,8 @@ import { arrayToObject } from 'client/utils';
 import {
     TAGS_GET_TAGS_SUCCESS,
     TAGS_CREATE_TAG_SUCCESS,
-    TAGS_DELETE_TAG_REQUEST,
-    CARDS_GET_CARD_SUCCESS,
-    DB_CHANGE
-} from 'client/packages/action-types';
+    TAGS_DELETE_TAG_REQUEST
+} from '../actions';
 
 export default function(
     state: Map<string, ITag> = Map<string, ITag>({}),
@@ -20,7 +18,6 @@ export default function(
 ): Map<string, ITag> {
     switch (action.type) {
         case TAGS_GET_TAGS_SUCCESS:
-        case CARDS_GET_CARD_SUCCESS:
             return state.merge(
                 Map<string, ITag>(arrayToObject(action.payload.tags))
             );
@@ -33,7 +30,7 @@ export default function(
         case TAGS_DELETE_TAG_REQUEST:
             return state.delete(action.tag_id);
 
-        case DB_CHANGE:
+        case 'DB_CHANGE':
             return state.merge(
                 Map<string, ITag>(
                     arrayToObject(action.payload.filter(d => d.type === 'tag'))
