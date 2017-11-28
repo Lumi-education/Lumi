@@ -15,8 +15,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
 // types
-import { IState } from 'client/state';
-import { ITag } from 'common/types';
+import { ITag, IState } from '../types';
 
 // selectors
 import { select_tag } from 'client/packages/tags/selectors';

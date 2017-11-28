@@ -2,8 +2,7 @@ import * as express from 'express';
 import { assign, noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import Card from '../../models/Card';
-import { ITag, ITagRef } from 'common/types';
+import { ITag, ITagRef } from 'client/packages/tags/types';
 import Tag from '../../models/Tag';
 import { DB } from '../../db';
 
@@ -76,20 +75,6 @@ class TagsController extends Controller<Tag> {
             });
         });
     }
-
-    // public readRef(req: IRequest, res: express.Response) {
-    //     const db = new DB(res);
-    //     db.find(
-    //         { doc_id: req.params.id, type: 'tag_ref' },
-    //         {},
-    //         (tag_refs: ITagRef[]) => {
-    //             const tag_ids = tag_refs.map(ref => ref.tag_id);
-    //             db.find({ _id: { $in: tag_ids } }, {}, (tags: Tag[]) => {
-    //                 res.status(200).json({ tags, tag_refs });
-    //             });
-    //         }
-    //     );
-    // }
 
     public delete(req: IRequest, res: express.Response) {
         const db = new DB(res);

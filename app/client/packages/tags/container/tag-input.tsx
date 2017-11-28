@@ -9,7 +9,7 @@ import { TagInputComponent } from '../';
 
 // types
 import { IState } from 'client/state';
-import { ITag } from 'common/types';
+import { ITag } from '../types';
 
 // selectors
 import {

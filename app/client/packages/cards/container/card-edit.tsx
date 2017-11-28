@@ -16,7 +16,7 @@ import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice'
 
 // types
 import { IState } from 'client/state';
-import { ICard, ITag } from 'common/types';
+import { ICard } from 'common/types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';

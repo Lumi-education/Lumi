@@ -8,7 +8,7 @@ import ChipInput from 'material-ui-chip-input';
 
 import Tag from './tag';
 
-import { ITag } from 'common/types';
+import { ITag } from '../types';
 
 interface IStateProps {
     tags: Map<string, ITag>;

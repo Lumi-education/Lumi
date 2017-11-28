@@ -1,13 +1,5 @@
 import { assign } from 'lodash';
-import {
-    ICard,
-    IUser,
-    Card_id,
-    Card_types,
-    Tag_id,
-    Markdown,
-    ITag
-} from 'common/types';
+import { ICard, IUser, Card_id, Card_types, Markdown } from 'common/types';
 
 import Tag from './Tag';
 

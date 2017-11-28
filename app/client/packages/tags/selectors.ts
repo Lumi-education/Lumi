@@ -1,7 +1,6 @@
 import { Map } from 'immutable';
-import { IState } from 'client/state';
 
-import { ITag } from 'common/types';
+import { ITag, IState } from './types';
 
 export function select_all_tags(state: IState): ITag[] {
     return state.tags.map.toArray();

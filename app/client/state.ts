@@ -5,13 +5,13 @@ import {
     IGroup,
     IUser,
     ICollection,
-    ITag,
-    ITagRef,
     IData,
     ISession
 } from 'common/types';
 
-export interface IState {
+import { IState as ITags } from 'client/packages/tags';
+
+export interface IState extends ITags {
     auth: {
         is_authed: boolean;
         response: number;
@@ -28,10 +28,6 @@ export interface IState {
     };
     collections: {
         list: ICollection[];
-    };
-    tags: {
-        map: Map<string, ITag>;
-        refs: Map<string, ITagRef>;
     };
     request: {};
     session: ISession[];

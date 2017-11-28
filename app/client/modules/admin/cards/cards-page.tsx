@@ -41,7 +41,7 @@ import CardListComponent from 'client/packages/cards/components/card-list';
 import { IState } from 'client/state';
 
 // types
-import { ICard, ITag } from 'common/types';
+import { ICard } from 'common/types';
 
 // selectors
 import { select_all_cards } from 'client/packages/cards/selectors';
@@ -55,7 +55,6 @@ const md = markdownit();
 
 interface IStateProps {
     cards: ICard[];
-    tags: Map<string, ITag>;
 }
 
 interface IDispatchProps {
@@ -94,7 +93,8 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <CardListComponent
                     cards={this.props.cards.filter(card => {
@@ -107,7 +107,8 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                   ) > -1;
                     })}
                     onClick={(id: string) =>
-                        this.props.dispatch(push('/admin/cards/' + id))}
+                        this.props.dispatch(push('/admin/cards/' + id))
+                    }
                 />
 
                 <FloatingActionButton
@@ -128,8 +129,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        cards: select_all_cards(state),
-        tags: select_tags_as_map(state)
+        cards: select_all_cards(state)
     };
 }
 
