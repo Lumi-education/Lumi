@@ -18,8 +18,11 @@ export default function(
 ): Map<string, ITag> {
     switch (action.type) {
         case TAGS_GET_TAGS_SUCCESS:
+        case 'DB_CHANGE':
             return state.merge(
-                Map<string, ITag>(arrayToObject(action.payload.tags))
+                Map<string, ITag>(
+                    arrayToObject(action.payload.filter(d => d.type === 'tag'))
+                )
             );
 
         case TAGS_CREATE_TAG_SUCCESS:
@@ -29,13 +32,6 @@ export default function(
 
         case TAGS_DELETE_TAG_REQUEST:
             return state.delete(action.tag_id);
-
-        case 'DB_CHANGE':
-            return state.merge(
-                Map<string, ITag>(
-                    arrayToObject(action.payload.filter(d => d.type === 'tag'))
-                )
-            );
 
         default:
             return state;

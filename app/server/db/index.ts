@@ -19,7 +19,13 @@ export class DB {
             .then(res => {
                 cb(type ? new type(res.body) : res.body);
             })
-            .catch(this.handle_error);
+            .catch(err => {
+                if (err.status === 404) {
+                    cb(undefined);
+                } else {
+                    this.handle_error(err);
+                }
+            });
     }
 
     public save(doc, cb?: (res) => void) {
@@ -99,6 +105,28 @@ export class DB {
             .catch(this.handle_error);
     }
 
+    public view(
+        _design: string,
+        index: string,
+        key: string,
+        cb: (docs) => void
+    ) {
+        request
+            .get(
+                db +
+                    '_design/' +
+                    _design +
+                    '/_view/' +
+                    index +
+                    '?limit=100&reduce=false&include_docs=true' +
+                    (key ? '&keys=%5B%22' + key + '%22%5D' : '')
+            )
+            .then(res => {
+                cb(res.body.rows.map(row => row.doc));
+            })
+            .catch(this.handle_error);
+    }
+
     public delete(id: string, cb?: () => void) {
         this.findById(id, doc => {
             request
@@ -113,6 +141,8 @@ export class DB {
     }
 
     private handle_error(err) {
-        this.res.status(500).end('db error: ' + JSON.stringify(err));
+        if (this.res) {
+            this.res.status(500).end('db error: ' + JSON.stringify(err));
+        }
     }
 }

@@ -9,53 +9,57 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 class TagsController extends Controller<Tag> {
+    constructor() {
+        super('tag');
+
+        const db = new DB(null);
+
+        db.findById('_design/tags', doc => {
+            if (!doc) {
+                db.insert({
+                    _id: '_design/tags',
+                    views: {
+                        by_doc: {
+                            map:
+                                "function (doc) {\n  if (doc.type === 'tag_ref') { \n    emit(doc.doc_id, { _id: doc.tag_id }); \n    emit(doc.doc_id, 1);\n  }\n}"
+                        },
+                        tag_with_docs: {
+                            map:
+                                "function (doc) {\n  if (doc.type === 'tag') { emit(doc._id, 1); }\n  if (doc.type === 'tag_ref') { emit(doc.tag_id, { _id: doc.doc_id }); }\n}"
+                        }
+                    },
+                    language: 'javascript'
+                });
+            }
+        });
+    }
+
     public action(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.findById(
-            req.params.id,
-            (tag: Tag) => {
-                switch (req.body.type) {
-                    case 'ADD_TO_DOC':
-                        db.insert({
-                            _id: req.body.payload.doc_id + req.params.id,
-                            doc_id: req.body.payload.doc_id,
-                            tag_id: req.params.id,
-                            type: 'tag_ref'
-                        });
-                        break;
-                    case 'REM_FROM_DOC':
-                        db.delete(req.body.payload.doc_id + req.params.id);
-                        break;
-                    default:
-                        break;
-                }
-            },
-            Tag
-        );
+        switch (req.body.type) {
+            case 'ADD_TO_DOC':
+                db.insert({
+                    _id: req.body.payload.doc_id + req.params.id,
+                    doc_id: req.body.payload.doc_id,
+                    tag_id: req.params.id,
+                    type: 'tag_ref'
+                });
+                break;
+            case 'REM_FROM_DOC':
+                db.delete(req.body.payload.doc_id + req.params.id);
+                break;
+            default:
+                break;
+        }
     }
 
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.find(
-            assign({ $or: [{ type: 'tag' }, { type: 'tag_ref' }] }, req.query),
-            {},
-            docs => {
-                const tag_refs = docs.filter(doc => doc.type === 'tag_ref');
-                const tag_ids = tag_refs.map(ref => ref.tag_id);
-
-                db.find({ _id: { $in: tag_ids } }, {}, (tags: ITag[]) => {
-                    res.status(200).json({
-                        tag_refs,
-                        tags: [
-                            ...tags,
-                            ...docs.filter(doc => doc.type === 'tag')
-                        ]
-                    });
-                });
-            }
-        );
+        db.view('tags', 'by_doc', req.query.doc_id, docs => {
+            res.status(200).json(docs);
+        });
     }
 
     public create(req: IRequest, res: express.Response) {
@@ -66,13 +70,9 @@ class TagsController extends Controller<Tag> {
 
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
-        db.findById(req.params.id, (tag: Tag) => {
-            db.find({ tag_id: req.params.id }, {}, tag_refs => {
-                const doc_ids = tag_refs.map(ref => ref.doc_id);
-                db.find({ _id: { $in: doc_ids } }, {}, docs => {
-                    res.status(200).json({ docs, tags: [tag] });
-                });
-            });
+
+        db.view('tags', 'tag_with_docs', req.params.id, docs => {
+            res.status(200).json(docs);
         });
     }
 
@@ -96,4 +96,4 @@ class TagsController extends Controller<Tag> {
     }
 }
 
-export default new TagsController('tag');
+export default new TagsController();

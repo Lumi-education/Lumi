@@ -30,10 +30,6 @@ export default function(
             return state.delete(action.doc_id + action.tag_id);
 
         case TAGS_GET_TAGS_SUCCESS:
-            return state.merge(
-                Map<string, ITagRef>(arrayToObject(action.payload.tag_refs))
-            );
-
         case 'DB_CHANGE':
             return state.merge(
                 Map<string, ITagRef>(
