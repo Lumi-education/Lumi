@@ -14,7 +14,10 @@ import { IState } from 'client/state';
 import { ICollection } from 'common/types';
 
 // actions
-import { get_collections } from 'client/packages/collections/actions';
+import {
+    get_collections,
+    create_collection_and_push
+} from 'client/packages/collections/actions';
 
 interface IStateProps {
     collections: ICollection[];
@@ -49,7 +52,8 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                 <FilterBarComponent
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <CollectionListComponent
                     collections={this.props.collections.filter(collection => {
@@ -62,11 +66,13 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                                   ) > -1;
                     })}
                     onClick={(id: string) =>
-                        this.props.dispatch(push('/admin/collections/' + id))}
+                        this.props.dispatch(push('/admin/collections/' + id))
+                    }
                 />
                 <AddButtonComponent
                     action={() =>
-                        this.props.dispatch(push('/admin/collections/new'))}
+                        this.props.dispatch(create_collection_and_push())
+                    }
                 />
             </div>
         );

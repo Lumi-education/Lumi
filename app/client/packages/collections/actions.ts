@@ -1,4 +1,5 @@
 import * as shortid from 'shortid';
+import { push } from 'react-router-redux';
 
 import * as API from './api';
 
@@ -13,6 +14,34 @@ export function get_collections(id = shortid()) {
         ],
         api: API.get_collections(),
         payload: { id }
+    };
+}
+
+export function create_collection_and_push() {
+    return dispatch => {
+        dispatch({ type: types.COLLECTIONS_CREATE_COLLECTION_REQUEST });
+
+        API.post_collection()
+            .then(res => {
+                switch (res.status) {
+                    case 201:
+                    case 200:
+                        dispatch({
+                            type: types.COLLECTIONS_CREATE_COLLECTION_SUCCESS,
+                            payload: res.body
+                        });
+                        dispatch(push('/admin/collections/' + res.body._id));
+                        break;
+                    default:
+                        break;
+                }
+            })
+            .catch(err => {
+                dispatch({
+                    type: types.COLLECTIONS_CREATE_COLLECTION_ERROR,
+                    payload: { response: err }
+                });
+            });
     };
 }
 

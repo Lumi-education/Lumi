@@ -8,6 +8,11 @@ export function get_collections(collection_id?: string) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function post_collection() {
+    return request
+        .post('/api/v0/collections')
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
 export function get_user_collections() {
     return request
         .get('/api/v0/user/collections')

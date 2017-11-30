@@ -62,7 +62,16 @@ export class CollectionSettingsContainer extends React.Component<
     }
 
     public render() {
-        return <CollectionSettingsComponent {...this.props} />;
+        return (
+            <CollectionSettingsComponent
+                update={update =>
+                    this.props.dispatch(
+                        update_collection(this.props.collection_id, update)
+                    )
+                }
+                {...this.props}
+            />
+        );
     }
 }
 
