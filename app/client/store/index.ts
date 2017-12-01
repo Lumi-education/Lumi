@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 
 import { browserHistory, Route, Router } from 'react-router';
 import apiMiddleware from './middleware/redux-api-middleware';
+import debugMiddleware from './middleware/debug';
 import thunk from 'redux-thunk';
 
 declare var window;
@@ -43,7 +44,12 @@ const store = createStore<{}>(
     rootReducer,
     persistentState,
     composeEnhancers(
-        applyMiddleware(thunk, routerMiddleware(browserHistory), apiMiddleware)
+        applyMiddleware(
+            debugMiddleware,
+            thunk,
+            routerMiddleware(browserHistory),
+            apiMiddleware
+        )
     )
 );
 
