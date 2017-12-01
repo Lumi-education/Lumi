@@ -4,6 +4,7 @@ import {
     COLLECTION_GET_SUCCESS,
     GROUPS_GET_GROUP_SUCCESS,
     COLLECTION_ADD_CARDS_REQUEST,
+    COLLECTION_DELETE_COLLECTION_REQUEST,
     DB_CHANGE
 } from '../../action-types';
 
@@ -29,6 +30,9 @@ export default function(
                           })
                         : c
             );
+
+        case COLLECTION_DELETE_COLLECTION_REQUEST:
+            return state.filter(c => c._id !== action.collection_id);
 
         case DB_CHANGE:
             return unionBy(

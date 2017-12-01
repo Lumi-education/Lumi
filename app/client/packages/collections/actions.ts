@@ -32,6 +32,18 @@ export function add_cards_to_collection(
     };
 }
 
+export function delete_collection(collection_id: string) {
+    return {
+        types: [
+            types.COLLECTION_DELETE_COLLECTION_REQUEST,
+            types.COLLECTION_DELETE_COLLECTION_SUCCESS,
+            types.COLLECTION_DELETE_COLLECTION_ERROR
+        ],
+        api: API.delete_collection(collection_id),
+        payload: { collection_id }
+    };
+}
+
 export function create_collection_and_push() {
     return dispatch => {
         dispatch({ type: types.COLLECTIONS_CREATE_COLLECTION_REQUEST });

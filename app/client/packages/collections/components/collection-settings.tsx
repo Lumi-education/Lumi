@@ -11,6 +11,8 @@ import { ICollection } from 'common/types';
 interface IProps {
     collection: ICollection;
     update: (update) => void;
+    cancel: () => void;
+    delete: () => void;
 }
 
 interface IState {
@@ -49,6 +51,17 @@ export default class CollectionEditComponent extends React.Component<
                     fullWidth={true}
                 />
                 <TagInputContainer doc_id={this.props.collection._id} />
+                <RaisedButton
+                    onClick={() => this.props.cancel()}
+                    style={{ margin: '20px' }}
+                    label="cancel"
+                />
+                <RaisedButton
+                    onClick={() => this.props.delete()}
+                    style={{ margin: '20px' }}
+                    secondary={true}
+                    label="delete"
+                />
                 <RaisedButton
                     onClick={() => this.props.update(this.state)}
                     style={{ margin: '20px' }}

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Map } from 'immutable';
-
+import * as debug from 'debug';
 // components
 import CollectionSettingsComponent from '../components/collection-settings';
 // local
@@ -19,10 +19,13 @@ import { select_collection_by_id } from 'client/packages/collections/selectors';
 // actions
 import {
     get_collection,
-    update_collection
+    update_collection,
+    delete_collection
 } from 'client/packages/collections/actions';
 
-import { Dialog } from 'material-ui';
+import { Dialog, RaisedButton } from 'material-ui';
+
+const log = debug('lumi:collections:container:collection-settings');
 
 interface IPassedProps {
     collection_id: string;
@@ -33,14 +36,14 @@ interface IStateProps extends IPassedProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
     push: (url: string) => void;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    show_dialog: boolean;
+    show_delete_collection_dialog: boolean;
 }
 
 export class CollectionSettingsContainer extends React.Component<
@@ -51,7 +54,7 @@ export class CollectionSettingsContainer extends React.Component<
         super(props);
 
         this.state = {
-            show_dialog: false
+            show_delete_collection_dialog: false
         };
     }
 
@@ -63,14 +66,61 @@ export class CollectionSettingsContainer extends React.Component<
 
     public render() {
         return (
-            <CollectionSettingsComponent
-                update={update =>
-                    this.props.dispatch(
-                        update_collection(this.props.collection_id, update)
-                    )
-                }
-                {...this.props}
-            />
+            <div>
+                <CollectionSettingsComponent
+                    update={update =>
+                        this.props.dispatch(
+                            update_collection(this.props.collection_id, update)
+                        )
+                    }
+                    delete={() =>
+                        this.setState({ show_delete_collection_dialog: true })
+                    }
+                    cancel={() =>
+                        this.props.dispatch(push('/admin/collections'))
+                    }
+                    {...this.props}
+                />
+                <Dialog
+                    title={'Deleting collection ' + this.props.collection.name}
+                    open={this.state.show_delete_collection_dialog}
+                    actions={[
+                        <RaisedButton
+                            label="No"
+                            onClick={() =>
+                                this.setState({
+                                    show_delete_collection_dialog: false
+                                })
+                            }
+                        />,
+                        <RaisedButton
+                            label="Yes"
+                            primary={true}
+                            onClick={() => {
+                                this.props
+                                    .dispatch(
+                                        delete_collection(
+                                            this.props.collection_id
+                                        )
+                                    )
+                                    .then(() => {
+                                        log('delete promise resolved');
+                                        this.props.dispatch(
+                                            push('/admin/collections')
+                                        );
+                                    });
+                            }}
+                        />
+                    ]}
+                    onRequestClose={() =>
+                        this.setState({ show_delete_collection_dialog: false })
+                    }
+                >
+                    Do you really want to delete the collection '{
+                        this.props.collection.name
+                    }'?
+                </Dialog>
+            </div>
         );
     }
 }
@@ -93,3 +143,13 @@ export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
 )(CollectionSettingsContainer);
+// () => {
+//     this.props
+//         .dispatch(
+//             delete_collection(this.props.collection_id)
+//         )
+//         .then(() => {
+//             log('delete promise resolved');
+//             this.props.dispatch(push('/admin/collections'));
+//         });
+// }
