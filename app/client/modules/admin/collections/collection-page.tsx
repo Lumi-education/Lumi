@@ -6,7 +6,8 @@ import { push } from 'react-router-redux';
 // components
 import { Tabs, Tab } from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
-
+import { AddButtonComponent } from 'client/packages/ui';
+import CardsDialog from '../cards/cards-dialog';
 import {
     CollectionCardsContainer,
     CollectionSettingsContainer
@@ -21,7 +22,7 @@ import { ICollection } from 'common/types';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 // actions
 import { get_collection } from 'client/packages/collections/actions';
-import { Dialog } from 'material-ui';
+import { toggle_cards_dialog } from 'client/packages/ui/actions';
 
 interface IStateProps {
     collection_id: string;
@@ -72,7 +73,8 @@ export class AdminCollectionPage extends React.Component<IProps, {}> {
                                         this.props.collection_id +
                                         '/settings'
                                 )
-                            )}
+                            )
+                        }
                     />
                     <Tab
                         label="Cards"
@@ -84,7 +86,8 @@ export class AdminCollectionPage extends React.Component<IProps, {}> {
                                         this.props.collection_id +
                                         '/cards'
                                 )
-                            )}
+                            )
+                        }
                     />
                 </Tabs>
                 <Paper>
@@ -99,9 +102,25 @@ export class AdminCollectionPage extends React.Component<IProps, {}> {
                                 );
                             case 'cards':
                                 return (
-                                    <CollectionCardsContainer
-                                        collection_id={this.props.collection_id}
-                                    />
+                                    <div>
+                                        <CollectionCardsContainer
+                                            collection_id={
+                                                this.props.collection_id
+                                            }
+                                        />
+                                        <AddButtonComponent
+                                            action={() =>
+                                                this.props.dispatch(
+                                                    toggle_cards_dialog()
+                                                )
+                                            }
+                                        />
+                                        <CardsDialog
+                                            collection_id={
+                                                this.props.collection_id
+                                            }
+                                        />
+                                    </div>
                                 );
                         }
                     })()}

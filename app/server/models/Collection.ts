@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, uniq } from 'lodash';
 import { ICollection, Card_id } from 'common/types';
 
 import Card from './Card';
@@ -35,8 +35,12 @@ export default class Collection extends Relations implements ICollection {
         this.name = name;
     }
 
-    public add_card(card_id: string): void {
-        this.cards.push(card_id);
+    public add_cards(card_ids: string[]): void {
+        this.cards = uniq([...this.cards, ...card_ids]);
+    }
+
+    public rem_cards(card_ids: string[]): void {
+        this.cards = this.cards.filter(id => card_ids.indexOf(id) > -1);
     }
 
     public get_cards(db: DB, cb: (cards: Card[]) => void): void {

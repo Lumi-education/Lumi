@@ -106,6 +106,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                       this.state.search_text.toLocaleLowerCase()
                                   ) > -1;
                     })}
+                    selected_card_ids={[]}
                     onClick={(id: string) =>
                         this.props.dispatch(push('/admin/cards/' + id))
                     }

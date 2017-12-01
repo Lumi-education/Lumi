@@ -17,6 +17,21 @@ export function get_collections(id = shortid()) {
     };
 }
 
+export function add_cards_to_collection(
+    collection_id: string,
+    card_ids: string[]
+) {
+    return {
+        types: [
+            types.COLLECTION_ADD_CARDS_REQUEST,
+            types.COLLECTION_ADD_CARDS_SUCCESS,
+            types.COLLECTION_ADD_CARDS_ERROR
+        ],
+        api: API.add_cards_to_collection(collection_id, card_ids),
+        payload: { card_ids }
+    };
+}
+
 export function create_collection_and_push() {
     return dispatch => {
         dispatch({ type: types.COLLECTIONS_CREATE_COLLECTION_REQUEST });

@@ -40,5 +40,7 @@ export interface IState extends ITags {
         dialog_show: boolean;
         snackbar_open: boolean;
         snackbar_text: string;
+        show_cards_dialog: boolean;
+        selected_card_ids: string[];
     };
 }

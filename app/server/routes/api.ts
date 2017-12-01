@@ -35,6 +35,7 @@ router.post('/collections', CollectionController.create);
 router.get('/collections/:id', CollectionController.read);
 router.put('/collections/:id', CollectionController.update);
 router.delete('/collections/:id', CollectionController.delete);
+router.put('/collections/:id/action', CollectionController.action);
 
 router.get('/collections/:id/cards', CollectionController.cards);
 
