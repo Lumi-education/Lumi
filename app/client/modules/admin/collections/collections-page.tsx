@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import * as debug from 'debug';
 
 import { Map } from 'immutable';
 
@@ -16,15 +17,17 @@ import { ICollection } from 'common/types';
 // actions
 import {
     get_collections,
-    create_collection_and_push
+    create_collection
 } from 'client/packages/collections/actions';
+
+const log_action = debug('lumi:actions');
 
 interface IStateProps {
     collections: ICollection[];
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -70,9 +73,17 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                     }
                 />
                 <AddButtonComponent
-                    action={() =>
-                        this.props.dispatch(create_collection_and_push())
-                    }
+                    action={() => {
+                        this.props.dispatch(create_collection()).then(res => {
+                            log_action(
+                                'create_collection -> promise resolved',
+                                res
+                            );
+                            this.props.dispatch(
+                                push('/admin/collections/' + res.payload._id)
+                            );
+                        });
+                    }}
                 />
             </div>
         );

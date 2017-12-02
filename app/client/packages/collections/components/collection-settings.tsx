@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as debug from 'debug';
 
 // components
 import TextField from 'material-ui/TextField';
@@ -7,6 +8,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 // types
 import { ICollection } from 'common/types';
+
+const log_props = debug(
+    'lumi:props:collections:components:collection-settings'
+);
 
 interface IProps {
     collection: ICollection;
@@ -32,8 +37,9 @@ export default class CollectionEditComponent extends React.Component<
         this.setState(this.props.collection);
     }
 
-    public componentReceiveProps(nextProps: IProps) {
-        this.setState(this.props.collection);
+    public componentWillReceiveProps(nextProps: IProps) {
+        log_props('receiving new props', nextProps);
+        this.setState(nextProps.collection);
     }
 
     public render() {

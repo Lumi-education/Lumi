@@ -25,7 +25,8 @@ import {
 
 import { Dialog, RaisedButton } from 'material-ui';
 
-const log = debug('lumi:collections:container:collection-settings');
+const log_action = debug('lumi:actions:collection-settings');
+const log_props = debug('lumi:props:collections:container:collection-settings');
 
 interface IPassedProps {
     collection_id: string;
@@ -59,9 +60,11 @@ export class CollectionSettingsContainer extends React.Component<
     }
 
     public componentWillMount() {
-        if (this.props.collection_id !== 'new') {
-            this.props.dispatch(get_collection(this.props.collection_id));
-        }
+        this.props.dispatch(get_collection(this.props.collection_id));
+    }
+
+    public componentWillReceiveProps(nextProps: IProps) {
+        log_props('receiving new props', nextProps);
     }
 
     public render() {
@@ -79,7 +82,7 @@ export class CollectionSettingsContainer extends React.Component<
                     cancel={() =>
                         this.props.dispatch(push('/admin/collections'))
                     }
-                    {...this.props}
+                    collection={this.props.collection}
                 />
                 <Dialog
                     title={'Deleting collection ' + this.props.collection.name}
@@ -104,7 +107,9 @@ export class CollectionSettingsContainer extends React.Component<
                                         )
                                     )
                                     .then(() => {
-                                        log('delete promise resolved');
+                                        log_action(
+                                            'delete_collection -> promise resolved'
+                                        );
                                         this.props.dispatch(
                                             push('/admin/collections')
                                         );
@@ -143,13 +148,3 @@ export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
 )(CollectionSettingsContainer);
-// () => {
-//     this.props
-//         .dispatch(
-//             delete_collection(this.props.collection_id)
-//         )
-//         .then(() => {
-//             log('delete promise resolved');
-//             this.props.dispatch(push('/admin/collections'));
-//         });
-// }

@@ -40,7 +40,7 @@ interface IStateProps extends IPassedProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -207,10 +207,18 @@ export class CardEditContainer extends React.Component<
                             primary={true}
                             style={{ margin: '10px' }}
                             onClick={() => {
-                                this.props.dispatch(
-                                    update_card(this.props.card._id, this.state)
-                                );
-                                this.props.dispatch(push('/admin/cards'));
+                                this.props
+                                    .dispatch(
+                                        update_card(
+                                            this.props.card._id,
+                                            this.state
+                                        )
+                                    )
+                                    .then(() => {
+                                        this.props.dispatch(
+                                            push('/admin/cards')
+                                        );
+                                    });
                             }}
                         />
                     </Paper>

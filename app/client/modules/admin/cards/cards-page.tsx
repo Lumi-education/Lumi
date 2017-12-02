@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import * as markdownit from 'markdown-it';
-
+import * as debug from 'debug';
 import { Map } from 'immutable';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
@@ -52,13 +52,14 @@ import { get_cards, create_card } from 'client/packages/cards/actions';
 import { get_tags } from 'client/packages/tags/actions';
 
 const md = markdownit();
+const log = debug('lumi:modules:admin:cards:cards-page');
 
 interface IStateProps {
     cards: ICard[];
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -113,7 +114,14 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 />
 
                 <FloatingActionButton
-                    onClick={() => this.props.dispatch(create_card())}
+                    onClick={() => {
+                        this.props.dispatch(create_card()).then(res => {
+                            log('create_card promise resolved');
+                            this.props.dispatch(
+                                push('/admin/cards/' + res.payload._id)
+                            );
+                        });
+                    }}
                     style={{
                         margin: '20px',
                         bottom: '0px',

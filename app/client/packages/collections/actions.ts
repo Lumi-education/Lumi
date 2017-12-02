@@ -44,31 +44,14 @@ export function delete_collection(collection_id: string) {
     };
 }
 
-export function create_collection_and_push() {
-    return dispatch => {
-        dispatch({ type: types.COLLECTIONS_CREATE_COLLECTION_REQUEST });
-
-        API.post_collection()
-            .then(res => {
-                switch (res.status) {
-                    case 201:
-                    case 200:
-                        dispatch({
-                            type: types.COLLECTIONS_CREATE_COLLECTION_SUCCESS,
-                            payload: res.body
-                        });
-                        dispatch(push('/admin/collections/' + res.body._id));
-                        break;
-                    default:
-                        break;
-                }
-            })
-            .catch(err => {
-                dispatch({
-                    type: types.COLLECTIONS_CREATE_COLLECTION_ERROR,
-                    payload: { response: err }
-                });
-            });
+export function create_collection() {
+    return {
+        types: [
+            types.COLLECTIONS_CREATE_COLLECTION_REQUEST,
+            types.COLLECTIONS_CREATE_COLLECTION_SUCCESS,
+            types.COLLECTIONS_CREATE_COLLECTION_ERROR
+        ],
+        api: API.post_collection()
     };
 }
 

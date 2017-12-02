@@ -41,12 +41,6 @@ export class AdminCollectionPage extends React.Component<IProps, {}> {
         super(props);
     }
 
-    public componentWillMount() {
-        if (this.props.collection_id !== 'new') {
-            this.props.dispatch(get_collection(this.props.collection_id));
-        }
-    }
-
     public render() {
         return (
             <div>
