@@ -101,6 +101,16 @@ class GroupController extends Controller<Group> {
                         group.rem_collection(req.body.payload.collection_id);
                         db.save(group);
                         break;
+                    case 'ENABLE_COLLECTION':
+                        group.enable_collection(req.body.payload.collection_id);
+                        db.save(group);
+                        break;
+                    case 'DISABLE_COLLECTION':
+                        group.disable_collection(
+                            req.body.payload.collection_id
+                        );
+                        db.save(group);
+                        break;
                     default:
                         break;
                 }

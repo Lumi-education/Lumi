@@ -48,6 +48,7 @@ export interface IGroup {
     type: 'group';
     name: string;
     assigned_collections: Array<Collection_id>;
+    active_collections: Array<Collection_id>;
     created_at: Date;
 }
 

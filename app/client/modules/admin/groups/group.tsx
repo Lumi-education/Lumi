@@ -88,7 +88,8 @@ export class AdminGroup extends React.Component<IProps, {}> {
                                         this.props.group_id +
                                         '/settings'
                                 )
-                            )}
+                            )
+                        }
                     >
                         <div>test</div>
                     </Tab>
@@ -102,7 +103,8 @@ export class AdminGroup extends React.Component<IProps, {}> {
                                         this.props.group_id +
                                         '/users'
                                 )
-                            )}
+                            )
+                        }
                     >
                         <GroupUsers {...this.props} />
                     </Tab>
@@ -116,9 +118,15 @@ export class AdminGroup extends React.Component<IProps, {}> {
                                         this.props.group_id +
                                         '/collections'
                                 )
-                            )}
+                            )
+                        }
                     >
-                        <GroupCollections {...this.props} />
+                        <GroupCollections
+                            active_collections={
+                                this.props.group.active_collections || []
+                            }
+                            {...this.props}
+                        />
                     </Tab>
                 </Tabs>
             </div>

@@ -69,6 +69,7 @@ export class AdminUsers extends React.Component<IProps, {}> {
                                     _id: 'noid',
                                     name: 'loading',
                                     type: 'group',
+                                    active_collections: [],
                                     assigned_collections: [],
                                     created_at: new Date()
                                 })
@@ -96,7 +97,8 @@ export class AdminUsers extends React.Component<IProps, {}> {
                             onRequestDelete={group_id =>
                                 this.props.dispatch(
                                     rem_group(this.props.user._id, group_id)
-                                )}
+                                )
+                            }
                         />
                     </Paper>
                 </div>

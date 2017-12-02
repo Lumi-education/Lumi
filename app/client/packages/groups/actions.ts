@@ -18,7 +18,13 @@ import {
     GROUPS_ADD_COLLECTION_ERROR,
     GROUPS_REM_COLLECTION_REQUEST,
     GROUPS_REM_COLLECTION_SUCCESS,
-    GROUPS_REM_COLLECTION_ERROR
+    GROUPS_REM_COLLECTION_ERROR,
+    GROUPS_ENABLE_COLLECTION_REQUEST,
+    GROUPS_ENABLE_COLLECTION_SUCCESS,
+    GROUPS_ENABLE_COLLECTION_ERROR,
+    GROUPS_DISABLE_COLLECTION_REQUEST,
+    GROUPS_DISABLE_COLLECTION_SUCCESS,
+    GROUPS_DISABLE_COLLECTION_ERROR
 } from 'client/packages/action-types';
 
 import { add_group } from 'client/packages/users/actions';
@@ -38,6 +44,30 @@ export function add_collection_to_group(
         ],
         api: API.add_collection_to_group(group_id, collection_id),
         payload: { id, group_id, collection_id }
+    };
+}
+
+export function enable_collection(group_id: string, collection_id: string) {
+    return {
+        types: [
+            GROUPS_ENABLE_COLLECTION_REQUEST,
+            GROUPS_ENABLE_COLLECTION_SUCCESS,
+            GROUPS_ENABLE_COLLECTION_ERROR
+        ],
+        api: API.enable_collection(group_id, collection_id),
+        payload: { group_id, collection_id }
+    };
+}
+
+export function disable_collection(group_id: string, collection_id: string) {
+    return {
+        types: [
+            GROUPS_DISABLE_COLLECTION_REQUEST,
+            GROUPS_DISABLE_COLLECTION_SUCCESS,
+            GROUPS_DISABLE_COLLECTION_ERROR
+        ],
+        api: API.disable_collection(group_id, collection_id),
+        payload: { group_id, collection_id }
     };
 }
 
