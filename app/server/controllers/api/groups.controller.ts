@@ -15,7 +15,7 @@ class GroupController extends Controller<Group> {
         const db = new DB(res);
 
         db.find({ type: 'group' }, req.query, (groups: Group[]) => {
-            res.status(200).json({ groups });
+            res.status(200).json(groups);
         });
     }
 
@@ -37,11 +37,9 @@ class GroupController extends Controller<Group> {
                         { _id: { $in: group.assigned_collections } },
                         {},
                         (collections: Collection[]) => {
-                            res.status(200).json({
-                                users,
-                                collections,
-                                groups: [group]
-                            });
+                            res
+                                .status(200)
+                                .json([...users, ...collections, group]);
                         },
                         Collection
                     );

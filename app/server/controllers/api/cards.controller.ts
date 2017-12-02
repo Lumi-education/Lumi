@@ -19,9 +19,7 @@ class CardController extends Controller<Card> {
         const db = new DB(res);
 
         db.findById(req.params.id, (card: Card) => {
-            res.status(200).json({
-                cards: [card]
-            });
+            res.status(200).json([card]);
         });
     }
 

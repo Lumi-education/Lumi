@@ -23,14 +23,6 @@ export default function(
     action
 ): Map<string, IGroup> {
     switch (action.type) {
-        case USERS_GET_USERS_SUCCESS:
-        case USERS_GET_USER_SUCCESS:
-        case GROUPS_GET_GROUPS_SUCCESS:
-        case GROUPS_GET_GROUP_SUCCESS:
-            return state.merge(
-                Map<string, IGroup>(arrayToObject(action.payload.groups))
-            );
-
         case GROUPS_DELETE_SUCCESS:
             return state.delete(action.group_id);
 
@@ -42,6 +34,10 @@ export default function(
             return state.merge(Map<string, IGroup>(o));
 
         case DB_CHANGE:
+        case USERS_GET_USERS_SUCCESS:
+        case USERS_GET_USER_SUCCESS:
+        case GROUPS_GET_GROUPS_SUCCESS:
+        case GROUPS_GET_GROUP_SUCCESS:
             return state.merge(
                 Map<string, IGroup>(
                     arrayToObject(
