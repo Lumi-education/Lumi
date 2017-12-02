@@ -57,7 +57,7 @@ class TagsController extends Controller<Tag> {
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('tags', 'by_doc', req.query.doc_id, docs => {
+        db.view('tags', 'by_doc', { key: req.query.doc_id }, docs => {
             res.status(200).json(docs);
         });
     }
@@ -71,7 +71,7 @@ class TagsController extends Controller<Tag> {
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('tags', 'tag_with_docs', req.params.id, docs => {
+        db.view('tags', 'tag_with_docs', { key: req.params.id }, docs => {
             res.status(200).json(docs);
         });
     }

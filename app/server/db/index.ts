@@ -1,8 +1,11 @@
 import * as request from 'superagent';
 import { assign } from 'lodash';
 import * as express from 'express';
+import * as nano from 'nano';
 
 const db = process.env.DB_HOST + '/' + process.env.DB + '/';
+const _nano = nano(process.env.DB_HOST);
+const nano_db = _nano.use(process.env.DB);
 
 export class DB {
     private res: express.Response;
@@ -112,26 +115,15 @@ export class DB {
             });
     }
 
-    public view(
-        _design: string,
-        index: string,
-        key: string,
-        cb: (docs) => void
-    ) {
-        request
-            .get(
-                db +
-                    '_design/' +
-                    _design +
-                    '/_view/' +
-                    index +
-                    '?limit=100&reduce=false&include_docs=true' +
-                    (key ? '&keys=%5B%22' + key + '%22%5D' : '')
-            )
-            .then(res => {
-                cb(res.body.rows.map(row => row.doc));
-            })
-            .catch(this.handle_error);
+    public view(_design: string, index: string, options, cb: (docs) => void) {
+        const _options = assign(options, { include_docs: true });
+
+        nano_db.view(_design, index, _options, (err, body) => {
+            if (err) {
+                this.handle_error(err);
+            }
+            cb(body.rows.map(row => row.doc));
+        });
     }
 
     public delete(id: string, cb?: () => void) {
