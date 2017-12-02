@@ -20,11 +20,7 @@ export class DB {
                 cb(type ? new type(res.body) : res.body);
             })
             .catch(err => {
-                if (err.status === 404) {
-                    cb(undefined);
-                } else {
-                    this.handle_error(err);
-                }
+                this.handle_error(err);
             });
     }
 
@@ -103,6 +99,17 @@ export class DB {
                     .catch(this.handle_error);
             })
             .catch(this.handle_error);
+    }
+
+    public checkView(name: string, cb: (doc) => void) {
+        request
+            .get(db + name)
+            .then(res => {
+                cb(res.body);
+            })
+            .catch(err => {
+                cb(undefined);
+            });
     }
 
     public view(

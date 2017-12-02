@@ -14,8 +14,8 @@ class TagsController extends Controller<Tag> {
 
         const db = new DB(null);
 
-        db.findById('_design/tags', doc => {
-            if (!doc) {
+        db.checkView('_design/tags', view => {
+            if (!view) {
                 db.insert({
                     _id: '_design/tags',
                     views: {
