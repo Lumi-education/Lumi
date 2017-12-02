@@ -10,8 +10,7 @@ import { List, ListItem } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 
 // components
-import AppBar from 'material-ui/AppBar';
-import LeftDrawer from './left-drawer';
+import { CollectionListComponent } from 'client/packages/collections';
 
 // selectors
 import { select_collections_as_array } from 'client/packages/collections/selectors';
@@ -51,31 +50,19 @@ export class UserDashboard extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="dashboard">
-                <AppBar
-                    style={{
-                        background: 'linear-gradient(120deg, #3498db, #1abc9c)'
-                    }}
-                    showMenuIconButton={true}
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())}
-                />
                 <Paper>
-                    <List>
-                        {this.props.collections.map(collection => (
-                            <ListItem
-                                primaryText={collection.name}
-                                secondaryText={collection.description}
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        push(
-                                            '/user/collections/' +
-                                                collection._id +
-                                                '/cards'
-                                        )
-                                    )}
-                            />
-                        ))}
-                    </List>
+                    <CollectionListComponent
+                        collections={this.props.collections}
+                        onClick={collection_id =>
+                            this.props.dispatch(
+                                push(
+                                    '/user/collections/' +
+                                        collection_id +
+                                        '/cards'
+                                )
+                            )
+                        }
+                    />
                 </Paper>
             </div>
         );

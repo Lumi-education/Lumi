@@ -1,11 +1,14 @@
 import * as request from 'superagent';
 import { assign } from 'lodash';
 import * as express from 'express';
+import * as debug from 'debug';
 import * as nano from 'nano';
 
 const db = process.env.DB_HOST + '/' + process.env.DB + '/';
 const _nano = nano(process.env.DB_HOST);
 const nano_db = _nano.use(process.env.DB);
+
+const log = debug('lumi:db');
 
 export class DB {
     private res: express.Response;
@@ -20,6 +23,7 @@ export class DB {
         request
             .get(db + id)
             .then(res => {
+                log('findById', id);
                 cb(type ? new type(res.body) : res.body);
             })
             .catch(err => {
@@ -51,6 +55,7 @@ export class DB {
             .post(db)
             .send(assign(doc, { created_at: new Date() }))
             .then(res => {
+                log('CREATED: ', res.body.id);
                 if (cb) {
                     cb(res);
                 } else {
@@ -105,12 +110,15 @@ export class DB {
     }
 
     public checkView(name: string, cb: (doc) => void) {
+        log('checking for view', name);
         request
             .get(db + name)
             .then(res => {
+                log('view ' + name + ' exists');
                 cb(res.body);
             })
             .catch(err => {
+                log('view ' + name + ' does not exist');
                 cb(undefined);
             });
     }
@@ -131,6 +139,7 @@ export class DB {
             request
                 .delete(db + id + '?rev=' + doc._rev)
                 .then(() => {
+                    log('DELETED: ', id);
                     if (!cb) {
                         this.res.status(200).end();
                     }

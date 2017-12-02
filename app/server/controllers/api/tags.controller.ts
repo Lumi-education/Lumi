@@ -10,28 +10,22 @@ import Controller from '../controller';
 
 class TagsController extends Controller<Tag> {
     constructor() {
-        super('tag');
+        const _view = {
+            _id: '_design/tag',
+            views: {
+                by_doc: {
+                    map:
+                        "function (doc) {\n  if (doc.type === 'tag_ref') { \n    emit(doc.doc_id, { _id: doc.tag_id }); \n    emit(doc.doc_id, 1);\n  }\n}"
+                },
+                tag_with_docs: {
+                    map:
+                        "function (doc) {\n  if (doc.type === 'tag') { emit(doc._id, 1); }\n  if (doc.type === 'tag_ref') { emit(doc.tag_id, { _id: doc.doc_id }); }\n}"
+                }
+            },
+            language: 'javascript'
+        };
 
-        const db = new DB(null);
-
-        db.checkView('_design/tags', view => {
-            if (!view) {
-                db.insert({
-                    _id: '_design/tags',
-                    views: {
-                        by_doc: {
-                            map:
-                                "function (doc) {\n  if (doc.type === 'tag_ref') { \n    emit(doc.doc_id, { _id: doc.tag_id }); \n    emit(doc.doc_id, 1);\n  }\n}"
-                        },
-                        tag_with_docs: {
-                            map:
-                                "function (doc) {\n  if (doc.type === 'tag') { emit(doc._id, 1); }\n  if (doc.type === 'tag_ref') { emit(doc.tag_id, { _id: doc.doc_id }); }\n}"
-                        }
-                    },
-                    language: 'javascript'
-                });
-            }
-        });
+        super('tag', _view);
     }
 
     public action(req: IRequest, res: express.Response) {
@@ -57,7 +51,7 @@ class TagsController extends Controller<Tag> {
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('tags', 'by_doc', { key: req.query.doc_id }, docs => {
+        db.view('tag', 'by_doc', { key: req.query.doc_id }, docs => {
             res.status(200).json(docs);
         });
     }
@@ -71,7 +65,7 @@ class TagsController extends Controller<Tag> {
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('tags', 'tag_with_docs', { key: req.params.id }, docs => {
+        db.view('tag', 'tag_with_docs', { key: req.params.id }, docs => {
             res.status(200).json(docs);
         });
     }
