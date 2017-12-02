@@ -5,9 +5,11 @@ import { push } from 'react-router-redux';
 
 // components
 import { Tabs, Tab } from 'material-ui/Tabs';
-
+import Paper from 'material-ui/Paper';
+import { AddButtonComponent } from 'client/packages/ui';
+import CardsDialog from '../cards/cards-dialog';
 import {
-    CollectionCardsAdminContainer,
+    CollectionCardsContainer,
     CollectionSettingsContainer
 } from 'client/packages/collections';
 // local
@@ -20,7 +22,7 @@ import { ICollection } from 'common/types';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 // actions
 import { get_collection } from 'client/packages/collections/actions';
-import { Dialog } from 'material-ui';
+import { toggle_cards_dialog } from 'client/packages/ui/actions';
 
 interface IStateProps {
     collection_id: string;
@@ -34,20 +36,9 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
-
-export class AdminCollectionPage extends React.Component<
-    IProps,
-    IComponentState
-> {
+export class AdminCollectionPage extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-    }
-
-    public componentWillMount() {
-        if (this.props.collection_id !== 'new') {
-            this.props.dispatch(get_collection(this.props.collection_id));
-        }
     }
 
     public render() {
@@ -76,7 +67,8 @@ export class AdminCollectionPage extends React.Component<
                                         this.props.collection_id +
                                         '/settings'
                                 )
-                            )}
+                            )
+                        }
                     />
                     <Tab
                         label="Cards"
@@ -88,26 +80,45 @@ export class AdminCollectionPage extends React.Component<
                                         this.props.collection_id +
                                         '/cards'
                                 )
-                            )}
+                            )
+                        }
                     />
                 </Tabs>
-                {(() => {
-                    switch (this.props.tab) {
-                        case 'settings':
-                        default:
-                            return (
-                                <CollectionSettingsContainer
-                                    collection_id={this.props.collection_id}
-                                />
-                            );
-                        case 'cards':
-                            return (
-                                <CollectionCardsAdminContainer
-                                    collection_id={this.props.collection_id}
-                                />
-                            );
-                    }
-                })()}
+                <Paper>
+                    {(() => {
+                        switch (this.props.tab) {
+                            case 'settings':
+                            default:
+                                return (
+                                    <CollectionSettingsContainer
+                                        collection_id={this.props.collection_id}
+                                    />
+                                );
+                            case 'cards':
+                                return (
+                                    <div>
+                                        <CollectionCardsContainer
+                                            collection_id={
+                                                this.props.collection_id
+                                            }
+                                        />
+                                        <AddButtonComponent
+                                            action={() =>
+                                                this.props.dispatch(
+                                                    toggle_cards_dialog()
+                                                )
+                                            }
+                                        />
+                                        <CardsDialog
+                                            collection_id={
+                                                this.props.collection_id
+                                            }
+                                        />
+                                    </div>
+                                );
+                        }
+                    })()}
+                </Paper>
             </div>
         );
     }

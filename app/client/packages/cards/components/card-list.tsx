@@ -10,6 +10,7 @@ import { ICard } from 'common/types';
 
 interface IStateProps {
     cards: ICard[];
+    selected_card_ids: string[];
 }
 
 interface IDispatchProps {
@@ -27,10 +28,21 @@ export default class CardListComponent extends React.Component<IProps, {}> {
         return (
             <List>
                 {this.props.cards.map(card => (
-                    <div>
+                    <div key={card._id}>
                         <ListItem
                             leftAvatar={
-                                <Avatar>{card.name.substring(0, 3)}</Avatar>
+                                <Avatar
+                                    style={{
+                                        background:
+                                            this.props.selected_card_ids.indexOf(
+                                                card._id
+                                            ) > -1
+                                                ? 'linear-gradient(120deg, #8e44ad, #3498db)'
+                                                : 'grey'
+                                    }}
+                                >
+                                    {card.name.substring(0, 3)}
+                                </Avatar>
                             }
                             primaryText={card.name}
                             secondaryText={card.description}

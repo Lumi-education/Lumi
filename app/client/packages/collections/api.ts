@@ -8,6 +8,31 @@ export function get_collections(collection_id?: string) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function add_cards_to_collection(
+    collection_id: string,
+    card_ids: string[]
+) {
+    return request
+        .put('/api/v0/collections/' + collection_id + '/action')
+        .send({
+            type: 'ADD_CARDS',
+            payload: { card_ids }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function post_collection() {
+    return request
+        .post('/api/v0/collections')
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function delete_collection(collection_id: string) {
+    return request
+        .delete('/api/v0/collections/' + collection_id)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function get_user_collections() {
     return request
         .get('/api/v0/user/collections')

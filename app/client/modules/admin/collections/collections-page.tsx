@@ -2,12 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import * as debug from 'debug';
 
 import { Map } from 'immutable';
 
-import FilterBar from 'client/packages/ui/components/filter-bar';
+import { FilterBarComponent, AddButtonComponent } from 'client/packages/ui';
 import { CollectionListComponent } from 'client/packages/collections';
-
 // local
 import { IState } from 'client/state';
 
@@ -15,14 +15,19 @@ import { IState } from 'client/state';
 import { ICollection } from 'common/types';
 
 // actions
-import { get_collections } from 'client/packages/collections/actions';
+import {
+    get_collections,
+    create_collection
+} from 'client/packages/collections/actions';
+
+const log_action = debug('lumi:actions');
 
 interface IStateProps {
     collections: ICollection[];
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -47,10 +52,11 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <div>
-                <FilterBar
+                <FilterBarComponent
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <CollectionListComponent
                     collections={this.props.collections.filter(collection => {
@@ -63,7 +69,21 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                                   ) > -1;
                     })}
                     onClick={(id: string) =>
-                        this.props.dispatch(push('/admin/collections/' + id))}
+                        this.props.dispatch(push('/admin/collections/' + id))
+                    }
+                />
+                <AddButtonComponent
+                    action={() => {
+                        this.props.dispatch(create_collection()).then(res => {
+                            log_action(
+                                'create_collection -> promise resolved',
+                                res
+                            );
+                            this.props.dispatch(
+                                push('/admin/collections/' + res.payload._id)
+                            );
+                        });
+                    }}
                 />
             </div>
         );

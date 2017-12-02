@@ -8,7 +8,7 @@ import ChipInput from 'material-ui-chip-input';
 
 import Tag from './tag';
 
-import { ITag } from 'common/types';
+import { ITag } from '../types';
 
 interface IStateProps {
     tags: Map<string, ITag>;
@@ -58,6 +58,7 @@ export default class TagInput extends React.Component<IProps, {}> {
                     key
                 ) => (
                     <Tag
+                        key={key}
                         tags={this.props.tags}
                         tag_id={value}
                         delete={handleRequestDelete}

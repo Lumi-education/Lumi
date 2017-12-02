@@ -24,7 +24,7 @@ import { Progress } from 'client/modules/admin/analytics';
 import UserIndex from 'client/modules/user';
 import UserCollections from 'client/modules/user/collections';
 import UserCollectionCardsList from 'client/modules/user/collections/cards/list';
-import UserCollectionCard from 'client/modules/user/collections/cards/card';
+import UserCardPage from 'client/modules/user/collections/cards/card-page';
 import UserDashboard from 'client/modules/user/dashboard';
 
 interface IProps {
@@ -54,7 +54,7 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                                 />
                                 <Route
                                     path="cards/:card_id"
-                                    component={UserCollectionCard}
+                                    component={UserCardPage}
                                 />
                             </Route>
                         </Route>

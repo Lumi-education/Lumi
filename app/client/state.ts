@@ -5,12 +5,13 @@ import {
     IGroup,
     IUser,
     ICollection,
-    ITag,
     IData,
     ISession
 } from 'common/types';
 
-export interface IState {
+import { IState as ITags } from 'client/packages/tags';
+
+export interface IState extends ITags {
     auth: {
         is_authed: boolean;
         response: number;
@@ -28,9 +29,6 @@ export interface IState {
     collections: {
         list: ICollection[];
     };
-    tags: {
-        list: Map<string, ITag>;
-    };
     request: {};
     session: ISession[];
     data: {
@@ -42,5 +40,7 @@ export interface IState {
         dialog_show: boolean;
         snackbar_open: boolean;
         snackbar_text: string;
+        show_cards_dialog: boolean;
+        selected_card_ids: string[];
     };
 }

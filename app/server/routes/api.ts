@@ -35,9 +35,9 @@ router.post('/collections', CollectionController.create);
 router.get('/collections/:id', CollectionController.read);
 router.put('/collections/:id', CollectionController.update);
 router.delete('/collections/:id', CollectionController.delete);
+router.put('/collections/:id/action', CollectionController.action);
 
 router.get('/collections/:id/cards', CollectionController.cards);
-router.get('/collections/:id/tags', CollectionController.tags);
 
 // groups
 router.get('/groups', mw.auth, GroupController.list);
@@ -48,11 +48,12 @@ router.delete('/groups/:id', GroupController.delete);
 router.put('/groups/:id/action', GroupController.action);
 
 // tags
-router.get('/tags', mw.auth, TagsController.list);
+router.get('/tags', TagsController.list);
 router.post('/tags', TagsController.create);
 router.get('/tags/:id', TagsController.read);
 router.put('/tags/:id', TagsController.update);
 router.delete('/tags/:id', TagsController.delete);
+router.put('/tags/:id/action', TagsController.action);
 
 // data
 router.get('/data', mw.auth, DataController.find);

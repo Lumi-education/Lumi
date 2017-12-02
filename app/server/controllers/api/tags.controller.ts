@@ -1,18 +1,79 @@
 import * as express from 'express';
-import { noop } from 'lodash';
+import { assign, noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
+import { ITag, ITagRef } from 'client/packages/tags/types';
 import Tag from '../../models/Tag';
-import Card from '../../models/Card';
 import { DB } from '../../db';
 
 import Controller from '../controller';
 
 class TagsController extends Controller<Tag> {
+    constructor() {
+        super('tag');
+
+        const db = new DB(null);
+
+        db.findById('_design/tags', doc => {
+            if (!doc) {
+                db.insert({
+                    _id: '_design/tags',
+                    views: {
+                        by_doc: {
+                            map:
+                                "function (doc) {\n  if (doc.type === 'tag_ref') { \n    emit(doc.doc_id, { _id: doc.tag_id }); \n    emit(doc.doc_id, 1);\n  }\n}"
+                        },
+                        tag_with_docs: {
+                            map:
+                                "function (doc) {\n  if (doc.type === 'tag') { emit(doc._id, 1); }\n  if (doc.type === 'tag_ref') { emit(doc.tag_id, { _id: doc.doc_id }); }\n}"
+                        }
+                    },
+                    language: 'javascript'
+                });
+            }
+        });
+    }
+
+    public action(req: IRequest, res: express.Response) {
+        const db = new DB(res);
+
+        switch (req.body.type) {
+            case 'ADD_TO_DOC':
+                db.insert({
+                    _id: req.body.payload.doc_id + req.params.id,
+                    doc_id: req.body.payload.doc_id,
+                    tag_id: req.params.id,
+                    type: 'tag_ref'
+                });
+                break;
+            case 'REM_FROM_DOC':
+                db.delete(req.body.payload.doc_id + req.params.id);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public list(req: IRequest, res: express.Response) {
+        const db = new DB(res);
+
+        db.view('tags', 'by_doc', req.query.doc_id, docs => {
+            res.status(200).json(docs);
+        });
+    }
+
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
         db.insert(new Tag(req.body));
+    }
+
+    public read(req: IRequest, res: express.Response) {
+        const db = new DB(res);
+
+        db.view('tags', 'tag_with_docs', req.params.id, docs => {
+            res.status(200).json(docs);
+        });
     }
 
     public delete(req: IRequest, res: express.Response) {
@@ -20,21 +81,19 @@ class TagsController extends Controller<Tag> {
 
         db.find(
             {
-                tags: { $in: [req.params.id] },
-                type: 'card'
+                tag_id: req.params.id,
+                type: 'tag_ref'
             },
-            { limit: 1000 },
-            (cards: Card[]) => {
-                cards.forEach(card => {
-                    card.rem_tag(req.params.id);
-                    db.save(card, noop);
+            {},
+            docs => {
+                docs.forEach(doc => {
+                    db.delete(doc._id, noop);
                 });
-            },
-            Card
+            }
         );
 
         db.delete(req.params.id);
     }
 }
 
-export default new TagsController('tag');
+export default new TagsController();

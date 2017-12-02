@@ -5,7 +5,7 @@ import { Map } from 'immutable';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 
-import { ITag } from 'common/types';
+import { ITag } from '../types';
 
 interface IStateProps {
     tags: Map<string, ITag>;

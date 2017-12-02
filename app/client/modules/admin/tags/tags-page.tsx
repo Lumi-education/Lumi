@@ -36,7 +36,7 @@ import TagListComponent from 'client/packages/tags/components/tag-list';
 import { IState } from 'client/state';
 
 // types
-import { ITag } from 'common/types';
+import { ITag } from 'client/packages/tags';
 
 // selectors
 import { select_all_tags } from 'client/packages/tags/selectors';
@@ -97,7 +97,8 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                 <FilterBar
                     filter={this.state.search_text}
                     set_filter={filter =>
-                        this.setState({ search_text: filter })}
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <Paper>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -106,14 +107,16 @@ export class AdminTags extends React.Component<IProps, IComponentState> {
                             hintText="Tag"
                             value={this.state.new_tag_name}
                             onChange={(e, v) =>
-                                this.setState({ new_tag_name: v })}
+                                this.setState({ new_tag_name: v })
+                            }
                         />
                         <TextField
                             style={{ flex: 7 }}
                             hintText="Description"
                             value={this.state.new_tag_description}
                             onChange={(e, v) =>
-                                this.setState({ new_tag_description: v })}
+                                this.setState({ new_tag_description: v })
+                            }
                         />
                         <RaisedButton
                             style={{ flex: 1 }}

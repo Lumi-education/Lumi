@@ -11,12 +11,12 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import TagInput from 'client/packages/tags/components/tag-input';
+import { TagInputContainer } from 'client/packages/tags';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
 
 // types
 import { IState } from 'client/state';
-import { ICard, ITag } from 'common/types';
+import { ICard } from 'common/types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
@@ -24,15 +24,9 @@ import { select_card } from 'client/packages/cards/selectors';
 import { select_tags_as_map } from 'client/packages/tags/selectors';
 
 // actions
-import {
-    create_tag_and_add_to_card,
-    get_tags
-} from 'client/packages/tags/actions';
 
 import {
     get_card,
-    add_tag_to_card,
-    rem_tag_from_card,
     update_card,
     delete_card
 } from 'client/packages/cards/actions';
@@ -43,11 +37,10 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: ICard;
-    tags: Map<string, ITag>;
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -103,7 +96,8 @@ export class CardEditContainer extends React.Component<
                                     value={this.state.name}
                                     fullWidth={true}
                                     onChange={(e, v) =>
-                                        this.setState({ name: v })}
+                                        this.setState({ name: v })
+                                    }
                                 />
                             </div>
                             <div style={{ flex: 4 }}>
@@ -111,7 +105,8 @@ export class CardEditContainer extends React.Component<
                                     floatingLabelText="Card Type"
                                     value={this.state.card_type}
                                     onChange={(e, i, v) =>
-                                        this.setState({ card_type: v })}
+                                        this.setState({ card_type: v })
+                                    }
                                 >
                                     <MenuItem
                                         value="text"
@@ -139,34 +134,10 @@ export class CardEditContainer extends React.Component<
                             value={this.state.description}
                             fullWidth={true}
                             onChange={(e, v) =>
-                                this.setState({ description: v })}
+                                this.setState({ description: v })
+                            }
                         />
-                        <TagInput
-                            tags={this.props.tags}
-                            tag_ids={this.props.card.tags}
-                            add={tag => {
-                                this.props.tags.get(tag._id)
-                                    ? this.props.dispatch(
-                                          add_tag_to_card(
-                                              this.props.card._id,
-                                              tag._id
-                                          )
-                                      )
-                                    : this.props.dispatch(
-                                          create_tag_and_add_to_card(
-                                              this.props.card._id,
-                                              tag.name
-                                          )
-                                      );
-                            }}
-                            delete={(tag_id: string) =>
-                                this.props.dispatch(
-                                    rem_tag_from_card(
-                                        this.props.card._id,
-                                        tag_id
-                                    )
-                                )}
-                        />
+                        <TagInputContainer doc_id={this.props.card_id} />
                         <div style={{ display: 'flex' }}>
                             <div style={{ flex: 6 }}>
                                 <TextField
@@ -176,7 +147,8 @@ export class CardEditContainer extends React.Component<
                                     fullWidth={true}
                                     multiLine={true}
                                     onChange={(e, v) =>
-                                        this.setState({ text: v })}
+                                        this.setState({ text: v })
+                                    }
                                 />
                                 <TextField
                                     hintText="Items"
@@ -185,7 +157,8 @@ export class CardEditContainer extends React.Component<
                                     fullWidth={true}
                                     multiLine={true}
                                     onChange={(e, v) =>
-                                        this.setState({ items: v.split('\n') })}
+                                        this.setState({ items: v.split('\n') })
+                                    }
                                 />
                                 <TextField
                                     hintText="Hints"
@@ -211,7 +184,8 @@ export class CardEditContainer extends React.Component<
                             label="Cancel"
                             style={{ margin: '10px' }}
                             onClick={() =>
-                                this.props.dispatch(push('/admin/cards'))}
+                                this.props.dispatch(push('/admin/cards'))
+                            }
                         />
                         <RaisedButton
                             label="Delete"
@@ -233,10 +207,18 @@ export class CardEditContainer extends React.Component<
                             primary={true}
                             style={{ margin: '10px' }}
                             onClick={() => {
-                                this.props.dispatch(
-                                    update_card(this.props.card._id, this.state)
-                                );
-                                this.props.dispatch(push('/admin/cards'));
+                                this.props
+                                    .dispatch(
+                                        update_card(
+                                            this.props.card._id,
+                                            this.state
+                                        )
+                                    )
+                                    .then(() => {
+                                        this.props.dispatch(
+                                            push('/admin/cards')
+                                        );
+                                    });
                             }}
                         />
                     </Paper>
@@ -250,7 +232,6 @@ export class CardEditContainer extends React.Component<
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        tags: select_tags_as_map(state),
         card: select_card(state, ownProps.card_id),
         card_id: ownProps.card_id
     };

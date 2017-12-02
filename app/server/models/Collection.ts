@@ -1,5 +1,5 @@
-import { assign } from 'lodash';
-import { ICollection, Card_id, Tag_id } from 'common/types';
+import { assign, uniq } from 'lodash';
+import { ICollection, Card_id } from 'common/types';
 
 import Card from './Card';
 import Tag from './Tag';
@@ -11,9 +11,9 @@ export default class Collection extends Relations implements ICollection {
     public description: string;
     public type: 'collection';
     public cards: Card_id[];
-    public tags: Tag_id[];
     public name: string;
     public created_at: Date;
+    public updated_at: Date;
 
     constructor(c?: Collection) {
         super();
@@ -35,15 +35,15 @@ export default class Collection extends Relations implements ICollection {
         this.name = name;
     }
 
-    public add_card(card_id: string): void {
-        this.cards.push(card_id);
+    public add_cards(card_ids: string[]): void {
+        this.cards = uniq([...this.cards, ...card_ids]);
+    }
+
+    public rem_cards(card_ids: string[]): void {
+        this.cards = this.cards.filter(id => card_ids.indexOf(id) > -1);
     }
 
     public get_cards(db: DB, cb: (cards: Card[]) => void): void {
         this.hasMany(db, this.cards, cb, Card);
-    }
-
-    public get_tags(db: DB, cb: (tags: Tag[]) => void) {
-        this.hasMany(db, this.tags, cb, Tag);
     }
 }

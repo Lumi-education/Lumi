@@ -24,8 +24,8 @@ export function select_collection_by_id(
             name: 'collection not found',
             description: '',
             cards: [],
-            tags: [],
-            created_at: new Date()
+            created_at: new Date(),
+            updated_at: new Date()
         }
     );
 }

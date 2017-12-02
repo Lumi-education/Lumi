@@ -8,7 +8,7 @@ import { List, ListItem } from 'material-ui/List';
 // container
 import TagListItemContainer from '../container/tag-list-item';
 // types
-import { ITag } from 'common/types';
+import { ITag } from '../types';
 
 interface IProps {
     tags: ITag[];

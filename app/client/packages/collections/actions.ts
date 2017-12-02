@@ -1,4 +1,5 @@
 import * as shortid from 'shortid';
+import { push } from 'react-router-redux';
 
 import * as API from './api';
 
@@ -13,6 +14,44 @@ export function get_collections(id = shortid()) {
         ],
         api: API.get_collections(),
         payload: { id }
+    };
+}
+
+export function add_cards_to_collection(
+    collection_id: string,
+    card_ids: string[]
+) {
+    return {
+        types: [
+            types.COLLECTION_ADD_CARDS_REQUEST,
+            types.COLLECTION_ADD_CARDS_SUCCESS,
+            types.COLLECTION_ADD_CARDS_ERROR
+        ],
+        api: API.add_cards_to_collection(collection_id, card_ids),
+        payload: { card_ids }
+    };
+}
+
+export function delete_collection(collection_id: string) {
+    return {
+        types: [
+            types.COLLECTION_DELETE_COLLECTION_REQUEST,
+            types.COLLECTION_DELETE_COLLECTION_SUCCESS,
+            types.COLLECTION_DELETE_COLLECTION_ERROR
+        ],
+        api: API.delete_collection(collection_id),
+        payload: { collection_id }
+    };
+}
+
+export function create_collection() {
+    return {
+        types: [
+            types.COLLECTIONS_CREATE_COLLECTION_REQUEST,
+            types.COLLECTIONS_CREATE_COLLECTION_SUCCESS,
+            types.COLLECTIONS_CREATE_COLLECTION_ERROR
+        ],
+        api: API.post_collection()
     };
 }
 

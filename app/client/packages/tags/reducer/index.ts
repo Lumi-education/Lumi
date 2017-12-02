@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import list from './list';
+import map from './map';
+import refs from './refs';
 
 const reducer = combineReducers({
-    list
+    map,
+    refs
 });
 
 export default reducer;

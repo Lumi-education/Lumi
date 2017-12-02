@@ -15,15 +15,14 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
 // types
-import { IState } from 'client/state';
-import { ITag } from 'common/types';
+import { ITag, IState } from '../types';
 
 // selectors
 import { select_tag } from 'client/packages/tags/selectors';
 
 // actions
 import {
-    create_tag_and_add_to_card,
+    create_tag_and_add_to_doc,
     get_tags,
     delete_tag
 } from 'client/packages/tags/actions';

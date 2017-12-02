@@ -30,7 +30,7 @@ export default class CollectionListComponent extends React.Component<
         return (
             <List>
                 {this.props.collections.map(collection => (
-                    <div>
+                    <div key={collection._id}>
                         <ListItem
                             leftAvatar={
                                 <Avatar>
