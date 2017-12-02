@@ -70,7 +70,7 @@ export default class AdminGroupUsers extends React.Component<
             <div>
                 <List>
                     {this.props.users.map(user => (
-                        <div>
+                        <div key={user._id}>
                             <ListItem
                                 leftAvatar={
                                     <Avatar>{user.name.substring(0, 3)}</Avatar>
@@ -78,21 +78,25 @@ export default class AdminGroupUsers extends React.Component<
                                 primaryText={user.name}
                                 rightIconButton={rightIconMenu([
                                     <MenuItem
+                                        key="view"
                                         onClick={() =>
                                             this.props.dispatch(
                                                 push('/admin/users/' + user._id)
-                                            )}
+                                            )
+                                        }
                                     >
                                         View
                                     </MenuItem>,
                                     <MenuItem
+                                        key="remove"
                                         onClick={() =>
                                             this.props.dispatch(
                                                 rem_group(
                                                     user._id,
                                                     this.props.group_id
                                                 )
-                                            )}
+                                            )
+                                        }
                                     >
                                         Remove
                                     </MenuItem>
