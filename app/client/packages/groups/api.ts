@@ -21,6 +21,26 @@ export function add_collection_to_group(
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function enable_collection(group_id: string, collection_id: string) {
+    return request
+        .put('/api/v0/groups/' + group_id + '/action')
+        .send({
+            type: 'ENABLE_COLLECTION',
+            payload: { collection_id }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function disable_collection(group_id: string, collection_id: string) {
+    return request
+        .put('/api/v0/groups/' + group_id + '/action')
+        .send({
+            type: 'DISABLE_COLLECTION',
+            payload: { collection_id }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function rem_collection_from_group(
     group_id: string,
     collection_id: string

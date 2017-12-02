@@ -31,7 +31,7 @@ export class UserController {
             (user: User) => {
                 user.get_groups(db, (groups: Group[]) => {
                     const groupsIds = groups
-                        .map(group => group.assigned_collections)
+                        .map(group => group.active_collections || [])
                         .reduce((p, a) => [...p, ...a], []);
 
                     db.find(

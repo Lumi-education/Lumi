@@ -13,6 +13,7 @@ export function select_group(state: IState, group_id: string): IGroup {
         name: 'group ' + group_id + ' not found',
         type: 'group',
         assigned_collections: [],
+        active_collections: [],
         created_at: new Date()
     });
 }
