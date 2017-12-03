@@ -8,38 +8,38 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 class UserController extends Controller<User> {
+    constructor() {
+        const _view = {
+            _id: '_design/user',
+            views: {
+                with_groups: {
+                    map:
+                        'function (doc) {\n  if (doc.type === "user") { \n    emit(doc._id, 1);\n    doc.groups.forEach(function(group_id) {\n      emit(doc._id, {_id: group_id});\n    })\n  }\n}'
+                },
+                list: {
+                    map:
+                        'function (doc) {\n  if (doc.type === "user") { emit(doc._id, 1); }\n}'
+                }
+            },
+            language: 'javascript'
+        };
+
+        super('user', _view);
+    }
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.find({ type: 'user' }, req.query, (users: User[]) => {
-            const groupIds = users
-                .map(u => u.groups)
-                .reduce((p, c) => p.concat(c), []);
-            db.find(
-                {
-                    type: 'group',
-                    _id: { $in: groupIds }
-                },
-                {},
-                (groups: Group[]) => {
-                    res.status(200).json([...users, ...groups]);
-                }
-            );
+        db.view('user', 'list', req.query, docs => {
+            res.status(200).json(docs);
         });
     }
 
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.findById(
-            req.params.id,
-            (user: User) => {
-                user.get_groups(db, (groups: Group[]) => {
-                    res.status(200).json([user, ...groups]);
-                });
-            },
-            User
-        );
+        db.view('user', 'with_groups', { key: req.params.id }, docs => {
+            res.status(200).json(docs);
+        });
     }
 
     public create(req: IRequest, res: express.Response) {
@@ -72,4 +72,4 @@ class UserController extends Controller<User> {
     }
 }
 
-export default new UserController('user');
+export default new UserController();
