@@ -1,19 +1,17 @@
-import * as _debug from 'debug';
-import * as jwt from 'jwt-simple';
-import * as WebSocket from 'ws';
+import * as SocketIO from 'socket.io';
+import * as debug from 'debug';
 import * as ChangeStream from 'changes-stream';
+import * as jwt from 'jwt-simple';
 
-const debug = _debug('websocket');
+const log = debug('lumi:socket');
 
-export default function boot() {
-    const socket = new WebSocket.Server({
-        port: process.env.WS_PORT || 8081
-    });
+export default function boot(io: SocketIO.Server) {
+    io.on('connection', (socket: SocketIO.Socket) => {
+        log('connection', socket);
 
-    socket.on('connection', (client, req) => {
         try {
-            client.user = jwt.decode(
-                req.headers['sec-websocket-protocol'],
+            const user = jwt.decode(
+                socket.handshake.query.jwt_token,
                 process.env.KEY
             );
 
@@ -22,10 +20,10 @@ export default function boot() {
                 include_docs: true,
                 since: 'now',
                 filter: doc => {
-                    if (client.user.level >= 2) {
+                    if (user.level >= 2) {
                         return true;
                     }
-                    return doc.user_id === client.user._id;
+                    return doc.user_id === user._id;
                 }
             });
 
@@ -37,7 +35,7 @@ export default function boot() {
                 };
 
                 try {
-                    client.send(JSON.stringify(msg));
+                    socket.emit('DB_CHANGE', JSON.stringify(msg));
                 } catch (err) {
                     debug(err);
                 }
