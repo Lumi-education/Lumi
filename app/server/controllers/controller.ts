@@ -43,18 +43,14 @@ export default class Controller<T> {
         const db = new DB(res);
 
         db.find({ type: this.type }, req.query, (docs: T[]) => {
-            const o = {};
-            o[this.type + 's'] = docs;
-            res.status(200).json(o);
+            res.status(200).json(docs);
         });
     }
 
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
         db.findById(req.params.id, (doc: T) => {
-            const o = {};
-            o[this.type + 's'] = [doc];
-            res.status(200).json(o);
+            res.status(200).json([doc]);
         });
     }
 
