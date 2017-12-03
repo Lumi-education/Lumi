@@ -41,6 +41,10 @@ export interface IUser {
 
 export interface IData {
     _id: Data_id;
+    data_type: string;
+    collection_id: Collection_id;
+    user_id: User_id;
+    score: number;
 }
 
 export interface IGroup {

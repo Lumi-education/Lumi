@@ -33,7 +33,6 @@ export class UserController {
                     const groupsIds = groups
                         .map(group => group.active_collections || [])
                         .reduce((p, a) => [...p, ...a], []);
-
                     db.find(
                         {
                             _id: { $in: groupsIds },
@@ -41,9 +40,7 @@ export class UserController {
                         },
                         {},
                         (collections: Collection[]) => {
-                            res.status(200).json({
-                                collections
-                            });
+                            res.status(200).json(collections);
                         }
                     );
                 });

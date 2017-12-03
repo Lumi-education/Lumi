@@ -1,8 +1,14 @@
 import * as request from 'superagent';
 import { assign } from 'lodash';
 import * as express from 'express';
+import * as debug from 'debug';
+import * as nano from 'nano';
 
 const db = process.env.DB_HOST + '/' + process.env.DB + '/';
+const _nano = nano(process.env.DB_HOST);
+const nano_db = _nano.use(process.env.DB);
+
+const log = debug('lumi:db');
 
 export class DB {
     private res: express.Response;
@@ -17,6 +23,7 @@ export class DB {
         request
             .get(db + id)
             .then(res => {
+                log('findById', id);
                 cb(type ? new type(res.body) : res.body);
             })
             .catch(err => {
@@ -48,6 +55,7 @@ export class DB {
             .post(db)
             .send(assign(doc, { created_at: new Date() }))
             .then(res => {
+                log('CREATED: ', res.body.id);
                 if (cb) {
                     cb(res);
                 } else {
@@ -102,36 +110,28 @@ export class DB {
     }
 
     public checkView(name: string, cb: (doc) => void) {
+        log('checking for view', name);
         request
             .get(db + name)
             .then(res => {
+                log('view ' + name + ' exists');
                 cb(res.body);
             })
             .catch(err => {
+                log('view ' + name + ' does not exist');
                 cb(undefined);
             });
     }
 
-    public view(
-        _design: string,
-        index: string,
-        key: string,
-        cb: (docs) => void
-    ) {
-        request
-            .get(
-                db +
-                    '_design/' +
-                    _design +
-                    '/_view/' +
-                    index +
-                    '?limit=100&reduce=false&include_docs=true' +
-                    (key ? '&keys=%5B%22' + key + '%22%5D' : '')
-            )
-            .then(res => {
-                cb(res.body.rows.map(row => row.doc));
-            })
-            .catch(this.handle_error);
+    public view(_design: string, index: string, options, cb: (docs) => void) {
+        const _options = assign(options, { include_docs: true });
+
+        nano_db.view(_design, index, _options, (err, body) => {
+            if (err) {
+                this.handle_error(err);
+            }
+            cb(body.rows.map(row => row.doc));
+        });
     }
 
     public delete(id: string, cb?: () => void) {
@@ -139,6 +139,7 @@ export class DB {
             request
                 .delete(db + id + '?rev=' + doc._rev)
                 .then(() => {
+                    log('DELETED: ', id);
                     if (!cb) {
                         this.res.status(200).end();
                     }

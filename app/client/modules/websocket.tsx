@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as shortid from 'shortid';
 
 // types
-import { Dispatch } from 'redux';
 import { IState } from 'client/state';
 
 // actions
-import { push } from 'react-router-redux';
 
 declare var window;
 
@@ -40,7 +37,7 @@ function mapStateToProps(state: IState, ownProps: {}) {
     return {};
 }
 
-function mapDispatchToProps(dispatch: Dispatch<{}>): IProps {
+function mapDispatchToProps(dispatch): IProps {
     return {
         dispatch: action => dispatch(action)
     };

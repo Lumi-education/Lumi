@@ -20,13 +20,6 @@ export default function(
     action
 ): Map<string, ICard> {
     switch (action.type) {
-        case CARDS_GET_CARDS_SUCCESS:
-        case CARDS_GET_CARD_SUCCESS:
-        case COLLECTION_GET_SUCCESS:
-            return state.merge(
-                Map<string, ICard>(arrayToObject(action.payload.cards))
-            );
-
         case CARDS_REM_TAG_SUCCESS:
         case CARDS_ADD_TAG_SUCCESS:
         case CARDS_UPDATE_CARD_SUCCESS:
@@ -39,6 +32,9 @@ export default function(
             return state.delete(action.card_id);
 
         case DB_CHANGE:
+        case CARDS_GET_CARDS_SUCCESS:
+        case CARDS_GET_CARD_SUCCESS:
+        case COLLECTION_GET_SUCCESS:
             return state.merge(
                 Map<string, ICard>(
                     arrayToObject(action.payload.filter(d => d.type === 'card'))

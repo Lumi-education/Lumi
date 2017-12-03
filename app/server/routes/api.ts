@@ -69,6 +69,12 @@ router.get('/user/card/:id', mw.auth, CardsController.read);
 router.put('/user/card/:id', mw.auth, CardsController.update);
 router.delete('/user/card/:id', mw.auth, CardsController.delete);
 
+router.get(
+    '/user/data/collections/:collection_id',
+    mw.auth,
+    DataController.forUserAndCollection
+);
+
 router.get('/user/collections', mw.auth, UserController.collections);
 
 router.post('/user/data', mw.auth, UserController.createData);

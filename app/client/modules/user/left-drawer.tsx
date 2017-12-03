@@ -12,6 +12,7 @@ import Divider from 'material-ui/Divider';
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
+
 // actions
 import {
     push,
@@ -56,7 +57,8 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     docked={false}
                     open={this.props.left_drawer_show}
                     onRequestChange={() =>
-                        this.props.dispatch(left_drawer_close())}
+                        this.props.dispatch(left_drawer_close())
+                    }
                     containerStyle={{ backgroundColor: '#FFFFFF' }}
                 >
                     <AppBar
@@ -67,12 +69,14 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             </IconButton>
                         }
                         onLeftIconButtonTouchTap={() =>
-                            this.props.dispatch(left_drawer_close())}
+                            this.props.dispatch(left_drawer_close())
+                        }
                     />
 
                     <List>
                         {this.props.collections.map(c => (
                             <ListItem
+                                key={c._id}
                                 primaryText={c.name}
                                 onClick={() =>
                                     this.props.dispatch(
@@ -81,7 +85,8 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                                 c._id +
                                                 '/cards'
                                         )
-                                    )}
+                                    )
+                                }
                             />
                         ))}
                         <Subheader>User</Subheader>

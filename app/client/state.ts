@@ -16,6 +16,7 @@ export interface IState extends ITags {
         is_authed: boolean;
         response: number;
         userlevel: number;
+        user_id: string;
     };
     cards: {
         map: Map<string, ICard>;
@@ -32,7 +33,7 @@ export interface IState extends ITags {
     request: {};
     session: ISession[];
     data: {
-        map: Map<string, {}>;
+        map: Map<string, IData>;
     };
     ui: {
         left_drawer_show: boolean;

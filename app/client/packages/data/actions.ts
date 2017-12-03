@@ -20,6 +20,14 @@ export function create_data(data) {
     };
 }
 
+export function get_user_collection_data(collection_id: string) {
+    return {
+        types: [DATA_GET_REQUEST, DATA_GET_SUCCESS, DATA_GET_ERROR],
+        api: API.get_user_collection_data(collection_id),
+        payload: { collection_id }
+    };
+}
+
 export function get_data(query) {
     return {
         types: [DATA_GET_REQUEST, DATA_GET_SUCCESS, DATA_GET_ERROR],

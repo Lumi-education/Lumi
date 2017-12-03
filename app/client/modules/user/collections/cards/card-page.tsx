@@ -121,7 +121,8 @@ export class UserCollectionCard extends React.Component<
                                     this.props.collection_id +
                                     '/cards'
                             )
-                        )}
+                        )
+                    }
                 />
                 <CardViewContainer
                     card_id={this.props.card_id}
@@ -155,7 +156,8 @@ export class UserCollectionCard extends React.Component<
                                             this.props.card._id
                                         )
                                 )
-                            )}
+                            )
+                        }
                         icon={<SVGLeft />}
                     />
 
@@ -178,7 +180,8 @@ export class UserCollectionCard extends React.Component<
                                             this.props.card._id
                                         )
                                 )
-                            )}
+                            )
+                        }
                         icon={<SVGRight />}
                     />
                 </BottomNavigation>

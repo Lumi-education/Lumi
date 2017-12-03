@@ -27,6 +27,18 @@ export default class CollectionListComponent extends React.Component<
     }
 
     public render() {
+        if (this.props.collections.length === 0) {
+            return (
+                <List
+                    style={{
+                        background: 'linear-gradient(120deg, #5fc3e4 , #e55d87)'
+                    }}
+                >
+                    <ListItem primaryText="Loading" />
+                </List>
+            );
+        }
+
         return (
             <List>
                 {this.props.collections.map(collection => (

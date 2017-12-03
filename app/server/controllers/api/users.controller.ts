@@ -22,10 +22,7 @@ class UserController extends Controller<User> {
                 },
                 {},
                 (groups: Group[]) => {
-                    res.status(200).json({
-                        users,
-                        groups
-                    });
+                    res.status(200).json([...users, ...groups]);
                 }
             );
         });
@@ -38,10 +35,7 @@ class UserController extends Controller<User> {
             req.params.id,
             (user: User) => {
                 user.get_groups(db, (groups: Group[]) => {
-                    res.status(200).json({
-                        user,
-                        groups
-                    });
+                    res.status(200).json([user, ...groups]);
                 });
             },
             User

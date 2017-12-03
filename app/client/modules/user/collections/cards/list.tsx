@@ -31,6 +31,8 @@ import { IState } from 'client/state';
 // types
 import { ICollection, ICard } from 'common/types';
 
+// container
+import { CollectionEvaluationContainer } from 'client/packages/collections';
 // selectors
 import { select_cards_by_ids } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
@@ -75,22 +77,6 @@ export class UserCollectionsCards extends React.Component<
         this.state = {};
     }
 
-    public componentWillMount() {
-        this.props.dispatch(get_collection(this.props.collection_id));
-        this.props.dispatch(
-            get_data({ collection_id: this.props.collection_id })
-        );
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (this.props.collection_id !== nextProps.collection_id) {
-            this.props.dispatch(get_collection(nextProps.collection_id));
-            this.props.dispatch(
-                get_data({ collection_id: nextProps.collection_id })
-            );
-        }
-    }
-
     public render() {
         return (
             <div>
@@ -106,12 +92,13 @@ export class UserCollectionsCards extends React.Component<
                         </IconButton>
                     }
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(push('/user'))}
+                        this.props.dispatch(push('/user'))
+                    }
                 />
                 <Paper>
                     <List>
                         {this.props.cards.map((card, i) => (
-                            <div>
+                            <div key={card._id}>
                                 <ListItem
                                     leftAvatar={<Avatar>{i + 1}</Avatar>}
                                     primaryText={card.name}
@@ -123,21 +110,23 @@ export class UserCollectionsCards extends React.Component<
                                                     '/cards/' +
                                                     card._id
                                             )
-                                        )}
+                                        )
+                                    }
                                     rightIcon={
                                         this.props.data.submitted ? (
-                                            (this.props.card_data
-                                                .toArray()
-                                                .filter(
-                                                    data =>
-                                                        data.collection_id ===
-                                                            this.props
-                                                                .collection_id &&
-                                                        data.card_id ===
-                                                            card._id &&
-                                                        data.data_type ===
-                                                            'card'
-                                                )[0] || {}
+                                            (
+                                                this.props.card_data
+                                                    .toArray()
+                                                    .filter(
+                                                        data =>
+                                                            data.collection_id ===
+                                                                this.props
+                                                                    .collection_id &&
+                                                            data.card_id ===
+                                                                card._id &&
+                                                            data.data_type ===
+                                                                'card'
+                                                    )[0] || {}
                                             ).score > 0 ? (
                                                 <SVGCorrect />
                                             ) : (
@@ -152,59 +141,15 @@ export class UserCollectionsCards extends React.Component<
                     </List>
                 </Paper>
                 <Paper style={{ marginTop: '10px' }}>
+                    {this.props.data.submitted ? (
+                        <CollectionEvaluationContainer
+                            collection_id={this.props.collection_id}
+                        />
+                    ) : null}
                     <List>
-                        {this.props.data.submitted ? (
-                            (() => {
-                                const percent =
-                                    this.props.card_data
-                                        .toArray()
-                                        .filter(
-                                            data =>
-                                                data.collection_id ===
-                                                    this.props.collection_id &&
-                                                data.data_type === 'card'
-                                        )
-                                        .reduce(
-                                            (p, a) => p + (a.score || 0),
-                                            0
-                                        ) /
-                                    this.props.collection.cards.length *
-                                    100;
-
-                                return (
-                                    <ListItem
-                                        primaryText={
-                                            this.props.card_data
-                                                .toArray()
-                                                .filter(
-                                                    data =>
-                                                        data.collection_id ===
-                                                            this.props
-                                                                .collection_id &&
-                                                        data.data_type ===
-                                                            'card'
-                                                )
-                                                .reduce(
-                                                    (p, a) =>
-                                                        p + (a.score || 0),
-                                                    0
-                                                ) +
-                                            ' von ' +
-                                            this.props.collection.cards.length +
-                                            ' (' +
-                                            percent +
-                                            '%) richtig'
-                                        }
-                                        style={{
-                                            backgroundColor: get_grade_color(
-                                                percent
-                                            )
-                                        }}
-                                    />
-                                );
-                            })()
-                        ) : (
+                        {this.props.data.submitted ? null : (
                             <ListItem
+                                key="submit"
                                 leftIcon={<SVGAssignmentReturn />}
                                 primaryText="Einreichen"
                                 onClick={() => {

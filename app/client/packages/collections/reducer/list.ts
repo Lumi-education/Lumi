@@ -17,10 +17,6 @@ export default function(
     action
 ): ICollection[] {
     switch (action.type) {
-        case GROUPS_GET_GROUP_SUCCESS:
-        case COLLECTION_GET_SUCCESS:
-            return unionBy(action.payload.collections, state, '_id');
-
         case COLLECTION_ADD_CARDS_REQUEST:
             return state.map(
                 c =>
@@ -35,6 +31,8 @@ export default function(
             return state.filter(c => c._id !== action.collection_id);
 
         case DB_CHANGE:
+        case GROUPS_GET_GROUP_SUCCESS:
+        case COLLECTION_GET_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'collection'),
                 state,

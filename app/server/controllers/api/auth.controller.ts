@@ -38,10 +38,15 @@ class AuthController {
                             ) {
                                 res.status(401).end();
                             } else {
-                                send_auth(user._id, user.level, res);
+                                send_auth(
+                                    user._id,
+                                    user.groups,
+                                    user.level,
+                                    res
+                                );
                             }
                         } else {
-                            send_auth(user._id, user.level, res);
+                            send_auth(user._id, user.groups, user.level, res);
                         }
                     }
                 );
@@ -98,12 +103,14 @@ export default new AuthController();
 
 function send_auth(
     user_id: string,
+    groups: string[],
     level: number,
     res: express.Response
 ): void {
     const jwt_token = jwt.encode(
         {
             level,
+            groups,
             _id: user_id
         },
         process.env.KEY || 'KEY'
@@ -112,6 +119,7 @@ function send_auth(
     res.status(200).json({
         jwt_token,
         user_id,
-        level
+        level,
+        groups
     });
 }
