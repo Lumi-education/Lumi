@@ -55,7 +55,7 @@ export default class AuthRegisterComponent extends React.Component<
     }
 
     public handle_username_input(e, t) {
-        const username = t.toLocaleLowerCase();
+        const username = t.toLocaleLowerCase().replace(/\s/g, '');
         this.setState({ username });
     }
 
