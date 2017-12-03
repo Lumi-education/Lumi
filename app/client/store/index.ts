@@ -15,7 +15,6 @@ import auth from 'client/packages/auth/reducer';
 import cards from 'client/packages/cards/reducer';
 import collections from 'client/packages/collections/reducer';
 import groups from 'client/packages/groups/reducer';
-import request from 'client/packages/request/reducer';
 import ui from 'client/packages/ui/reducer';
 import session from 'client/packages/session/reducer';
 import users from 'client/packages/users/reducer';
@@ -28,7 +27,6 @@ const rootReducer = combineReducers({
     collections,
     groups,
     ui,
-    request,
     users,
     tags,
     session,
