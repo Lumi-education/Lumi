@@ -11,7 +11,6 @@ import Snackbar from 'material-ui/Snackbar';
 import { state_color } from 'client/style/utils';
 
 interface IStateProps {
-    request: 'pending' | 'success' | 'error';
     response: number;
 }
 
@@ -118,13 +117,9 @@ export default class AuthRegisterComponent extends React.Component<
                                 this.state.password !==
                                     this.state.password_repeat
                             }
-                            label={
-                                this.props.request === 'pending'
-                                    ? 'Loading..'
-                                    : 'Register'
-                            }
+                            label="Register"
                             buttonStyle={{
-                                backgroundColor: state_color(this.props.request)
+                                backgroundColor: state_color('init')
                             }}
                             onClick={() => {
                                 this.props.register(

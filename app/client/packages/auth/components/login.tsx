@@ -16,7 +16,6 @@ interface IStateProps {
 
 interface IDispatchProps {
     login: (username: string, password: string) => void;
-    request: 'pending' | 'success' | 'error';
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -91,13 +90,9 @@ export default class AuthLoginComponent extends React.Component<
                         <RaisedButton
                             fullWidth={true}
                             disabled={this.state.username === ''}
-                            label={
-                                this.props.request === 'pending'
-                                    ? 'Loading..'
-                                    : 'Login'
-                            }
+                            label="Login"
                             buttonStyle={{
-                                backgroundColor: state_color(this.props.request)
+                                backgroundColor: state_color('init')
                             }}
                             onClick={() => {
                                 this.props.login(
