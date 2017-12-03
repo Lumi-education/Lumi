@@ -33,7 +33,7 @@ export function create_user(name: string, options?) {
 
 export function get_users() {
     return request
-        .get('/api/v0/users')
+        .get('/api/v0/users?limit=100')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

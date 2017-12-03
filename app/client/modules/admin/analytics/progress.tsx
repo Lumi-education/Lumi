@@ -74,7 +74,9 @@ export class AdminCollectionProgress extends React.Component<IProps, {}> {
         if (this.props.collection_id !== nextProps.collection_id) {
             this.props.dispatch(get_collection(nextProps.collection_id));
             this.props.dispatch(
-                get_data({ collection_id: this.props.collection_id })
+                get_data({
+                    collection_id: this.props.collection_id
+                })
             );
         }
 
@@ -117,7 +119,8 @@ export class AdminCollectionProgress extends React.Component<IProps, {}> {
                                         '&collection_id=' +
                                         this.props.collection_id
                                 )
-                            )}
+                            )
+                        }
                     >
                         {this.props.groups.map(group => (
                             <MenuItem
@@ -137,7 +140,8 @@ export class AdminCollectionProgress extends React.Component<IProps, {}> {
                                         '&collection_id=' +
                                         v
                                 )
-                            )}
+                            )
+                        }
                     >
                         {this.props.collections.map(collection => (
                             <MenuItem
