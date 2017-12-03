@@ -26,6 +26,7 @@
     "body-parser": "^1.18.2",
     "changes-stream": "^2.2.0",
     "classnames": "2.2.5",
+    "compression": "^1.7.1",
     "debug": "2.3.3",
     "express": "^4.16.0",
     "http-proxy": "^1.16.2",
