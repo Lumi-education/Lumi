@@ -71,11 +71,12 @@ export class DB {
     }
 
     public find(query, options, cb: (doc) => void, type?) {
+        if (options.limit) {
+            options.limit = parseInt(options.limit, 10);
+        }
         request
             .post(db + '_find')
-            .send(
-                assign({ selector: query }, assign(options, { limit: 10000 }))
-            )
+            .send(assign({ selector: query }, options))
             .then(res => {
                 cb(type ? res.body.docs.map(d => new type(d)) : res.body.docs);
             })
@@ -85,7 +86,7 @@ export class DB {
     public findOne(query, options, cb: (doc) => void, type?) {
         this.find(
             query,
-            options,
+            assign(options, { limit: 1 }),
             docs => {
                 cb(docs[0]);
             },
