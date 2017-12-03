@@ -8,17 +8,17 @@ import routes from '../routes';
 
 const debug = _debug('server');
 
-const server: express.Application = express();
+const app: express.Application = express();
 
-server.use(bodyParser.json());
-server.use(
+app.use(bodyParser.json());
+app.use(
     bodyParser.urlencoded({
         extended: true
     })
 );
 
-server.use(compression());
+app.use(compression());
 
-server.use(routes);
+app.use(routes);
 
-export default server;
+export default app;
