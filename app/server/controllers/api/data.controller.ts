@@ -65,7 +65,7 @@ class DataController extends Controller<Data> {
                 },
                 req.query
             ),
-            {},
+            { limit: 900 },
             (data: Data[]) => {
                 res.status(200).json(data);
             },
