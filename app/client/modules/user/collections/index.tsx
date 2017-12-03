@@ -44,15 +44,9 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    search_text?: string;
-}
-
-export class UserCollections extends React.Component<IProps, IComponentState> {
+export class UserCollections extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {};
     }
 
     public componentWillMount() {

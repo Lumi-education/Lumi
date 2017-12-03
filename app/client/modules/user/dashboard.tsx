@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import * as shortid from 'shortid';
 import { IState } from 'client/state';
 
 import { ICollection } from 'common/types';
 
 import AppBar from 'material-ui/AppBar';
-import { List, ListItem } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 
 // components
@@ -17,15 +15,7 @@ import { CollectionListComponent } from 'client/packages/collections';
 import { select_collections_as_array } from 'client/packages/collections/selectors';
 
 // actions
-import {
-    left_drawer_close,
-    left_drawer_open,
-    push
-} from 'client/packages/ui/actions';
-
-import { init } from 'client/packages/user/actions';
-
-import { session_update } from 'client/packages/session/actions';
+import { left_drawer_open, push } from 'client/packages/ui/actions';
 
 import { get_user_collections } from 'client/packages/collections/actions';
 

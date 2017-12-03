@@ -12,6 +12,7 @@ import Divider from 'material-ui/Divider';
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
+
 // actions
 import {
     push,

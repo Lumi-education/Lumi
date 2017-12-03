@@ -10,3 +10,6 @@ export {
 export {
     default as CollectionSettingsContainer
 } from './container/collection-settings';
+export {
+    default as CollectionEvaluationContainer
+} from './container/collection-evaluation';

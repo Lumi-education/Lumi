@@ -31,6 +31,8 @@ import { IState } from 'client/state';
 // types
 import { ICollection, ICard } from 'common/types';
 
+// container
+import { CollectionEvaluationContainer } from 'client/packages/collections';
 // selectors
 import { select_cards_by_ids } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
@@ -139,59 +141,13 @@ export class UserCollectionsCards extends React.Component<
                     </List>
                 </Paper>
                 <Paper style={{ marginTop: '10px' }}>
+                    {this.props.data.submitted ? (
+                        <CollectionEvaluationContainer
+                            collection_id={this.props.collection_id}
+                        />
+                    ) : null}
                     <List>
-                        {this.props.data.submitted ? (
-                            (() => {
-                                const percent =
-                                    this.props.card_data
-                                        .toArray()
-                                        .filter(
-                                            data =>
-                                                data.collection_id ===
-                                                    this.props.collection_id &&
-                                                data.data_type === 'card'
-                                        )
-                                        .reduce(
-                                            (p, a) => p + (a.score || 0),
-                                            0
-                                        ) /
-                                    this.props.collection.cards.length *
-                                    100;
-
-                                return (
-                                    <ListItem
-                                        key="evaluation"
-                                        primaryText={
-                                            this.props.card_data
-                                                .toArray()
-                                                .filter(
-                                                    data =>
-                                                        data.collection_id ===
-                                                            this.props
-                                                                .collection_id &&
-                                                        data.data_type ===
-                                                            'card'
-                                                )
-                                                .reduce(
-                                                    (p, a) =>
-                                                        p + (a.score || 0),
-                                                    0
-                                                ) +
-                                            ' von ' +
-                                            this.props.collection.cards.length +
-                                            ' (' +
-                                            percent +
-                                            '%) richtig'
-                                        }
-                                        style={{
-                                            backgroundColor: get_grade_color(
-                                                percent
-                                            )
-                                        }}
-                                    />
-                                );
-                            })()
-                        ) : (
+                        {this.props.data.submitted ? null : (
                             <ListItem
                                 key="submit"
                                 leftIcon={<SVGAssignmentReturn />}

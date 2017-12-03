@@ -11,7 +11,8 @@ import {
 const initialState: {} = {
     is_authed: false,
     response: 0,
-    userlevel: 0
+    userlevel: 0,
+    user_id: ''
 };
 
 export default function(state: {} = initialState, action): {} {
@@ -19,7 +20,8 @@ export default function(state: {} = initialState, action): {} {
         case AUTH_GET_SESSION_SUCCESS:
             return assign({}, state, {
                 is_authed: true,
-                userlevel: action.payload.level
+                userlevel: action.payload.level,
+                user_id: action.payload._id
             });
 
         case AUTH_LOGIN_ERROR:
