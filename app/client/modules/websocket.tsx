@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as socketio from 'socket.io-client';
 
 // types
 import { IState } from 'client/state';
@@ -18,14 +19,14 @@ export class WebsocketContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        const socket = new WebSocket(
-            'ws://' + window.location.hostname + ':8081/',
-            window.localStorage.jwt_token
-        );
-        socket.onmessage = msg => {
-            const action = JSON.parse(msg.data);
+        const socket = socketio.connect({
+            query: { jwt_token: window.localStorage.jwt_token }
+        });
+
+        socket.on('DB_CHANGE', msg => {
+            const action = JSON.parse(msg);
             this.props.dispatch(action);
-        };
+        });
     }
 
     public render() {
