@@ -36,6 +36,7 @@ export class DB {
             .put(db + doc._id)
             .send(assign(doc, { updated_at: new Date() }))
             .then(res => {
+                log('SAVED', doc._id);
                 if (cb) {
                     cb(res);
                 } else {

@@ -9,6 +9,25 @@ import Controller from '../controller';
 import { DB } from '../../db';
 
 class CollectionController extends Controller<Collection> {
+    constructor() {
+        const _view = {
+            _id: '_design/collection',
+            views: {
+                with_cards: {
+                    map:
+                        "function (doc) {\n  if (doc.type == 'collection') {\n    emit(doc._id, 1);\n    for (var i in doc.cards) {\n      emit(doc._id, { _id: doc.cards[i] });\n    }\n  }\n  \n}"
+                },
+                by_group: {
+                    map:
+                        "function (doc) {\n  if (doc.type === 'group') {\n    doc.assigned_collections.forEach(function(collection_id) {\n      emit(doc._id, { _id: collection_id });\n    })\n  }\n}"
+                }
+            },
+            language: 'javascript'
+        };
+
+        super('collection', _view);
+    }
+
     public action(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
@@ -51,6 +70,14 @@ class CollectionController extends Controller<Collection> {
         );
     }
 
+    public for_user(req: IRequest, res: express.Response) {
+        const db = new DB(res);
+
+        db.view('collection', 'by_group', { keys: req.user.groups }, docs => {
+            res.status(200).json(docs);
+        });
+    }
+
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
@@ -80,4 +107,4 @@ class CollectionController extends Controller<Collection> {
     }
 }
 
-export default new CollectionController('collection');
+export default new CollectionController();

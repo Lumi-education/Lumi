@@ -18,7 +18,7 @@ export class WebsocketContainer extends React.Component<IProps, {}> {
         super(props);
     }
 
-    public componentWillMount() {
+    public componentDidMount() {
         const socket = socketio.connect({
             query: { jwt_token: window.localStorage.jwt_token }
         });
