@@ -70,7 +70,7 @@ router.put('/user/card/:id', mw.auth, CardsController.update);
 router.delete('/user/card/:id', mw.auth, CardsController.delete);
 
 router.get(
-    '/user/data/collection/:collection_id',
+    '/user/data/collections/:collection_id',
     mw.auth,
     DataController.forUserAndCollection
 );

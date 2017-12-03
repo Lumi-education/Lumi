@@ -75,22 +75,6 @@ export class UserCollectionsCards extends React.Component<
         this.state = {};
     }
 
-    public componentWillMount() {
-        this.props.dispatch(get_collection(this.props.collection_id));
-        this.props.dispatch(
-            get_data({ collection_id: this.props.collection_id })
-        );
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (this.props.collection_id !== nextProps.collection_id) {
-            this.props.dispatch(get_collection(nextProps.collection_id));
-            this.props.dispatch(
-                get_data({ collection_id: nextProps.collection_id })
-            );
-        }
-    }
-
     public render() {
         return (
             <div>
@@ -106,12 +90,13 @@ export class UserCollectionsCards extends React.Component<
                         </IconButton>
                     }
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(push('/user'))}
+                        this.props.dispatch(push('/user'))
+                    }
                 />
                 <Paper>
                     <List>
                         {this.props.cards.map((card, i) => (
-                            <div>
+                            <div key={card._id}>
                                 <ListItem
                                     leftAvatar={<Avatar>{i + 1}</Avatar>}
                                     primaryText={card.name}
@@ -123,21 +108,23 @@ export class UserCollectionsCards extends React.Component<
                                                     '/cards/' +
                                                     card._id
                                             )
-                                        )}
+                                        )
+                                    }
                                     rightIcon={
                                         this.props.data.submitted ? (
-                                            (this.props.card_data
-                                                .toArray()
-                                                .filter(
-                                                    data =>
-                                                        data.collection_id ===
-                                                            this.props
-                                                                .collection_id &&
-                                                        data.card_id ===
-                                                            card._id &&
-                                                        data.data_type ===
-                                                            'card'
-                                                )[0] || {}
+                                            (
+                                                this.props.card_data
+                                                    .toArray()
+                                                    .filter(
+                                                        data =>
+                                                            data.collection_id ===
+                                                                this.props
+                                                                    .collection_id &&
+                                                            data.card_id ===
+                                                                card._id &&
+                                                            data.data_type ===
+                                                                'card'
+                                                    )[0] || {}
                                             ).score > 0 ? (
                                                 <SVGCorrect />
                                             ) : (
@@ -173,6 +160,7 @@ export class UserCollectionsCards extends React.Component<
 
                                 return (
                                     <ListItem
+                                        key="evaluation"
                                         primaryText={
                                             this.props.card_data
                                                 .toArray()
@@ -205,6 +193,7 @@ export class UserCollectionsCards extends React.Component<
                             })()
                         ) : (
                             <ListItem
+                                key="submit"
                                 leftIcon={<SVGAssignmentReturn />}
                                 primaryText="Einreichen"
                                 onClick={() => {

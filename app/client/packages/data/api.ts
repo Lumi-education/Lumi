@@ -23,3 +23,9 @@ export function get_data(query) {
         .get('/api/v0/data?' + qs.stringify(query))
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function get_user_collection_data(collection_id: string) {
+    return request
+        .get('/api/v0/user/data/collections/' + collection_id)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

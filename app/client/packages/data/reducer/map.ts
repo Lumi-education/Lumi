@@ -15,11 +15,6 @@ export default function(
     action
 ): Map<string, {}> {
     switch (action.type) {
-        case DATA_GET_SUCCESS:
-            return state.merge(
-                Map<string, {}>(arrayToObject(action.payload.data))
-            );
-
         case DATA_UPDATE_SUCCESS:
         case DATA_CREATE_SUCCESS:
             const o = {};
@@ -27,6 +22,7 @@ export default function(
             return state.merge(Map<string, {}>(o));
 
         case DB_CHANGE:
+        case DATA_GET_SUCCESS:
             return state.merge(
                 Map<string, {}>(
                     arrayToObject(action.payload.filter(d => d.type === 'data'))

@@ -5,7 +5,6 @@ import * as shortid from 'shortid';
 import { IState } from 'client/state';
 
 // components
-import AppBar from 'material-ui/AppBar';
 import LeftDrawer from './left-drawer';
 
 // actions
@@ -19,10 +18,7 @@ import { init } from 'client/packages/user/actions';
 
 import { session_update } from 'client/packages/session/actions';
 
-import { get_user_collections } from 'client/packages/collections/actions';
-
 interface IStateProps {
-    request: {};
     location;
 }
 
@@ -37,22 +33,9 @@ export class Root extends React.Component<IProps, {}> {
         super(props);
     }
 
-    public componentWillMount() {
-        this.props.dispatch(get_user_collections());
-    }
-
     public render() {
         return (
             <div id="root">
-                <AppBar
-                    style={{
-                        background: 'linear-gradient(120deg, #3498db, #1abc9c)'
-                    }}
-                    showMenuIconButton={true}
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())
-                    }
-                />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}
@@ -63,7 +46,6 @@ export class Root extends React.Component<IProps, {}> {
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        request: state.request,
         location: ownProps.location
     };
 }

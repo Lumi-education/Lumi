@@ -6,6 +6,7 @@ import { IState } from 'client/state';
 
 import { ICollection } from 'common/types';
 
+import AppBar from 'material-ui/AppBar';
 import { List, ListItem } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 
@@ -50,6 +51,15 @@ export class UserDashboard extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="dashboard">
+                <AppBar
+                    style={{
+                        background: 'linear-gradient(120deg, #3498db, #1abc9c)'
+                    }}
+                    showMenuIconButton={true}
+                    onLeftIconButtonTouchTap={() =>
+                        this.props.dispatch(left_drawer_open())
+                    }
+                />
                 <Paper>
                     <CollectionListComponent
                         collections={this.props.collections}

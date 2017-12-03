@@ -32,11 +32,10 @@ import { select_cards_by_ids } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 // actions
 import { get_collection } from 'client/packages/collections/actions';
+import { get_user_collection_data } from 'client/packages/data/actions';
 
 interface IStateProps {
-    collection: ICollection;
     collection_id: string;
-    cards: ICard[];
 }
 
 interface IDispatchProps {
@@ -58,11 +57,15 @@ export class UserCollections extends React.Component<IProps, IComponentState> {
 
     public componentWillMount() {
         this.props.dispatch(get_collection(this.props.collection_id));
+        this.props.dispatch(get_user_collection_data(this.props.collection_id));
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.collection_id !== nextProps.collection_id) {
             this.props.dispatch(get_collection(nextProps.collection_id));
+            this.props.dispatch(
+                get_user_collection_data(nextProps.collection_id)
+            );
         }
     }
 
@@ -73,15 +76,7 @@ export class UserCollections extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        collection: select_collection_by_id(
-            state,
-            ownProps.params.collection_id
-        ),
-        collection_id: ownProps.params.collection_id,
-        cards: select_cards_by_ids(
-            state,
-            select_collection_by_id(state, ownProps.params.collection_id).cards
-        )
+        collection_id: ownProps.params.collection_id
     };
 }
 
