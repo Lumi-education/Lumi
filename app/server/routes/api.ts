@@ -75,7 +75,7 @@ router.get(
     DataController.forUserAndCollection
 );
 
-router.get('/user/collections', mw.auth, UserController.collections);
+router.get('/user/collections', mw.auth, CollectionController.for_user);
 
 router.post('/user/data', mw.auth, UserController.createData);
 router.put('/user/data/:id', mw.auth, UserController.updateData);

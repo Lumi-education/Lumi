@@ -43,6 +43,7 @@ export interface IRequest extends express.Request {
     user: {
         _id: string;
         level: number;
+        groups: string[];
         session_id: string;
     };
 
