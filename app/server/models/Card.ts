@@ -25,6 +25,7 @@ export default class Card extends Relations implements ICard {
             this,
             {
                 type: 'card',
+                card_type: 'multiplechoice',
                 tags: [],
                 name: 'new card',
                 items: [],

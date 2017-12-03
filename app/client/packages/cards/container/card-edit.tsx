@@ -3,6 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Map } from 'immutable';
+import * as debug from 'debug';
 
 // components
 import TextField from 'material-ui/TextField';
@@ -13,7 +14,10 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
+import { List, ListItem } from 'material-ui/List';
+import Dropzone from 'react-dropzone';
 
+import * as request from 'superagent';
 // types
 import { IState } from 'client/state';
 import { ICard } from 'common/types';
@@ -30,6 +34,8 @@ import {
     update_card,
     delete_card
 } from 'client/packages/cards/actions';
+
+const log = debug('lumi:container:cards:card-edit');
 
 interface IPassedProps {
     card_id: string;
@@ -67,6 +73,9 @@ export class CardEditContainer extends React.Component<
             name: '',
             card_type: 'text'
         };
+
+        this.insertAttachment = this.insertAttachment.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     public componentWillMount() {
@@ -80,6 +89,38 @@ export class CardEditContainer extends React.Component<
             description: nextProps.card.description,
             name: nextProps.card.name,
             card_type: nextProps.card.card_type
+        });
+    }
+
+    public insertAttachment(attachment: string) {
+        this.setState({
+            text:
+                this.state.text +
+                '![attachment](/api/v0/cards/' +
+                this.props.card_id +
+                '/attachment/' +
+                attachment +
+                ')'
+        });
+    }
+
+    public onDrop(acceptedFiles) {
+        log(acceptedFiles);
+        acceptedFiles.forEach(file => {
+            const req = request
+                .put(
+                    '/api/v0/cards/' +
+                        this.props.card_id +
+                        '/attachment/' +
+                        file.name +
+                        '?rev=' +
+                        (this.props.card as any)._rev
+                )
+                .set('Content-Type', file.type)
+                .send(file)
+                .end(() => {
+                    log('files attached', acceptedFiles);
+                });
         });
     }
 
@@ -103,28 +144,17 @@ export class CardEditContainer extends React.Component<
                             <div style={{ flex: 4 }}>
                                 <SelectField
                                     floatingLabelText="Card Type"
-                                    value={this.state.card_type}
+                                    value={
+                                        this.state.card_type || 'multiplechoice'
+                                    }
                                     onChange={(e, i, v) =>
                                         this.setState({ card_type: v })
                                     }
                                 >
                                     <MenuItem
-                                        value="text"
-                                        primaryText="Markdown"
-                                    />
-                                    <MenuItem
                                         value="multiplechoice"
                                         primaryText="Multiplechoice"
                                     />
-                                    <MenuItem
-                                        value="freetext"
-                                        primaryText="Freetext"
-                                    />
-                                    <MenuItem
-                                        value="video"
-                                        primaryText="Video"
-                                    />
-                                    <MenuItem value="sort" primaryText="Sort" />
                                 </SelectField>
                             </div>
                         </div>
@@ -166,6 +196,25 @@ export class CardEditContainer extends React.Component<
                                     value=""
                                     fullWidth={true}
                                 />
+                                <Dropzone onDrop={this.onDrop}>
+                                    <List>
+                                        {(() => {
+                                            return Object.keys(
+                                                this.props.card._attachments ||
+                                                    {}
+                                            ).map(key => (
+                                                <ListItem
+                                                    onClick={() =>
+                                                        this.insertAttachment(
+                                                            key
+                                                        )
+                                                    }
+                                                    primaryText={key}
+                                                />
+                                            ));
+                                        })()}
+                                    </List>
+                                </Dropzone>
                             </div>
                             <div
                                 style={{
