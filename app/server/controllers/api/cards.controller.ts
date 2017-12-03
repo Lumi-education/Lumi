@@ -45,7 +45,8 @@ class CardController extends Controller<Card> {
             '/' +
             req.params.id +
             '/' +
-            req.params.attachment;
+            req.params.attachment +
+            (req.query.rev ? '?rev=' + req.query.rev : '');
 
         proxy.web(req, res, {
             target: process.env.DB_HOST
