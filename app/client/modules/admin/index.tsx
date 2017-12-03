@@ -17,7 +17,6 @@ import {
 } from 'client/packages/ui/actions';
 
 interface IStateProps {
-    request: {};
     location;
     userlevel: number;
 }
@@ -49,7 +48,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
                     }}
                     showMenuIconButton={true}
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())}
+                        this.props.dispatch(left_drawer_open())
+                    }
                 />
                 <LeftDrawer />
                 <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
@@ -62,7 +62,6 @@ export class AdminRoot extends React.Component<IProps, {}> {
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        request: state.request,
         location: ownProps.location,
         userlevel: state.auth.userlevel
     };

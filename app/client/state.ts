@@ -30,7 +30,6 @@ export interface IState extends ITags {
     collections: {
         list: ICollection[];
     };
-    request: {};
     session: ISession[];
     data: {
         map: Map<string, IData>;

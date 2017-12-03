@@ -22,11 +22,10 @@ interface IStateProps {
     collections: ICollection[];
     group: IGroup;
     group_id: string;
-    request: {};
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -39,8 +38,6 @@ export class AdminAddCollectionDialog extends React.Component<
     IProps,
     IComponentState
 > {
-    public action_id: string;
-
     constructor(props: IProps) {
         super(props);
 
@@ -50,8 +47,6 @@ export class AdminAddCollectionDialog extends React.Component<
 
         this.add_collection = this.add_collection.bind(this);
         this.close = this.close.bind(this);
-
-        this.action_id = shortid();
     }
 
     public componentWillMount() {
@@ -60,22 +55,15 @@ export class AdminAddCollectionDialog extends React.Component<
 
     public add_collection(collection) {
         if (collection._id) {
-            this.action_id = shortid();
-            this.props.dispatch(
-                add_collection_to_group(
-                    this.props.group_id,
-                    collection._id,
-                    this.action_id
+            this.props
+                .dispatch(
+                    add_collection_to_group(this.props.group_id, collection._id)
                 )
-            );
+                .then(res => {
+                    this.close();
+                });
         } else {
             // this.props.dispatch( create_user(collection, { groups: [ this.props.group_id ]}) );
-        }
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (nextProps.request[this.action_id] === 'success') {
-            this.close();
         }
     }
 
@@ -126,8 +114,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         collections: state.collections.list,
         group: select_group(state, ownProps.params.group_id),
-        group_id: ownProps.params.group_id,
-        request: state.request
+        group_id: ownProps.params.group_id
     };
 }
 

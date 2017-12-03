@@ -18,7 +18,6 @@ import { get_session, login, register } from 'client/packages/auth/actions';
 interface IStateProps {
     is_authed: boolean;
     response: number;
-    request: {};
 }
 
 interface IDispatchProps {
@@ -58,15 +57,14 @@ export class Auth extends React.Component<IProps, {}> {
                 <Tab label="Login">
                     <LoginComponent
                         login={this.login}
-                        request={this.props.request[this.request_id]}
                         response={this.props.response}
                     />
                 </Tab>
                 <Tab label="Register">
                     <RegisterComponent
                         register={(username: string, password: string) =>
-                            this.props.dispatch(register(username, password))}
-                        request={this.props.request[this.request_id]}
+                            this.props.dispatch(register(username, password))
+                        }
                         response={this.props.response}
                     />
                 </Tab>
@@ -78,8 +76,7 @@ export class Auth extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         is_authed: state.auth.is_authed,
-        response: state.auth.response,
-        request: state.request
+        response: state.auth.response
     };
 }
 
