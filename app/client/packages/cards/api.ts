@@ -4,7 +4,7 @@ declare var window;
 
 export function get_cards() {
     return request
-        .get('/api/v0/cards')
+        .get('/api/v0/cards?limit=100')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
