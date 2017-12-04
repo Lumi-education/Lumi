@@ -87,7 +87,7 @@ class CollectionController extends Controller<Collection> {
     public read(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('collections', 'with_cards', { key: req.params.id }, docs => {
+        db.view('collection', 'with_cards', { key: req.params.id }, docs => {
             res.status(200).json(docs);
         });
     }

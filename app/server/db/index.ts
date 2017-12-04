@@ -131,8 +131,13 @@ export class DB {
         nano_db.view(_design, index, _options, (err, body) => {
             if (err) {
                 this.handle_error(err);
+            } else {
+                if (body) {
+                    cb(body.rows.map(row => row.doc));
+                } else {
+                    cb([]);
+                }
             }
-            cb(body.rows.map(row => row.doc));
         });
     }
 
