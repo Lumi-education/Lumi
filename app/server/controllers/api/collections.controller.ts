@@ -74,7 +74,7 @@ class CollectionController extends Controller<Collection> {
         const db = new DB(res);
 
         db.view('collection', 'by_group', { keys: req.user.groups }, docs => {
-            res.status(200).json(docs);
+            res.status(200).json(docs.filter(d => d)); // issue90 hack
         });
     }
 

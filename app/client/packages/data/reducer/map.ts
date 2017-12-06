@@ -6,8 +6,10 @@ import { arrayToObject } from 'client/utils';
 import {
     DATA_GET_SUCCESS,
     DATA_UPDATE_SUCCESS,
+    DATA_UPDATE_REQUEST,
     DATA_CREATE_SUCCESS,
-    DB_CHANGE
+    DB_CHANGE,
+    DATA_CREATE_REQUEST
 } from 'client/packages/action-types';
 
 export default function(
@@ -28,6 +30,11 @@ export default function(
                     arrayToObject(action.payload.filter(d => d.type === 'data'))
                 )
             );
+
+        case DATA_UPDATE_REQUEST:
+            return state.update(action.data._id, data => {
+                return action.data;
+            });
 
         default:
             return state;
