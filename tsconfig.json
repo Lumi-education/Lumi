@@ -1,18 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "jsx": "react",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": false,
-	  "outDir": "build/",
-    "allowJs": true
-  },
-  "files": [
-    "client/index.ts"
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": false,
+        "noImplicitAny": false,
+        "allowJs": true,
+        "baseUrl": "./app"
+    },
+    "files": ["app/client/boot.tsx"]
 }
