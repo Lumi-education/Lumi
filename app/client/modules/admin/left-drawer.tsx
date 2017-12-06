@@ -78,7 +78,8 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             </IconButton>
                         }
                         onLeftIconButtonTouchTap={() =>
-                            this.props.left_drawer_close()}
+                            this.props.left_drawer_close()
+                        }
                     />
 
                     <List style={{ backgroundColor: '#FFFFFF' }}>
@@ -98,7 +99,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }}
                         />
                         <Divider />
-                        <Subheader>Material</Subheader>
+                        <Subheader>Cards</Subheader>
                         <ListItem
                             primaryText="Cards"
                             leftIcon={<SVGCards />}
@@ -118,6 +119,13 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             leftIcon={<SVGTags />}
                             onTouchTap={() => {
                                 this.props.push('/admin/tags');
+                            }}
+                        />
+                        <ListItem
+                            primaryText="Competences"
+                            leftIcon={<SVGTags />}
+                            onTouchTap={() => {
+                                this.props.push('/admin/competences');
                             }}
                         />
                         <Divider />

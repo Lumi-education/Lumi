@@ -20,6 +20,7 @@ import session from 'client/packages/session/reducer';
 import users from 'client/packages/users/reducer';
 import tags from 'client/packages/tags/reducer';
 import data from 'client/packages/data/reducer';
+import competences from 'lumi/competences/reducer';
 
 const rootReducer = combineReducers({
     auth,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     tags,
     session,
     data,
+    competences,
     routing: routerReducer
 });
 

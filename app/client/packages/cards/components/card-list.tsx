@@ -5,6 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import { List, ListItem } from 'material-ui/List';
 
+import { CompetenceContainer } from 'lumi/competences';
 // types
 import { ICard } from 'common/types';
 
@@ -45,7 +46,9 @@ export default class CardListComponent extends React.Component<IProps, {}> {
                                 </Avatar>
                             }
                             primaryText={card.name}
-                            secondaryText={card.description}
+                            secondaryText={
+                                <CompetenceContainer doc_id={card._id} />
+                            }
                             onClick={() => this.props.onClick(card._id)}
                         />
                         <Divider inset={true} />
