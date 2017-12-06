@@ -11,7 +11,11 @@ import UsersController from '../controllers/api/users.controller';
 import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
 
+import CompetencesRoutes from 'competences/server/routes';
+
 const router = Router();
+
+router.use('/competences', CompetencesRoutes);
 
 // mw.auth
 router.post('/auth/login', AuthController.login);

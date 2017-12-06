@@ -61,7 +61,8 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
             client: path.resolve(__dirname, '../app/client'),
-            'common/types': path.resolve(__dirname, '../app/common')
+            'common/types': path.resolve(__dirname, '../app/common'),
+            lumi: path.resolve(__dirname, '../app')
         }
     }
 };

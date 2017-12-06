@@ -10,6 +10,7 @@ import {
 } from 'common/types';
 
 import { IState as ITags } from 'client/packages/tags';
+import { IState as ICompetence } from 'lumi/competences';
 
 export interface IState extends ITags {
     auth: {
