@@ -1,10 +1,9 @@
 import { assign } from 'lodash';
-import { ICompetence } from '../types';
+import { ICompetence } from 'client/packages/competences/types';
 
-import { DB } from 'server/db';
-import Relations from 'server/db/relations';
+import { DB } from '../db';
 
-export default class Competence extends Relations implements ICompetence {
+export default class Competence implements ICompetence {
     public _id: string;
     public type: 'competence';
     public name: string;
@@ -14,7 +13,6 @@ export default class Competence extends Relations implements ICompetence {
     public color: string;
 
     constructor(t?: Competence) {
-        super();
         return assign(
             this,
             {

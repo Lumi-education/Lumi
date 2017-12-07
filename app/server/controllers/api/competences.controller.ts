@@ -1,11 +1,9 @@
 import * as express from 'express';
 import { assign, noop } from 'lodash';
 
-import { ICompetence, ICompetenceRef } from '../types';
-
-import { DB } from 'server/db';
-import Competence from './model';
-import Controller from 'server/controllers/controller';
+import { DB } from '../../db';
+import Competence from '../../models/Competence';
+import Controller from '../controller';
 
 interface IRequest extends express.Request {
     user: {
@@ -13,7 +11,7 @@ interface IRequest extends express.Request {
     };
 }
 
-class CompetenceController extends Controller<ICompetence> {
+class CompetenceController extends Controller<Competence> {
     constructor() {
         const _view = {
             _id: '_design/competence',
