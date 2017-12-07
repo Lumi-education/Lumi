@@ -11,13 +11,17 @@ import UsersController from '../controllers/api/users.controller';
 import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
 
-import CompetencesRoutes from 'client/packages/competences/server/routes';
-import InstallRoutes from 'client/packages/install/server/routes';
+import CompetenceController from '../controllers/api/competences.controller';
 
 const router = Router();
 
-router.use('/', CompetencesRoutes);
-router.use('/', InstallRoutes);
+router.get('/:db/competences', CompetenceController.list);
+router.post('/:db/competences', CompetenceController.create);
+router.get('/:db/competences/:id', CompetenceController.read);
+router.put('/:db/competences/:id', CompetenceController.update);
+router.delete('/:db/competences/:id', CompetenceController.delete);
+router.put('/:db/competences/:id/action', CompetenceController.action);
+
 // mw.auth
 router.post('/:db/auth/login', AuthController.login);
 router.post('/:db/auth/register', AuthController.register);
