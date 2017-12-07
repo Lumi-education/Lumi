@@ -5,7 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import { List, ListItem } from 'material-ui/List';
 
-import { CompetenceContainer } from 'lumi/competences';
+import { CompetenceContainer } from 'client/packages/competences';
 // types
 import { ICard } from 'common/types';
 
