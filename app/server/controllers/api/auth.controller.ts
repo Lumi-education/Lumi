@@ -9,7 +9,7 @@ import User from '../../models/User';
 
 class AuthController {
     public login(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findOne(
             {
@@ -56,7 +56,7 @@ class AuthController {
     }
 
     public register(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findOne(
             { username: req.body.username },
