@@ -4,5 +4,6 @@
 dist
 build
 node_modules
+docs
 *.log
 .vscode
