@@ -16,94 +16,94 @@ import InstallRoutes from 'client/packages/install/server/routes';
 
 const router = Router();
 
-router.use('/competences', CompetencesRoutes);
+router.use('/', CompetencesRoutes);
 router.use('/', InstallRoutes);
 // mw.auth
-router.post('/auth/login', AuthController.login);
-router.post('/auth/register', AuthController.register);
-router.post('/auth/logout', mw.auth, AuthController.logout);
-router.get('/user/auth/session', mw.auth, AuthController.get_session);
+router.post('/:db/auth/login', AuthController.login);
+router.post('/:db/auth/register', AuthController.register);
+router.post('/:db/auth/logout', mw.auth, AuthController.logout);
+router.get('/:db/user/auth/session', mw.auth, AuthController.get_session);
 
 // cards
-router.get('/cards', CardsController.list);
-router.post('/cards', CardsController.create);
-router.get('/cards/:id', CardsController.read);
-router.put('/cards/:id', CardsController.update);
-router.delete('/cards/:id', CardsController.delete);
-router.put('/cards/:id/action', CardsController.action);
+router.get('/:db/cards', CardsController.list);
+router.post('/:db/cards', CardsController.create);
+router.get('/:db/cards/:id', CardsController.read);
+router.put('/:db/cards/:id', CardsController.update);
+router.delete('/:db/cards/:id', CardsController.delete);
+router.put('/:db/cards/:id/action', CardsController.action);
 // cards -> attachments
-router.all('/cards/:id/attachment/:attachment', CardsController.attachment);
+router.all('/:db/cards/:id/attachment/:attachment', CardsController.attachment);
 
 // collections
-router.get('/collections', CollectionController.list);
-router.post('/collections', CollectionController.create);
-router.get('/collections/:id', CollectionController.read);
-router.put('/collections/:id', CollectionController.update);
-router.delete('/collections/:id', CollectionController.delete);
-router.put('/collections/:id/action', CollectionController.action);
+router.get('/:db/collections', CollectionController.list);
+router.post('/:db/collections', CollectionController.create);
+router.get('/:db/collections/:id', CollectionController.read);
+router.put('/:db/collections/:id', CollectionController.update);
+router.delete('/:db/collections/:id', CollectionController.delete);
+router.put('/:db/collections/:id/action', CollectionController.action);
 
-router.get('/collections/:id/cards', CollectionController.cards);
+router.get('/:db/collections/:id/cards', CollectionController.cards);
 
 // groups
-router.get('/groups', mw.auth, GroupController.list);
-router.post('/groups', GroupController.create);
-router.get('/groups/:id', GroupController.read);
-router.put('/groups/:id', GroupController.update);
-router.delete('/groups/:id', GroupController.delete);
-router.put('/groups/:id/action', GroupController.action);
+router.get('/:db/groups', mw.auth, GroupController.list);
+router.post('/:db/groups', GroupController.create);
+router.get('/:db/groups/:id', GroupController.read);
+router.put('/:db/groups/:id', GroupController.update);
+router.delete('/:db/groups/:id', GroupController.delete);
+router.put('/:db/groups/:id/action', GroupController.action);
 
 // tags
-router.get('/tags', TagsController.list);
-router.post('/tags', TagsController.create);
-router.get('/tags/:id', TagsController.read);
-router.put('/tags/:id', TagsController.update);
-router.delete('/tags/:id', TagsController.delete);
-router.put('/tags/:id/action', TagsController.action);
+router.get('/:db/tags', TagsController.list);
+router.post('/:db/tags', TagsController.create);
+router.get('/:db/tags/:id', TagsController.read);
+router.put('/:db/tags/:id', TagsController.update);
+router.delete('/:db/tags/:id', TagsController.delete);
+router.put('/:db/tags/:id/action', TagsController.action);
 
 // data
-router.get('/data', mw.auth, DataController.find);
-router.post('/data', DataController.create);
-router.get('/data/:id', DataController.read);
-router.put('/data/:id', DataController.update);
-router.delete('/data/:id', DataController.delete);
+router.get('/:db/data', mw.auth, DataController.find);
+router.post('/:db/data', DataController.create);
+router.get('/:db/data/:id', DataController.read);
+router.put('/:db/data/:id', DataController.update);
+router.delete('/:db/data/:id', DataController.delete);
 
 // user -> carddata
-router.get('/user/card', mw.auth, CardsController.list);
-router.post('/user/card', mw.auth, CardsController.create);
-router.get('/user/card/:id', mw.auth, CardsController.read);
-router.put('/user/card/:id', mw.auth, CardsController.update);
-router.delete('/user/card/:id', mw.auth, CardsController.delete);
+router.get('/:db/user/card', mw.auth, CardsController.list);
+router.post('/:db/user/card', mw.auth, CardsController.create);
+router.get('/:db/user/card/:id', mw.auth, CardsController.read);
+router.put('/:db/user/card/:id', mw.auth, CardsController.update);
+router.delete('/:db/user/card/:id', mw.auth, CardsController.delete);
 
 router.get(
-    '/user/data/collections/:collection_id',
+    '/:db/user/data/collections/:collection_id',
     mw.auth,
     DataController.forUserAndCollection
 );
 
-router.get('/user/collections', mw.auth, CollectionController.for_user);
+router.get('/:db/user/collections', mw.auth, CollectionController.for_user);
 
-router.post('/user/data', mw.auth, UserController.createData);
-router.put('/user/data/:id', mw.auth, UserController.updateData);
+router.post('/:db/user/data', mw.auth, UserController.createData);
+router.put('/:db/user/data/:id', mw.auth, UserController.updateData);
 
 // user -> groups
-router.get('/user/groups', mw.auth);
+router.get('/:db/user/groups', mw.auth);
 
 // users
-router.get('/users', UsersController.list);
-router.post('/users', UsersController.create);
-router.get('/users/:id', UsersController.read);
-router.put('/users/:id', UsersController.update);
-router.put('/users/:id/action', UsersController.action);
-router.delete('/users/:id', UsersController.delete);
+router.get('/:db/users', UsersController.list);
+router.post('/:db/users', UsersController.create);
+router.get('/:db/users/:id', UsersController.read);
+router.put('/:db/users/:id', UsersController.update);
+router.put('/:db/users/:id/action', UsersController.action);
+router.delete('/:db/users/:id', UsersController.delete);
 
-router.get('/users/:user_id/collections/:collection_id', mw.auth);
-router.put('/users/:user_id/collections/:collection_id', mw.auth);
-router.get('/users/:user_id/cards/:card_id', mw.auth);
-router.put('/users/:user_id/cards/:card_id', mw.auth);
+router.get('/:db/users/:user_id/collections/:collection_id', mw.auth);
+router.put('/:db/users/:user_id/collections/:collection_id', mw.auth);
+router.get('/:db/users/:user_id/cards/:card_id', mw.auth);
+router.put('/:db/users/:user_id/cards/:card_id', mw.auth);
 
-router.get('/users/:user_id/groups', mw.auth, GroupController.for_user);
-router.post('/users/:user_id/groups', mw.auth);
-router.put('/users/:user_id/groups', mw.auth);
-router.delete('/users/:user_id/groups/:group_id', mw.auth);
+router.get('/:db/users/:user_id/groups', mw.auth, GroupController.for_user);
+router.post('/:db/users/:user_id/groups', mw.auth);
+router.put('/:db/users/:user_id/groups', mw.auth);
+router.delete('/:db/users/:user_id/groups/:group_id', mw.auth);
 
 export default router;

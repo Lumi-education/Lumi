@@ -22,12 +22,15 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
     public render() {
         return (
             <Router history={this.props.history}>
-                {installRoutes}
-                <Route component={Auth}>
-                    <Route component={Websocket}>
-                        <Route path="/" component={Landing} />
-                        {userRoutes}
-                        {adminRoutes}
+                <Redirect from="/" to="lumidb" />
+                <Route path="/:db">
+                    {installRoutes}
+                    <Route component={Auth}>
+                        <Route component={Websocket}>
+                            <IndexRoute component={Landing} />
+                            {userRoutes}
+                            {adminRoutes}
+                        </Route>
                     </Route>
                 </Route>
             </Router>

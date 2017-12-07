@@ -4,7 +4,12 @@ declare var window;
 
 export function get_collections(collection_id?: string) {
     return request
-        .get('/api/v0/collections' + (collection_id ? '/' + collection_id : ''))
+        .get(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/collections' +
+                (collection_id ? '/' + collection_id : '')
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
@@ -13,7 +18,13 @@ export function add_cards_to_collection(
     card_ids: string[]
 ) {
     return request
-        .put('/api/v0/collections/' + collection_id + '/action')
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/collections/' +
+                collection_id +
+                '/action'
+        )
         .send({
             type: 'ADD_CARDS',
             payload: { card_ids }
@@ -23,19 +34,30 @@ export function add_cards_to_collection(
 
 export function post_collection() {
     return request
-        .post('/api/v0/collections')
+        .post(
+            '/api/v0/' + window.location.pathname.split('/')[1] + '/collections'
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function delete_collection(collection_id: string) {
     return request
-        .delete('/api/v0/collections/' + collection_id)
+        .delete(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/collections/' +
+                collection_id
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function get_user_collections() {
     return request
-        .get('/api/v0/user/collections')
+        .get(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/user/collections'
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
@@ -48,7 +70,12 @@ export function post_collectionmeta(collection_id: string) {
 
 export function update_collection(collection_id: string, update) {
     return request
-        .put('/api/v0/collections/' + collection_id)
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/collections/' +
+                collection_id
+        )
         .send(update)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

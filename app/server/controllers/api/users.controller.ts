@@ -29,7 +29,7 @@ class UserController extends Controller<User> {
         super('user', _view);
     }
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('user', 'list', req.query, docs => {
             res.status(200).json(docs);
@@ -37,7 +37,7 @@ class UserController extends Controller<User> {
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('user', 'with_groups', { key: req.params.id }, docs => {
             res.status(200).json(docs);
@@ -45,7 +45,7 @@ class UserController extends Controller<User> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.insert(
             new User(assign({}, req.body, { password: undefined })),
@@ -67,7 +67,7 @@ class UserController extends Controller<User> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findById(
             req.params.id,

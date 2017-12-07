@@ -35,13 +35,13 @@ class DataController extends Controller<Data> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.insert(new Data(req.body));
     }
 
     public forUserAndCollection(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view(
             'data',
@@ -54,7 +54,7 @@ class DataController extends Controller<Data> {
     }
 
     public find(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.find(
             assign(

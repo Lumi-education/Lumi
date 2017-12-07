@@ -4,4 +4,4 @@ import { Route, IndexRoute } from 'react-router';
 
 import InstallRoute from './install';
 
-export default <Route path="/install" component={InstallRoute} />;
+export default <Route path="install" component={InstallRoute} />;

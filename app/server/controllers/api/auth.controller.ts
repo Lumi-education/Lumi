@@ -9,7 +9,7 @@ import User from '../../models/User';
 
 class AuthController {
     public login(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findOne(
             {
@@ -42,11 +42,18 @@ class AuthController {
                                     user._id,
                                     user.groups,
                                     user.level,
+                                    req.params.db,
                                     res
                                 );
                             }
                         } else {
-                            send_auth(user._id, user.groups, user.level, res);
+                            send_auth(
+                                user._id,
+                                user.groups,
+                                user.level,
+                                req.params.db,
+                                res
+                            );
                         }
                     }
                 );
@@ -56,7 +63,7 @@ class AuthController {
     }
 
     public register(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findOne(
             { username: req.body.username },
@@ -105,12 +112,14 @@ function send_auth(
     user_id: string,
     groups: string[],
     level: number,
+    db: string,
     res: express.Response
 ): void {
     const jwt_token = jwt.encode(
         {
             level,
             groups,
+            db,
             _id: user_id
         },
         process.env.KEY || 'KEY'
@@ -120,6 +129,7 @@ function send_auth(
         jwt_token,
         user_id,
         level,
+        db,
         groups
     });
 }

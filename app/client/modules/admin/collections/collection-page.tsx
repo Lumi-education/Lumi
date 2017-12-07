@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 // components
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -22,7 +21,7 @@ import { ICollection } from 'common/types';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 // actions
 import { get_collection } from 'client/packages/collections/actions';
-import { toggle_cards_dialog } from 'client/packages/ui/actions';
+import { toggle_cards_dialog, push } from 'client/packages/ui/actions';
 
 interface IStateProps {
     collection_id: string;

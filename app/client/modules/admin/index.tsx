@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 import * as shortid from 'shortid';
 import { IState } from 'client/state';
@@ -13,7 +12,8 @@ import Snackbar from './snackbar';
 // actions
 import {
     left_drawer_close,
-    left_drawer_open
+    left_drawer_open,
+    push
 } from 'client/packages/ui/actions';
 
 interface IStateProps {

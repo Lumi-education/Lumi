@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 
 import Avatar from 'material-ui/Avatar';
@@ -85,7 +85,8 @@ export class AdminGroupSettings extends React.Component<IProps, {}> {
                                         onClick={() =>
                                             this.props.dispatch(
                                                 push('/admin/users/' + user._id)
-                                            )}
+                                            )
+                                        }
                                     />
                                     <Divider inset={true} />
                                 </div>
