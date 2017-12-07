@@ -42,11 +42,18 @@ class AuthController {
                                     user._id,
                                     user.groups,
                                     user.level,
+                                    req.params.db,
                                     res
                                 );
                             }
                         } else {
-                            send_auth(user._id, user.groups, user.level, res);
+                            send_auth(
+                                user._id,
+                                user.groups,
+                                user.level,
+                                req.params.db,
+                                res
+                            );
                         }
                     }
                 );
@@ -105,12 +112,14 @@ function send_auth(
     user_id: string,
     groups: string[],
     level: number,
+    db: string,
     res: express.Response
 ): void {
     const jwt_token = jwt.encode(
         {
             level,
             groups,
+            db,
             _id: user_id
         },
         process.env.KEY || 'KEY'
@@ -120,6 +129,7 @@ function send_auth(
         jwt_token,
         user_id,
         level,
+        db,
         groups
     });
 }

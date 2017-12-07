@@ -11,7 +11,9 @@ export function auth(
     if (jwtToken) {
         try {
             req.user = jwt.decode(jwtToken, process.env.KEY || 'KEY');
-
+            if (!req.user.db || req.user.db !== req.params.db) {
+                throw new Error('no db');
+            }
             next();
         } catch (err) {
             res.status(401).end();
@@ -44,6 +46,7 @@ export interface IRequest extends express.Request {
         _id: string;
         level: number;
         groups: string[];
+        db: string;
         session_id: string;
     };
 
