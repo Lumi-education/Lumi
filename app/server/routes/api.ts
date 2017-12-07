@@ -16,8 +16,8 @@ import InstallRoutes from 'client/packages/install/server/routes';
 
 const router = Router();
 
-router.use('/:db/competences', CompetencesRoutes);
-router.use('/:db/', InstallRoutes);
+router.use('/', CompetencesRoutes);
+router.use('/', InstallRoutes);
 // mw.auth
 router.post('/:db/auth/login', AuthController.login);
 router.post('/:db/auth/register', AuthController.register);

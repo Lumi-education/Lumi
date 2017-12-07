@@ -4,10 +4,11 @@ import controller from './controller';
 
 const router = Router();
 
-router.get('/', controller.list);
-router.post('/', controller.create);
-router.get('/:id', controller.read);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.delete);
-router.put('/:id/action', controller.action);
+router.get('/:db/competences', controller.list);
+router.post('/:db/competences', controller.create);
+router.get('/:db/competences/:id', controller.read);
+router.put('/:db/competences/:id', controller.update);
+router.delete('/:db/competences/:id', controller.delete);
+router.put('/:db/competences/:id/action', controller.action);
+
 export default router;

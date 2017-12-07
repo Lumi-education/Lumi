@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 import * as debug from 'debug';
 
@@ -110,7 +110,9 @@ export class CardEditContainer extends React.Component<
         acceptedFiles.forEach(file => {
             const req = request
                 .put(
-                    '/api/v0/cards/' +
+                    '/api/v0/' +
+                        window.location.pathname.split('/')[1] +
+                        '/cards/' +
                         this.props.card_id +
                         '/attachment/' +
                         file.name +

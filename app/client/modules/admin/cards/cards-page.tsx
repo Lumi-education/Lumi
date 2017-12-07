@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 import * as markdownit from 'markdown-it';
 import * as debug from 'debug';
 import { Map } from 'immutable';

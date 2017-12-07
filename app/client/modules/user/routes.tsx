@@ -9,7 +9,7 @@ import UserCardPage from 'client/modules/user/collections/cards/card-page';
 import UserDashboard from 'client/modules/user/dashboard';
 
 export default (
-    <Route path="/user" component={UserIndex}>
+    <Route path="user" component={UserIndex}>
         <IndexRoute component={UserDashboard} />
         <Route path="collections/:collection_id" component={UserCollections}>
             <Route path="cards" component={UserCollectionCardsList} />

@@ -12,7 +12,7 @@ import LoginComponent from 'client/packages/auth/components/login';
 import RegisterComponent from 'client/packages/auth/components/register';
 
 // actions
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 import { get_session, login, register } from 'client/packages/auth/actions';
 
 interface IStateProps {
