@@ -14,6 +14,9 @@ export default class Controller<T> {
 
         new DB(null, null).dbList(dbs => {
             dbs.forEach(db => {
+                if (db.charAt(0) === '_') {
+                    return;
+                }
                 if (_view) {
                     const _db = new DB(null, db);
                     _db.checkView('_design/' + type, view => {
