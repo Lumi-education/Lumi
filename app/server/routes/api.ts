@@ -11,7 +11,7 @@ import UsersController from '../controllers/api/users.controller';
 import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
 
-import CompetencesRoutes from 'competences/server/routes';
+import CompetencesRoutes from 'client/packages/competences/server/routes';
 import InstallRoutes from 'client/packages/install/server/routes';
 
 const router = Router();

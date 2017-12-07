@@ -9,8 +9,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import { IState } from 'client/state';
 
-import { CompetenceListContainer } from 'lumi/competences';
-import { create_competence } from 'lumi/competences/actions';
+import { CompetenceListContainer } from 'client/packages/competences';
+import { create_competence } from 'client/packages/competences/actions';
 
 interface IDispatchProps {
     dispatch: (action) => void;
