@@ -8,6 +8,7 @@ import Landing from 'client/modules/landing';
 
 import adminRoutes from 'client/modules/admin/routes';
 import userRoutes from 'client/modules/user/routes';
+import installRoutes from 'client/modules/install/routes';
 
 interface IProps {
     history: {};
@@ -21,6 +22,7 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
     public render() {
         return (
             <Router history={this.props.history}>
+                {installRoutes}
                 <Route component={Auth}>
                     <Route component={Websocket}>
                         <Route path="/" component={Landing} />
