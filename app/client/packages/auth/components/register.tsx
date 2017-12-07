@@ -62,10 +62,7 @@ export default class AuthRegisterComponent extends React.Component<
     public render() {
         return (
             <div>
-                <div
-                    className="app-content"
-                    style={{ paddingTop: '5px', height: '100vh' }}
-                >
+                <div className="app-content">
                     <Paper
                         style={{ padding: '20px', margin: '10px' }}
                         zDepth={1}

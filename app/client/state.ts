@@ -11,8 +11,9 @@ import {
 
 import { IState as ITags } from 'client/packages/tags';
 import { IState as ICompetence } from 'lumi/competences';
+import { IState as IInstall } from 'client/packages/install';
 
-export interface IState extends ITags {
+export interface IState extends ITags, IInstall {
     auth: {
         is_authed: boolean;
         response: number;
