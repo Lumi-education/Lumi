@@ -16,7 +16,7 @@ export default function boot(io: SocketIO.Server) {
             );
 
             const changes = ChangeStream({
-                db: process.env.DB_HOST + '/' + process.env.DB,
+                db: process.env.DB_HOST + '/' + user.db,
                 include_docs: true,
                 since: 'now',
                 filter: doc => {
