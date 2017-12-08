@@ -10,10 +10,12 @@ import GroupController from '../controllers/api/groups.controller';
 import UsersController from '../controllers/api/users.controller';
 import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
-
 import CompetenceController from '../controllers/api/competences.controller';
+import SystemController from '../controllers/api/system.controller';
 
 const router = Router();
+
+router.get('/:db', SystemController.checkDb);
 
 router.get('/:db/competences', CompetenceController.list);
 router.post('/:db/competences', CompetenceController.create);
