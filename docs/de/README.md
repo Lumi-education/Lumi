@@ -1,12 +1,3 @@
-* [Installation](/docs/de/install/README.md)
-* [Erste Schritte](/docs/de/getting-started/README.md)
-* [Theorie](/docs/de/theory/README.md)
-  * [Konzept](/docs/de/theory/conecept.md)
-  * [Anwendungsszenarien](/docs/de/theory/use-cases.md)
-    * [Test](/docs/de/theory/test.md)
-    * [Differenzierung](/docs/de/theory/differenzierung.md)
-* [Lumi]()
-* [Benutzer(Schüler) erstellen](/docs/de/lumi/user/README.md)
-* [Lernkarten (Lumi-Karten) erstellen](/docs/de/lumi/cards/README.md)
-* [Markdown](/docs/de/lumi/cards/markdown.md)
-* [Gruppen erstellen](/docs/de/lumi/groups/README.md)
+# Lumi
+
+[Lumi.education](http://Lumi.education)
