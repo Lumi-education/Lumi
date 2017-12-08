@@ -180,9 +180,22 @@ export class DB {
         });
     }
 
+    public checkDb(cb: (db) => void) {
+        request
+            .get(this.db)
+            .then(res => cb(res))
+            .catch(this.handle_error);
+    }
+
     private handle_error(err) {
         if (this.res) {
-            this.res.status(500).end('db error: ' + JSON.stringify(err));
+            this.res
+                .status(err.status)
+                .json(
+                    process.env.NODE_ENV === 'development'
+                        ? err
+                        : { message: err.message }
+                );
         }
     }
 }
