@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 // material-ui
 import Drawer from 'material-ui/Drawer';
@@ -27,7 +26,8 @@ declare var process;
 // actions
 import {
     left_drawer_open,
-    left_drawer_close
+    left_drawer_close,
+    push
 } from 'client/packages/ui/actions';
 import { logout } from 'client/packages/auth/actions';
 

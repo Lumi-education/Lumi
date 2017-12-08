@@ -29,7 +29,7 @@ class CollectionController extends Controller<Collection> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         switch (req.body.type) {
             case 'ADD_CARDS':
@@ -59,7 +59,7 @@ class CollectionController extends Controller<Collection> {
     }
 
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.find(
             { type: 'collection' },
@@ -71,7 +71,7 @@ class CollectionController extends Controller<Collection> {
     }
 
     public for_user(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('collection', 'by_group', { keys: req.user.groups }, docs => {
             res.status(200).json(docs.filter(d => d)); // issue90 hack
@@ -79,13 +79,13 @@ class CollectionController extends Controller<Collection> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.insert(new Collection(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('collection', 'with_cards', { key: req.params.id }, docs => {
             res.status(200).json(docs);
@@ -93,7 +93,7 @@ class CollectionController extends Controller<Collection> {
     }
 
     public cards(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findById(
             req.params.id,

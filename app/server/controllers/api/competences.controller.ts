@@ -1,11 +1,9 @@
 import * as express from 'express';
 import { assign, noop } from 'lodash';
 
-import { ICompetence, ICompetenceRef } from '../types';
-
-import { DB } from 'server/db';
-import Competence from './model';
-import Controller from 'server/controllers/controller';
+import { DB } from '../../db';
+import Competence from '../../models/Competence';
+import Controller from '../controller';
 
 interface IRequest extends express.Request {
     user: {
@@ -13,7 +11,7 @@ interface IRequest extends express.Request {
     };
 }
 
-class CompetenceController extends Controller<ICompetence> {
+class CompetenceController extends Controller<Competence> {
     constructor() {
         const _view = {
             _id: '_design/competence',
@@ -38,7 +36,7 @@ class CompetenceController extends Controller<ICompetence> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         switch (req.body.type) {
             case 'ADD_TO_DOC':
@@ -58,7 +56,7 @@ class CompetenceController extends Controller<ICompetence> {
     }
 
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         if (req.query.doc_id) {
             db.view('competence', 'by_doc', { key: req.query.doc_id }, docs => {
@@ -72,13 +70,13 @@ class CompetenceController extends Controller<ICompetence> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.insert(new Competence(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view(
             'competence',
@@ -91,7 +89,7 @@ class CompetenceController extends Controller<ICompetence> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.find(
             {

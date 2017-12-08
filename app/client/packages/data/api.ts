@@ -6,26 +6,43 @@ declare var window;
 
 export function create_data(data) {
     return request
-        .post('/api/v0/user/data')
+        .post(
+            '/api/v0/' + window.location.pathname.split('/')[1] + '/user/data'
+        )
         .send(data)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function update_data(data) {
     return request
-        .put('/api/v0/user/data/' + data._id)
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/user/data/' +
+                data._id
+        )
         .send(data)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function get_data(query) {
     return request
-        .get('/api/v0/data?' + qs.stringify(query))
+        .get(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/data?' +
+                qs.stringify(query)
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function get_user_collection_data(collection_id: string) {
     return request
-        .get('/api/v0/user/data/collections/' + collection_id)
+        .get(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/user/data/collections/' +
+                collection_id
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

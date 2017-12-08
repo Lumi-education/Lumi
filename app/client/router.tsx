@@ -8,6 +8,9 @@ import Landing from 'client/modules/landing';
 
 import adminRoutes from 'client/modules/admin/routes';
 import userRoutes from 'client/modules/user/routes';
+import installRoutes from 'client/modules/install/routes';
+import dbRoute from 'client/modules/db-route';
+import { CheckDBContainer } from 'client/packages/system';
 
 interface IProps {
     history: {};
@@ -21,11 +24,15 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
     public render() {
         return (
             <Router history={this.props.history}>
-                <Route component={Auth}>
-                    <Route component={Websocket}>
-                        <Route path="/" component={Landing} />
-                        {userRoutes}
-                        {adminRoutes}
+                <Route path="/" component={dbRoute} />
+                <Route path="/:db" component={CheckDBContainer}>
+                    {installRoutes}
+                    <Route component={Auth}>
+                        <Route component={Websocket}>
+                            <IndexRoute component={Landing} />
+                            {userRoutes}
+                            {adminRoutes}
+                        </Route>
                     </Route>
                 </Route>
             </Router>

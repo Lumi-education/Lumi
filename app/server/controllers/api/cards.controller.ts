@@ -10,13 +10,13 @@ import Controller from '../controller';
 
 class CardController extends Controller<Card> {
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.insert(new Card(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findById(req.params.id, (card: Card) => {
             res.status(200).json([card]);
@@ -24,7 +24,7 @@ class CardController extends Controller<Card> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findById(
             req.params.id,

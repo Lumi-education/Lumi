@@ -1,5 +1,5 @@
 import * as shortid from 'shortid';
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 
 import * as API from './api';
 

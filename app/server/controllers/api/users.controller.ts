@@ -1,5 +1,7 @@
 import * as express from 'express';
 import { IRequest } from '../../middleware/auth';
+import * as bcrypt from 'bcrypt-nodejs';
+import { assign } from 'lodash';
 
 import User from '../../models/User';
 import Group from '../../models/Group';
@@ -27,7 +29,7 @@ class UserController extends Controller<User> {
         super('user', _view);
     }
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('user', 'list', req.query, docs => {
             res.status(200).json(docs);
@@ -35,7 +37,7 @@ class UserController extends Controller<User> {
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('user', 'with_groups', { key: req.params.id }, docs => {
             res.status(200).json(docs);
@@ -43,13 +45,29 @@ class UserController extends Controller<User> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
-        db.insert(new User(req.body));
+        db.insert(
+            new User(assign({}, req.body, { password: undefined })),
+            ({ body }) => {
+                if (req.body.password) {
+                    db.insert(
+                        {
+                            user_id: body.id,
+                            password: bcrypt.hashSync(req.body.password),
+                            type: 'password'
+                        },
+                        () => {
+                            res.status(201).end();
+                        }
+                    );
+                }
+            }
+        );
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.findById(
             req.params.id,

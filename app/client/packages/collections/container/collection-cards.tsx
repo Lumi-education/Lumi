@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 
 // components
@@ -64,7 +64,8 @@ export class AdminCollectionCards extends React.Component<
                         update_collection(this.props.collection_id, {
                             cards: new_order
                         })
-                    )}
+                    )
+                }
                 cards={this.props.collection.cards.map(card_id =>
                     this.props.cards.get(card_id)
                 )}

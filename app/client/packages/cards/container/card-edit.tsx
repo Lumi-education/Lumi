@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 import * as debug from 'debug';
 
@@ -13,7 +13,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
-import { CompetenceInputContainer } from 'lumi/competences';
+import { CompetenceInputContainer } from 'client/packages/competences';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
 import { List, ListItem } from 'material-ui/List';
 import Dropzone from 'react-dropzone';
@@ -110,7 +110,9 @@ export class CardEditContainer extends React.Component<
         acceptedFiles.forEach(file => {
             const req = request
                 .put(
-                    '/api/v0/cards/' +
+                    '/api/v0/' +
+                        window.location.pathname.split('/')[1] +
+                        '/cards/' +
                         this.props.card_id +
                         '/attachment/' +
                         file.name +

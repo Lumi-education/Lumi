@@ -22,7 +22,7 @@ import { User, Users } from 'client/modules/admin/users';
 import { Progress } from 'client/modules/admin/analytics';
 
 const routes = (
-    <Route path="/admin" component={AdminIndex}>
+    <Route path="admin" component={AdminIndex}>
         <Route path="collections" component={CollectionsPage} />
         <Redirect
             from="collections/:collection_id"

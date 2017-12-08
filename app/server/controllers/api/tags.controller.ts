@@ -29,7 +29,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         switch (req.body.type) {
             case 'ADD_TO_DOC':
@@ -49,7 +49,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('tag', 'by_doc', { key: req.query.doc_id }, docs => {
             res.status(200).json(docs);
@@ -57,13 +57,13 @@ class TagsController extends Controller<Tag> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.insert(new Tag(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.view('tag', 'tag_with_docs', { key: req.params.id }, docs => {
             res.status(200).json(docs);
@@ -71,7 +71,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const db = new DB(res, req.params.db);
 
         db.find(
             {
