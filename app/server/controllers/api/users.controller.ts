@@ -60,13 +60,6 @@ class UserController extends Controller<User> {
                             type: 'password'
                         },
                         () => {
-                            webhook(
-                                'db: ' +
-                                    req.params.db +
-                                    ': user ' +
-                                    req.body.name +
-                                    ' created.'
-                            );
                             res.status(201).end();
                         }
                     );
