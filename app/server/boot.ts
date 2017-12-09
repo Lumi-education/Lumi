@@ -8,6 +8,8 @@ import * as os from 'os';
 import wait_for_couchdb from './utils/wait_for_couchdb';
 import check_db from './db/check';
 import boot_socket from './core/socket';
+import webhook from './core/webhook';
+
 declare var process;
 
 const debug = _debug('core');
@@ -50,6 +52,7 @@ function boot() {
             'express-server successfully booted on port ' + process.env.PORT ||
                 80
         );
+        webhook('server booted');
     });
 
     const io = socketio(server);

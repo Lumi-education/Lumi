@@ -7,6 +7,8 @@ import { IRequest } from '../../middleware/auth';
 import { DB } from '../../db';
 import User from '../../models/User';
 
+import webhook from '../../core/webhook';
+
 class AuthController {
     public login(req: IRequest, res: express.Response) {
         const db = new DB(res, req.params.db);
@@ -20,23 +22,31 @@ class AuthController {
             (user: User) => {
                 if (!user) {
                     res.status(404).end();
-                }
-
-                db.findOne(
-                    {
-                        type: 'password',
-                        user_id: user._id
-                    },
-                    {},
-                    pw => {
-                        if (pw) {
-                            if (
-                                !bcrypt.compareSync(
-                                    req.body.password,
-                                    pw.password
-                                )
-                            ) {
-                                res.status(401).end();
+                } else {
+                    db.findOne(
+                        {
+                            type: 'password',
+                            user_id: user._id
+                        },
+                        {},
+                        pw => {
+                            if (pw) {
+                                if (
+                                    !bcrypt.compareSync(
+                                        req.body.password,
+                                        pw.password
+                                    )
+                                ) {
+                                    res.status(401).end();
+                                } else {
+                                    send_auth(
+                                        user._id,
+                                        user.groups,
+                                        user.level,
+                                        req.params.db,
+                                        res
+                                    );
+                                }
                             } else {
                                 send_auth(
                                     user._id,
@@ -46,17 +56,9 @@ class AuthController {
                                     res
                                 );
                             }
-                        } else {
-                            send_auth(
-                                user._id,
-                                user.groups,
-                                user.level,
-                                req.params.db,
-                                res
-                            );
                         }
-                    }
-                );
+                    );
+                }
             },
             User
         );
@@ -86,6 +88,9 @@ class AuthController {
                                     type: 'password'
                                 },
                                 () => {
+                                    webhook(
+                                        'user ' + user.name + ' registered.'
+                                    );
                                     res.status(201).end();
                                 }
                             );
@@ -124,6 +129,8 @@ function send_auth(
         },
         process.env.KEY || 'KEY'
     );
+
+    webhook('user ' + user_id + ' logged in.');
 
     res.status(200).json({
         jwt_token,

@@ -9,6 +9,8 @@ import { DB } from '../../db';
 
 import Controller from '../controller';
 
+import webhook from '../../core/webhook';
+
 class UserController extends Controller<User> {
     constructor() {
         const _view = {
@@ -58,6 +60,13 @@ class UserController extends Controller<User> {
                             type: 'password'
                         },
                         () => {
+                            webhook(
+                                'db: ' +
+                                    req.params.db +
+                                    ': user ' +
+                                    req.body.name +
+                                    ' created.'
+                            );
                             res.status(201).end();
                         }
                     );
