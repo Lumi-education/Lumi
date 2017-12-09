@@ -34,7 +34,7 @@ module.exports = Object.assign(sharedConfig, {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-                VERSION: JSON.stringify(version)
+                VERSION: JSON.stringify(process.env.VERSION || version)
             }
         })
     ]
