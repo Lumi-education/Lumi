@@ -190,7 +190,10 @@ export class DB {
     }
 
     private handle_error(err) {
-        webhook(JSON.stringify(assign({}, err, { db: this.db })));
+        webhook({
+            username: this.db.split('/')[3],
+            text: err.message || err.text || 'no error message'
+        });
         if (this.res) {
             this.res
                 .status(err.status)

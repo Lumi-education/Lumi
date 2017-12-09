@@ -52,7 +52,10 @@ function boot() {
             'express-server successfully booted on port ' + process.env.PORT ||
                 80
         );
-        webhook('server booted');
+        webhook({
+            username: 'System',
+            text: 'Lumi successfully booted on port ' + process.env.PORT || 80
+        });
     });
 
     const io = socketio(server);
