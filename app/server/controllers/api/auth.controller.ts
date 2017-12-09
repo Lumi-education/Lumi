@@ -39,6 +39,11 @@ class AuthController {
                                 ) {
                                     res.status(401).end();
                                 } else {
+                                    webhook({
+                                        username: req.params.db,
+                                        text:
+                                            'user ' + user.name + ' logged in.'
+                                    });
                                     send_auth(
                                         user._id,
                                         user.groups,
@@ -68,7 +73,7 @@ class AuthController {
         const db = new DB(res, req.params.db);
 
         db.findOne(
-            { username: req.body.username },
+            { name: req.body.username, type: 'user' },
             {},
             (user: User) => {
                 if (user) {
@@ -88,9 +93,11 @@ class AuthController {
                                     type: 'password'
                                 },
                                 () => {
-                                    webhook(
-                                        'user ' + user.name + ' registered.'
-                                    );
+                                    webhook({
+                                        username: req.params.db,
+                                        text:
+                                            'user ' + user.name + ' registered.'
+                                    });
                                     res.status(201).end();
                                 }
                             );
@@ -129,8 +136,6 @@ function send_auth(
         },
         process.env.KEY || 'KEY'
     );
-
-    webhook('user ' + user_id + ' logged in.');
 
     res.status(200).json({
         jwt_token,

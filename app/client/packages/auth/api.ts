@@ -18,7 +18,7 @@ export function logout() {
 export function register(username: string, password: string) {
     return request
         .post(
-            '/api/' + window.location.pathname.split('/')[1] + 'auth/register'
+            '/api/' + window.location.pathname.split('/')[1] + '/auth/register'
         )
         .send({ username, password });
 }
