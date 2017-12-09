@@ -4,6 +4,8 @@ import * as express from 'express';
 import * as debug from 'debug';
 import * as nano from 'nano';
 
+import webhook from '../core/webhook';
+
 // const db = process.env.DB_HOST + '/' + process.env.DB + '/';
 const _nano = nano(process.env.DB_HOST);
 // const nano_db = _nano.use(process.env.DB);
@@ -188,6 +190,7 @@ export class DB {
     }
 
     private handle_error(err) {
+        webhook(JSON.stringify(assign({}, err, { db: this.db })));
         if (this.res) {
             this.res
                 .status(err.status)
