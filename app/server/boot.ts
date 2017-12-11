@@ -58,6 +58,13 @@ function boot() {
         });
     });
 
+    server.on('error', err => {
+        webhook({
+            username: 'System',
+            text: JSON.stringify(err)
+        });
+    });
+
     const io = socketio(server);
 
     boot_socket(io);
