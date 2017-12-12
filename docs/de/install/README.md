@@ -1,7 +1,7 @@
-# Installation
+# Installation auf dem Raspberry Pi 3
 
 Lumi befindet sich noch in einer sehr frühen Entwicklungsphase. Diese Anleitung
-kann sich daher noch häufig ändern. ​
+kann sich daher noch häufig ändern. ​Sollten bei der Installation Fehler auftreten, so kannst du [hier](TROUBLE.md) nachlesen oder uns [kontaktieren](../CONTACT.md).
 
 ## Hardware & Betriebssystem
 
@@ -15,25 +15,20 @@ eine Anleitung. ​
 
 ## Lumi-Installation
 
-### 1. ssh
-
 Im ersten Schritt muss sich per ssh mit dem Raspberry Pi verbunden werden. Dazu
 muss sich der Raspberry Pi im selben Netzwerk befinden. Anschließend kannst du
-dich mit dem Befehl `ssh pi@<ip des pi>` mit dem Raspberry Pi verbinden. ​
+dich mit dem Befehl
 
-### Bekannte Fehler
+```
+ssh pi@<ip des pi>
+```
 
-1. Solltest du eine Fehlermeldung wie `ssh: connect to host 192.168.1.248 port
-   22: Connection refused` erhalten so musst du eine leere Datei mit dem namen
-   `ssh` auf der
-   [sd-Karte speichern.](https://raspberrypi.stackexchange.com/questions/58478/ssh-not-working-with-fresh-install)
-   ​ ​
-   ## Installation über Kommandozeile
-   Wenn du mit dem Raspberry Pi über ssh verbunden bist, musst du nur noch `sudo
-   curl get.lumi.education | sh` eingeben. ​
-   ### Was macht der Befehl?
-   ​ Der Befehl lädt ein Script von http://get.Lumi.education runter und führt
-   dieses aus. Das Script installiert [Docker](http://docker.com), legt eine
-   "Environment"-Datei an und lädt eine docker-compose.yml. Anschließend wird
-   der Befehl `sudo docker-compose up -d` ausgeführt, der Lumi und seine Dienste
-   startet.
+![lumi_ssh](./img/lumi_ssh.gif)
+
+mit dem Raspberry Pi verbinden. Wenn du mit dem Raspberry Pi über ssh verbunden bist, musst du nur noch
+
+```
+sudo curl get.lumi.education | sh
+```
+
+eingeben und Lumi wird installiert.
