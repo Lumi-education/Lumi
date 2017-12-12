@@ -7,14 +7,16 @@ services:
         - webnet
     environment:
         - PORT=80
+        - LUMI_ID=${ID}
         - NODE_ENV=${NODE_ENV}
         - KEY=${KEY}
         - DEBUG=${DEBUG}
         - DB_HOST=${DB_HOST}
         - DB=${DB}
+    volumes:
+        - ./files:/srv/files
     ports:
         - ${PORT}:80
-        - 8081:8081
     depends_on:
         - "couchdb"
   apd:
