@@ -8,6 +8,7 @@ makefile
 # Compiled files
 build
 dist
+_book
 
 # vscode
 .vscode
