@@ -1,33 +1,26 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+// import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 
 // components
-import { CompetenceInputComponent } from '../';
 
 // types
-import { IState, ICompetence } from '../types';
+import { IState, ITag } from '../types';
 
 // selectors
-import { select_competence_by_doc_id } from '../selectors';
+import { select_tags_by_doc_id } from '../selectors';
 
 // actions
-import {
-    create_competence_and_add_to_doc,
-    get_competences,
-    delete_competence,
-    add_competence_to_doc,
-    rem_competence_from_doc
-} from '../actions';
+import { get_tags } from '../actions';
 
 interface IPassedProps {
     doc_id: string;
 }
 
 interface IStateProps extends IPassedProps {
-    competence: ICompetence;
+    tags: ITag[];
 }
 
 interface IDispatchProps {
@@ -40,10 +33,7 @@ interface IComponentState {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class CompetenceContainer extends React.Component<
-    IProps,
-    IComponentState
-> {
+export class TagsContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
@@ -52,22 +42,16 @@ export class CompetenceContainer extends React.Component<
         };
     }
 
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (!nextProps.competence._id && !this.state.requested) {
-            this.props.dispatch(get_competences(nextProps.doc_id));
-            this.setState({ requested: true });
-        }
-    }
-
     public render() {
         return (
             <div
                 style={{
                     overflow: 'hidden',
                     margin: '4px 0px 0px',
-                    color: this.props.competence._id
-                        ? 'rgba(0, 0, 0, 0.541176)'
-                        : 'red',
+                    color:
+                        this.props.tags.length !== 0
+                            ? 'rgba(0, 0, 0, 0.541176)'
+                            : 'red',
                     lineHeight: '16px',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
@@ -75,7 +59,24 @@ export class CompetenceContainer extends React.Component<
                     height: '16px'
                 }}
             >
-                {this.props.competence.name}
+                {this.props.tags.map(tag => (
+                    <span
+                        style={{
+                            background: tag.color,
+                            display: 'inline',
+                            padding: '.2em .6em .3em',
+                            fontSize: '75%',
+                            fontWeight: 'bold',
+                            lineHeight: 1,
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                            verticalAlign: 'baseline',
+                            borderRadius: '.25em'
+                        }}
+                    >
+                        {tag.name}
+                    </span>
+                ))}
             </div>
         );
     }
@@ -83,7 +84,7 @@ export class CompetenceContainer extends React.Component<
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        competence: select_competence_by_doc_id(state, ownProps.doc_id),
+        tags: select_tags_by_doc_id(state, ownProps.doc_id),
         doc_id: ownProps.doc_id
     };
 }
@@ -97,4 +98,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(CompetenceContainer);
+)(TagsContainer);

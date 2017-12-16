@@ -121,13 +121,6 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/tags');
                             }}
                         />
-                        <ListItem
-                            primaryText="Competences"
-                            leftIcon={<SVGTags />}
-                            onTouchTap={() => {
-                                this.props.push('/admin/competences');
-                            }}
-                        />
                         <Divider />
                         <Subheader>Analytics</Subheader>
                         <ListItem
@@ -145,7 +138,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() => this.props.dispatch(logout())}
                         />
                         <Divider />
-                        <Subheader>{'Lumi ' + process.env.VERSION}</Subheader>
+                        <Subheader>{process.env.VERSION}</Subheader>
                     </List>
                 </Drawer>
             </div>

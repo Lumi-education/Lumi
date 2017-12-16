@@ -50,7 +50,6 @@ import { select_tags_as_map } from 'client/packages/tags/selectors';
 // actions
 import { get_cards, create_card } from 'client/packages/cards/actions';
 import { get_tags } from 'client/packages/tags/actions';
-import { get_competences } from 'client/packages/competences/actions';
 
 const md = markdownit();
 const log = debug('lumi:modules:admin:cards:cards-page');
@@ -87,7 +86,6 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.props.dispatch(get_cards());
         this.props.dispatch(get_tags());
-        this.props.dispatch(get_competences());
     }
 
     public render() {

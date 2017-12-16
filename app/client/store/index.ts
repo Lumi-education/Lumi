@@ -20,7 +20,6 @@ import session from 'client/packages/session/reducer';
 import users from 'client/packages/users/reducer';
 import tags from 'client/packages/tags/reducer';
 import data from 'client/packages/data/reducer';
-import competences from 'client/packages/competences/reducer';
 import install from 'client/packages/install/reducer';
 
 const rootReducer = combineReducers({
@@ -33,7 +32,6 @@ const rootReducer = combineReducers({
     tags,
     session,
     data,
-    competences,
     install,
     routing: routerReducer
 });

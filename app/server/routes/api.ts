@@ -10,19 +10,11 @@ import GroupController from '../controllers/api/groups.controller';
 import UsersController from '../controllers/api/users.controller';
 import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
-import CompetenceController from '../controllers/api/competences.controller';
 import SystemController from '../controllers/api/system.controller';
 
 const router = Router();
 
 router.get('/:db', SystemController.checkDb);
-
-router.get('/:db/competences', CompetenceController.list);
-router.post('/:db/competences', CompetenceController.create);
-router.get('/:db/competences/:id', CompetenceController.read);
-router.put('/:db/competences/:id', CompetenceController.update);
-router.delete('/:db/competences/:id', CompetenceController.delete);
-router.put('/:db/competences/:id/action', CompetenceController.action);
 
 // mw.auth
 router.post('/:db/auth/login', AuthController.login);
