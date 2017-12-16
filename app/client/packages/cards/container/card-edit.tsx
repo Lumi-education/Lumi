@@ -13,7 +13,6 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
-import { CompetenceInputContainer } from 'client/packages/competences';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
 import { List, ListItem } from 'material-ui/List';
 import Dropzone from 'react-dropzone';
@@ -171,7 +170,6 @@ export class CardEditContainer extends React.Component<
                             }
                         />
                         <TagInputContainer doc_id={this.props.card_id} />
-                        <CompetenceInputContainer doc_id={this.props.card_id} />
                         <div style={{ display: 'flex' }}>
                             <div style={{ flex: 6 }}>
                                 <TextField

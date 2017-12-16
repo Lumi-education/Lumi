@@ -14,7 +14,6 @@ import {
     CreateOrAddUserDialog,
     AddCollectionDialog
 } from 'client/modules/admin/groups';
-import AdminCompetencesPage from 'client/modules/admin/competences/competences-page';
 
 import { TagsPage } from 'client/modules/admin/tags';
 import { CardPage, CardsPage } from 'client/modules/admin/cards';
@@ -47,7 +46,6 @@ const routes = (
         <Route path="users" component={Users} />
         <Route path="users/:user_id" component={User} />
         <Route path="tags" component={TagsPage} />
-        <Route path="competences" component={AdminCompetencesPage} />
         <Route path="cards" component={CardsPage} />
         <Route path="cards/:card_id" component={CardPage} />
     </Route>
