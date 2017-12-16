@@ -138,7 +138,11 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() => this.props.dispatch(logout())}
                         />
                         <Divider />
-                        <Subheader>{process.env.VERSION}</Subheader>
+                        <Subheader>
+                            <a style={{ textDecoration: 'none' }} href="/docs">
+                                {process.env.VERSION}
+                            </a>
+                        </Subheader>
                     </List>
                 </Drawer>
             </div>
