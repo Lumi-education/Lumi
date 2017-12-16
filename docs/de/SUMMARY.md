@@ -2,23 +2,23 @@
 
 * [Kontakt](CONTACT.md)
 
-<!-- ### Erste Schritte
+<!-- ### Erste Schritte -->
 
-### Theorie
+<!-- ### Theorie
 
 * [Konzept](theory/conecept.md)
 * [Anwendungsszenarien](theory/use-cases.md)
   * [Test](theory/test.md)
-  * [Differenzierung](theory/differenzierung.md)
+  * [Differenzierung](theory/differenzierung.md) -->
 
 ### Lumi
 
-* [Benutzer(Schüler) erstellen](lumi/user/README.md)
-* [Lernkarten (Lumi-Karten) erstellen](lumi/cards/README.md)
-* [Markdown](lumi/cards/markdown.md)
-* [Gruppen erstellen](lumi/groups/README.md) -->
+* [Konzept](lumi/CONCEPT.md)
+* [Terminologie](lumi/TERMINOLOGY.md)
+* [Featues](lumi/FEATURES.md)
 
-### Installation
+### Raspberry Pi
 
-* [Raspberry Pi 3](install/README.md)
+* [Installation](install/README.md)
   * [Bekannte Fehler](install/TROUBLE.md)
+* [Update](install/UPDATE.md)
