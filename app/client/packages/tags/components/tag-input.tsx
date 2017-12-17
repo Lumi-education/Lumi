@@ -6,8 +6,6 @@ import Avatar from 'material-ui/Avatar';
 import AutoComplete from 'material-ui/AutoComplete';
 import ChipInput from 'material-ui-chip-input';
 
-import Tag from './tag';
-
 import { ITag } from '../types';
 
 interface IStateProps {
@@ -45,24 +43,6 @@ export default class TagInput extends React.Component<IProps, {}> {
                         color: 'red',
                         created_at: new Date()
                     })
-                )}
-                chipRenderer={(
-                    {
-                        value,
-                        isFocused,
-                        isDisabled,
-                        handleClick,
-                        handleRequestDelete,
-                        defaultStyle
-                    },
-                    key
-                ) => (
-                    <Tag
-                        key={key}
-                        tags={this.props.tags}
-                        tag_id={value}
-                        delete={handleRequestDelete}
-                    />
                 )}
                 allowDuplicates={false}
                 dataSource={this.props.tags.toArray()}
