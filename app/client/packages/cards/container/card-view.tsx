@@ -6,7 +6,7 @@ import { assign, noop } from 'lodash';
 
 // components
 import MultiplechoiceCardComponent from 'client/packages/cards/components/multiplechoice';
-
+import FreetextComponent from '../components/freetext';
 // types
 import { IState } from 'client/state';
 import { ICard } from 'common/types';
@@ -103,6 +103,8 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                             }}
                         />
                     );
+                case 'freetext':
+                    return <FreetextComponent {...card} />;
             }
         }
 

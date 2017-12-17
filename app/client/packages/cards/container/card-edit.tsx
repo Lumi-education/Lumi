@@ -14,6 +14,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
+import CardViewContainer from './card-view';
 import { List, ListItem } from 'material-ui/List';
 import Dropzone from 'react-dropzone';
 
@@ -157,6 +158,10 @@ export class CardEditContainer extends React.Component<
                                         value="multiplechoice"
                                         primaryText="Multiplechoice"
                                     />
+                                    <MenuItem
+                                        value="freetext"
+                                        primaryText="Freetext"
+                                    />
                                 </SelectField>
                             </div>
                         </div>
@@ -220,14 +225,15 @@ export class CardEditContainer extends React.Component<
                             </div>
                             <div
                                 style={{
-                                    flex: 6,
+                                    width: '375px',
+                                    height: '667px',
                                     background:
                                         'linear-gradient(120deg, #8e44ad, #3498db)'
                                 }}
                             >
-                                <MultiplechoiceCard
-                                    text={this.state.text}
-                                    items={this.state.items}
+                                <CardViewContainer
+                                    card_id={this.props.card_id}
+                                    collection_id={null}
                                 />
                             </div>
                         </div>
