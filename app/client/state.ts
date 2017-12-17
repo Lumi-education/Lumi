@@ -43,5 +43,7 @@ export interface IState extends ITags, IInstall {
         snackbar_text: string;
         show_cards_dialog: boolean;
         selected_card_ids: string[];
+        right_appbar_icon: JSX.Element;
+        tags_filter: string[];
     };
 }

@@ -20,6 +20,16 @@ export function select_tag_ids_for_doc(
         .map(ref => ref.tag_id);
 }
 
+export function select_doc_ids_for_tags(
+    state: IState,
+    tag_ids: string[]
+): string[] {
+    return state.tags.refs
+        .toArray()
+        .filter(ref => tag_ids.indexOf(ref.tag_id) > -1)
+        .map(ref => ref.doc_id);
+}
+
 export function select_tags_by_doc_id(state: IState, doc_id: string): ITag[] {
     const tags_ids = select_tag_ids_for_doc(state, doc_id);
 

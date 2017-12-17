@@ -37,6 +37,8 @@ import FilterBar from 'client/packages/ui/components/filter-bar';
 
 import CardListComponent from 'client/packages/cards/components/card-list';
 
+import CardsRightDrawer from './right-drawer';
+
 // local
 import { IState } from 'client/state';
 
@@ -44,8 +46,14 @@ import { IState } from 'client/state';
 import { ICard } from 'common/types';
 
 // selectors
-import { select_all_cards } from 'client/packages/cards/selectors';
-import { select_tags_as_map } from 'client/packages/tags/selectors';
+import {
+    select_all_cards,
+    select_cards_by_ids
+} from 'client/packages/cards/selectors';
+import {
+    select_tags_as_map,
+    select_doc_ids_for_tags
+} from 'client/packages/tags/selectors';
 
 // actions
 import { get_cards, create_card } from 'client/packages/cards/actions';
@@ -91,12 +99,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <div>
-                <FilterBar
-                    filter={this.state.search_text}
-                    set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
-                />
+                <CardsRightDrawer />
                 <CardListComponent
                     cards={this.props.cards.filter(card => {
                         return this.state.search_text === ''
@@ -138,7 +141,13 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        cards: select_all_cards(state)
+        cards:
+            state.ui.tags_filter.length !== 0
+                ? select_cards_by_ids(
+                      state,
+                      select_doc_ids_for_tags(state, state.ui.tags_filter)
+                  )
+                : select_all_cards(state)
     };
 }
 

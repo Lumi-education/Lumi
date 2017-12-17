@@ -13,12 +13,14 @@ import Snackbar from './snackbar';
 import {
     left_drawer_close,
     left_drawer_open,
+    right_drawer_open,
     push
 } from 'client/packages/ui/actions';
 
 interface IStateProps {
     location;
     userlevel: number;
+    right_appbar_icon: JSX.Element;
 }
 
 interface IDispatchProps {
@@ -50,9 +52,13 @@ export class AdminRoot extends React.Component<IProps, {}> {
                     onLeftIconButtonTouchTap={() =>
                         this.props.dispatch(left_drawer_open())
                     }
+                    iconElementRight={this.props.right_appbar_icon}
+                    onRightIconButtonTouchTap={() =>
+                        this.props.dispatch(right_drawer_open())
+                    }
                 />
                 <LeftDrawer />
-                <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
+                <div style={{ paddingTop: '64px', paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
                 <Snackbar />
@@ -63,7 +69,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         location: ownProps.location,
-        userlevel: state.auth.userlevel
+        userlevel: state.auth.userlevel,
+        right_appbar_icon: state.ui.right_appbar_icon
     };
 }
 
