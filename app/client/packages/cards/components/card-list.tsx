@@ -43,7 +43,9 @@ export default class CardListComponent extends React.Component<IProps, {}> {
                                                 : 'grey'
                                     }}
                                 >
-                                    {card.name.substring(0, 3)}
+                                    {card.card_type
+                                        ? card.card_type.charAt(0).toUpperCase()
+                                        : 'X'}
                                 </Avatar>
                             }
                             primaryText={card.name}
