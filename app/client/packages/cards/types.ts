@@ -3,7 +3,7 @@ type Data_id = string;
 type Card_types = 'multiplechoice' | 'freetext' | 'text' | 'sort' | 'video';
 type Markdown = string;
 
-export type ICard = IFreetextCard | IMultiplechoiceCard;
+export type ICard = IFreetextCard | IMultiplechoiceCard | IVideoCard;
 export type IData = IFreetextCardData | IMultiplechoiceCardData;
 
 export interface IBaseCard {
@@ -20,13 +20,19 @@ export interface IBaseCard {
 export interface IBaseData {
     _id: Data_id;
     type: 'data';
-    data_type: 'card' | 'freetext';
+    data_type: 'card';
+    card_type: Card_types;
     card_id: string;
     user_id: string;
     collection_id: string;
-    score: number;
     created_at: Date;
     updated_at: Date;
+    score: number;
+}
+
+export interface IVideoCard extends IBaseCard {
+    video_url: string;
+    youtube: boolean;
 }
 
 export interface IFreetextCard extends IBaseCard {
@@ -35,7 +41,8 @@ export interface IFreetextCard extends IBaseCard {
 }
 
 export interface IFreetextCardData extends IBaseData {
-    data_type: 'freetext';
+    data_type: 'card';
+    card_type: 'freetext';
     answer: string;
 }
 

@@ -5,11 +5,11 @@ import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
 // components
-import FreetextCardComponent from '../components/freetext';
+import VideoCardComponent from '../components/video-card';
 
 // types
 import { IState } from 'client/state';
-import { IFreetextCard, IFreetextCardData } from '../types';
+import { IVideoCard, IBaseData } from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
@@ -33,8 +33,8 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: IFreetextCard;
-    data: IFreetextCardData;
+    card: IVideoCard;
+    data: IBaseData;
     // collection_data;
 }
 
@@ -49,7 +49,7 @@ interface IComponentState {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class FreetextCardContainer extends React.Component<
+export class VideoCardContainer extends React.Component<
     IProps,
     IComponentState
 > {
@@ -62,7 +62,6 @@ export class FreetextCardContainer extends React.Component<
         };
 
         this.log = this.log.bind(this);
-        this.handleInput = this.handleInput.bind(this);
     }
 
     public log(msg: string) {
@@ -84,16 +83,15 @@ export class FreetextCardContainer extends React.Component<
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(
-                            create_data<IFreetextCardData>({
+                            create_data<IBaseData>({
                                 _id: undefined,
                                 type: 'data',
                                 user_id: undefined,
                                 created_at: undefined,
                                 updated_at: undefined,
-                                score: 0,
-                                card_type: 'freetext',
-                                answer: '',
+                                card_type: 'video',
                                 data_type: 'card',
+                                score: 0,
                                 card_id: this.props.card._id,
                                 collection_id: this.props.collection_id
                             })
@@ -109,26 +107,11 @@ export class FreetextCardContainer extends React.Component<
             });
     }
 
-    public handleInput(answer: string) {
-        const score = answer === this.props.card.answer ? 1 : 0;
-
-        this.log('score: ' + score);
-        this.props.dispatch(
-            update_data(assign({}, this.props.data, { score, answer }))
-        );
-    }
-
     public render() {
         const { card, data } = this.props;
 
         if (card && data) {
-            return (
-                <FreetextCardComponent
-                    text={card.text}
-                    answer={data.answer}
-                    cb={this.handleInput}
-                />
-            );
+            return <VideoCardComponent {...this.props.card} />;
         }
 
         return <div>{this.state.status}</div>;
@@ -139,7 +122,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id) as IFreetextCard,
+        card: select_card(state, ownProps.card_id) as IVideoCard,
         // collection_data: select_data_for_collection(
         //     state,
         //     ownProps.collection_id
@@ -148,7 +131,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             ownProps.collection_id,
             ownProps.card_id
-        ) as IFreetextCardData
+        ) as IBaseData
     };
 }
 
@@ -161,4 +144,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(FreetextCardContainer);
+)(VideoCardContainer);

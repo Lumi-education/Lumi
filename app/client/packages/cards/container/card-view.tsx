@@ -9,7 +9,7 @@ import MultiplechoiceCardComponent from 'client/packages/cards/components/multip
 import FreetextComponent from '../components/freetext';
 
 import FreetextCardContainer from './card-freetext';
-
+import VideoCardContainer from './video-card';
 // types
 import { IState } from 'client/state';
 import { ICard } from '../types';
@@ -72,43 +72,50 @@ export class CardViewContainer extends React.Component<IProps, {}> {
 
         if (card) {
             switch (card.card_type) {
-                case 'multiplechoice':
-                    return (
-                        <MultiplechoiceCardComponent
-                            text={card.text}
-                            items={card.items}
-                            selected_items={data.items || []}
-                            cb={(items, score) => {
-                                this.props.collection_data.submitted
-                                    ? noop()
-                                    : this.props.dispatch(
-                                          this.props.data._id
-                                              ? update_data(
-                                                    assign(
-                                                        {},
-                                                        this.props.data,
-                                                        {
-                                                            items,
-                                                            score
-                                                        }
-                                                    )
-                                                )
-                                              : create_data({
-                                                    items,
-                                                    score,
-                                                    data_type: 'card',
-                                                    card_id: this.props.card
-                                                        ._id,
-                                                    collection_id: this.props
-                                                        .collection_id
-                                                })
-                                      );
-                            }}
-                        />
-                    );
+                // case 'multiplechoice':
+                //     return (
+                //         <MultiplechoiceCardComponent
+                //             text={card.text}
+                //             items={card.items}
+                //             selected_items={data.items || []}
+                //             cb={(items, score) => {
+                //                 this.props.collection_data.submitted
+                //                     ? noop()
+                //                     : this.props.dispatch(
+                //                           this.props.data._id
+                //                               ? update_data(
+                //                                     assign(
+                //                                         {},
+                //                                         this.props.data,
+                //                                         {
+                //                                             items,
+                //                                             score
+                //                                         }
+                //                                     )
+                //                                 )
+                //                               : create_data({
+                //                                     items,
+                //                                     score,
+                //                                     data_type: 'card',
+                //                                     card_id: this.props.card
+                //                                         ._id,
+                //                                     collection_id: this.props
+                //                                         .collection_id
+                //                                 })
+                //                       );
+                //             }}
+                //         />
+                //     );
                 case 'freetext':
                     return (
                         <FreetextCardContainer
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
+                case 'video':
+                    return (
+                        <VideoCardContainer
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
                         />

@@ -48,13 +48,13 @@ export class CardPreviewContainer extends React.Component<IProps, {}> {
         const card = this.props.card;
         if (card) {
             switch (card.card_type) {
-                case 'multiplechoice':
-                    return (
-                        <MultiplechoiceCardComponent
-                            text={card.text}
-                            items={card.items}
-                        />
-                    );
+                // case 'multiplechoice':
+                //     return (
+                //         <MultiplechoiceCardComponent
+                //             text={card.text}
+                //             items={card.items}
+                //         />
+                //     );
                 case 'freetext':
                     return <FreetextComponent text={card.text} answer={''} />;
             }
