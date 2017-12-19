@@ -43,7 +43,7 @@ import CardsRightDrawer from './right-drawer';
 import { IState } from 'client/state';
 
 // types
-import { ICard } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 // selectors
 import {

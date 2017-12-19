@@ -7,9 +7,12 @@ import { assign, noop } from 'lodash';
 // components
 import MultiplechoiceCardComponent from 'client/packages/cards/components/multiplechoice';
 import FreetextComponent from '../components/freetext';
+
+import FreetextCardContainer from './card-freetext';
+
 // types
 import { IState } from 'client/state';
-import { ICard } from 'common/types';
+import { ICard } from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
@@ -104,7 +107,12 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                         />
                     );
                 case 'freetext':
-                    return <FreetextComponent {...card} />;
+                    return (
+                        <FreetextCardContainer
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
             }
         }
 

@@ -1,7 +1,10 @@
 import { Map } from 'immutable';
 import { IState } from 'client/state';
 
-import { ICard } from 'common/types';
+import { ICard } from './types';
+import { IFreetextCard } from 'client/packages/cards/types';
+
+// type Card = ICard | IFreetextCard;
 
 export function select_all_cards(state: IState): ICard[] {
     return state.cards.map.toArray();
@@ -26,9 +29,7 @@ export function select_card(state: IState, card_id: string): ICard {
         name: 'card not found',
         text: 'card not found',
         items: [],
-        hints: [],
         description: '',
-        url: '',
         created_at: new Date(),
         _attachments: {}
     });

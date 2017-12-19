@@ -17,19 +17,19 @@ export interface ICollection {
     updated_at: Date;
 }
 
-export interface ICard {
-    _id: Card_id;
-    type: 'card';
-    card_type: Card_types;
-    name: string;
-    text: Markdown;
-    items: Array<Markdown>;
-    hints: Array<Markdown>;
-    description: string;
-    url: string;
-    created_at: Date;
-    _attachments;
-}
+// export interface ICard {
+//     _id: Card_id;
+//     type: 'card';
+//     card_type: Card_types;
+//     name: string;
+//     text: Markdown;
+//     items: Array<Markdown>;
+//     hints: Array<Markdown>;
+//     description: string;
+//     url: string;
+//     created_at: Date;
+//     _attachments;
+// }
 
 export interface IUser {
     _id: User_id;
@@ -39,13 +39,13 @@ export interface IUser {
     groups: Array<Group_id>;
 }
 
-export interface IData {
-    _id: Data_id;
-    data_type: string;
-    collection_id: Collection_id;
-    user_id: User_id;
-    score: number;
-}
+// export interface IData {
+//     _id: Data_id;
+//     data_type: string;
+//     collection_id: Collection_id;
+//     user_id: User_id;
+//     score: number;
+// }
 
 export interface IGroup {
     _id: Group_id;

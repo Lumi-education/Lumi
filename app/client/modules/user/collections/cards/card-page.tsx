@@ -34,7 +34,8 @@ import { CardViewContainer } from 'client/packages/cards';
 import { IState } from 'client/state';
 
 // types
-import { ICollection, ICard } from 'common/types';
+import { ICollection } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';

@@ -1,13 +1,8 @@
 import { Map } from 'immutable';
 
-import {
-    ICard,
-    IGroup,
-    IUser,
-    ICollection,
-    IData,
-    ISession
-} from 'common/types';
+import { IGroup, IUser, ICollection, ISession } from 'common/types';
+
+import { ICard, IData } from 'client/packages/cards/types';
 
 import { IState as ITags } from 'client/packages/tags';
 import { IState as IInstall } from 'client/packages/install';

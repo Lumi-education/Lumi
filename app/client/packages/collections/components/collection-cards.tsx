@@ -12,7 +12,7 @@ import Paper from 'material-ui/Paper';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 // types
-import { ICard } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 interface IStateProps {
     cards: ICard[];

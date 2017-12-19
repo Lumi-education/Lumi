@@ -12,7 +12,7 @@ import {
     DATA_UPDATE_ERROR
 } from '../action-types';
 
-export function create_data(data) {
+export function create_data<T>(data: T) {
     return {
         types: [DATA_CREATE_REQUEST, DATA_CREATE_SUCCESS, DATA_CREATE_ERROR],
         api: API.create_data(data),

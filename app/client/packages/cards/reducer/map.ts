@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { ICard } from 'common/types';
+import { ICard } from '../types';
 
 import { arrayToObject } from 'client/utils';
 

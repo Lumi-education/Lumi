@@ -12,7 +12,7 @@ type Markdown = string;
 
 interface IProps {
     text: Markdown;
-    value: string;
+    answer: string;
     cb?: (value: string) => void;
 }
 
@@ -34,6 +34,10 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
     public handleInput() {
         log(this.state.value);
         this.props.cb ? this.props.cb(this.state.value) : noop();
+    }
+
+    public componentWillReceiveProps(nextProps: IProps) {
+        this.setState({ value: nextProps.answer });
     }
 
     public render() {

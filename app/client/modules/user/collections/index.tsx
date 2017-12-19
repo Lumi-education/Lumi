@@ -25,7 +25,8 @@ import FilterBar from 'client/packages/ui/components/filter-bar';
 import { IState } from 'client/state';
 
 // types
-import { ICollection, ICard } from 'common/types';
+import { ICollection } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 // selectors
 import { select_cards_by_ids } from 'client/packages/cards/selectors';

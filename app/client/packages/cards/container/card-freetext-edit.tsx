@@ -206,47 +206,6 @@ export class CardEditContainer extends React.Component<
                                     })()}
                                 </List>
                             </Dropzone>
-                            {/* <RaisedButton
-                            label="Cancel"
-                            style={{ margin: '10px' }}
-                            onClick={() =>
-                                this.props.dispatch(push('/admin/cards'))
-                            }
-                        />
-                        <RaisedButton
-                            label="Delete"
-                            style={{ margin: '10px' }}
-                            onClick={() => {
-                                this.props.dispatch(
-                                    delete_card(this.props.card._id)
-                                );
-                                this.props.dispatch(push('/admin/cards'));
-                            }}
-                        />
-                        <RaisedButton
-                            label="Duplicate"
-                            secondary={true}
-                            style={{ margin: '10px' }}
-                        />
-                        <RaisedButton
-                            label="Save"
-                            primary={true}
-                            style={{ margin: '10px' }}
-                            onClick={() => {
-                                this.props
-                                    .dispatch(
-                                        update_card(
-                                            this.props.card._id,
-                                            this.state
-                                        )
-                                    )
-                                    .then(() => {
-                                        this.props.dispatch(
-                                            push('/admin/cards')
-                                        );
-                                    });
-                            }}
-                        /> */}
                         </Paper>
                     </div>
                     <div style={{ flex: 6 }}>

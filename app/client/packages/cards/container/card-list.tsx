@@ -9,7 +9,7 @@ import CardListComponent from '../components/card-list';
 
 // types
 import { IState } from 'client/state';
-import { ICard } from 'common/types';
+import { ICard } from '../types';
 
 // selectors
 import { select_all_cards } from 'client/packages/cards/selectors';

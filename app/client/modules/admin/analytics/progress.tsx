@@ -25,7 +25,8 @@ import { get_grade_color } from 'client/style/utils';
 import { IState } from 'client/state';
 
 // types
-import { ICard, ICollection, IUser, IGroup } from 'common/types';
+import { ICollection, IUser, IGroup } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 // selectors
 import {

@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { IData } from 'common/types';
+import { IData } from 'client/packages/cards/types';
 
 import { arrayToObject } from 'client/utils';
 

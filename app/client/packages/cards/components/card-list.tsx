@@ -8,7 +8,7 @@ import { List, ListItem } from 'material-ui/List';
 // container
 import TagsContainer from 'client/packages/tags/container/tags';
 // types
-import { ICard } from 'common/types';
+import { ICard } from '../types';
 
 interface IStateProps {
     cards: ICard[];

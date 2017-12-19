@@ -29,7 +29,8 @@ import { get_grade_color } from 'client/style/utils';
 import { IState } from 'client/state';
 
 // types
-import { ICollection, ICard } from 'common/types';
+import { ICollection } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 // container
 import { CollectionEvaluationContainer } from 'client/packages/collections';
