@@ -14,7 +14,6 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
-import CardPreviewContainer from './card-preview';
 import { List, ListItem } from 'material-ui/List';
 import Dropzone from 'react-dropzone';
 
@@ -258,11 +257,7 @@ export class CardEditContainer extends React.Component<
                                 background:
                                     'linear-gradient(120deg, #8e44ad, #3498db)'
                             }}
-                        >
-                            <CardPreviewContainer
-                                card_id={this.props.card_id}
-                            />
-                        </div>
+                        />
                     </div>
                 </div>
             );

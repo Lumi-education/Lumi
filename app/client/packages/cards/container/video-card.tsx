@@ -123,10 +123,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as IVideoCard,
-        // collection_data: select_data_for_collection(
-        //     state,
-        //     ownProps.collection_id
-        // ),
         data: select_data(
             state,
             ownProps.collection_id,
