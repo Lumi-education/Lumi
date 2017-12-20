@@ -38,6 +38,7 @@ export interface IBaseData {
 export interface IVideoCard extends IBaseCard {
     video_url: string;
     youtube: boolean;
+    card_type: 'video';
 }
 
 export interface IFreetextCard extends IBaseCard {
@@ -53,8 +54,10 @@ export interface IFreetextCardData extends IBaseData {
 
 export interface IMultiplechoiceCard extends IBaseCard {
     items: Markdown[];
+    card_type: 'multiplechoice';
 }
 
 export interface IMultiplechoiceCardData extends IBaseData {
     items: Markdown[];
+    card_type: 'multiplechoice';
 }
