@@ -1,6 +1,11 @@
 type Card_id = string;
 type Data_id = string;
-type Card_types = 'multiplechoice' | 'freetext' | 'text' | 'sort' | 'video';
+export type Card_types =
+    | 'multiplechoice'
+    | 'freetext'
+    | 'text'
+    | 'sort'
+    | 'video';
 type Markdown = string;
 
 export type ICard = IFreetextCard | IMultiplechoiceCard | IVideoCard;

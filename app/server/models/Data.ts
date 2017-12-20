@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { IBaseData } from 'client/packages/cards/types';
+import { IBaseData, Card_types } from 'client/packages/cards/types';
 
 import { DB } from '../db';
 import Relations from '../db/relations';
@@ -9,6 +9,7 @@ export default class Data extends Relations implements IBaseData {
     public type: 'data';
     public data_type: 'card';
     public card_id: string;
+    public card_type: Card_types;
     public collection_id: string;
     public user_id: string;
     public score: number;
