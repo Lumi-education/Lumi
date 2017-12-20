@@ -96,8 +96,7 @@ export class CardEditContainer extends React.Component<
         this.setState({
             text:
                 this.state.text +
-                '![attachment](/api/v0/cards/' +
-                this.props.card_id +
+                '![attachment](' +
                 '/attachment/' +
                 attachment +
                 ')'

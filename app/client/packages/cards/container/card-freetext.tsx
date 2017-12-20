@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
+import { convert_attachment_url } from '../utils';
+
 // components
 import FreetextCardComponent from '../components/freetext';
 
@@ -119,9 +121,10 @@ export class FreetextCardContainer extends React.Component<
         const { card, data } = this.props;
 
         if (card && data) {
+            const text = convert_attachment_url(card.text, card._id);
             return (
                 <FreetextCardComponent
-                    text={card.text}
+                    text={text}
                     answer={data.answer}
                     cb={this.handleInput}
                 />

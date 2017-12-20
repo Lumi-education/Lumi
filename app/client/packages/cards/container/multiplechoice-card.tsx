@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
+import { convert_attachment_url } from '../utils';
+
 // components
 import MultiplechoiceCardComponent from 'client/packages/cards/components/multiplechoice';
 
@@ -104,10 +106,16 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         const { card, data } = this.props;
 
         if (card && data) {
+            const text = convert_attachment_url(card.text, card._id);
+
+            const card_items = card.items.map(item =>
+                convert_attachment_url(item, card._id)
+            );
+
             return (
                 <MultiplechoiceCardComponent
-                    text={card.text}
-                    items={card.items}
+                    text={text}
+                    items={card_items}
                     selected_items={data.items || []}
                     cb={(items, score) => {
                         this.props.collection_data.completed
