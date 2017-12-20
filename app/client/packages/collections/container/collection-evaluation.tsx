@@ -55,7 +55,7 @@ export class CollectionEvaluationContainer extends React.Component<IProps, {}> {
 
     public correct(): number {
         return this.props.data
-            .filter(d => d.data_type === 'card')
+            .filter(d => d.data_type === 'card' && d.card_type !== 'video')
             .reduce((p, a) => p + (a.score || 0), 0);
     }
 
@@ -63,7 +63,11 @@ export class CollectionEvaluationContainer extends React.Component<IProps, {}> {
         return (
             <CollectionEvaluationComponent
                 correct={this.correct()}
-                num={this.props.data.filter(d => d.data_type === 'card').length}
+                num={
+                    this.props.data.filter(
+                        d => d.data_type === 'card' && d.card_type !== 'video'
+                    ).length
+                }
             />
         );
     }
