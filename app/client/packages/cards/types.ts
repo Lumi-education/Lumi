@@ -9,13 +9,16 @@ export type Card_types =
 type Markdown = string;
 
 export type ICard = IFreetextCard | IMultiplechoiceCard | IVideoCard;
-export type IData = IFreetextCardData | IMultiplechoiceCardData;
+export type IData =
+    | IFreetextCardData
+    | IMultiplechoiceCardData
+    | IVideoCardData;
 
 export interface IBaseCard {
     _id: Card_id;
     type: 'card';
-    card_type: Card_types;
     name: string;
+    card_type: string;
     text: Markdown;
     description: string;
     created_at: Date;
@@ -26,7 +29,7 @@ export interface IBaseData {
     _id: Data_id;
     type: 'data';
     data_type: 'card';
-    card_type: Card_types;
+    card_type: string;
     card_id: string;
     user_id: string;
     collection_id: string;
@@ -38,6 +41,10 @@ export interface IBaseData {
 export interface IVideoCard extends IBaseCard {
     video_url: string;
     youtube: boolean;
+    card_type: 'video';
+}
+
+export interface IVideoCardData extends IBaseData {
     card_type: 'video';
 }
 
