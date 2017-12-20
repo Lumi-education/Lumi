@@ -38,7 +38,7 @@ import { CollectionEvaluationContainer } from 'client/packages/collections';
 import { select_cards_by_ids } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 import {
-    select_data_for_collection,
+    select_collection,
     select_data_as_map
 } from 'client/packages/data/selectors';
 // actions
@@ -190,7 +190,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             select_collection_by_id(state, ownProps.params.collection_id).cards
         ),
         card_data: select_data_as_map(state),
-        data: select_data_for_collection(state, ownProps.params.collection_id)
+        data: select_collection(state, ownProps.params.collection_id)
     };
 }
 

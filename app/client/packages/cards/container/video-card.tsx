@@ -9,14 +9,11 @@ import VideoCardComponent from '../components/video-card';
 
 // types
 import { IState } from 'client/state';
-import { IVideoCard, IBaseData } from '../types';
+import { IVideoCard, IVideoCardData } from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
-import {
-    select_data,
-    select_data_for_collection
-} from 'client/packages/data/selectors';
+import { select_data, select_collection } from 'client/packages/data/selectors';
 
 // actions
 import {
@@ -34,7 +31,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: IVideoCard;
-    data: IBaseData;
+    data: IVideoCardData;
     // collection_data;
 }
 
@@ -83,7 +80,7 @@ export class VideoCardContainer extends React.Component<
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(
-                            create_data<IBaseData>({
+                            create_data<IVideoCardData>({
                                 _id: undefined,
                                 type: 'data',
                                 user_id: undefined,
@@ -127,7 +124,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             ownProps.collection_id,
             ownProps.card_id
-        ) as IBaseData
+        ) as IVideoCardData
     };
 }
 

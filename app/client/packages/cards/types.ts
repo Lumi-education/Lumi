@@ -28,13 +28,23 @@ export interface IBaseCard {
 export interface IBaseData {
     _id: Data_id;
     type: 'data';
-    data_type: 'card';
-    card_type: string;
-    card_id: string;
     user_id: string;
-    collection_id: string;
     created_at: Date;
     updated_at: Date;
+}
+
+export interface ICollectionData extends IBaseData {
+    data_type: 'collection';
+    collection_id: string;
+    user_id: string;
+    completed: boolean;
+}
+
+export interface ICardData extends IBaseData {
+    card_id: string;
+    collection_id: string;
+    data_type: 'card';
+    card_type: string;
     score: number;
 }
 
@@ -44,7 +54,7 @@ export interface IVideoCard extends IBaseCard {
     card_type: 'video';
 }
 
-export interface IVideoCardData extends IBaseData {
+export interface IVideoCardData extends ICardData {
     card_type: 'video';
 }
 
@@ -53,7 +63,7 @@ export interface IFreetextCard extends IBaseCard {
     answer: string;
 }
 
-export interface IFreetextCardData extends IBaseData {
+export interface IFreetextCardData extends ICardData {
     data_type: 'card';
     card_type: 'freetext';
     answer: string;
@@ -64,7 +74,7 @@ export interface IMultiplechoiceCard extends IBaseCard {
     card_type: 'multiplechoice';
 }
 
-export interface IMultiplechoiceCardData extends IBaseData {
+export interface IMultiplechoiceCardData extends ICardData {
     items: Markdown[];
     card_type: 'multiplechoice';
 }

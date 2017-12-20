@@ -17,10 +17,7 @@ import { ICard } from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
-import {
-    select_data,
-    select_data_for_collection
-} from 'client/packages/data/selectors';
+import { select_data, select_collection } from 'client/packages/data/selectors';
 
 // actions
 import {
@@ -109,10 +106,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id),
-        collection_data: select_data_for_collection(
-            state,
-            ownProps.collection_id
-        ),
+        collection_data: select_collection(state, ownProps.collection_id),
         data: select_data(state, ownProps.collection_id, ownProps.card_id)
     };
 }

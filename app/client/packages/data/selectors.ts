@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { IState } from 'client/state';
 
-import { IData } from 'client/packages/cards/types';
+import { IData, ICollectionData } from 'client/packages/cards/types';
 
 export function select_data(
     state: IState,
@@ -34,12 +34,12 @@ export function select_data_as_map(state: IState) {
     return state.data.map;
 }
 
-export function select_data_for_collection(
+export function select_collection(
     state: IState,
     collection_id: string
-) {
+): ICollectionData {
     return (
-        state.data.map
+        (state.data.map as any)
             .toArray()
             .filter(
                 data =>

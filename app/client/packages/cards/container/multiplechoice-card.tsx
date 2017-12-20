@@ -9,14 +9,15 @@ import MultiplechoiceCardComponent from 'client/packages/cards/components/multip
 
 // types
 import { IState } from 'client/state';
-import { IMultiplechoiceCard, IMultiplechoiceCardData } from '../types';
+import {
+    IMultiplechoiceCard,
+    IMultiplechoiceCardData,
+    ICollectionData
+} from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
-import {
-    select_data,
-    select_data_for_collection
-} from 'client/packages/data/selectors';
+import { select_data, select_collection } from 'client/packages/data/selectors';
 
 // actions
 import {
@@ -36,7 +37,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: IMultiplechoiceCard;
     data: IMultiplechoiceCardData;
-    collection_data;
+    collection_data: ICollectionData;
 }
 
 interface IDispatchProps {
@@ -109,7 +110,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     items={card.items}
                     selected_items={data.items || []}
                     cb={(items, score) => {
-                        this.props.collection_data.submitted
+                        this.props.collection_data.completed
                             ? noop()
                             : this.props.dispatch(
                                   update_data(
@@ -133,10 +134,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as IMultiplechoiceCard,
-        collection_data: select_data_for_collection(
-            state,
-            ownProps.collection_id
-        ),
+        collection_data: select_collection(state, ownProps.collection_id),
         data: select_data(
             state,
             ownProps.collection_id,
