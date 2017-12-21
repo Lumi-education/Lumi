@@ -16,13 +16,16 @@ interface IProps {
     text: Markdown;
     answer: string;
     cb?: (value: string) => void;
+    preview?: boolean;
 }
 
 interface IState {
-    value: string;
+    value?: string;
 }
 
 export default class FreetextComponent extends React.Component<IProps, IState> {
+    private _typeset_locked: boolean;
+
     constructor(props: IProps) {
         super(props);
 
@@ -30,20 +33,47 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
             value: ''
         };
 
-        this.handleInput = this.handleInput.bind(this);
+        this._onBlur = this._onBlur.bind(this);
+        this._onChange = this._onChange.bind(this);
+        this.typeset = this.typeset.bind(this);
+        this._typeset_locked = false;
     }
 
     public componentDidMount() {
-        window.MathJax.Hub.Typeset();
+        log('componentDidMount');
     }
 
-    public handleInput() {
+    public typeset() {
+        log('typeset');
+        if (!this._typeset_locked) {
+            window.MathJax.Hub.Typeset(
+                document.getElementById('preview'),
+                () => {
+                    log('typed!');
+                    this._typeset_locked = false;
+                }
+            );
+        }
+
+        this._typeset_locked = true;
+    }
+
+    public _onBlur() {
         log(this.state.value);
         this.props.cb ? this.props.cb(this.state.value) : noop();
     }
 
+    public _onChange(event, value) {
+        this.setState({ value });
+    }
+
     public componentWillReceiveProps(nextProps: IProps) {
         this.setState({ value: nextProps.answer });
+    }
+
+    public componentDidUpdate() {
+        log('componentDidUpdate');
+        this.typeset();
     }
 
     public render() {
@@ -59,12 +89,26 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
                     />
                 </Paper>
 
+                {this.props.preview ? (
+                    <Paper style={{ margin: '5px', padding: '5px' }}>
+                        <h3>Preview</h3>
+                        <div
+                            id="preview"
+                            dangerouslySetInnerHTML={{
+                                __html: md.render(
+                                    this.state.value || '# No markdown'
+                                )
+                            }}
+                        />
+                    </Paper>
+                ) : null}
+
                 <Paper style={{ margin: '5px', padding: '5px' }}>
                     <TextField
                         multiLine={true}
                         fullWidth={true}
-                        onChange={(e, text) => this.setState({ value: text })}
-                        onBlur={this.handleInput}
+                        onChange={this._onChange}
+                        onBlur={this._onBlur}
                         value={this.state.value || ''}
                         hintText="Antwort"
                     />

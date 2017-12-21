@@ -61,6 +61,7 @@ export interface IVideoCardData extends ICardData {
 export interface IFreetextCard extends IBaseCard {
     card_type: 'freetext';
     answer: string;
+    preview: boolean;
 }
 
 export interface IFreetextCardData extends ICardData {

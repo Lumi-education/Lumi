@@ -127,6 +127,7 @@ export class FreetextCardContainer extends React.Component<
                     text={text}
                     answer={data.answer}
                     cb={this.handleInput}
+                    preview={card.preview}
                 />
             );
         }
