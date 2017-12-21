@@ -10,6 +10,8 @@ import { Paper, TextField } from 'material-ui';
 const log = debug('lumi:packages:cards:components:freetext');
 type Markdown = string;
 
+declare var window;
+
 interface IProps {
     text: Markdown;
     answer: string;
@@ -29,6 +31,10 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
         };
 
         this.handleInput = this.handleInput.bind(this);
+    }
+
+    public componentDidMount() {
+        window.MathJax.Hub.Typeset();
     }
 
     public handleInput() {
