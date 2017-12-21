@@ -44,6 +44,8 @@ interface IDispatchProps {
 interface IComponentState {
     loading?: boolean;
     status?: string;
+    error_text?: string;
+    error_style?;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -57,7 +59,11 @@ export class FreetextCardContainer extends React.Component<
 
         this.state = {
             loading: false,
-            status: 'init'
+            status: 'init',
+            error_text: null,
+            error_style: {
+                color: '#e67e22'
+            }
         };
 
         this.log = this.log.bind(this);
@@ -111,10 +117,30 @@ export class FreetextCardContainer extends React.Component<
     public handleInput(answer: string) {
         const score = answer === this.props.card.answer ? 1 : 0;
 
+        this.setState({
+            error_text: 'saving...',
+            error_style: { color: '#e67e22' }
+        });
+
         this.log('score: ' + score);
-        this.props.dispatch(
-            update_data(assign({}, this.props.data, { score, answer }))
-        );
+        this.props
+            .dispatch(
+                update_data(assign({}, this.props.data, { score, answer }))
+            )
+            .then(res => {
+                this.setState({
+                    error_text: 'saved',
+                    error_style: { color: '#27ae60' }
+                });
+                setTimeout(
+                    () =>
+                        this.setState({
+                            error_text: null,
+                            error_style: { color: '#e67e22' }
+                        }),
+                    1000
+                );
+            });
     }
 
     public render() {
@@ -128,6 +154,8 @@ export class FreetextCardContainer extends React.Component<
                     answer={data.answer}
                     cb={this.handleInput}
                     preview={card.preview}
+                    error_text={this.state.error_text}
+                    error_style={this.state.error_style}
                 />
             );
         }
