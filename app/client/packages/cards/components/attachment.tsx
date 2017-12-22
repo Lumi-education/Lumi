@@ -5,7 +5,9 @@ import * as debug from 'debug';
 // components
 import Paper from 'material-ui/Paper';
 
-import { List, ListItem, RaisedButton } from 'material-ui';
+import { List, ListItem, RaisedButton, IconButton } from 'material-ui';
+import SVGClose from 'material-ui/svg-icons/navigation/close';
+
 import Dropzone from 'react-dropzone';
 
 import * as request from 'superagent';
@@ -37,6 +39,8 @@ export default class CardAttachmentComponent extends React.Component<
 
         this.insertAttachment = this.insertAttachment.bind(this);
         this.onDrop = this.onDrop.bind(this);
+
+        this._delete = this._delete.bind(this);
     }
 
     public insertAttachment(attachment: string) {
@@ -65,6 +69,23 @@ export default class CardAttachmentComponent extends React.Component<
         });
     }
 
+    public _delete(key: string) {
+        request
+            .delete(
+                '/api/v0/' +
+                    window.location.pathname.split('/')[1] +
+                    '/cards/' +
+                    this.props.doc_id +
+                    '/attachment/' +
+                    key +
+                    '?rev=' +
+                    this.props._rev
+            )
+            .end(() => {
+                log('attachment deleted');
+            });
+    }
+
     public render() {
         return (
             <div>
@@ -76,6 +97,13 @@ export default class CardAttachmentComponent extends React.Component<
                                     key={key}
                                     onClick={() => this.insertAttachment(key)}
                                     primaryText={key}
+                                    rightIconButton={
+                                        <IconButton
+                                            onClick={() => this._delete(key)}
+                                        >
+                                            <SVGClose />
+                                        </IconButton>
+                                    }
                                 />
                             )
                         );
