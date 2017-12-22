@@ -13,12 +13,14 @@ export type ICard =
     | IFreetextCard
     | IMultiplechoiceCard
     | IVideoCard
-    | IUploadCard;
+    | IUploadCard
+    | ITextCard;
 export type IData =
     | IFreetextCardData
     | IMultiplechoiceCardData
     | IVideoCardData
-    | IUploadCardData;
+    | IUploadCardData
+    | ITextCardData;
 
 export interface IBaseCard {
     _id: Card_id;
@@ -52,6 +54,14 @@ export interface ICardData extends IBaseData {
     data_type: 'card';
     card_type: string;
     score: number;
+}
+
+export interface ITextCard extends IBaseCard {
+    card_type: 'text';
+}
+
+export interface ITextCardData extends ICardData {
+    card_type: 'text';
 }
 
 export interface IUploadCard extends IBaseCard {

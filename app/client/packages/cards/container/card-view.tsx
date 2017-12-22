@@ -11,6 +11,7 @@ import FreetextCardContainer from './card-freetext';
 import VideoCardContainer from './video-card';
 import MultiplechoiceCardContainer from './multiplechoice-card';
 import UploadCardContainer from './upload-card';
+import TextCardContainer from './text-card-container';
 
 // types
 import { IState } from 'client/state';
@@ -98,6 +99,14 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'upload':
                     return (
                         <UploadCardContainer
+                            key={this.props.card_id}
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
+                case 'text':
+                    return (
+                        <TextCardContainer
                             key={this.props.card_id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
