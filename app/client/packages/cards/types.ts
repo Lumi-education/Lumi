@@ -5,14 +5,20 @@ export type Card_types =
     | 'freetext'
     | 'text'
     | 'sort'
+    | 'upload'
     | 'video';
 type Markdown = string;
 
-export type ICard = IFreetextCard | IMultiplechoiceCard | IVideoCard;
+export type ICard =
+    | IFreetextCard
+    | IMultiplechoiceCard
+    | IVideoCard
+    | IUploadCard;
 export type IData =
     | IFreetextCardData
     | IMultiplechoiceCardData
-    | IVideoCardData;
+    | IVideoCardData
+    | IUploadCardData;
 
 export interface IBaseCard {
     _id: Card_id;
@@ -46,6 +52,16 @@ export interface ICardData extends IBaseData {
     data_type: 'card';
     card_type: string;
     score: number;
+}
+
+export interface IUploadCard extends IBaseCard {
+    card_type: 'upload';
+}
+
+export interface IUploadCardData extends ICardData {
+    data_type: 'card';
+    card_type: 'upload';
+    _attachments;
 }
 
 export interface IVideoCard extends IBaseCard {

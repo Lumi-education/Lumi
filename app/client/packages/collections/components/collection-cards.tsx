@@ -7,6 +7,8 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import { convert_attachment_url } from 'client/packages/cards/utils';
+
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
 import Paper from 'material-ui/Paper';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -58,8 +60,10 @@ const ITEM = SortableElement(({ item }) => {
             <FloatingActionButton>{item.index + 1}</FloatingActionButton>
             <Paper style={{ height: '480px', width: '320px' }}>
                 <MultiplechoiceCard
-                    text={item.card.text}
-                    items={item.card.items}
+                    text={convert_attachment_url(item.card.text, item.card._id)}
+                    items={item.card.items.map(i =>
+                        convert_attachment_url(i, item.card._id)
+                    )}
                     show_correct_values={true}
                 />
             </Paper>

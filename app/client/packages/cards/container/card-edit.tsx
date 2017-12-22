@@ -56,7 +56,7 @@ interface IComponentState {
     items?: string[];
     description?: string;
     name?: string;
-    card_type?: 'multiplechoice' | 'freetext' | 'sort' | 'text' | 'video';
+    card_type?;
 }
 
 export class CardEditContainer extends React.Component<
