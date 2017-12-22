@@ -115,7 +115,11 @@ export class FreetextCardContainer extends React.Component<
     }
 
     public handleInput(answer: string) {
-        const score = answer === this.props.card.answer ? 1 : 0;
+        const score =
+            answer.replace(/\s/, '') ===
+            this.props.card.answer.replace(/\s/, '')
+                ? 1
+                : 0;
 
         this.setState({
             error_text: 'saving...',
