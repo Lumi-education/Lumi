@@ -20,9 +20,15 @@ export default function(
 ): Map<string, ITagRef> {
     switch (action.type) {
         case TAGS_ADD_TO_DOC_REQUEST:
-            return state.set(action.doc_id + action.tag_id, {
+            if (state.get(action.doc_id + '-tags')) {
+                return state.update(action.doc_id + '-tags', tag_ref => {
+                    tag_ref.tags.push(action.tag_id);
+                    return tag_ref;
+                });
+            }
+            return state.set(action.doc_id + '-tags', {
                 doc_id: action.doc_id,
-                tag_id: action.tag_id,
+                tags: [action.tag_id],
                 type: 'tag_ref'
             });
 

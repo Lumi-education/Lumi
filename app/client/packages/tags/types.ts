@@ -14,7 +14,7 @@ export interface ITag {
 export interface ITagRef {
     _id?: string;
     doc_id: string;
-    tag_id: Tag_id;
+    tags: Tag_id[];
     type: 'tag_ref';
     created_at?: Date;
     updated_at?: Date;
