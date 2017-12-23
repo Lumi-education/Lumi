@@ -59,8 +59,26 @@ export class TagsContainer extends React.Component<IProps, IComponentState> {
                     height: '16px'
                 }}
             >
+                {this.props.tags.length === 0 ? (
+                    <span
+                        style={{
+                            display: 'inline',
+                            padding: '.2em .6em .3em',
+                            fontSize: '75%',
+                            fontWeight: 'bold',
+                            lineHeight: 1,
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                            verticalAlign: 'baseline',
+                            borderRadius: '.25em'
+                        }}
+                    >
+                        No Tags
+                    </span>
+                ) : null}
                 {this.props.tags.map(tag => (
                     <span
+                        key={tag._id}
                         style={{
                             background: tag.color,
                             display: 'inline',

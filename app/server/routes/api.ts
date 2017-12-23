@@ -51,8 +51,10 @@ router.delete('/:db/groups/:id', GroupController.delete);
 router.put('/:db/groups/:id/action', GroupController.action);
 
 // tags
-router.get('/:db/tags', TagsController.list);
+router.get('/:db/tags', TagsController.index);
 router.post('/:db/tags', TagsController.create);
+router.get('/:db/tags/ref', TagsController.readRef);
+router.get('/:db/tags/refs', TagsController.indexRef);
 router.get('/:db/tags/:id', TagsController.read);
 router.put('/:db/tags/:id', TagsController.update);
 router.delete('/:db/tags/:id', TagsController.delete);

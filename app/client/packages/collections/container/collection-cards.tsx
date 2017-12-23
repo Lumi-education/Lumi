@@ -11,7 +11,8 @@ import CollectionCardsAdminComponent from '../components/collection-cards';
 import { IState } from 'client/state';
 
 // types
-import { ICollection, ICard } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
+import { ICollection } from 'common/types';
 
 // selectors
 import { select_cards_as_map } from 'client/packages/cards/selectors';

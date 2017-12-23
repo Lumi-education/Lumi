@@ -34,15 +34,13 @@ import { CardViewContainer } from 'client/packages/cards';
 import { IState } from 'client/state';
 
 // types
-import { ICollection, ICard } from 'common/types';
+import { ICollection } from 'common/types';
+import { ICard } from 'client/packages/cards/types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
-import {
-    select_data,
-    select_data_for_collection
-} from 'client/packages/data/selectors';
+import { select_data, select_collection } from 'client/packages/data/selectors';
 // actions
 import { get_collection } from 'client/packages/collections/actions';
 import {
@@ -199,7 +197,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         collection_id: ownProps.params.collection_id,
         card: select_card(state, ownProps.params.card_id),
         card_id: ownProps.params.card_id,
-        collection_data: select_data_for_collection(
+        collection_data: select_collection(
             state,
             ownProps.params.collection_id
         ),

@@ -10,6 +10,8 @@ import {
     UI_SNACKBAR_OPEN,
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
+    UI_SET_RIGHT_APPBAR_ICON,
+    UI_TOGGLE_TAG_ID_FILTER,
     COLLECTION_ADD_CARDS_SUCCESS
 } from '../action-types';
 
@@ -21,6 +23,8 @@ interface IUI {
     snackbar_text: string;
     show_cards_dialog: boolean;
     selected_card_ids: string[];
+    right_appbar_icon: JSX.Element;
+    tags_filter: string[];
 }
 
 const initialState: IUI = {
@@ -30,7 +34,9 @@ const initialState: IUI = {
     snackbar_open: false,
     snackbar_text: '',
     show_cards_dialog: false,
-    selected_card_ids: []
+    selected_card_ids: [],
+    right_appbar_icon: null,
+    tags_filter: []
 };
 
 export default function(state: IUI = initialState, action): IUI {
@@ -76,6 +82,21 @@ export default function(state: IUI = initialState, action): IUI {
 
         case UI_RIGHT_DRAWER_CLOSE:
             return assign({}, state, { right_drawer_show: false });
+
+        case UI_SET_RIGHT_APPBAR_ICON:
+            return assign({}, state, { right_appbar_icon: action.payload });
+
+        case UI_TOGGLE_TAG_ID_FILTER:
+            if (state.tags_filter.indexOf(action.payload.tag_id) > -1) {
+                return assign({}, state, {
+                    tags_filter: state.tags_filter.filter(
+                        tag_id => tag_id !== action.payload.tag_id
+                    )
+                });
+            }
+            return assign({}, state, {
+                tags_filter: [...state.tags_filter, action.payload.tag_id]
+            });
 
         default:
             return state;

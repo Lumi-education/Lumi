@@ -48,6 +48,18 @@ export class DB {
             });
     }
 
+    public _findById(id: string, cb: (err, doc) => void) {
+        request
+            .get(this.db + id)
+            .then(res => {
+                log('_findById', id);
+                cb(null, res.body);
+            })
+            .catch(err => {
+                cb(err, null);
+            });
+    }
+
     public save(doc, cb?: (res) => void) {
         request
             .put(this.db + doc._id)

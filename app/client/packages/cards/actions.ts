@@ -2,7 +2,7 @@ import * as shortid from 'shortid';
 
 import * as API from './api';
 
-import { ICard } from 'common/types';
+import { ICard } from './types';
 
 import * as types from '../action-types';
 

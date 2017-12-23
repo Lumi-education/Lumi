@@ -8,6 +8,8 @@ const md = markdownit();
 import Paper from 'material-ui/Paper';
 type Markdown = string;
 
+declare var window;
+
 interface IProps {
     text: Markdown;
     items: Markdown[];
@@ -39,6 +41,10 @@ export default class MultiplechoiceCard extends React.Component<IProps, {}> {
             ? 1
             : 0;
         this.props.cb ? this.props.cb(newArray, score) : noop();
+    }
+
+    public componentDidMount() {
+        window.MathJax.Hub.Typeset();
     }
 
     public render() {

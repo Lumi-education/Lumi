@@ -11,7 +11,7 @@ import CollectionEvaluationComponent from '../components/collection-evaluation';
 import { IState } from 'client/state';
 
 // types
-import { IData } from 'common/types';
+import { IData, ICollectionData } from 'client/packages/cards/types';
 
 // selectors
 import { select_data_for_user_and_collection } from 'client/packages/data/selectors';
@@ -55,7 +55,7 @@ export class CollectionEvaluationContainer extends React.Component<IProps, {}> {
 
     public correct(): number {
         return this.props.data
-            .filter(d => d.data_type === 'card')
+            .filter(d => d.data_type === 'card' && d.card_type !== 'video')
             .reduce((p, a) => p + (a.score || 0), 0);
     }
 
@@ -63,7 +63,11 @@ export class CollectionEvaluationContainer extends React.Component<IProps, {}> {
         return (
             <CollectionEvaluationComponent
                 correct={this.correct()}
-                num={this.props.data.filter(d => d.data_type === 'card').length}
+                num={
+                    this.props.data.filter(
+                        d => d.data_type === 'card' && d.card_type !== 'video'
+                    ).length
+                }
             />
         );
     }

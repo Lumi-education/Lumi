@@ -14,6 +14,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
 import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
+import CardPreviewContainer from './card-preview';
 import { List, ListItem } from 'material-ui/List';
 import Dropzone from 'react-dropzone';
 
@@ -56,7 +57,7 @@ interface IComponentState {
     items?: string[];
     description?: string;
     name?: string;
-    card_type?;
+    card_type?: 'multiplechoice' | 'freetext' | 'sort' | 'text' | 'video';
 }
 
 export class CardEditContainer extends React.Component<
@@ -96,7 +97,8 @@ export class CardEditContainer extends React.Component<
         this.setState({
             text:
                 this.state.text +
-                '![attachment](' +
+                '![attachment](/api/v0/cards/' +
+                this.props.card_id +
                 '/attachment/' +
                 attachment +
                 ')'
@@ -204,47 +206,6 @@ export class CardEditContainer extends React.Component<
                                     })()}
                                 </List>
                             </Dropzone>
-                            <RaisedButton
-                                label="Cancel"
-                                style={{ margin: '10px' }}
-                                onClick={() =>
-                                    this.props.dispatch(push('/admin/cards'))
-                                }
-                            />
-                            <RaisedButton
-                                label="Delete"
-                                style={{ margin: '10px' }}
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        delete_card(this.props.card._id)
-                                    );
-                                    this.props.dispatch(push('/admin/cards'));
-                                }}
-                            />
-                            <RaisedButton
-                                label="Duplicate"
-                                secondary={true}
-                                style={{ margin: '10px' }}
-                            />
-                            <RaisedButton
-                                label="Save"
-                                primary={true}
-                                style={{ margin: '10px' }}
-                                onClick={() => {
-                                    this.props
-                                        .dispatch(
-                                            update_card(
-                                                this.props.card._id,
-                                                this.state
-                                            )
-                                        )
-                                        .then(() => {
-                                            this.props.dispatch(
-                                                push('/admin/cards')
-                                            );
-                                        });
-                                }}
-                            />
                         </Paper>
                     </div>
                     <div style={{ flex: 6 }}>
@@ -256,7 +217,11 @@ export class CardEditContainer extends React.Component<
                                 background:
                                     'linear-gradient(120deg, #8e44ad, #3498db)'
                             }}
-                        />
+                        >
+                            <CardPreviewContainer
+                                card_id={this.props.card_id}
+                            />
+                        </div>
                     </div>
                 </div>
             );

@@ -1,12 +1,13 @@
 import { assign } from 'lodash';
-import { ICard, IUser, Card_id, Card_types, Markdown } from 'common/types';
+import { IUser, Card_id, Card_types, Markdown } from 'common/types';
+import { IBaseCard } from 'client/packages/cards/types';
 
 import Tag from './Tag';
 
 import { DB } from '../db';
 import Relations from '../db/relations';
 
-export default class Card extends Relations implements ICard {
+export default class Card extends Relations implements IBaseCard {
     public _id: string;
     public type: 'card';
     public card_type: Card_types;

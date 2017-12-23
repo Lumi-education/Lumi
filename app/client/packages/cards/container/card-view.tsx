@@ -5,18 +5,21 @@ import { connect } from 'react-redux';
 import { assign, noop } from 'lodash';
 
 // components
-import MultiplechoiceCardComponent from 'client/packages/cards/components/multiplechoice';
+import FreetextComponent from '../components/freetext';
+
+import FreetextCardContainer from './card-freetext';
+import VideoCardContainer from './video-card';
+import MultiplechoiceCardContainer from './multiplechoice-card';
+import UploadCardContainer from './upload-card';
+import TextCardContainer from './text-card-container';
 
 // types
 import { IState } from 'client/state';
-import { ICard } from 'common/types';
+import { ICard } from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
-import {
-    select_data,
-    select_data_for_collection
-} from 'client/packages/data/selectors';
+import { select_data, select_collection } from 'client/packages/data/selectors';
 
 // actions
 import {
@@ -71,36 +74,42 @@ export class CardViewContainer extends React.Component<IProps, {}> {
             switch (card.card_type) {
                 case 'multiplechoice':
                     return (
-                        <MultiplechoiceCardComponent
-                            text={card.text}
-                            items={card.items}
-                            selected_items={data.items || []}
-                            cb={(items, score) => {
-                                this.props.collection_data.submitted
-                                    ? noop()
-                                    : this.props.dispatch(
-                                          this.props.data._id
-                                              ? update_data(
-                                                    assign(
-                                                        {},
-                                                        this.props.data,
-                                                        {
-                                                            items,
-                                                            score
-                                                        }
-                                                    )
-                                                )
-                                              : create_data({
-                                                    items,
-                                                    score,
-                                                    data_type: 'card',
-                                                    card_id: this.props.card
-                                                        ._id,
-                                                    collection_id: this.props
-                                                        .collection_id
-                                                })
-                                      );
-                            }}
+                        <MultiplechoiceCardContainer
+                            key={this.props.card_id}
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
+                case 'freetext':
+                    return (
+                        <FreetextCardContainer
+                            key={this.props.card_id}
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
+                case 'video':
+                    return (
+                        <VideoCardContainer
+                            key={this.props.card_id}
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
+                case 'upload':
+                    return (
+                        <UploadCardContainer
+                            key={this.props.card_id}
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
+                        />
+                    );
+                case 'text':
+                    return (
+                        <TextCardContainer
+                            key={this.props.card_id}
+                            card_id={this.props.card_id}
+                            collection_id={this.props.collection_id}
                         />
                     );
             }
@@ -115,10 +124,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id),
-        collection_data: select_data_for_collection(
-            state,
-            ownProps.collection_id
-        ),
+        collection_data: select_collection(state, ownProps.collection_id),
         data: select_data(state, ownProps.collection_id, ownProps.card_id)
     };
 }

@@ -8,7 +8,7 @@ import { List, ListItem } from 'material-ui/List';
 // container
 import TagsContainer from 'client/packages/tags/container/tags';
 // types
-import { ICard } from 'common/types';
+import { ICard } from '../types';
 
 interface IStateProps {
     cards: ICard[];
@@ -43,7 +43,9 @@ export default class CardListComponent extends React.Component<IProps, {}> {
                                                 : 'grey'
                                     }}
                                 >
-                                    {card.name.substring(0, 3)}
+                                    {card.card_type
+                                        ? card.card_type.charAt(0).toUpperCase()
+                                        : 'X'}
                                 </Avatar>
                             }
                             primaryText={card.name}

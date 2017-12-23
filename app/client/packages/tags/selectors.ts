@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 
+import { isEqual, intersection } from 'lodash';
 import { ITag, IState } from './types';
 
 export function select_all_tags(state: IState): ITag[] {
@@ -14,10 +15,23 @@ export function select_tag_ids_for_doc(
     state: IState,
     doc_id: string
 ): string[] {
+    return state.tags.refs.get(doc_id + '-tags', {
+        doc_id,
+        tags: [],
+        type: 'tag_ref'
+    }).tags;
+}
+
+export function select_doc_ids_for_tags(
+    state: IState,
+    tag_ids: string[]
+): string[] {
     return state.tags.refs
         .toArray()
-        .filter(ref => ref.doc_id === doc_id)
-        .map(ref => ref.tag_id);
+        .filter(ref =>
+            isEqual(intersection(ref.tags, tag_ids).sort(), tag_ids.sort())
+        )
+        .map(ref => ref.doc_id);
 }
 
 export function select_tags_by_doc_id(state: IState, doc_id: string): ITag[] {
