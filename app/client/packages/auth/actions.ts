@@ -4,6 +4,8 @@ declare var window;
 
 import * as API from './api';
 
+import * as k from './constants';
+
 import {
     AUTH_GET_SESSION_REQUEST,
     AUTH_GET_SESSION_SUCCESS,
@@ -27,14 +29,14 @@ export function login(
     return dispatch => {
         dispatch({ id, type: AUTH_LOGIN_REQUEST, payload: { username } });
 
-        API.login(username, password)
+        return API.login(username, password)
             .then(res => {
                 switch (res.status) {
                     case 200:
                         window.localStorage.jwt_token = res.body.jwt_token;
                         dispatch({
                             id,
-                            type: AUTH_LOGIN_SUCCESS, 
+                            type: AUTH_LOGIN_SUCCESS,
                             payload: res.body
                         });
                         dispatch(get_session());
@@ -96,5 +98,29 @@ export function get_session(id = shortid()) {
         ],
         api: API.get_session(),
         payload: { id }
+    };
+}
+
+export function check_username(username: string) {
+    return {
+        types: [
+            k.AUTH_LOGIN_CHECK_USERNAME_REQUEST,
+            k.AUTH_LOGIN_CHECK_USERNAME_SUCCESS,
+            k.AUTH_LOGIN_CHECK_USERNAME_ERROR
+        ],
+        api: API.check_username(username),
+        payload: { username }
+    };
+}
+
+export function set_password(username: string, password: string) {
+    return {
+        types: [
+            k.AUTH_LOGIN_SET_PASSWORD_REQUEST,
+            k.AUTH_LOGIN_SET_PASSWORD_SUCCESS,
+            k.AUTH_LOGIN_SET_PASSWORD_ERROR
+        ],
+        api: API.set_password(username, password),
+        payload: { username }
     };
 }

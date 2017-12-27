@@ -41,6 +41,11 @@ export function level(userLevel: number): any {
     };
 }
 
+// 0 unauthed
+// 1 guest
+// 2 user
+// 3 admin
+
 export interface IRequest extends express.Request {
     user: {
         _id: string;

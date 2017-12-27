@@ -21,6 +21,8 @@ router.post('/:db/auth/login', AuthController.login);
 router.post('/:db/auth/register', AuthController.register);
 router.post('/:db/auth/logout', mw.auth, AuthController.logout);
 router.get('/:db/user/auth/session', mw.auth, AuthController.get_session);
+router.get('/:db/auth/username/:username', AuthController.username);
+router.post('/:db/auth/password', AuthController.set_password);
 
 // cards
 router.get('/:db/cards', CardsController.list);

@@ -7,9 +7,7 @@ import { Dispatch } from 'redux';
 import { IState } from 'client/state';
 
 // components
-import { Tabs, Tab } from 'material-ui/Tabs';
-import LoginComponent from 'client/packages/auth/components/login';
-import RegisterComponent from 'client/packages/auth/components/register';
+import { LoginContainer } from 'client/packages/auth';
 
 // actions
 import { push } from 'client/packages/ui/actions';
@@ -18,6 +16,7 @@ import { get_session, login, register } from 'client/packages/auth/actions';
 interface IStateProps {
     is_authed: boolean;
     response: number;
+    is_required: boolean;
 }
 
 interface IDispatchProps {
@@ -48,27 +47,26 @@ export class Auth extends React.Component<IProps, {}> {
         if (this.props.is_authed) {
             return <div id="auth">{this.props.children}</div>;
         }
+
+        if (!this.props.is_required) {
+            return <div id="auth">{this.props.children}</div>;
+        }
+
         return (
-            <Tabs
-                tabItemContainerStyle={{
-                    background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+            <div
+                style={{
+                    background: 'linear-gradient(230deg, #4b79cf, #4bc5cf)',
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                 }}
             >
-                <Tab label="Login">
-                    <LoginComponent
-                        login={this.login}
-                        response={this.props.response}
-                    />
-                </Tab>
-                <Tab label="Register">
-                    <RegisterComponent
-                        register={(username: string, password: string) =>
-                            this.props.dispatch(register(username, password))
-                        }
-                        response={this.props.response}
-                    />
-                </Tab>
-            </Tabs>
+                <div>
+                    <LoginContainer />
+                </div>
+            </div>
         );
     }
 }
@@ -76,7 +74,8 @@ export class Auth extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         is_authed: state.auth.is_authed,
-        response: state.auth.response
+        response: state.auth.response,
+        is_required: state.auth.is_required
     };
 }
 

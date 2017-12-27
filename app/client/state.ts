@@ -6,14 +6,9 @@ import { ICard, IData } from 'client/packages/cards/types';
 
 import { IState as ITags } from 'client/packages/tags';
 import { IState as IInstall } from 'client/packages/install';
+import { IState as IAuth } from 'client/packages/auth';
 
-export interface IState extends ITags, IInstall {
-    auth: {
-        is_authed: boolean;
-        response: number;
-        userlevel: number;
-        user_id: string;
-    };
+export interface IState extends ITags, IInstall, IAuth {
     cards: {
         map: Map<string, ICard>;
     };
