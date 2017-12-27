@@ -8,8 +8,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
-import { state_color } from 'client/style/utils';
-
 interface IStateProps {
     response: number;
 }
@@ -116,7 +114,7 @@ export default class AuthRegisterComponent extends React.Component<
                             }
                             label="Register"
                             buttonStyle={{
-                                backgroundColor: state_color('init')
+                                backgroundColor: 'black'
                             }}
                             onClick={() => {
                                 this.props.register(

@@ -11,6 +11,7 @@ export default class User extends Relations implements IUser {
     public type: 'user';
     public name: string;
     public level: number;
+    public password: string;
     public groups: Group_id[];
 
     constructor(u?) {

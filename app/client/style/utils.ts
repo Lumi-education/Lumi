@@ -2,6 +2,8 @@ import * as classnames from 'classnames';
 
 export function state_color(state: string): string {
     switch (state) {
+        case 'disabled':
+            return '#95a5a6';
         case 'init':
         default:
             return '#2c80b9';

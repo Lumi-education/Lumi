@@ -204,15 +204,15 @@ export class DB {
     private handle_error(err) {
         webhook({
             username: this.db.split('/')[3],
-            text: err.message || err.text || 'no error message'
+            text: err.message || err.text || err || 'no error message'
         });
         if (this.res) {
             this.res
-                .status(err.status)
+                .status(err.status > 100 && err.status < 520 ? err.status : 500)
                 .json(
                     process.env.NODE_ENV === 'development'
                         ? err
-                        : { message: err.message }
+                        : { message: err.message || err }
                 );
         }
     }
