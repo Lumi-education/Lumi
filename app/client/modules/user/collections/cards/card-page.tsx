@@ -1,34 +1,13 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
 
-import { Map } from 'immutable';
-import { assign, noop, last, first } from 'lodash';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import Chip from 'material-ui/Chip';
-
-import FlatButton from 'material-ui/FlatButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import IconButton from 'material-ui/IconButton';
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import {
-    BottomNavigation,
-    BottomNavigationItem
-} from 'material-ui/BottomNavigation';
-import Multiplechoicecard from 'client/packages/cards/components/multiplechoice';
-import AppBar from 'material-ui/AppBar';
+import { AppBar, IconButton } from 'material-ui';
 
 // container
 import { CardViewContainer } from 'client/packages/cards';
+import BottomNavigation from './bottom-navigation';
 
 // local
 import { IState } from 'client/state';
@@ -41,7 +20,9 @@ import { ICard } from 'client/packages/cards/types';
 import { select_card } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 import { select_data, select_collection } from 'client/packages/data/selectors';
+
 // actions
+import { push, right_drawer_open } from 'client/packages/ui/actions';
 import { get_collection } from 'client/packages/collections/actions';
 import {
     create_data,
@@ -56,6 +37,7 @@ interface IStateProps {
     data;
     collection_data;
     card_id: string;
+    right_appbar_icon: JSX.Element;
 }
 
 interface IDispatchProps {
@@ -121,68 +103,19 @@ export class UserCollectionCard extends React.Component<
                             )
                         )
                     }
+                    iconElementRight={this.props.right_appbar_icon}
+                    onRightIconButtonTouchTap={() =>
+                        this.props.dispatch(right_drawer_open())
+                    }
                 />
                 <CardViewContainer
                     card_id={this.props.card_id}
                     collection_id={this.props.collection_id}
                 />
                 <BottomNavigation
-                    style={{
-                        position: 'fixed',
-                        bottom: '0px',
-                        left: '0px',
-                        right: '0px',
-                        zIndex: 501
-                    }}
-                >
-                    <BottomNavigationItem
-                        style={{
-                            display:
-                                first(this.props.collection.cards) !==
-                                this.props.card._id
-                                    ? 'block'
-                                    : 'none'
-                        }}
-                        onClick={() =>
-                            this.props.dispatch(
-                                push(
-                                    '/user/collections/' +
-                                        this.props.collection._id +
-                                        '/cards/' +
-                                        prev(
-                                            this.props.collection.cards,
-                                            this.props.card._id
-                                        )
-                                )
-                            )
-                        }
-                        icon={<SVGLeft />}
-                    />
-
-                    <BottomNavigationItem
-                        style={{
-                            display:
-                                last(this.props.collection.cards) !==
-                                this.props.card._id
-                                    ? 'block'
-                                    : 'none'
-                        }}
-                        onClick={() =>
-                            this.props.dispatch(
-                                push(
-                                    '/user/collections/' +
-                                        this.props.collection._id +
-                                        '/cards/' +
-                                        next(
-                                            this.props.collection.cards,
-                                            this.props.card._id
-                                        )
-                                )
-                            )
-                        }
-                        icon={<SVGRight />}
-                    />
-                </BottomNavigation>
+                    card_id={this.props.card_id}
+                    collection_id={this.props.collection_id}
+                />
             </div>
         );
     }
@@ -205,7 +138,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             ownProps.params.collection_id,
             ownProps.params.card_id
-        )
+        ),
+        right_appbar_icon: state.ui.right_appbar_icon
     };
 }
 
@@ -218,15 +152,3 @@ function mapDispatchToProps(dispatch) {
 export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
     UserCollectionCard
 );
-
-function next(array: string[], id: string): string {
-    let index = array.indexOf(id);
-    index = index + 1;
-    return array[index];
-}
-
-function prev(array: string[], id: string): string {
-    let index = array.indexOf(id);
-    index = index - 1;
-    return array[index];
-}
