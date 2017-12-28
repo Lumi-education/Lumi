@@ -55,7 +55,8 @@ export function select_collection_by_id(
             description: '',
             cards: [],
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
+            submit_messages: []
         }
     );
 }

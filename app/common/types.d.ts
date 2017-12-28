@@ -15,6 +15,12 @@ export interface ICollection {
     cards: Array<Card_id>;
     created_at: Date;
     updated_at: Date;
+    submit_messages: ICollectionSubmitMsg[];
+}
+
+export interface ICollectionSubmitMsg {
+    score: number;
+    msg: Markdown;
 }
 
 // export interface ICard {

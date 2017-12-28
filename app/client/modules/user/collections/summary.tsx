@@ -63,9 +63,11 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
             <div>
                 <Paper style={{ padding: '10px' }}>
                     {this.props.collection.submitted ? (
-                        <CollectionEvaluationContainer
-                            collection_id={this.props.collection_id}
-                        />
+                        <div>
+                            <CollectionEvaluationContainer
+                                collection_id={this.props.collection_id}
+                            />
+                        </div>
                     ) : (
                         'Du hast ' +
                         this._cards() +
@@ -89,7 +91,8 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                 <RaisedButton
                     label="Abgeben"
                     disabled={
-                        this._cards() < this.props.collection.cards.length
+                        this._cards() < this.props.collection.cards.length ||
+                        this.props.collection.submitted
                     }
                     fullWidth={true}
                     secondary={true}
