@@ -15,6 +15,7 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGDashboard from 'material-ui/svg-icons/action/dashboard';
 import SVGAssignments from 'material-ui/svg-icons/action/assignment';
+import SVGAssignmentsTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 
 // actions
 import {
@@ -96,6 +97,24 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                     {
                                         this.props.collections.filter(
                                             c => !c.submitted
+                                        ).length
+                                    }
+                                </Avatar>
+                            }
+                        />
+                        <ListItem
+                            primaryText="Abgegebene Arbeitsblätter"
+                            onClick={() =>
+                                this.props.dispatch(
+                                    push('/user/submitted-assignments')
+                                )
+                            }
+                            leftIcon={<SVGAssignmentsTurnedIn />}
+                            rightAvatar={
+                                <Avatar>
+                                    {
+                                        this.props.collections.filter(
+                                            c => c.submitted
                                         ).length
                                     }
                                 </Avatar>
