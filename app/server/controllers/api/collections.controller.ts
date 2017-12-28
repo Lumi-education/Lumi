@@ -20,6 +20,10 @@ class CollectionController extends Controller<Collection> {
                 by_group: {
                     map:
                         "function (doc) {\n  if (doc.type === 'group') {\n    doc.assigned_collections.forEach(function(collection_id) {\n      emit(doc._id, { _id: collection_id });\n    })\n  }\n}"
+                },
+                for_user: {
+                    map:
+                        "function (doc) {\n  if (doc.data_type === 'collection') { \n    emit(doc.user_id, 1); \n    emit(doc.user_id, {_id: doc.collection_id});\n  }\n}"
                 }
             },
             language: 'javascript'
@@ -73,7 +77,7 @@ class CollectionController extends Controller<Collection> {
     public for_user(req: IRequest, res: express.Response) {
         const db = new DB(res, req.params.db);
 
-        db.view('collection', 'by_group', { keys: req.user.groups }, docs => {
+        db.view('collection', 'for_user', { key: req.user._id }, docs => {
             res.status(200).json(docs.filter(d => d)); // issue90 hack
         });
     }

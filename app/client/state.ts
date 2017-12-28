@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 
 import { IGroup, IUser, ICollection, ISession } from 'common/types';
 
-import { ICard, IData } from 'client/packages/cards/types';
+import { ICard, IData, ICollectionData } from 'client/packages/cards/types';
 
 import { IState as ITags } from 'client/packages/tags';
 import { IState as IInstall } from 'client/packages/install';
@@ -21,6 +21,7 @@ export interface IState extends ITags, IInstall, IAuth {
     };
     collections: {
         list: ICollection[];
+        data: ICollectionData[];
     };
     session: ISession[];
     data: {

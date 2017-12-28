@@ -10,6 +10,7 @@ import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
 // actions
+import { get_user_collections } from 'client/packages/collections/actions';
 
 interface IStateProps {
     location;
@@ -24,6 +25,10 @@ interface IProps extends IStateProps, IDispatchProps {}
 export class Root extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
+    }
+
+    public componentWillMount() {
+        this.props.dispatch(get_user_collections());
     }
 
     public render() {

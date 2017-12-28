@@ -5,8 +5,9 @@ import { IState } from 'client/state';
 
 import { ICollection } from 'common/types';
 
-import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
+
+import UserAssignments from './assignments';
 
 // components
 import { CollectionListComponent } from 'client/packages/collections';
@@ -41,16 +42,7 @@ export class UserDashboard extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="dashboard">
-                <Paper>
-                    <CollectionListComponent
-                        collections={this.props.collections}
-                        onClick={collection_id =>
-                            this.props.dispatch(
-                                push('/user/collections/' + collection_id)
-                            )
-                        }
-                    />
-                </Paper>
+                <UserAssignments />
             </div>
         );
     }

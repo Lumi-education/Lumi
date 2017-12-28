@@ -15,6 +15,7 @@ export type ICard =
     | IVideoCard
     | IUploadCard
     | ITextCard;
+
 export type IData =
     | IFreetextCardData
     | IMultiplechoiceCardData
