@@ -2,8 +2,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { Dialog } from 'material-ui';
+
 // container
 import { CardViewContainer } from 'client/packages/cards';
+import { CollectionOverviewContainer } from 'client/packages/collections';
 import BottomNavigation from './bottom-navigation';
 
 // local
@@ -48,7 +51,7 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    search_text?: string;
+    show_collection_overview_dialog: boolean;
 }
 
 export class UserCollectionCard extends React.Component<
@@ -58,7 +61,9 @@ export class UserCollectionCard extends React.Component<
     constructor(props: IProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            show_collection_overview_dialog: false
+        };
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
@@ -93,7 +98,29 @@ export class UserCollectionCard extends React.Component<
                 <BottomNavigation
                     card_id={this.props.card_id}
                     collection_id={this.props.collection_id}
+                    onOverviewClick={() =>
+                        this.setState({ show_collection_overview_dialog: true })
+                    }
                 />
+                <Dialog
+                    autoScrollBodyContent={true}
+                    open={this.state.show_collection_overview_dialog}
+                    contentStyle={{ width: '100%' }}
+                    onRequestClose={() =>
+                        this.setState({
+                            show_collection_overview_dialog: false
+                        })
+                    }
+                >
+                    <CollectionOverviewContainer
+                        collection_id={this.props.collection_id}
+                        onListClick={(id: string) =>
+                            this.setState({
+                                show_collection_overview_dialog: false
+                            })
+                        }
+                    />
+                </Dialog>
             </div>
         );
     }

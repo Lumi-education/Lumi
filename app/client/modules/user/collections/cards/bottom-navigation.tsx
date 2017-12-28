@@ -31,6 +31,7 @@ import { push } from 'client/packages/ui/actions';
 interface IPassedProps {
     card_id: string;
     collection_id: string;
+    onOverviewClick: () => void;
 }
 
 interface IStateProps extends IPassedProps {
@@ -96,6 +97,7 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                         '/' +
                         this.props.collection.cards.length
                     }
+                    onClick={this.props.onOverviewClick}
                 />
 
                 <BottomNavigationItem
@@ -131,7 +133,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         collection: select_collection_by_id(state, ownProps.collection_id),
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id),
-        card_id: ownProps.card_id
+        card_id: ownProps.card_id,
+        onOverviewClick: ownProps.onOverviewClick
     };
 }
 
