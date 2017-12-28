@@ -6,13 +6,18 @@ import { connect } from 'react-redux';
 import { IState } from 'client/state';
 
 // types
+import { ICollection } from 'common/types';
+
+// selectors
+import { select_collection_by_id } from 'client/packages/collections/selectors';
 
 // actions
 import { get_collection } from 'client/packages/collections/actions';
-import { get_user_collection_data } from 'client/packages/data/actions';
+import { push } from 'client/packages/ui/actions';
 
 interface IStateProps {
     collection_id: string;
+    collection: ICollection;
 }
 
 interface IDispatchProps {
@@ -21,33 +26,40 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class UserCollections extends React.Component<IProps, {}> {
+export class UserCollectionsRedirect extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
 
     public componentWillMount() {
         this.props.dispatch(get_collection(this.props.collection_id));
-        this.props.dispatch(get_user_collection_data(this.props.collection_id));
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
-        if (this.props.collection_id !== nextProps.collection_id) {
-            this.props.dispatch(get_collection(nextProps.collection_id));
+        if (nextProps.collection.cards[0] !== undefined) {
             this.props.dispatch(
-                get_user_collection_data(nextProps.collection_id)
+                push(
+                    '/user/collections/' +
+                        this.props.collection_id +
+                        '/cards/' +
+                        nextProps.collection.cards[0]
+                )
             );
         }
     }
 
     public render() {
-        return <div>{this.props.children}</div>;
+        return <div>loading collection {this.props.collection_id}</div>;
     }
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        collection_id: ownProps.params.collection_id
+        collection_id: ownProps.params.collection_id,
+        collection: select_collection_by_id(
+            state,
+            ownProps.params.collection_id
+        )
     };
 }
 
@@ -58,5 +70,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    UserCollections
+    UserCollectionsRedirect
 );

@@ -81,11 +81,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                 primaryText={c.name}
                                 onClick={() =>
                                     this.props.dispatch(
-                                        push(
-                                            '/user/collections/' +
-                                                c._id +
-                                                '/cards'
-                                        )
+                                        push('/user/collections/' + c._id)
                                     )
                                 }
                             />

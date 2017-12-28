@@ -46,11 +46,7 @@ export class UserDashboard extends React.Component<IProps, {}> {
                         collections={this.props.collections}
                         onClick={collection_id =>
                             this.props.dispatch(
-                                push(
-                                    '/user/collections/' +
-                                        collection_id +
-                                        '/cards'
-                                )
+                                push('/user/collections/' + collection_id)
                             )
                         }
                     />
