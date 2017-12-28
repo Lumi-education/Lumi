@@ -4,7 +4,6 @@ import { Route, IndexRoute } from 'react-router';
 
 import UserIndex from 'client/modules/user';
 import UserCollections from 'client/modules/user/collections';
-import UserCollectionCardsList from 'client/modules/user/collections/cards/list';
 import UserCollectionsRedirect from 'client/modules/user/collections/redirect';
 
 import UserCardPage from 'client/modules/user/collections/cards/card-page';

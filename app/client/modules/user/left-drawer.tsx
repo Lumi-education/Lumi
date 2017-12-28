@@ -93,7 +93,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() => this.props.dispatch(logout())}
                         />
                         <Divider />
-                        <Subheader>{'Lumi ' + process.env.VERSION}</Subheader>
+                        <Subheader>{process.env.VERSION}</Subheader>
                     </List>
                 </Drawer>
             </div>

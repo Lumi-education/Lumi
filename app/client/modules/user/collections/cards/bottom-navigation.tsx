@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Map } from 'immutable';
-import { assign, noop, last, first } from 'lodash';
+import { last, first } from 'lodash';
 
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
@@ -19,10 +18,8 @@ import { IState } from 'client/state';
 
 // types
 import { ICollection } from 'common/types';
-import { ICard } from 'client/packages/cards/types';
 
 // selectors
-import { select_card } from 'client/packages/cards/selectors';
 import { select_collection_by_id } from 'client/packages/collections/selectors';
 
 // actions
@@ -36,7 +33,6 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     collection: ICollection;
-    card: ICard;
 }
 
 interface IDispatchProps {
@@ -48,8 +44,6 @@ interface IProps extends IStateProps, IDispatchProps {}
 export class UserBottomNavigation extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {};
     }
 
     public render() {
@@ -67,7 +61,7 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                     style={{
                         display:
                             first(this.props.collection.cards) !==
-                            this.props.card._id
+                            this.props.card_id
                                 ? 'block'
                                 : 'none'
                     }}
@@ -79,7 +73,7 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                                     '/cards/' +
                                     prev(
                                         this.props.collection.cards,
-                                        this.props.card._id
+                                        this.props.card_id
                                     )
                             )
                         )
@@ -104,7 +98,7 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                     style={{
                         display:
                             last(this.props.collection.cards) !==
-                            this.props.card._id
+                            this.props.card_id
                                 ? 'block'
                                 : 'none'
                     }}
@@ -116,7 +110,7 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                                     '/cards/' +
                                     next(
                                         this.props.collection.cards,
-                                        this.props.card._id
+                                        this.props.card_id
                                     )
                             )
                         )
@@ -132,7 +126,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         collection: select_collection_by_id(state, ownProps.collection_id),
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id),
         card_id: ownProps.card_id,
         onOverviewClick: ownProps.onOverviewClick
     };

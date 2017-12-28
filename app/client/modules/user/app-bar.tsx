@@ -31,15 +31,9 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    search_text?: string;
-}
-
-export class UserAppBar extends React.Component<IProps, IComponentState> {
+export class UserAppBar extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {};
     }
 
     public render() {
@@ -75,6 +69,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    UserAppBar
-);
+export default connect<IStateProps, IDispatchProps, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserAppBar);
