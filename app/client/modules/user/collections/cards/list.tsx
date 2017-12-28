@@ -81,21 +81,6 @@ export class UserCollectionsCards extends React.Component<
     public render() {
         return (
             <div>
-                <AppBar
-                    style={{
-                        background: 'linear-gradient(120deg, #3498db, #1abc9c)'
-                    }}
-                    showMenuIconButton={true}
-                    title={this.props.collection.name}
-                    iconElementLeft={
-                        <IconButton>
-                            <SVGLeft />
-                        </IconButton>
-                    }
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(push('/user'))
-                    }
-                />
                 <Paper>
                     <List>
                         {this.props.cards.map((card, i) => (
