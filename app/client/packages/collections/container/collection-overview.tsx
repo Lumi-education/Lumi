@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'client/packages/ui/actions';
+import { noop } from 'lodash';
 
 import { Map } from 'immutable';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
@@ -52,7 +53,7 @@ import {
 
 interface IPassedProps {
     collection_id: string;
-    onListClick: (id: string) => void;
+    onListClick?: (id: string) => void;
 }
 
 interface IStateProps extends IPassedProps {
@@ -100,7 +101,9 @@ export class CollectionOverviewContainer extends React.Component<
                                                 card._id
                                         )
                                     );
-                                    this.props.onListClick(card._id);
+                                    this.props.onListClick
+                                        ? this.props.onListClick(card._id)
+                                        : noop();
                                 }}
                                 rightIcon={
                                     this.props.data.submitted ? (
@@ -128,36 +131,6 @@ export class CollectionOverviewContainer extends React.Component<
                             <Divider inset={true} />
                         </div>
                     ))}
-                </List>
-                {this.props.data.submitted ? (
-                    <CollectionEvaluationContainer
-                        collection_id={this.props.collection_id}
-                    />
-                ) : null}
-                <List>
-                    {this.props.data.submitted ? null : (
-                        <ListItem
-                            key="submit"
-                            leftIcon={<SVGAssignmentReturn />}
-                            primaryText="Einreichen"
-                            onClick={() => {
-                                this.props.data._id
-                                    ? this.props.dispatch(
-                                          update_data({
-                                              submitted: true
-                                          })
-                                      )
-                                    : this.props.dispatch(
-                                          create_data({
-                                              collection_id: this.props
-                                                  .collection_id,
-                                              data_type: 'collection',
-                                              submitted: true
-                                          })
-                                      );
-                            }}
-                        />
-                    )}
                 </List>
             </div>
         );

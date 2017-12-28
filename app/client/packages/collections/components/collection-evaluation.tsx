@@ -25,8 +25,6 @@ export default class CollectionListComponent extends React.Component<
         return (
             <Paper
                 style={{
-                    margin: '20px',
-                    padding: '10px',
                     backgroundColor: get_grade_color(percent)
                 }}
             >

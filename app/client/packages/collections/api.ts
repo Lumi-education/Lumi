@@ -80,9 +80,14 @@ export function update_collection(collection_id: string, update) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function submit_collection(collection_meta_id: string) {
+export function submit_collection(collection_id: string) {
     return request
-        .put('/api/user/v0/collectionmeta/' + collection_meta_id + '/submit')
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/data/submit_collection'
+        )
+        .send({ collection_id })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

@@ -65,6 +65,11 @@ router.put('/:db/tags/:id/action', TagsController.action);
 // data
 router.get('/:db/data', mw.auth, DataController.find);
 router.post('/:db/data', DataController.create);
+router.put(
+    '/:db/data/submit_collection',
+    mw.auth,
+    DataController.submit_collection
+);
 router.get('/:db/data/:id', DataController.read);
 router.put('/:db/data/:id', DataController.update);
 router.delete('/:db/data/:id', DataController.delete);

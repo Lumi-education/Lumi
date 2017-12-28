@@ -32,6 +32,15 @@ export function select_collections_for_user(state: IState): IUserCollection[] {
     );
 }
 
+export function select_collection_for_user(
+    state: IState,
+    collection_id: string
+): IUserCollection {
+    return select_collections_for_user(state).filter(
+        c => c._id === collection_id
+    )[0];
+}
+
 export function select_collection_by_id(
     state: IState,
     collection_id: string

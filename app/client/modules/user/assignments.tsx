@@ -42,7 +42,7 @@ export class UserAssignments extends React.Component<IProps, {}> {
                 <List>
                     <Subheader>Aufgaben</Subheader>
                     {this.props.collections
-                        .filter(c => !c.completed)
+                        .filter(c => !c.submitted)
                         .map(c => (
                             <ListItem
                                 key={c._id}

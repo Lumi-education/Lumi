@@ -86,7 +86,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             leftIcon={<SVGDashboard />}
                         />
                         <ListItem
-                            primaryText="Aufgaben"
+                            primaryText="Arbeitsblätter"
                             onClick={() =>
                                 this.props.dispatch(push('/user/assignments'))
                             }
@@ -95,7 +95,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                 <Avatar>
                                     {
                                         this.props.collections.filter(
-                                            c => !c.completed
+                                            c => !c.submitted
                                         ).length
                                     }
                                 </Avatar>

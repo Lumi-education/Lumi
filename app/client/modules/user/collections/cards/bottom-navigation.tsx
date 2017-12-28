@@ -7,6 +7,7 @@ import { last, first } from 'lodash';
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import SVGAssignment from 'material-ui/svg-icons/action/assignment';
+import SVGSummary from 'material-ui/svg-icons/action/list';
 
 import {
     BottomNavigation,
@@ -95,27 +96,35 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                 />
 
                 <BottomNavigationItem
-                    style={{
-                        display:
-                            last(this.props.collection.cards) !==
-                            this.props.card_id
-                                ? 'block'
-                                : 'none'
-                    }}
                     onClick={() =>
-                        this.props.dispatch(
-                            push(
-                                '/user/collections/' +
-                                    this.props.collection._id +
-                                    '/cards/' +
-                                    next(
-                                        this.props.collection.cards,
-                                        this.props.card_id
-                                    )
-                            )
+                        last(this.props.collection.cards) === this.props.card_id
+                            ? this.props.dispatch(
+                                  push(
+                                      '/user/collections/' +
+                                          this.props.collection_id +
+                                          '/summary'
+                                  )
+                              )
+                            : this.props.dispatch(
+                                  push(
+                                      '/user/collections/' +
+                                          this.props.collection._id +
+                                          '/cards/' +
+                                          next(
+                                              this.props.collection.cards,
+                                              this.props.card_id
+                                          )
+                                  )
+                              )
+                    }
+                    icon={
+                        last(this.props.collection.cards) ===
+                        this.props.card_id ? (
+                            <SVGSummary />
+                        ) : (
+                            <SVGRight />
                         )
                     }
-                    icon={<SVGRight />}
                 />
             </BottomNavigation>
         );

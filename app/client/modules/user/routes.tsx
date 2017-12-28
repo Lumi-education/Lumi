@@ -9,6 +9,7 @@ import UserCollectionsRedirect from 'client/modules/user/collections/redirect';
 import UserCardPage from 'client/modules/user/collections/cards/card-page';
 import UserDashboard from 'client/modules/user/dashboard';
 import UserAssignments from './assignments';
+import CollectionSummary from './collections/summary';
 
 export default (
     <Route path="user" component={UserIndex}>
@@ -17,6 +18,7 @@ export default (
         <Route path="collections/:collection_id" component={UserCollections}>
             <IndexRoute component={UserCollectionsRedirect} />
             <Route path="cards/:card_id" component={UserCardPage} />
+            <Route path="summary" component={CollectionSummary} />
         </Route>
     </Route>
 );
