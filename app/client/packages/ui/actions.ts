@@ -18,14 +18,24 @@ import {
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
-    UI_TOGGLE_TAG_ID_FILTER
+    UI_TOGGLE_TAG_ID_FILTER,
+    UI_SET_APPBAR_TITLE
 } from '../action-types';
+import { disable_collection } from 'client/packages/groups/api';
 
 export function push(url: string) {
     return dispatch => {
         dispatch(left_drawer_close());
+        dispatch(right_drawer_close());
         dispatch(_push('/' + window.location.pathname.split('/')[1] + url));
         // dispatch( session_update({ location: url }) );
+    };
+}
+
+export function set_appbar_title(title: string) {
+    return {
+        type: UI_SET_APPBAR_TITLE,
+        payload: { title }
     };
 }
 

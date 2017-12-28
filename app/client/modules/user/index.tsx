@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import { IState } from 'client/state';
 
+// container
+import AppBar from './app-bar';
+
 // components
 import LeftDrawer from './left-drawer';
 
@@ -26,6 +29,7 @@ export class Root extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="root">
+                <AppBar />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}

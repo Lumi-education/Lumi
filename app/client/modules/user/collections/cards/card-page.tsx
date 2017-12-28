@@ -22,7 +22,11 @@ import { select_collection_by_id } from 'client/packages/collections/selectors';
 import { select_data, select_collection } from 'client/packages/data/selectors';
 
 // actions
-import { push, right_drawer_open } from 'client/packages/ui/actions';
+import {
+    push,
+    right_drawer_open,
+    set_appbar_title
+} from 'client/packages/ui/actions';
 import { get_collection } from 'client/packages/collections/actions';
 import {
     create_data,
@@ -62,6 +66,7 @@ export class UserCollectionCard extends React.Component<
 
     public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.card._id !== nextProps.card._id) {
+            this.props.dispatch(set_appbar_title(nextProps.card.name));
             this.props.dispatch(
                 get_data({
                     collection_id: nextProps.collection_id,
@@ -72,6 +77,7 @@ export class UserCollectionCard extends React.Component<
     }
 
     public componentWillMount() {
+        this.props.dispatch(set_appbar_title(this.props.card.name));
         this.props.dispatch(
             get_data({
                 collection_id: this.props.collection_id,
@@ -83,31 +89,6 @@ export class UserCollectionCard extends React.Component<
     public render() {
         return (
             <div>
-                <AppBar
-                    style={{
-                        background: 'linear-gradient(120deg, #3498db, #1abc9c)'
-                    }}
-                    showMenuIconButton={true}
-                    title={this.props.card.name}
-                    iconElementLeft={
-                        <IconButton>
-                            <SVGLeft />
-                        </IconButton>
-                    }
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(
-                            push(
-                                '/user/collections/' +
-                                    this.props.collection_id +
-                                    '/cards'
-                            )
-                        )
-                    }
-                    iconElementRight={this.props.right_appbar_icon}
-                    onRightIconButtonTouchTap={() =>
-                        this.props.dispatch(right_drawer_open())
-                    }
-                />
                 <CardViewContainer
                     card_id={this.props.card_id}
                     collection_id={this.props.collection_id}

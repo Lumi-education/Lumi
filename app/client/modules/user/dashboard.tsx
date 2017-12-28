@@ -41,15 +41,6 @@ export class UserDashboard extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="dashboard">
-                <AppBar
-                    style={{
-                        background: 'linear-gradient(120deg, #3498db, #1abc9c)'
-                    }}
-                    showMenuIconButton={true}
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())
-                    }
-                />
                 <Paper>
                     <CollectionListComponent
                         collections={this.props.collections}

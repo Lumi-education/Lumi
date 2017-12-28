@@ -12,10 +12,11 @@ import {
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
     UI_TOGGLE_TAG_ID_FILTER,
+    UI_SET_APPBAR_TITLE,
     COLLECTION_ADD_CARDS_SUCCESS
 } from '../action-types';
 
-interface IUI {
+export interface IUI {
     left_drawer_show: boolean;
     right_drawer_show: boolean;
     dialog_show: boolean;
@@ -25,6 +26,7 @@ interface IUI {
     selected_card_ids: string[];
     right_appbar_icon: JSX.Element;
     tags_filter: string[];
+    appbar_title: string;
 }
 
 const initialState: IUI = {
@@ -36,11 +38,15 @@ const initialState: IUI = {
     show_cards_dialog: false,
     selected_card_ids: [],
     right_appbar_icon: null,
-    tags_filter: []
+    tags_filter: [],
+    appbar_title: ''
 };
 
 export default function(state: IUI = initialState, action): IUI {
     switch (action.type) {
+        case UI_SET_APPBAR_TITLE:
+            return assign({}, state, { appbar_title: action.payload.title });
+
         case UI_SNACKBAR_OPEN:
             return assign({}, state, {
                 snackbar_open: true,
