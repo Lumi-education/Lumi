@@ -2,9 +2,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import { AppBar, IconButton } from 'material-ui';
-
 // container
 import { CardViewContainer } from 'client/packages/cards';
 import BottomNavigation from './bottom-navigation';
