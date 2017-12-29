@@ -36,7 +36,7 @@ export class Root extends React.Component<IProps, {}> {
             <div id="root">
                 <AppBar />
                 <LeftDrawer />
-                <div style={{ paddingBottom: '40px' }}>
+                <div style={{ paddingBottom: '80px' }}>
                     {this.props.children}
                 </div>
             </div>
