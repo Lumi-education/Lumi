@@ -4,7 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-import { IUser } from 'common/types';
+import { IUser } from 'client/packages/users';
 
 interface IProps {
     create_user: (name: string) => void;

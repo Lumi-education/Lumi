@@ -27,7 +27,8 @@ import { get_users_by_group } from 'client/packages/users/selectors';
 
 // types
 import { IState } from 'client/state';
-import { IGroup, IUser } from 'common/types';
+import { IGroup } from 'common/types';
+import { IUser } from 'client/packages/users';
 
 // actions
 import {

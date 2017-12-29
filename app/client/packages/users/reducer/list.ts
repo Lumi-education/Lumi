@@ -1,6 +1,6 @@
 import { assign, unionBy } from 'lodash';
 
-import { IUser } from 'common/types';
+import { IUser } from '../types';
 
 import {
     USERS_ADD_GROUP_REQUEST,
@@ -8,11 +8,14 @@ import {
     USERS_CREATE_USER_SUCCESS,
     USERS_GET_USERS_SUCCESS,
     USERS_GET_USER_SUCCESS,
-    USERS_DELETE_USER_REQUEST,
+    USERS_DELETE_USER_REQUEST
+} from '../constants';
+
+import {
     GROUPS_DELETE_SUCCESS,
     GROUPS_GET_GROUP_SUCCESS,
     DB_CHANGE
-} from 'client/packages/action-types';
+} from '../../action-types';
 
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {

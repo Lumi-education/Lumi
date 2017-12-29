@@ -37,14 +37,6 @@ export interface ICollectionSubmitMsg {
 //     _attachments;
 // }
 
-export interface IUser {
-    _id: User_id;
-    type: 'user';
-    name: string;
-    level: number;
-    groups: Array<Group_id>;
-}
-
 // export interface IData {
 //     _id: Data_id;
 //     data_type: string;

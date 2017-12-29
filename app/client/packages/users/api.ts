@@ -2,7 +2,7 @@ import * as request from 'superagent';
 import { assign } from 'lodash';
 declare var window;
 
-import { IUser } from 'common/types';
+import { IUser } from './types';
 
 export function add_group(user_id: string, group_id: string) {
     return request

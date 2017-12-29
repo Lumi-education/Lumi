@@ -26,7 +26,8 @@ import FilterBar from 'client/packages/ui/components/filter-bar';
 import { IState } from 'client/state';
 
 // types
-import { IUser, IGroup } from 'common/types';
+import { IGroup } from 'common/types';
+import { IUser } from 'client/packages/users';
 
 // actions
 import {

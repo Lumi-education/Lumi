@@ -7,8 +7,6 @@ import { IGroup } from 'common/types';
 import { arrayToObject } from 'client/utils';
 
 import {
-    USERS_GET_USERS_SUCCESS,
-    USERS_GET_USER_SUCCESS,
     GROUPS_GET_GROUPS_SUCCESS,
     GROUPS_GET_GROUP_SUCCESS,
     GROUPS_CREATE_SUCCESS,
@@ -17,6 +15,11 @@ import {
     GROUPS_REM_COLLECTION_SUCCESS,
     DB_CHANGE
 } from 'client/packages/action-types';
+
+import {
+    USERS_GET_USERS_SUCCESS,
+    USERS_GET_USER_SUCCESS
+} from 'client/packages/users/constants';
 
 export default function(
     state: Map<string, IGroup> = Map<string, IGroup>({}),

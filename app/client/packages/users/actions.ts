@@ -2,7 +2,7 @@ import * as shortid from 'shortid';
 
 import * as API from './api';
 
-import { IUser } from 'common/types';
+import { IUser } from './types';
 
 import {
     USERS_ADD_GROUP_REQUEST,
@@ -23,7 +23,7 @@ import {
     USERS_DELETE_USER_REQUEST,
     USERS_DELETE_USER_SUCCESS,
     USERS_DELETE_USER_ERROR
-} from '../action-types';
+} from './constants';
 
 export function add_group(user_id: string, group_id: string) {
     return {
