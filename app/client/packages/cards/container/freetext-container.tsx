@@ -7,11 +7,11 @@ import { assign, noop } from 'lodash';
 import { convert_attachment_url } from '../utils';
 
 // components
-import FreetextCardComponent from '../components/freetext';
+import FreetextComponent from '../components/freetext-component';
 
 // types
 import { IState } from 'client/state';
-import { IFreetextCard, IFreetextCardData } from '../types';
+import { IFreetextCard, IFreetextCardData, ICollectionData } from '../types';
 
 // selectors
 import { select_card } from 'client/packages/cards/selectors';
@@ -34,7 +34,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: IFreetextCard;
     data: IFreetextCardData;
-    // collection_data;
+    collection_data: ICollectionData;
 }
 
 interface IDispatchProps {
@@ -112,6 +112,12 @@ export class FreetextCardContainer extends React.Component<
                     this.setState({ loading: false });
                 }
             });
+
+        if (this.props.collection_data.submitted) {
+            this.setState({
+                error_text: 'Richtige Antwort: ' + this.props.card.answer
+            });
+        }
     }
 
     public handleInput(answer: string) {
@@ -153,10 +159,14 @@ export class FreetextCardContainer extends React.Component<
         if (card && data) {
             const text = convert_attachment_url(card.text, card._id);
             return (
-                <FreetextCardComponent
+                <FreetextComponent
                     text={text}
                     answer={data.answer}
-                    cb={this.handleInput}
+                    cb={
+                        this.props.collection_data.submitted
+                            ? noop
+                            : this.handleInput
+                    }
                     preview={card.preview}
                     error_text={this.state.error_text}
                     error_style={this.state.error_style}
@@ -173,10 +183,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as IFreetextCard,
-        // collection_data: select_collection(
-        //     state,
-        //     ownProps.collection_id
-        // ),
+        collection_data: select_collection(state, ownProps.collection_id),
         data: select_data(
             state,
             ownProps.collection_id,

@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import { assign, noop } from 'lodash';
 
 // components
-import FreetextComponent from '../components/freetext';
-
-import FreetextCardContainer from './card-freetext';
+import FreetextContainer from './freetext-container';
 import VideoCardContainer from './video-card';
 import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
@@ -82,7 +80,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                     );
                 case 'freetext':
                     return (
-                        <FreetextCardContainer
+                        <FreetextContainer
                             key={this.props.card_id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
