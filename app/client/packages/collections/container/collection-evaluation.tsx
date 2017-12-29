@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 
+import * as markdownit from 'markdown-it';
+const md = markdownit();
+
 // components
 import CollectionEvaluationComponent from '../components/collection-evaluation';
 
@@ -12,9 +15,11 @@ import { IState } from 'client/state';
 
 // types
 import { IData, ICollectionData } from 'client/packages/cards/types';
+import { ICollection } from 'common/types';
 
 // selectors
 import { select_data_for_user_and_collection } from 'client/packages/data/selectors';
+import { select_collection_by_id } from 'client/packages/collections/selectors';
 
 // actions
 import { get_data } from 'client/packages/data/actions';
@@ -27,6 +32,7 @@ interface IPassedProps {
 }
 interface IStateProps extends IPassedProps {
     data: IData[];
+    collection: ICollection;
 }
 
 interface IDispatchProps {
@@ -60,6 +66,17 @@ export class CollectionEvaluationContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
+        const percent: number = parseInt(
+            (
+                this.correct() /
+                this.props.data.filter(
+                    d => d.data_type === 'card' && d.card_type !== 'video'
+                ).length *
+                100
+            ).toFixed(0),
+            10
+        );
+
         return (
             <CollectionEvaluationComponent
                 correct={this.correct()}
@@ -68,6 +85,15 @@ export class CollectionEvaluationContainer extends React.Component<IProps, {}> {
                         d => d.data_type === 'card' && d.card_type !== 'video'
                     ).length
                 }
+                msg={(() => {
+                    try {
+                        return this.props.collection.submit_messages
+                            .filter(sm => percent >= sm.score)
+                            .sort((a, b) => (a.score < b.score ? 1 : 0))[0].msg;
+                    } catch (err) {
+                        return '# Abgegeben';
+                    }
+                })()}
             />
         );
     }
@@ -78,6 +104,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id,
         collection_id: ownProps.collection_id,
+        collection: select_collection_by_id(state, ownProps.collection_id),
         data: select_data_for_user_and_collection(
             state,
             user_id,

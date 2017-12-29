@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 
 import { IState } from 'client/state';
 
+// container
+import AppBar from './app-bar';
+
 // components
 import LeftDrawer from './left-drawer';
 
 // actions
+import { get_user_collections } from 'client/packages/collections/actions';
 
 interface IStateProps {
     location;
@@ -23,9 +27,14 @@ export class Root extends React.Component<IProps, {}> {
         super(props);
     }
 
+    public componentWillMount() {
+        this.props.dispatch(get_user_collections());
+    }
+
     public render() {
         return (
             <div id="root">
+                <AppBar />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}

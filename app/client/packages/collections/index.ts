@@ -13,3 +13,6 @@ export {
 export {
     default as CollectionEvaluationContainer
 } from './container/collection-evaluation';
+export {
+    default as CollectionOverviewContainer
+} from './container/collection-overview';

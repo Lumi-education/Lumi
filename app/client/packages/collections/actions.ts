@@ -105,18 +105,15 @@ export function collection_create_meta(
     };
 }
 
-export function submit_collection(
-    collection_meta_id: string,
-    id: string = shortid()
-) {
+export function submit_collection(collection_id: string) {
     return {
         types: [
             types.COLLECTION_SUBMIT_REQUEST,
             types.COLLECTION_SUBMIT_SUCCESS,
             types.COLLECTION_SUBMIT_ERROR
         ],
-        api: API.submit_collection(collection_meta_id),
-        payload: { payload: { collection_meta_id } }
+        api: API.submit_collection(collection_id),
+        payload: { payload: { collection_id } }
     };
 }
 

@@ -15,6 +15,7 @@ export type ICard =
     | IVideoCard
     | IUploadCard
     | ITextCard;
+
 export type IData =
     | IFreetextCardData
     | IMultiplechoiceCardData
@@ -45,7 +46,9 @@ export interface ICollectionData extends IBaseData {
     data_type: 'collection';
     collection_id: string;
     user_id: string;
-    completed: boolean;
+    submitted: boolean;
+    submit_date: Date;
+    score: number;
 }
 
 export interface ICardData extends IBaseData {

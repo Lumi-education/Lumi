@@ -8,10 +8,14 @@ import IconButton from 'material-ui/IconButton';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import Avatar from 'material-ui/Avatar';
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
+import SVGDashboard from 'material-ui/svg-icons/action/dashboard';
+import SVGAssignments from 'material-ui/svg-icons/action/assignment';
+import SVGAssignmentsTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 
 // actions
 import {
@@ -23,17 +27,19 @@ import {
 import { logout } from 'client/packages/auth/actions';
 
 // selector
-import { select_collections_as_array } from 'client/packages/collections/selectors';
+import {
+    select_collections_for_user,
+    IUserCollection
+} from 'client/packages/collections/selectors';
 
 // types
-import { ICollection } from 'common/types';
 import { IState } from 'client/state';
 
 declare var process;
 
 interface IStateProps {
     left_drawer_show: boolean;
-    collections: ICollection[];
+    collections: IUserCollection[];
 }
 
 interface IDispatchProps {
@@ -56,6 +62,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                 <Drawer
                     docked={false}
                     open={this.props.left_drawer_show}
+                    swipeAreaWidth={150}
                     onRequestChange={() =>
                         this.props.dispatch(left_drawer_close())
                     }
@@ -74,29 +81,52 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     />
 
                     <List>
-                        {this.props.collections.map(c => (
-                            <ListItem
-                                key={c._id}
-                                primaryText={c.name}
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        push(
-                                            '/user/collections/' +
-                                                c._id +
-                                                '/cards'
-                                        )
-                                    )
-                                }
-                            />
-                        ))}
-                        <Subheader>User</Subheader>
+                        <ListItem
+                            primaryText="Dashboard"
+                            onClick={() => this.props.dispatch(push('/user'))}
+                            leftIcon={<SVGDashboard />}
+                        />
+                        <ListItem
+                            primaryText="Arbeitsblätter"
+                            onClick={() =>
+                                this.props.dispatch(push('/user/assignments'))
+                            }
+                            leftIcon={<SVGAssignments />}
+                            rightAvatar={
+                                <Avatar>
+                                    {
+                                        this.props.collections.filter(
+                                            c => !c.submitted
+                                        ).length
+                                    }
+                                </Avatar>
+                            }
+                        />
+                        <ListItem
+                            primaryText="Abgegebene Arbeitsblätter"
+                            onClick={() =>
+                                this.props.dispatch(
+                                    push('/user/submitted-assignments')
+                                )
+                            }
+                            leftIcon={<SVGAssignmentsTurnedIn />}
+                            rightAvatar={
+                                <Avatar>
+                                    {
+                                        this.props.collections.filter(
+                                            c => c.submitted
+                                        ).length
+                                    }
+                                </Avatar>
+                            }
+                        />
                         <ListItem
                             primaryText="Logout"
                             leftIcon={<SVGPower />}
                             onClick={() => this.props.dispatch(logout())}
                         />
                         <Divider />
-                        <Subheader>{'Lumi ' + process.env.VERSION}</Subheader>
+                        <Subheader>{process.env.VERSION}</Subheader>
                     </List>
                 </Drawer>
             </div>
@@ -107,7 +137,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         left_drawer_show: state.ui.left_drawer_show,
-        collections: select_collections_as_array(state)
+        collections: select_collections_for_user(state)
     };
 }
 

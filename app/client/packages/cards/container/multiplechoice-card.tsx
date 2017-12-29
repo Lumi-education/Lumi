@@ -118,7 +118,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     items={card_items}
                     selected_items={data.items || []}
                     cb={(items, score) => {
-                        this.props.collection_data.completed
+                        this.props.collection_data.submitted
                             ? noop()
                             : this.props.dispatch(
                                   update_data(
