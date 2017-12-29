@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'client/packages/ui/actions';
+import * as moment from 'moment';
 
 import { Avatar, Divider, List, ListItem } from 'material-ui';
 
@@ -47,6 +48,11 @@ export class UserListContainer extends React.Component<IProps, {}> {
                                 <Avatar>{user.name.substring(0, 3)}</Avatar>
                             }
                             primaryText={user.name}
+                            secondaryText={
+                                user.last_login
+                                    ? moment(user.last_login).fromNow()
+                                    : 'never'
+                            }
                             onClick={() =>
                                 this.props.dispatch(
                                     push('/admin/users/' + user._id)

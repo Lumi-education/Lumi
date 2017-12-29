@@ -7,6 +7,7 @@ export interface IUser {
     name: string;
     level: number;
     groups: Group_id[];
+    last_login: Date;
 }
 
 export interface IState {
