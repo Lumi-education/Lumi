@@ -49,8 +49,8 @@ export class UserListContainer extends React.Component<IProps, {}> {
                             }
                             primaryText={user.name}
                             secondaryText={
-                                user.last_login
-                                    ? moment(user.last_login).fromNow()
+                                user.last_active
+                                    ? moment(user.last_active).fromNow()
                                     : 'never'
                             }
                             onClick={() =>

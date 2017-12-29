@@ -1,6 +1,9 @@
 import * as express from 'express';
 import * as jwt from 'jwt-simple';
 
+import { noop } from 'lodash';
+import { DB } from '../db';
+
 export function auth(
     req: IRequest,
     res: express.Response,
@@ -14,6 +17,13 @@ export function auth(
             if (!req.user.db || req.user.db !== req.params.db) {
                 throw new Error('no db');
             }
+
+            new DB(res, req.params.db).update_one(
+                req.user._id,
+                { last_active: new Date() },
+                noop
+            );
+
             next();
         } catch (err) {
             res.status(401).end();
