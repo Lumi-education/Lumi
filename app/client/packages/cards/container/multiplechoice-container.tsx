@@ -7,7 +7,7 @@ import { assign, noop } from 'lodash';
 import { convert_attachment_url } from '../utils';
 
 // components
-import MultiplechoiceCardComponent from 'client/packages/cards/components/multiplechoice';
+import MultiplechoiceComponent from 'client/packages/cards/components/multiplechoice-component';
 
 // types
 import { IState } from 'client/state';
@@ -113,10 +113,11 @@ export class MultiplechoiceCardViewContainer extends React.Component<
             );
 
             return (
-                <MultiplechoiceCardComponent
+                <MultiplechoiceComponent
                     text={text}
                     items={card_items}
                     selected_items={data.items || []}
+                    show_correct_values={this.props.collection_data.submitted}
                     cb={(items, score) => {
                         this.props.collection_data.submitted
                             ? noop()

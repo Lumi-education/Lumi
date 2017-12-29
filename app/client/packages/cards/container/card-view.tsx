@@ -9,7 +9,7 @@ import FreetextComponent from '../components/freetext';
 
 import FreetextCardContainer from './card-freetext';
 import VideoCardContainer from './video-card';
-import MultiplechoiceCardContainer from './multiplechoice-card';
+import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import TextCardContainer from './text-card-container';
 
@@ -74,7 +74,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
             switch (card.card_type) {
                 case 'multiplechoice':
                     return (
-                        <MultiplechoiceCardContainer
+                        <MultiplechoiceContainer
                             key={this.props.card_id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}

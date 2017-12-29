@@ -13,7 +13,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TagInputContainer } from 'client/packages/tags';
-import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
+import MultiplechoiceComponent from 'client/packages/cards/components/multiplechoice-component';
 import { List, ListItem } from 'material-ui/List';
 import Dropzone from 'react-dropzone';
 

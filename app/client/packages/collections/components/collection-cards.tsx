@@ -9,7 +9,7 @@ import {
 
 import { convert_attachment_url } from 'client/packages/cards/utils';
 
-import MultiplechoiceCard from 'client/packages/cards/components/multiplechoice';
+import MultiplechoiceComponent from 'client/packages/cards/components/multiplechoice-component';
 import Paper from 'material-ui/Paper';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
@@ -59,7 +59,7 @@ const ITEM = SortableElement(({ item }) => {
         <div style={{ margin: '20px' }}>
             <FloatingActionButton>{item.index + 1}</FloatingActionButton>
             <Paper style={{ height: '480px', width: '320px' }}>
-                <MultiplechoiceCard
+                <MultiplechoiceComponent
                     text={convert_attachment_url(item.card.text, item.card._id)}
                     items={item.card.items.map(i =>
                         convert_attachment_url(i, item.card._id)

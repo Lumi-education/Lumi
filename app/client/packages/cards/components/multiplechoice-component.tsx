@@ -18,7 +18,10 @@ interface IProps {
     cb?: (selected_items: Markdown[], score: number) => void;
 }
 
-export default class MultiplechoiceCard extends React.Component<IProps, {}> {
+export default class MultiplechoiceComponent extends React.Component<
+    IProps,
+    {}
+> {
     constructor(props: IProps) {
         super(props);
 
