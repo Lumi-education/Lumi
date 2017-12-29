@@ -27,7 +27,7 @@ import { IState } from 'client/state';
 
 // types
 import { IGroup } from 'common/types';
-import { IUser } from 'client/packages/users';
+import { IUser, UserListContainer } from 'client/packages/users';
 
 // actions
 import {
@@ -77,36 +77,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <List>
-                    {this.props.users
-                        .filter(user => {
-                            return this.state.search_text === ''
-                                ? true
-                                : user.name
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })
-                        .map(user => (
-                            <div key={user._id}>
-                                <ListItem
-                                    leftAvatar={
-                                        <Avatar>
-                                            {user.name.substring(0, 3)}
-                                        </Avatar>
-                                    }
-                                    primaryText={user.name}
-                                    onClick={() =>
-                                        this.props.dispatch(
-                                            push('/admin/users/' + user._id)
-                                        )
-                                    }
-                                />
-                                <Divider inset={true} />
-                            </div>
-                        ))}
-                </List>
+                <UserListContainer />
                 <FloatingActionButton
                     onClick={() =>
                         this.setState({ show_create_user_dialog: true })
