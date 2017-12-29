@@ -1,5 +1,5 @@
 import { assign, uniq } from 'lodash';
-import { ICollection, Card_id } from 'common/types';
+import { ICollection, Card_id, ICollectionSubmitMsg } from 'common/types';
 
 import Card from './Card';
 import Tag from './Tag';
@@ -14,6 +14,7 @@ export default class Collection extends Relations implements ICollection {
     public name: string;
     public created_at: Date;
     public updated_at: Date;
+    public submit_messages: ICollectionSubmitMsg[];
 
     constructor(c?: Collection) {
         super();
@@ -25,7 +26,8 @@ export default class Collection extends Relations implements ICollection {
                 cards: [],
                 tags: [],
                 name: 'new collection',
-                created_at: new Date()
+                created_at: new Date(),
+                submit_messages: []
             },
             c
         );
