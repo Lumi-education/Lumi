@@ -139,6 +139,7 @@ export class CardEditContainer extends React.Component<
                                 onChange={(e, v) => this.setState({ name: v })}
                             />
                             <SelectField
+                                fullWidth={true}
                                 floatingLabelText="Card Type"
                                 value={this.state.card_type || 'multiplechoice'}
                                 onChange={(e, i, v) =>
@@ -153,6 +154,7 @@ export class CardEditContainer extends React.Component<
                                     value="freetext"
                                     primaryText="Freetext"
                                 />
+                                <MenuItem value="text" primaryText="Text" />
                             </SelectField>
                             <TextField
                                 hintText="Description"
@@ -182,28 +184,6 @@ export class CardEditContainer extends React.Component<
                                     this.setState({ items: v.split('\n') })
                                 }
                             />
-                            <TextField
-                                hintText="Hints"
-                                floatingLabelText="Hints"
-                                value=""
-                                fullWidth={true}
-                            />
-                            <Dropzone onDrop={this.onDrop}>
-                                <List>
-                                    {(() => {
-                                        return Object.keys(
-                                            this.props.card._attachments || {}
-                                        ).map(key => (
-                                            <ListItem
-                                                onClick={() =>
-                                                    this.insertAttachment(key)
-                                                }
-                                                primaryText={key}
-                                            />
-                                        ));
-                                    })()}
-                                </List>
-                            </Dropzone>
                             <RaisedButton
                                 label="Cancel"
                                 style={{ margin: '10px' }}
