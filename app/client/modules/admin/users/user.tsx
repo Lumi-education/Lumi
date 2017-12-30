@@ -14,7 +14,7 @@ import { IState } from 'client/state';
 
 // types
 import { IGroup } from 'common/types';
-import { IUser } from 'client/packages/users';
+import { IUser, UserContainer } from 'client/packages/users';
 
 // actions
 import { snackbar_open } from 'client/packages/ui/actions';
@@ -37,7 +37,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class AdminUsers extends React.Component<IProps, {}> {
+export class AdminUserPage extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 
@@ -54,53 +54,52 @@ export class AdminUsers extends React.Component<IProps, {}> {
             return (
                 <div>
                     <Paper>
-                        <TextField
-                            hintText="Name"
-                            floatingLabelText="Name"
-                            value={this.props.user.name}
-                            fullWidth={true}
-                        />
-                        <ChipInput
-                            hintText="Groups"
-                            floatingLabelText="Groups"
-                            className="filter-bar"
-                            fullWidth={true}
-                            value={this.props.user.groups.map(group_id =>
-                                this.props.groups.get(group_id, {
-                                    _id: 'noid',
-                                    name: 'loading',
-                                    type: 'group',
-                                    active_collections: [],
-                                    assigned_collections: [],
-                                    created_at: new Date()
-                                })
-                            )}
-                            allowDuplicates={false}
-                            dataSource={this.props.groups.toArray()}
-                            dataSourceConfig={{ text: 'name', value: '_id' }}
-                            openOnFocus={true}
-                            filter={AutoComplete.fuzzyFilter}
-                            onRequestAdd={group => {
-                                this.props.groups.get(group._id)
-                                    ? this.props.dispatch(
-                                          add_group(
-                                              this.props.user._id,
-                                              group._id
+                        <UserContainer user_id={this.props.user_id}>
+                            <ChipInput
+                                hintText="Groups"
+                                floatingLabelText="Groups"
+                                className="filter-bar"
+                                fullWidth={true}
+                                value={this.props.user.groups.map(group_id =>
+                                    this.props.groups.get(group_id, {
+                                        _id: 'noid',
+                                        name: 'loading',
+                                        type: 'group',
+                                        active_collections: [],
+                                        assigned_collections: [],
+                                        created_at: new Date()
+                                    })
+                                )}
+                                allowDuplicates={false}
+                                dataSource={this.props.groups.toArray()}
+                                dataSourceConfig={{
+                                    text: 'name',
+                                    value: '_id'
+                                }}
+                                openOnFocus={true}
+                                filter={AutoComplete.fuzzyFilter}
+                                onRequestAdd={group => {
+                                    this.props.groups.get(group._id)
+                                        ? this.props.dispatch(
+                                              add_group(
+                                                  this.props.user._id,
+                                                  group._id
+                                              )
                                           )
-                                      )
-                                    : this.props.dispatch(
-                                          create_and_add_group(
-                                              this.props.user._id,
-                                              group.name
-                                          )
-                                      );
-                            }}
-                            onRequestDelete={group_id =>
-                                this.props.dispatch(
-                                    rem_group(this.props.user._id, group_id)
-                                )
-                            }
-                        />
+                                        : this.props.dispatch(
+                                              create_and_add_group(
+                                                  this.props.user._id,
+                                                  group.name
+                                              )
+                                          );
+                                }}
+                                onRequestDelete={group_id =>
+                                    this.props.dispatch(
+                                        rem_group(this.props.user._id, group_id)
+                                    )
+                                }
+                            />
+                        </UserContainer>
                     </Paper>
                 </div>
             );
@@ -127,5 +126,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminUsers
+    AdminUserPage
 );
