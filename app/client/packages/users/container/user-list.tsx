@@ -19,7 +19,11 @@ import {
     delete_user
 } from 'client/packages/users/actions';
 
-interface IStateProps {
+interface IPassedProps {
+    filter: (user: IUser) => boolean;
+}
+
+interface IStateProps extends IPassedProps {
     users: IUser[];
 }
 
@@ -41,7 +45,7 @@ export class UserListContainer extends React.Component<IProps, {}> {
     public render() {
         return (
             <List>
-                {this.props.users.map(user => (
+                {this.props.users.filter(this.props.filter).map(user => (
                     <div key={user._id}>
                         <ListItem
                             leftAvatar={
@@ -69,7 +73,8 @@ export class UserListContainer extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        users: state.users.list
+        users: state.users.list,
+        filter: ownProps.filter
     };
 }
 
@@ -79,6 +84,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    UserListContainer
-);
+export default connect<IStateProps, IDispatchProps, IPassedProps>(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserListContainer);

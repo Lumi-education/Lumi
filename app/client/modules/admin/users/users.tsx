@@ -77,7 +77,17 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <UserListContainer />
+                <UserListContainer
+                    filter={user => {
+                        return this.state.search_text === ''
+                            ? true
+                            : user.name
+                                  .toLocaleLowerCase()
+                                  .indexOf(
+                                      this.state.search_text.toLocaleLowerCase()
+                                  ) > -1;
+                    }}
+                />
                 <FloatingActionButton
                     onClick={() =>
                         this.setState({ show_create_user_dialog: true })
