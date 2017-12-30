@@ -14,6 +14,8 @@ import theme from './style/theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import * as moment from 'moment';
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -22,6 +24,8 @@ if (localStorage.getItem('lumi_version') !== process.env.VERSION) {
     localStorage.clear();
 }
 localStorage.setItem('lumi_version', process.env.VERSION);
+
+moment.locale('de');
 
 const history = syncHistoryWithStore(browserHistory, store);
 
