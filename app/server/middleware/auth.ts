@@ -18,11 +18,9 @@ export function auth(
                 throw new Error('no db');
             }
 
-            new DB(res, req.params.db).update_one(
-                req.user._id,
-                { last_active: new Date() },
-                noop
-            );
+            new DB(res, req.params.db).update_one(req.user._id, {
+                last_active: new Date()
+            });
 
             next();
         } catch (err) {
