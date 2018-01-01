@@ -22,7 +22,10 @@ import {
     USERS_GET_USER_ERROR,
     USERS_DELETE_USER_REQUEST,
     USERS_DELETE_USER_SUCCESS,
-    USERS_DELETE_USER_ERROR
+    USERS_DELETE_USER_ERROR,
+    USERS_UPDATE_USER_REQUEST,
+    USERS_UPDATE_USER_SUCCESS,
+    USERS_UPDATE_USER_ERROR
 } from './constants';
 
 export function add_group(user_id: string, group_id: string) {
@@ -94,5 +97,17 @@ export function delete_user(user_id: string, id = shortid()) {
         ],
         api: API.delete_user(user_id),
         payload: { id, payload: { user_id } }
+    };
+}
+
+export function update_user(user_id: string, update) {
+    return {
+        types: [
+            USERS_UPDATE_USER_REQUEST,
+            USERS_UPDATE_USER_SUCCESS,
+            USERS_UPDATE_USER_ERROR
+        ],
+        api: API.update_user(user_id, update),
+        payload: { payload: { user_id, update } }
     };
 }

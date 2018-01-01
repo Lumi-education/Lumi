@@ -11,6 +11,10 @@ import {
     RaisedButton
 } from 'material-ui';
 
+import { RaisedButtonComponent } from 'client/packages/ui';
+
+import { state_color } from 'client/style/utils';
+
 // local
 import { IState } from 'client/state';
 
@@ -21,6 +25,7 @@ import { IUser } from 'client/packages/users';
 import {
     get_user,
     add_group,
+    update_user,
     rem_group,
     delete_user
 } from 'client/packages/users/actions';
@@ -42,7 +47,10 @@ interface IDispatchProps {
 }
 
 interface IComponentState {
-    show_delete_dialog: boolean;
+    name?: string;
+    level?: number;
+
+    show_delete_dialog?: boolean;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -52,12 +60,29 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
+            name: '',
+            level: 0,
+
             show_delete_dialog: false
         };
+
+        this.updated_state = this.updated_state.bind(this);
     }
 
     public componentWillMount() {
         this.props.dispatch(get_user(this.props.user_id));
+
+        this.setState({
+            name: this.props.user.name,
+            level: this.props.user.level
+        });
+    }
+
+    public updated_state() {
+        return {
+            name: this.state.name,
+            level: this.state.level
+        };
     }
 
     public render() {
@@ -67,13 +92,27 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                     <TextField
                         hintText="Name"
                         floatingLabelText="Name"
-                        value={this.props.user.name}
+                        value={this.state.name}
                         fullWidth={true}
+                        onChange={(e, name) => this.setState({ name })}
+                        errorText={
+                            this.props.user.name !== this.state.name
+                                ? 'Previous: ' + this.props.user.name
+                                : null
+                        }
+                        errorStyle={{ color: state_color('pending') }}
                     />
                     <SelectField
                         floatingLabelText="Level"
                         fullWidth={true}
-                        value={this.props.user.level}
+                        value={this.state.level}
+                        onChange={(e, i, v) => this.setState({ level: v })}
+                        errorText={
+                            this.props.user.level !== this.state.level
+                                ? 'Previous: ' + this.props.user.level
+                                : null
+                        }
+                        errorStyle={{ color: state_color('pending') }}
                     >
                         <MenuItem value={1} primaryText="Gast" />
                         <MenuItem value={2} primaryText="Benutzer" />
@@ -81,6 +120,21 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                         <MenuItem value={4} primaryText="Admin" />
                     </SelectField>
                     {this.props.children}
+                    <RaisedButton
+                        fullWidth={true}
+                        label="Back"
+                        onClick={() =>
+                            this.props.dispatch(push('/admin/users'))
+                        }
+                    />
+                    <RaisedButtonComponent
+                        dispatch={this.props.dispatch}
+                        action={update_user(
+                            this.props.user._id,
+                            this.updated_state()
+                        )}
+                        labels={['Save', 'Saving...', 'Saved', 'Not saved']}
+                    />
                     <RaisedButton
                         fullWidth={true}
                         secondary={true}
@@ -102,6 +156,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                     this.setState({ show_delete_dialog: false })
                                 }
                                 secondary={true}
+                                fullWidth={true}
                                 label="NO"
                             />,
                             <RaisedButton
@@ -117,6 +172,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                         );
                                 }}
                                 primary={true}
+                                fullWidth={true}
                                 label="YES"
                             />
                         ]}

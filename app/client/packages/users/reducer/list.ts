@@ -8,7 +8,8 @@ import {
     USERS_CREATE_USER_SUCCESS,
     USERS_GET_USERS_SUCCESS,
     USERS_GET_USER_SUCCESS,
-    USERS_DELETE_USER_REQUEST
+    USERS_DELETE_USER_REQUEST,
+    USERS_UPDATE_USER_REQUEST
 } from '../constants';
 
 import {
@@ -43,6 +44,14 @@ export default function(state: IUser[] = [], action): IUser[] {
                 })
             );
 
+        case USERS_UPDATE_USER_REQUEST:
+            return state.map(
+                user =>
+                    user._id === action.payload.user_id
+                        ? update_user(user, action.payload.update)
+                        : user
+            );
+
         case USERS_CREATE_USER_SUCCESS:
             return [...state, action.payload];
 
@@ -72,4 +81,8 @@ export function rem_group(user: IUser, group_id: string) {
     return assign({}, user, {
         groups: user.groups.filter(g => g !== group_id)
     });
+}
+
+export function update_user(user: IUser, update): IUser {
+    return assign({}, user, update);
 }
