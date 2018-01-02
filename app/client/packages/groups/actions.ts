@@ -33,7 +33,10 @@ import {
     GROUPS_ADD_GROUP_ERROR,
     GROUPS_REM_GROUP_REQUEST,
     GROUPS_REM_GROUP_SUCCESS,
-    GROUPS_REM_GROUP_ERROR
+    GROUPS_REM_GROUP_ERROR,
+    GROUPS_UPDATE_GROUP_REQUEST,
+    GROUPS_UPDATE_GROUP_SUCCESS,
+    GROUPS_UPDATE_GROUP_ERROR
 } from './constants';
 
 import * as API from './api';
@@ -184,5 +187,17 @@ export function get_user_groups(user_id: string) {
         ],
         api: API.get_user_groups(user_id),
         payload: { user_id }
+    };
+}
+
+export function update_group(group_id: string, update) {
+    return {
+        types: [
+            GROUPS_UPDATE_GROUP_REQUEST,
+            GROUPS_UPDATE_GROUP_SUCCESS,
+            GROUPS_UPDATE_GROUP_ERROR
+        ],
+        api: API.update_group(group_id, update),
+        payload: { group_id, update }
     };
 }

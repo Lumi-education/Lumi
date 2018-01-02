@@ -27,7 +27,7 @@ import { select_collections_by_ids } from 'client/packages/collections/selectors
 import { IState } from 'client/state';
 import { ICollection } from 'common/types';
 import { IUser } from 'client/packages/users';
-import { IGroup } from 'client/packages/groups';
+import { IGroup, GroupSettingsContainer } from 'client/packages/groups';
 
 // actions
 import {
@@ -93,7 +93,9 @@ export class AdminGroup extends React.Component<IProps, {}> {
                             )
                         }
                     >
-                        <div>test</div>
+                        <GroupSettingsContainer
+                            group_id={this.props.group_id}
+                        />
                     </Tab>
                     <Tab
                         label="Users"
