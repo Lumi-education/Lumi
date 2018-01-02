@@ -21,7 +21,7 @@ import { groups_list } from 'client/packages/groups/selectors';
 
 // types
 import { IState } from 'client/state';
-import { IGroup } from 'common/types';
+import { IGroup } from 'client/packages/groups';
 
 // actions
 import {
@@ -80,7 +80,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                                       ) > -1;
                         })
                         .map(group => (
-                            <div>
+                            <div key={group._id}>
                                 <ListItem
                                     leftAvatar={
                                         <Avatar>

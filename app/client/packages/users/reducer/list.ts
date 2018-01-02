@@ -12,11 +12,7 @@ import {
     USERS_UPDATE_USER_REQUEST
 } from '../constants';
 
-import {
-    GROUPS_DELETE_SUCCESS,
-    GROUPS_GET_GROUP_SUCCESS,
-    DB_CHANGE
-} from '../../action-types';
+import { DB_CHANGE } from '../../action-types';
 
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {
@@ -35,14 +31,6 @@ export default function(state: IUser[] = [], action): IUser[] {
                         ? rem_group(u, action.payload.group_id)
                         : u
             );
-        case GROUPS_DELETE_SUCCESS:
-            return state.map(user =>
-                assign({}, user, {
-                    groups: user.groups.filter(
-                        group_id => group_id !== action.group_id
-                    )
-                })
-            );
 
         case USERS_UPDATE_USER_REQUEST:
             return state.map(
@@ -60,7 +48,6 @@ export default function(state: IUser[] = [], action): IUser[] {
 
         case DB_CHANGE:
         case USERS_GET_USERS_SUCCESS:
-        case GROUPS_GET_GROUP_SUCCESS:
         case USERS_GET_USER_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'user'),

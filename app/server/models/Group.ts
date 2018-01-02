@@ -1,5 +1,6 @@
 import { assign, uniq } from 'lodash';
-import { IGroup, Collection_id } from 'common/types';
+import { Collection_id } from 'common/types';
+import { IGroup } from 'client/packages/groups/types';
 
 import Collection from './Collection';
 

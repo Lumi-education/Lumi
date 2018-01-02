@@ -8,7 +8,8 @@ import * as shortid from 'shortid';
 
 import { IState } from 'client/state';
 
-import { ICollection, IGroup } from 'common/types';
+import { ICollection } from 'common/types';
+import { IGroup } from 'client/packages/groups';
 
 // selectors
 import { select_group } from 'client/packages/groups/selectors';

@@ -2,7 +2,6 @@ import { assign, unionBy } from 'lodash';
 
 import {
     COLLECTION_GET_SUCCESS,
-    GROUPS_GET_GROUP_SUCCESS,
     COLLECTION_ADD_CARDS_REQUEST,
     COLLECTION_DELETE_COLLECTION_REQUEST,
     DB_CHANGE
@@ -18,7 +17,6 @@ export default function(
 ): ICollectionData[] {
     switch (action.type) {
         case DB_CHANGE:
-        case GROUPS_GET_GROUP_SUCCESS:
         case COLLECTION_GET_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.data_type === 'collection'),

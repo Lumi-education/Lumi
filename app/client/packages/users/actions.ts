@@ -28,30 +28,6 @@ import {
     USERS_UPDATE_USER_ERROR
 } from './constants';
 
-export function add_group(user_id: string, group_id: string) {
-    return {
-        types: [
-            USERS_ADD_GROUP_REQUEST,
-            USERS_ADD_GROUP_SUCCESS,
-            USERS_ADD_GROUP_ERROR
-        ],
-        api: API.add_group(user_id, group_id),
-        payload: { payload: { user_id, group_id } }
-    };
-}
-
-export function rem_group(user_id: string, group_id: string) {
-    return {
-        types: [
-            USERS_REM_GROUP_REQUEST,
-            USERS_REM_GROUP_SUCCESS,
-            USERS_REM_GROUP_ERROR
-        ],
-        api: API.rem_group(user_id, group_id),
-        payload: { payload: { user_id, group_id } }
-    };
-}
-
 export function create_user(name: string, options?, id = shortid()) {
     return {
         types: [

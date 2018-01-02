@@ -25,8 +25,9 @@ import { select_collections_by_ids } from 'client/packages/collections/selectors
 
 // types
 import { IState } from 'client/state';
-import { IGroup, ICollection } from 'common/types';
+import { ICollection } from 'common/types';
 import { IUser } from 'client/packages/users';
+import { IGroup } from 'client/packages/groups';
 
 // actions
 import {

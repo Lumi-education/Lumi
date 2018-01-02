@@ -7,15 +7,13 @@ import AutoComplete from 'material-ui/AutoComplete';
 
 import { IState } from 'client/state';
 
-import { IGroup } from 'common/types';
+import { IGroup } from 'client/packages/groups';
 import { IUser } from 'client/packages/users';
 
 // actions
-import {
-    get_users,
-    add_group,
-    create_user
-} from 'client/packages/users/actions';
+import { get_users, create_user } from 'client/packages/users/actions';
+
+import { add_group } from 'client/packages/groups/actions';
 
 interface IStateProps {
     users: IUser[];

@@ -47,6 +47,7 @@ router.get('/:db/collections/:id/cards', CollectionController.cards);
 // groups
 router.get('/:db/groups', mw.auth, GroupController.list);
 router.post('/:db/groups', GroupController.create);
+router.get('/:db/groups/user/:user_id', GroupController.for_user);
 router.get('/:db/groups/:id', GroupController.read);
 router.put('/:db/groups/:id', GroupController.update);
 router.delete('/:db/groups/:id', GroupController.delete);

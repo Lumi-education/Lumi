@@ -2,6 +2,7 @@ import * as express from 'express';
 import { noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
+import { IGroupRef } from 'client/packages/groups/types';
 import Group from '../../models/Group';
 import User from '../../models/User';
 import Collection from '../../models/Collection';
@@ -17,7 +18,7 @@ class GroupController extends Controller<Group> {
             views: {
                 for_user: {
                     map:
-                        'function (doc) {\n  if (doc.type === "user") { \n    doc.groups.forEach(function(group_id) { emit(doc._id, { _id: group_id}); })\n  }\n}'
+                        'function (doc) {\n  if (doc.type === "group_ref") { \n    emit(doc.user_id, 1);\n    doc.groups.forEach(function(group_id) { emit(doc.user_id, { _id: group_id}); })\n  }\n}'
                 },
                 list: {
                     map:
@@ -96,6 +97,38 @@ class GroupController extends Controller<Group> {
             req.params.id,
             (group: Group) => {
                 switch (req.body.type) {
+                    case 'ADD_USER_TO_GROUP':
+                        db._findById(
+                            req.body.payload.user_id + '-groups',
+                            (err, group_ref: IGroupRef) => {
+                                if (err) {
+                                    const _group_ref: IGroupRef = {
+                                        _id:
+                                            req.body.payload.user_id +
+                                            '-groups',
+                                        user_id: req.body.payload.user_id,
+                                        groups: [req.params.id],
+                                        type: 'group_ref'
+                                    };
+                                    db.insert(_group_ref);
+                                } else {
+                                    group_ref.groups.push(req.params.id);
+                                    db.save(group_ref);
+                                }
+                            }
+                        );
+                        break;
+                    case 'REM_USER_FROM_GROUP':
+                        db.findById(
+                            req.body.payload.user_id + '-groups',
+                            (group_ref: IGroupRef) => {
+                                group_ref.groups = group_ref.groups.filter(
+                                    group_id => group_id !== req.params.id
+                                );
+                                db.save(group_ref);
+                            }
+                        );
+                        break;
                     case 'ADD_COLLECTION':
                         group.add_collection(req.body.payload.collection_id);
                         db.save(group);

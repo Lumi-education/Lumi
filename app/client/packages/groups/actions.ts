@@ -1,6 +1,9 @@
 import * as shortid from 'shortid';
 
 import {
+    GROUPS_GET_USER_GROUPS_REQUEST,
+    GROUPS_GET_USER_GROUPS_SUCCESS,
+    GROUPS_GET_USER_GROUPS_ERROR,
     GROUPS_CREATE_REQUEST,
     GROUPS_CREATE_SUCCESS,
     GROUPS_CREATE_ERROR,
@@ -24,12 +27,40 @@ import {
     GROUPS_ENABLE_COLLECTION_ERROR,
     GROUPS_DISABLE_COLLECTION_REQUEST,
     GROUPS_DISABLE_COLLECTION_SUCCESS,
-    GROUPS_DISABLE_COLLECTION_ERROR
-} from 'client/packages/action-types';
-
-import { add_group } from 'client/packages/users/actions';
+    GROUPS_DISABLE_COLLECTION_ERROR,
+    GROUPS_ADD_GROUP_REQUEST,
+    GROUPS_ADD_GROUP_SUCCESS,
+    GROUPS_ADD_GROUP_ERROR,
+    GROUPS_REM_GROUP_REQUEST,
+    GROUPS_REM_GROUP_SUCCESS,
+    GROUPS_REM_GROUP_ERROR
+} from './constants';
 
 import * as API from './api';
+
+export function add_group(user_id: string, group_id: string) {
+    return {
+        types: [
+            GROUPS_ADD_GROUP_REQUEST,
+            GROUPS_ADD_GROUP_SUCCESS,
+            GROUPS_ADD_GROUP_ERROR
+        ],
+        api: API.add_group(user_id, group_id),
+        payload: { payload: { user_id, group_id } }
+    };
+}
+
+export function rem_group(user_id: string, group_id: string) {
+    return {
+        types: [
+            GROUPS_REM_GROUP_REQUEST,
+            GROUPS_REM_GROUP_SUCCESS,
+            GROUPS_REM_GROUP_ERROR
+        ],
+        api: API.rem_group(user_id, group_id),
+        payload: { payload: { user_id, group_id } }
+    };
+}
 
 export function add_collection_to_group(
     group_id: string,
@@ -141,5 +172,17 @@ export function get_group(group_id: string) {
         ],
         api: API.get_group(group_id),
         payload: { group_id }
+    };
+}
+
+export function get_user_groups(user_id: string) {
+    return {
+        types: [
+            GROUPS_GET_USER_GROUPS_REQUEST,
+            GROUPS_GET_USER_GROUPS_SUCCESS,
+            GROUPS_GET_USER_GROUPS_ERROR
+        ],
+        api: API.get_user_groups(user_id),
+        payload: { user_id }
     };
 }

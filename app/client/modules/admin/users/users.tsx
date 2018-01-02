@@ -26,7 +26,7 @@ import FilterBar from 'client/packages/ui/components/filter-bar';
 import { IState } from 'client/state';
 
 // types
-import { IGroup } from 'common/types';
+import { IGroup } from 'client/packages/groups';
 import { IUser, UserListContainer } from 'client/packages/users';
 
 // actions
@@ -120,7 +120,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         users: state.users.list,
-        groups: state.groups.list
+        groups: state.groups.map
     };
 }
 

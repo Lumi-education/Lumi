@@ -24,9 +24,7 @@ import { IUser } from 'client/packages/users';
 // actions
 import {
     get_user,
-    add_group,
     update_user,
-    rem_group,
     delete_user
 } from 'client/packages/users/actions';
 
@@ -70,11 +68,11 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_user(this.props.user_id));
-
-        this.setState({
-            name: this.props.user.name,
-            level: this.props.user.level
+        this.props.dispatch(get_user(this.props.user_id)).then(res => {
+            this.setState({
+                name: this.props.user.name,
+                level: this.props.user.level
+            });
         });
     }
 

@@ -45,15 +45,6 @@ export interface ICollectionSubmitMsg {
 //     score: number;
 // }
 
-export interface IGroup {
-    _id: Group_id;
-    type: 'group';
-    name: string;
-    assigned_collections: Array<Collection_id>;
-    active_collections: Array<Collection_id>;
-    created_at: Date;
-}
-
 export interface ISession {
     _id: Session_id;
     type: 'session';
