@@ -9,6 +9,7 @@ import { arrayToObject } from 'client/utils';
 import {
     GROUPS_ADD_GROUP_REQUEST,
     GROUPS_REM_GROUP_REQUEST,
+    GROUPS_GET_GROUP_SUCCESS,
     GROUPS_GET_USER_GROUPS_SUCCESS
 } from '../constants';
 
@@ -45,6 +46,7 @@ export default function(
             });
 
         case 'DB_CHANGE':
+        case GROUPS_GET_GROUP_SUCCESS:
         case GROUPS_GET_USER_GROUPS_SUCCESS:
             return state.merge(
                 Map<string, IGroupRef>(

@@ -30,7 +30,7 @@ import {
 } from 'client/packages/groups/actions';
 
 // selectors
-import { select_group, update_group, delete_group } from '../';
+import { group_actions, group_selectors } from '../';
 
 interface IPassedProps {
     group_id: string;
@@ -108,7 +108,7 @@ export class GroupSettingsContainer extends React.Component<
                     />
                     <RaisedButtonComponent
                         dispatch={this.props.dispatch}
-                        action={update_group(
+                        action={group_actions.update_group(
                             this.props.group._id,
                             this.updated_state()
                         )}
@@ -142,7 +142,9 @@ export class GroupSettingsContainer extends React.Component<
                                 onClick={() => {
                                     this.props
                                         .dispatch(
-                                            delete_group(this.props.group_id)
+                                            group_actions.delete_group(
+                                                this.props.group_id
+                                            )
                                         )
                                         .then(res =>
                                             this.props.dispatch(
@@ -168,7 +170,7 @@ export class GroupSettingsContainer extends React.Component<
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        group: select_group(state, ownProps.group_id),
+        group: group_selectors.select_group(state, ownProps.group_id),
         group_id: ownProps.group_id
     };
 }

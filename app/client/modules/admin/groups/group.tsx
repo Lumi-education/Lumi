@@ -4,44 +4,31 @@ import { connect } from 'react-redux';
 import { push } from 'client/packages/ui/actions';
 import { Map } from 'immutable';
 
-import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
-import { List, ListItem } from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import SVGClose from 'material-ui/svg-icons/navigation/close';
-import FilterBar from 'client/packages/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import Divider from 'material-ui/Divider';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import GroupUsers from './group_users';
-import GroupCollections from './group_collections';
-
 // selectors
-import { select_group } from 'client/packages/groups/selectors';
-import { get_users_by_group } from 'client/packages/users/selectors';
-import { select_collections_by_ids } from 'client/packages/collections/selectors';
+// import { select_users_for_group } from 'client/packages/groups/selectors';
 
 // types
 import { IState } from 'client/state';
 import { ICollection } from 'common/types';
-import { IUser } from 'client/packages/users';
-import { IGroup, GroupSettingsContainer } from 'client/packages/groups';
+import { IUser, UserListContainer } from 'client/packages/users';
+import {
+    IGroup,
+    GroupSettingsContainer,
+    group_selectors
+} from 'client/packages/groups';
 
 // actions
-import {
-    get_group,
-    delete_group,
-    create_group
-} from 'client/packages/groups/actions';
+import { get_group } from 'client/packages/groups/actions';
 
 interface IStateProps {
-    group: IGroup;
-    collections: ICollection[];
-    users: IUser[];
     group_id: string;
     tab: string;
+    group_users: string[];
 }
 
 interface IDispatchProps {
@@ -62,9 +49,6 @@ export class AdminGroup extends React.Component<IProps, {}> {
     }
 
     public render() {
-        if (!this.props.group) {
-            return <div>Loading ... </div>;
-        }
         return (
             <div>
                 <Tabs
@@ -92,11 +76,7 @@ export class AdminGroup extends React.Component<IProps, {}> {
                                 )
                             )
                         }
-                    >
-                        <GroupSettingsContainer
-                            group_id={this.props.group_id}
-                        />
-                    </Tab>
+                    />
                     <Tab
                         label="Users"
                         value="users"
@@ -109,9 +89,7 @@ export class AdminGroup extends React.Component<IProps, {}> {
                                 )
                             )
                         }
-                    >
-                        <GroupUsers {...this.props} />
-                    </Tab>
+                    />
                     <Tab
                         label="Collections"
                         value="collections"
@@ -124,15 +102,31 @@ export class AdminGroup extends React.Component<IProps, {}> {
                                 )
                             )
                         }
-                    >
-                        <GroupCollections
-                            active_collections={
-                                this.props.group.active_collections || []
-                            }
-                            {...this.props}
-                        />
-                    </Tab>
+                    />
                 </Tabs>
+                {(() => {
+                    switch (this.props.tab) {
+                        case 'settings':
+                        default:
+                            return (
+                                <GroupSettingsContainer
+                                    group_id={this.props.group_id}
+                                />
+                            );
+                        case 'users':
+                            return (
+                                <UserListContainer
+                                    filter={(user: IUser) =>
+                                        this.props.group_users.indexOf(
+                                            user._id
+                                        ) > -1
+                                    }
+                                />
+                            );
+                        case 'collections':
+                            return <div>collections</div>;
+                    }
+                })()}
             </div>
         );
     }
@@ -140,11 +134,9 @@ export class AdminGroup extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        group: select_group(state, ownProps.params.group_id),
-        users: get_users_by_group(state, ownProps.params.group_id),
-        collections: select_collections_by_ids(
+        group_users: group_selectors.select_users_for_group(
             state,
-            select_group(state, ownProps.params.group_id).assigned_collections
+            ownProps.params.group_id
         ),
         tab: ownProps.params.tab,
         group_id: ownProps.params.group_id

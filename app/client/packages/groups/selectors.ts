@@ -38,3 +38,13 @@ export function select_groupref_for_user(
         type: 'group_ref'
     });
 }
+
+export function select_users_for_group(
+    state: IState,
+    group_id: string
+): string[] {
+    return state.groups.refs
+        .toArray()
+        .filter(ref => ref.groups.indexOf(group_id) > -1)
+        .map(ref => ref.user_id);
+}
