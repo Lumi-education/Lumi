@@ -5,6 +5,8 @@ import * as API from './api';
 
 import * as types from '../action-types';
 
+import * as c from './collection_constants';
+
 export function get_collections(_ids?: string[]) {
     return {
         types: [
@@ -126,5 +128,14 @@ export function reset_collection(collection_meta_id: string) {
         ],
         api: API.reset_collection(collection_meta_id),
         payload: { payload: { collection_meta_id } }
+    };
+}
+
+export function select_collection(collection_id: string) {
+    return {
+        type: c.COLLECTION_SELECT,
+        payload: {
+            collection_id
+        }
     };
 }

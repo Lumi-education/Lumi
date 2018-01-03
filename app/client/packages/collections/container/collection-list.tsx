@@ -17,6 +17,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     collections: ICollection[];
+    selected_collections: string[];
 }
 
 interface IDispatchProps {
@@ -48,12 +49,28 @@ export class CollectionListContainer extends React.Component<IProps, {}> {
                     <div key={collection._id}>
                         <ListItem
                             leftAvatar={
-                                <Avatar>
+                                <Avatar
+                                    style={{
+                                        background:
+                                            this.props.selected_collections.indexOf(
+                                                collection._id
+                                            ) > -1
+                                                ? 'linear-gradient(120deg, #8e44ad, #3498db)'
+                                                : 'grey'
+                                    }}
+                                >
                                     {collection.name.substring(0, 3)}
                                 </Avatar>
                             }
                             secondaryText={collection.description}
                             primaryText={collection.name}
+                            onClick={() =>
+                                this.props.dispatch(
+                                    collection_actions.select_collection(
+                                        collection._id
+                                    )
+                                )
+                            }
                         />
                         <Divider inset={true} />
                     </div>
@@ -69,7 +86,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             ownProps.collection_ids
         ),
-        collection_ids: ownProps.collection_ids
+        collection_ids: ownProps.collection_ids,
+        selected_collections: state.collections.ui.selected_collections
     };
 }
 

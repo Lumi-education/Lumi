@@ -20,7 +20,12 @@ export {
     default as CollectionListContainer
 } from './container/collection-list';
 
-export { ICollection } from './types';
+export {
+    ICollection,
+    ICollectionSubmitMsg,
+    ICollectionUI,
+    IState
+} from './types';
 import * as collection_selectors from './selectors';
 export { collection_selectors };
 import * as collection_actions from './actions';
