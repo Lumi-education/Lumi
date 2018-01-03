@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push, goBack } from 'client/packages/ui/actions';
 
 import {
     Dialog,
@@ -121,9 +121,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                     <RaisedButton
                         fullWidth={true}
                         label="Back"
-                        onClick={() =>
-                            this.props.dispatch(push('/admin/users'))
-                        }
+                        onClick={() => this.props.dispatch(goBack())}
                     />
                     <RaisedButtonComponent
                         dispatch={this.props.dispatch}

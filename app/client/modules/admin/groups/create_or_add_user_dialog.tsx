@@ -58,13 +58,13 @@ export class AdminCreateOrAddUserDialog extends React.Component<
     }
 
     public create_or_add_user(user) {
-        if (user._id) {
-            this.props.dispatch(add_group(user._id, this.props.group_id));
-        } else {
-            this.props.dispatch(
-                create_user(user, { groups: [this.props.group_id] })
-            );
-        }
+        // if (user._id) {
+        this.props.dispatch(add_group(user._id, this.props.group_id));
+        // } else {
+        //     this.props.dispatch(
+        //         create_user(user, { groups: [this.props.group_id] })
+        //     );
+        // }
 
         this.close();
     }
@@ -77,7 +77,7 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         const actions = [
             <FlatButton label="Cancel" primary={true} onClick={this.close} />,
             <FlatButton
-                label="Create"
+                label="Add"
                 primary={true}
                 onClick={() => this.create_or_add_user(this.state.name)}
             />
@@ -96,14 +96,14 @@ export class AdminCreateOrAddUserDialog extends React.Component<
                     <ContentAdd />
                 </FloatingActionButton>
                 <Dialog
-                    title="Create or Add User"
+                    title="Add User"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                     onRequestClose={this.close}
                 >
                     <AutoComplete
-                        floatingLabelText="Search existing user or create new one"
+                        floatingLabelText="Add existing user"
                         filter={AutoComplete.fuzzyFilter}
                         dataSource={this.props.users}
                         dataSourceConfig={{ text: 'name', value: '_id' }}
