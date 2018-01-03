@@ -4,6 +4,8 @@ import { push } from 'client/packages/ui/actions';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import { IState } from 'client/state';
 
@@ -15,9 +17,12 @@ import { get_users, create_user } from 'client/packages/users/actions';
 
 import { add_group } from 'client/packages/groups/actions';
 
-interface IStateProps {
-    users: IUser[];
+interface IPassedProps {
     group_id: string;
+}
+
+interface IStateProps extends IPassedProps {
+    users: IUser[];
 }
 
 interface IDispatchProps {
@@ -27,7 +32,9 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    name: string;
+    name?: string;
+
+    open?: boolean;
 }
 
 export class AdminCreateOrAddUserDialog extends React.Component<
@@ -38,7 +45,8 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         super(props);
 
         this.state = {
-            name: ''
+            name: '',
+            open: false
         };
 
         this.create_or_add_user = this.create_or_add_user.bind(this);
@@ -62,9 +70,7 @@ export class AdminCreateOrAddUserDialog extends React.Component<
     }
 
     public close() {
-        this.props.dispatch(
-            push('/admin/groups/' + this.props.group_id + '/users')
-        );
+        this.setState({ open: false });
     }
 
     public render() {
@@ -78,25 +84,36 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         ];
 
         return (
-            <Dialog
-                title="Create or Add User"
-                actions={actions}
-                modal={true}
-                open={true}
-            >
-                <AutoComplete
-                    floatingLabelText="Search existing user or create new one"
-                    filter={AutoComplete.fuzzyFilter}
-                    dataSource={this.props.users.filter(
-                        user => user.groups.indexOf(this.props.group_id) === -1
-                    )}
-                    dataSourceConfig={{ text: 'name', value: '_id' }}
-                    maxSearchResults={5}
-                    fullWidth={true}
-                    onNewRequest={name => this.setState({ name })}
-                    onUpdateInput={name => this.setState({ name })}
-                />
-            </Dialog>
+            <div>
+                <FloatingActionButton
+                    onClick={() =>
+                        this.setState({
+                            open: true
+                        })
+                    }
+                    style={{ margin: '20px' }}
+                >
+                    <ContentAdd />
+                </FloatingActionButton>
+                <Dialog
+                    title="Create or Add User"
+                    actions={actions}
+                    modal={true}
+                    open={this.state.open}
+                    onRequestClose={this.close}
+                >
+                    <AutoComplete
+                        floatingLabelText="Search existing user or create new one"
+                        filter={AutoComplete.fuzzyFilter}
+                        dataSource={this.props.users}
+                        dataSourceConfig={{ text: 'name', value: '_id' }}
+                        maxSearchResults={5}
+                        fullWidth={true}
+                        onNewRequest={name => this.setState({ name })}
+                        onUpdateInput={name => this.setState({ name })}
+                    />
+                </Dialog>
+            </div>
         );
     }
 }
@@ -104,7 +121,7 @@ export class AdminCreateOrAddUserDialog extends React.Component<
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         users: state.users.list,
-        group_id: ownProps.params.group_id
+        group_id: ownProps.group_id
     };
 }
 
@@ -114,6 +131,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminCreateOrAddUserDialog
-);
+export default connect<IStateProps, IDispatchProps, IPassedProps>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminCreateOrAddUserDialog);

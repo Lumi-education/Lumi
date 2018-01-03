@@ -13,9 +13,11 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 // import { select_users_for_group } from 'client/packages/groups/selectors';
 
 // types
+import { ActionBar } from 'client/packages/ui';
 import { IState } from 'client/state';
 import { ICollection } from 'common/types';
 import { IUser, UserListContainer } from 'client/packages/users';
+import Create_or_add_user_dialog from './create_or_add_user_dialog';
 import {
     IGroup,
     GroupSettingsContainer,
@@ -35,13 +37,19 @@ interface IDispatchProps {
     dispatch: (action) => void;
 }
 
+interface IComponentState {
+    show_user_dialog: boolean;
+}
+
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class AdminGroup extends React.Component<IProps, {}> {
+export class AdminGroup extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            show_user_dialog: false
+        };
     }
 
     public componentWillMount() {
@@ -115,13 +123,20 @@ export class AdminGroup extends React.Component<IProps, {}> {
                             );
                         case 'users':
                             return (
-                                <UserListContainer
-                                    filter={(user: IUser) =>
-                                        this.props.group_users.indexOf(
-                                            user._id
-                                        ) > -1
-                                    }
-                                />
+                                <div>
+                                    <UserListContainer
+                                        filter={(user: IUser) =>
+                                            this.props.group_users.indexOf(
+                                                user._id
+                                            ) > -1
+                                        }
+                                    />
+                                    <ActionBar>
+                                        <Create_or_add_user_dialog
+                                            group_id={this.props.group_id}
+                                        />
+                                    </ActionBar>
+                                </div>
                             );
                         case 'collections':
                             return <div>collections</div>;
