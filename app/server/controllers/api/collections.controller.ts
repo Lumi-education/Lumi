@@ -24,6 +24,10 @@ class CollectionController extends Controller<Collection> {
                 for_user: {
                     map:
                         "function (doc) {\n  if (doc.data_type === 'collection') { \n    emit(doc.user_id, 1); \n    emit(doc.user_id, {_id: doc.collection_id});\n  }\n}"
+                },
+                list: {
+                    map:
+                        "function (doc) {\n  if (doc.type === 'collection') { emit(doc._id, 1); }\n}"
                 }
             },
             language: 'javascript'
@@ -65,13 +69,20 @@ class CollectionController extends Controller<Collection> {
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res, req.params.db);
 
-        db.find(
-            { type: 'collection' },
-            req.query,
-            (collections: Collection[]) => {
-                res.status(200).json(collections);
-            }
+        db.view(
+            'collection',
+            'list',
+            req.query._ids ? { keys: JSON.parse(req.query._ids) } : {},
+            collections => res.status(200).json(collections)
         );
+
+        // db.find(
+        //     { type: 'collection' },
+        //     req.query,
+        //     (collections: Collection[]) => {
+        //         res.status(200).json(collections);
+        //     }
+        // );
     }
 
     public for_user(req: IRequest, res: express.Response) {

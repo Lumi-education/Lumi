@@ -2,13 +2,13 @@ import * as request from 'superagent';
 
 declare var window;
 
-export function get_collections(collection_id?: string) {
+export function get_collections(_ids?: string[]) {
     return request
         .get(
             '/api/v0/' +
                 window.location.pathname.split('/')[1] +
                 '/collections' +
-                (collection_id ? '/' + collection_id : '')
+                (_ids ? '?_ids=' + JSON.stringify(_ids) : '')
         )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

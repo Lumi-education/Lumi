@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt-nodejs';
 import * as jwt from 'jwt-simple';
-import { assign } from 'lodash';
+import { assign, noop } from 'lodash';
 
 import { IRequest } from '../../middleware/auth';
 import { DB } from '../../db';
@@ -56,6 +56,10 @@ class AuthController extends Controller<{}> {
                         username: req.params.db,
                         text: 'user ' + user.name + ' logged in.'
                     });
+
+                    user.last_login = new Date();
+                    db.save(user, noop);
+
                     return res.status(200).json({
                         jwt_token: jwt_token(
                             user._id,

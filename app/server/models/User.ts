@@ -1,5 +1,6 @@
 import { assign } from 'lodash';
-import { IUser, Group_id } from 'common/types';
+import { Group_id } from 'common/types';
+import { IUser } from 'client/packages/users/types';
 
 import Group from './Group';
 
@@ -13,6 +14,8 @@ export default class User extends Relations implements IUser {
     public level: number;
     public password: string;
     public groups: Group_id[];
+    public last_login: Date;
+    public last_active: Date;
 
     constructor(u?) {
         super();

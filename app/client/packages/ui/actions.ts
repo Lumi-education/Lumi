@@ -1,4 +1,4 @@
-import { push as _push } from 'react-router-redux';
+import { push as _push, goBack } from 'react-router-redux';
 import * as qs from 'query-string';
 import * as url_parse from 'url-parse';
 import * as debug from 'debug';
@@ -29,6 +29,12 @@ export function push(url: string) {
         dispatch(right_drawer_close());
         dispatch(_push('/' + window.location.pathname.split('/')[1] + url));
         // dispatch( session_update({ location: url }) );
+    };
+}
+
+export function goBack() {
+    return dispatch => {
+        dispatch(goBack());
     };
 }
 

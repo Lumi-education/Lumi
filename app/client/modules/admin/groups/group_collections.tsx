@@ -41,7 +41,6 @@ import {
 
 interface IStateProps {
     collections: ICollection[];
-    active_collections: string[];
     group_id: string;
 }
 
@@ -75,47 +74,12 @@ export default class AdminGroupCollections extends React.Component<
                         <div key={collection._id}>
                             <ListItem
                                 leftAvatar={
-                                    <Avatar
-                                        style={{
-                                            background:
-                                                this.props.active_collections.indexOf(
-                                                    collection._id
-                                                ) > -1
-                                                    ? 'linear-gradient(120deg, #8e44ad, #3498db)'
-                                                    : 'grey'
-                                        }}
-                                    >
+                                    <Avatar>
                                         {collection.name.substring(0, 3)}
                                     </Avatar>
                                 }
                                 primaryText={collection.name}
                                 rightIconButton={rightIconMenu([
-                                    <MenuItem
-                                        key="endisable"
-                                        onClick={() => {
-                                            this.props.active_collections.indexOf(
-                                                collection._id
-                                            ) > -1
-                                                ? this.props.dispatch(
-                                                      disable_collection(
-                                                          this.props.group_id,
-                                                          collection._id
-                                                      )
-                                                  )
-                                                : this.props.dispatch(
-                                                      enable_collection(
-                                                          this.props.group_id,
-                                                          collection._id
-                                                      )
-                                                  );
-                                        }}
-                                    >
-                                        {this.props.active_collections.indexOf(
-                                            collection._id
-                                        ) > -1
-                                            ? 'Disable'
-                                            : 'Enable'}
-                                    </MenuItem>,
                                     <MenuItem
                                         key="view"
                                         onClick={() =>
@@ -163,20 +127,6 @@ export default class AdminGroupCollections extends React.Component<
                         </div>
                     ))}
                 </List>
-                <FloatingActionButton
-                    onClick={() => {
-                        this.props.dispatch(
-                            push(
-                                '/admin/groups/' +
-                                    this.props.group_id +
-                                    '/collections/add'
-                            )
-                        );
-                    }}
-                    style={{ margin: '20px' }}
-                >
-                    <ContentAdd />
-                </FloatingActionButton>
             </div>
         );
     }

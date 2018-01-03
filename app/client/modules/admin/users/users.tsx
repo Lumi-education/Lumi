@@ -26,7 +26,8 @@ import FilterBar from 'client/packages/ui/components/filter-bar';
 import { IState } from 'client/state';
 
 // types
-import { IUser, IGroup } from 'common/types';
+import { IGroup } from 'client/packages/groups';
+import { IUser, UserListContainer } from 'client/packages/users';
 
 // actions
 import {
@@ -76,36 +77,17 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <List>
-                    {this.props.users
-                        .filter(user => {
-                            return this.state.search_text === ''
-                                ? true
-                                : user.name
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })
-                        .map(user => (
-                            <div key={user._id}>
-                                <ListItem
-                                    leftAvatar={
-                                        <Avatar>
-                                            {user.name.substring(0, 3)}
-                                        </Avatar>
-                                    }
-                                    primaryText={user.name}
-                                    onClick={() =>
-                                        this.props.dispatch(
-                                            push('/admin/users/' + user._id)
-                                        )
-                                    }
-                                />
-                                <Divider inset={true} />
-                            </div>
-                        ))}
-                </List>
+                <UserListContainer
+                    filter={user => {
+                        return this.state.search_text === ''
+                            ? true
+                            : user.name
+                                  .toLocaleLowerCase()
+                                  .indexOf(
+                                      this.state.search_text.toLocaleLowerCase()
+                                  ) > -1;
+                    }}
+                />
                 <FloatingActionButton
                     onClick={() =>
                         this.setState({ show_create_user_dialog: true })
@@ -138,7 +120,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         users: state.users.list,
-        groups: state.groups.list
+        groups: state.groups.map
     };
 }
 

@@ -105,3 +105,58 @@ export function get_group(group_id: string) {
         )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function get_user_groups(user_id: string) {
+    return request
+        .get(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/groups/user/' +
+                user_id
+        )
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function add_group(user_id: string, group_id: string) {
+    return request
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/groups/' +
+                group_id +
+                '/action'
+        )
+        .send({
+            type: 'ADD_USER_TO_GROUP',
+            payload: { group_id, user_id }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function rem_group(user_id: string, group_id: string) {
+    return request
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/groups/' +
+                group_id +
+                '/action'
+        )
+        .send({
+            type: 'REM_USER_FROM_GROUP',
+            payload: { group_id, user_id }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function update_group(group_id: string, update) {
+    return request
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/groups/' +
+                group_id
+        )
+        .send(update)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

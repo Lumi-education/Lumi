@@ -5,15 +5,17 @@ import * as API from './api';
 
 import * as types from '../action-types';
 
-export function get_collections(id = shortid()) {
+import * as c from './collection_constants';
+
+export function get_collections(_ids?: string[]) {
     return {
         types: [
             types.COLLECTION_GET_REQUEST,
             types.COLLECTION_GET_SUCCESS,
             types.COLLECTION_GET_ERROR
         ],
-        api: API.get_collections(),
-        payload: { id }
+        api: API.get_collections(_ids),
+        payload: { _ids }
     };
 }
 
@@ -74,7 +76,7 @@ export function get_collection(collection_id: string) {
             types.COLLECTION_GET_SUCCESS,
             types.COLLECTION_GET_ERROR
         ],
-        api: API.get_collections(collection_id),
+        api: API.get_collections([collection_id]),
         payload: { collection_id }
     };
 }
@@ -126,5 +128,14 @@ export function reset_collection(collection_meta_id: string) {
         ],
         api: API.reset_collection(collection_meta_id),
         payload: { payload: { collection_meta_id } }
+    };
+}
+
+export function select_collection(collection_id: string) {
+    return {
+        type: c.COLLECTION_SELECT,
+        payload: {
+            collection_id
+        }
     };
 }

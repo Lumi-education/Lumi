@@ -37,14 +37,6 @@ export interface ICollectionSubmitMsg {
 //     _attachments;
 // }
 
-export interface IUser {
-    _id: User_id;
-    type: 'user';
-    name: string;
-    level: number;
-    groups: Array<Group_id>;
-}
-
 // export interface IData {
 //     _id: Data_id;
 //     data_type: string;
@@ -52,15 +44,6 @@ export interface IUser {
 //     user_id: User_id;
 //     score: number;
 // }
-
-export interface IGroup {
-    _id: Group_id;
-    type: 'group';
-    name: string;
-    assigned_collections: Array<Collection_id>;
-    active_collections: Array<Collection_id>;
-    created_at: Date;
-}
 
 export interface ISession {
     _id: Session_id;

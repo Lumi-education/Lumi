@@ -2,7 +2,7 @@ import * as shortid from 'shortid';
 
 import * as API from './api';
 
-import { IUser } from 'common/types';
+import { IUser } from './types';
 
 import {
     USERS_ADD_GROUP_REQUEST,
@@ -22,32 +22,11 @@ import {
     USERS_GET_USER_ERROR,
     USERS_DELETE_USER_REQUEST,
     USERS_DELETE_USER_SUCCESS,
-    USERS_DELETE_USER_ERROR
-} from '../action-types';
-
-export function add_group(user_id: string, group_id: string) {
-    return {
-        types: [
-            USERS_ADD_GROUP_REQUEST,
-            USERS_ADD_GROUP_SUCCESS,
-            USERS_ADD_GROUP_ERROR
-        ],
-        api: API.add_group(user_id, group_id),
-        payload: { payload: { user_id, group_id } }
-    };
-}
-
-export function rem_group(user_id: string, group_id: string) {
-    return {
-        types: [
-            USERS_REM_GROUP_REQUEST,
-            USERS_REM_GROUP_SUCCESS,
-            USERS_REM_GROUP_ERROR
-        ],
-        api: API.rem_group(user_id, group_id),
-        payload: { payload: { user_id, group_id } }
-    };
-}
+    USERS_DELETE_USER_ERROR,
+    USERS_UPDATE_USER_REQUEST,
+    USERS_UPDATE_USER_SUCCESS,
+    USERS_UPDATE_USER_ERROR
+} from './constants';
 
 export function create_user(name: string, options?, id = shortid()) {
     return {
@@ -94,5 +73,17 @@ export function delete_user(user_id: string, id = shortid()) {
         ],
         api: API.delete_user(user_id),
         payload: { id, payload: { user_id } }
+    };
+}
+
+export function update_user(user_id: string, update) {
+    return {
+        types: [
+            USERS_UPDATE_USER_REQUEST,
+            USERS_UPDATE_USER_SUCCESS,
+            USERS_UPDATE_USER_ERROR
+        ],
+        api: API.update_user(user_id, update),
+        payload: { payload: { user_id, update } }
     };
 }

@@ -27,16 +27,16 @@ import { get_users_by_group } from 'client/packages/users/selectors';
 
 // types
 import { IState } from 'client/state';
-import { IGroup, IUser } from 'common/types';
+import { IUser } from 'client/packages/users';
+import { IGroup } from 'client/packages/groups';
 
 // actions
 import {
     get_group,
     delete_group,
-    create_group
+    create_group,
+    rem_group
 } from 'client/packages/groups/actions';
-
-import { rem_group } from 'client/packages/users/actions';
 
 interface IStateProps {
     users: IUser[];

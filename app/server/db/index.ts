@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-import { assign } from 'lodash';
+import { assign, noop } from 'lodash';
 import * as express from 'express';
 import * as debug from 'debug';
 import * as nano from 'nano';
@@ -124,7 +124,7 @@ export class DB {
         );
     }
 
-    public update_one(id: string, update, cb: (doc) => void) {
+    public update_one(id: string, update, cb?: (doc) => void) {
         request
             .get(this.db + id)
             .then(({ body }) => {
@@ -134,7 +134,11 @@ export class DB {
                 request
                     .put(this.db + body._id)
                     .send(newDoc)
-                    .then(res => cb(assign({}, newDoc, { _rev: res.body.rev })))
+                    .then(res => {
+                        cb
+                            ? cb(assign({}, newDoc, { _rev: res.body.rev }))
+                            : noop();
+                    })
                     .catch(this.handle_error);
             })
             .catch(this.handle_error);
@@ -207,13 +211,19 @@ export class DB {
             text: err.message || err.text || err || 'no error message'
         });
         if (this.res) {
-            this.res
-                .status(err.status > 100 && err.status < 520 ? err.status : 500)
-                .json(
-                    process.env.NODE_ENV === 'development'
-                        ? err
-                        : { message: err.message || err }
-                );
+            try {
+                this.res
+                    .status(
+                        err.status > 100 && err.status < 520 ? err.status : 500
+                    )
+                    .json(
+                        process.env.NODE_ENV === 'development'
+                            ? err
+                            : { message: err.message || err }
+                    );
+            } catch (err) {
+                log(err);
+            }
         }
     }
 }

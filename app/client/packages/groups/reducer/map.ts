@@ -2,21 +2,23 @@ import { assign, unionBy } from 'lodash';
 
 import { Map } from 'immutable';
 
-import { IGroup } from 'common/types';
+import { IGroup } from '../types';
 
 import { arrayToObject } from 'client/utils';
 
 import {
-    USERS_GET_USERS_SUCCESS,
-    USERS_GET_USER_SUCCESS,
     GROUPS_GET_GROUPS_SUCCESS,
     GROUPS_GET_GROUP_SUCCESS,
     GROUPS_CREATE_SUCCESS,
     GROUPS_DELETE_SUCCESS,
     GROUPS_ADD_COLLECTION_SUCCESS,
-    GROUPS_REM_COLLECTION_SUCCESS,
-    DB_CHANGE
-} from 'client/packages/action-types';
+    GROUPS_REM_COLLECTION_SUCCESS
+} from '../constants';
+
+import {
+    USERS_GET_USERS_SUCCESS,
+    USERS_GET_USER_SUCCESS
+} from 'client/packages/users/constants';
 
 export default function(
     state: Map<string, IGroup> = Map<string, IGroup>({}),
@@ -33,7 +35,7 @@ export default function(
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, IGroup>(o));
 
-        case DB_CHANGE:
+        case 'DB_CHANGE':
         case USERS_GET_USERS_SUCCESS:
         case USERS_GET_USER_SUCCESS:
         case GROUPS_GET_GROUPS_SUCCESS:

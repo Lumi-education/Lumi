@@ -16,3 +16,17 @@ export {
 export {
     default as CollectionOverviewContainer
 } from './container/collection-overview';
+export {
+    default as CollectionListContainer
+} from './container/collection-list';
+
+export {
+    ICollection,
+    ICollectionSubmitMsg,
+    ICollectionUI,
+    IState
+} from './types';
+import * as collection_selectors from './selectors';
+export { collection_selectors };
+import * as collection_actions from './actions';
+export { collection_actions };

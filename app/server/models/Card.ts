@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { IUser, Card_id, Card_types, Markdown } from 'common/types';
+import { Card_id, Card_types, Markdown } from 'common/types';
 import { IBaseCard } from 'client/packages/cards/types';
 
 import Tag from './Tag';

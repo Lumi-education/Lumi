@@ -15,6 +15,9 @@ export function select_collections_by_ids(
     state: IState,
     collections_ids: string[]
 ): ICollection[] {
+    if (!collections_ids) {
+        return [];
+    }
     return state.collections.list.filter(
         collection => collections_ids.indexOf(collection._id) > -1
     );
