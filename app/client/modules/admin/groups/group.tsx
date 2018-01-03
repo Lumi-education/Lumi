@@ -17,7 +17,11 @@ import { ActionBar } from 'client/packages/ui';
 import { IState } from 'client/state';
 import { ICollection } from 'common/types';
 import { IUser, UserListContainer } from 'client/packages/users';
+
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
+import Add_collection_dialog from './add_collection_dialog';
+
+import { CollectionListContainer } from 'client/packages/collections';
 import {
     IGroup,
     GroupSettingsContainer,
@@ -31,6 +35,7 @@ interface IStateProps {
     group_id: string;
     tab: string;
     group_users: string[];
+    group: IGroup;
 }
 
 interface IDispatchProps {
@@ -57,6 +62,10 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
+        if (!this.props.group._id) {
+            return <div>loading</div>;
+        }
+
         return (
             <div>
                 <Tabs
@@ -139,7 +148,21 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                 </div>
                             );
                         case 'collections':
-                            return <div>collections</div>;
+                            return (
+                                <div>
+                                    <CollectionListContainer
+                                        collection_ids={
+                                            this.props.group
+                                                .assigned_collections
+                                        }
+                                    />
+                                    <ActionBar>
+                                        <Add_collection_dialog
+                                            group_id={this.props.group_id}
+                                        />
+                                    </ActionBar>
+                                </div>
+                            );
                     }
                 })()}
             </div>
@@ -153,6 +176,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             ownProps.params.group_id
         ),
+        group: group_selectors.select_group(state, ownProps.params.group_id),
         tab: ownProps.params.tab,
         group_id: ownProps.params.group_id
     };

@@ -43,9 +43,14 @@ export class UserListContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
+        const users = this.props.users.filter(this.props.filter);
+
         return (
             <List>
-                {this.props.users.filter(this.props.filter).map(user => (
+                {users.length === 0 ? (
+                    <ListItem primaryText="No users found" />
+                ) : null}
+                {users.map(user => (
                     <div key={user._id}>
                         <ListItem
                             leftAvatar={

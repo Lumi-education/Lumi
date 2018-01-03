@@ -4,6 +4,8 @@ import { push } from 'client/packages/ui/actions';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import * as shortid from 'shortid';
 
 import { IState } from 'client/state';
@@ -19,10 +21,13 @@ import { get_collections } from 'client/packages/collections/actions';
 
 import { add_collection_to_group } from 'client/packages/groups/actions';
 
-interface IStateProps {
+interface IPassedProps {
+    group_id: string;
+}
+
+interface IStateProps extends IPassedProps {
     collections: ICollection[];
     group: IGroup;
-    group_id: string;
 }
 
 interface IDispatchProps {
@@ -32,7 +37,9 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    name: string;
+    name?: string;
+
+    open?: boolean;
 }
 
 export class AdminAddCollectionDialog extends React.Component<
@@ -43,7 +50,8 @@ export class AdminAddCollectionDialog extends React.Component<
         super(props);
 
         this.state = {
-            name: ''
+            name: '',
+            open: false
         };
 
         this.add_collection = this.add_collection.bind(this);
@@ -69,9 +77,7 @@ export class AdminAddCollectionDialog extends React.Component<
     }
 
     public close() {
-        this.props.dispatch(
-            push('/admin/groups/' + this.props.group_id + '/collections')
-        );
+        this.setState({ open: false });
     }
 
     public render() {
@@ -85,28 +91,41 @@ export class AdminAddCollectionDialog extends React.Component<
         ];
 
         return (
-            <Dialog
-                title="Add Collection"
-                actions={actions}
-                modal={true}
-                open={true}
-            >
-                <AutoComplete
-                    floatingLabelText="Search collections"
-                    filter={AutoComplete.fuzzyFilter}
-                    dataSource={this.props.collections.filter(
-                        collection =>
-                            this.props.group.assigned_collections.indexOf(
-                                collection._id
-                            ) === -1
-                    )}
-                    dataSourceConfig={{ text: 'name', value: '_id' }}
-                    maxSearchResults={5}
-                    fullWidth={true}
-                    onNewRequest={name => this.setState({ name })}
-                    onUpdateInput={name => this.setState({ name })}
-                />
-            </Dialog>
+            <div>
+                <FloatingActionButton
+                    onClick={() =>
+                        this.setState({
+                            open: true
+                        })
+                    }
+                    style={{ margin: '20px' }}
+                >
+                    <ContentAdd />
+                </FloatingActionButton>
+                <Dialog
+                    title="Add Collection"
+                    actions={actions}
+                    modal={true}
+                    open={this.state.open}
+                    onRequestClose={() => this.setState({ open: false })}
+                >
+                    <AutoComplete
+                        floatingLabelText="Search collections"
+                        filter={AutoComplete.fuzzyFilter}
+                        dataSource={this.props.collections.filter(
+                            collection =>
+                                this.props.group.assigned_collections.indexOf(
+                                    collection._id
+                                ) === -1
+                        )}
+                        dataSourceConfig={{ text: 'name', value: '_id' }}
+                        maxSearchResults={5}
+                        fullWidth={true}
+                        onNewRequest={name => this.setState({ name })}
+                        onUpdateInput={name => this.setState({ name })}
+                    />
+                </Dialog>
+            </div>
         );
     }
 }
@@ -114,8 +133,8 @@ export class AdminAddCollectionDialog extends React.Component<
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         collections: state.collections.list,
-        group: select_group(state, ownProps.params.group_id),
-        group_id: ownProps.params.group_id
+        group: select_group(state, ownProps.group_id),
+        group_id: ownProps.group_id
     };
 }
 
@@ -125,6 +144,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminAddCollectionDialog
-);
+export default connect<IStateProps, IDispatchProps, IPassedProps>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminAddCollectionDialog);
