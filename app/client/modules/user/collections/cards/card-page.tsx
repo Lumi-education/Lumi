@@ -71,6 +71,7 @@ export class UserCollectionCard extends React.Component<
         return (
             <div>
                 <CardViewContainer
+                    key={this.props.card_id}
                     card_id={this.props.card_id}
                     collection_id={this.props.collection_id}
                 />
