@@ -19,7 +19,7 @@ module.exports = Object.assign(sharedConfig, {
             }
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../app/client/index.html')
+            template: path.resolve(__dirname, '../src/client/index.html')
         }),
         new UglifyJSPlugin()
     ]
