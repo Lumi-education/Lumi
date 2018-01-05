@@ -4,9 +4,8 @@ import { IGroup } from 'lib/groups/types';
 import Collection from './Collection';
 
 import { DB } from '../db';
-import Relations from '../db/relations';
 
-export default class Group extends Relations implements IGroup {
+export default class Group implements IGroup {
     public _id: string;
     public type: 'group';
     public name: string;
@@ -15,7 +14,6 @@ export default class Group extends Relations implements IGroup {
     public created_at: Date;
 
     constructor(g?: Group) {
-        super();
         return assign(
             this,
             {
@@ -58,9 +56,5 @@ export default class Group extends Relations implements IGroup {
         this.active_collections = this.active_collections.filter(
             id => id !== collection_id
         );
-    }
-
-    public get_collections(db: DB, cb: (collections: Collection[]) => void) {
-        this.hasMany(db, this.assigned_collections, cb, Collection);
     }
 }

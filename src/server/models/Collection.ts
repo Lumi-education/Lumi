@@ -1,15 +1,11 @@
 import { assign, uniq } from 'lodash';
-import {
-    ICollection,
-    ICollectionSubmitMsg
-} from 'lib/collections/types';
+import { ICollection, ICollectionSubmitMsg } from 'lib/collections/types';
 
 import Card from './Card';
 import Tag from './Tag';
 import { DB } from '../db';
-import Relations from '../db/relations';
 
-export default class Collection extends Relations implements ICollection {
+export default class Collection implements ICollection {
     public _id: string;
     public description: string;
     public type: 'collection';
@@ -20,7 +16,6 @@ export default class Collection extends Relations implements ICollection {
     public submit_messages: ICollectionSubmitMsg[];
 
     constructor(c?: Collection) {
-        super();
         return assign(
             this,
             {
@@ -46,9 +41,5 @@ export default class Collection extends Relations implements ICollection {
 
     public rem_cards(card_ids: string[]): void {
         this.cards = this.cards.filter(id => card_ids.indexOf(id) > -1);
-    }
-
-    public get_cards(db: DB, cb: (cards: Card[]) => void): void {
-        this.hasMany(db, this.cards, cb, Card);
     }
 }

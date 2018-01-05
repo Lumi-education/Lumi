@@ -4,9 +4,8 @@ import { IUser } from 'lib/users/types';
 import Group from './Group';
 
 import { DB } from '../db';
-import Relations from '../db/relations';
 
-export default class User extends Relations implements IUser {
+export default class User implements IUser {
     public _id: string;
     public type: 'user';
     public name: string;
@@ -17,7 +16,6 @@ export default class User extends Relations implements IUser {
     public last_active: Date;
 
     constructor(u?) {
-        super();
         return assign(
             this,
             {
@@ -36,9 +34,5 @@ export default class User extends Relations implements IUser {
 
     public rem_group(group_id: string): void {
         this.groups = this.groups.filter(g => g !== group_id);
-    }
-
-    public get_groups(db: DB, cb: (tags: Group[]) => void): void {
-        this.hasMany(db, this.groups, cb, Group);
     }
 }

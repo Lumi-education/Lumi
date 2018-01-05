@@ -75,14 +75,6 @@ class CollectionController extends Controller<Collection> {
             req.query._ids ? { keys: JSON.parse(req.query._ids) } : {},
             collections => res.status(200).json(collections)
         );
-
-        // db.find(
-        //     { type: 'collection' },
-        //     req.query,
-        //     (collections: Collection[]) => {
-        //         res.status(200).json(collections);
-        //     }
-        // );
     }
 
     public for_user(req: IRequest, res: express.Response) {
@@ -105,20 +97,6 @@ class CollectionController extends Controller<Collection> {
         db.view('collection', 'with_cards', { key: req.params.id }, docs => {
             res.status(200).json(docs);
         });
-    }
-
-    public cards(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
-
-        db.findById(
-            req.params.id,
-            (collection: Collection) => {
-                collection.get_cards(db, (cards: Card[]) => {
-                    res.status(200).json(cards);
-                });
-            },
-            Collection
-        );
     }
 }
 

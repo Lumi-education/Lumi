@@ -42,8 +42,6 @@ router.put('/:db/collections/:id', CollectionController.update);
 router.delete('/:db/collections/:id', CollectionController.delete);
 router.put('/:db/collections/:id/action', CollectionController.action);
 
-router.get('/:db/collections/:id/cards', CollectionController.cards);
-
 // groups
 router.get('/:db/groups', mw.auth, GroupController.list);
 router.post('/:db/groups', GroupController.create);

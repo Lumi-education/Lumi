@@ -22,32 +22,6 @@ export class UserController {
             res.status(200).json(data);
         });
     }
-
-    public collections(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
-        db.findOne(
-            { _id: req.user._id },
-            {},
-            (user: User) => {
-                user.get_groups(db, (groups: Group[]) => {
-                    const groupsIds = groups
-                        .map(group => group.active_collections || [])
-                        .reduce((p, a) => [...p, ...a], []);
-                    db.find(
-                        {
-                            _id: { $in: groupsIds },
-                            type: 'collection'
-                        },
-                        {},
-                        (collections: Collection[]) => {
-                            res.status(200).json(collections);
-                        }
-                    );
-                });
-            },
-            User
-        );
-    }
 }
 
 export default new UserController();

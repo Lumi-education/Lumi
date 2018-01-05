@@ -4,11 +4,10 @@ import { IBaseCard, Card_types } from 'lib/cards/types';
 import Tag from './Tag';
 
 import { DB } from '../db';
-import Relations from '../db/relations';
 
 type Markdown = string;
 
-export default class Card extends Relations implements IBaseCard {
+export default class Card implements IBaseCard {
     public _id: string;
     public type: 'card';
     public card_type: Card_types;
@@ -22,7 +21,6 @@ export default class Card extends Relations implements IBaseCard {
     public _attachments;
 
     constructor(c?: Card) {
-        super();
         return assign(
             this,
             {

@@ -2,9 +2,8 @@ import { assign } from 'lodash';
 import { ITag } from 'lib/tags/types';
 
 import { DB } from '../db';
-import Relations from '../db/relations';
 
-export default class Tag extends Relations implements ITag {
+export default class Tag implements ITag {
     public _id: string;
     public type: 'tag';
     public name: string;
@@ -14,7 +13,6 @@ export default class Tag extends Relations implements ITag {
     public color: string;
 
     constructor(t?: Tag) {
-        super();
         return assign(
             this,
             {
