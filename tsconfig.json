@@ -8,7 +8,7 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
-        "baseUrl": "./src"
+        "baseUrl": "./"
     },
     "files": [
         "src/client/boot.tsx"
