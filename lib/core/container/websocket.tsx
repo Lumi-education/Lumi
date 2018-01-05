@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import * as socketio from 'socket.io-client';
 
-// types
-import { IState } from 'client/state';
-
-// actions
+import { IState } from '../types';
 
 declare var window;
 

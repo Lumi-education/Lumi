@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
 import Auth from 'client/pages/auth';
-import Websocket from 'client/pages/websocket';
+import * as Core from 'lib/core';
 import Landing from 'client/pages/landing';
 
 import adminRoutes from 'client/pages/admin/routes';
@@ -28,7 +28,7 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                 <Route path="/:db" component={CheckDBContainer}>
                     {installRoutes}
                     <Route component={Auth}>
-                        <Route component={Websocket}>
+                        <Route component={Core.container.websocket}>
                             <IndexRoute component={Landing} />
                             {userRoutes}
                             {adminRoutes}
