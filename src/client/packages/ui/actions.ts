@@ -5,7 +5,6 @@ import * as debug from 'debug';
 
 declare var window;
 
-import { session_update } from '../session/actions';
 import {
     UI_DIALOG_CLOSE,
     UI_DIALOG_OPEN,
@@ -28,7 +27,6 @@ export function push(url: string) {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
         dispatch(_push('/' + window.location.pathname.split('/')[1] + url));
-        // dispatch( session_update({ location: url }) );
     };
 }
 
