@@ -3,8 +3,6 @@ import { IUser } from 'lib/users/types';
 
 import Group from './Group';
 
-import { DB } from '../db';
-
 export default class User implements IUser {
     public _id: string;
     public type: 'user';

@@ -1,10 +1,6 @@
 import { assign, uniq } from 'lodash';
 import { IGroup } from 'lib/groups/types';
 
-import Collection from './Collection';
-
-import { DB } from '../db';
-
 export default class Group implements IGroup {
     public _id: string;
     public type: 'group';

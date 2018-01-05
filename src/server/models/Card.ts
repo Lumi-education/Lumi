@@ -1,10 +1,6 @@
 import { assign } from 'lodash';
 import { IBaseCard, Card_types } from 'lib/cards/types';
 
-import Tag from './Tag';
-
-import { DB } from '../db';
-
 type Markdown = string;
 
 export default class Card implements IBaseCard {

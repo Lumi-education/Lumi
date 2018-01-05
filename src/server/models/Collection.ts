@@ -1,10 +1,6 @@
 import { assign, uniq } from 'lodash';
 import { ICollection, ICollectionSubmitMsg } from 'lib/collections/types';
 
-import Card from './Card';
-import Tag from './Tag';
-import { DB } from '../db';
-
 export default class Collection implements ICollection {
     public _id: string;
     public description: string;

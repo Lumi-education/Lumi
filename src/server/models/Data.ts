@@ -1,8 +1,6 @@
 import { assign } from 'lodash';
 import { IBaseData, Card_types } from 'lib/cards/types';
 
-import { DB } from '../db';
-
 export default class Data implements IBaseData {
     public _id: string;
     public type: 'data';

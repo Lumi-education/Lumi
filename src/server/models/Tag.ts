@@ -1,8 +1,6 @@
 import { assign } from 'lodash';
 import { ITag } from 'lib/tags/types';
 
-import { DB } from '../db';
-
 export default class Tag implements ITag {
     public _id: string;
     public type: 'tag';
