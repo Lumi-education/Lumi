@@ -10,7 +10,7 @@ import {
     DATA_UPDATE_REQUEST,
     DATA_UPDATE_SUCCESS,
     DATA_UPDATE_ERROR
-} from '../action-types';
+} from './constants';
 
 export function create_data<T>(data: T) {
     return {

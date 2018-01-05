@@ -19,7 +19,7 @@ import {
     UI_SET_RIGHT_APPBAR_ICON,
     UI_TOGGLE_TAG_ID_FILTER,
     UI_SET_APPBAR_TITLE
-} from '../action-types';
+} from './constants';
 import { disable_collection } from 'lib/groups/api';
 
 export function push(url: string) {

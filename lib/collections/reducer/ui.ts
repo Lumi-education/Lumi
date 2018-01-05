@@ -1,6 +1,6 @@
 import { assign, unionBy } from 'lodash';
 
-import { COLLECTION_SELECT } from '../collection_constants';
+import { COLLECTION_SELECT } from '../constants';
 
 import { ICollectionUI } from '../';
 

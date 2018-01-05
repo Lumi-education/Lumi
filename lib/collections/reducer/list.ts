@@ -3,9 +3,8 @@ import { assign, unionBy } from 'lodash';
 import {
     COLLECTION_GET_SUCCESS,
     COLLECTION_ADD_CARDS_REQUEST,
-    COLLECTION_DELETE_COLLECTION_REQUEST,
-    DB_CHANGE
-} from '../../action-types';
+    COLLECTION_DELETE_COLLECTION_REQUEST
+} from '../constants';
 
 import { ICollection } from 'lib/collections/types';
 
@@ -29,7 +28,7 @@ export default function(
         case COLLECTION_DELETE_COLLECTION_REQUEST:
             return state.filter(c => c._id !== action.collection_id);
 
-        case DB_CHANGE:
+        case 'DB_CHANGE':
         case COLLECTION_GET_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'collection'),

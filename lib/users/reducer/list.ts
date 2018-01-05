@@ -12,8 +12,6 @@ import {
     USERS_UPDATE_USER_REQUEST
 } from '../constants';
 
-import { DB_CHANGE } from '../../action-types';
-
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {
         case USERS_ADD_GROUP_REQUEST:
@@ -46,7 +44,7 @@ export default function(state: IUser[] = [], action): IUser[] {
         case USERS_DELETE_USER_REQUEST:
             return state.filter(u => u._id !== action.payload.user_id);
 
-        case DB_CHANGE:
+        case 'DB_CHANGE':
         case USERS_GET_USERS_SUCCESS:
         case USERS_GET_USER_SUCCESS:
             return unionBy(

@@ -14,9 +14,8 @@ import {
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
     UI_TOGGLE_TAG_ID_FILTER,
-    UI_SET_APPBAR_TITLE,
-    COLLECTION_ADD_CARDS_SUCCESS
-} from '../action-types';
+    UI_SET_APPBAR_TITLE
+} from './constants';
 
 const initialState: IUI = {
     left_drawer_show: false,
@@ -51,9 +50,6 @@ export default function(state: IUI = initialState, action): IUI {
                           )
                         : uniq([...state.selected_card_ids, action.card_id])
             });
-
-        case COLLECTION_ADD_CARDS_SUCCESS:
-            return assign({}, state, { selected_card_ids: [] });
 
         case UI_TOGGLE_CARDS_DIALOG:
             return assign({}, state, {

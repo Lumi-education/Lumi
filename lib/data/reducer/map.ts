@@ -8,9 +8,8 @@ import {
     DATA_UPDATE_SUCCESS,
     DATA_UPDATE_REQUEST,
     DATA_CREATE_SUCCESS,
-    DB_CHANGE,
     DATA_CREATE_REQUEST
-} from 'lib/action-types';
+} from '../constants';
 
 export default function(
     state: Map<string, {}> = Map<string, IData>({}),
@@ -23,7 +22,7 @@ export default function(
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, {}>(o));
 
-        case DB_CHANGE:
+        case 'DB_CHANGE':
         case DATA_GET_SUCCESS:
             return state.merge(
                 Map<string, {}>(
