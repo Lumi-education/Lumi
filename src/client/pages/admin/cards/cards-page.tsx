@@ -46,10 +46,7 @@ import { IState } from 'client/state';
 import { ICard } from 'lib/cards/types';
 
 // selectors
-import {
-    select_all_cards,
-    select_cards_by_ids
-} from 'lib/cards/selectors';
+import { select_all_cards, select_cards_by_ids } from 'lib/cards/selectors';
 import {
     select_tags_as_map,
     select_doc_ids_for_tags

@@ -8,7 +8,7 @@ import { Paper } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
-import { IUser, UserContainer, users_actions } from 'lib/users';
+import * as User from 'lib/users';
 import { GroupsInputContainer, groups_actions } from 'lib/groups';
 
 interface IStateProps {
@@ -29,7 +29,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(users_actions.get_user(this.props.user_id));
+        this.props.dispatch(User.actions.get_user(this.props.user_id));
         this.props.dispatch(groups_actions.get_groups());
     }
 
@@ -37,9 +37,9 @@ export class AdminUserPage extends React.Component<IProps, {}> {
         return (
             <div>
                 <Paper>
-                    <UserContainer user_id={this.props.user_id}>
+                    <User.UserContainer user_id={this.props.user_id}>
                         <GroupsInputContainer user_id={this.props.user_id} />
-                    </UserContainer>
+                    </User.UserContainer>
                 </Paper>
             </div>
         );

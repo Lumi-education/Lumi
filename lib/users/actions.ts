@@ -28,7 +28,7 @@ import {
     USERS_UPDATE_USER_ERROR
 } from './constants';
 
-export function create_user(name: string, options?, id = shortid()) {
+export function create_user(name: string, options?) {
     return {
         types: [
             USERS_CREATE_USER_REQUEST,
@@ -36,7 +36,7 @@ export function create_user(name: string, options?, id = shortid()) {
             USERS_CREATE_USER_ERROR
         ],
         api: API.create_user(name, options),
-        payload: { id, payload: { name } }
+        payload: { payload: { name } }
     };
 }
 

@@ -22,16 +22,7 @@ import { IState } from 'client/state';
 import { IUser } from 'lib/users';
 
 // actions
-import {
-    get_user,
-    update_user,
-    delete_user
-} from 'lib/users/actions';
-
-import {
-    get_groups,
-    create_and_add_group
-} from 'lib/groups/actions';
+import { get_user, update_user, delete_user } from 'lib/users/actions';
 
 interface IPassedProps {
     user_id: string;
@@ -118,27 +109,40 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                         <MenuItem value={4} primaryText="Admin" />
                     </SelectField>
                     {this.props.children}
-                    <RaisedButton
-                        fullWidth={true}
-                        label="Back"
-                        onClick={() => this.props.dispatch(goBack())}
-                    />
-                    <RaisedButtonComponent
-                        dispatch={this.props.dispatch}
-                        action={update_user(
-                            this.props.user._id,
-                            this.updated_state()
-                        )}
-                        labels={['Save', 'Saving...', 'Saved', 'Not saved']}
-                    />
-                    <RaisedButton
-                        fullWidth={true}
-                        secondary={true}
-                        onClick={() =>
-                            this.setState({ show_delete_dialog: true })
-                        }
-                        label="Delete"
-                    />
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flex: 1 }}>
+                            <RaisedButton
+                                fullWidth={true}
+                                label="Back"
+                                onClick={() => this.props.dispatch(goBack())}
+                            />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <RaisedButton
+                                fullWidth={true}
+                                secondary={true}
+                                onClick={() =>
+                                    this.setState({ show_delete_dialog: true })
+                                }
+                                label="Delete"
+                            />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <RaisedButtonComponent
+                                dispatch={this.props.dispatch}
+                                action={update_user(
+                                    this.props.user._id,
+                                    this.updated_state()
+                                )}
+                                labels={[
+                                    'Save',
+                                    'Saving...',
+                                    'Saved',
+                                    'Not saved'
+                                ]}
+                            />
+                        </div>
+                    </div>
 
                     <Dialog
                         open={this.state.show_delete_dialog}

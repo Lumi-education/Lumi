@@ -3,12 +3,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import FilterBar from 'lib/ui/components/filter-bar';
+import ActionBar from 'lib/ui/components/action-bar';
 
 // state
 import { IState } from 'client/state';
 
 // modules
-import { IUser, UserListContainer, users_actions } from 'lib/users';
+import * as User from 'lib/users';
 
 interface IStateProps {}
 
@@ -32,7 +33,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(users_actions.get_users());
+        this.props.dispatch(User.actions.get_users());
     }
 
     public render() {
@@ -44,7 +45,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <UserListContainer
+                <User.UserListContainer
                     filter={user => {
                         return this.state.search_text === ''
                             ? true
@@ -55,6 +56,9 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                                   ) > -1;
                     }}
                 />
+                <ActionBar>
+                    <User.CreateUserContainer />
+                </ActionBar>
             </div>
         );
     }
