@@ -10,7 +10,7 @@ import CollectionSettingsComponent from '../components/collection-settings';
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 import { ICard } from 'client/packages/cards/types';
 
 // selectors

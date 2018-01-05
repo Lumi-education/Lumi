@@ -1,6 +1,6 @@
 import { assign, unionBy } from 'lodash';
 
-import { ISession }        from 'common/types';
+import { ISession } from 'client/packages/collections/types';
 
 import { USER_INIT_SUCCESS } from '../../action-types';
 

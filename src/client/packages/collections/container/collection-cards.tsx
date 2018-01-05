@@ -12,7 +12,7 @@ import { IState } from 'client/state';
 
 // types
 import { ICard } from 'client/packages/cards/types';
-import { ICollection } from 'common/types';
+import { ICollection } from '../types';
 
 // selectors
 import { select_cards_as_map } from 'client/packages/cards/selectors';

@@ -7,7 +7,7 @@ import {
     DB_CHANGE
 } from '../../action-types';
 
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 const initialState: ICollection[] = [];
 

@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import { List, ListItem } from 'material-ui/List';
 
 // types
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 interface IStateProps {
     collections: ICollection[];

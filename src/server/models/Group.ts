@@ -1,5 +1,4 @@
 import { assign, uniq } from 'lodash';
-import { Collection_id } from 'common/types';
 import { IGroup } from 'client/packages/groups/types';
 
 import Collection from './Collection';
@@ -11,8 +10,8 @@ export default class Group extends Relations implements IGroup {
     public _id: string;
     public type: 'group';
     public name: string;
-    public assigned_collections: Collection_id[];
-    public active_collections: Collection_id[];
+    public assigned_collections: string[];
+    public active_collections: string[];
     public created_at: Date;
 
     constructor(g?: Group) {

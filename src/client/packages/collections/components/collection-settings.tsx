@@ -7,7 +7,7 @@ import { TagInputContainer } from 'client/packages/tags';
 import RaisedButton from 'material-ui/RaisedButton';
 
 // types
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 const log_props = debug(
     'lumi:props:collections:components:collection-settings'

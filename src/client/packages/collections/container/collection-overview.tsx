@@ -30,7 +30,7 @@ import { get_grade_color } from 'client/style/utils';
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 import { ICard } from 'client/packages/cards/types';
 
 // container

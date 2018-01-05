@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 // selectors
 import { select_collection_by_id } from 'client/packages/collections/selectors';

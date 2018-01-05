@@ -1,5 +1,8 @@
 import { assign, uniq } from 'lodash';
-import { ICollection, Card_id, ICollectionSubmitMsg } from 'common/types';
+import {
+    ICollection,
+    ICollectionSubmitMsg
+} from 'client/packages/collections/types';
 
 import Card from './Card';
 import Tag from './Tag';
@@ -10,7 +13,7 @@ export default class Collection extends Relations implements ICollection {
     public _id: string;
     public description: string;
     public type: 'collection';
-    public cards: Card_id[];
+    public cards: string[];
     public name: string;
     public created_at: Date;
     public updated_at: Date;

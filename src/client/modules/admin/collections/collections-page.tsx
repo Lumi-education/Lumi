@@ -12,7 +12,7 @@ import { CollectionListComponent } from 'client/packages/collections';
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 // actions
 import {

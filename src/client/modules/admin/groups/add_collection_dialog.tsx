@@ -10,7 +10,7 @@ import * as shortid from 'shortid';
 
 import { IState } from 'client/state';
 
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 import { IGroup } from 'client/packages/groups';
 
 // selectors

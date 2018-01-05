@@ -15,7 +15,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 // types
 import { ActionBar } from 'client/packages/ui';
 import { IState } from 'client/state';
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 import { IUser, UserListContainer } from 'client/packages/users';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';

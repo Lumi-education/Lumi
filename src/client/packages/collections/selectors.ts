@@ -2,7 +2,7 @@ import { assign } from 'lodash';
 
 import { IState } from 'client/state';
 
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 import { ICollectionData } from 'client/packages/cards/types';
 
 export interface IUserCollection extends ICollectionData {

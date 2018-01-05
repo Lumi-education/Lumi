@@ -15,7 +15,7 @@ import { IState } from 'client/state';
 
 // types
 import { IData, ICollectionData } from 'client/packages/cards/types';
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 // selectors
 import { select_data_for_user_and_collection } from 'client/packages/data/selectors';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { IState } from 'client/state';
 
-import { ICollection } from 'common/types';
+import { ICollection } from 'client/packages/collections/types';
 
 import Paper from 'material-ui/Paper';
 
