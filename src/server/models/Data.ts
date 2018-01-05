@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { IBaseData, Card_types } from 'client/packages/cards/types';
+import { IBaseData, Card_types } from 'lib/cards/types';
 
 import { DB } from '../db';
 import Relations from '../db/relations';

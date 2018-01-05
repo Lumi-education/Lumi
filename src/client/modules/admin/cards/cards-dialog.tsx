@@ -7,11 +7,11 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 
 // container
-import CardList from 'client/packages/cards/container/card-list';
+import CardList from 'lib/cards/container/card-list';
 
 // actions
-import { toggle_cards_dialog, select_card } from 'client/packages/ui/actions';
-import { add_cards_to_collection } from 'client/packages/collections/actions';
+import { toggle_cards_dialog, select_card } from 'lib/ui/actions';
+import { add_cards_to_collection } from 'lib/collections/actions';
 
 // local
 import { IState } from 'client/state';

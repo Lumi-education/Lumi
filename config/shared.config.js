@@ -60,8 +60,8 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
-            client: path.resolve(__dirname, '../src/client'),
-            lumi: path.resolve(__dirname, '../src')
+            lib: path.resolve(__dirname, '../lib'),
+            client: path.resolve(__dirname, '../src/client')
         }
     }
 };

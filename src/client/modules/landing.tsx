@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 
 // local
 import { IState } from '../state';

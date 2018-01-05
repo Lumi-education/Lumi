@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // container
-import CardEditContainer from 'client/packages/cards/container/card-edit';
+import CardEditContainer from 'lib/cards/container/card-edit';
 
 // local
 import { IState } from 'client/state';

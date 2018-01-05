@@ -28,8 +28,8 @@ import {
     left_drawer_open,
     left_drawer_close,
     push
-} from 'client/packages/ui/actions';
-import { logout } from 'client/packages/auth/actions';
+} from 'lib/ui/actions';
+import { logout } from 'lib/auth/actions';
 
 interface IStateProps {
     left_drawer_show: boolean;

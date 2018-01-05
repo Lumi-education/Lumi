@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 
 // components
 import {
@@ -25,29 +25,29 @@ import { get_grade_color } from 'client/style/utils';
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'client/packages/collections/types';
-import { IUser } from 'client/packages/users';
-import { ICard } from 'client/packages/cards/types';
-import { IGroup } from 'client/packages/groups';
+import { ICollection } from 'lib/collections/types';
+import { IUser } from 'lib/users';
+import { ICard } from 'lib/cards/types';
+import { IGroup } from 'lib/groups';
 
 // selectors
 import {
     select_collection_by_id,
     select_collections_as_array
-} from 'client/packages/collections/selectors';
+} from 'lib/collections/selectors';
 
-import { select_cards_by_ids } from 'client/packages/cards/selectors';
+import { select_cards_by_ids } from 'lib/cards/selectors';
 
-import { get_users_by_group } from 'client/packages/users/selectors';
-import { select_data_as_map } from 'client/packages/data/selectors';
-import { groups_list } from 'client/packages/groups/selectors';
+import { get_users_by_group } from 'lib/users/selectors';
+import { select_data_as_map } from 'lib/data/selectors';
+import { groups_list } from 'lib/groups/selectors';
 // actions
 import {
     get_collections,
     get_collection
-} from 'client/packages/collections/actions';
-import { get_groups, get_group } from 'client/packages/groups/actions';
-import { get_data } from 'client/packages/data/actions';
+} from 'lib/collections/actions';
+import { get_groups, get_group } from 'lib/groups/actions';
+import { get_data } from 'lib/data/actions';
 
 interface IStateProps {
     collection: ICollection;

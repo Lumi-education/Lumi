@@ -4,7 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-import { IGroup } from 'client/packages/groups';
+import { IGroup } from 'lib/groups';
 
 interface IProps {
     create_group: (name: string) => void;

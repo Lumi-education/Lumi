@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { IBaseCard, Card_types } from 'client/packages/cards/types';
+import { IBaseCard, Card_types } from 'lib/cards/types';
 
 import Tag from './Tag';
 

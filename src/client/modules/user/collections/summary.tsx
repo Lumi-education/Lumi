@@ -4,29 +4,29 @@ import { connect } from 'react-redux';
 
 import { Paper, RaisedButton } from 'material-ui';
 
-import { CollectionEvaluationContainer } from 'client/packages/collections';
+import { CollectionEvaluationContainer } from 'lib/collections';
 
 // local
 import { IState } from 'client/state';
 
 // types
-import { IData } from 'client/packages/cards/types';
+import { IData } from 'lib/cards/types';
 
 // actions
 import {
     get_collection,
     submit_collection
-} from 'client/packages/collections/actions';
-import { get_user_collection_data } from 'client/packages/data/actions';
-import { push, set_appbar_title } from 'client/packages/ui/actions';
+} from 'lib/collections/actions';
+import { get_user_collection_data } from 'lib/data/actions';
+import { push, set_appbar_title } from 'lib/ui/actions';
 
 // selectors
 import {
     IUserCollection,
     select_collection_for_user
-} from 'client/packages/collections/selectors';
+} from 'lib/collections/selectors';
 
-import { select_data_for_user_and_collection } from 'client/packages/data/selectors';
+import { select_data_for_user_and_collection } from 'lib/data/selectors';
 
 interface IStateProps {
     collection_id: string;

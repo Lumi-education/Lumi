@@ -3,22 +3,22 @@ import { connect } from 'react-redux';
 
 import { IState } from 'client/state';
 
-import { ICollection } from 'client/packages/collections/types';
+import { ICollection } from 'lib/collections/types';
 
 import Paper from 'material-ui/Paper';
 
 import UserAssignments from './assignments';
 
 // components
-import { CollectionListComponent } from 'client/packages/collections';
+import { CollectionListComponent } from 'lib/collections';
 
 // selectors
-import { select_collections_as_array } from 'client/packages/collections/selectors';
+import { select_collections_as_array } from 'lib/collections/selectors';
 
 // actions
-import { left_drawer_open, push } from 'client/packages/ui/actions';
+import { left_drawer_open, push } from 'lib/ui/actions';
 
-import { get_user_collections } from 'client/packages/collections/actions';
+import { get_user_collections } from 'lib/collections/actions';
 
 interface IStateProps {
     collections: ICollection[];

@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
 import Avatar from 'material-ui/Avatar';
@@ -9,7 +9,7 @@ import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-import FilterBar from 'client/packages/ui/components/filter-bar';
+import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Divider from 'material-ui/Divider';
@@ -22,12 +22,12 @@ import MenuItem from 'material-ui/MenuItem';
 import CreateOrAddUserDialog from './create_or_add_user_dialog';
 
 // selectors
-import { select_group } from 'client/packages/groups/selectors';
-import { get_users_by_group } from 'client/packages/users/selectors';
+import { select_group } from 'lib/groups/selectors';
+import { get_users_by_group } from 'lib/users/selectors';
 
 // types
 import { IState } from 'client/state';
-import { ICollection } from 'client/packages/collections/types';
+import { ICollection } from 'lib/collections/types';
 
 // actions
 import {
@@ -37,7 +37,7 @@ import {
     rem_collection_from_group,
     enable_collection,
     disable_collection
-} from 'client/packages/groups/actions';
+} from 'lib/groups/actions';
 
 interface IStateProps {
     collections: ICollection[];

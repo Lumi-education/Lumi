@@ -2,7 +2,7 @@ import * as express from 'express';
 import { assign, noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { ITag, ITagRef } from 'client/packages/tags/types';
+import { ITag, ITagRef } from 'lib/tags/types';
 import Tag from '../../models/Tag';
 import { DB } from '../../db';
 

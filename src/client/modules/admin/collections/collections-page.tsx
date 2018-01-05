@@ -1,24 +1,24 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
 
 import { Map } from 'immutable';
 
-import { FilterBarComponent, AddButtonComponent } from 'client/packages/ui';
-import { CollectionListComponent } from 'client/packages/collections';
+import { FilterBarComponent, AddButtonComponent } from 'lib/ui';
+import { CollectionListComponent } from 'lib/collections';
 // local
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'client/packages/collections/types';
+import { ICollection } from 'lib/collections/types';
 
 // actions
 import {
     get_collections,
     create_collection
-} from 'client/packages/collections/actions';
+} from 'lib/collections/actions';
 
 const log_action = debug('lumi:actions');
 

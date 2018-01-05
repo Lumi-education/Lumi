@@ -7,11 +7,11 @@ import { Dispatch } from 'redux';
 import { IState } from 'client/state';
 
 // components
-import { LoginContainer } from 'client/packages/auth';
+import { LoginContainer } from 'lib/auth';
 
 // actions
-import { push } from 'client/packages/ui/actions';
-import { get_session, login, register } from 'client/packages/auth/actions';
+import { push } from 'lib/ui/actions';
+import { get_session, login, register } from 'lib/auth/actions';
 
 interface IStateProps {
     is_authed: boolean;

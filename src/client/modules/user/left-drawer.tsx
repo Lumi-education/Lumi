@@ -22,15 +22,15 @@ import {
     push,
     left_drawer_close,
     left_drawer_open
-} from 'client/packages/ui/actions';
+} from 'lib/ui/actions';
 
-import { logout } from 'client/packages/auth/actions';
+import { logout } from 'lib/auth/actions';
 
 // selector
 import {
     select_collections_for_user,
     IUserCollection
-} from 'client/packages/collections/selectors';
+} from 'lib/collections/selectors';
 
 // types
 import { IState } from 'client/state';

@@ -5,27 +5,27 @@ import { connect } from 'react-redux';
 import { Dialog } from 'material-ui';
 
 // container
-import { CardViewContainer } from 'client/packages/cards';
-import { CollectionOverviewContainer } from 'client/packages/collections';
+import { CardViewContainer } from 'lib/cards';
+import { CollectionOverviewContainer } from 'lib/collections';
 import BottomNavigation from './bottom-navigation';
 
 // local
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'client/packages/collections/types';
-import { ICard } from 'client/packages/cards/types';
+import { ICollection } from 'lib/collections/types';
+import { ICard } from 'lib/cards/types';
 
 // selectors
-import { select_card } from 'client/packages/cards/selectors';
-import { select_collection_by_id } from 'client/packages/collections/selectors';
+import { select_card } from 'lib/cards/selectors';
+import { select_collection_by_id } from 'lib/collections/selectors';
 
 // actions
 import {
     push,
     right_drawer_open,
     set_appbar_title
-} from 'client/packages/ui/actions';
+} from 'lib/ui/actions';
 
 interface IStateProps {
     collection: ICollection;

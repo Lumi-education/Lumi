@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import * as markdownit from 'markdown-it';
 import * as debug from 'debug';
 import { Map } from 'immutable';
@@ -32,10 +32,10 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import Tag from 'client/packages/tags/components/tag';
-import FilterBar from 'client/packages/ui/components/filter-bar';
+import Tag from 'lib/tags/components/tag';
+import FilterBar from 'lib/ui/components/filter-bar';
 
-import CardListComponent from 'client/packages/cards/components/card-list';
+import CardListComponent from 'lib/cards/components/card-list';
 
 import CardsRightDrawer from './right-drawer';
 
@@ -43,21 +43,21 @@ import CardsRightDrawer from './right-drawer';
 import { IState } from 'client/state';
 
 // types
-import { ICard } from 'client/packages/cards/types';
+import { ICard } from 'lib/cards/types';
 
 // selectors
 import {
     select_all_cards,
     select_cards_by_ids
-} from 'client/packages/cards/selectors';
+} from 'lib/cards/selectors';
 import {
     select_tags_as_map,
     select_doc_ids_for_tags
-} from 'client/packages/tags/selectors';
+} from 'lib/tags/selectors';
 
 // actions
-import { get_cards, create_card } from 'client/packages/cards/actions';
-import { get_tags } from 'client/packages/tags/actions';
+import { get_cards, create_card } from 'lib/cards/actions';
+import { get_tags } from 'lib/tags/actions';
 
 const md = markdownit();
 const log = debug('lumi:modules:admin:cards:cards-page');

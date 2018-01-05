@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -9,13 +9,13 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import { IState } from 'client/state';
 
-import { IGroup } from 'client/packages/groups';
-import { IUser } from 'client/packages/users';
+import { IGroup } from 'lib/groups';
+import { IUser } from 'lib/users';
 
 // actions
-import { get_users, create_user } from 'client/packages/users/actions';
+import { get_users, create_user } from 'lib/users/actions';
 
-import { add_group } from 'client/packages/groups/actions';
+import { add_group } from 'lib/groups/actions';
 
 interface IPassedProps {
     group_id: string;

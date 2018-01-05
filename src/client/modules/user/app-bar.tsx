@@ -18,7 +18,7 @@ import {
     push,
     right_drawer_open,
     left_drawer_open
-} from 'client/packages/ui/actions';
+} from 'lib/ui/actions';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;

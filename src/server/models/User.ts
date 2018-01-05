@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { IUser } from 'client/packages/users/types';
+import { IUser } from 'lib/users/types';
 
 import Group from './Group';
 

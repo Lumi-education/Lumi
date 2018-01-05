@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 
 import { Map } from 'immutable';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
@@ -20,21 +20,21 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import CreateUserDialog from './create_user_dialog';
 
-import FilterBar from 'client/packages/ui/components/filter-bar';
+import FilterBar from 'lib/ui/components/filter-bar';
 
 // local
 import { IState } from 'client/state';
 
 // types
-import { IGroup } from 'client/packages/groups';
-import { IUser, UserListContainer } from 'client/packages/users';
+import { IGroup } from 'lib/groups';
+import { IUser, UserListContainer } from 'lib/users';
 
 // actions
 import {
     create_user,
     get_users,
     delete_user
-} from 'client/packages/users/actions';
+} from 'lib/users/actions';
 
 interface IStateProps {
     users: IUser[];

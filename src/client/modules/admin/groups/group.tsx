@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
 import Paper from 'material-ui/Paper';
@@ -10,26 +10,26 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 // selectors
-// import { select_users_for_group } from 'client/packages/groups/selectors';
+// import { select_users_for_group } from 'lib/groups/selectors';
 
 // types
-import { ActionBar } from 'client/packages/ui';
+import { ActionBar } from 'lib/ui';
 import { IState } from 'client/state';
-import { ICollection } from 'client/packages/collections/types';
-import { IUser, UserListContainer } from 'client/packages/users';
+import { ICollection } from 'lib/collections/types';
+import { IUser, UserListContainer } from 'lib/users';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
 import Add_collection_dialog from './add_collection_dialog';
 
-import { CollectionListContainer } from 'client/packages/collections';
+import { CollectionListContainer } from 'lib/collections';
 import {
     IGroup,
     GroupSettingsContainer,
     group_selectors
-} from 'client/packages/groups';
+} from 'lib/groups';
 
 // actions
-import { get_group } from 'client/packages/groups/actions';
+import { get_group } from 'lib/groups/actions';
 
 interface IStateProps {
     group_id: string;

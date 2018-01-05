@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import * as debug from 'debug';
 import { AppBar, Paper, TextField, RaisedButton } from 'material-ui';
 
-import { checkDb } from 'client/packages/system/actions';
+import { checkDb } from 'lib/system/actions';
 
 // local
 import { IState } from '../state';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -10,16 +10,16 @@ import * as shortid from 'shortid';
 
 import { IState } from 'client/state';
 
-import { ICollection } from 'client/packages/collections/types';
-import { IGroup } from 'client/packages/groups';
+import { ICollection } from 'lib/collections/types';
+import { IGroup } from 'lib/groups';
 
 // selectors
-import { select_group } from 'client/packages/groups/selectors';
+import { select_group } from 'lib/groups/selectors';
 
 // actions
-import { get_collections } from 'client/packages/collections/actions';
+import { get_collections } from 'lib/collections/actions';
 
-import { add_collection_to_group } from 'client/packages/groups/actions';
+import { add_collection_to_group } from 'lib/groups/actions';
 
 interface IPassedProps {
     group_id: string;

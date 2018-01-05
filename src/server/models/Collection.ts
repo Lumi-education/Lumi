@@ -2,7 +2,7 @@ import { assign, uniq } from 'lodash';
 import {
     ICollection,
     ICollectionSubmitMsg
-} from 'client/packages/collections/types';
+} from 'lib/collections/types';
 
 import Card from './Card';
 import Tag from './Tag';

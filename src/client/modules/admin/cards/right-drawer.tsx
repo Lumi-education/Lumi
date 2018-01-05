@@ -12,7 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGFilter from 'material-ui/svg-icons/content/filter-list';
 
-import TagFilterContainer from 'client/packages/tags/container/tag-filter';
+import TagFilterContainer from 'lib/tags/container/tag-filter';
 
 // types
 import { IState } from 'client/state';
@@ -24,8 +24,8 @@ import {
     push,
     set_right_appbar_icon,
     toggle_tag_id_filter
-} from 'client/packages/ui/actions';
-import { logout } from 'client/packages/auth/actions';
+} from 'lib/ui/actions';
+import { logout } from 'lib/auth/actions';
 
 const log = debug('lumi:pages:cards:right-drawer');
 

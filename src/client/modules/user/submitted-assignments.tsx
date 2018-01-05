@@ -7,13 +7,13 @@ import { Avatar, List, ListItem, Subheader, Divider, Paper } from 'material-ui';
 // material-ui -> icons
 
 // actions
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 
 // selector
 import {
     select_collections_for_user,
     IUserCollection
-} from 'client/packages/collections/selectors';
+} from 'lib/collections/selectors';
 
 // types
 import { IState } from 'client/state';

@@ -8,8 +8,8 @@ import { IState } from 'client/state';
 // types
 
 // actions
-import { get_collection } from 'client/packages/collections/actions';
-import { get_user_collection_data } from 'client/packages/data/actions';
+import { get_collection } from 'lib/collections/actions';
+import { get_user_collection_data } from 'lib/data/actions';
 
 interface IStateProps {
     collection_id: string;

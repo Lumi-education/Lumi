@@ -15,7 +15,7 @@ import {
     left_drawer_open,
     right_drawer_open,
     push
-} from 'client/packages/ui/actions';
+} from 'lib/ui/actions';
 
 interface IStateProps {
     location;

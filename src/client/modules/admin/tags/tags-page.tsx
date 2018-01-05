@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 
 import { Map } from 'immutable';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
@@ -30,19 +30,19 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-import FilterBar from 'client/packages/ui/components/filter-bar';
-import TagListComponent from 'client/packages/tags/components/tag-list';
+import FilterBar from 'lib/ui/components/filter-bar';
+import TagListComponent from 'lib/tags/components/tag-list';
 // local
 import { IState } from 'client/state';
 
 // types
-import { ITag } from 'client/packages/tags';
+import { ITag } from 'lib/tags';
 
 // selectors
-import { select_all_tags } from 'client/packages/tags/selectors';
+import { select_all_tags } from 'lib/tags/selectors';
 
 // actions
-import { get_tags, create_tag, delete_tag } from 'client/packages/tags/actions';
+import { get_tags, create_tag, delete_tag } from 'lib/tags/actions';
 
 interface IStateProps {
     tags: ITag[];

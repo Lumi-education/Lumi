@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'client/packages/ui/actions';
+import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
 import Avatar from 'material-ui/Avatar';
@@ -9,7 +9,7 @@ import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-import FilterBar from 'client/packages/ui/components/filter-bar';
+import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Divider from 'material-ui/Divider';
@@ -17,18 +17,18 @@ import Divider from 'material-ui/Divider';
 import CreateGroupDialog from './create_group_dialog';
 
 // selectors
-import { groups_list } from 'client/packages/groups/selectors';
+import { groups_list } from 'lib/groups/selectors';
 
 // types
 import { IState } from 'client/state';
-import { IGroup } from 'client/packages/groups';
+import { IGroup } from 'lib/groups';
 
 // actions
 import {
     get_groups,
     delete_group,
     create_group
-} from 'client/packages/groups/actions';
+} from 'lib/groups/actions';
 
 interface IStateProps {
     groups: IGroup[];

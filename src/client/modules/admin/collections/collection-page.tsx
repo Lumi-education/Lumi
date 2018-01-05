@@ -5,23 +5,23 @@ import { connect } from 'react-redux';
 // components
 import { Tabs, Tab } from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
-import { AddButtonComponent } from 'client/packages/ui';
+import { AddButtonComponent } from 'lib/ui';
 import CardsDialog from '../cards/cards-dialog';
 import {
     CollectionCardsContainer,
     CollectionSettingsContainer
-} from 'client/packages/collections';
+} from 'lib/collections';
 // local
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'client/packages/collections/types';
+import { ICollection } from 'lib/collections/types';
 
 // selectors
-import { select_collection_by_id } from 'client/packages/collections/selectors';
+import { select_collection_by_id } from 'lib/collections/selectors';
 // actions
-import { get_collection } from 'client/packages/collections/actions';
-import { toggle_cards_dialog, push } from 'client/packages/ui/actions';
+import { get_collection } from 'lib/collections/actions';
+import { toggle_cards_dialog, push } from 'lib/ui/actions';
 
 interface IStateProps {
     collection_id: string;

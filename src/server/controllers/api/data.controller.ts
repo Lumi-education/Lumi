@@ -3,7 +3,7 @@ import { assign, isEqual } from 'lodash';
 import * as debug from 'debug';
 import { IRequest } from '../../middleware/auth';
 
-import { ICollectionData } from 'client/packages/cards/types';
+import { ICollectionData } from 'lib/cards/types';
 
 import Data from '../../models/Data';
 import { DB } from '../../db';

@@ -10,7 +10,7 @@ import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
 // actions
-import { get_user_collections } from 'client/packages/collections/actions';
+import { get_user_collections } from 'lib/collections/actions';
 
 interface IStateProps {
     location;

@@ -12,15 +12,15 @@ import thunk from 'redux-thunk';
 declare var window;
 declare var process;
 
-import auth from 'client/packages/auth/reducer';
-import cards from 'client/packages/cards/reducer';
-import collections from 'client/packages/collections/reducer';
-import groups from 'client/packages/groups/reducer';
-import ui from 'client/packages/ui/reducer';
-import users from 'client/packages/users/reducer';
-import tags from 'client/packages/tags/reducer';
-import data from 'client/packages/data/reducer';
-import install from 'client/packages/install/reducer';
+import auth from 'lib/auth/reducer';
+import cards from 'lib/cards/reducer';
+import collections from 'lib/collections/reducer';
+import groups from 'lib/groups/reducer';
+import ui from 'lib/ui/reducer';
+import users from 'lib/users/reducer';
+import tags from 'lib/tags/reducer';
+import data from 'lib/data/reducer';
+import install from 'lib/install/reducer';
 
 const rootReducer = combineReducers({
     auth,

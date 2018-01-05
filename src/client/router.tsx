@@ -10,7 +10,7 @@ import adminRoutes from 'client/modules/admin/routes';
 import userRoutes from 'client/modules/user/routes';
 import installRoutes from 'client/modules/install/routes';
 import dbRoute from 'client/modules/db-route';
-import { CheckDBContainer } from 'client/packages/system';
+import { CheckDBContainer } from 'lib/system';
 
 interface IProps {
     history: {};

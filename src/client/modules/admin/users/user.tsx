@@ -9,14 +9,14 @@ import { Paper } from 'material-ui';
 import { IState } from 'client/state';
 
 // types
-import { IUser, UserContainer } from 'client/packages/users';
+import { IUser, UserContainer } from 'lib/users';
 
-import { GroupsInputContainer } from 'client/packages/groups';
+import { GroupsInputContainer } from 'lib/groups';
 
 // actions
-import { get_user } from 'client/packages/users/actions';
+import { get_user } from 'lib/users/actions';
 
-import { get_groups } from 'client/packages/groups/actions';
+import { get_groups } from 'lib/groups/actions';
 
 interface IStateProps {
     user_id: string;

@@ -1,14 +1,14 @@
 import { Map } from 'immutable';
 
-import { ICard, IData, ICollectionData } from 'client/packages/cards/types';
+import { ICard, IData, ICollectionData } from 'lib/cards/types';
 
-import { IState as ITags } from 'client/packages/tags';
-import { IState as IInstall } from 'client/packages/install';
-import { IState as IAuth } from 'client/packages/auth';
-import { IUI } from 'client/packages/ui/reducer';
-import { IState as IUsers } from 'client/packages/users';
-import { IState as IGroups } from 'client/packages/groups';
-import { IState as ICollection } from 'client/packages/collections';
+import { IState as ITags } from 'lib/tags';
+import { IState as IInstall } from 'lib/install';
+import { IState as IAuth } from 'lib/auth';
+import { IUI } from 'lib/ui/reducer';
+import { IState as IUsers } from 'lib/users';
+import { IState as IGroups } from 'lib/groups';
+import { IState as ICollection } from 'lib/collections';
 
 export interface IState
     extends ITags,

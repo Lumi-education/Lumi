@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import { IState } from 'client/state';
 
 // types
-import { ICollection } from 'client/packages/collections/types';
+import { ICollection } from 'lib/collections/types';
 
 // selectors
-import { select_collection_by_id } from 'client/packages/collections/selectors';
+import { select_collection_by_id } from 'lib/collections/selectors';
 
 // actions
-import { get_collection } from 'client/packages/collections/actions';
-import { push } from 'client/packages/ui/actions';
+import { get_collection } from 'lib/collections/actions';
+import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     collection_id: string;

@@ -2,7 +2,7 @@ import * as express from 'express';
 import { noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { IGroupRef } from 'client/packages/groups/types';
+import { IGroupRef } from 'lib/groups/types';
 import Group from '../../models/Group';
 import User from '../../models/User';
 import Collection from '../../models/Collection';
