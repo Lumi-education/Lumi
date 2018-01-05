@@ -26,8 +26,9 @@ export {
     ICollectionUI,
     IState
 } from './types';
-import * as collection_selectors from './selectors';
-export { collection_selectors };
-import * as collection_actions from './actions';
-export { collection_actions };
-export { default as collections_reducer } from './reducer';
+
+import * as selectors from './selectors';
+import * as actions from './actions';
+import * as reducer from './reducer';
+
+export { actions, selectors, reducer };

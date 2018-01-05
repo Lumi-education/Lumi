@@ -9,14 +9,14 @@ import { Avatar, Divider, List, ListItem } from 'material-ui';
 import { IState } from 'client/state';
 
 // types
-import { ICollection, collection_selectors, collection_actions } from '../';
+import * as Collections from '../';
 
 interface IPassedProps {
     collection_ids: string[];
 }
 
 interface IStateProps extends IPassedProps {
-    collections: ICollection[];
+    collections: Collections.ICollection[];
     selected_collections: string[];
 }
 
@@ -33,7 +33,7 @@ export class CollectionListContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(
-            collection_actions.get_collections(this.props.collection_ids)
+            Collections.actions.get_collections(this.props.collection_ids)
         );
     }
 
@@ -66,7 +66,7 @@ export class CollectionListContainer extends React.Component<IProps, {}> {
                             primaryText={collection.name}
                             onClick={() =>
                                 this.props.dispatch(
-                                    collection_actions.select_collection(
+                                    Collections.actions.select_collection(
                                         collection._id
                                     )
                                 )
@@ -82,7 +82,7 @@ export class CollectionListContainer extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        collections: collection_selectors.select_collections_by_ids(
+        collections: Collections.selectors.select_collections_by_ids(
             state,
             ownProps.collection_ids
         ),

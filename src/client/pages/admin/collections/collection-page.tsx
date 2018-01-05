@@ -3,19 +3,19 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // components
-import { Tabs, Tab } from 'material-ui/Tabs';
-import Paper from 'material-ui/Paper';
+import { Tabs, Tab, Paper } from 'material-ui';
 import { AddButtonComponent } from 'lib/ui';
 import CardsDialog from '../cards/cards-dialog';
-import {
-    CollectionCardsContainer,
-    CollectionSettingsContainer
-} from 'lib/collections';
-// local
+
+// state
 import { IState } from 'client/state';
 
-// types
-import { ICollection } from 'lib/collections/types';
+// modules
+import {
+    CollectionCardsContainer,
+    CollectionSettingsContainer,
+    ICollection
+} from 'lib/collections';
 
 // selectors
 import { select_collection_by_id } from 'lib/collections/selectors';
