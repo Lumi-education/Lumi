@@ -1,22 +1,15 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 import { Paper } from 'material-ui';
 
-// local
+// state
 import { IState } from 'client/state';
 
-// types
-import { IUser, UserContainer } from 'lib/users';
-
-import { GroupsInputContainer } from 'lib/groups';
-
-// actions
-import { get_user } from 'lib/users/actions';
-
-import { get_groups } from 'lib/groups/actions';
+// modules
+import { IUser, UserContainer, users_actions } from 'lib/users';
+import { GroupsInputContainer, groups_actions } from 'lib/groups';
 
 interface IStateProps {
     user_id: string;
@@ -36,8 +29,8 @@ export class AdminUserPage extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_user(this.props.user_id));
-        this.props.dispatch(get_groups());
+        this.props.dispatch(users_actions.get_user(this.props.user_id));
+        this.props.dispatch(groups_actions.get_groups());
     }
 
     public render() {

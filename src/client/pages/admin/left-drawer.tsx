@@ -1,14 +1,16 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 // material-ui
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
+import {
+    AppBar,
+    Drawer,
+    IconButton,
+    List,
+    ListItem,
+    Subheader,
+    Divider
+} from 'material-ui';
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
@@ -20,16 +22,14 @@ import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGTrendingUp from 'material-ui/svg-icons/action/trending-up';
 
-// types
+// state
 import { IState } from 'client/state';
+
+// modules
+import { ui_actions } from 'lib/ui';
+import { auth_actions } from 'lib/auth';
+
 declare var process;
-// actions
-import {
-    left_drawer_open,
-    left_drawer_close,
-    push
-} from 'lib/ui/actions';
-import { logout } from 'lib/auth/actions';
 
 interface IStateProps {
     left_drawer_show: boolean;
@@ -135,7 +135,9 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         <ListItem
                             primaryText="Logout"
                             leftIcon={<SVGPower />}
-                            onClick={() => this.props.dispatch(logout())}
+                            onClick={() =>
+                                this.props.dispatch(auth_actions.logout())
+                            }
                         />
                         <Divider />
                         <Subheader>
@@ -158,12 +160,12 @@ function mapStateToProps(state: IState): IStateProps {
 
 function mapDispatchToProps(dispatch) {
     return {
-        left_drawer_open: () => dispatch(left_drawer_open()),
-        left_drawer_close: () => dispatch(left_drawer_close()),
+        left_drawer_open: () => dispatch(ui_actions.left_drawer_open()),
+        left_drawer_close: () => dispatch(ui_actions.left_drawer_close()),
         dispatch: action => dispatch(action),
         push: (url: string) => {
-            dispatch(left_drawer_close());
-            dispatch(push(url));
+            dispatch(ui_actions.left_drawer_close());
+            dispatch(ui_actions.push(url));
         }
     };
 }

@@ -17,7 +17,9 @@ import {
 
 import { TagsPage } from 'client/pages/admin/tags';
 import { CardPage, CardsPage } from 'client/pages/admin/cards';
+
 import { User, Users } from 'client/pages/admin/users';
+
 import { Progress } from 'client/pages/admin/analytics';
 
 const routes = (

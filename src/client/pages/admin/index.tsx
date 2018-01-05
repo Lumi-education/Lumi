@@ -1,21 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import * as shortid from 'shortid';
+// components
+import { AppBar } from 'material-ui';
+
+// container
+import LeftDrawer from './left-drawer';
+
+// state
 import { IState } from 'client/state';
 
-// components
-import AppBar from 'material-ui/AppBar';
-import LeftDrawer from './left-drawer';
-import Snackbar from './snackbar';
-
-// actions
-import {
-    left_drawer_close,
-    left_drawer_open,
-    right_drawer_open,
-    push
-} from 'lib/ui/actions';
+// modules
+import { ui_actions } from 'lib/ui';
 
 interface IStateProps {
     location;
@@ -36,7 +32,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         if (this.props.userlevel < 2) {
-            this.props.dispatch(push('/user'));
+            this.props.dispatch(ui_actions.push('/user'));
         }
     }
 
@@ -50,18 +46,17 @@ export class AdminRoot extends React.Component<IProps, {}> {
                     }}
                     showMenuIconButton={true}
                     onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(left_drawer_open())
+                        this.props.dispatch(ui_actions.left_drawer_open())
                     }
                     iconElementRight={this.props.right_appbar_icon}
                     onRightIconButtonTouchTap={() =>
-                        this.props.dispatch(right_drawer_open())
+                        this.props.dispatch(ui_actions.right_drawer_open())
                     }
                 />
                 <LeftDrawer />
                 <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
-                <Snackbar />
             </div>
         );
     }
