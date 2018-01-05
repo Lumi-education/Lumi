@@ -19,7 +19,7 @@ import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { sum } from 'client/utils';
+import { sum } from 'lib/core/utils';
 import { get_grade_color } from 'client/style/utils';
 // local
 import { IState } from 'client/state';

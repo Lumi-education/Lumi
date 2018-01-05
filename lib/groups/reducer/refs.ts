@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 import { IGroupRef } from '../types';
 
-import { arrayToObject } from 'client/utils';
+import { arrayToObject } from 'lib/core/utils';
 
 import {
     GROUPS_ADD_GROUP_REQUEST,

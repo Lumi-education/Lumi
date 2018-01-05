@@ -10,19 +10,19 @@ import { convert_attachment_url } from '../utils';
 import FreetextComponent from '../components/freetext-component';
 
 // types
-import { IState } from 'client/state';
-import { IFreetextCard, IFreetextCardData, ICollectionData } from '../types';
+import {
+    IFreetextCard,
+    IFreetextCardData,
+    ICollectionData,
+    IState
+} from '../types';
 
 // selectors
 import { select_card } from 'lib/cards/selectors';
 import { select_data, select_collection } from 'lib/data/selectors';
 
 // actions
-import {
-    create_data,
-    update_data,
-    get_data
-} from 'lib/data/actions';
+import { create_data, update_data, get_data } from 'lib/data/actions';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 

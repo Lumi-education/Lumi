@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 import { IGroup } from '../types';
 
-import { arrayToObject } from 'client/utils';
+import { arrayToObject } from 'lib/core/utils';
 
 import {
     GROUPS_GET_GROUPS_SUCCESS,

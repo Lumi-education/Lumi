@@ -1,7 +1,6 @@
 import { Map } from 'immutable';
-import { IState } from 'client/state';
 
-import { ICard } from './types';
+import { ICard, IState } from './types';
 import { IFreetextCard } from 'lib/cards/types';
 
 // type Card = ICard | IFreetextCard;

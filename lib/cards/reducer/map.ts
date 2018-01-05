@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { ICard } from '../types';
 
-import { arrayToObject } from 'client/utils';
+import { arrayToObject } from 'lib/core/utils';
 
 import {
     CARDS_GET_CARDS_SUCCESS,

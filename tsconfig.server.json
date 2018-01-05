@@ -9,7 +9,7 @@
         "noImplicitAny": false,
         "allowJs": true,
         "outDir": "./build",
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "sourceMap": true
     },
     "files": ["src/server/boot.ts"]

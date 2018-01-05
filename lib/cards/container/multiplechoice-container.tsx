@@ -10,11 +10,11 @@ import { convert_attachment_url } from '../utils';
 import MultiplechoiceComponent from 'lib/cards/components/multiplechoice-component';
 
 // types
-import { IState } from 'client/state';
 import {
     IMultiplechoiceCard,
     IMultiplechoiceCardData,
-    ICollectionData
+    ICollectionData,
+    IState
 } from '../types';
 
 // selectors
@@ -22,11 +22,7 @@ import { select_card } from 'lib/cards/selectors';
 import { select_data, select_collection } from 'lib/data/selectors';
 
 // actions
-import {
-    create_data,
-    update_data,
-    get_data
-} from 'lib/data/actions';
+import { create_data, update_data, get_data } from 'lib/data/actions';
 import { get_card, update_card } from 'lib/cards/actions';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');

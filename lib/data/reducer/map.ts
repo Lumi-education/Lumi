@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { IData } from 'lib/cards/types';
 
-import { arrayToObject } from 'client/utils';
+import { arrayToObject } from 'lib/core/utils';
 
 import {
     DATA_GET_SUCCESS,

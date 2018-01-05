@@ -8,19 +8,14 @@ import { assign, noop } from 'lodash';
 import UploadCardComponent from '../components/upload-card';
 
 // types
-import { IState } from 'client/state';
-import { IUploadCard, IUploadCardData } from '../types';
+import { IUploadCard, IUploadCardData, IState } from '../types';
 
 // selectors
 import { select_card } from 'lib/cards/selectors';
 import { select_data, select_collection } from 'lib/data/selectors';
 
 // actions
-import {
-    create_data,
-    update_data,
-    get_data
-} from 'lib/data/actions';
+import { create_data, update_data, get_data } from 'lib/data/actions';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
