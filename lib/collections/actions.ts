@@ -7,7 +7,7 @@ import * as k from './constants';
 
 export function get_collections(_ids?: string[]) {
     return {
-        k: [
+        types: [
             k.COLLECTION_GET_REQUEST,
             k.COLLECTION_GET_SUCCESS,
             k.COLLECTION_GET_ERROR
@@ -22,7 +22,7 @@ export function add_cards_to_collection(
     card_ids: string[]
 ) {
     return {
-        k: [
+        types: [
             k.COLLECTION_ADD_CARDS_REQUEST,
             k.COLLECTION_ADD_CARDS_SUCCESS,
             k.COLLECTION_ADD_CARDS_ERROR
@@ -34,7 +34,7 @@ export function add_cards_to_collection(
 
 export function delete_collection(collection_id: string) {
     return {
-        k: [
+        types: [
             k.COLLECTION_DELETE_COLLECTION_REQUEST,
             k.COLLECTION_DELETE_COLLECTION_SUCCESS,
             k.COLLECTION_DELETE_COLLECTION_ERROR
@@ -46,7 +46,7 @@ export function delete_collection(collection_id: string) {
 
 export function create_collection() {
     return {
-        k: [
+        types: [
             k.COLLECTIONS_CREATE_COLLECTION_REQUEST,
             k.COLLECTIONS_CREATE_COLLECTION_SUCCESS,
             k.COLLECTIONS_CREATE_COLLECTION_ERROR
@@ -57,7 +57,7 @@ export function create_collection() {
 
 export function update_collection(collection_id: string, update) {
     return {
-        k: [
+        types: [
             k.COLLECTIONS_UPDATE_COLLECTION_REQUEST,
             k.COLLECTIONS_UPDATE_COLLECTION_SUCCESS,
             k.COLLECTIONS_UPDATE_COLLECTION_ERROR
@@ -69,7 +69,7 @@ export function update_collection(collection_id: string, update) {
 
 export function get_collection(collection_id: string) {
     return {
-        k: [
+        types: [
             k.COLLECTION_GET_REQUEST,
             k.COLLECTION_GET_SUCCESS,
             k.COLLECTION_GET_ERROR
@@ -81,7 +81,7 @@ export function get_collection(collection_id: string) {
 
 export function get_user_collections() {
     return {
-        k: [
+        types: [
             k.COLLECTION_GET_REQUEST,
             k.COLLECTION_GET_SUCCESS,
             k.COLLECTION_GET_ERROR
@@ -95,7 +95,7 @@ export function collection_create_meta(
     id: string = shortid()
 ) {
     return {
-        k: [
+        types: [
             k.COLLECTION_CREATEMETA_REQUEST,
             k.COLLECTION_CREATEMETA_SUCCESS,
             k.COLLECTION_CREATEMETA_ERROR
@@ -107,7 +107,7 @@ export function collection_create_meta(
 
 export function submit_collection(collection_id: string) {
     return {
-        k: [
+        types: [
             k.COLLECTION_SUBMIT_REQUEST,
             k.COLLECTION_SUBMIT_SUCCESS,
             k.COLLECTION_SUBMIT_ERROR
@@ -119,7 +119,7 @@ export function submit_collection(collection_id: string) {
 
 export function reset_collection(collection_meta_id: string) {
     return {
-        k: [
+        types: [
             k.COLLECTION_RESET_REQUEST,
             k.COLLECTION_RESET_SUCCESS,
             k.COLLECTION_RESET_ERROR
