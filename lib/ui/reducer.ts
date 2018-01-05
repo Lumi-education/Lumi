@@ -1,5 +1,7 @@
 import { assign, uniq } from 'lodash';
 
+import { IUI } from './types';
+
 import {
     UI_DIALOG_CLOSE,
     UI_DIALOG_OPEN,
@@ -15,19 +17,6 @@ import {
     UI_SET_APPBAR_TITLE,
     COLLECTION_ADD_CARDS_SUCCESS
 } from '../action-types';
-
-export interface IUI {
-    left_drawer_show: boolean;
-    right_drawer_show: boolean;
-    dialog_show: boolean;
-    snackbar_open: boolean;
-    snackbar_text: string;
-    show_cards_dialog: boolean;
-    selected_card_ids: string[];
-    right_appbar_icon: JSX.Element;
-    tags_filter: string[];
-    appbar_title: string;
-}
 
 const initialState: IUI = {
     left_drawer_show: false,

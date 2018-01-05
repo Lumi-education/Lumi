@@ -1,27 +1,39 @@
-import { Map } from 'immutable';
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
-import { ICard, IData, ICollectionData } from 'lib/cards/types';
+import { IState as IAuth, auth_reducer as auth } from 'lib/auth';
+import { IState as ICards, cards_reducer as cards } from 'lib/cards';
+import {
+    IState as ICollection,
+    collections_reducer as collections
+} from 'lib/collections';
+import data from 'lib/data/reducer';
+import { IState as IGroups, groups_reducer as groups } from 'lib/groups';
+import { IState as ITags, tags_reducer as tags } from 'lib/tags';
+import { IState as IInstall, install_reducer as install } from 'lib/install';
+import { IState as IUI, ui_reducer as ui } from 'lib/ui';
+import { IState as IUsers, users_reducer as users } from 'lib/users';
 
-import { IState as ITags } from 'lib/tags';
-import { IState as IInstall } from 'lib/install';
-import { IState as IAuth } from 'lib/auth';
-import { IUI } from 'lib/ui/reducer';
-import { IState as IUsers } from 'lib/users';
-import { IState as IGroups } from 'lib/groups';
-import { IState as ICollection } from 'lib/collections';
+const root_reducer = combineReducers({
+    auth,
+    cards,
+    collections,
+    groups,
+    ui,
+    users,
+    tags,
+    data,
+    install,
+    routing: routerReducer
+});
+export default root_reducer;
 
 export interface IState
-    extends ITags,
+    extends ICards,
+        ITags,
         IInstall,
         IAuth,
         IUsers,
         IGroups,
-        ICollection {
-    cards: {
-        map: Map<string, ICard>;
-    };
-    data: {
-        map: Map<string, IData>;
-    };
-    ui: IUI;
-}
+        ICollection,
+        IUI {}

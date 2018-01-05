@@ -30,3 +30,4 @@ import * as collection_selectors from './selectors';
 export { collection_selectors };
 import * as collection_actions from './actions';
 export { collection_actions };
+export { default as collections_reducer } from './reducer';

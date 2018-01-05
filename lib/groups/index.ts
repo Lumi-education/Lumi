@@ -5,3 +5,4 @@ import * as group_selectors from './selectors';
 import * as group_actions from './actions';
 
 export { group_selectors, group_actions };
+export { default as groups_reducer } from './reducer';

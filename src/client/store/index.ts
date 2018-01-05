@@ -12,35 +12,14 @@ import thunk from 'redux-thunk';
 declare var window;
 declare var process;
 
-import auth from 'lib/auth/reducer';
-import cards from 'lib/cards/reducer';
-import collections from 'lib/collections/reducer';
-import groups from 'lib/groups/reducer';
-import ui from 'lib/ui/reducer';
-import users from 'lib/users/reducer';
-import tags from 'lib/tags/reducer';
-import data from 'lib/data/reducer';
-import install from 'lib/install/reducer';
-
-const rootReducer = combineReducers({
-    auth,
-    cards,
-    collections,
-    groups,
-    ui,
-    users,
-    tags,
-    data,
-    install,
-    routing: routerReducer
-});
+import root_reducer from '../state';
 
 const persistentState = undefined;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore<{}>(
-    rootReducer,
+    root_reducer,
     persistentState,
     composeEnhancers(
         applyMiddleware(

@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+
 type Card_id = string;
 type Data_id = string;
 export type Card_types =
@@ -107,4 +109,13 @@ export interface IMultiplechoiceCard extends IBaseCard {
 export interface IMultiplechoiceCardData extends ICardData {
     items: Markdown[];
     card_type: 'multiplechoice';
+}
+
+export interface IState {
+    cards: {
+        map: Map<string, ICard>;
+    };
+    data: {
+        map: Map<string, IData>;
+    };
 }
