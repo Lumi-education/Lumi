@@ -18,6 +18,7 @@
         "no-implicit-dependencies": false,
         "strict-boolean-expressions": false,
         "no-increment-decrement": false,
+        "no-empty-interface": false,
         "variable-name": [
             true,
             "ban-keywords",

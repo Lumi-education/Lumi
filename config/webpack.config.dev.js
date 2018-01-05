@@ -29,7 +29,7 @@ module.exports = Object.assign(sharedConfig, {
             minChunks: ({ resource }) => /node_modules/.test(resource)
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../app/client/index.html')
+            template: path.resolve(__dirname, '../src/client/index.html')
         }),
         new webpack.DefinePlugin({
             'process.env': {
