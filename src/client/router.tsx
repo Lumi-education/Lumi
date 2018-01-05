@@ -2,14 +2,14 @@ import * as React from 'react';
 
 import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
-import Auth from 'client/modules/auth';
-import Websocket from 'client/modules/websocket';
-import Landing from 'client/modules/landing';
+import Auth from 'client/pages/auth';
+import Websocket from 'client/pages/websocket';
+import Landing from 'client/pages/landing';
 
-import adminRoutes from 'client/modules/admin/routes';
-import userRoutes from 'client/modules/user/routes';
-import installRoutes from 'client/modules/install/routes';
-import dbRoute from 'client/modules/db-route';
+import adminRoutes from 'client/pages/admin/routes';
+import userRoutes from 'client/pages/user/routes';
+import installRoutes from 'client/pages/install/routes';
+import dbRoute from 'client/pages/db-route';
 import { CheckDBContainer } from 'lib/system';
 
 interface IProps {

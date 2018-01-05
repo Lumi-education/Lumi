@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { Route, IndexRoute } from 'react-router';
 
-import UserIndex from 'client/modules/user';
-import UserCollections from 'client/modules/user/collections';
-import UserCollectionsRedirect from 'client/modules/user/collections/redirect';
+import UserIndex from 'client/pages/user';
+import UserCollections from 'client/pages/user/collections';
+import UserCollectionsRedirect from 'client/pages/user/collections/redirect';
 
-import UserCardPage from 'client/modules/user/collections/cards/card-page';
-import UserDashboard from 'client/modules/user/dashboard';
+import UserCardPage from 'client/pages/user/collections/cards/card-page';
+import UserDashboard from 'client/pages/user/dashboard';
 import UserAssignments from './assignments';
 import SubmittedAssignments from './submitted-assignments';
 import CollectionSummary from './collections/summary';

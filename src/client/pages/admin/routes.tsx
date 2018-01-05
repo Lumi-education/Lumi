@@ -2,23 +2,23 @@ import * as React from 'react';
 
 import { Redirect, Route } from 'react-router';
 
-import AdminIndex from 'client/modules/admin';
+import AdminIndex from 'client/pages/admin';
 import {
     CollectionsPage,
     AdminCollectionPage
-} from 'client/modules/admin/collections';
+} from 'client/pages/admin/collections';
 
 import {
     Group,
     Groups,
     CreateOrAddUserDialog,
     AddCollectionDialog
-} from 'client/modules/admin/groups';
+} from 'client/pages/admin/groups';
 
-import { TagsPage } from 'client/modules/admin/tags';
-import { CardPage, CardsPage } from 'client/modules/admin/cards';
-import { User, Users } from 'client/modules/admin/users';
-import { Progress } from 'client/modules/admin/analytics';
+import { TagsPage } from 'client/pages/admin/tags';
+import { CardPage, CardsPage } from 'client/pages/admin/cards';
+import { User, Users } from 'client/pages/admin/users';
+import { Progress } from 'client/pages/admin/analytics';
 
 const routes = (
     <Route path="admin" component={AdminIndex}>
