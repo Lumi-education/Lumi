@@ -1,39 +1,32 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { noop } from 'lodash';
 import { push } from 'lib/ui/actions';
-import { Map } from 'immutable';
 import * as debug from 'debug';
 
 // components
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import { TagInputContainer } from 'lib/tags';
-import MultiplechoiceComponent from 'lib/cards/components/multiplechoice-component';
-import { List, ListItem } from 'material-ui/List';
-import Dropzone from 'react-dropzone';
-
-import * as request from 'superagent';
-// types
-import { IState } from 'client/state';
-import { ICard } from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-
-import { select_tags_as_map } from 'lib/tags/selectors';
-
-// actions
-
 import {
-    get_card,
-    update_card,
-    delete_card
-} from 'lib/cards/actions';
+    TextField,
+    SelectField,
+    MenuItem,
+    Paper,
+    RaisedButton
+} from 'material-ui';
+import ActionBar from 'lib/ui/components/action-bar';
+
+import MultiplechoiceEditComponent from './multiplechoice-edit';
+import MultiplechoiceComponent from '../components/multiplechoice-component';
+import TextComponent from '../components/text-card-component';
+import FreetextComponent from '../components/freetext-component';
+import VideoComponent from '../components/video-card';
+import UploadComponent from '../components/upload-card';
+
+// state
+import { ICard, IState } from '../types';
+
+// modules
+import * as Cards from 'lib/cards';
 
 const log = debug('lumi:container:cards:card-edit');
 
@@ -52,10 +45,12 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    text?: string;
-    items?: string[];
     description?: string;
     name?: string;
+    text?: string;
+    items?: string[];
+    answer?: string;
+
     card_type?;
 }
 
@@ -67,61 +62,27 @@ export class CardEditContainer extends React.Component<
         super(props);
 
         this.state = {
-            text: '',
-            items: [],
             description: '',
             name: '',
-            card_type: 'text'
+            card_type: 'text',
+            text: '',
+            items: [],
+            answer: ''
         };
-
-        this.insertAttachment = this.insertAttachment.bind(this);
-        this.onDrop = this.onDrop.bind(this);
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_card(this.props.card_id));
+        this.props.dispatch(Cards.actions.get_card(this.props.card_id));
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
         this.setState({
-            text: nextProps.card.text,
-            // items: nextProps.card.items,
             description: nextProps.card.description,
             name: nextProps.card.name,
-            card_type: nextProps.card.card_type
-        });
-    }
-
-    public insertAttachment(attachment: string) {
-        this.setState({
-            text:
-                this.state.text +
-                '![attachment](' +
-                '/attachment/' +
-                attachment +
-                ')'
-        });
-    }
-
-    public onDrop(acceptedFiles) {
-        log(acceptedFiles);
-        acceptedFiles.forEach(file => {
-            const req = request
-                .put(
-                    '/api/v0/' +
-                        window.location.pathname.split('/')[1] +
-                        '/cards/' +
-                        this.props.card_id +
-                        '/attachment/' +
-                        file.name +
-                        '?rev=' +
-                        (this.props.card as any)._rev
-                )
-                .set('Content-Type', file.type)
-                .send(file)
-                .end(() => {
-                    log('files attached', acceptedFiles);
-                });
+            card_type: nextProps.card.card_type,
+            text: nextProps.card.text,
+            items: (nextProps.card as any).items,
+            answer: (nextProps.card as any).answer
         });
     }
 
@@ -140,7 +101,7 @@ export class CardEditContainer extends React.Component<
                             />
                             <SelectField
                                 fullWidth={true}
-                                floatingLabelText="Card Type"
+                                floatingLabelText="Type"
                                 value={this.state.card_type || 'multiplechoice'}
                                 onChange={(e, i, v) =>
                                     this.setState({ card_type: v })
@@ -155,6 +116,8 @@ export class CardEditContainer extends React.Component<
                                     primaryText="Freetext"
                                 />
                                 <MenuItem value="text" primaryText="Text" />
+                                <MenuItem value="video" primaryText="Video" />
+                                <MenuItem value="upload" primaryText="Upload" />
                             </SelectField>
                             <TextField
                                 hintText="Description"
@@ -165,25 +128,45 @@ export class CardEditContainer extends React.Component<
                                     this.setState({ description: v })
                                 }
                             />
-                            <TagInputContainer doc_id={this.props.card_id} />
+                            {this.props.children}
                             <TextField
-                                hintText="Text"
                                 floatingLabelText="Text"
                                 value={this.state.text}
-                                fullWidth={true}
-                                multiLine={true}
                                 onChange={(e, v) => this.setState({ text: v })}
-                            />
-                            <TextField
-                                hintText="Items"
-                                floatingLabelText="Items"
-                                value={this.state.items.join('\n')}
                                 fullWidth={true}
                                 multiLine={true}
-                                onChange={(e, v) =>
-                                    this.setState({ items: v.split('\n') })
-                                }
+                                rows={3}
                             />
+                            {(() => {
+                                switch (this.state.card_type) {
+                                    case 'freetext':
+                                        return (
+                                            <TextField
+                                                floatingLabelText="Answer"
+                                                value={this.state.answer}
+                                                onChange={(e, v) =>
+                                                    this.setState({ answer: v })
+                                                }
+                                                fullWidth={true}
+                                            />
+                                        );
+                                    case 'multiplechoice':
+                                        return (
+                                            <TextField
+                                                floatingLabelText="Items"
+                                                value={this.state.items.join(
+                                                    '\n'
+                                                )}
+                                                onChange={(e, v) =>
+                                                    this.setState({ answer: v })
+                                                }
+                                                fullWidth={true}
+                                            />
+                                        );
+                                }
+                            })()}
+                        </Paper>
+                        <ActionBar>
                             <RaisedButton
                                 label="Cancel"
                                 style={{ margin: '10px' }}
@@ -196,7 +179,9 @@ export class CardEditContainer extends React.Component<
                                 style={{ margin: '10px' }}
                                 onClick={() => {
                                     this.props.dispatch(
-                                        delete_card(this.props.card._id)
+                                        Cards.actions.delete_card(
+                                            this.props.card._id
+                                        )
                                     );
                                     this.props.dispatch(push('/admin/cards'));
                                 }}
@@ -213,7 +198,7 @@ export class CardEditContainer extends React.Component<
                                 onClick={() => {
                                     this.props
                                         .dispatch(
-                                            update_card(
+                                            Cards.actions.update_card(
                                                 this.props.card._id,
                                                 this.state
                                             )
@@ -225,18 +210,50 @@ export class CardEditContainer extends React.Component<
                                         });
                                 }}
                             />
-                        </Paper>
+                        </ActionBar>
                     </div>
-                    <div style={{ flex: 6 }}>
-                        <div
-                            style={{
-                                width: '375px',
-                                height: '667px',
-                                margin: '40px',
-                                background:
-                                    'linear-gradient(120deg, #8e44ad, #3498db)'
-                            }}
-                        />
+                    <div style={{ flex: 6, padding: '20px' }}>
+                        {(() => {
+                            switch (this.state.card_type) {
+                                case 'multiplechoice':
+                                    return (
+                                        <MultiplechoiceComponent
+                                            text={this.state.text}
+                                            items={[]}
+                                        />
+                                    );
+                                case 'text':
+                                    return (
+                                        <TextComponent text={this.state.text} />
+                                    );
+                                case 'freetext':
+                                    return (
+                                        <FreetextComponent
+                                            text={this.state.text}
+                                            answer={this.state.answer}
+                                            error_text={null}
+                                            error_style={{ color: 'green' }}
+                                        />
+                                    );
+                                case 'video':
+                                    return (
+                                        <VideoComponent
+                                            video_url={''}
+                                            youtube={true}
+                                        />
+                                    );
+                                case 'upload':
+                                    return (
+                                        <UploadComponent
+                                            text={this.state.text}
+                                            doc_id={null}
+                                            _rev={null}
+                                            attachments={{}}
+                                            insert_cb={noop}
+                                        />
+                                    );
+                            }
+                        })()}
                     </div>
                 </div>
             );
@@ -248,7 +265,7 @@ export class CardEditContainer extends React.Component<
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        card: select_card(state, ownProps.card_id),
+        card: Cards.selectors.select_card(state, ownProps.card_id),
         card_id: ownProps.card_id
     };
 }

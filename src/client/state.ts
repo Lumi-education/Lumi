@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 import { IState as IAuth, auth_reducer as auth } from 'lib/auth';
-import { IState as ICards, cards_reducer as cards } from 'lib/cards';
+import { IState as ICards, reducer as cards } from 'lib/cards';
 import * as Collections from 'lib/collections';
 import collections from 'lib/collections/reducer';
 import data from 'lib/data/reducer';
