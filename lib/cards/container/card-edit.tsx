@@ -148,6 +148,7 @@ export class CardEditContainer extends React.Component<
                                                     this.setState({ answer: v })
                                                 }
                                                 fullWidth={true}
+                                                multiLine={true}
                                             />
                                         );
                                     case 'multiplechoice':
@@ -158,9 +159,12 @@ export class CardEditContainer extends React.Component<
                                                     '\n'
                                                 )}
                                                 onChange={(e, v) =>
-                                                    this.setState({ answer: v })
+                                                    this.setState({
+                                                        items: v.split('\n')
+                                                    })
                                                 }
                                                 fullWidth={true}
+                                                multiLine={true}
                                             />
                                         );
                                 }
@@ -176,20 +180,21 @@ export class CardEditContainer extends React.Component<
                             />
                             <RaisedButton
                                 label="Delete"
-                                style={{ margin: '10px' }}
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        Cards.actions.delete_card(
-                                            this.props.card._id
-                                        )
-                                    );
-                                    this.props.dispatch(push('/admin/cards'));
-                                }}
-                            />
-                            <RaisedButton
-                                label="Duplicate"
                                 secondary={true}
                                 style={{ margin: '10px' }}
+                                onClick={() => {
+                                    this.props
+                                        .dispatch(
+                                            Cards.actions.delete_card(
+                                                this.props.card._id
+                                            )
+                                        )
+                                        .then(res =>
+                                            this.props.dispatch(
+                                                push('/admin/cards')
+                                            )
+                                        );
+                                }}
                             />
                             <RaisedButton
                                 label="Save"
@@ -219,7 +224,7 @@ export class CardEditContainer extends React.Component<
                                     return (
                                         <MultiplechoiceComponent
                                             text={this.state.text}
-                                            items={[]}
+                                            items={this.state.items}
                                         />
                                     );
                                 case 'text':

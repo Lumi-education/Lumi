@@ -1,9 +1,7 @@
 import * as React from 'react';
 
 // components
-import Avatar from 'material-ui/Avatar';
-import Divider from 'material-ui/Divider';
-import { List, ListItem } from 'material-ui/List';
+import { Avatar, Divider, List, ListItem, IconButton } from 'material-ui';
 
 // container
 import TagsContainer from 'lib/tags/container/tags';
@@ -29,6 +27,9 @@ export default class CardListComponent extends React.Component<IProps, {}> {
     public render() {
         return (
             <List>
+                {this.props.cards.length === 0 ? (
+                    <ListItem primaryText="No cards" />
+                ) : null}
                 {this.props.cards.map(card => (
                     <div key={card._id}>
                         <ListItem
@@ -49,7 +50,18 @@ export default class CardListComponent extends React.Component<IProps, {}> {
                                 </Avatar>
                             }
                             primaryText={card.name}
-                            secondaryText={<TagsContainer doc_id={card._id} />}
+                            secondaryText={
+                                <span>
+                                    <span>
+                                        {card.text
+                                            ? card.text.substring(0, 100)
+                                            : null}
+                                    </span>
+                                    <br />
+                                    <TagsContainer doc_id={card._id} />{' '}
+                                </span>
+                            }
+                            secondaryTextLines={2}
                             onClick={() => this.props.onClick(card._id)}
                         />
                         <Divider inset={true} />
