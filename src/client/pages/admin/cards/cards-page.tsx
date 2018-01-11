@@ -97,21 +97,23 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
         return (
             <div>
                 <CardsRightDrawer />
-                <CardListComponent
-                    cards={this.props.cards.filter(card => {
-                        return this.state.search_text === ''
-                            ? true
-                            : (card.name + card.description)
-                                  .toLocaleLowerCase()
-                                  .indexOf(
-                                      this.state.search_text.toLocaleLowerCase()
-                                  ) > -1;
-                    })}
-                    selected_card_ids={[]}
-                    onClick={(id: string) =>
-                        this.props.dispatch(push('/admin/cards/' + id))
-                    }
-                />
+                <Paper>
+                    <CardListComponent
+                        cards={this.props.cards.filter(card => {
+                            return this.state.search_text === ''
+                                ? true
+                                : (card.name + card.description)
+                                      .toLocaleLowerCase()
+                                      .indexOf(
+                                          this.state.search_text.toLocaleLowerCase()
+                                      ) > -1;
+                        })}
+                        selected_card_ids={[]}
+                        onClick={(id: string) =>
+                            this.props.dispatch(push('/admin/cards/' + id))
+                        }
+                    />
+                </Paper>
 
                 <FloatingActionButton
                     onClick={() => {
