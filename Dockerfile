@@ -14,4 +14,4 @@ RUN ./node_modules/.bin/tsc --project tsconfig.server.json
 EXPOSE 80
 
 # Run Node.js
-CMD ["node", "build/server/boot.js"]
+CMD ["node", "build/src/server/boot.js"]
