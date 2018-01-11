@@ -106,6 +106,7 @@ export class UploadCardContainer extends React.Component<
         if (card && data) {
             return (
                 <UploadCardComponent
+                    text={this.props.card.text}
                     doc_id={this.props.data._id}
                     _rev={(this.props.data as any)._rev}
                     attachments={this.props.data._attachments}

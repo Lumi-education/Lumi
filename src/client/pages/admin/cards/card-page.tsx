@@ -8,6 +8,9 @@ import CardEditContainer from 'lib/cards/container/card-edit';
 // local
 import { IState } from 'client/state';
 
+// modules
+import * as Tags from 'lib/tags';
+
 interface IStateProps {
     card_id: string;
 }
@@ -24,7 +27,11 @@ export class CardPage extends React.Component<IProps, {}> {
     }
 
     public render() {
-        return <CardEditContainer card_id={this.props.card_id} />;
+        return (
+            <CardEditContainer card_id={this.props.card_id}>
+                <Tags.TagInputContainer doc_id={this.props.card_id} />
+            </CardEditContainer>
+        );
     }
 }
 
