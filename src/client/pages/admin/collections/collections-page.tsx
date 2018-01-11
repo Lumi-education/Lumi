@@ -5,6 +5,7 @@ import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
 
 import { Map } from 'immutable';
+import { Paper } from 'material-ui';
 
 import { FilterBarComponent, AddButtonComponent } from 'lib/ui';
 import { CollectionListComponent } from 'lib/collections';
@@ -15,10 +16,7 @@ import { IState } from 'client/state';
 import { ICollection } from 'lib/collections/types';
 
 // actions
-import {
-    get_collections,
-    create_collection
-} from 'lib/collections/actions';
+import { get_collections, create_collection } from 'lib/collections/actions';
 
 const log_action = debug('lumi:actions');
 
@@ -58,20 +56,26 @@ export class CollectionsPage extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <CollectionListComponent
-                    collections={this.props.collections.filter(collection => {
-                        return this.state.search_text === ''
-                            ? true
-                            : collection.name
-                                  .toLocaleLowerCase()
-                                  .indexOf(
-                                      this.state.search_text.toLocaleLowerCase()
-                                  ) > -1;
-                    })}
-                    onClick={(id: string) =>
-                        this.props.dispatch(push('/admin/collections/' + id))
-                    }
-                />
+                <Paper>
+                    <CollectionListComponent
+                        collections={this.props.collections.filter(
+                            collection => {
+                                return this.state.search_text === ''
+                                    ? true
+                                    : collection.name
+                                          .toLocaleLowerCase()
+                                          .indexOf(
+                                              this.state.search_text.toLocaleLowerCase()
+                                          ) > -1;
+                            }
+                        )}
+                        onClick={(id: string) =>
+                            this.props.dispatch(
+                                push('/admin/collections/' + id)
+                            )
+                        }
+                    />
+                </Paper>
                 <AddButtonComponent
                     action={() => {
                         this.props.dispatch(create_collection()).then(res => {
