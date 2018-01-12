@@ -1,6 +1,6 @@
 import { assign, unionBy } from 'lodash';
 
-import { COLLECTION_SELECT } from '../constants';
+import { COLLECTION_SELECT, COLLECTION_SELECTION_RESET } from '../constants';
 
 import { ICollectionUI } from '../';
 
@@ -31,6 +31,9 @@ export default function(
                     action.payload.collection_id
                 ]
             });
+
+        case COLLECTION_SELECTION_RESET:
+            return assign({}, state, { selected_collections: [] });
 
         default:
             return state;

@@ -137,3 +137,9 @@ export function select_collection(collection_id: string) {
         }
     };
 }
+
+export function reset_collection_selection() {
+    return {
+        type: k.COLLECTION_SELECTION_RESET
+    };
+}
