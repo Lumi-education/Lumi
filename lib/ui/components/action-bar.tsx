@@ -14,7 +14,9 @@ export default class ActionBarComponent extends React.Component<{}, {}> {
                     padding: '10px',
                     bottom: '0px',
                     right: '0px',
-                    position: 'fixed'
+                    position: 'fixed',
+                    display: 'flex',
+                    flexDirection: 'row'
                 }}
             >
                 {this.props.children}
