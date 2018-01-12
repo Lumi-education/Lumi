@@ -153,7 +153,7 @@ class GroupController extends Controller<Group> {
 
                         break;
                     case 'REM_COLLECTION':
-                        group.rem_collection(req.body.payload.collection_id);
+                        group.rem_collections(req.body.payload.collection_ids);
                         db.save(group);
                         break;
                     case 'ENABLE_COLLECTION':
