@@ -7,17 +7,13 @@ import * as moment from 'moment';
 import { Avatar, Divider, List, ListItem } from 'material-ui';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../types';
 
 // types
 import { IUser } from 'lib/users';
 
 // actions
-import {
-    create_user,
-    get_users,
-    delete_user
-} from 'lib/users/actions';
+import { create_user, get_users, delete_user } from 'lib/users/actions';
 
 interface IPassedProps {
     filter: (user: IUser) => boolean;

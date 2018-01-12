@@ -6,3 +6,5 @@ export { IUI, IState } from './types';
 export { default as ui_reducer } from './reducer';
 import * as ui_actions from './actions';
 export { ui_actions };
+import * as utils from './utils';
+export { utils };

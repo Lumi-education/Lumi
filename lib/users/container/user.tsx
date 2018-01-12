@@ -13,10 +13,10 @@ import {
 
 import { RaisedButtonComponent } from 'lib/ui';
 
-import { state_color } from 'client/style/utils';
+import { state_color } from 'lib/ui/utils';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../types';
 
 // types
 import { IUser } from 'lib/users';

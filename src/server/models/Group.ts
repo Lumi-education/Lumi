@@ -1,6 +1,9 @@
 import { assign, uniq } from 'lodash';
 import { IGroup } from 'lib/groups/types';
 
+import { DB } from '../db';
+import { IUser } from 'lib/users';
+
 export default class Group implements IGroup {
     public _id: string;
     public type: 'group';
@@ -52,5 +55,9 @@ export default class Group implements IGroup {
         this.active_collections = this.active_collections.filter(
             id => id !== collection_id
         );
+    }
+
+    public get_users(db: DB, cb: (users: IUser[]) => void) {
+        db.view('group', 'user', { key: this._id }, cb);
     }
 }

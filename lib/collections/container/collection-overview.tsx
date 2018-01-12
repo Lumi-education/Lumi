@@ -25,7 +25,7 @@ import SVGAssignmentReturn from 'material-ui/svg-icons/action/assignment-return'
 import SVGCorrect from 'material-ui/svg-icons/action/done';
 import SVGWrong from 'material-ui/svg-icons/navigation/close';
 
-import { get_grade_color } from 'client/style/utils';
+import { get_grade_color } from 'lib/ui/utils';
 // local
 import { IState } from 'client/state';
 
@@ -38,18 +38,11 @@ import { CollectionEvaluationContainer } from 'lib/collections';
 // selectors
 import { select_cards_by_ids } from 'lib/cards/selectors';
 import { select_collection_by_id } from 'lib/collections/selectors';
-import {
-    select_collection,
-    select_data_as_map
-} from 'lib/data/selectors';
+import { select_collection, select_data_as_map } from 'lib/data/selectors';
 // actions
 import { get_collection } from 'lib/collections/actions';
 
-import {
-    create_data,
-    update_data,
-    get_data
-} from 'lib/data/actions';
+import { create_data, update_data, get_data } from 'lib/data/actions';
 
 interface IPassedProps {
     collection_id: string;

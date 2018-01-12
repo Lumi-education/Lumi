@@ -3,7 +3,8 @@ import * as React from 'react';
 
 import { RaisedButton } from 'material-ui';
 
-import { state_color } from 'client/style/utils';
+import { state_color } from '../utils';
+
 // actions
 interface IStateProps {
     action: any;

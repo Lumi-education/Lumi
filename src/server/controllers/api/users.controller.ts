@@ -10,6 +10,7 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 import webhook from '../../core/webhook';
+import { assign_collection } from '../../actions/collection';
 
 class UserController extends Controller<User> {
     constructor() {
@@ -67,6 +68,14 @@ class UserController extends Controller<User> {
                         user.rem_group(req.body.payload.group_id);
                         db.save(user);
                         break;
+
+                    case 'ASSIGN_COLLECTION':
+                        assign_collection(
+                            db,
+                            user._id,
+                            req.body.payload.collection_id
+                        );
+
                     default:
                         break;
                 }

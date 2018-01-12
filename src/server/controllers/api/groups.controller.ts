@@ -6,10 +6,12 @@ import { IGroupRef } from 'lib/groups/types';
 import Group from '../../models/Group';
 import User from '../../models/User';
 import Collection from '../../models/Collection';
+import { IUser } from 'lib/users';
 
 import { DB } from '../../db';
 
 import Controller from '../controller';
+import { assign_collection } from '../../actions/collection';
 
 class GroupController extends Controller<Group> {
     constructor() {
@@ -27,6 +29,10 @@ class GroupController extends Controller<Group> {
                 with_collections_and_users: {
                     map:
                         'function (doc) {\n  if (doc.type === "group") {\n    emit(doc._id, 1);\n    doc.assigned_collections.forEach(function(collection_id) {\n      emit(doc._id, { _id: collection_id });\n    });\n  }\n  if (doc.type === "group_ref") {\n    doc.groups.forEach(function(group_id) { emit(group_id, { _id: doc._id })});\n  }\n}'
+                },
+                user: {
+                    map:
+                        "function (doc) {\n  if (doc.type === 'group_ref') { \n    doc.groups.forEach(function(group_id) { emit(group_id, { _id: doc.user_id }); });\n}\n}"
                 }
             },
             language: 'javascript'
@@ -131,7 +137,20 @@ class GroupController extends Controller<Group> {
                         break;
                     case 'ADD_COLLECTION':
                         group.add_collection(req.body.payload.collection_id);
+
+                        group.get_users(db, (users: IUser[]) => {
+                            users.forEach(user =>
+                                assign_collection(
+                                    db,
+                                    user._id,
+                                    req.body.payload.collection_id,
+                                    noop
+                                )
+                            );
+                        });
+
                         db.save(group);
+
                         break;
                     case 'REM_COLLECTION':
                         group.rem_collection(req.body.payload.collection_id);

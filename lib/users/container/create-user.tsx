@@ -8,7 +8,7 @@ import { FloatingActionButton } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 // state
-import { IState } from 'client/state';
+import { IState } from '../types';
 
 // modules
 import * as Users from 'lib/users';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 
 // utils
-import { state_color } from 'client/style/utils';
+import { state_color } from 'lib/ui/utils';
 
 // types
 import { Dispatch } from 'redux';
@@ -15,11 +15,7 @@ import { PasswordDialogComponent } from '../';
 
 // actions
 import { push } from 'lib/ui/actions';
-import {
-    check_username,
-    login,
-    set_password
-} from 'lib/auth/actions';
+import { check_username, login, set_password } from 'lib/auth/actions';
 
 const log = debug('lumi:auth:container:login');
 

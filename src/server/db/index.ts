@@ -166,7 +166,11 @@ export class DB {
                 this.handle_error(err);
             } else {
                 if (body) {
-                    cb(body.rows.map(row => row.doc));
+                    cb(
+                        body.rows
+                            .map(row => row.doc)
+                            .filter(doc => doc !== null)
+                    );
                 } else {
                     cb([]);
                 }
