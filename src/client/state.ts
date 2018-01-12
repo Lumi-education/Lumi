@@ -6,7 +6,7 @@ import { IState as ICards, reducer as cards } from 'lib/cards';
 import * as Collections from 'lib/collections';
 import collections from 'lib/collections/reducer';
 import data from 'lib/data/reducer';
-import { IState as IGroups, groups_reducer as groups } from 'lib/groups';
+import { IState as IGroups, reducer as groups } from 'lib/groups';
 import { IState as ITags, tags_reducer as tags } from 'lib/tags';
 import { IState as IInstall, install_reducer as install } from 'lib/install';
 import { IState as IUI, ui_reducer as ui } from 'lib/ui';
