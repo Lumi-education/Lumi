@@ -4,7 +4,7 @@ import * as React from 'react';
 // material-ui
 import { Dialog, TextField, RaisedButton } from 'material-ui';
 
-import { state_color } from 'client/style/utils';
+import { state_color } from 'lib/ui/utils';
 
 interface IStateProps {
     open: boolean;

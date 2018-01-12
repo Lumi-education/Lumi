@@ -6,7 +6,7 @@ const md = markdownit();
 // components
 import Paper from 'material-ui/Paper';
 
-import { get_grade_color } from 'client/style/utils';
+import { get_grade_color } from 'lib/ui/utils';
 
 // types
 

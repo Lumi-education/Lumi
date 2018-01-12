@@ -20,7 +20,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 import { sum } from 'lib/core/utils';
-import { get_grade_color } from 'client/style/utils';
+import { get_grade_color } from 'lib/ui/utils';
 // local
 import { IState } from 'client/state';
 
@@ -42,10 +42,7 @@ import { get_users_by_group } from 'lib/users/selectors';
 import { select_data_as_map } from 'lib/data/selectors';
 import { groups_list } from 'lib/groups/selectors';
 // actions
-import {
-    get_collections,
-    get_collection
-} from 'lib/collections/actions';
+import { get_collections, get_collection } from 'lib/collections/actions';
 import { get_groups, get_group } from 'lib/groups/actions';
 import { get_data } from 'lib/data/actions';
 
