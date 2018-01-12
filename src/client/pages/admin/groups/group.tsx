@@ -22,11 +22,9 @@ import Create_or_add_user_dialog from './create_or_add_user_dialog';
 import Add_collection_dialog from './add_collection_dialog';
 
 import { CollectionListContainer } from 'lib/collections';
-import {
-    IGroup,
-    GroupSettingsContainer,
-    group_selectors
-} from 'lib/groups';
+import * as Groups from 'lib/groups';
+
+import RemoveCollectionsDialog from './remove_collections_dialog';
 
 // actions
 import { get_group } from 'lib/groups/actions';
@@ -35,7 +33,8 @@ interface IStateProps {
     group_id: string;
     tab: string;
     group_users: string[];
-    group: IGroup;
+    group: Groups.IGroup;
+    selected_collections: string[];
 }
 
 interface IDispatchProps {
@@ -126,7 +125,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         case 'settings':
                         default:
                             return (
-                                <GroupSettingsContainer
+                                <Groups.GroupSettingsContainer
                                     group_id={this.props.group_id}
                                 />
                             );
@@ -157,6 +156,12 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                         }
                                     />
                                     <ActionBar>
+                                        {this.props.selected_collections
+                                            .length > 0 ? (
+                                            <RemoveCollectionsDialog
+                                                group_id={this.props.group_id}
+                                            />
+                                        ) : null}
                                         <Add_collection_dialog
                                             group_id={this.props.group_id}
                                         />
@@ -172,12 +177,13 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        group_users: group_selectors.select_users_for_group(
+        group_users: Groups.selectors.select_users_for_group(
             state,
             ownProps.params.group_id
         ),
-        group: group_selectors.select_group(state, ownProps.params.group_id),
+        group: Groups.selectors.select_group(state, ownProps.params.group_id),
         tab: ownProps.params.tab,
+        selected_collections: state.collections.ui.selected_collections,
         group_id: ownProps.params.group_id
     };
 }

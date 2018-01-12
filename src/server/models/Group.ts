@@ -1,4 +1,4 @@
-import { assign, uniq } from 'lodash';
+import { assign, uniq, pullAll } from 'lodash';
 import { IGroup } from 'lib/groups/types';
 
 import { DB } from '../db';
@@ -36,9 +36,10 @@ export default class Group implements IGroup {
         this.assigned_collections = uniq(this.assigned_collections);
     }
 
-    public rem_collection(collection_id: string): void {
-        this.assigned_collections = this.assigned_collections.filter(
-            id => id !== collection_id
+    public rem_collections(collection_ids: string[]): void {
+        this.assigned_collections = pullAll(
+            this.assigned_collections,
+            collection_ids
         );
     }
 

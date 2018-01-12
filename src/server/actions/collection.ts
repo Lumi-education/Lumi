@@ -1,6 +1,6 @@
 import { DB } from '../db';
 import { noop } from 'lodash';
-import { ICollectionData } from 'lib/cards';
+import { ICollectionData } from 'lib/cards/types';
 
 export function assign_collection(
     db: DB,

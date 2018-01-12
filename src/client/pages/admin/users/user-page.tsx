@@ -9,7 +9,7 @@ import { IState } from 'client/state';
 
 // modules
 import * as User from 'lib/users';
-import { GroupsInputContainer, groups_actions } from 'lib/groups';
+import * as Groups from 'lib/groups';
 
 interface IStateProps {
     user_id: string;
@@ -30,7 +30,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(User.actions.get_user(this.props.user_id));
-        this.props.dispatch(groups_actions.get_groups());
+        this.props.dispatch(Groups.actions.get_groups());
     }
 
     public render() {
@@ -38,7 +38,9 @@ export class AdminUserPage extends React.Component<IProps, {}> {
             <div>
                 <Paper>
                     <User.UserContainer user_id={this.props.user_id}>
-                        <GroupsInputContainer user_id={this.props.user_id} />
+                        <Groups.GroupsInputContainer
+                            user_id={this.props.user_id}
+                        />
                     </User.UserContainer>
                 </Paper>
             </div>

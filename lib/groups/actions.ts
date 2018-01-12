@@ -107,7 +107,7 @@ export function disable_collection(group_id: string, collection_id: string) {
 
 export function rem_collection_from_group(
     group_id: string,
-    collection_id: string
+    collection_ids: string[]
 ) {
     return {
         types: [
@@ -115,8 +115,8 @@ export function rem_collection_from_group(
             GROUPS_REM_COLLECTION_SUCCESS,
             GROUPS_REM_COLLECTION_ERROR
         ],
-        api: API.rem_collection_from_group(group_id, collection_id),
-        payload: { group_id, collection_id }
+        api: API.rem_collection_from_group(group_id, collection_ids),
+        payload: { group_id, collection_ids }
     };
 }
 

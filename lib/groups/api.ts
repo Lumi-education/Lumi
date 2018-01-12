@@ -61,7 +61,7 @@ export function disable_collection(group_id: string, collection_id: string) {
 
 export function rem_collection_from_group(
     group_id: string,
-    collection_id: string
+    collection_ids: string[]
 ) {
     return request
         .put(
@@ -73,7 +73,7 @@ export function rem_collection_from_group(
         )
         .send({
             type: 'REM_COLLECTION',
-            payload: { collection_id }
+            payload: { collection_ids }
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

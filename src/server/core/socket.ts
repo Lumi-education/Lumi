@@ -1,11 +1,14 @@
 import * as SocketIO from 'socket.io';
+import * as express from 'express';
 import * as debug from 'debug';
 import * as ChangeStream from 'changes-stream';
 import * as jwt from 'jwt-simple';
 
 const log = debug('lumi:socket');
 
-export default function boot(io: SocketIO.Server) {
+export default function boot(server) {
+    const io = SocketIO(server);
+
     io.on('connection', (socket: SocketIO.Socket) => {
         log('connection', socket);
 
