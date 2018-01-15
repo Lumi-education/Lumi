@@ -32,6 +32,21 @@ export function add_cards_to_collection(
     };
 }
 
+export function rem_cards_to_collection(
+    collection_id: string,
+    card_ids: string[]
+) {
+    return {
+        types: [
+            k.COLLECTION_REM_CARDS_REQUEST,
+            k.COLLECTION_REM_CARDS_SUCCESS,
+            k.COLLECTION_REM_CARDS_ERROR
+        ],
+        api: API.rem_cards_to_collection(collection_id, card_ids),
+        payload: { card_ids }
+    };
+}
+
 export function delete_collection(collection_id: string) {
     return {
         types: [

@@ -4,8 +4,14 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
+import {
+    arrayMove,
+    SortableContainer,
+    SortableElement
+} from 'react-sortable-hoc';
+
 // components
-import CollectionCardsAdminComponent from '../components/collection-cards';
+import { Paper, Dialog } from 'material-ui';
 
 // local
 import { IState } from 'client/state';
@@ -19,12 +25,7 @@ import { select_cards_as_map } from 'lib/cards/selectors';
 import { select_collection_by_id } from 'lib/collections/selectors';
 
 // actions
-import {
-    get_collection,
-    update_collection
-} from 'lib/collections/actions';
-
-import { Dialog } from 'material-ui';
+import { get_collection, update_collection } from 'lib/collections/actions';
 
 interface IPassedProps {
     collection_id: string;
@@ -55,21 +56,26 @@ export class AdminCollectionCards extends React.Component<
         this.state = {
             show_dialog: false
         };
+
+        this.onSortEnd = this.onSortEnd.bind(this);
+    }
+
+    public onSortEnd({ oldIndex, newIndex }) {
+        const items = arrayMove(this.props.cards, oldIndex, newIndex);
+        this.props.dispatch(
+            update_collection(this.props.collection_id, {
+                cards: items.map(card => card._id)
+            })
+        );
     }
 
     public render() {
         return (
-            <CollectionCardsAdminComponent
-                update_cards_order={(new_order: string[]) =>
-                    this.props.dispatch(
-                        update_collection(this.props.collection_id, {
-                            cards: new_order
-                        })
-                    )
-                }
-                cards={this.props.collection.cards.map(card_id =>
-                    this.props.cards.get(card_id)
-                )}
+            <LIST
+                axis="x"
+                items={this.props.cards}
+                onSortEnd={this.onSortEnd}
+                {...this.props}
             />
         );
     }
@@ -94,3 +100,25 @@ export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
 )(AdminCollectionCards);
+
+const ITEM = SortableElement(({ item }) => {
+    return (
+        <div style={{ margin: '20px' }}>
+            <Paper style={{ height: '480px', width: '320px' }}>ITEM</Paper>
+        </div>
+    );
+});
+
+const LIST = SortableContainer(({ items }) => {
+    return (
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+            {items.map((card, index) => (
+                <ITEM
+                    key={`item-${index}`}
+                    index={index}
+                    item={{ card, index }}
+                />
+            ))}
+        </div>
+    );
+});

@@ -16,6 +16,9 @@ import { add_cards_to_collection } from 'lib/collections/actions';
 // local
 import { IState } from 'client/state';
 
+// modules
+import * as Cards from 'lib/cards';
+
 interface IPassedProps {
     collection_id: string;
 }
@@ -26,7 +29,7 @@ interface IStateProps extends IPassedProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IPassedProps, IDispatchProps {}
@@ -53,12 +56,18 @@ export class CardsDialog extends React.Component<IProps, {}> {
                     <RaisedButton
                         primary={true}
                         onClick={() => {
-                            this.props.dispatch(
-                                add_cards_to_collection(
-                                    this.props.collection_id,
-                                    this.props.selected_card_ids
+                            this.props
+                                .dispatch(
+                                    add_cards_to_collection(
+                                        this.props.collection_id,
+                                        this.props.selected_card_ids
+                                    )
                                 )
-                            );
+                                .then(res =>
+                                    this.props.dispatch(
+                                        Cards.actions.reset_card_selection()
+                                    )
+                                );
                             this.props.dispatch(toggle_cards_dialog());
                         }}
                         label={
@@ -70,13 +79,14 @@ export class CardsDialog extends React.Component<IProps, {}> {
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 1 }}>
                         <CardList
-                            selected_card_ids={this.props.selected_card_ids}
+                            card_ids={['all']}
                             onClick={card_id =>
-                                this.props.dispatch(select_card(card_id))
+                                this.props.dispatch(
+                                    Cards.actions.select_card(card_id)
+                                )
                             }
                         />
                     </div>
-                    <div style={{ flex: 1 }}>CARD_PREVIEW</div>
                 </div>
             </Dialog>
         );
@@ -87,7 +97,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         show_cards_dialog: state.ui.show_cards_dialog,
         collection_id: ownProps.collection_id,
-        selected_card_ids: state.ui.selected_card_ids
+        selected_card_ids: state.cards.ui.selected_cards
     };
 }
 

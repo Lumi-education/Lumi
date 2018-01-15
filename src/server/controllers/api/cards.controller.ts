@@ -9,6 +9,20 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 class CardController extends Controller<Card> {
+    constructor() {
+        const _view = {
+            _id: '_design/card',
+            views: {
+                list: {
+                    map:
+                        "function (doc) {\n  if (doc.type === 'card') { emit(doc._id, 1); }\n}"
+                }
+            },
+            language: 'javascript'
+        };
+
+        super('card', _view);
+    }
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res, req.params.db);
 
@@ -38,6 +52,17 @@ class CardController extends Controller<Card> {
         );
     }
 
+    public list(req: IRequest, res: express.Response) {
+        const db = new DB(res, req.params.db);
+
+        db.view(
+            'card',
+            'list',
+            req.query._ids ? { keys: JSON.parse(req.query._ids) } : {},
+            cards => res.status(200).json(cards)
+        );
+    }
+
     public attachment(req: express.Request, res: express.Response) {
         req.url =
             '/' +
@@ -54,4 +79,4 @@ class CardController extends Controller<Card> {
     }
 }
 
-export default new CardController('card');
+export default new CardController();

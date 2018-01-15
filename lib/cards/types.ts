@@ -111,9 +111,14 @@ export interface IMultiplechoiceCardData extends ICardData {
     card_type: 'multiplechoice';
 }
 
+export interface ICardUI {
+    selected_cards: string[];
+}
+
 export interface IState {
     cards: {
         map: Map<string, ICard>;
+        ui: ICardUI;
     };
     data: {
         map: Map<string, IData>;
