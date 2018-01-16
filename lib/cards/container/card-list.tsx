@@ -5,8 +5,7 @@ import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
 // types
-import { IState } from 'client/state';
-import { ICard } from '../types';
+import { ICard, IState } from '../types';
 
 // components
 
