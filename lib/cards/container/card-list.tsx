@@ -1,34 +1,30 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-
+import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
+// types
+import { ICard, IState } from '../types';
+
 // components
+
 import CardListComponent from '../components/card-list';
 
-// types
-import { IState } from 'client/state';
-import { ICard } from '../types';
+// modules
 
-// selectors
-import { select_all_cards } from 'lib/cards/selectors';
+import * as Cards from 'lib/cards';
 
-// actions
-import {
-    create_data,
-    update_data,
-    get_data
-} from 'lib/data/actions';
-import { get_cards } from 'lib/cards/actions';
+const log = debug('lumi:lib:cards:container:card-list');
 
 interface IPassedProps {
     onClick: (card_id: string) => void;
-    selected_card_ids: string[];
+    card_ids: string[];
 }
 
 interface IStateProps extends IPassedProps {
     cards: ICard[];
+    selected_cards: string[];
 }
 
 interface IDispatchProps {
@@ -37,27 +33,42 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class CardsListContainer extends React.Component<IProps, {}> {
+export class CardListContainer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_cards());
+        log('componentWillMount');
+        this.props.dispatch(
+            Cards.actions.get_cards(
+                this.props.card_ids[0] !== 'all'
+                    ? this.props.card_ids
+                    : undefined
+            )
+        );
     }
 
     public render() {
         return (
-            <CardListComponent {...this.props} onClick={this.props.onClick} />
+            <CardListComponent
+                cards={this.props.cards}
+                selected_card_ids={this.props.selected_cards}
+                onClick={this.props.onClick}
+            />
         );
     }
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        cards: select_all_cards(state),
+        cards:
+            ownProps.card_ids[0] !== 'all'
+                ? Cards.selectors.select_cards_by_ids(state, ownProps.card_ids)
+                : Cards.selectors.select_all_cards(state),
         onClick: ownProps.onClick,
-        selected_card_ids: ownProps.selected_card_ids
+        card_ids: ownProps.card_ids,
+        selected_cards: state.cards.ui.selected_cards
     };
 }
 
@@ -70,4 +81,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(CardsListContainer);
+)(CardListContainer);

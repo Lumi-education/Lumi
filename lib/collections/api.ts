@@ -32,6 +32,25 @@ export function add_cards_to_collection(
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function rem_cards_to_collection(
+    collection_id: string,
+    card_ids: string[]
+) {
+    return request
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/collections/' +
+                collection_id +
+                '/action'
+        )
+        .send({
+            type: 'REM_CARDS',
+            payload: { card_ids }
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function post_collection() {
     return request
         .post(

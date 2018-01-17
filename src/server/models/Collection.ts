@@ -1,4 +1,4 @@
-import { assign, uniq } from 'lodash';
+import { assign, uniq, pullAll } from 'lodash';
 import { ICollection, ICollectionSubmitMsg } from 'lib/collections/types';
 
 export default class Collection implements ICollection {
@@ -36,6 +36,6 @@ export default class Collection implements ICollection {
     }
 
     public rem_cards(card_ids: string[]): void {
-        this.cards = this.cards.filter(id => card_ids.indexOf(id) > -1);
+        this.cards = pullAll(this.cards, card_ids);
     }
 }

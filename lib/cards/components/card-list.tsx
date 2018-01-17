@@ -5,6 +5,7 @@ import { Avatar, Divider, List, ListItem, IconButton } from 'material-ui';
 
 // container
 import TagsContainer from 'lib/tags/container/tags';
+
 // types
 import { ICard } from '../types';
 
@@ -28,7 +29,7 @@ export default class CardListComponent extends React.Component<IProps, {}> {
         return (
             <List>
                 {this.props.cards.length === 0 ? (
-                    <ListItem primaryText="No cards" />
+                    <ListItem key="nocards" primaryText="No cards" />
                 ) : null}
                 {this.props.cards.map(card => (
                     <div key={card._id}>

@@ -4,14 +4,14 @@ import { ICard } from './types';
 
 import * as k from './constants';
 
-export function get_cards() {
+export function get_cards(ids?: string[]) {
     return {
         types: [
             k.CARDS_GET_CARDS_REQUEST,
             k.CARDS_GET_CARDS_SUCCESS,
             k.CARDS_GET_CARDS_ERROR
         ],
-        api: API.get_cards()
+        api: API.get_cards(ids)
     };
 }
 
@@ -60,5 +60,20 @@ export function delete_card(card_id: string) {
         ],
         api: API.delete_card(card_id),
         payload: { card_id }
+    };
+}
+
+export function select_card(card_id: string) {
+    return {
+        type: k.CARD_SELECT,
+        payload: {
+            card_id
+        }
+    };
+}
+
+export function reset_card_selection() {
+    return {
+        type: k.CARD_SELECTION_RESET
     };
 }

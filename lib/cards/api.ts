@@ -2,12 +2,13 @@ import * as request from 'superagent';
 import { assign } from 'lodash';
 declare var window;
 
-export function get_cards() {
+export function get_cards(_ids?: string[]) {
     return request
         .get(
             '/api/v0/' +
                 window.location.pathname.split('/')[1] +
-                '/cards?limit=100'
+                '/cards' +
+                (_ids ? '?_ids=' + JSON.stringify(_ids) : '')
         )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
