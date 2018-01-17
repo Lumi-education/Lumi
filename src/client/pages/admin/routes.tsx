@@ -46,7 +46,8 @@ const routes = (
         />
         <Route path="analytics/progress" component={Progress} />
         <Route path="users" component={Users} />
-        <Route path="users/:user_id" component={User} />
+        <Route path="users/:user_id/:tab" component={User} />
+        <Redirect from="users/:user_id" to="users/:user_id/settings" />
         <Route path="tags" component={TagsPage} />
         <Route path="cards" component={CardsPage} />
         <Route path="cards/:card_id" component={CardPage} />

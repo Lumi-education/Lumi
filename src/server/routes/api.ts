@@ -11,6 +11,7 @@ import UsersController from '../controllers/api/users.controller';
 import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
 import SystemController from '../controllers/api/system.controller';
+import GradesController from '../controllers/api/grades.controller';
 
 const router = Router();
 
@@ -101,6 +102,8 @@ router.get('/:db/users/:id', UsersController.read);
 router.put('/:db/users/:id', UsersController.update);
 router.put('/:db/users/:id/action', UsersController.action);
 router.delete('/:db/users/:id', UsersController.delete);
+
+router.get('/:db/users/:user_id/grades', GradesController.user);
 
 router.get('/:db/users/:user_id/collections/:collection_id', mw.auth);
 router.put('/:db/users/:user_id/collections/:collection_id', mw.auth);

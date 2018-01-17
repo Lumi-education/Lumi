@@ -11,6 +11,7 @@ import { IState as ITags, tags_reducer as tags } from 'lib/tags';
 import { IState as IInstall, install_reducer as install } from 'lib/install';
 import { IState as IUI, ui_reducer as ui } from 'lib/ui';
 import { IState as IUsers, users_reducer as users } from 'lib/users';
+import { IState as IGrades, reducer as grades } from 'lib/grades';
 
 const root_reducer = combineReducers({
     auth,
@@ -22,6 +23,7 @@ const root_reducer = combineReducers({
     tags,
     data,
     install,
+    grades,
     routing: routerReducer
 });
 export default root_reducer;
@@ -34,4 +36,5 @@ export interface IState
         IUsers,
         IGroups,
         Collections.IState,
-        IUI {}
+        IUI,
+        IGrades {}
