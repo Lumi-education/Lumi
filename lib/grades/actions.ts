@@ -4,6 +4,9 @@ export const GRADES_GET_USER_GRADES_ERROR = 'GRADES_GET_USER_GRADES_ERROR';
 export const GRADES_CREATE_GRADE_REQUEST = ' GRADES_CREATE_GRADE_REQUEST';
 export const GRADES_CREATE_GRADE_SUCCESS = 'GRADES_CREATE_GRADE_SUCCESS';
 export const GRADES_CREATE_GRADE_ERROR = 'GRADES_CREATE_GRADE_ERROR';
+export const GRADES_DELETE_GRADE_REQUEST = 'GRADES_DELETE_GRADE_REQUEST';
+export const GRADES_DELETE_GRADE_SUCCESS = 'GRADES_DELETE_GRADE_SUCCESS';
+export const GRADES_DELETE_GRADE_ERROR = 'GRADES_DELETE_GRADE_ERROR';
 
 export const GRADES_SHOW_CREATE_GRADE_DIALOG =
     'GRADES_SHOW_CREATE_GRADE_DIALOG';
@@ -51,5 +54,17 @@ export function show_create_grade_dialog(user_id: string) {
 export function hide_create_grade_dialog() {
     return {
         type: GRADES_HIDE_CREATE_GRADE_DIALOG
+    };
+}
+
+export function delete_grade(grade_id: string) {
+    return {
+        types: [
+            GRADES_DELETE_GRADE_REQUEST,
+            GRADES_DELETE_GRADE_SUCCESS,
+            GRADES_DELETE_GRADE_ERROR
+        ],
+        api: API.delete_grade(grade_id),
+        payload: { payload: { grade_id } }
     };
 }

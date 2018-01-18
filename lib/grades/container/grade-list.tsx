@@ -9,7 +9,17 @@ import { IState } from '../types';
 
 // components
 
-import { Avatar, Divider, List, ListItem } from 'material-ui';
+import {
+    Avatar,
+    Divider,
+    List,
+    ListItem,
+    IconMenu,
+    MenuItem,
+    IconButton
+} from 'material-ui';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import SVGDelete from 'material-ui/svg-icons/content/remove';
 
 // modules
 import * as Grades from '../';
@@ -83,6 +93,24 @@ export class GradeListContainer extends React.Component<IProps, {}> {
                                     </span>
                                 }
                                 secondaryTextLines={2}
+                                rightIconButton={
+                                    <IconMenu
+                                        iconButtonElement={iconButtonElement}
+                                    >
+                                        <MenuItem
+                                            leftIcon={<SVGDelete />}
+                                            onClick={() =>
+                                                this.props.dispatch(
+                                                    Grades.actions.delete_grade(
+                                                        grade._id
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            Delete
+                                        </MenuItem>
+                                    </IconMenu>
+                                }
                             />
                             <Divider inset={true} />
                         </div>
@@ -109,3 +137,9 @@ export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
 )(GradeListContainer);
+
+const iconButtonElement = (
+    <IconButton touch={true}>
+        <MoreVertIcon />
+    </IconButton>
+);

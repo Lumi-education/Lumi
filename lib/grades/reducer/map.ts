@@ -8,7 +8,8 @@ import { arrayToObject } from 'lib/core/utils';
 
 import {
     GRADES_GET_USER_GRADES_SUCCESS,
-    GRADES_CREATE_GRADE_SUCCESS
+    GRADES_CREATE_GRADE_SUCCESS,
+    GRADES_DELETE_GRADE_REQUEST
 } from '../actions';
 
 export default function(
@@ -29,6 +30,9 @@ export default function(
             const o = {};
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, IGrade>(o));
+
+        case GRADES_DELETE_GRADE_REQUEST:
+            return state.delete(action.payload.grade_id);
 
         default:
             return state;

@@ -37,3 +37,14 @@ export function create_grade(
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function delete_grade(grade_id: string) {
+    return request
+        .delete(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/grades/' +
+                grade_id
+        )
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
