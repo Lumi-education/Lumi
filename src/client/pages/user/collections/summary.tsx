@@ -13,10 +13,7 @@ import { IState } from 'client/state';
 import { IData } from 'lib/cards/types';
 
 // actions
-import {
-    get_collection,
-    submit_collection
-} from 'lib/collections/actions';
+import { get_collection, submit_collection } from 'lib/collections/actions';
 import { get_user_collection_data } from 'lib/data/actions';
 import { push, set_appbar_title } from 'lib/ui/actions';
 
@@ -28,7 +25,11 @@ import {
 
 import { select_data_for_user_and_collection } from 'lib/data/selectors';
 
+// modules
+import * as Grades from 'lib/grades';
+
 interface IStateProps {
+    user_id: string;
     collection_id: string;
     collection: IUserCollection;
     data: IData[];
@@ -45,6 +46,7 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
         super(props);
 
         this._cards = this._cards.bind(this);
+        this._grade = this._grade.bind(this);
     }
 
     public componentWillMount() {
@@ -52,7 +54,20 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
     }
 
     public _cards(): number {
-        return this.props.data.length;
+        return this.props.data.filter(d => d.data_type === 'card').length;
+    }
+
+    public _grade(): number {
+        const correct = this.props.data
+            .filter(
+                d =>
+                    d.data_type === 'card' &&
+                    d.card_type !== 'video' &&
+                    d.card_type !== 'text'
+            )
+            .reduce((p, a) => p + (a.score || 0), 0);
+
+        return correct / (this.props.data.length - 1);
     }
 
     public render() {
@@ -96,11 +111,22 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                     }
                     fullWidth={true}
                     secondary={true}
-                    onClick={() =>
+                    onClick={() => {
                         this.props.dispatch(
                             submit_collection(this.props.collection_id)
-                        )
-                    }
+                        );
+                        if (this.props.collection.is_graded) {
+                            this.props.dispatch(
+                                Grades.actions.create_grade(
+                                    this.props.user_id,
+                                    'Arbeitsblatt',
+                                    this._grade(),
+                                    this.props.collection.name,
+                                    this.props.collection_id
+                                )
+                            );
+                        }
+                    }}
                 />
             </div>
         );
@@ -111,6 +137,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     const user_id = state.auth.user_id;
 
     return {
+        user_id,
         collection_id: ownProps.params.collection_id,
         collection: select_collection_for_user(
             state,

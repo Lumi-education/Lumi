@@ -77,5 +77,5 @@ export function get_grade_string(g: number, with_points: boolean = true) {
         return '6' + (with_points ? '(0 Punkte)' : '');
     }
 
-    return 'error';
+    return 'Keine Noten';
 }
