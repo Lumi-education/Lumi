@@ -50,6 +50,7 @@ export interface ICollectionData extends IBaseData {
     user_id: string;
     submitted: boolean;
     submit_date: Date;
+    is_graded: boolean;
     score: number;
 }
 

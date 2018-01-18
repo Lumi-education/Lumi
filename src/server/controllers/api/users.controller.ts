@@ -73,7 +73,8 @@ class UserController extends Controller<User> {
                         assign_collection(
                             db,
                             user._id,
-                            req.body.payload.collection_id
+                            req.body.payload.collection_id,
+                            req.body.payload.is_graded
                         );
 
                     default:

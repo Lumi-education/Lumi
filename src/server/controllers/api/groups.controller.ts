@@ -144,6 +144,7 @@ class GroupController extends Controller<Group> {
                                     db,
                                     user._id,
                                     req.body.payload.collection_id,
+                                    req.body.payload.is_graded,
                                     noop
                                 )
                             );
