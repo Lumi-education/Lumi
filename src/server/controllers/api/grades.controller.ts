@@ -39,7 +39,18 @@ class GradesController extends Controller<IGrade> {
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res, req.params.db);
 
-        // db.insert(new Tag(req.body));
+        const default_grade: IGrade = {
+            _id: undefined,
+            created_at: new Date(),
+            updated_at: undefined,
+            score: 0,
+            user_id: undefined,
+            note: '',
+            type: 'grade',
+            grade_type: 'no'
+        };
+
+        db.insert(assign({}, default_grade, req.body));
     }
 
     public delete(req: IRequest, res: express.Response) {

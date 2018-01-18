@@ -6,7 +6,10 @@ import { IGrade } from '../types';
 
 import { arrayToObject } from 'lib/core/utils';
 
-import { GRADES_GET_USER_GRADES_SUCCESS } from '../actions';
+import {
+    GRADES_GET_USER_GRADES_SUCCESS,
+    GRADES_CREATE_GRADE_SUCCESS
+} from '../actions';
 
 export default function(
     state: Map<string, IGrade> = Map<string, IGrade>({}),
@@ -21,6 +24,11 @@ export default function(
                     )
                 )
             );
+
+        case GRADES_CREATE_GRADE_SUCCESS:
+            const o = {};
+            o[action.payload._id] = action.payload;
+            return state.merge(Map<string, IGrade>(o));
 
         default:
             return state;

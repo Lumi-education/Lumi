@@ -13,7 +13,7 @@ import { Avatar, Divider, List, ListItem } from 'material-ui';
 
 // modules
 import * as Grades from '../';
-import { get_grade_color } from 'lib/ui/utils';
+import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 
 const log = debug('lumi:lib:grades:container:grade-list');
 
@@ -58,7 +58,7 @@ export class GradeListContainer extends React.Component<IProps, {}> {
                                     )}
                                     size={50}
                                 >
-                                    {grade.score * 100}
+                                    {get_grade_string(grade.score * 100, false)}
                                 </Avatar>
                             }
                             primaryText={grade.grade_type}

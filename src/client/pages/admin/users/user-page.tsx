@@ -5,6 +5,8 @@ import { push } from 'lib/ui/actions';
 
 import { Paper, Tabs, Tab } from 'material-ui';
 
+import ActionBar from 'lib/ui/components/action-bar';
+
 // state
 import { IState } from 'client/state';
 
@@ -100,6 +102,11 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Grades.GradeListContainer
                                         user_id={this.props.user_id}
                                     />
+                                    <ActionBar>
+                                        <Grades.CreateGradeDialogContainer
+                                            user_id={this.props.user_id}
+                                        />
+                                    </ActionBar>
                                 </div>
                             );
                     }

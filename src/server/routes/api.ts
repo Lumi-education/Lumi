@@ -104,6 +104,7 @@ router.put('/:db/users/:id/action', UsersController.action);
 router.delete('/:db/users/:id', UsersController.delete);
 
 router.get('/:db/users/:user_id/grades', GradesController.user);
+router.post('/:db/users/:user_id/grades', GradesController.create);
 
 router.get('/:db/users/:user_id/collections/:collection_id', mw.auth);
 router.put('/:db/users/:user_id/collections/:collection_id', mw.auth);
