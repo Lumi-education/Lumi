@@ -11,11 +11,13 @@ import UserDashboard from 'client/pages/user/dashboard';
 import UserAssignments from './assignments';
 import SubmittedAssignments from './submitted-assignments';
 import CollectionSummary from './collections/summary';
+import Grades from './grades';
 
 export default (
     <Route path="user" component={UserIndex}>
         <IndexRoute component={UserDashboard} />
         <Route path="assignments" component={UserAssignments} />
+        <Route path="grades" component={Grades} />
         <Route path="submitted-assignments" component={SubmittedAssignments} />
         <Route path="collections/:collection_id" component={UserCollections}>
             <IndexRoute component={UserCollectionsRedirect} />

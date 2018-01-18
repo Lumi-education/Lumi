@@ -101,6 +101,9 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         case 'grades':
                             return (
                                 <div>
+                                    <Grades.CurrentGradeListContainer
+                                        user_id={this.props.user_id}
+                                    />
                                     <Grades.GradeListContainer
                                         user_id={this.props.user_id}
                                         menuItems={[
@@ -121,9 +124,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                             )
                                         ]}
                                     />
-                                    <Grades.CurrentGradeContainer
-                                        user_id={this.props.user_id}
-                                    />
+
                                     <ActionBar>
                                         <FloatingActionButton
                                             onClick={() =>

@@ -31,7 +31,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class CurrentGradeContainer extends React.Component<IProps, {}> {
+export class CurrentGradeListContainer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
@@ -53,9 +53,18 @@ export class CurrentGradeContainer extends React.Component<IProps, {}> {
         );
 
         return (
-            <Avatar backgroundColor={get_grade_color(grade)}>
-                {get_grade_string(grade, false)}
-            </Avatar>
+            <List>
+                <ListItem
+                    style={{ backgroundColor: get_grade_color(grade) }}
+                    primaryText={get_grade_string(grade) + ' (' + grade + '%)'}
+                    secondaryText={this.props.grades.length + ' Noten'}
+                    leftAvatar={
+                        <Avatar backgroundColor={get_grade_color(grade)}>
+                            {get_grade_string(grade, false)}
+                        </Avatar>
+                    }
+                />
+            </List>
         );
     }
 }
@@ -76,4 +85,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(CurrentGradeContainer);
+)(CurrentGradeListContainer);

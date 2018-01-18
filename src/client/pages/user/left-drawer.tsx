@@ -18,11 +18,7 @@ import SVGAssignments from 'material-ui/svg-icons/action/assignment';
 import SVGAssignmentsTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 
 // actions
-import {
-    push,
-    left_drawer_close,
-    left_drawer_open
-} from 'lib/ui/actions';
+import { push, left_drawer_close, left_drawer_open } from 'lib/ui/actions';
 
 import { logout } from 'lib/auth/actions';
 
@@ -35,11 +31,15 @@ import {
 // types
 import { IState } from 'client/state';
 
+// modules
+import * as Grades from 'lib/grades';
+
 declare var process;
 
 interface IStateProps {
     left_drawer_show: boolean;
     collections: IUserCollection[];
+    user_id: string;
 }
 
 interface IDispatchProps {
@@ -121,6 +121,20 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             }
                         />
                         <ListItem
+                            primaryText="Noten"
+                            onClick={() =>
+                                this.props.dispatch(push('/user/grades'))
+                            }
+                            leftIcon={<Grades.svg.Grade />}
+                            rightAvatar={
+                                <div>
+                                    <Grades.CurrentGradeContainer
+                                        user_id={this.props.user_id}
+                                    />
+                                </div>
+                            }
+                        />
+                        <ListItem
                             primaryText="Logout"
                             leftIcon={<SVGPower />}
                             onClick={() => this.props.dispatch(logout())}
@@ -137,7 +151,8 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         left_drawer_show: state.ui.left_drawer_show,
-        collections: select_collections_for_user(state)
+        collections: select_collections_for_user(state),
+        user_id: state.auth.user_id
     };
 }
 
