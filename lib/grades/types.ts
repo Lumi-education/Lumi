@@ -12,8 +12,14 @@ export interface IGrade {
     grade_type: string;
 }
 
+export interface IGradesUI {
+    show_create_grades_dialog: boolean;
+    user_id: string;
+}
+
 export interface IState {
     grades: {
         map: Map<string, IGrade>;
+        ui: IGradesUI;
     };
 }

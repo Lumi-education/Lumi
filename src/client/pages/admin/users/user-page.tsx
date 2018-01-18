@@ -3,7 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
-import { Paper, Tabs, Tab } from 'material-ui';
+import { Paper, Tabs, Tab, FloatingActionButton } from 'material-ui';
+import SVGGrade from 'material-ui/svg-icons/action/grade';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
@@ -103,10 +104,19 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                         user_id={this.props.user_id}
                                     />
                                     <ActionBar>
-                                        <Grades.CreateGradeDialogContainer
-                                            user_id={this.props.user_id}
-                                        />
+                                        <FloatingActionButton
+                                            onClick={() =>
+                                                this.props.dispatch(
+                                                    Grades.actions.show_create_grade_dialog(
+                                                        this.props.user_id
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            <SVGGrade />
+                                        </FloatingActionButton>
                                     </ActionBar>
+                                    <Grades.CreateGradeDialogContainer />
                                 </div>
                             );
                     }

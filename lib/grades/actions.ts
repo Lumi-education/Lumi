@@ -5,6 +5,10 @@ export const GRADES_CREATE_GRADE_REQUEST = ' GRADES_CREATE_GRADE_REQUEST';
 export const GRADES_CREATE_GRADE_SUCCESS = 'GRADES_CREATE_GRADE_SUCCESS';
 export const GRADES_CREATE_GRADE_ERROR = 'GRADES_CREATE_GRADE_ERROR';
 
+export const GRADES_SHOW_CREATE_GRADE_DIALOG =
+    'GRADES_SHOW_CREATE_GRADE_DIALOG';
+export const GRADES_HIDE_CREATE_GRADE_DIALOG =
+    'GRADES_HIDE_CREATE_GRADE_DIALOG';
 import * as API from './api';
 
 export function get_user_grades(user_id: string) {
@@ -34,5 +38,18 @@ export function create_grade(
         ],
         api: API.create_grade(user_id, grade_type, score, note, ref_id),
         payload: { payload: { user_id, grade_type, score, note, ref_id } }
+    };
+}
+
+export function show_create_grade_dialog(user_id: string) {
+    return {
+        user_id,
+        type: GRADES_SHOW_CREATE_GRADE_DIALOG
+    };
+}
+
+export function hide_create_grade_dialog() {
+    return {
+        type: GRADES_HIDE_CREATE_GRADE_DIALOG
     };
 }

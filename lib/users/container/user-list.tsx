@@ -4,7 +4,18 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import * as moment from 'moment';
 
-import { Avatar, Divider, List, ListItem } from 'material-ui';
+import {
+    Avatar,
+    Divider,
+    List,
+    ListItem,
+    IconMenu,
+    MenuItem,
+    IconButton
+} from 'material-ui';
+import SVGGrade from 'material-ui/svg-icons/action/grade';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
 
 // local
 import { IState } from '../types';
@@ -14,6 +25,9 @@ import { IUser } from 'lib/users';
 
 // actions
 import { create_user, get_users, delete_user } from 'lib/users/actions';
+
+// modules
+import * as Grades from 'lib/grades';
 
 interface IPassedProps {
     filter: (user: IUser) => boolean;
@@ -49,6 +63,32 @@ export class UserListContainer extends React.Component<IProps, {}> {
                 {users.map(user => (
                     <div key={user._id}>
                         <ListItem
+                            rightIconButton={
+                                <IconMenu iconButtonElement={iconButtonElement}>
+                                    <MenuItem
+                                        leftIcon={<SVGPreview />}
+                                        onClick={() =>
+                                            this.props.dispatch(
+                                                push('/admin/users/' + user._id)
+                                            )
+                                        }
+                                    >
+                                        View
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() =>
+                                            this.props.dispatch(
+                                                Grades.actions.show_create_grade_dialog(
+                                                    user._id
+                                                )
+                                            )
+                                        }
+                                        leftIcon={<SVGGrade />}
+                                    >
+                                        Grade
+                                    </MenuItem>
+                                </IconMenu>
+                            }
                             leftAvatar={
                                 <Avatar>{user.name.substring(0, 3)}</Avatar>
                             }
@@ -58,15 +98,11 @@ export class UserListContainer extends React.Component<IProps, {}> {
                                     ? moment(user.last_active).fromNow()
                                     : 'never'
                             }
-                            onClick={() =>
-                                this.props.dispatch(
-                                    push('/admin/users/' + user._id)
-                                )
-                            }
                         />
                         <Divider inset={true} />
                     </div>
                 ))}
+                <Grades.CreateGradeDialogContainer />
             </List>
         );
     }
@@ -89,3 +125,9 @@ export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
 )(UserListContainer);
+
+const iconButtonElement = (
+    <IconButton touch={true}>
+        <MoreVertIcon />
+    </IconButton>
+);

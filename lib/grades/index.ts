@@ -1,4 +1,4 @@
-export { IGrade, IState } from './types';
+export { IGrade, IState, IGradesUI } from './types';
 import reducer from './reducer';
 import * as selectors from './selectors';
 import * as actions from './actions';
