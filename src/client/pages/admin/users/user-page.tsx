@@ -3,8 +3,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
-import { Paper, Tabs, Tab, FloatingActionButton } from 'material-ui';
+import { Paper, Tabs, Tab, FloatingActionButton, MenuItem } from 'material-ui';
 import SVGGrade from 'material-ui/svg-icons/action/grade';
+import SVGDelete from 'material-ui/svg-icons/content/remove';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
@@ -102,6 +103,23 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                 <div>
                                     <Grades.GradeListContainer
                                         user_id={this.props.user_id}
+                                        menuItems={[
+                                            (grade: Grades.IGrade) => (
+                                                <MenuItem
+                                                    key={grade._id + '-1'}
+                                                    leftIcon={<SVGDelete />}
+                                                    onClick={() =>
+                                                        this.props.dispatch(
+                                                            Grades.actions.delete_grade(
+                                                                grade._id
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    Delete
+                                                </MenuItem>
+                                            )
+                                        ]}
                                     />
                                     <Grades.CurrentGradeContainer
                                         user_id={this.props.user_id}

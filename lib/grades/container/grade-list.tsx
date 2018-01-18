@@ -27,8 +27,11 @@ import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 
 const log = debug('lumi:lib:grades:container:grade-list');
 
+type IMenuItem = (grade: Grades.IGrade) => JSX.Element;
+
 interface IPassedProps {
     user_id: string;
+    menuItems?: IMenuItem[];
 }
 
 interface IStateProps extends IPassedProps {
@@ -94,22 +97,17 @@ export class GradeListContainer extends React.Component<IProps, {}> {
                                 }
                                 secondaryTextLines={2}
                                 rightIconButton={
-                                    <IconMenu
-                                        iconButtonElement={iconButtonElement}
-                                    >
-                                        <MenuItem
-                                            leftIcon={<SVGDelete />}
-                                            onClick={() =>
-                                                this.props.dispatch(
-                                                    Grades.actions.delete_grade(
-                                                        grade._id
-                                                    )
-                                                )
+                                    this.props.menuItems ? (
+                                        <IconMenu
+                                            iconButtonElement={
+                                                iconButtonElement
                                             }
                                         >
-                                            Delete
-                                        </MenuItem>
-                                    </IconMenu>
+                                            {this.props.menuItems.map(f =>
+                                                f(grade)
+                                            )}
+                                        </IconMenu>
+                                    ) : null
                                 }
                             />
                             <Divider inset={true} />
