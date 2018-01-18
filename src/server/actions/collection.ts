@@ -6,6 +6,7 @@ export function assign_collection(
     db: DB,
     user_id: string,
     collection_id: string,
+    is_graded: boolean,
     cb?: () => void
 ) {
     const data: ICollectionData = {
@@ -17,6 +18,7 @@ export function assign_collection(
         submit_date: undefined,
         score: 0,
         type: 'data',
+        is_graded: true,
         created_at: new Date(),
         updated_at: undefined
     };

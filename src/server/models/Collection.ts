@@ -10,6 +10,7 @@ export default class Collection implements ICollection {
     public created_at: Date;
     public updated_at: Date;
     public submit_messages: ICollectionSubmitMsg[];
+    public is_graded: boolean;
 
     constructor(c?: Collection) {
         return assign(
