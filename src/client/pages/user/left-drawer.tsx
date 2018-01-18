@@ -102,7 +102,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                 </Avatar>
                             }
                         />
-                        <ListItem
+                        {/* <ListItem
                             primaryText="Abgegebene Arbeitsblätter"
                             onClick={() =>
                                 this.props.dispatch(
@@ -119,7 +119,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                     }
                                 </Avatar>
                             }
-                        />
+                        /> */}
                         <ListItem
                             primaryText="Noten"
                             onClick={() =>
