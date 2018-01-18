@@ -103,6 +103,9 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Grades.GradeListContainer
                                         user_id={this.props.user_id}
                                     />
+                                    <Grades.CurrentGradeContainer
+                                        user_id={this.props.user_id}
+                                    />
                                     <ActionBar>
                                         <FloatingActionButton
                                             onClick={() =>

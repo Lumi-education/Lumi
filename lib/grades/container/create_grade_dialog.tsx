@@ -73,6 +73,8 @@ export class CreateGradeDialogContainer extends React.Component<
     }
 
     public render() {
+        const grade = parseInt((this.state.score * 100).toFixed(0), 10);
+
         return (
             <Dialog
                 open={this.props.open}
@@ -117,12 +119,13 @@ export class CreateGradeDialogContainer extends React.Component<
                 />
                 <Slider
                     value={this.state.score}
+                    step={0.05}
                     onChange={(e, v) => this.setState({ score: v })}
                 />
                 <RaisedButton
                     fullWidth={true}
-                    label={get_grade_string(this.state.score * 100)}
-                    backgroundColor={get_grade_color(this.state.score * 100)}
+                    label={get_grade_string(grade) + ' (' + grade + '%)'}
+                    backgroundColor={get_grade_color(grade)}
                 />
             </Dialog>
         );

@@ -31,40 +31,40 @@ export function get_grade_color(g: number) {
 export function get_grade_string(g: number, with_points: boolean = true) {
     const grade = Math.ceil(g / 5) * 5;
 
-    if (grade > 95) {
+    if (grade >= 95) {
         return '1+' + (with_points ? '(15 Punkte)' : '');
     }
-    if (grade > 90) {
+    if (grade >= 90) {
         return '1' + (with_points ? '(14 Punkte)' : '');
     }
-    if (grade > 85) {
+    if (grade >= 85) {
         return '1-' + (with_points ? '(13 Punkte)' : '');
     }
-    if (grade > 80) {
+    if (grade >= 80) {
         return '2+' + (with_points ? '(12 Punkte)' : '');
     }
-    if (grade > 75) {
+    if (grade >= 75) {
         return '2' + (with_points ? '(11 Punkte)' : '');
     }
-    if (grade > 70) {
+    if (grade >= 70) {
         return '2-' + (with_points ? '(10 Punkte)' : '');
     }
-    if (grade > 65) {
+    if (grade >= 65) {
         return '3+' + (with_points ? '(9 Punkte)' : '');
     }
-    if (grade > 60) {
+    if (grade >= 60) {
         return '3' + (with_points ? '(8 Punkte)' : '');
     }
-    if (grade > 55) {
+    if (grade >= 55) {
         return '3-' + (with_points ? '(7 Punkte)' : '');
     }
-    if (grade > 50) {
+    if (grade >= 50) {
         return '4+' + (with_points ? '(6 Punkte)' : '');
     }
-    if (grade > 45) {
+    if (grade >= 45) {
         return '4' + (with_points ? '(5 Punkte)' : '');
     }
-    if (grade > 39) {
+    if (grade >= 39) {
         return '4-' + (with_points ? '(4 Punkte)' : '');
     }
     if (grade >= 33) {

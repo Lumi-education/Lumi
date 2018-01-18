@@ -48,34 +48,45 @@ export class GradeListContainer extends React.Component<IProps, {}> {
                 {this.props.grades.length === 0 ? (
                     <ListItem key="nogrades" primaryText="No Grades" />
                 ) : null}
-                {this.props.grades.map(grade => (
-                    <div key={grade._id}>
-                        <ListItem
-                            leftAvatar={
-                                <Avatar
-                                    backgroundColor={get_grade_color(
-                                        grade.score * 100
-                                    )}
-                                    size={50}
-                                >
-                                    {get_grade_string(grade.score * 100, false)}
-                                </Avatar>
-                            }
-                            primaryText={grade.grade_type}
-                            secondaryText={
-                                <span>
+                {this.props.grades
+                    .sort(
+                        (a, b) =>
+                            new Date(b.created_at as any).getTime() -
+                            new Date(a.created_at as any).getTime()
+                    )
+                    .map(grade => (
+                        <div key={grade._id}>
+                            <ListItem
+                                leftAvatar={
+                                    <Avatar
+                                        backgroundColor={get_grade_color(
+                                            grade.score * 100
+                                        )}
+                                        size={50}
+                                    >
+                                        {get_grade_string(
+                                            grade.score * 100,
+                                            false
+                                        )}
+                                    </Avatar>
+                                }
+                                primaryText={grade.grade_type}
+                                secondaryText={
                                     <span>
-                                        {moment(grade.created_at).calendar()}
+                                        <span>
+                                            {moment(
+                                                grade.created_at
+                                            ).calendar()}
+                                        </span>
+                                        <br />
+                                        {grade.note}
                                     </span>
-                                    <br />
-                                    {grade.note}
-                                </span>
-                            }
-                            secondaryTextLines={2}
-                        />
-                        <Divider inset={true} />
-                    </div>
-                ))}
+                                }
+                                secondaryTextLines={2}
+                            />
+                            <Divider inset={true} />
+                        </div>
+                    ))}
             </List>
         );
     }

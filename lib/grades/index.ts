@@ -8,3 +8,4 @@ export { default as GradeListContainer } from './container/grade-list';
 export {
     default as CreateGradeDialogContainer
 } from './container/create_grade_dialog';
+export { default as CurrentGradeContainer } from './container/current_grade';
