@@ -34,6 +34,8 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     open: boolean;
     user_id: string;
+    grade: Grades.IGrade;
+    grade_id: string;
 }
 
 interface IDispatchProps {
@@ -68,6 +70,19 @@ export class CreateGradeDialogContainer extends React.Component<
         log('componentWillMount');
     }
 
+    public componentWillReceiveProps(nextProps: IProps) {
+        log(nextProps);
+        if (nextProps.grade_id) {
+            if (nextProps.grade) {
+                this.setState({
+                    grade_type: Grade_types[nextProps.grade.grade_type],
+                    note: nextProps.grade.note,
+                    score: nextProps.grade.score
+                });
+            }
+        }
+    }
+
     public close() {
         this.props.dispatch(Grades.actions.hide_create_grade_dialog());
     }
@@ -87,13 +102,27 @@ export class CreateGradeDialogContainer extends React.Component<
                         onClick={() => {
                             this.props
                                 .dispatch(
-                                    Grades.actions.create_grade(
-                                        this.props.user_id,
-                                        Grade_types[this.state.grade_type],
-                                        this.state.score,
-                                        this.state.note,
-                                        this.props.ref_id
-                                    )
+                                    this.props.grade_id
+                                        ? Grades.actions.update_grade(
+                                              this.props.grade_id,
+                                              {
+                                                  grade_type:
+                                                      Grade_types[
+                                                          this.state.grade_type
+                                                      ],
+                                                  note: this.state.note,
+                                                  score: this.state.score
+                                              }
+                                          )
+                                        : Grades.actions.create_grade(
+                                              this.props.user_id,
+                                              Grade_types[
+                                                  this.state.grade_type
+                                              ],
+                                              this.state.score,
+                                              this.state.note,
+                                              this.props.ref_id
+                                          )
                                 )
                                 .then(res => this.close());
                         }}
@@ -136,7 +165,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id: state.grades.ui.user_id,
         ref_id: ownProps.ref_id,
-        open: state.grades.ui.show_create_grades_dialog
+        open: state.grades.ui.show_create_grades_dialog,
+        grade_id: state.grades.ui.grade_id,
+        grade: Grades.selectors.grade(state, state.grades.ui.grade_id)
     };
 }
 

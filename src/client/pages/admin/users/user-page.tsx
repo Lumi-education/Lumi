@@ -6,6 +6,7 @@ import { push } from 'lib/ui/actions';
 import { Paper, Tabs, Tab, FloatingActionButton, MenuItem } from 'material-ui';
 import SVGGrade from 'material-ui/svg-icons/action/grade';
 import SVGDelete from 'material-ui/svg-icons/content/remove';
+import SVGEdit from 'material-ui/svg-icons/content/create';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
@@ -110,6 +111,23 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                             (grade: Grades.IGrade) => (
                                                 <MenuItem
                                                     key={grade._id + '-1'}
+                                                    leftIcon={<SVGEdit />}
+                                                    onClick={() =>
+                                                        this.props.dispatch(
+                                                            Grades.actions.show_create_grade_dialog(
+                                                                this.props
+                                                                    .user_id,
+                                                                grade._id
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    Edit
+                                                </MenuItem>
+                                            ),
+                                            (grade: Grades.IGrade) => (
+                                                <MenuItem
+                                                    key={grade._id + '-2'}
                                                     leftIcon={<SVGDelete />}
                                                     onClick={() =>
                                                         this.props.dispatch(

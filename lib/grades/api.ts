@@ -48,3 +48,15 @@ export function delete_grade(grade_id: string) {
         )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function update_grade(grade_id: string, update) {
+    return request
+        .put(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/grades/' +
+                grade_id
+        )
+        .send(update)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
