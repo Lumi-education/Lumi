@@ -122,6 +122,9 @@ class AuthController extends Controller<{}> {
     }
 
     public get_session(req: IRequest, res: express.Response) {
+        const db = new DB(res, req.params.db);
+        db.update_one(req.user._id, { last_active: new Date() });
+
         res.status(200).json(req.user);
     }
 

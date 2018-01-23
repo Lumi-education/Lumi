@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 import {
     Avatar,
@@ -95,7 +95,9 @@ export class UserListContainer extends React.Component<IProps, {}> {
                             primaryText={user.name}
                             secondaryText={
                                 user.last_active
-                                    ? moment(user.last_active).fromNow()
+                                    ? moment(user.last_active)
+                                          .tz('Europe/Berlin')
+                                          .fromNow()
                                     : 'never'
                             }
                         />

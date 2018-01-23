@@ -16,11 +16,9 @@ import { ICard, IState } from '../types';
 
 // selectors
 import { select_card } from 'lib/cards/selectors';
-import { select_data, select_collection } from 'lib/data/selectors';
 
 // actions
-import { create_data, update_data, get_data } from 'lib/data/actions';
-import { get_card, update_card } from 'lib/cards/actions';
+import { get_card } from 'lib/cards/actions';
 
 interface IPassedProps {
     card_id: string;
@@ -29,8 +27,6 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: ICard;
-    data;
-    collection_data;
 }
 
 interface IDispatchProps {
@@ -48,20 +44,10 @@ export class CardViewContainer extends React.Component<IProps, {}> {
         if (!this.props.card._id) {
             this.props.dispatch(get_card(this.props.card_id));
         }
-
-        if (!this.props.data) {
-            this.props.dispatch(
-                get_data({
-                    collection_id: this.props.collection_id,
-                    card_id: this.props.card._id
-                })
-            );
-        }
     }
 
     public render() {
         const card = this.props.card;
-        const data = this.props.data;
 
         if (card) {
             switch (card.card_type) {
@@ -116,9 +102,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id),
-        collection_data: select_collection(state, ownProps.collection_id),
-        data: select_data(state, ownProps.collection_id, ownProps.card_id)
+        card: select_card(state, ownProps.card_id)
     };
 }
 

@@ -47,6 +47,7 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
 
         this._cards = this._cards.bind(this);
         this._grade = this._grade.bind(this);
+        this._graded_tasks = this._graded_tasks.bind(this);
     }
 
     public componentWillMount() {
@@ -54,7 +55,12 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
     }
 
     public _cards(): number {
-        return this.props.data.filter(d => d.data_type === 'card').length;
+        return this.props.data.filter(
+            d =>
+                d.data_type === 'card' &&
+                d.card_type !== 'video' &&
+                d.card_type !== 'text'
+        ).length;
     }
 
     public _grade(): number {
@@ -67,7 +73,16 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
             )
             .reduce((p, a) => p + (a.score || 0), 0);
 
-        return correct / (this.props.data.length - 1);
+        return correct / this._graded_tasks();
+    }
+
+    public _graded_tasks(): number {
+        return this.props.data.filter(
+            d =>
+                d.data_type === 'card' &&
+                d.card_type !== 'text' &&
+                d.card_type !== 'video'
+        ).length;
     }
 
     public render() {
@@ -87,7 +102,7 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                         'Du hast ' +
                         this._cards() +
                         ' von ' +
-                        this.props.collection.cards.length +
+                        this._graded_tasks() +
                         ' Aufgaben bearbeitet. Eine Auswertung erhälst du erst, wenn du das Arbeitsblat abgegeben hast.'
                     )}
                 </Paper>
@@ -106,7 +121,7 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                 <RaisedButton
                     label="Abgeben"
                     disabled={
-                        this._cards() < this.props.collection.cards.length ||
+                        this._cards() < this._graded_tasks() ||
                         this.props.collection.submitted
                     }
                     fullWidth={true}

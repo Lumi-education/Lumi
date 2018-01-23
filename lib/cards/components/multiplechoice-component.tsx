@@ -47,7 +47,7 @@ export default class MultiplechoiceComponent extends React.Component<
     }
 
     public componentDidMount() {
-        window.MathJax.Hub.Typeset();
+        // window.MathJax.Hub.Typeset();
     }
 
     public render() {

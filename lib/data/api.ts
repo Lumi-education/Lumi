@@ -36,6 +36,25 @@ export function get_data(query) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function get_card_data(
+    user_id: string,
+    collection_id: string,
+    card_id: string
+) {
+    return request
+        .get(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/data/' +
+                user_id +
+                '-' +
+                collection_id +
+                '-' +
+                card_id
+        )
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function get_user_collection_data(collection_id: string) {
     return request
         .get(

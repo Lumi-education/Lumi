@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 // types
 import { IState } from '../types';
@@ -87,9 +87,9 @@ export class GradeListContainer extends React.Component<IProps, {}> {
                                 secondaryText={
                                     <span>
                                         <span>
-                                            {moment(
-                                                grade.created_at
-                                            ).calendar()}
+                                            {moment(grade.created_at)
+                                                .tz('Europe/Berlin')
+                                                .calendar()}
                                         </span>
                                         <br />
                                         {grade.note}

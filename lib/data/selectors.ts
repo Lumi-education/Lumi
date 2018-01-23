@@ -4,17 +4,11 @@ import { IData, ICollectionData, IState } from 'lib/cards/types';
 
 export function select_data(
     state: IState,
+    user_id: string,
     collection_id: string,
     card_id: string
 ): IData {
-    return state.data.map
-        .toArray()
-        .filter(
-            data =>
-                (data as any).collection_id === collection_id &&
-                (data as any).card_id === card_id &&
-                (data as any).data_type === 'card'
-        )[0];
+    return state.data.map.get(user_id + '-' + collection_id + '-' + card_id);
 }
 
 export function select_data_for_user_and_collection(

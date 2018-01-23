@@ -47,14 +47,14 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
 
     public typeset() {
         log('typeset');
-        if (!this._typeset_locked) {
-            window.MathJax.Hub.Typeset(() => {
-                log('typed!');
-                this._typeset_locked = false;
-            });
-        }
+        // if (!this._typeset_locked) {
+        //     window.MathJax.Hub.Typeset(() => {
+        //         log('typed!');
+        //         this._typeset_locked = false;
+        //     });
+        // }
 
-        this._typeset_locked = true;
+        // this._typeset_locked = true;
     }
 
     public _onBlur() {
