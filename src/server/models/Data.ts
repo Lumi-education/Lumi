@@ -10,6 +10,7 @@ export default class Data implements IBaseData {
     public collection_id: string;
     public user_id: string;
     public score: number;
+    public is_graded: boolean;
     public created_at: Date;
     public updated_at: Date;
 

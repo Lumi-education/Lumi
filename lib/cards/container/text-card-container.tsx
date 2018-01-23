@@ -25,6 +25,7 @@ const log = debug('lumi:packages:cards:container:multiplechoice-card');
 interface IPassedProps {
     card_id: string;
     collection_id: string;
+    user_id?: string;
 }
 
 interface IStateProps extends IPassedProps {
@@ -73,6 +74,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
                                 score: 0,
                                 card_type: 'text',
                                 data_type: 'card',
+                                is_graded: false,
                                 card_id: this.props.card._id,
                                 collection_id: this.props.collection_id
                             })
@@ -102,12 +104,15 @@ export class TextCardContainer extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const user_id = ownProps.user_id || (state as any).auth.user_id;
+
     return {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as ITextCard,
         data: select_data(
             state,
+            user_id,
             ownProps.collection_id,
             ownProps.card_id
         ) as ITextCardData

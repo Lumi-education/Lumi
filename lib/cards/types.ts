@@ -60,6 +60,7 @@ export interface ICardData extends IBaseData {
     data_type: 'card';
     card_type: string;
     score: number;
+    is_graded: boolean;
 }
 
 export interface ITextCard extends IBaseCard {

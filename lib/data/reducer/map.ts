@@ -11,6 +11,8 @@ import {
     DATA_CREATE_REQUEST
 } from '../constants';
 
+import { DATA_GET_CARD_DATA_SUCCESS } from '../actions';
+
 export default function(
     state: Map<string, {}> = Map<string, IData>({}),
     action
@@ -24,6 +26,7 @@ export default function(
 
         case 'DB_CHANGE':
         case DATA_GET_SUCCESS:
+        case DATA_GET_CARD_DATA_SUCCESS:
             return state.merge(
                 Map<string, {}>(
                     arrayToObject(action.payload.filter(d => d.type === 'data'))

@@ -23,6 +23,7 @@ import { select_data, select_collection } from 'lib/data/selectors';
 
 // actions
 import { create_data, update_data, get_data } from 'lib/data/actions';
+import * as Data from 'lib/data';
 import { get_card, update_card } from 'lib/cards/actions';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
@@ -30,6 +31,7 @@ const log = debug('lumi:packages:cards:container:multiplechoice-card');
 interface IPassedProps {
     card_id: string;
     collection_id: string;
+    user_id?: string;
 }
 
 interface IStateProps extends IPassedProps {
@@ -61,41 +63,50 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 
     public componentWillMount() {
         this.log('checking for data');
-        this.props
-            .dispatch(
-                get_data({
-                    collection_id: this.props.collection_id,
-                    card_id: this.props.card._id
-                })
-            )
-            .then(res => {
-                if (res.payload.length === 0) {
-                    this.log('no data found. creating..');
-                    this.props
-                        .dispatch(
-                            create_data<IMultiplechoiceCardData>({
-                                _id: undefined,
-                                type: 'data',
-                                user_id: undefined,
-                                created_at: undefined,
-                                updated_at: undefined,
-                                score: 0,
-                                card_type: 'multiplechoice',
-                                items: [],
-                                data_type: 'card',
-                                card_id: this.props.card._id,
-                                collection_id: this.props.collection_id
-                            })
-                        )
-                        .then(create_res => {
-                            this.log('data created.');
-                            this.setState({ loading: false });
-                        });
-                } else {
-                    this.log('data found.');
-                    this.setState({ loading: false });
-                }
-            });
+        if (!this.props.data) {
+            this.props
+                .dispatch(
+                    Data.actions.get_card_data(
+                        this.props.user_id,
+                        this.props.collection_id,
+                        this.props.card_id
+                    )
+                )
+                .then(res => {
+                    if (res.response.status === 404) {
+                        this.log('no data found. creating..');
+                        this.props
+                            .dispatch(
+                                create_data<IMultiplechoiceCardData>({
+                                    _id:
+                                        this.props.user_id +
+                                        '-' +
+                                        this.props.collection_id +
+                                        '-' +
+                                        this.props.card_id,
+                                    type: 'data',
+                                    user_id: this.props.user_id,
+                                    created_at: undefined,
+                                    updated_at: undefined,
+                                    score: 0,
+                                    card_type: 'multiplechoice',
+                                    items: [],
+                                    is_graded: true,
+                                    data_type: 'card',
+                                    card_id: this.props.card._id,
+                                    collection_id: this.props.collection_id
+                                })
+                            )
+                            .then(create_res => {
+                                this.log('data created.');
+                                this.setState({ loading: false });
+                            });
+                    } else {
+                        this.log('data found.');
+                        this.setState({ loading: false });
+                    }
+                });
+        }
     }
 
     public render() {
@@ -135,13 +146,17 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const user_id = ownProps.user_id || (state as any).auth.user_id;
+
     return {
+        user_id: ownProps.user_id || (state as any).auth.user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as IMultiplechoiceCard,
         collection_data: select_collection(state, ownProps.collection_id),
         data: select_data(
             state,
+            user_id,
             ownProps.collection_id,
             ownProps.card_id
         ) as IMultiplechoiceCardData

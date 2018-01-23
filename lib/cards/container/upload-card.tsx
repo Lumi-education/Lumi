@@ -22,6 +22,7 @@ const log = debug('lumi:packages:cards:container:freetextcard');
 interface IPassedProps {
     card_id: string;
     collection_id: string;
+    user_id?: string;
 }
 
 interface IStateProps extends IPassedProps {
@@ -83,6 +84,7 @@ export class UploadCardContainer extends React.Component<
                                 updated_at: undefined,
                                 card_type: 'upload',
                                 data_type: 'card',
+                                is_graded: true,
                                 card_id: this.props.card._id,
                                 score: 0,
                                 collection_id: this.props.collection_id,
@@ -122,12 +124,16 @@ export class UploadCardContainer extends React.Component<
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const user_id = ownProps.user_id || (state as any).auth.user_id;
+
     return {
+        user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as IUploadCard,
         data: select_data(
             state,
+            user_id,
             ownProps.collection_id,
             ownProps.card_id
         ) as IUploadCardData

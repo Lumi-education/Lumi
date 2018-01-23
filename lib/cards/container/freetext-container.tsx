@@ -27,6 +27,7 @@ import { create_data, update_data, get_data } from 'lib/data/actions';
 const log = debug('lumi:packages:cards:container:freetextcard');
 
 interface IPassedProps {
+    user_id?: string;
     card_id: string;
     collection_id: string;
 }
@@ -98,6 +99,7 @@ export class FreetextCardContainer extends React.Component<
                                 score: 0,
                                 card_type: 'freetext',
                                 answer: '',
+                                is_graded: true,
                                 data_type: 'card',
                                 card_id: this.props.card._id,
                                 collection_id: this.props.collection_id
@@ -179,6 +181,8 @@ export class FreetextCardContainer extends React.Component<
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const user_id = ownProps.user_id || (state as any).auth.user_id;
+
     return {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
@@ -186,6 +190,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         collection_data: select_collection(state, ownProps.collection_id),
         data: select_data(
             state,
+            user_id,
             ownProps.collection_id,
             ownProps.card_id
         ) as IFreetextCardData
