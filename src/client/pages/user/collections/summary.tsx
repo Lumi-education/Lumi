@@ -94,16 +94,22 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                 <Paper style={{ padding: '10px' }}>
                     {this.props.collection.submitted ? (
                         <div>
-                            <CollectionEvaluationContainer
-                                collection_id={this.props.collection_id}
-                            />
+                            {this.props.collection.is_graded ? (
+                                <CollectionEvaluationContainer
+                                    collection_id={this.props.collection_id}
+                                />
+                            ) : (
+                                'Danke'
+                            )}
                         </div>
-                    ) : (
+                    ) : this.props.collection.is_graded ? (
                         'Du hast ' +
                         this._cards() +
                         ' von ' +
                         this._graded_tasks() +
                         ' Aufgaben bearbeitet. Eine Auswertung erhälst du erst, wenn du das Arbeitsblat abgegeben hast.'
+                    ) : (
+                        'Die Aufgaben müssen schriftlich abgegeben werden'
                     )}
                 </Paper>
                 <RaisedButton

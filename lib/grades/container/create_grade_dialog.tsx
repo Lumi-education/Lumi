@@ -24,6 +24,7 @@ import SVGGrade from 'material-ui/svg-icons/action/grade';
 // modules
 import * as Grades from '../';
 import { get_grade_color, get_grade_string } from 'lib/ui/utils';
+import * as Core from 'lib/core';
 
 const log = debug('lumi:lib:grades:container:creategradedialog');
 
@@ -146,6 +147,13 @@ export class CreateGradeDialogContainer extends React.Component<
                     fullWidth={true}
                     rows={2}
                 />
+                {this.props.grade ? (
+                    <Core.components.attachment
+                        doc_id={this.props.grade_id}
+                        _rev={this.props.grade._rev}
+                        attachments={this.props.grade._attachments}
+                    />
+                ) : null}
                 <Slider
                     value={this.state.score}
                     step={0.05}

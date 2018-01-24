@@ -25,15 +25,12 @@ interface IPassedProps {
 }
 
 interface IDispatchProps {
-    insert_cb: (link: string) => void;
+    insert_cb?: (link: string) => void;
 }
 
 interface IProps extends IPassedProps, IDispatchProps {}
 
-export default class CardAttachmentComponent extends React.Component<
-    IProps,
-    {}
-> {
+export default class AttachmentComponent extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
 

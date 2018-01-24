@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as debug from 'debug';
 
 import { Paper } from 'material-ui';
-import Attachment from './attachment';
+import * as Core from 'lib/core';
 
 import * as markdownit from 'markdown-it';
 const md = markdownit();
@@ -30,7 +30,7 @@ export default class UploadCardComponent extends React.Component<IProps, {}> {
                         __html: md.render(this.props.text || '# No markdown')
                     }}
                 />
-                <Attachment {...this.props} />
+                <Core.components.attachment {...this.props} />
             </Paper>
         );
     }

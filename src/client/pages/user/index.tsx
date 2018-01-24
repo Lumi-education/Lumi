@@ -12,6 +12,9 @@ import LeftDrawer from './left-drawer';
 // actions
 import { get_user_collections } from 'lib/collections/actions';
 
+// modules
+import * as Core from 'lib/core';
+
 interface IStateProps {
     location;
 }
@@ -39,6 +42,8 @@ export class Root extends React.Component<IProps, {}> {
                 <div style={{ paddingBottom: '80px' }}>
                     {this.props.children}
                 </div>
+
+                <Core.container.attachmentList />
             </div>
         );
     }
