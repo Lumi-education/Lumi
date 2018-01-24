@@ -42,6 +42,8 @@ class GradesController extends Controller<IGrade> {
         const default_grade: IGrade = {
             _id: undefined,
             created_at: new Date(),
+            _attachments: {},
+            _rev: undefined,
             updated_at: undefined,
             score: 0,
             user_id: undefined,

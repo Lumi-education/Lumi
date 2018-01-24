@@ -28,6 +28,7 @@ export function select_card(state: IState, card_id: string): ICard {
         video_url: '',
         name: 'card not found',
         text: 'card not found',
+        _rev: undefined,
         items: [],
         description: '',
         created_at: new Date(),

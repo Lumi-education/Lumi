@@ -113,16 +113,11 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         const { card, data } = this.props;
 
         if (card && data) {
-            const text = convert_attachment_url(card.text, card._id);
-
-            const card_items = card.items.map(item =>
-                convert_attachment_url(item, card._id)
-            );
-
             return (
                 <MultiplechoiceComponent
-                    text={text}
-                    items={card_items}
+                    _id={card._id}
+                    text={card.text}
+                    items={card.items}
                     selected_items={data.items || []}
                     show_correct_values={this.props.collection_data.submitted}
                     cb={(items, score) => {

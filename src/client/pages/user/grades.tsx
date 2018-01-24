@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 
 import { IState } from 'client/state';
 
+import { MenuItem } from 'material-ui';
+import SVGView from 'material-ui/svg-icons/image/remove-red-eye';
+
 import * as Grades from 'lib/grades';
+import * as Core from 'lib/core';
 
 interface IStateProps {
     user_id: string;
@@ -26,7 +30,26 @@ export class UserDashboard extends React.Component<IProps, {}> {
                 <Grades.CurrentGradeListContainer
                     user_id={this.props.user_id}
                 />
-                <Grades.GradeListContainer user_id={this.props.user_id} />
+                <Grades.GradeListContainer
+                    user_id={this.props.user_id}
+                    menuItems={[
+                        grade => (
+                            <MenuItem
+                                leftIcon={<SVGView />}
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Core.actions.show_attachment_dialog(
+                                            grade._id,
+                                            grade._attachments
+                                        )
+                                    )
+                                }
+                            >
+                                Attachments
+                            </MenuItem>
+                        )
+                    ]}
+                />
             </div>
         );
     }

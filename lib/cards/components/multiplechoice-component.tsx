@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { isEqual, pull, noop } from 'lodash';
+import { convert_attachment_url } from '../utils';
 
 import * as markdownit from 'markdown-it';
 const md = markdownit();
@@ -11,6 +12,7 @@ type Markdown = string;
 declare var window;
 
 interface IProps {
+    _id: string;
     text: Markdown;
     items: Markdown[];
     show_correct_values?: boolean;
@@ -51,19 +53,23 @@ export default class MultiplechoiceComponent extends React.Component<
     }
 
     public render() {
+        const text = convert_attachment_url(this.props.text, this.props._id);
+
+        const items = this.props.items.map(item =>
+            convert_attachment_url(item, this.props._id)
+        );
+
         return (
             <div>
                 <Paper style={{ padding: '10px' }}>
                     <div
                         dangerouslySetInnerHTML={{
-                            __html: md.render(
-                                this.props.text || '# No markdown'
-                            )
+                            __html: md.render(text || '# No markdown')
                         }}
                     />
                 </Paper>
 
-                {this.props.items.map((item, index) => (
+                {items.map((item, index) => (
                     <Paper
                         key={index}
                         style={{

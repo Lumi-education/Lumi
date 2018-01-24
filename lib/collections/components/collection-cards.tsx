@@ -60,6 +60,7 @@ const ITEM = SortableElement(({ item }) => {
             <FloatingActionButton>{item.index + 1}</FloatingActionButton>
             <Paper style={{ height: '480px', width: '320px' }}>
                 <MultiplechoiceComponent
+                    _id={item.card._id}
                     text={convert_attachment_url(item.card.text, item.card._id)}
                     items={item.card.items.map(i =>
                         convert_attachment_url(i, item.card._id)

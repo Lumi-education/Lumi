@@ -20,6 +20,9 @@ import { select_data, select_collection } from 'lib/data/selectors';
 import { create_data, update_data, get_data } from 'lib/data/actions';
 import { get_card, update_card } from 'lib/cards/actions';
 
+// modules
+import * as Data from 'lib/data';
+
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
 interface IPassedProps {
@@ -55,18 +58,24 @@ export class TextCardContainer extends React.Component<IProps, {}> {
         this.log('checking for data');
         this.props
             .dispatch(
-                get_data({
-                    collection_id: this.props.collection_id,
-                    card_id: this.props.card._id
-                })
+                Data.actions.get_card_data(
+                    this.props.user_id,
+                    this.props.collection_id,
+                    this.props.card_id
+                )
             )
             .then(res => {
-                if (res.payload.length === 0) {
+                if (res.response.status === 404) {
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(
                             create_data<ITextCardData>({
-                                _id: undefined,
+                                _id:
+                                    this.props.user_id +
+                                    '-' +
+                                    this.props.collection_id +
+                                    '-' +
+                                    this.props.card_id,
                                 type: 'data',
                                 user_id: undefined,
                                 created_at: undefined,
@@ -107,6 +116,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
+        user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
         card: select_card(state, ownProps.card_id) as ITextCard,

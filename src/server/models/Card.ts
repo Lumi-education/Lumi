@@ -13,6 +13,7 @@ export default class Card implements IBaseCard {
     public items: Markdown[];
     public hints: Markdown[];
     public url: string;
+    public _rev: string;
     public created_at: Date;
     public _attachments;
 

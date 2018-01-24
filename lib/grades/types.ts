@@ -4,6 +4,8 @@ export interface IGrade {
     _id: string;
     created_at: Date;
     updated_at: Date;
+    _rev: string;
+    _attachments;
     score: number;
     user_id: string;
     note: string;
