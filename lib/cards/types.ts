@@ -34,6 +34,7 @@ export interface IBaseCard {
     description: string;
     created_at: Date;
     _attachments;
+    _rev: string;
 }
 
 export interface IBaseData {

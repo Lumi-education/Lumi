@@ -27,6 +27,7 @@ import { ICard, IState } from '../types';
 
 // modules
 import * as Cards from 'lib/cards';
+import * as core from 'lib/core';
 
 const log = debug('lumi:container:cards:card-edit');
 
@@ -169,6 +170,16 @@ export class CardEditContainer extends React.Component<
                                         );
                                 }
                             })()}
+                            <core.components.attachment
+                                doc_id={this.props.card._id}
+                                _rev={this.props.card._rev}
+                                attachments={this.props.card._attachments}
+                                insert_cb={link =>
+                                    this.setState({
+                                        text: this.state.text + link
+                                    })
+                                }
+                            />
                         </Paper>
                         <ActionBar>
                             <RaisedButton
@@ -223,6 +234,7 @@ export class CardEditContainer extends React.Component<
                                 case 'multiplechoice':
                                     return (
                                         <MultiplechoiceComponent
+                                            _id={this.props.card_id}
                                             text={this.state.text}
                                             items={this.state.items}
                                         />
