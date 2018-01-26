@@ -1,23 +1,5 @@
 import * as _debug from 'debug';
-
-import app from './core/app';
-import * as socketio from 'socket.io';
-
-import wait_for_couchdb from './utils/wait_for_couchdb';
-import check_db from './db/check';
-import boot_socket from './core/socket';
-import webhook from './core/webhook';
-declare var process;
 import * as raven from 'raven';
-
-const debug = _debug('core');
-const express_debug = _debug('boot:express');
-
-wait_for_couchdb(() => {
-    check_db(() => {
-        boot();
-    });
-});
 
 if (process.env.NODE_ENV === 'production') {
     raven
@@ -31,6 +13,24 @@ if (process.env.NODE_ENV === 'production') {
         })
         .install();
 }
+
+import app from './core/app';
+import * as socketio from 'socket.io';
+
+import wait_for_couchdb from './utils/wait_for_couchdb';
+import check_db from './db/check';
+import boot_socket from './core/socket';
+import webhook from './core/webhook';
+declare var process;
+
+const debug = _debug('core');
+const express_debug = _debug('boot:express');
+
+wait_for_couchdb(() => {
+    check_db(() => {
+        boot();
+    });
+});
 
 function boot() {
     debug('starting boot-sequence');
