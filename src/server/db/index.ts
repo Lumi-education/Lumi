@@ -6,6 +6,8 @@ import * as nano from 'nano';
 
 import webhook from '../core/webhook';
 
+import * as raven from 'raven';
+
 // const db = process.env.DB_HOST + '/' + process.env.DB + '/';
 const _nano = nano(process.env.DB_HOST);
 // const nano_db = _nano.use(process.env.DB);
@@ -210,10 +212,8 @@ export class DB {
     }
 
     private handle_error(err) {
-        webhook({
-            username: this.db.split('/')[3],
-            text: err.message || err.text || err || 'no error message'
-        });
+        raven.captureException(err);
+
         if (this.res) {
             try {
                 this.res
@@ -226,7 +226,7 @@ export class DB {
                             : { message: err.message || err }
                     );
             } catch (err) {
-                log(err);
+                raven.captureException(err);
             }
         }
     }

@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as jwt from 'jwt-simple';
-
+import * as raven from 'raven';
 import { noop } from 'lodash';
 import { DB } from '../db';
 
@@ -20,6 +20,7 @@ export function auth(
 
             next();
         } catch (err) {
+            raven.captureException(err);
             res.status(401).end();
         }
     } else {

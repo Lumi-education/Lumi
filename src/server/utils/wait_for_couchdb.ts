@@ -1,6 +1,6 @@
 import * as superagent from 'superagent';
 import * as _debug from 'debug';
-
+import * as raven from 'raven';
 const debug = _debug('wait_for_couchdb');
 
 export default function wait_for_couchdb(boot: () => void) {
@@ -19,6 +19,7 @@ export default function wait_for_couchdb(boot: () => void) {
             })
             .catch(err => {
                 debug('CouchDB on ' + process.env.DB_HOST + ' is not up.', err);
+                raven.captureException(err);
             });
     }, process.env.POLLING_INTERVAL || 1000);
 }

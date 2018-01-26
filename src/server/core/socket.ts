@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as debug from 'debug';
 import * as ChangeStream from 'changes-stream';
 import * as jwt from 'jwt-simple';
+import * as raven from 'raven';
 
 const log = debug('lumi:socket');
 
@@ -11,6 +12,8 @@ export default function boot(server) {
 
     io.on('connection', (socket: SocketIO.Socket) => {
         log('connection', socket);
+
+        socket.on('error', raven.captureException);
 
         try {
             const user = jwt.decode(
@@ -40,11 +43,11 @@ export default function boot(server) {
                 try {
                     socket.emit('DB_CHANGE', JSON.stringify(msg));
                 } catch (err) {
-                    debug(err);
+                    raven.captureException(err);
                 }
             });
         } catch (err) {
-            debug(err);
+            raven.captureException(err);
         }
     });
 }

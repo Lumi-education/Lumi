@@ -1,4 +1,18 @@
 import * as _debug from 'debug';
+import * as raven from 'raven';
+
+if (process.env.NODE_ENV === 'production') {
+    raven
+        .config(process.env.SENTRY, {
+            release: process.env.VERSION,
+            environment: process.env.NODE_ENV,
+            tags: {
+                branch: process.env.BRANCH,
+                component: 'server'
+            }
+        })
+        .install();
+}
 
 import app from './core/app';
 import * as socketio from 'socket.io';
@@ -7,7 +21,6 @@ import wait_for_couchdb from './utils/wait_for_couchdb';
 import check_db from './db/check';
 import boot_socket from './core/socket';
 import webhook from './core/webhook';
-
 declare var process;
 
 const debug = _debug('core');
@@ -33,12 +46,7 @@ function boot() {
         });
     });
 
-    server.on('error', err => {
-        webhook({
-            username: 'System',
-            text: JSON.stringify(err)
-        });
-    });
+    server.on('error', raven.captureException);
 
     boot_socket(server);
 
