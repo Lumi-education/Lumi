@@ -20,8 +20,11 @@ module.exports = {
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, '../build/client'),
+        sourceMapFilename: '[name].js.map',
         publicPath: '/'
     },
+    devtool: 'source-map',
+
     module: {
         rules: [
             {
@@ -54,6 +57,11 @@ module.exports = {
                         options: babelOptions
                     }
                 ]
+            },
+            {
+                test: /\.js$/,
+                use: ['source-map-loader'],
+                enforce: 'pre'
             }
         ]
     },

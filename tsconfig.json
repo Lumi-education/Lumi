@@ -8,9 +8,8 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
+        "sourceMap": true,
         "baseUrl": "./"
     },
-    "files": [
-        "src/client/boot.tsx"
-    ]
+    "files": ["src/client/boot.tsx"]
 }

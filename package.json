@@ -53,6 +53,7 @@
     "redux-thunk": "2.1.0",
     "shortid": "2.2.8",
     "socket.io": "^2.0.4",
+    "source-map-loader": "^0.2.3",
     "sticky-session": "^1.1.2",
     "superagent": "3.5.2",
     "url-parse": "1.1.9"

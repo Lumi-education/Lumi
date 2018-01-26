@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const version = require('../package.json').version;
 const sharedConfig = require('./shared.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     devServer: {
@@ -21,7 +22,7 @@ module.exports = Object.assign(sharedConfig, {
             }
         }
     },
-    devtool: 'inline-source-map',
+    // devtool: 'inline-source-map',
     plugins: [
         // Extract all 3rd party modules into a separate 'vendor' chunk
         new webpack.optimize.CommonsChunkPlugin({
@@ -36,6 +37,9 @@ module.exports = Object.assign(sharedConfig, {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
                 VERSION: JSON.stringify(process.env.VERSION || version)
             }
+        }),
+        new UglifyJSPlugin({
+            sourceMap: true
         })
     ]
 });
