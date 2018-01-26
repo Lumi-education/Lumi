@@ -11,8 +11,8 @@ const debug = _debug('server');
 
 const app: express.Application = express();
 
-app.use(raven.requestHandler());
-app.use(raven.errorHandler());
+// app.use(raven.requestHandler());
+// app.use(raven.errorHandler());
 
 app.use(bodyParser.json());
 app.use(
