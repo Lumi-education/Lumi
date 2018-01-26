@@ -11,7 +11,7 @@ import * as raven from 'raven-js';
 
 if (process.env.NODE_ENV === 'production') {
     raven
-        .config(process.env.SENTRY, {
+        .config('https://52d9ddab963746b6bb4a35653d4c44a1@sentry.io/277415', {
             release: process.env.VERSION,
             environment: process.env.NODE_ENV,
             tags: {
