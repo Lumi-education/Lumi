@@ -15,10 +15,45 @@ export function submit_overdue_collections() {
         },
         { limit: 30 },
         docs => {
-            docs.forEach(doc => {
-                doc.submitted = true;
-                db.save(doc);
-                event.emit('COLLECTIONS/COLLECTION_SUBMITTED', doc);
+            docs.forEach(doc => submit_collection(doc));
+        }
+    );
+}
+
+export function submit_collection(collection_data: ICollectionData) {
+    const db = new DB(null, process.env.DB);
+
+    collection_data.submitted = true;
+    collection_data.submit_date = new Date();
+    db.find(
+        {
+            collection_id: collection_data.collection_id,
+            type: 'data',
+            data_type: 'card',
+            is_graded: true
+        },
+        { limit: 40 },
+        data => {
+            const correct = data
+                .filter(
+                    d =>
+                        d.data_type === 'card' &&
+                        d.card_type !== 'video' &&
+                        d.card_type !== 'text'
+                )
+                .reduce((p, a) => p + (a.score || 0), 0);
+
+            const num_tasks = data.filter(
+                d =>
+                    d.data_type === 'card' &&
+                    d.card_type !== 'video' &&
+                    d.card_type !== 'text'
+            ).length;
+
+            collection_data.score = correct / num_tasks;
+
+            db.save(collection_data, () => {
+                event.emit('COLLECTIONS/COLLECTION_SUBMITTED', collection_data);
             });
         }
     );
@@ -42,7 +77,8 @@ export function assign_collection(
         type: 'data',
         is_graded: true,
         created_at: new Date(),
-        updated_at: undefined
+        updated_at: undefined,
+        due_date: undefined
     };
 
     db.insert(data, cb);
