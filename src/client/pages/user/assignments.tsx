@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Avatar, List, ListItem, Subheader, Divider, Paper } from 'material-ui';
 
 // material-ui -> icons
-
+import * as moment from 'moment-timezone';
 // actions
 import { push } from 'lib/ui/actions';
 
@@ -41,20 +41,24 @@ export class UserAssignments extends React.Component<IProps, {}> {
             <Paper>
                 <List>
                     <Subheader>Aufgaben</Subheader>
-                    {this.props.collections
-                        .filter(c => !c.submitted)
-                        .map(c => (
-                            <ListItem
-                                key={c._id}
-                                primaryText={c.name}
-                                secondaryText={c.description}
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        push('/user/collections/' + c._id)
-                                    )
-                                }
-                            />
-                        ))}
+                    {this.props.collections.filter(c => !c.submitted).map(c => (
+                        <ListItem
+                            key={c._id}
+                            primaryText={c.name}
+                            secondaryText={
+                                c.due_date
+                                    ? moment(c.due_date)
+                                          .tz('Europe/Berlin')
+                                          .fromNow()
+                                    : 'Keine Abgabgefrist'
+                            }
+                            onClick={() =>
+                                this.props.dispatch(
+                                    push('/user/collections/' + c._id)
+                                )
+                            }
+                        />
+                    ))}
                 </List>
             </Paper>
         );
