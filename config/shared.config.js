@@ -23,7 +23,6 @@ module.exports = {
         sourceMapFilename: '[name].[hash].js.map',
         publicPath: '/'
     },
-    devtool: 'source-map',
 
     module: {
         rules: [
