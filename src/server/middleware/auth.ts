@@ -18,6 +18,8 @@ export function auth(
                 throw new Error('no db');
             }
 
+            raven.setContext({ user: req.user });
+
             next();
         } catch (err) {
             raven.captureException(err);

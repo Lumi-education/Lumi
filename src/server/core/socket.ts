@@ -33,6 +33,12 @@ export default function boot(server) {
                 }
             });
 
+            changes.on('error', err => {
+                raven.captureException(err);
+            });
+
+            changes._onError(raven.captureException);
+
             changes.on('readable', () => {
                 const change = changes.read();
                 const msg = {
