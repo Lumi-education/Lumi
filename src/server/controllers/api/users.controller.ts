@@ -10,7 +10,7 @@ import { DB } from '../../db';
 import Controller from '../controller';
 
 import webhook from '../../core/webhook';
-import { assign_collection } from '../../actions/collection';
+import { assign_collection } from '../../modules/collections/actions';
 
 class UserController extends Controller<User> {
     constructor() {
