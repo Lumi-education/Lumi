@@ -1,4 +1,4 @@
-import * as shortid from 'shortid';
+import { assign } from 'lodash';
 import { push } from 'lib/ui/actions';
 
 import * as API from './api';
@@ -105,10 +105,7 @@ export function get_user_collections() {
     };
 }
 
-export function collection_create_meta(
-    collection_id: string,
-    id: string = shortid()
-) {
+export function collection_create_meta(collection_id: string) {
     return {
         types: [
             k.COLLECTION_CREATEMETA_REQUEST,
@@ -116,7 +113,7 @@ export function collection_create_meta(
             k.COLLECTION_CREATEMETA_ERROR
         ],
         api: API.post_collectionmeta(collection_id),
-        payload: { id, collection_id }
+        payload: { collection_id }
     };
 }
 
@@ -156,5 +153,35 @@ export function select_collection(collection_id: string) {
 export function reset_collection_selection() {
     return {
         type: k.COLLECTION_SELECTION_RESET
+    };
+}
+
+export function show_assign_collection_dialog() {
+    return {
+        type: k.COLLECTION_UI_SHOW_ASSIGN_COLLECTION_DIALOG
+    };
+}
+
+export function hide_assign_collection_dialog() {
+    return {
+        type: k.COLLECTION_UI_HIDE_ASSIGN_COLLECTION_DIALOG
+    };
+}
+
+export function assign_collection(
+    user_ids: string[],
+    collection_id: string,
+    data
+) {
+    const collection_data = assign(data, { collection_id });
+
+    return {
+        types: [
+            k.COLLECTIONS_ASSIGN_COLLECTION_REQUEST,
+            k.COLLECTIONS_ASSIGN_COLLECTION_SUCCESS,
+            k.COLLECTIONS_ASSIGN_COLLECTION_ERROR
+        ],
+        api: API.assign_collection(user_ids, collection_data),
+        payload: { payload: { user_ids, collection_id, data } }
     };
 }

@@ -21,7 +21,7 @@ import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
 import { IState } from '../types';
 
 // types
-import { IUser } from 'lib/users';
+import * as Users from 'lib/users';
 
 // actions
 import { create_user, get_users, delete_user } from 'lib/users/actions';
@@ -30,11 +30,12 @@ import { create_user, get_users, delete_user } from 'lib/users/actions';
 import * as Grades from 'lib/grades';
 
 interface IPassedProps {
-    filter: (user: IUser) => boolean;
+    filter: (user: Users.IUser) => boolean;
 }
 
 interface IStateProps extends IPassedProps {
-    users: IUser[];
+    users: Users.IUser[];
+    selected_users: string[];
 }
 
 interface IDispatchProps {
@@ -63,6 +64,11 @@ export class UserListContainer extends React.Component<IProps, {}> {
                 {users.map(user => (
                     <div key={user._id}>
                         <ListItem
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Users.actions.select_user(user._id)
+                                )
+                            }
                             rightIconButton={
                                 <IconMenu iconButtonElement={iconButtonElement}>
                                     <MenuItem
@@ -90,7 +96,18 @@ export class UserListContainer extends React.Component<IProps, {}> {
                                 </IconMenu>
                             }
                             leftAvatar={
-                                <Avatar>{user.name.substring(0, 3)}</Avatar>
+                                <Avatar
+                                    style={{
+                                        background:
+                                            this.props.selected_users.indexOf(
+                                                user._id
+                                            ) > -1
+                                                ? 'linear-gradient(120deg, #8e44ad, #3498db)'
+                                                : 'grey'
+                                    }}
+                                >
+                                    {user.name.substring(0, 3)}
+                                </Avatar>
                             }
                             primaryText={user.name}
                             secondaryText={
@@ -113,7 +130,8 @@ export class UserListContainer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         users: state.users.list,
-        filter: ownProps.filter
+        filter: ownProps.filter,
+        selected_users: state.users.ui.selected_users
     };
 }
 

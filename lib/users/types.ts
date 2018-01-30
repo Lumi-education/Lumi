@@ -14,5 +14,10 @@ export interface IUser {
 export interface IState {
     users: {
         list: IUser[];
+        ui: IUsersUI;
     };
+}
+
+export interface IUsersUI {
+    selected_users: string[];
 }

@@ -1,3 +1,4 @@
+import { assign } from 'lodash';
 import { DB } from '../../db';
 import event from '../../core/event';
 
@@ -62,24 +63,32 @@ export function submit_collection(collection_data: ICollectionData) {
 export function assign_collection(
     db: DB,
     user_id: string,
-    collection_id: string,
-    is_graded: boolean,
-    cb?: () => void
+    collection_data,
+    cb?: (res) => void
 ) {
-    const data: ICollectionData = {
-        collection_id,
-        user_id,
-        _id: user_id + '-' + collection_id,
-        data_type: 'collection',
-        submitted: false,
-        submit_date: undefined,
-        score: 0,
-        type: 'data',
-        is_graded: true,
-        created_at: new Date(),
-        updated_at: undefined,
-        due_date: undefined
-    };
+    const data: ICollectionData = assign(
+        {
+            user_id,
+            collection_id: collection_data.collection_id,
+            _id: user_id + '-' + collection_data.collection_id,
+            data_type: 'collection',
+            submitted: false,
+            submit_date: undefined,
+            score: 0,
+            type: 'data',
+            is_graded: true,
+            created_at: new Date(),
+            updated_at: undefined,
+            due_date: undefined
+        },
+        collection_data
+    );
 
-    db.insert(data, cb);
+    db.insert(data, res => {
+        cb(res);
+        event.emit(
+            'COLLECTIONS/COLLECTION_ASSIGNED',
+            assign(data, { _id: res.id })
+        );
+    });
 }

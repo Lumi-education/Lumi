@@ -115,3 +115,15 @@ export function reset_collection(collection_meta_id: string) {
         .put('/api/user/collection/' + collection_meta_id + '/reset')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function assign_collection(user_ids: string[], data) {
+    return request
+        .post(
+            '/api/v0/' +
+                window.location.pathname.split('/')[1] +
+                '/users/action/ASSIGN_COLLECTION?user_ids=' +
+                JSON.stringify(user_ids)
+        )
+        .send(data)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
 import list from './list';
+import ui from './ui';
 
 const reducer = combineReducers({
-    list
+    list,
+    ui
 });
 
 export default reducer;

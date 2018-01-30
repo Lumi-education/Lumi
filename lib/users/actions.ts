@@ -25,7 +25,10 @@ import {
     USERS_DELETE_USER_ERROR,
     USERS_UPDATE_USER_REQUEST,
     USERS_UPDATE_USER_SUCCESS,
-    USERS_UPDATE_USER_ERROR
+    USERS_UPDATE_USER_ERROR,
+    USERS_UI_SELECT,
+    USERS_UI_SELECTION_RESET,
+    USERS_UI_SET_SELECTED_USERS
 } from './constants';
 
 export function create_user(name: string, options?) {
@@ -87,3 +90,27 @@ export function update_user(user_id: string, update) {
         payload: { payload: { user_id, update } }
     };
 }
+
+export function select_user(user_id: string) {
+    return {
+        type: USERS_UI_SELECT,
+        payload: { user_id }
+    };
+}
+
+export function selection_reset() {
+    return {
+        type: USERS_UI_SELECTION_RESET
+    };
+}
+
+export function set_selected_users(user_ids: string[]) {
+    return {
+        type: USERS_UI_SET_SELECTED_USERS,
+        payload: { user_ids }
+    };
+}
+
+// export function assign_collection(user_ids: string[], collection_data) {
+
+// }

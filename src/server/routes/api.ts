@@ -98,6 +98,7 @@ router.get('/:db/user/groups', mw.auth);
 // users
 router.get('/:db/users', UsersController.list);
 router.post('/:db/users', UsersController.create);
+router.post('/:db/users/action/:action', UsersController.actions);
 router.get('/:db/users/:id', UsersController.read);
 router.put('/:db/users/:id', UsersController.update);
 router.put('/:db/users/:id/action', UsersController.action);

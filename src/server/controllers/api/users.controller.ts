@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as raven from 'raven';
 import { IRequest } from '../../middleware/auth';
 import * as bcrypt from 'bcrypt-nodejs';
 import { assign } from 'lodash';
@@ -69,20 +70,30 @@ class UserController extends Controller<User> {
                         db.save(user);
                         break;
 
-                    case 'ASSIGN_COLLECTION':
-                        assign_collection(
-                            db,
-                            user._id,
-                            req.body.payload.collection_id,
-                            req.body.payload.is_graded
-                        );
-
                     default:
                         break;
                 }
             },
             User
         );
+    }
+
+    public actions(req: IRequest, res: express.Response) {
+        try {
+            const db = new DB(res, req.params.db);
+
+            switch (req.params.action) {
+                case 'ASSIGN_COLLECTION':
+                    JSON.parse(req.query.user_ids).forEach(user_id => {
+                        assign_collection(db, user_id, req.body);
+                    });
+                    res.status(200).end();
+                    break;
+            }
+        } catch (err) {
+            res.status(500).json(err);
+            raven.captureException(err);
+        }
     }
 }
 

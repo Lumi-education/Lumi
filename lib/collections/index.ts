@@ -20,6 +20,9 @@ export {
     default as CollectionListContainer
 } from './container/collection-list';
 
+import CollectionAssignDialogContainer from './container/collection-assign-dialog';
+import CollectionsChipInputContainer from './container/collection-chip-input';
+
 export {
     ICollection,
     ICollectionSubmitMsg,
@@ -31,4 +34,9 @@ import * as selectors from './selectors';
 import * as actions from './actions';
 import * as reducer from './reducer';
 
-export { actions, selectors, reducer };
+const container = {
+    AssignDialog: CollectionAssignDialogContainer,
+    ChipInput: CollectionsChipInputContainer
+};
+
+export { actions, selectors, reducer, container };

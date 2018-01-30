@@ -11,8 +11,7 @@ import {
 import {
     Group,
     Groups,
-    CreateOrAddUserDialog,
-    AddCollectionDialog
+    CreateOrAddUserDialog
 } from 'client/pages/admin/groups';
 
 import { TagsPage } from 'client/pages/admin/tags';
@@ -39,10 +38,6 @@ const routes = (
         <Route
             path="groups/:group_id/users/add"
             component={CreateOrAddUserDialog}
-        />
-        <Route
-            path="groups/:group_id/collections/add"
-            component={AddCollectionDialog}
         />
         <Route path="analytics/progress" component={Progress} />
         <Route path="users" component={Users} />
