@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as shortid from 'shortid';
+import * as raven from 'raven-js';
 
 // types
 import { Dispatch } from 'redux';
@@ -35,8 +35,7 @@ export class Auth extends React.Component<IProps, {}> {
     }
 
     public login(username: string, password: string) {
-        this.request_id = shortid();
-        this.props.dispatch(login(username, password, this.request_id));
+        this.props.dispatch(login(username, password));
     }
 
     public componentWillMount() {
@@ -44,30 +43,35 @@ export class Auth extends React.Component<IProps, {}> {
     }
 
     public render() {
-        if (this.props.is_authed) {
-            return <div id="auth">{this.props.children}</div>;
-        }
+        try {
+            if (this.props.is_authed) {
+                return <div id="auth">{this.props.children}</div>;
+            }
 
-        if (!this.props.is_required) {
-            return <div id="auth">{this.props.children}</div>;
-        }
+            if (!this.props.is_required) {
+                return <div id="auth">{this.props.children}</div>;
+            }
 
-        return (
-            <div
-                style={{
-                    background: 'linear-gradient(230deg, #4b79cf, #4bc5cf)',
-                    width: '100%',
-                    height: '100vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                }}
-            >
-                <div>
-                    <LoginContainer />
+            return (
+                <div
+                    style={{
+                        background: 'linear-gradient(230deg, #4b79cf, #4bc5cf)',
+                        width: '100%',
+                        height: '100vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <div>
+                        <LoginContainer />
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } catch (err) {
+            raven.captureException(err);
+            raven.showReportDialog();
+        }
     }
 }
 
