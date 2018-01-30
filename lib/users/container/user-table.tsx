@@ -10,7 +10,8 @@ import {
     TableHeader,
     TableHeaderColumn,
     TableRow,
-    TableRowColumn
+    TableRowColumn,
+    RaisedButton
 } from 'material-ui';
 import SVGGrade from 'material-ui/svg-icons/action/grade';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -101,7 +102,17 @@ export class UserTableContainer extends React.Component<IProps, {}> {
                                 this.props.selected_users.indexOf(u._id) > -1
                             }
                         >
-                            <TableRowColumn>{u.name}</TableRowColumn>
+                            <TableRowColumn>
+                                <div
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            push('/admin/users/' + u._id)
+                                        )
+                                    }
+                                >
+                                    {u.name}
+                                </div>
+                            </TableRowColumn>
                             <TableRowColumn>
                                 {u.last_login
                                     ? moment(u.last_login)
@@ -110,7 +121,21 @@ export class UserTableContainer extends React.Component<IProps, {}> {
                                     : 'never'}
                             </TableRowColumn>
                             <TableRowColumn>
-                                <Grades.CurrentGradeContainer user_id={u._id} />
+                                <div
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            push(
+                                                '/admin/users/' +
+                                                    u._id +
+                                                    '/grades'
+                                            )
+                                        )
+                                    }
+                                >
+                                    <Grades.CurrentGradeContainer
+                                        user_id={u._id}
+                                    />
+                                </div>
                             </TableRowColumn>
                         </TableRow>
                     ))}
