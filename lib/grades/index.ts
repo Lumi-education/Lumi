@@ -2,7 +2,7 @@ export { IGrade, IState, IGradesUI } from './types';
 import reducer from './reducer';
 import * as selectors from './selectors';
 import * as actions from './actions';
-
+import GradeRefContainer from './container/grade-ref';
 export { default as GradeListContainer } from './container/grade-list';
 export {
     default as CreateGradeDialogContainer
@@ -17,4 +17,8 @@ const svg = {
     Grade
 };
 
-export { actions, reducer, selectors, svg };
+const container = {
+    GradeRef: GradeRefContainer
+};
+
+export { actions, reducer, selectors, svg, container };

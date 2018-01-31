@@ -16,13 +16,17 @@ export {
 export {
     default as CollectionOverviewContainer
 } from './container/collection-overview';
+
+export {
+    default as CollectionAssignmentContainer
+} from './container/collection-assignments';
+
 export {
     default as CollectionListContainer
 } from './container/collection-list';
-
 import CollectionAssignDialogContainer from './container/collection-assign-dialog';
 import CollectionsChipInputContainer from './container/collection-chip-input';
-
+import CollectionNameContainer from './container/collection-name';
 export {
     ICollection,
     ICollectionSubmitMsg,
@@ -33,10 +37,14 @@ export {
 import * as selectors from './selectors';
 import * as actions from './actions';
 import * as reducer from './reducer';
-
+import { default as CollectionListContainer } from './container/collection-list';
+import { default as CollectionAssignmentsContainer } from './container/collection-assignments';
 const container = {
     AssignDialog: CollectionAssignDialogContainer,
-    ChipInput: CollectionsChipInputContainer
+    ChipInput: CollectionsChipInputContainer,
+    List: CollectionListContainer,
+    Assignments: CollectionAssignmentsContainer,
+    Name: CollectionNameContainer
 };
 
 export { actions, selectors, reducer, container };

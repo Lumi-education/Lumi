@@ -14,9 +14,10 @@ import ActionBar from 'lib/ui/components/action-bar';
 import { IState } from 'client/state';
 
 // modules
-import * as User from 'lib/users';
+import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Grades from 'lib/grades';
+import * as Collections from 'lib/collections';
 
 interface IStateProps {
     user_id: string;
@@ -37,7 +38,8 @@ export class AdminUserPage extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(User.actions.get_user(this.props.user_id));
+        this.props.dispatch(Users.actions.get_user(this.props.user_id));
+        this.props.dispatch(Users.actions.init(this.props.user_id));
         this.props.dispatch(Groups.actions.get_groups());
     }
 
@@ -83,6 +85,19 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                             )
                         }
                     />
+                    <Tab
+                        label="Assignments"
+                        value="assignments"
+                        onActive={() =>
+                            this.props.dispatch(
+                                push(
+                                    '/admin/users/' +
+                                        this.props.user_id +
+                                        '/assignments'
+                                )
+                            )
+                        }
+                    />
                 </Tabs>
                 {(() => {
                     switch (this.props.tab) {
@@ -90,13 +105,13 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         default:
                             return (
                                 <Paper>
-                                    <User.UserContainer
+                                    <Users.UserContainer
                                         user_id={this.props.user_id}
                                     >
                                         <Groups.GroupsInputContainer
                                             user_id={this.props.user_id}
                                         />
-                                    </User.UserContainer>
+                                    </Users.UserContainer>
                                 </Paper>
                             );
                         case 'grades':
@@ -158,6 +173,12 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     </ActionBar>
                                     <Grades.CreateGradeDialogContainer />
                                 </div>
+                            );
+                        case 'assignments':
+                            return (
+                                <Collections.CollectionAssignmentContainer
+                                    user_id={this.props.user_id}
+                                />
                             );
                     }
                 })()}

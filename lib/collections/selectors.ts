@@ -67,3 +67,7 @@ export function select_collection_by_id(
 export function select_collections_as_array(state: IState): ICollection[] {
     return state.collections.list;
 }
+
+export function data(state: IState, user_id: string) {
+    return state.collections.data.filter(c => c.user_id === user_id);
+}
