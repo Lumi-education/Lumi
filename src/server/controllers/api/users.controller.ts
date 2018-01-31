@@ -25,6 +25,10 @@ class UserController extends Controller<User> {
                 list: {
                     map:
                         'function (doc) {\n  if (doc.type === "user") { emit(doc._id, 1); }\n}'
+                },
+                init: {
+                    map:
+                        'function (doc) {\n  if (doc.user_id) { emit(doc.user_id, 1); }\n}'
                 }
             },
             language: 'javascript'
@@ -90,6 +94,19 @@ class UserController extends Controller<User> {
                     res.status(200).end();
                     break;
             }
+        } catch (err) {
+            res.status(500).json(err);
+            raven.captureException(err);
+        }
+    }
+
+    public init(req: IRequest, res: express.Response) {
+        try {
+            const db = new DB(res, req.params.db);
+
+            db.view('user', 'init', { key: req.params.id }, docs =>
+                res.status(200).json(docs)
+            );
         } catch (err) {
             res.status(500).json(err);
             raven.captureException(err);

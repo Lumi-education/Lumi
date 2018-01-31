@@ -28,7 +28,10 @@ import {
     USERS_UPDATE_USER_ERROR,
     USERS_UI_SELECT,
     USERS_UI_SELECTION_RESET,
-    USERS_UI_SET_SELECTED_USERS
+    USERS_UI_SET_SELECTED_USERS,
+    USERS_INIT_USER_REQUEST,
+    USERS_INIT_USER_SUCCESS,
+    USERS_INIT_USER_ERROR
 } from './constants';
 
 export function create_user(name: string, options?) {
@@ -111,6 +114,17 @@ export function set_selected_users(user_ids: string[]) {
     };
 }
 
+export function init(user_id: string) {
+    return {
+        types: [
+            USERS_INIT_USER_REQUEST,
+            USERS_INIT_USER_SUCCESS,
+            USERS_INIT_USER_ERROR
+        ],
+        api: API.init(user_id),
+        payload: { payload: { user_id } }
+    };
+}
 // export function assign_collection(user_ids: string[], collection_data) {
 
 // }

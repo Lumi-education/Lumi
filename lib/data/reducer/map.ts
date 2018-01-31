@@ -27,6 +27,7 @@ export default function(
         case 'DB_CHANGE':
         case DATA_GET_SUCCESS:
         case DATA_GET_CARD_DATA_SUCCESS:
+        case 'USERS_INIT_USER_SUCCESS':
             return state.merge(
                 Map<string, {}>(
                     arrayToObject(action.payload.filter(d => d.type === 'data'))

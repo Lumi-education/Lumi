@@ -19,6 +19,7 @@ export default function(
     switch (action.type) {
         case GRADES_GET_USER_GRADES_SUCCESS:
         case 'DB_CHANGE':
+        case 'USERS_INIT_USER_SUCCESS':
             return state.merge(
                 Map<string, IGrade>(
                     arrayToObject(
