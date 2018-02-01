@@ -47,7 +47,7 @@ export class CollectionDueDateContainer extends React.Component<IProps, {}> {
                     ? moment(this.props.collection_data.due_date)
                           .tz('Europe/Berlin')
                           .fromNow()
-                    : 'no due date'}
+                    : '-'}
             </div>
         );
     }
