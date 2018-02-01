@@ -45,7 +45,18 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <User.UserListContainer
+                {/* <User.UserListContainer
+                    filter={user => {
+                        return this.state.search_text === ''
+                            ? true
+                            : user.name
+                                  .toLocaleLowerCase()
+                                  .indexOf(
+                                      this.state.search_text.toLocaleLowerCase()
+                                  ) > -1;
+                    }}
+                /> */}
+                <User.container.Table
                     filter={user => {
                         return this.state.search_text === ''
                             ? true

@@ -1,7 +1,6 @@
 import { Map } from 'immutable';
-import { IState } from 'client/state';
 
-import { IUser } from './types';
+import { IUser, IState } from './types';
 
 export function get_users_by_group(state: IState, group_id: string): IUser[] {
     return state.users.list.filter(
@@ -22,7 +21,8 @@ export function user(state: IState, user_id): IUser {
             level: 0,
             groups: [],
             last_active: undefined,
-            last_login: undefined
+            last_login: undefined,
+            online: false
         }
     );
 }

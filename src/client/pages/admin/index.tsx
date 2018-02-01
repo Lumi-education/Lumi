@@ -12,6 +12,7 @@ import { IState } from 'client/state';
 
 // modules
 import { ui_actions } from 'lib/ui';
+import * as Grades from 'lib/grades';
 
 interface IStateProps {
     location;
@@ -57,6 +58,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
+
+                <Grades.CreateGradeDialogContainer />
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import { assign } from 'lodash';
 
-import { IState } from 'client/state';
+import { IState } from './types';
 
 import { ICollection } from 'lib/collections/types';
 import { ICollectionData } from 'lib/cards/types';
@@ -70,4 +70,8 @@ export function select_collections_as_array(state: IState): ICollection[] {
 
 export function data(state: IState, user_id: string) {
     return state.collections.data.filter(c => c.user_id === user_id);
+}
+
+export function data_by_id(state: IState, id: string): ICollectionData {
+    return state.collections.data.filter(c => c._id === id)[0];
 }

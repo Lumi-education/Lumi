@@ -18,6 +18,7 @@ export interface IGradesUI {
     show_create_grades_dialog: boolean;
     user_id: string;
     grade_id: string;
+    ref_id: string;
 }
 
 export interface IState {

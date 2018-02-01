@@ -4,6 +4,7 @@ import * as debug from 'debug';
 import * as ChangeStream from 'changes-stream';
 import * as jwt from 'jwt-simple';
 import * as raven from 'raven';
+import { DB } from '../db';
 
 const log = debug('lumi:socket');
 
@@ -13,13 +14,30 @@ export default function boot(server) {
     io.on('connection', (socket: SocketIO.Socket) => {
         log('connection', socket);
 
-        socket.on('error', raven.captureException);
-
         try {
             const user = jwt.decode(
                 socket.handshake.query.jwt_token,
                 process.env.KEY
             );
+
+            const db = new DB(null, user.db);
+
+            db.update_one(user._id, { online: true, last_active: new Date() });
+
+            socket.on('error', err => {
+                db.update_one(user._id, {
+                    online: false,
+                    last_active: new Date()
+                });
+                raven.captureException(err);
+            });
+
+            socket.on('disconnect', () => {
+                db.update_one(user._id, {
+                    online: false,
+                    last_active: new Date()
+                });
+            });
 
             const changes = ChangeStream({
                 db: process.env.DB_HOST + '/' + user.db,

@@ -21,7 +21,6 @@ import * as Collections from '../';
 import * as Cards from 'lib/cards';
 import * as Data from 'lib/data';
 import * as Grades from 'lib/grades';
-import accessibility from 'material-ui/svg-icons/action/accessibility';
 
 interface IPassedProps {
     user_id: string;
@@ -79,6 +78,7 @@ export class CollectionAssignmentsContainer extends React.Component<
                         <TableHeaderColumn>Name</TableHeaderColumn>
                         <TableHeaderColumn>Abgabe Datum</TableHeaderColumn>
                         <TableHeaderColumn>Note</TableHeaderColumn>
+                        <TableHeaderColumn>Abgegeben</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody deselectOnClickaway={false}>
@@ -112,14 +112,15 @@ export class CollectionAssignmentsContainer extends React.Component<
                                       : 'Keine Frist'}
                             </TableRowColumn>
                             <TableRowColumn>
-                                {a.submitted ? (
-                                    <Grades.container.GradeRef
-                                        ref_id={a.collection_id}
-                                        user_id={a.user_id}
-                                    />
-                                ) : (
-                                    'offen'
-                                )}
+                                <Grades.container.GradeRef
+                                    ref_id={a.collection_id}
+                                    user_id={a.user_id}
+                                />
+                            </TableRowColumn>
+                            <TableRowColumn>
+                                <Collections.container.Submitted
+                                    data_id={a._id}
+                                />
                             </TableRowColumn>
                         </TableRow>
                     ))}

@@ -87,10 +87,10 @@ export class UserTableContainer extends React.Component<IProps, {}> {
             >
                 <TableHeader>
                     <TableRow>
-                        <TableHeaderColumn>Name</TableHeaderColumn>
-                        <TableHeaderColumn>
-                            Zuletzt angemeldet
+                        <TableHeaderColumn style={{ width: '10px' }}>
+                            Status
                         </TableHeaderColumn>
+                        <TableHeaderColumn>Name</TableHeaderColumn>
                         <TableHeaderColumn>Note</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
@@ -102,6 +102,9 @@ export class UserTableContainer extends React.Component<IProps, {}> {
                                 this.props.selected_users.indexOf(u._id) > -1
                             }
                         >
+                            <TableRowColumn style={{ width: '10px' }}>
+                                <Users.container.OnlineStatus user_id={u._id} />
+                            </TableRowColumn>
                             <TableRowColumn>
                                 <div
                                     onClick={() =>
@@ -113,13 +116,7 @@ export class UserTableContainer extends React.Component<IProps, {}> {
                                     {u.name}
                                 </div>
                             </TableRowColumn>
-                            <TableRowColumn>
-                                {u.last_login
-                                    ? moment(u.last_login)
-                                          .tz('Europe/Berlin')
-                                          .fromNow()
-                                    : 'never'}
-                            </TableRowColumn>
+
                             <TableRowColumn>
                                 <div
                                     onClick={() =>

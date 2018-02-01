@@ -20,15 +20,9 @@ import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
 // local
 import { IState } from '../types';
 
-// types
-import * as Users from 'lib/users';
-
-// actions
-import { create_user, get_users, delete_user } from 'lib/users/actions';
-
 // modules
+import * as Users from 'lib/users';
 import * as Grades from 'lib/grades';
-
 interface IPassedProps {
     filter: (user: Users.IUser) => boolean;
 }
@@ -50,7 +44,7 @@ export class UserListContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_users());
+        this.props.dispatch(Users.actions.get_users());
     }
 
     public render() {
@@ -64,11 +58,6 @@ export class UserListContainer extends React.Component<IProps, {}> {
                 {users.map(user => (
                     <div key={user._id}>
                         <ListItem
-                            onClick={() =>
-                                this.props.dispatch(
-                                    Users.actions.select_user(user._id)
-                                )
-                            }
                             rightIconButton={
                                 <IconMenu iconButtonElement={iconButtonElement}>
                                     <MenuItem
@@ -121,7 +110,6 @@ export class UserListContainer extends React.Component<IProps, {}> {
                         <Divider inset={true} />
                     </div>
                 ))}
-                <Grades.CreateGradeDialogContainer />
             </List>
         );
     }

@@ -9,7 +9,7 @@ import { IState } from '../types';
 
 // components
 
-import { Avatar, Divider, List, ListItem } from 'material-ui';
+import { Avatar } from 'material-ui';
 
 // modules
 import * as Grades from '../';
@@ -44,15 +44,31 @@ export class GradeRefContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
-        if (!this.props.grade._id) {
-            return <Avatar>0</Avatar>;
-        }
         return (
-            <Avatar
-                backgroundColor={get_grade_color(this.props.grade.score * 100)}
+            <div
+                onClick={e => {
+                    e.stopPropagation();
+                    this.props.dispatch(
+                        Grades.actions.show_create_grade_dialog(
+                            this.props.user_id,
+                            this.props.grade._id,
+                            this.props.ref_id
+                        )
+                    );
+                }}
             >
-                {get_grade_string(this.props.grade.score * 100, false)}
-            </Avatar>
+                {this.props.grade._id ? (
+                    <Avatar
+                        backgroundColor={get_grade_color(
+                            this.props.grade.score * 100
+                        )}
+                    >
+                        {get_grade_string(this.props.grade.score * 100, false)}
+                    </Avatar>
+                ) : (
+                    <Avatar>0</Avatar>
+                )}
+            </div>
         );
     }
 }

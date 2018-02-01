@@ -9,6 +9,7 @@ export interface IUser {
     groups: Group_id[];
     last_login: Date;
     last_active: Date;
+    online: boolean;
 }
 
 export interface IState {
