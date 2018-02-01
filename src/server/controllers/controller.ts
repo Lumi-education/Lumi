@@ -70,7 +70,9 @@ export default class Controller<T> {
     public update(req: IRequest, res: express.Response) {
         const db = new DB(res, req.params.db);
 
-        db.update_one(req.params.id, req.body, (doc: T) => {
+        const id = req.params.id === 'myself' ? req.user._id : req.params.id;
+
+        db.update_one(id, req.body, (doc: T) => {
             res.status(200).json(doc);
         });
     }

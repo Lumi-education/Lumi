@@ -10,6 +10,7 @@ export interface IUser {
     last_login: Date;
     last_active: Date;
     online: boolean;
+    location: string;
 }
 
 export interface IState {

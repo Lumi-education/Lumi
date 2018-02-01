@@ -103,7 +103,7 @@ router.get('/:db/users', UsersController.list);
 router.post('/:db/users', UsersController.create);
 router.post('/:db/users/action/:action', UsersController.actions);
 router.get('/:db/users/:id', UsersController.read);
-router.put('/:db/users/:id', UsersController.update);
+router.put('/:db/users/:id', mw.auth, UsersController.update);
 router.put('/:db/users/:id/action', UsersController.action);
 router.delete('/:db/users/:id', UsersController.delete);
 router.get('/:db/users/:id/init', UsersController.init);

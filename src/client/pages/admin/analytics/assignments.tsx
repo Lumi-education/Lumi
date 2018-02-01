@@ -50,10 +50,13 @@ export class AdminAssignmentsPage extends React.Component<IProps, {}> {
 
     public render() {
         return (
-            <Table>
+            <Table multiSelectable={true}>
                 <TableHeader>
                     <TableRow>
                         <TableHeaderColumn>User</TableHeaderColumn>
+                        <TableHeaderColumn style={{ width: '10px' }}>
+                            Status
+                        </TableHeaderColumn>
                         <TableHeaderColumn>Name</TableHeaderColumn>
                         <TableHeaderColumn>Due Date</TableHeaderColumn>
                         <TableHeaderColumn>Submitted</TableHeaderColumn>
@@ -61,9 +64,14 @@ export class AdminAssignmentsPage extends React.Component<IProps, {}> {
                 </TableHeader>
                 <TableBody>
                     {this.props.collections.map(c => (
-                        <TableRow>
+                        <TableRow key={c._id}>
                             <TableRowColumn>
                                 <Users.container.Name user_id={c.user_id} />
+                            </TableRowColumn>
+                            <TableRowColumn style={{ width: '10px' }}>
+                                <Users.container.OnlineStatus
+                                    user_id={c.user_id}
+                                />
                             </TableRowColumn>
                             <TableRowColumn>
                                 <Collections.container.Name

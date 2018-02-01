@@ -6,6 +6,7 @@ import { AppBar } from 'material-ui';
 
 // container
 import LeftDrawer from './left-drawer';
+import RightDrawer from './right-drawer';
 
 // state
 import { IState } from 'client/state';
@@ -55,6 +56,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
                     }
                 />
                 <LeftDrawer />
+                <RightDrawer />
                 <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>

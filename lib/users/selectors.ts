@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-
+import { filter } from 'lodash';
 import { IUser, IState } from './types';
 
 export function get_users_by_group(state: IState, group_id: string): IUser[] {
@@ -22,7 +22,12 @@ export function user(state: IState, user_id): IUser {
             groups: [],
             last_active: undefined,
             last_login: undefined,
-            online: false
+            online: false,
+            location: ''
         }
     );
+}
+
+export function query(state: IState, _query): IUser[] {
+    return filter(state.users.list, _query);
 }

@@ -125,6 +125,3 @@ export function init(user_id: string) {
         payload: { payload: { user_id } }
     };
 }
-// export function assign_collection(user_ids: string[], collection_data) {
-
-// }

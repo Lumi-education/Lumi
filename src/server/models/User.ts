@@ -13,6 +13,7 @@ export default class User implements IUser {
     public last_login: Date;
     public last_active: Date;
     public online: boolean;
+    public location: string;
 
     constructor(u?) {
         return assign(
