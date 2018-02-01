@@ -12,10 +12,13 @@ import UserController from '../controllers/api/user.controller';
 import TagsController from '../controllers/api/tags.controller';
 import SystemController from '../controllers/api/system.controller';
 import GradesController from '../controllers/api/grades.controller';
+import CoreController from '../controllers/api/core.controller';
 
 const router = Router();
 
 router.get('/:db', SystemController.checkDb);
+
+router.post('/:db/core/find', mw.auth, mw.level(3), CoreController.find);
 
 // mw.auth
 router.post('/:db/auth/login', AuthController.login);
