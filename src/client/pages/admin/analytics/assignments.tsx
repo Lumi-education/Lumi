@@ -37,7 +37,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class AdminOpenCollectionsPage extends React.Component<IProps, {}> {
+export class AdminAssignmentsPage extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
@@ -106,4 +106,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<{}, {}, { collection_id: string }>(
     mapStateToProps,
     mapDispatchToProps
-)(AdminOpenCollectionsPage);
+)(AdminAssignmentsPage);
