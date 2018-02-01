@@ -12,6 +12,7 @@ export default class User implements IUser {
     public groups: string[];
     public last_login: Date;
     public last_active: Date;
+    public online: boolean;
 
     constructor(u?) {
         return assign(
@@ -20,7 +21,8 @@ export default class User implements IUser {
                 type: 'user',
                 level: 1,
                 name: 'new user',
-                groups: []
+                groups: [],
+                online: false
             },
             u
         );

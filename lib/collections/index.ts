@@ -28,6 +28,7 @@ import CollectionAssignDialogContainer from './container/collection-assign-dialo
 import CollectionsChipInputContainer from './container/collection-chip-input';
 import CollectionNameContainer from './container/collection-name';
 import CollectionSubmittedContainer from './container/collection-submitted';
+import CollectionDueDateContainer from './container/collection-due-date';
 export {
     ICollection,
     ICollectionSubmitMsg,
@@ -46,7 +47,8 @@ const container = {
     List: CollectionListContainer,
     Assignments: CollectionAssignmentsContainer,
     Name: CollectionNameContainer,
-    Submitted: CollectionSubmittedContainer
+    Submitted: CollectionSubmittedContainer,
+    DueDate: CollectionDueDateContainer
 };
 
 export { actions, selectors, reducer, container };

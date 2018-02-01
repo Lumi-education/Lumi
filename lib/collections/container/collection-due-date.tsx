@@ -29,7 +29,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class CollectionSubmittedContainer extends React.Component<IProps, {}> {
+export class CollectionDueDateContainer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
@@ -42,27 +42,13 @@ export class CollectionSubmittedContainer extends React.Component<IProps, {}> {
 
     public render() {
         return (
-            <Checkbox
-                onClick={e => {
-                    e.stopPropagation();
-                    this.props.dispatch(
-                        Data.actions.update_data(
-                            assign(this.props.collection_data, {
-                                submitted: !this.props.collection_data.submitted
-                            })
-                        )
-                    );
-                }}
-                style={{ display: 'inline-block' }}
-                checkedIcon={<SVGCheck />}
-                uncheckedIcon={<SVGClose />}
-                checked={this.props.collection_data.submitted}
-                iconStyle={{
-                    fill: this.props.collection_data.submitted
-                        ? '#2ecc71'
-                        : '#e74c3c'
-                }}
-            />
+            <div>
+                {this.props.collection_data.due_date
+                    ? moment(this.props.collection_data.due_date)
+                          .tz('Europe/Berlin')
+                          .fromNow()
+                    : 'no due date'}
+            </div>
         );
     }
 }
@@ -86,4 +72,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(CollectionSubmittedContainer);
+)(CollectionDueDateContainer);

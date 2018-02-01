@@ -8,6 +8,7 @@ import {
     AdminCollectionPage
 } from 'client/pages/admin/collections';
 
+import OpenCollectionsPage from './analytics/open-collections-page';
 import {
     Group,
     Groups,
@@ -40,6 +41,10 @@ const routes = (
             component={CreateOrAddUserDialog}
         />
         <Route path="analytics/progress" component={Progress} />
+        <Route
+            path="analytics/open-collections"
+            component={OpenCollectionsPage}
+        />
         <Route path="users" component={Users} />
         <Route path="users/:user_id/:tab" component={User} />
         <Redirect from="users/:user_id" to="users/:user_id/settings" />

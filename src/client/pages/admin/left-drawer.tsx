@@ -130,6 +130,15 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/analytics/progress');
                             }}
                         />
+                        <ListItem
+                            primaryText="Open Collections"
+                            leftIcon={<SVGTrendingUp />}
+                            onTouchTap={() => {
+                                this.props.push(
+                                    '/admin/analytics/open-collections'
+                                );
+                            }}
+                        />
                         <Divider />
                         <Subheader>User</Subheader>
                         <ListItem

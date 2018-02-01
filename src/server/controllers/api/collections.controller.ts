@@ -98,6 +98,14 @@ class CollectionController extends Controller<Collection> {
             res.status(200).json(docs);
         });
     }
+
+    public open_collection(req: IRequest, res: express.Response) {
+        const db = new DB(res, req.params.db);
+
+        db.view('collection', 'open', {}, docs => {
+            res.status(200).json(docs);
+        });
+    }
 }
 
 export default new CollectionController();

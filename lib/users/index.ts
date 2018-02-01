@@ -6,13 +6,14 @@ export { default as users_reducer } from './reducer';
 import UserTableContainer from './container/user-table';
 import UserOnlineStatusContainer from './container/user-online-status';
 import UserChipInputContainer from './container/user-chip-input';
-
+import UserNameContainer from './container/user-name';
 import * as selectors from './selectors';
 import * as actions from './actions';
 
 const container = {
     ChipInput: UserChipInputContainer,
     Table: UserTableContainer,
-    OnlineStatus: UserOnlineStatusContainer
+    OnlineStatus: UserOnlineStatusContainer,
+    Name: UserNameContainer
 };
 export { actions, selectors, container };

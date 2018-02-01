@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, filter } from 'lodash';
 
 import { IState } from './types';
 
@@ -74,4 +74,8 @@ export function data(state: IState, user_id: string) {
 
 export function data_by_id(state: IState, id: string): ICollectionData {
     return state.collections.data.filter(c => c._id === id)[0];
+}
+
+export function data_query(state: IState, query): ICollectionData[] {
+    return filter(state.collections.data, query);
 }
