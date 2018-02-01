@@ -47,30 +47,30 @@ export class CollectionAssignmentsContainer extends React.Component<
     public render() {
         return (
             <Table
-                onRowSelection={rows => {
-                    switch (rows) {
-                    // case 'all':
-                    //     this.props.dispatch(
-                    //         Users.actions.set_selected_users(
-                    //             users.map(u => u._id)
-                    //         )
-                    //     );
-                    //     break;
-                    // case 'none':
-                    //     this.props.dispatch(
-                    //         Users.actions.set_selected_users([])
-                    //     );
-                    //     break;
-                    // default:
-                    //     const user_ids = (rows as number[]).map(
-                    //         row => users[row]._id
-                    //     );
-                    //     this.props.dispatch(
-                    //         Users.actions.set_selected_users(user_ids)
-                    //     );
-                    //     log(user_ids);
-                    }
-                }}
+                // onRowSelection={rows => {
+                //     switch (rows) {
+                //     case 'all':
+                //         this.props.dispatch(
+                //             Users.actions.set_selected_users(
+                //                 users.map(u => u._id)
+                //             )
+                //         );
+                //         break;
+                //     case 'none':
+                //         this.props.dispatch(
+                //             Users.actions.set_selected_users([])
+                //         );
+                //         break;
+                //     default:
+                //         const user_ids = (rows as number[]).map(
+                //             row => users[row]._id
+                //         );
+                //         this.props.dispatch(
+                //             Users.actions.set_selected_users(user_ids)
+                //         );
+                //         log(user_ids);
+                //     }
+                // }}
                 multiSelectable={true}
             >
                 <TableHeader>

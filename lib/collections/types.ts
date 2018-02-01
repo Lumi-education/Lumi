@@ -20,6 +20,7 @@ export interface ICollectionSubmitMsg {
 
 export interface ICollectionUI {
     selected_collections: Collection_id[];
+    selected_collection_data: string[];
     show_assign_collection_dialog: boolean;
 }
 

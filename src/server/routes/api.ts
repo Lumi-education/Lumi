@@ -19,6 +19,13 @@ const router = Router();
 router.get('/:db', SystemController.checkDb);
 
 router.post('/:db/core/find', mw.auth, mw.level(3), CoreController.find);
+router.post('/:db/core/update', mw.auth, mw.level(3), CoreController.update);
+router.post(
+    '/:db/core/action/:action',
+    mw.auth,
+    mw.level(3),
+    CoreController.action
+);
 
 // mw.auth
 router.post('/:db/auth/login', AuthController.login);

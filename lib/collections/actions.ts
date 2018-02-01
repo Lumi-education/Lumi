@@ -185,3 +185,10 @@ export function assign_collection(
         payload: { payload: { user_ids, collection_id, data } }
     };
 }
+
+export function select_collection_data(collection_data_ids: string[]) {
+    return {
+        type: k.COLLECTIONS_SELECT_DATA,
+        payload: { collection_data_ids }
+    };
+}

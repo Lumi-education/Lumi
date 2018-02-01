@@ -16,19 +16,23 @@ export function submit_overdue_collections() {
         },
         { limit: 30 },
         docs => {
-            docs.forEach(doc => submit_collection(doc));
+            docs.forEach(doc => submit_collection(doc._id));
         }
     );
 }
 
-export function submit_collection(collection_data: ICollectionData) {
+export function submit_collection(id: string) {
     const db = new DB(null, process.env.DB);
 
-    collection_data.submitted = true;
-    collection_data.submit_date = new Date();
+    // collection_data.submitted = true;
+    // collection_data.submit_date = new Date();
+    const user_id = id.split('-')[0];
+    const collection_id = id.split('-')[1];
+
     db.find(
         {
-            collection_id: collection_data.collection_id,
+            collection_id,
+            user_id,
             type: 'data',
             data_type: 'card',
             is_graded: true
@@ -51,13 +55,33 @@ export function submit_collection(collection_data: ICollectionData) {
                     d.card_type !== 'text'
             ).length;
 
-            collection_data.score = correct / num_tasks;
+            // collection_data.score = correct / num_tasks;
 
-            db.save(collection_data, () => {
-                event.emit('COLLECTIONS/COLLECTION_SUBMITTED', collection_data);
-            });
+            db.update_one(
+                id,
+                {
+                    submitted: true,
+                    submit_date: new Date(),
+                    score: correct / num_tasks
+                },
+                doc => {
+                    event.emit('COLLECTIONS/COLLECTION_SUBMITTED', doc);
+                }
+            );
+
+            // db.save(collection_data, () => {
+
+            // });
         }
     );
+}
+
+export function delete_assignment(id: string) {
+    const db = new DB(null, process.env.DB);
+
+    db.delete(id, () => {
+        event.emit('COLLECTIONS/ASSIGNMENT_DELETED', { _id: id });
+    });
 }
 
 export function assign_collection(
