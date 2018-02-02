@@ -1,11 +1,19 @@
 import { assign, unionBy } from 'lodash';
 
-import { COLLECTION_SELECT, COLLECTION_SELECTION_RESET } from '../constants';
+import {
+    COLLECTION_SELECT,
+    COLLECTION_SELECTION_RESET,
+    COLLECTION_UI_SHOW_ASSIGN_COLLECTION_DIALOG,
+    COLLECTION_UI_HIDE_ASSIGN_COLLECTION_DIALOG,
+    COLLECTIONS_SELECT_DATA
+} from '../constants';
 
 import { ICollectionUI } from '../';
 
 const initialState: ICollectionUI = {
-    selected_collections: []
+    selected_collections: [],
+    selected_collection_data: [],
+    show_assign_collection_dialog: false
 };
 
 export default function(
@@ -32,8 +40,19 @@ export default function(
                 ]
             });
 
+        case COLLECTIONS_SELECT_DATA:
+            return assign({}, state, {
+                selected_collection_data: action.payload.collection_data_ids
+            });
+
         case COLLECTION_SELECTION_RESET:
             return assign({}, state, { selected_collections: [] });
+
+        case COLLECTION_UI_SHOW_ASSIGN_COLLECTION_DIALOG:
+            return assign({}, state, { show_assign_collection_dialog: true });
+
+        case COLLECTION_UI_HIDE_ASSIGN_COLLECTION_DIALOG:
+            return assign({}, state, { show_assign_collection_dialog: false });
 
         default:
             return state;

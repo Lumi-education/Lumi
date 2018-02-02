@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Paper, RaisedButton } from 'material-ui';
 
 import { CollectionEvaluationContainer } from 'lib/collections';
-
+import * as moment from 'moment-timezone';
 // local
 import { IState } from 'client/state';
 
@@ -91,27 +91,38 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
         }
         return (
             <div>
-                <Paper style={{ padding: '10px' }}>
-                    {this.props.collection.submitted ? (
-                        <div>
-                            {this.props.collection.is_graded ? (
-                                <CollectionEvaluationContainer
-                                    collection_id={this.props.collection_id}
-                                />
-                            ) : (
-                                'Danke'
-                            )}
-                        </div>
-                    ) : this.props.collection.is_graded ? (
-                        'Du hast ' +
-                        this._cards() +
-                        ' von ' +
-                        this._graded_tasks() +
-                        ' Aufgaben bearbeitet. Eine Auswertung erhälst du erst, wenn du das Arbeitsblat abgegeben hast.'
-                    ) : (
-                        'Die Aufgaben müssen schriftlich abgegeben werden'
-                    )}
-                </Paper>
+                {this.props.collection.due_date ? (
+                    <Paper style={{ padding: '10px' }}>
+                        {' '}
+                        Dieses Arbeitsblatt wird automatisch abgegeben. ({moment(
+                            this.props.collection.due_date
+                        )
+                            .tz('Europe/Berlin')
+                            .fromNow()})
+                    </Paper>
+                ) : (
+                    <Paper style={{ padding: '10px' }}>
+                        {this.props.collection.submitted ? (
+                            <div>
+                                {this.props.collection.is_graded ? (
+                                    <CollectionEvaluationContainer
+                                        collection_id={this.props.collection_id}
+                                    />
+                                ) : (
+                                    'Danke'
+                                )}
+                            </div>
+                        ) : this.props.collection.is_graded ? (
+                            'Du hast ' +
+                            this._cards() +
+                            ' von ' +
+                            this._graded_tasks() +
+                            ' Aufgaben bearbeitet. Eine Auswertung erhälst du erst, wenn du das Arbeitsblat abgegeben hast.'
+                        ) : (
+                            'Die Aufgaben müssen schriftlich abgegeben werden'
+                        )}
+                    </Paper>
+                )}
                 <RaisedButton
                     label="Zurück"
                     fullWidth={true}
@@ -124,31 +135,33 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                         )
                     }
                 />
-                <RaisedButton
-                    label="Abgeben"
-                    disabled={
-                        this._cards() < this._graded_tasks() ||
-                        this.props.collection.submitted
-                    }
-                    fullWidth={true}
-                    secondary={true}
-                    onClick={() => {
-                        this.props.dispatch(
-                            submit_collection(this.props.collection_id)
-                        );
-                        if (this.props.collection.is_graded) {
-                            this.props.dispatch(
-                                Grades.actions.create_grade(
-                                    this.props.user_id,
-                                    'Arbeitsblatt',
-                                    this._grade(),
-                                    this.props.collection.name,
-                                    this.props.collection_id
-                                )
-                            );
+                {this.props.collection.due_date ? null : (
+                    <RaisedButton
+                        label="Abgeben"
+                        disabled={
+                            this._cards() < this._graded_tasks() ||
+                            this.props.collection.submitted
                         }
-                    }}
-                />
+                        fullWidth={true}
+                        secondary={true}
+                        onClick={() => {
+                            this.props.dispatch(
+                                submit_collection(this.props.collection_id)
+                            );
+                            if (this.props.collection.is_graded) {
+                                this.props.dispatch(
+                                    Grades.actions.create_grade(
+                                        this.props.user_id,
+                                        'Arbeitsblatt',
+                                        this._grade(),
+                                        this.props.collection.name,
+                                        this.props.collection_id
+                                    )
+                                );
+                            }
+                        }}
+                    />
+                )}
             </div>
         );
     }

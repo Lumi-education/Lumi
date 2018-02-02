@@ -22,11 +22,14 @@ import {
 } from './constants';
 import { disable_collection } from 'lib/groups/api';
 
+import * as Users from 'lib/users';
+
 export function push(url: string) {
     return dispatch => {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
-        dispatch(_push('/' + window.location.pathname.split('/')[1] + url));
+        dispatch(Users.actions.update_user('myself', { location: url }));
+        dispatch(_push(url));
     };
 }
 

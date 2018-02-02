@@ -8,7 +8,19 @@ export function select_data(
     collection_id: string,
     card_id: string
 ): IData {
-    return state.data.map.get(user_id + '-' + collection_id + '-' + card_id);
+    return state.data.map.get(user_id + '-' + collection_id + '-' + card_id, {
+        card_id,
+        collection_id,
+        user_id,
+        _id: undefined,
+        card_type: 'text',
+        data_type: 'card',
+        score: 0,
+        is_graded: false,
+        type: 'data',
+        created_at: new Date(),
+        updated_at: new Date()
+    });
 }
 
 export function select_data_for_user_and_collection(

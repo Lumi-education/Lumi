@@ -22,7 +22,7 @@ module.exports = Object.assign(sharedConfig, {
             }
         }
     },
-    // devtool: 'inline-source-map',
+    devtool: 'inline-source-map',
     plugins: [
         // Extract all 3rd party modules into a separate 'vendor' chunk
         new webpack.optimize.CommonsChunkPlugin({
@@ -37,9 +37,9 @@ module.exports = Object.assign(sharedConfig, {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
                 VERSION: JSON.stringify(process.env.VERSION || version)
             }
-        }),
-        new UglifyJSPlugin({
-            sourceMap: true
-        })
+        }) //,
+        // new UglifyJSPlugin({
+        //     sourceMap: true
+        // })
     ]
 });

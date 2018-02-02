@@ -7,7 +7,7 @@ import { state_color } from 'lib/ui/utils';
 
 // types
 import { Dispatch } from 'redux';
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // components
 import LoginComponent from 'lib/auth/components/login';
@@ -57,20 +57,21 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 
     public set_username(username: string) {
-        this.setState({
-            username_error_text: 'checking username ' + username + '...'
-        });
-        this.props.dispatch(check_username(username)).then(res => {
-            if (res.response.status === 200) {
-                this.setState({
-                    username_error_text: username + ' exists'
-                });
-            } else {
-                this.setState({
-                    username_error_text: username + ' does not exist'
-                });
-            }
-        });
+        // this.setState({
+        //     username_error_text: 'checking username ' + username + '...'
+        // });
+        this.props.dispatch(check_username(username));
+        // .then(res => {
+        //     if (res.response.status === 200) {
+        //         this.setState({
+        //             username_error_text: username + ' exists'
+        //         });
+        //     } else {
+        //         this.setState({
+        //             username_error_text: username + ' does not exist'
+        //         });
+        //     }
+        // });
     }
 
     public button_state():
@@ -79,13 +80,13 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
         | 'pending'
         | 'success'
         | 'error' {
-        if (this.props.username_request !== 'success') {
-            return 'disabled';
-        }
+        // if (this.props.username_request !== 'success') {
+        //     return 'disabled';
+        // }
 
-        if (this.props.username_pw_is_set && this.state.password === '') {
-            return 'disabled';
-        }
+        // if (this.props.username_pw_is_set && this.state.password === '') {
+        //     return 'disabled';
+        // }
 
         return this.props.login_request;
     }
@@ -95,13 +96,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
             return;
         }
 
-        if (this.props.username_pw_is_set) {
-            this.props.dispatch(
-                login(this.props.username, this.state.password)
-            );
-        } else {
-            this.setState({ display_pw_dialog: true });
-        }
+        this.props.dispatch(login(this.props.username, this.state.password));
     }
 
     public set_password(password: string) {
@@ -123,7 +118,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                         this.setState({ password: pw })
                     }
                     show_password_input={this.props.username_pw_is_set}
-                    button_disabled={this.button_state() === 'disabled'}
+                    button_disabled={this.props.username.length < 2}
                     button_label={'Log in'}
                     button_color={state_color(this.button_state())}
                     username_error_text={this.state.username_error_text}

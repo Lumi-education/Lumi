@@ -1,9 +1,8 @@
 import { assign } from 'lodash';
-import { IUser } from 'lib/users/types';
 
 import Group from './Group';
 
-export default class User implements IUser {
+export default class User {
     public _id: string;
     public type: 'user';
     public name: string;
@@ -12,6 +11,8 @@ export default class User implements IUser {
     public groups: string[];
     public last_login: Date;
     public last_active: Date;
+    public online: boolean;
+    public location: string;
 
     constructor(u?) {
         return assign(
@@ -20,7 +21,8 @@ export default class User implements IUser {
                 type: 'user',
                 level: 1,
                 name: 'new user',
-                groups: []
+                groups: [],
+                online: false
             },
             u
         );

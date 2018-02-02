@@ -21,6 +21,8 @@ import SVGTags from 'material-ui/svg-icons/action/label';
 import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGTrendingUp from 'material-ui/svg-icons/action/trending-up';
+import SVGAssignment from 'material-ui/svg-icons/action/assignment';
+import SVGMonitor from 'material-ui/svg-icons/image/remove-red-eye';
 
 // state
 import { IState } from 'client/state';
@@ -124,10 +126,24 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         <Divider />
                         <Subheader>Analytics</Subheader>
                         <ListItem
+                            primaryText="Monitor"
+                            leftIcon={<SVGMonitor />}
+                            onTouchTap={() => {
+                                this.props.push('/admin/analytics/monitor');
+                            }}
+                        />
+                        {/* <ListItem
                             primaryText="Progress"
                             leftIcon={<SVGTrendingUp />}
                             onTouchTap={() => {
                                 this.props.push('/admin/analytics/progress');
+                            }}
+                        /> */}
+                        <ListItem
+                            primaryText="Assignments"
+                            leftIcon={<SVGAssignment />}
+                            onTouchTap={() => {
+                                this.props.push('/admin/analytics/assignments');
                             }}
                         />
                         <Divider />

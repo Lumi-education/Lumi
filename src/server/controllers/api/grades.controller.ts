@@ -2,12 +2,11 @@ import * as express from 'express';
 import { assign, noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { IGrade } from 'lib/grades/types';
 import { DB } from '../../db';
 
 import Controller from '../controller';
 
-class GradesController extends Controller<IGrade> {
+class GradesController extends Controller<{}> {
     constructor() {
         const _view = {
             _id: '_design/grade',
@@ -24,22 +23,17 @@ class GradesController extends Controller<IGrade> {
     }
 
     public user(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
-        db.view(
-            'grade',
-            'user',
-            { key: req.params.user_id },
-            (grades: IGrade[]) => {
-                res.status(200).json(grades);
-            }
-        );
+        db.view('grade', 'user', { key: req.params.user_id }, grades => {
+            res.status(200).json(grades);
+        });
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
-        const default_grade: IGrade = {
+        const default_grade = {
             _id: undefined,
             created_at: new Date(),
             _attachments: {},
@@ -56,7 +50,7 @@ class GradesController extends Controller<IGrade> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.delete(req.params.id);
     }

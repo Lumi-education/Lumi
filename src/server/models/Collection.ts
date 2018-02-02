@@ -1,7 +1,6 @@
 import { assign, uniq, pullAll } from 'lodash';
-import { ICollection, ICollectionSubmitMsg } from 'lib/collections/types';
 
-export default class Collection implements ICollection {
+export default class Collection {
     public _id: string;
     public description: string;
     public type: 'collection';
@@ -9,7 +8,7 @@ export default class Collection implements ICollection {
     public name: string;
     public created_at: Date;
     public updated_at: Date;
-    public submit_messages: ICollectionSubmitMsg[];
+    public submit_messages: string[];
     public is_graded: boolean;
 
     constructor(c?: Collection) {

@@ -53,6 +53,7 @@ export interface ICollectionData extends IBaseData {
     submit_date: Date;
     is_graded: boolean;
     score: number;
+    due_date: Date;
 }
 
 export interface ICardData extends IBaseData {

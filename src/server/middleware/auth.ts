@@ -14,9 +14,7 @@ export function auth(
     if (jwtToken) {
         try {
             req.user = jwt.decode(jwtToken, process.env.KEY || 'KEY');
-            if (!req.user.db || req.user.db !== req.params.db) {
-                throw new Error('no db');
-            }
+            raven.setContext({ user: req.user });
 
             next();
         } catch (err) {

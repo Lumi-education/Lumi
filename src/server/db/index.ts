@@ -19,11 +19,11 @@ export class DB {
     private db: string;
     private nano: any;
 
-    constructor(res: express.Response, db: string) {
+    constructor(res: express.Response) {
         this.res = res;
 
-        this.db = process.env.DB_HOST + '/' + db + '/';
-        this.nano = _nano.use(db);
+        this.db = process.env.DB_HOST + '/' + process.env.DB + '/';
+        this.nano = _nano.use(process.env.DB);
 
         this.handle_error = this.handle_error.bind(this);
         this.findById = this.findById.bind(this);

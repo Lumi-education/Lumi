@@ -16,6 +16,7 @@ export default function(
 ): ICollectionData[] {
     switch (action.type) {
         case 'DB_CHANGE':
+        case 'USERS_INIT_USER_SUCCESS':
         case COLLECTION_GET_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.data_type === 'collection'),

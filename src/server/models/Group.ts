@@ -1,10 +1,8 @@
 import { assign, uniq, pullAll } from 'lodash';
-import { IGroup } from 'lib/groups/types';
 
 import { DB } from '../db';
-import { IUser } from 'lib/users';
 
-export default class Group implements IGroup {
+export default class Group {
     public _id: string;
     public type: 'group';
     public name: string;
@@ -58,7 +56,7 @@ export default class Group implements IGroup {
         );
     }
 
-    public get_users(db: DB, cb: (users: IUser[]) => void) {
+    public get_users(db: DB, cb: (users) => void) {
         db.view('group', 'user', { key: this._id }, cb);
     }
 }

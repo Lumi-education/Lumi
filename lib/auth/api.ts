@@ -4,53 +4,36 @@ declare var window;
 
 export function login(username: string, password: string) {
     return request
-        .post('/api/' + window.location.pathname.split('/')[1] + '/auth/login')
+        .post('/api/auth/login')
         .send({ username, password })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function logout() {
     return request
-        .post('/api/' + window.location.pathname.split('/')[1] + '/auth/logout')
+        .post('/api/auth/logout')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function register(username: string, password: string) {
-    return request
-        .post(
-            '/api/' + window.location.pathname.split('/')[1] + '/auth/register'
-        )
-        .send({ username, password });
+    return request.post('/api/auth/register').send({ username, password });
 }
 
 export function get_session() {
     return request
-        .get(
-            '/api/' +
-                window.location.pathname.split('/')[1] +
-                '/user/auth/session'
-        )
+        .get('/api/user/auth/session')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function check_username(username: string) {
     return request
-        .get(
-            '/api/v0/' +
-                window.location.pathname.split('/')[1] +
-                '/auth/username/' +
-                username
-        )
+        .get('/api/v0/auth/username/' + username)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function set_password(username: string, password: string) {
     return request
-        .post(
-            '/api/v0/' +
-                window.location.pathname.split('/')[1] +
-                '/auth/password/'
-        )
+        .post('/api/v0/auth/password/')
         .send({
             username,
             password

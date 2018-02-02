@@ -8,11 +8,13 @@ import {
     AdminCollectionPage
 } from 'client/pages/admin/collections';
 
+import AssignmentsPage from './analytics/assignments';
+import Monitor from './analytics/monitor';
+
 import {
     Group,
     Groups,
-    CreateOrAddUserDialog,
-    AddCollectionDialog
+    CreateOrAddUserDialog
 } from 'client/pages/admin/groups';
 
 import { TagsPage } from 'client/pages/admin/tags';
@@ -40,11 +42,9 @@ const routes = (
             path="groups/:group_id/users/add"
             component={CreateOrAddUserDialog}
         />
-        <Route
-            path="groups/:group_id/collections/add"
-            component={AddCollectionDialog}
-        />
         <Route path="analytics/progress" component={Progress} />
+        <Route path="analytics/assignments" component={AssignmentsPage} />
+        <Route path="analytics/monitor" component={Monitor} />
         <Route path="users" component={Users} />
         <Route path="users/:user_id/:tab" component={User} />
         <Redirect from="users/:user_id" to="users/:user_id/settings" />

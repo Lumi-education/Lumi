@@ -6,6 +6,7 @@ const sharedConfig = require('./shared.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
+    devtool: 'source-map',
     plugins: [
         // Extract all 3rd party modules into a separate 'vendor' chunk
         new webpack.optimize.CommonsChunkPlugin({

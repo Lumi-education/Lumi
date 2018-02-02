@@ -24,13 +24,13 @@ class CardController extends Controller<Card> {
         super('card', _view);
     }
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new Card(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findById(req.params.id, (card: Card) => {
             res.status(200).json([card]);
@@ -38,7 +38,7 @@ class CardController extends Controller<Card> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findById(
             req.params.id,
@@ -53,7 +53,7 @@ class CardController extends Controller<Card> {
     }
 
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view(
             'card',

@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
-
-import { ICard, IState } from './types';
+import { filter } from 'lodash';
+import { ICard, IState, ICardData } from './types';
 import { IFreetextCard } from 'lib/cards/types';
 
 // type Card = ICard | IFreetextCard;
@@ -34,4 +34,8 @@ export function select_card(state: IState, card_id: string): ICard {
         created_at: new Date(),
         _attachments: {}
     });
+}
+
+export function data_query(state: IState, _query): ICardData[] {
+    return filter(state.data.map.toArray(), _query);
 }

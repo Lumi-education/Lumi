@@ -27,7 +27,7 @@ import SVGWrong from 'material-ui/svg-icons/navigation/close';
 
 import { get_grade_color } from 'lib/ui/utils';
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // types
 import { ICollection } from 'lib/collections/types';

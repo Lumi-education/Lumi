@@ -3,8 +3,6 @@ import { assign, isEqual } from 'lodash';
 import * as debug from 'debug';
 import { IRequest } from '../../middleware/auth';
 
-import { ICollectionData } from 'lib/cards/types';
-
 import Data from '../../models/Data';
 import { DB } from '../../db';
 
@@ -37,13 +35,13 @@ class DataController extends Controller<Data> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new Data(req.body));
     }
 
     public submit_collection(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findOne(
             {
@@ -53,7 +51,7 @@ class DataController extends Controller<Data> {
                 collection_id: req.body.collection_id
             },
             {},
-            (collection_data: ICollectionData) => {
+            collection_data => {
                 collection_data.submitted = true;
                 collection_data.submit_date = new Date();
 
@@ -63,7 +61,7 @@ class DataController extends Controller<Data> {
     }
 
     public forUserAndCollection(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view(
             'data',
@@ -76,7 +74,7 @@ class DataController extends Controller<Data> {
     }
 
     public find(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.find(
             assign(

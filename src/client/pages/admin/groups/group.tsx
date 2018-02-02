@@ -16,15 +16,12 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import { ActionBar } from 'lib/ui';
 import { IState } from 'client/state';
 import { ICollection } from 'lib/collections/types';
-import { IUser, UserListContainer } from 'lib/users';
+import * as Users from 'lib/users';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
-import Add_collection_dialog from './add_collection_dialog';
 
-import { CollectionListContainer } from 'lib/collections';
+import * as Collections from 'lib/collections';
 import * as Groups from 'lib/groups';
-
-import RemoveCollectionsDialog from './remove_collections_dialog';
 
 // actions
 import { get_group } from 'lib/groups/actions';
@@ -106,19 +103,6 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                             )
                         }
                     />
-                    <Tab
-                        label="Collections"
-                        value="collections"
-                        onActive={() =>
-                            this.props.dispatch(
-                                push(
-                                    '/admin/groups/' +
-                                        this.props.group_id +
-                                        '/collections'
-                                )
-                            )
-                        }
-                    />
                 </Tabs>
                 {(() => {
                     switch (this.props.tab) {
@@ -132,37 +116,17 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         case 'users':
                             return (
                                 <div>
-                                    <UserListContainer
-                                        filter={(user: IUser) =>
+                                    <Users.container.Table
+                                        filter={(user: Users.IUser) =>
                                             this.props.group_users.indexOf(
                                                 user._id
                                             ) > -1
                                         }
                                     />
+
                                     <ActionBar>
+                                        <Collections.container.AssignDialog />
                                         <Create_or_add_user_dialog
-                                            group_id={this.props.group_id}
-                                        />
-                                    </ActionBar>
-                                </div>
-                            );
-                        case 'collections':
-                            return (
-                                <div>
-                                    <CollectionListContainer
-                                        collection_ids={
-                                            this.props.group
-                                                .assigned_collections
-                                        }
-                                    />
-                                    <ActionBar>
-                                        {this.props.selected_collections
-                                            .length > 0 ? (
-                                            <RemoveCollectionsDialog
-                                                group_id={this.props.group_id}
-                                            />
-                                        ) : null}
-                                        <Add_collection_dialog
                                             group_id={this.props.group_id}
                                         />
                                     </ActionBar>

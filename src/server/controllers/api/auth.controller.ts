@@ -27,7 +27,7 @@ class AuthController extends Controller<{}> {
     }
 
     public login(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findOne(
             {
@@ -43,30 +43,21 @@ class AuthController extends Controller<{}> {
                     });
                 }
                 if (!user.password) {
-                    return res.status(202).json({
-                        message: 'password not set',
-                        username: req.body.username
+                    return res.status(200).json({
+                        jwt_token: jwt_token(user._id, user.level),
+                        _id: user._id,
+                        level: user.level
                     });
                 }
 
                 if (!bcrypt.compareSync(req.body.password, user.password)) {
                     res.status(401).end();
                 } else {
-                    webhook({
-                        username: req.params.db,
-                        text: 'user ' + user.name + ' logged in.'
-                    });
-
                     user.last_login = new Date();
                     db.save(user, noop);
 
                     return res.status(200).json({
-                        jwt_token: jwt_token(
-                            user._id,
-                            user.groups,
-                            user.level,
-                            req.params.db
-                        ),
+                        jwt_token: jwt_token(user._id, user.level),
                         _id: user._id,
                         level: user.level
                     });
@@ -77,7 +68,7 @@ class AuthController extends Controller<{}> {
     }
 
     public register(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findOne(
             { name: req.body.username, type: 'user' },
@@ -101,11 +92,6 @@ class AuthController extends Controller<{}> {
                                     type: 'password'
                                 },
                                 () => {
-                                    webhook({
-                                        username: req.params.db,
-                                        text:
-                                            'user ' + user.name + ' registered.'
-                                    });
                                     res.status(201).end();
                                 }
                             );
@@ -122,14 +108,16 @@ class AuthController extends Controller<{}> {
     }
 
     public get_session(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
         db.update_one(req.user._id, { last_active: new Date() });
 
-        res.status(200).json(req.user);
+        db.findById(req.user._id, user => {
+            res.status(200).json(user);
+        });
     }
 
     public set_password(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('auth', 'check_username', { key: req.body.username }, docs => {
             if (docs.length === 1) {
@@ -155,7 +143,7 @@ class AuthController extends Controller<{}> {
     }
 
     public username(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view(
             'auth',
@@ -179,17 +167,10 @@ class AuthController extends Controller<{}> {
 
 export default new AuthController();
 
-function jwt_token(
-    user_id: string,
-    groups: string[],
-    level: number,
-    db: string
-): any {
+function jwt_token(user_id: string, level: number): any {
     return jwt.encode(
         {
             level,
-            groups,
-            db,
             _id: user_id
         },
         process.env.KEY || 'KEY'

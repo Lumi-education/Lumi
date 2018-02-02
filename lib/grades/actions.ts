@@ -59,10 +59,15 @@ export function update_grade(grade_id: string, update) {
     };
 }
 
-export function show_create_grade_dialog(user_id: string, grade_id?: string) {
+export function show_create_grade_dialog(
+    user_id: string,
+    grade_id?: string,
+    ref_id?: string
+) {
     return {
         user_id,
         grade_id,
+        ref_id,
         type: GRADES_SHOW_CREATE_GRADE_DIALOG
     };
 }

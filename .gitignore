@@ -14,5 +14,7 @@ _book
 .vscode
 .env
 
+dev
+
 # Dependency directory
 node_modules

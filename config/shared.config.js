@@ -20,10 +20,9 @@ module.exports = {
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, '../build/client'),
-        sourceMapFilename: '[name].js.map',
+        sourceMapFilename: '[name].[hash].js.map',
         publicPath: '/'
     },
-    devtool: 'source-map',
 
     module: {
         rules: [

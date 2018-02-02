@@ -48,6 +48,7 @@ export default function(
         case 'DB_CHANGE':
         case GROUPS_GET_GROUP_SUCCESS:
         case GROUPS_GET_USER_GROUPS_SUCCESS:
+        case 'USERS_INIT_USER_SUCCESS':
             return state.merge(
                 Map<string, IGroupRef>(
                     arrayToObject(

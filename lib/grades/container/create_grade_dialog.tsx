@@ -172,7 +172,7 @@ export class CreateGradeDialogContainer extends React.Component<
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id: state.grades.ui.user_id,
-        ref_id: ownProps.ref_id,
+        ref_id: ownProps.ref_id || state.grades.ui.ref_id,
         open: state.grades.ui.show_create_grades_dialog,
         grade_id: state.grades.ui.grade_id,
         grade: Grades.selectors.grade(state, state.grades.ui.grade_id)

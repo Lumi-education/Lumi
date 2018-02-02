@@ -1,17 +1,16 @@
 import * as express from 'express';
+import * as raven from 'raven';
 import { noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { IGroupRef } from 'lib/groups/types';
 import Group from '../../models/Group';
 import User from '../../models/User';
 import Collection from '../../models/Collection';
-import { IUser } from 'lib/users';
 
 import { DB } from '../../db';
 
 import Controller from '../controller';
-import { assign_collection } from '../../actions/collection';
+import { assign_collection } from '../../modules/collections/actions';
 
 class GroupController extends Controller<Group> {
     constructor() {
@@ -41,7 +40,7 @@ class GroupController extends Controller<Group> {
         super('group', _view);
     }
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('group', 'list', {}, docs => {
             res.status(200).json(docs);
@@ -49,13 +48,13 @@ class GroupController extends Controller<Group> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new Group(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view(
             'group',
@@ -68,7 +67,7 @@ class GroupController extends Controller<Group> {
     }
 
     public for_user(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('group', 'for_user', { key: req.params.user_id }, docs => {
             res.status(200).json(docs);
@@ -76,7 +75,7 @@ class GroupController extends Controller<Group> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.find(
             {
@@ -97,82 +96,93 @@ class GroupController extends Controller<Group> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        try {
+            const db = new DB(res);
 
-        db.findById(
-            req.params.id,
-            (group: Group) => {
-                switch (req.body.type) {
-                    case 'ADD_USER_TO_GROUP':
-                        db._findById(
-                            req.body.payload.user_id + '-groups',
-                            (err, group_ref: IGroupRef) => {
-                                if (err) {
-                                    const _group_ref: IGroupRef = {
-                                        _id:
-                                            req.body.payload.user_id +
-                                            '-groups',
-                                        user_id: req.body.payload.user_id,
-                                        groups: [req.params.id],
-                                        type: 'group_ref'
-                                    };
-                                    db.insert(_group_ref);
-                                } else {
-                                    group_ref.groups.push(req.params.id);
+            db.findById(
+                req.params.id,
+                (group: Group) => {
+                    switch (req.body.type) {
+                        case 'ADD_USER_TO_GROUP':
+                            db._findById(
+                                req.body.payload.user_id + '-groups',
+                                (err, group_ref) => {
+                                    if (err) {
+                                        const _group_ref = {
+                                            _id:
+                                                req.body.payload.user_id +
+                                                '-groups',
+                                            user_id: req.body.payload.user_id,
+                                            groups: [req.params.id],
+                                            type: 'group_ref'
+                                        };
+                                        db.insert(_group_ref);
+                                    } else {
+                                        group_ref.groups.push(req.params.id);
+                                        db.save(group_ref);
+                                    }
+                                }
+                            );
+                            break;
+                        case 'REM_USER_FROM_GROUP':
+                            db.findById(
+                                req.body.payload.user_id + '-groups',
+                                group_ref => {
+                                    group_ref.groups = group_ref.groups.filter(
+                                        group_id => group_id !== req.params.id
+                                    );
                                     db.save(group_ref);
                                 }
-                            }
-                        );
-                        break;
-                    case 'REM_USER_FROM_GROUP':
-                        db.findById(
-                            req.body.payload.user_id + '-groups',
-                            (group_ref: IGroupRef) => {
-                                group_ref.groups = group_ref.groups.filter(
-                                    group_id => group_id !== req.params.id
-                                );
-                                db.save(group_ref);
-                            }
-                        );
-                        break;
-                    case 'ADD_COLLECTION':
-                        group.add_collection(req.body.payload.collection_id);
-
-                        group.get_users(db, (users: IUser[]) => {
-                            users.forEach(user =>
-                                assign_collection(
-                                    db,
-                                    user._id,
-                                    req.body.payload.collection_id,
-                                    req.body.payload.is_graded,
-                                    noop
-                                )
                             );
-                        });
+                            break;
+                        case 'ADD_COLLECTION':
+                            throw new Error(
+                                'GROUPS/ACTIONS/ADD_COLLECTION is deprecated. -> Use USERS/ACTIONS/ASSIGN_COLLECTION'
+                            );
 
-                        db.save(group);
+                        // group.add_collection(req.body.payload.collection_id);
 
-                        break;
-                    case 'REM_COLLECTION':
-                        group.rem_collections(req.body.payload.collection_ids);
-                        db.save(group);
-                        break;
-                    case 'ENABLE_COLLECTION':
-                        group.enable_collection(req.body.payload.collection_id);
-                        db.save(group);
-                        break;
-                    case 'DISABLE_COLLECTION':
-                        group.disable_collection(
-                            req.body.payload.collection_id
-                        );
-                        db.save(group);
-                        break;
-                    default:
-                        break;
-                }
-            },
-            Group
-        );
+                        // group.get_users(db, (users: IUser[]) => {
+                        //     users.forEach(user =>
+                        //         assign_collection(
+                        //             db,
+                        //             user._id,
+                        //             req.body.payload.collection_id,
+                        //             req.body.payload.is_graded,
+                        //             noop
+                        //         )
+                        //     );
+                        // });
+
+                        // db.save(group);
+                        case 'REM_COLLECTION':
+                            group.rem_collections(
+                                req.body.payload.collection_ids
+                            );
+                            db.save(group);
+                            break;
+                        case 'ENABLE_COLLECTION':
+                            group.enable_collection(
+                                req.body.payload.collection_id
+                            );
+                            db.save(group);
+                            break;
+                        case 'DISABLE_COLLECTION':
+                            group.disable_collection(
+                                req.body.payload.collection_id
+                            );
+                            db.save(group);
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                Group
+            );
+        } catch (err) {
+            raven.captureException(err);
+            res.status(500).json(err);
+        }
     }
 }
 

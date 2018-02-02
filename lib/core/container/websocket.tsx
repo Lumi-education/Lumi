@@ -17,9 +17,12 @@ export class WebsocketContainer extends React.Component<IProps, {}> {
     }
 
     public componentDidMount() {
-        const socket = socketio.connect({
-            query: { jwt_token: window.localStorage.jwt_token }
-        });
+        const socket = socketio.connect(
+            'http://' + window.location.hostname + ':8081',
+            {
+                query: { jwt_token: window.localStorage.jwt_token }
+            }
+        );
 
         socket.on('DB_CHANGE', msg => {
             const action = JSON.parse(msg);
