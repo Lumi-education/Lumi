@@ -6,7 +6,6 @@ import { Map } from 'immutable';
 import { browserHistory, Route, Router } from 'react-router';
 import apiMiddleware from './middleware/redux-api-middleware';
 import debugMiddleware from './middleware/debug';
-import gaTracker from './middleware/ga-tracker';
 import thunk from 'redux-thunk';
 
 declare var window;
@@ -23,7 +22,6 @@ const store = createStore<{}>(
     persistentState,
     composeEnhancers(
         applyMiddleware(
-            gaTracker,
             debugMiddleware,
             thunk,
             routerMiddleware(browserHistory),
