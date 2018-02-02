@@ -29,7 +29,11 @@ const debug = _debug('core');
 const express_debug = _debug('boot:express');
 
 if (process.env.NODE_ENV !== 'production') {
-    boot();
+    wait_for_couchdb(() => {
+        check_db(() => {
+            boot();
+        });
+    });
 } else {
     const numCPUs = os.cpus().length;
     if (cluster.isMaster) {
@@ -43,7 +47,11 @@ if (process.env.NODE_ENV !== 'production') {
             const worker = cluster.fork();
         });
     } else {
-        boot();
+        wait_for_couchdb(() => {
+            check_db(() => {
+                boot();
+            });
+        });
     }
 }
 
