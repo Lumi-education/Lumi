@@ -8,7 +8,7 @@ import * as moment from 'moment-timezone';
 import { TableRow, TableRowColumn } from 'material-ui';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 // types

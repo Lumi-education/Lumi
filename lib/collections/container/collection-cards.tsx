@@ -14,7 +14,7 @@ import {
 import { Paper, Dialog } from 'material-ui';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // types
 import { ICard } from 'lib/cards/types';

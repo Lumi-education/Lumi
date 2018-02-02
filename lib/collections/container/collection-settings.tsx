@@ -7,7 +7,7 @@ import * as debug from 'debug';
 // components
 import CollectionSettingsComponent from '../components/collection-settings';
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // types
 import { ICollection } from 'lib/collections/types';

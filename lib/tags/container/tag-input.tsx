@@ -8,14 +8,10 @@ import { Map } from 'immutable';
 import { TagInputComponent } from '../';
 
 // types
-import { IState } from 'client/state';
-import { ITag } from '../types';
+import { ITag, IState } from '../types';
 
 // selectors
-import {
-    select_tag_ids_for_doc,
-    select_tags_as_map
-} from 'lib/tags/selectors';
+import { select_tag_ids_for_doc, select_tags_as_map } from 'lib/tags/selectors';
 
 // actions
 import {

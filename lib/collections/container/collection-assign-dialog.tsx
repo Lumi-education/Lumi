@@ -13,7 +13,7 @@ import {
 } from 'material-ui';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // types
 import * as Collections from '../';

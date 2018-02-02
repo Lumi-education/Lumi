@@ -11,7 +11,7 @@ const md = markdownit();
 import CollectionEvaluationComponent from '../components/collection-evaluation';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // types
 import { IData, ICollectionData } from 'lib/cards/types';

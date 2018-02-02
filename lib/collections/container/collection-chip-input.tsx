@@ -7,7 +7,7 @@ import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // modules
 import * as Collections from '../';
