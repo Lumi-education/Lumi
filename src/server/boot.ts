@@ -18,7 +18,6 @@ import * as socketio from 'socket.io';
 
 import wait_for_couchdb from './utils/wait_for_couchdb';
 import check_db from './db/check';
-import boot_socket from './core/socket';
 import webhook from './core/webhook';
 import { boot as boot_cron } from './core/cron';
 import modules from './modules/boot';
@@ -53,8 +52,6 @@ function boot() {
     });
 
     server.on('error', raven.captureException);
-
-    boot_socket(server);
 
     debug('finished boot-sequence');
 }
