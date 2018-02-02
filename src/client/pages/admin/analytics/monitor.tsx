@@ -98,7 +98,10 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
                             <Collections.container.Name collection_id={id} />
                         </h1>
                         <Table>
-                            <TableHeader>
+                            <TableHeader
+                                displaySelectAll={false}
+                                adjustForCheckbox={false}
+                            >
                                 <TableRow>
                                     <TableHeaderColumn>User</TableHeaderColumn>
                                     {this.props.collections
@@ -116,22 +119,26 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
                                         user => user.location.indexOf(id) > -1
                                     )
                                     .map(u => (
-                                        <TableRow>
-                                            <TableRowColumn>
-                                                {u.name}
-                                            </TableRowColumn>
-                                            {this.props.collections
-                                                .filter(c => c._id === id)[0]
-                                                .cards.map((card_id, i) => (
-                                                    <TableRowColumn>
-                                                        <Cards.CardEvaluationContainer
-                                                            user_id={u._id}
-                                                            collection_id={id}
-                                                            card_id={card_id}
-                                                        />
-                                                    </TableRowColumn>
-                                                ))}
-                                        </TableRow>
+                                        <Cards.CardEvaluationRow
+                                            collection_id={id}
+                                            user_id={u._id}
+                                        />
+                                        // <TableRow>
+                                        //     <TableRowColumn>
+                                        //         {u.name}
+                                        //     </TableRowColumn>
+                                        //     {this.props.collections
+                                        //         .filter(c => c._id === id)[0]
+                                        //         .cards.map((card_id, i) => (
+                                        //             <TableRowColumn>
+                                        //                 <Cards.CardEvaluationContainer
+                                        //                     user_id={u._id}
+                                        //                     collection_id={id}
+                                        //                     card_id={card_id}
+                                        //                 />
+                                        //             </TableRowColumn>
+                                        //         ))}
+                                        // </TableRow>
                                     ))}
                             </TableBody>
                         </Table>

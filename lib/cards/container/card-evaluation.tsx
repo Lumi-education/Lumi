@@ -38,7 +38,7 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        if (!this.props.card_data) {
+        if (!this.props.card_data._id) {
             this.props.dispatch(
                 Core.actions.find({
                     type: 'data',
