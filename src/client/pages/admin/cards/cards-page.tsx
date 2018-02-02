@@ -56,6 +56,8 @@ import {
 import { get_cards, create_card } from 'lib/cards/actions';
 import { get_tags } from 'lib/tags/actions';
 
+import LoadingPage from 'lib/ui/components/loading-page';
+
 const md = markdownit();
 const log = debug('lumi:modules:admin:cards:cards-page');
 
@@ -74,6 +76,7 @@ interface IComponentState {
     search_text?: string;
     new_tag_name?: string;
     new_tag_description?: string;
+    loading: boolean;
 }
 
 export class AdminCards extends React.Component<IProps, IComponentState> {
@@ -84,16 +87,22 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             filter: [],
             search_text: '',
             new_tag_name: '',
-            new_tag_description: ''
+            new_tag_description: '',
+            loading: true
         };
     }
 
     public componentWillMount() {
         this.props.dispatch(get_cards());
-        this.props.dispatch(get_tags());
+        this.props.dispatch(get_tags()).then(res => {
+            this.setState({ loading: false });
+        });
     }
 
     public render() {
+        if (this.state.loading) {
+            return <LoadingPage />;
+        }
         return (
             <div>
                 <CardsRightDrawer />
