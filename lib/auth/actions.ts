@@ -101,7 +101,7 @@ export function check_username(username: string) {
             k.AUTH_LOGIN_CHECK_USERNAME_SUCCESS,
             k.AUTH_LOGIN_CHECK_USERNAME_ERROR
         ],
-        api: API.check_username(username),
+        // api: API.check_username(username),
         payload: { username }
     };
 }

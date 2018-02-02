@@ -23,7 +23,8 @@ export function user(state: IState, user_id): IUser {
             last_active: undefined,
             last_login: undefined,
             online: false,
-            location: ''
+            location: '',
+            password: undefined
         }
     );
 }

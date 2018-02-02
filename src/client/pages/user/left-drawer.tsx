@@ -40,6 +40,7 @@ interface IStateProps {
     left_drawer_show: boolean;
     collections: IUserCollection[];
     user_id: string;
+    username: string;
 }
 
 interface IDispatchProps {
@@ -69,6 +70,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     containerStyle={{ backgroundColor: '#FFFFFF' }}
                 >
                     <AppBar
+                        title={this.props.username}
                         showMenuIconButton={true}
                         iconElementLeft={
                             <IconButton>
@@ -152,7 +154,8 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         left_drawer_show: state.ui.left_drawer_show,
         collections: select_collections_for_user(state),
-        user_id: state.auth.user_id
+        user_id: state.auth.user_id,
+        username: state.users.me.name
     };
 }
 

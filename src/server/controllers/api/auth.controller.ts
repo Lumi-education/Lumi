@@ -43,9 +43,10 @@ class AuthController extends Controller<{}> {
                     });
                 }
                 if (!user.password) {
-                    return res.status(202).json({
-                        message: 'password not set',
-                        username: req.body.username
+                    return res.status(200).json({
+                        jwt_token: jwt_token(user._id, user.level),
+                        _id: user._id,
+                        level: user.level
                     });
                 }
 
@@ -110,7 +111,9 @@ class AuthController extends Controller<{}> {
         const db = new DB(res);
         db.update_one(req.user._id, { last_active: new Date() });
 
-        res.status(200).json(req.user);
+        db.findById(req.user._id, user => {
+            res.status(200).json(user);
+        });
     }
 
     public set_password(req: IRequest, res: express.Response) {

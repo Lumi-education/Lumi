@@ -11,12 +11,14 @@ export interface IUser {
     last_active: Date;
     online: boolean;
     location: string;
+    password: string;
 }
 
 export interface IState {
     users: {
         list: IUser[];
         ui: IUsersUI;
+        me: IUser;
     };
 }
 

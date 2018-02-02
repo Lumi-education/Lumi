@@ -52,20 +52,18 @@ export default class AuthLoginComponent extends React.Component<IProps, {}> {
                             this.props.set_username(value)
                         }
                     />
-                    {this.props.show_password_input ? (
-                        <TextField
-                            fullWidth={true}
-                            hintText="Passwort"
-                            floatingLabelText="Passwort"
-                            errorText={this.props.password_error_text}
-                            errorStyle={this.props.password_error_style}
-                            type="password"
-                            value={this.props.password}
-                            onChange={(event, value) =>
-                                this.props.set_password(value)
-                            }
-                        />
-                    ) : null}
+                    <TextField
+                        fullWidth={true}
+                        hintText="Passwort"
+                        floatingLabelText="Passwort"
+                        errorText={this.props.password_error_text}
+                        errorStyle={this.props.password_error_style}
+                        type="password"
+                        value={this.props.password}
+                        onChange={(event, value) =>
+                            this.props.set_password(value)
+                        }
+                    />
                     <RaisedButton
                         fullWidth={true}
                         disabled={this.props.button_disabled}
