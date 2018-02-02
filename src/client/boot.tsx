@@ -41,6 +41,7 @@ injectTapEventPlugin();
 if (localStorage.getItem('lumi_version') !== process.env.VERSION) {
     localStorage.clear();
 }
+
 localStorage.setItem('lumi_version', process.env.VERSION);
 
 moment.locale('de');
