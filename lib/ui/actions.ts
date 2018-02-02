@@ -29,7 +29,7 @@ export function push(url: string) {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
         dispatch(Users.actions.update_user('myself', { location: url }));
-        dispatch(_push('/' + window.location.pathname.split('/')[1] + url));
+        dispatch(_push(url));
     };
 }
 

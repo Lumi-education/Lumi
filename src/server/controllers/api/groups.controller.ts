@@ -42,7 +42,7 @@ class GroupController extends Controller<Group> {
         super('group', _view);
     }
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('group', 'list', {}, docs => {
             res.status(200).json(docs);
@@ -50,13 +50,13 @@ class GroupController extends Controller<Group> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new Group(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view(
             'group',
@@ -69,7 +69,7 @@ class GroupController extends Controller<Group> {
     }
 
     public for_user(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('group', 'for_user', { key: req.params.user_id }, docs => {
             res.status(200).json(docs);
@@ -77,7 +77,7 @@ class GroupController extends Controller<Group> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.find(
             {
@@ -99,7 +99,7 @@ class GroupController extends Controller<Group> {
 
     public action(req: IRequest, res: express.Response) {
         try {
-            const db = new DB(res, req.params.db);
+            const db = new DB(res);
 
             db.findById(
                 req.params.id,

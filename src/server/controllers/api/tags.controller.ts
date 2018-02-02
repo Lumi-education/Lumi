@@ -37,7 +37,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         switch (req.body.type) {
             case 'ADD_TO_DOC':
@@ -76,7 +76,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public index(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('tag', 'index', { key: req.query.tag_id }, docs => {
             res.status(200).json(docs);
@@ -84,13 +84,13 @@ class TagsController extends Controller<Tag> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new Tag(req.body));
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findById(req.params.id, tag => {
             res.status(200).json([tag]);
@@ -98,7 +98,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public readRef(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findById(req.query.doc_id + '-tags', (tag_ref: ITagRef) => {
             res.status(200).json([tag_ref]);
@@ -106,7 +106,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public indexRef(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('tag', 'indexRef', {}, (tag_refs: ITagRef[]) => {
             res.status(200).json(tag_refs);
@@ -114,7 +114,7 @@ class TagsController extends Controller<Tag> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         // db.find(
         //     {

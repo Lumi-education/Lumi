@@ -10,13 +10,13 @@ import Data from '../../models/Data';
 
 export class UserController {
     public createData(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new Data(assign({}, { user_id: req.user._id }, req.body)));
     }
 
     public updateData(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.update_one(req.params.id, req.body, (data: Data) => {
             res.status(200).json(data);

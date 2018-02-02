@@ -37,7 +37,7 @@ class UserController extends Controller<User> {
         super('user', _view);
     }
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('user', 'list', req.query, docs => {
             res.status(200).json(docs);
@@ -45,7 +45,7 @@ class UserController extends Controller<User> {
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view('user', 'with_groups', { key: req.params.id }, docs => {
             res.status(200).json(docs);
@@ -53,13 +53,13 @@ class UserController extends Controller<User> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.insert(new User(assign({}, req.body, { password: undefined })));
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.findById(
             req.params.id,
@@ -84,7 +84,7 @@ class UserController extends Controller<User> {
 
     public actions(req: IRequest, res: express.Response) {
         try {
-            const db = new DB(res, req.params.db);
+            const db = new DB(res);
 
             switch (req.params.action) {
                 case 'ASSIGN_COLLECTION':
@@ -102,7 +102,7 @@ class UserController extends Controller<User> {
 
     public init(req: IRequest, res: express.Response) {
         try {
-            const db = new DB(res, req.params.db);
+            const db = new DB(res);
 
             db.view('user', 'init', { key: req.params.id }, docs =>
                 res.status(200).json(docs)

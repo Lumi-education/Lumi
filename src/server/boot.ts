@@ -32,6 +32,8 @@ if (process.env.NODE_ENV !== 'production') {
     wait_for_couchdb(() => {
         check_db(() => {
             boot();
+            boot_cron();
+            modules();
         });
     });
 } else {

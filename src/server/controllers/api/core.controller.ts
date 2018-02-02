@@ -7,13 +7,13 @@ import * as CollectionActions from '../../modules/collections/actions';
 
 export class CoreController {
     public find(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.find(req.body.selector, {}, docs => res.status(200).json(docs));
     }
 
     public update(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         JSON.parse(req.params.ids).forEach(id => {
             db.update_one(id, req.body);
@@ -23,7 +23,7 @@ export class CoreController {
     }
 
     public action(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         const ids = JSON.parse(req.query.ids);
 

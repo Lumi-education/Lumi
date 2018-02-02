@@ -5,7 +5,7 @@ import event from '../../core/event';
 import { ICollectionData } from 'lib/cards/types';
 
 export function submit_overdue_collections() {
-    const db = new DB(null, process.env.DB);
+    const db = new DB(null);
 
     db.find(
         {
@@ -22,7 +22,7 @@ export function submit_overdue_collections() {
 }
 
 export function submit_collection(id: string) {
-    const db = new DB(null, process.env.DB);
+    const db = new DB(null);
 
     // collection_data.submitted = true;
     // collection_data.submit_date = new Date();
@@ -77,7 +77,7 @@ export function submit_collection(id: string) {
 }
 
 export function delete_assignment(id: string) {
-    const db = new DB(null, process.env.DB);
+    const db = new DB(null);
 
     db.delete(id, () => {
         event.emit('COLLECTIONS/ASSIGNMENT_DELETED', { _id: id });

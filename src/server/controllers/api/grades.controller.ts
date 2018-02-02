@@ -24,7 +24,7 @@ class GradesController extends Controller<IGrade> {
     }
 
     public user(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.view(
             'grade',
@@ -37,7 +37,7 @@ class GradesController extends Controller<IGrade> {
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         const default_grade: IGrade = {
             _id: undefined,
@@ -56,7 +56,7 @@ class GradesController extends Controller<IGrade> {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res, req.params.db);
+        const db = new DB(res);
 
         db.delete(req.params.id);
     }
