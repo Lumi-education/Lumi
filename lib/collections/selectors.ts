@@ -76,6 +76,10 @@ export function data_by_id(state: IState, id: string): ICollectionData {
     return state.collections.data.filter(c => c._id === id)[0];
 }
 
-export function data_query(state: IState, query): ICollectionData[] {
-    return filter(state.collections.data, query);
+export function data_query(state: IState, _query): ICollectionData[] {
+    return filter(state.collections.data, _query);
+}
+
+export function query(state: IState, _query): ICollection[] {
+    return filter(state.collections.list, _query);
 }

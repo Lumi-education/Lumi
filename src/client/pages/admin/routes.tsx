@@ -9,6 +9,8 @@ import {
 } from 'client/pages/admin/collections';
 
 import AssignmentsPage from './analytics/assignments';
+import Monitor from './analytics/monitor';
+
 import {
     Group,
     Groups,
@@ -42,6 +44,7 @@ const routes = (
         />
         <Route path="analytics/progress" component={Progress} />
         <Route path="analytics/assignments" component={AssignmentsPage} />
+        <Route path="analytics/monitor" component={Monitor} />
         <Route path="users" component={Users} />
         <Route path="users/:user_id/:tab" component={User} />
         <Redirect from="users/:user_id" to="users/:user_id/settings" />
