@@ -1,9 +1,7 @@
 import { DB } from '../../db';
 import event from '../../core/event';
 
-import { IGrade } from 'lib/grades';
-
-export function assign_grade(grade: IGrade) {
+export function assign_grade(grade) {
     const db = new DB(null);
 
     db.insert(grade, res => {

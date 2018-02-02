@@ -1,9 +1,8 @@
 import { assign } from 'lodash';
-import { IBaseCard } from 'lib/cards/types';
 
 type Markdown = string;
 
-export default class Card implements IBaseCard {
+export default class Card {
     public _id: string;
     public type: 'card';
     public card_type: string;

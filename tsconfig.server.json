@@ -4,7 +4,6 @@
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "jsx": "react",
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,

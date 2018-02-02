@@ -1,9 +1,8 @@
 import { assign } from 'lodash';
-import { IUser } from 'lib/users/types';
 
 import Group from './Group';
 
-export default class User implements IUser {
+export default class User {
     public _id: string;
     public type: 'user';
     public name: string;

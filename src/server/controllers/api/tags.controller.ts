@@ -2,7 +2,6 @@ import * as express from 'express';
 import { assign, noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { ITag, ITagRef } from 'lib/tags/types';
 import Tag from '../../models/Tag';
 import { DB } from '../../db';
 
@@ -43,9 +42,9 @@ class TagsController extends Controller<Tag> {
             case 'ADD_TO_DOC':
                 db._findById(
                     req.body.payload.doc_id + '-tags',
-                    (err, tag_ref: ITagRef) => {
+                    (err, tag_ref) => {
                         if (err) {
-                            const _tag_ref: ITagRef = {
+                            const _tag_ref = {
                                 _id: req.body.payload.doc_id + '-tags',
                                 doc_id: req.body.payload.doc_id,
                                 tags: [req.params.id],
@@ -60,15 +59,12 @@ class TagsController extends Controller<Tag> {
                 );
                 break;
             case 'REM_FROM_DOC':
-                db.findById(
-                    req.body.payload.doc_id + '-tags',
-                    (tag_ref: ITagRef) => {
-                        tag_ref.tags = tag_ref.tags.filter(
-                            tag_id => tag_id !== req.params.id
-                        );
-                        db.save(tag_ref);
-                    }
-                );
+                db.findById(req.body.payload.doc_id + '-tags', tag_ref => {
+                    tag_ref.tags = tag_ref.tags.filter(
+                        tag_id => tag_id !== req.params.id
+                    );
+                    db.save(tag_ref);
+                });
                 break;
             default:
                 break;
@@ -100,7 +96,7 @@ class TagsController extends Controller<Tag> {
     public readRef(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.findById(req.query.doc_id + '-tags', (tag_ref: ITagRef) => {
+        db.findById(req.query.doc_id + '-tags', tag_ref => {
             res.status(200).json([tag_ref]);
         });
     }
@@ -108,7 +104,7 @@ class TagsController extends Controller<Tag> {
     public indexRef(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('tag', 'indexRef', {}, (tag_refs: ITagRef[]) => {
+        db.view('tag', 'indexRef', {}, tag_refs => {
             res.status(200).json(tag_refs);
         });
     }

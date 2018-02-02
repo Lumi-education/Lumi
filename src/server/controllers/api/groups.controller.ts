@@ -3,11 +3,9 @@ import * as raven from 'raven';
 import { noop } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { IGroupRef } from 'lib/groups/types';
 import Group from '../../models/Group';
 import User from '../../models/User';
 import Collection from '../../models/Collection';
-import { IUser } from 'lib/users';
 
 import { DB } from '../../db';
 
@@ -108,9 +106,9 @@ class GroupController extends Controller<Group> {
                         case 'ADD_USER_TO_GROUP':
                             db._findById(
                                 req.body.payload.user_id + '-groups',
-                                (err, group_ref: IGroupRef) => {
+                                (err, group_ref) => {
                                     if (err) {
-                                        const _group_ref: IGroupRef = {
+                                        const _group_ref = {
                                             _id:
                                                 req.body.payload.user_id +
                                                 '-groups',
@@ -129,7 +127,7 @@ class GroupController extends Controller<Group> {
                         case 'REM_USER_FROM_GROUP':
                             db.findById(
                                 req.body.payload.user_id + '-groups',
-                                (group_ref: IGroupRef) => {
+                                group_ref => {
                                     group_ref.groups = group_ref.groups.filter(
                                         group_id => group_id !== req.params.id
                                     );

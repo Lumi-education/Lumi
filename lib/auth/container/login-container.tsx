@@ -7,7 +7,7 @@ import { state_color } from 'lib/ui/utils';
 
 // types
 import { Dispatch } from 'redux';
-import { IState } from 'client/state';
+import { IState } from '../../../src/client/state';
 
 // components
 import LoginComponent from 'lib/auth/components/login';
