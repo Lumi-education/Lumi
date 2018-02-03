@@ -11,34 +11,10 @@ export function login(
     password: string,
     id: string = shortid()
 ) {
-    return dispatch => {
-        dispatch({ id, type: k.AUTH_LOGIN_REQUEST, payload: { username } });
-
-        return API.login(username, password)
-            .then(res => {
-                switch (res.status) {
-                    case 200:
-                        window.localStorage.jwt_token = res.body.jwt_token;
-                        dispatch({
-                            id,
-                            type: k.AUTH_LOGIN_SUCCESS,
-                            payload: res.body
-                        });
-                        dispatch(get_session());
-                        break;
-
-                    case 404:
-                    default:
-                        dispatch({
-                            id,
-                            type: k.AUTH_LOGIN_ERROR,
-                            payload: res
-                        });
-                }
-            })
-            .catch(err => {
-                dispatch({ id, type: k.AUTH_LOGIN_ERROR, payload: err });
-            });
+    return {
+        types: [k.AUTH_LOGIN_REQUEST, k.AUTH_LOGIN_SUCCESS, k.AUTH_LOGIN_ERROR],
+        api: API.login(username, password),
+        payload: { username }
     };
 }
 

@@ -2,13 +2,12 @@ import * as React from 'react';
 
 import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
-import Auth from 'client/pages/auth';
+import Auth from 'lib/auth/container/auth';
 import * as Core from 'lib/core';
 import Landing from 'client/pages/landing';
 
 import adminRoutes from 'client/pages/admin/routes';
 import userRoutes from 'client/pages/user/routes';
-import installRoutes from 'client/pages/install/routes';
 
 interface IProps {
     history: {};

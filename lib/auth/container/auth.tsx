@@ -51,7 +51,7 @@ export class Auth extends React.Component<IProps, {}> {
         this.props
             .dispatch(set_password(this.props.username, password))
             .then(res => {
-                this.props.dispatch(login(this.props.username, password));
+                this.props.dispatch(get_session());
             });
     }
 
@@ -74,22 +74,7 @@ export class Auth extends React.Component<IProps, {}> {
                 return <div id="auth">{this.props.children}</div>;
             }
 
-            return (
-                <div
-                    style={{
-                        background: 'linear-gradient(230deg, #4b79cf, #4bc5cf)',
-                        width: '100%',
-                        height: '100vh',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <div>
-                        <LoginContainer />
-                    </div>
-                </div>
-            );
+            return <LoginContainer />;
         } catch (err) {
             raven.captureException(err);
             raven.showReportDialog();

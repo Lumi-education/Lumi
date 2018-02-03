@@ -13,6 +13,7 @@ import { IState } from 'client/state';
 
 // modules
 import { ui_actions } from 'lib/ui';
+import { random_bg } from 'lib/ui/utils';
 import * as Grades from 'lib/grades';
 
 interface IStateProps {

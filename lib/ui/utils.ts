@@ -16,6 +16,18 @@ export function state_color(state: string): string {
     }
 }
 
+export function random_bg(): string {
+    const bgs = [
+        'linear-gradient(to bottom right, #973999, #f8598b, #f7bf00)',
+        'linear-gradient(120deg, #8e44ad, #3498db)',
+        'linear-gradient(120deg, #3498db, #1abc9c)',
+        'linear-gradient(230deg, #4b79cf, #4bc5cf)'
+    ];
+    const n = Math.floor(Math.random() * bgs.length);
+
+    return bgs[n];
+}
+
 export function get_grade_color(g: number) {
     const grade = Math.ceil(g / 5) * 5;
     return classnames({
