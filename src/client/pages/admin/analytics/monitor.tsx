@@ -90,6 +90,10 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
         const collection_ids = uniq(
             this.props.users.map(u => u.location.split('/')[3]).filter(id => id)
         );
+
+        if (collection_ids.length === 0) {
+            return <Paper>There are no users in any collections.</Paper>;
+        }
         return (
             <div>
                 {collection_ids.map(id => (

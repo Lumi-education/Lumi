@@ -58,12 +58,14 @@ export class CardEvaluationContainer extends React.Component<
                 })
             )
             .then(res => {
-                this.setState({ loading: false });
+                this.props
+                    .dispatch(
+                        Collections.actions.get_collection(
+                            this.props.collection_id
+                        )
+                    )
+                    .then(r => this.setState({ loading: false }));
             });
-
-        this.props.dispatch(
-            Collections.actions.get_collection(this.props.collection_id)
-        );
     }
 
     public render() {
