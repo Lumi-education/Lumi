@@ -5,11 +5,7 @@ export function convert_attachment_url(
     if (markdown) {
         return markdown.replace(
             /\/attachment\//g,
-            '/api/v0/' +
-                window.location.pathname.split('/')[1] +
-                '/cards/' +
-                card_id +
-                '/attachment/'
+            '/api/v0/cards/' + card_id + '/attachment/'
         );
     }
     return undefined;

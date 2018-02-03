@@ -65,8 +65,9 @@ class CardController extends Controller<Card> {
 
     public attachment(req: express.Request, res: express.Response) {
         req.url =
+            process.env.DB_HOST +
             '/' +
-            req.params.db +
+            process.env.DB +
             '/' +
             req.params.id +
             '/' +
