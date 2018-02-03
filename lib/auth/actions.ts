@@ -96,12 +96,7 @@ export function get_session(id = shortid()) {
 
 export function check_username(username: string) {
     return {
-        types: [
-            k.AUTH_LOGIN_CHECK_USERNAME_REQUEST,
-            k.AUTH_LOGIN_CHECK_USERNAME_SUCCESS,
-            k.AUTH_LOGIN_CHECK_USERNAME_ERROR
-        ],
-        // api: API.check_username(username),
+        type: k.AUTH_LOGIN_CHECK_USERNAME_REQUEST,
         payload: { username }
     };
 }
