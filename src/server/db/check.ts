@@ -20,7 +20,22 @@ export default function(done: () => void) {
                 .put(process.env.DB_HOST + '/' + process.env.DB)
                 .then(res => {
                     debug(process.env.DB + ': created');
-                    done();
+                    superagent
+                        .put(
+                            process.env.DB_HOST +
+                                '/' +
+                                process.env.DB +
+                                '/admin'
+                        )
+                        .send({
+                            _id: 'admin',
+                            name: 'admin',
+                            level: 4,
+                            type: 'user'
+                        })
+                        .then(r => {
+                            done();
+                        });
                 })
                 .catch(error => {
                     debug('ERROR: ', error);
