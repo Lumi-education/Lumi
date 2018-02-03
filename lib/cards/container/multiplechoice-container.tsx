@@ -63,7 +63,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 
     public componentWillMount() {
         this.log('checking for data');
-        if (!this.props.data) {
+        if (!this.props.data._id) {
             this.props
                 .dispatch(
                     Data.actions.get_card_data(
