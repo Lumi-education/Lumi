@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
-
+import * as createRavenMiddleware from 'raven-for-redux';
+import * as raven from 'raven-js';
 import { Map } from 'immutable';
 
 import { browserHistory, Route, Router } from 'react-router';
@@ -25,7 +26,8 @@ const store = createStore<{}>(
             debugMiddleware,
             thunk,
             routerMiddleware(browserHistory),
-            apiMiddleware
+            apiMiddleware,
+            createRavenMiddleware(raven)
         )
     )
 );
