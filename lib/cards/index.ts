@@ -5,7 +5,16 @@ export {
 } from './container/card-evaluation';
 export { default as CardEvaluationRow } from './container/card-evaluation-row';
 export { ICollectionData } from './types';
-export { IState, ICardUI, ICard, ICardData } from './types';
+export {
+    IState,
+    ICardUI,
+    ICard,
+    ICardData,
+    IFreetextCard,
+    IFreetextCardData,
+    IMultiplechoiceCard,
+    IMultiplechoiceCardData
+} from './types';
 import reducer from './reducer';
 import * as actions from './actions';
 import * as selectors from './selectors';

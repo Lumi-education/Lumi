@@ -15,7 +15,6 @@ import {
 } from 'material-ui';
 import ActionBar from 'lib/ui/components/action-bar';
 
-import MultiplechoiceEditComponent from './multiplechoice-edit';
 import MultiplechoiceComponent from '../components/multiplechoice-component';
 import TextComponent from '../components/text-card-component';
 import FreetextComponent from '../components/freetext-component';

@@ -1,7 +1,5 @@
 import { Map } from 'immutable';
-import { IState } from 'client/state';
-
-import { IGroup, IGroupRef } from './types';
+import { IState, IGroup, IGroupRef } from './types';
 
 export function groups_list(state: IState): IGroup[] {
     return state.groups.map.toArray();

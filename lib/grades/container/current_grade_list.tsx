@@ -4,15 +4,12 @@ import * as debug from 'debug';
 
 import * as moment from 'moment';
 
-// types
-import { IState } from '../types';
-
 // components
-
 import { Avatar, Divider, List, ListItem } from 'material-ui';
 
 // modules
 import * as Grades from '../';
+
 import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 
 const log = debug('lumi:lib:grades:container:grade-list');
@@ -69,7 +66,7 @@ export class CurrentGradeListContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Grades.IState, ownProps): IStateProps {
     return {
         grades: Grades.selectors.grades_for_user(state, ownProps.user_id),
         user_id: ownProps.user_id

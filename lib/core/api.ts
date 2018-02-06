@@ -3,10 +3,16 @@ import { assign } from 'lodash';
 
 declare var window;
 
-export function find(query) {
+export function find(query, options?) {
     return request
         .post('/api/v0/core/find')
-        .send({ selector: query })
+        .send({ options, selector: query })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function doc(id: string) {
+    return request
+        .get('/api/v0/core/doc/' + id)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

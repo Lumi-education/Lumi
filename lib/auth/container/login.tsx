@@ -5,15 +5,11 @@ import * as debug from 'debug';
 // utils
 import { state_color, random_bg } from 'lib/ui/utils';
 
+// components
 import { TextField, Paper, RaisedButton } from 'material-ui';
 
-// types
-import { Dispatch } from 'redux';
-import { IState } from '../../../src/client/state';
-
-// actions
-import { push } from 'lib/ui/actions';
-import { login, get_session } from 'lib/auth/actions';
+// modules
+import * as Auth from '../';
 
 declare var window;
 
@@ -57,7 +53,9 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
         });
 
         this.props
-            .dispatch(login(this.state.username, this.state.password))
+            .dispatch(
+                Auth.actions.login(this.state.username, this.state.password)
+            )
             .then(res => {
                 log(res);
                 switch (res.response.status) {
@@ -78,7 +76,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                             login_button_color: state_color('success')
                         });
                         window.localStorage.jwt_token = res.payload.jwt_token;
-                        this.props.dispatch(get_session());
+                        this.props.dispatch(Auth.actions.get_session());
                         break;
                 }
             });
@@ -92,9 +90,10 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                     height: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    background:
+                        'linear-gradient(to bottom right, #973999, #f8598b, #f7bf00)'
                 }}
-                className="colorbg"
             >
                 <div>
                     <Paper
@@ -163,7 +162,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                         style={{
                             margin: 'auto',
                             marginTop: '20px',
-                            maxWidth: '300px',
+                            maxWidth: '400px',
                             borderRadius: '6px'
                         }}
                     >
@@ -191,11 +190,11 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Auth.IState, ownProps: {}): IStateProps {
     return {};
 }
 
-function mapDispatchToProps(dispatch: Dispatch<{}>): IDispatchProps {
+function mapDispatchToProps(dispatch): IDispatchProps {
     return {
         dispatch: action => dispatch(action)
     };

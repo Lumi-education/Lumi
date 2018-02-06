@@ -1,13 +1,11 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 import * as debug from 'debug';
+
+// components
 import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
-
-// local
-import { IState } from '../../../src/client/state';
 
 // modules
 import * as Collections from '../';
@@ -77,7 +75,7 @@ export class CollectionsChipInputContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Collections.IState, ownProps): IStateProps {
     const collection_ids = state.collections.ui.selected_collections || [];
 
     return {

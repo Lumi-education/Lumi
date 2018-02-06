@@ -9,21 +9,8 @@ import { convert_attachment_url } from '../utils';
 // components
 import FreetextComponent from '../components/freetext-component';
 
-// types
-import {
-    IFreetextCard,
-    IFreetextCardData,
-    ICollectionData,
-    IState
-} from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-import { select_data, select_collection } from 'lib/data/selectors';
-
-// actions
-import { create_data, update_data, get_data } from 'lib/data/actions';
-
+// modules
+import * as Cards from '../';
 import * as Data from 'lib/data';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
@@ -35,9 +22,9 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: IFreetextCard;
-    data: IFreetextCardData;
-    collection_data: ICollectionData;
+    card: Cards.IFreetextCard;
+    data: Cards.IFreetextCardData;
+    collection_data: Cards.ICollectionData;
 }
 
 interface IDispatchProps {
@@ -95,7 +82,9 @@ export class FreetextCardContainer extends React.Component<
                         this.log('no data found. creating..');
                         this.props
                             .dispatch(
-                                create_data<IFreetextCardData>({
+                                Data.actions.create_data<
+                                    Cards.IFreetextCardData
+                                >({
                                     _id:
                                         this.props.user_id +
                                         '-' +
@@ -148,7 +137,9 @@ export class FreetextCardContainer extends React.Component<
         this.log('score: ' + score);
         this.props
             .dispatch(
-                update_data(assign({}, this.props.data, { score, answer }))
+                Data.actions.update_data(
+                    assign({}, this.props.data, { score, answer })
+                )
             )
             .then(res => {
                 this.setState({
@@ -191,21 +182,27 @@ export class FreetextCardContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
         user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id) as IFreetextCard,
-        collection_data: select_collection(state, ownProps.collection_id),
-        data: select_data(
+        card: Cards.selectors.select_card(
+            state,
+            ownProps.card_id
+        ) as Cards.IFreetextCard,
+        collection_data: Data.selectors.select_collection(
+            state,
+            ownProps.collection_id
+        ),
+        data: Data.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,
             ownProps.card_id
-        ) as IFreetextCardData
+        ) as Cards.IFreetextCardData
     };
 }
 

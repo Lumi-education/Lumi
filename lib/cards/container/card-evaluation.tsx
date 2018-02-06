@@ -3,16 +3,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { assign } from 'lodash';
 import { push } from 'lib/ui/actions';
-import * as moment from 'moment-timezone';
+
+// components
 import { Checkbox } from 'material-ui';
-// local
-import { IState } from '../types';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-// types
-import * as Users from 'lib/users';
+
+// modules
 import * as Data from 'lib/data';
-import * as Collections from 'lib/collections';
 import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
 
@@ -76,7 +74,7 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         user_id: ownProps.user_id,
         collection_id: ownProps.collection_id,

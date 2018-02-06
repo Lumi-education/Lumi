@@ -4,11 +4,7 @@ import * as debug from 'debug';
 
 import * as moment from 'moment';
 
-// types
-import { IState } from '../types';
-
 // components
-
 import { Avatar } from 'material-ui';
 
 // modules
@@ -73,7 +69,7 @@ export class GradeRefContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Grades.IState, ownProps): IStateProps {
     return {
         user_id: ownProps.user_id,
         grade: Grades.selectors.by_ref(

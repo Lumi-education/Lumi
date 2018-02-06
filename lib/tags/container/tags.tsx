@@ -43,7 +43,7 @@ export class TagsContainer extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        // this.props.dispatch(get_tags(this.props.doc_id));
+        this.props.dispatch(get_tags(this.props.doc_id));
     }
 
     public render() {

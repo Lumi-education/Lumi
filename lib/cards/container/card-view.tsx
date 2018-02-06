@@ -11,14 +11,7 @@ import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import TextCardContainer from './text-card-container';
 
-// types
-import { ICard, IState } from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-
-// actions
-import { get_card } from 'lib/cards/actions';
+import * as Cards from '../';
 
 interface IPassedProps {
     card_id: string;
@@ -26,7 +19,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: ICard;
+    card: Cards.ICard;
 }
 
 interface IDispatchProps {
@@ -42,7 +35,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         if (!this.props.card._id) {
-            this.props.dispatch(get_card(this.props.card_id));
+            this.props.dispatch(Cards.actions.get_card(this.props.card_id));
         }
     }
 
@@ -98,11 +91,11 @@ export class CardViewContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id)
+        card: Cards.selectors.select_card(state, ownProps.card_id)
     };
 }
 

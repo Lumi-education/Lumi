@@ -4,11 +4,9 @@ import * as debug from 'debug';
 
 import * as moment from 'moment';
 
-// types
-import { IState } from '../types';
+import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 
 // components
-
 import {
     Dialog,
     TextField,
@@ -23,7 +21,6 @@ import SVGGrade from 'material-ui/svg-icons/action/grade';
 
 // modules
 import * as Grades from '../';
-import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 import * as Core from 'lib/core';
 
 const log = debug('lumi:lib:grades:container:creategradedialog');
@@ -169,7 +166,7 @@ export class CreateGradeDialogContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Grades.IState, ownProps): IStateProps {
     return {
         user_id: state.grades.ui.user_id,
         ref_id: ownProps.ref_id || state.grades.ui.ref_id,

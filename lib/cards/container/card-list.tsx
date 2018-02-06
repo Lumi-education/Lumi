@@ -4,15 +4,10 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
-// types
-import { ICard, IState } from '../types';
-
 // components
-
 import CardListComponent from '../components/card-list';
 
 // modules
-
 import * as Cards from 'lib/cards';
 
 const log = debug('lumi:lib:cards:container:card-list');
@@ -23,7 +18,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    cards: ICard[];
+    cards: Cards.ICard[];
     selected_cards: string[];
 }
 
@@ -60,7 +55,7 @@ export class CardListContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         cards:
             ownProps.card_ids[0] !== 'all'

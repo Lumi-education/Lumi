@@ -1,14 +1,11 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
+// components
 import { Avatar, Divider, List, ListItem } from 'material-ui';
 
-// local
-import { IState } from '../../../src/client/state';
-
-// types
+// modules
 import * as Collections from '../';
 
 interface IPassedProps {
@@ -80,7 +77,7 @@ export class CollectionListContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Collections.IState, ownProps): IStateProps {
     return {
         collections: Collections.selectors.select_collections_by_ids(
             state,

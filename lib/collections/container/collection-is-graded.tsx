@@ -5,15 +5,15 @@ import { assign } from 'lodash';
 import { push } from 'lib/ui/actions';
 import * as moment from 'moment-timezone';
 import { Checkbox } from 'material-ui';
-// local
-import { IState } from '../types';
+
+// components
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-// types
-import * as Users from 'lib/users';
-import * as Data from 'lib/data';
+
+// modules
 import * as Collections from 'lib/collections';
 import * as Cards from 'lib/cards';
+import * as Data from 'lib/data';
 
 interface IPassedProps {
     data_id: string;
@@ -60,7 +60,7 @@ export class CollectionIsGradedContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Collections.IState, ownProps): IStateProps {
     return {
         data_id: ownProps.data_id,
         collection_data: Collections.selectors.data_by_id(

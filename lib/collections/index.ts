@@ -20,10 +20,12 @@ export {
 export {
     default as CollectionAssignmentContainer
 } from './container/collection-assignments';
-
 export {
     default as CollectionListContainer
 } from './container/collection-list';
+export {
+    default as CollectionSettingsComponent
+} from './components/collection-settings';
 import CollectionAssignDialogContainer from './container/collection-assign-dialog';
 import CollectionsChipInputContainer from './container/collection-chip-input';
 import CollectionNameContainer from './container/collection-name';

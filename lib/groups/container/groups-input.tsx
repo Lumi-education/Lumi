@@ -6,13 +6,7 @@ import { Map } from 'immutable';
 import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
-// local
-import { IState } from 'client/state';
-
-// types
-import { IGroup } from '../types';
-
-import { select_groups_for_user } from '../selectors';
+import * as Groups from '../';
 
 // actions
 import {
@@ -27,8 +21,8 @@ interface IPassedProps {
     user_id: string;
 }
 interface IStateProps extends IPassedProps {
-    groups: Map<string, IGroup>;
-    user_groups: IGroup[];
+    groups: Map<string, Groups.IGroup>;
+    user_groups: Groups.IGroup[];
 }
 
 interface IDispatchProps {
@@ -84,10 +78,13 @@ export class GroupsInputContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Groups.IState, ownProps): IStateProps {
     return {
         user_id: ownProps.user_id,
-        user_groups: select_groups_for_user(state, ownProps.user_id),
+        user_groups: Groups.selectors.select_groups_for_user(
+            state,
+            ownProps.user_id
+        ),
         groups: state.groups.map
     };
 }

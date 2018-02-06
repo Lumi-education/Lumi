@@ -6,6 +6,7 @@ import WebsocketContainer from './container/websocket';
 import reducer from './reducer';
 import AttachmentComponent from './components/attachment';
 import AttachmentListContainer from './container/attachment-list';
+import FetchContainer from './container/fetch';
 
 const components = {
     attachment: AttachmentComponent
@@ -13,7 +14,8 @@ const components = {
 
 const container = {
     websocket: WebsocketContainer,
-    attachmentList: AttachmentListContainer
+    attachmentList: AttachmentListContainer,
+    Fetch: FetchContainer
 };
 
 export { actions, constants, types, container, components, reducer };

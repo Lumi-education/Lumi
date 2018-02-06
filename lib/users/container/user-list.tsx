@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import * as moment from 'moment-timezone';
 
+// components
 import {
     Avatar,
     Divider,
@@ -17,12 +18,10 @@ import SVGGrade from 'material-ui/svg-icons/action/grade';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
 
-// local
-import { IState } from '../types';
-
 // modules
-import * as Users from 'lib/users';
+import * as Users from '../';
 import * as Grades from 'lib/grades';
+
 interface IPassedProps {
     filter: (user: Users.IUser) => boolean;
 }
@@ -115,7 +114,7 @@ export class UserListContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.IState, ownProps): IStateProps {
     return {
         users: state.users.list,
         filter: ownProps.filter,
