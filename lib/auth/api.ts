@@ -25,12 +25,6 @@ export function get_session() {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function check_username(username: string) {
-    return request
-        .get('/api/v0/auth/username/' + username)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
 export function set_password(username: string, password: string) {
     return request
         .post('/api/v0/auth/password/')

@@ -1,8 +1,13 @@
 export { IState } from './types';
-export { default as LoginContainer } from './container/login';
-export {
-    default as PasswordDialogComponent
-} from './components/password-dialog';
+import LoginContainer from './container/login';
+import PasswordContainer from './container/password';
+
 export { default as auth_reducer } from './reducer';
 import * as actions from './actions';
-export { actions };
+
+const container = {
+    Login: LoginContainer,
+    Password: PasswordContainer
+};
+
+export { actions, container };

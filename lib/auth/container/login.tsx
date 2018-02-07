@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
+import * as raven from 'raven-js';
 
 // utils
 import { state_color, random_bg } from 'lib/ui/utils';
@@ -83,110 +84,114 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        return (
-            <div
-                style={{
-                    width: '100%',
-                    height: '100vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    background:
-                        'linear-gradient(to bottom right, #973999, #f8598b, #f7bf00)'
-                }}
-            >
-                <div>
-                    <Paper
-                        style={{
-                            margin: 'auto',
-                            padding: '2px 5px 2px 5px',
-                            maxWidth: '400px',
-                            borderRadius: '6px'
-                        }}
-                        zDepth={2}
-                    >
-                        <TextField
-                            fullWidth={true}
-                            underlineFocusStyle={{ borderColor: 'black' }}
-                            inputStyle={{ fontWeight: 600 }}
-                            hintText="Username"
-                            type="text"
-                            style={{ borderBottom: '1px solid #E4E8EB' }}
-                            underlineShow={this.state.username_error !== ''}
-                            errorText={this.state.username_error}
-                            value={this.state.username}
-                            onChange={(event, value) =>
-                                this.setState({
-                                    username: value
-                                        .replace(/\W+/g, '')
-                                        .toLowerCase(),
-                                    login_button_color: 'white',
-                                    username_error: ''
-                                })
-                            }
-                            onKeyDown={e => {
-                                if (e.keyCode === 13) {
-                                    this.password.focus();
-                                }
+        try {
+            return (
+                <div
+                    style={{
+                        width: '100%',
+                        height: '100vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
+                    }}
+                    className="bg"
+                >
+                    <div>
+                        <Paper
+                            style={{
+                                margin: 'auto',
+                                padding: '2px 5px 2px 5px',
+                                maxWidth: '400px',
+                                borderRadius: '6px'
                             }}
-                        />
-
-                        <TextField
-                            fullWidth={true}
-                            underlineFocusStyle={{ borderColor: 'black' }}
-                            inputStyle={{ fontWeight: 600 }}
-                            hintText="Passwort"
-                            underlineShow={this.state.password_error !== ''}
-                            errorText={this.state.password_error}
-                            ref={input => {
-                                this.password = input;
-                            }}
-                            type="password"
-                            value={this.state.password}
-                            onChange={(event, value) => {
-                                log(event);
-                                this.setState({
-                                    password: value,
-                                    login_button_color: 'white',
-                                    password_error: ''
-                                });
-                            }}
-                            onKeyDown={e => {
-                                if (e.keyCode === 13) {
-                                    this.login();
-                                }
-                            }}
-                        />
-                    </Paper>
-                    <div
-                        style={{
-                            margin: 'auto',
-                            marginTop: '20px',
-                            maxWidth: '400px',
-                            borderRadius: '6px'
-                        }}
-                    >
-                        <Paper zDepth={2}>
-                            <RaisedButton
+                            zDepth={2}
+                        >
+                            <TextField
                                 fullWidth={true}
-                                label={'Login'}
-                                disabled={
-                                    this.state.login_button_color !== 'white'
+                                underlineFocusStyle={{ borderColor: 'black' }}
+                                inputStyle={{ fontWeight: 600 }}
+                                hintText="Username"
+                                type="text"
+                                style={{ borderBottom: '1px solid #E4E8EB' }}
+                                underlineShow={this.state.username_error !== ''}
+                                errorText={this.state.username_error}
+                                value={this.state.username}
+                                onChange={(event, value) =>
+                                    this.setState({
+                                        username: value
+                                            .replace(/\W+/g, '')
+                                            .toLowerCase(),
+                                        login_button_color: 'white',
+                                        username_error: ''
+                                    })
                                 }
-                                style={{
-                                    borderRadius: '6px'
+                                onKeyDown={e => {
+                                    if (e.keyCode === 13) {
+                                        this.password.focus();
+                                    }
                                 }}
-                                buttonStyle={{
-                                    backgroundColor: this.state
-                                        .login_button_color
+                            />
+
+                            <TextField
+                                fullWidth={true}
+                                underlineFocusStyle={{ borderColor: 'black' }}
+                                inputStyle={{ fontWeight: 600 }}
+                                hintText="Passwort"
+                                underlineShow={this.state.password_error !== ''}
+                                errorText={this.state.password_error}
+                                ref={input => {
+                                    this.password = input;
                                 }}
-                                onClick={this.login}
+                                type="password"
+                                value={this.state.password}
+                                onChange={(event, value) => {
+                                    log(event);
+                                    this.setState({
+                                        password: value,
+                                        login_button_color: 'white',
+                                        password_error: ''
+                                    });
+                                }}
+                                onKeyDown={e => {
+                                    if (e.keyCode === 13) {
+                                        this.login();
+                                    }
+                                }}
                             />
                         </Paper>
+                        <div
+                            style={{
+                                margin: 'auto',
+                                marginTop: '20px',
+                                maxWidth: '400px',
+                                borderRadius: '6px'
+                            }}
+                        >
+                            <Paper zDepth={2}>
+                                <RaisedButton
+                                    fullWidth={true}
+                                    label={'Login'}
+                                    disabled={
+                                        this.state.login_button_color !==
+                                        'white'
+                                    }
+                                    style={{
+                                        borderRadius: '6px'
+                                    }}
+                                    buttonStyle={{
+                                        backgroundColor: this.state
+                                            .login_button_color
+                                    }}
+                                    onClick={this.login}
+                                />
+                            </Paper>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } catch (err) {
+            raven.captureException(err);
+        }
     }
 }
 
