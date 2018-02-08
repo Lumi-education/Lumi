@@ -7,12 +7,10 @@ import { assign, noop } from 'lodash';
 import { convert_attachment_url } from '../utils';
 
 // components
-import MultiplechoiceComponent from 'lib/cards/components/multiplechoice-component';
+import MultiplechoiceComponent from 'lib/cards/components/multiplechoice';
 
 // modules
-import * as Data from 'lib/data';
 import * as Cards from '../';
-import * as Collections from 'lib/collections';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
@@ -25,7 +23,6 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: Cards.IMultiplechoiceCard;
     data: Cards.IMultiplechoiceCardData;
-    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {
@@ -54,7 +51,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         if (!this.props.data._id) {
             this.props
                 .dispatch(
-                    Data.actions.get_card_data(
+                    Cards.actions.get_card_data(
                         this.props.user_id,
                         this.props.collection_id,
                         this.props.card_id
@@ -65,7 +62,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                         this.log('no data found. creating..');
                         this.props
                             .dispatch(
-                                Data.actions.create_data<
+                                Cards.actions.create_data<
                                     Cards.IMultiplechoiceCardData
                                 >({
                                     _id:
@@ -109,18 +106,16 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     text={card.text}
                     items={card.items}
                     selected_items={data.items || []}
-                    show_correct_values={this.props.collection_data.submitted}
+                    show_correct_values={false}
                     cb={(items, score) => {
-                        this.props.collection_data.submitted
-                            ? noop()
-                            : this.props.dispatch(
-                                  Data.actions.update_data(
-                                      assign({}, this.props.data, {
-                                          items,
-                                          score
-                                      })
-                                  )
-                              );
+                        this.props.dispatch(
+                            Cards.actions.update_data(
+                                assign({}, this.props.data, {
+                                    items,
+                                    score
+                                })
+                            )
+                        );
                     }}
                 />
             );
@@ -141,11 +136,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
             state,
             ownProps.card_id
         ) as Cards.IMultiplechoiceCard,
-        collection_data: Data.selectors.select_collection(
-            state,
-            ownProps.collection_id
-        ),
-        data: Data.selectors.select_data(
+        data: Cards.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,

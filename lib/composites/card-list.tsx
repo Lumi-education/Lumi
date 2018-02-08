@@ -7,7 +7,7 @@ import { Avatar, Divider, List, ListItem, IconButton } from 'material-ui';
 import TagsContainer from 'lib/tags/container/tags';
 
 // types
-import { ICard } from '../types';
+import { ICard } from 'lib/cards';
 
 interface IStateProps {
     cards: ICard[];

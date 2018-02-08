@@ -5,7 +5,7 @@ import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
 // components
-import CardListComponent from '../components/card-list';
+import CardListComponent from 'lib/composites/card-list';
 
 // modules
 import * as Cards from 'lib/cards';

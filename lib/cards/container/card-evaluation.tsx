@@ -10,7 +10,6 @@ import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 // modules
-import * as Data from 'lib/data';
 import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
 
@@ -79,7 +78,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
         user_id: ownProps.user_id,
         collection_id: ownProps.collection_id,
         card_id: ownProps.card_id,
-        card_data: Data.selectors.select_data(
+        card_data: Cards.selectors.select_data(
             state,
             ownProps.user_id,
             ownProps.collection_id,

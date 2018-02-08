@@ -112,8 +112,6 @@ export interface IState {
     cards: {
         map: Map<string, ICard>;
         ui: ICardUI;
-    };
-    data: {
-        map: Map<string, IData>;
+        data: Map<string, IData>;
     };
 }

@@ -15,14 +15,11 @@ import {
 } from 'material-ui';
 import ActionBar from 'lib/ui/components/action-bar';
 
-import MultiplechoiceComponent from '../components/multiplechoice-component';
-import TextComponent from '../components/text-card-component';
-import FreetextComponent from '../components/freetext-component';
-import VideoComponent from '../components/video-card';
-import UploadComponent from '../components/upload-card';
-
-// state
-import { ICard, IState } from '../types';
+import MultiplechoiceComponent from '../components/multiplechoice';
+import TextComponent from '../components/text';
+import FreetextComponent from '../components/freetext';
+import VideoComponent from '../components/video';
+import UploadComponent from '../components/upload';
 
 // modules
 import * as Cards from 'lib/cards';
@@ -35,7 +32,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: ICard;
+    card: Cards.ICard;
 }
 
 interface IDispatchProps {
@@ -279,7 +276,7 @@ export class CardEditContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         card: Cards.selectors.select_card(state, ownProps.card_id),
         card_id: ownProps.card_id

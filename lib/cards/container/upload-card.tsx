@@ -5,17 +5,10 @@ import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
 // components
-import UploadCardComponent from '../components/upload-card';
+import UploadCardComponent from '../components/upload';
 
-// types
-import { IUploadCard, IUploadCardData, IState } from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-import { select_data, select_collection } from 'lib/data/selectors';
-
-// actions
-import { create_data, update_data, get_data } from 'lib/data/actions';
+// modules
+import * as Cards from '../';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -26,8 +19,8 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: IUploadCard;
-    data: IUploadCardData;
+    card: Cards.IUploadCard;
+    data: Cards.IUploadCardData;
     // collection_data;
 }
 
@@ -66,17 +59,18 @@ export class UploadCardContainer extends React.Component<
         this.log('checking for data');
         this.props
             .dispatch(
-                get_data({
-                    collection_id: this.props.collection_id,
-                    card_id: this.props.card._id
-                })
+                Cards.actions.get_card_data(
+                    this.props.user_id,
+                    this.props.collection_id,
+                    this.props.card_id
+                )
             )
             .then(res => {
-                if (res.payload.length === 0) {
+                if (res.response.status === 404) {
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(
-                            create_data<IUploadCardData>({
+                            Cards.actions.create_data<Cards.IUploadCardData>({
                                 _id: undefined,
                                 type: 'data',
                                 user_id: undefined,
@@ -123,20 +117,23 @@ export class UploadCardContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
         user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id) as IUploadCard,
-        data: select_data(
+        card: Cards.selectors.select_card(
+            state,
+            ownProps.card_id
+        ) as Cards.IUploadCard,
+        data: Cards.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,
             ownProps.card_id
-        ) as IUploadCardData
+        ) as Cards.IUploadCardData
     };
 }
 

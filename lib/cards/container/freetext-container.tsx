@@ -7,12 +7,10 @@ import { assign, noop } from 'lodash';
 import { convert_attachment_url } from '../utils';
 
 // components
-import FreetextComponent from '../components/freetext-component';
+import FreetextComponent from '../components/freetext';
 
 // modules
 import * as Cards from '../';
-import * as Data from 'lib/data';
-import * as Collections from 'lib/collections';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -25,7 +23,6 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: Cards.IFreetextCard;
     data: Cards.IFreetextCardData;
-    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {
@@ -72,7 +69,7 @@ export class FreetextCardContainer extends React.Component<
         if (!this.props.data._id) {
             this.props
                 .dispatch(
-                    Data.actions.get_card_data(
+                    Cards.actions.get_card_data(
                         this.props.user_id,
                         this.props.collection_id,
                         this.props.card_id
@@ -83,7 +80,7 @@ export class FreetextCardContainer extends React.Component<
                         this.log('no data found. creating..');
                         this.props
                             .dispatch(
-                                Data.actions.create_data<
+                                Cards.actions.create_data<
                                     Cards.IFreetextCardData
                                 >({
                                     _id:
@@ -114,12 +111,6 @@ export class FreetextCardContainer extends React.Component<
                         this.setState({ loading: false });
                     }
                 });
-
-            if (this.props.collection_data.submitted) {
-                this.setState({
-                    error_text: 'Richtige Antwort: ' + this.props.card.answer
-                });
-            }
         }
     }
 
@@ -138,7 +129,7 @@ export class FreetextCardContainer extends React.Component<
         this.log('score: ' + score);
         this.props
             .dispatch(
-                Data.actions.update_data(
+                Cards.actions.update_data(
                     assign({}, this.props.data, { score, answer })
                 )
             )
@@ -167,11 +158,7 @@ export class FreetextCardContainer extends React.Component<
                 <FreetextComponent
                     text={text}
                     answer={data.answer}
-                    cb={
-                        this.props.collection_data.submitted
-                            ? noop
-                            : this.handleInput
-                    }
+                    cb={this.handleInput}
                     preview={card.preview}
                     error_text={this.state.error_text}
                     error_style={this.state.error_style}
@@ -194,11 +181,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
             state,
             ownProps.card_id
         ) as Cards.IFreetextCard,
-        collection_data: Data.selectors.select_collection(
-            state,
-            ownProps.collection_id
-        ),
-        data: Data.selectors.select_data(
+        data: Cards.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,

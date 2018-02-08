@@ -123,26 +123,22 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
                                         user => user.location.indexOf(id) > -1
                                     )
                                     .map(u => (
-                                        <Cards.CardEvaluationRow
-                                            collection_id={id}
-                                            user_id={u._id}
-                                        />
-                                        // <TableRow>
-                                        //     <TableRowColumn>
-                                        //         {u.name}
-                                        //     </TableRowColumn>
-                                        //     {this.props.collections
-                                        //         .filter(c => c._id === id)[0]
-                                        //         .cards.map((card_id, i) => (
-                                        //             <TableRowColumn>
-                                        //                 <Cards.CardEvaluationContainer
-                                        //                     user_id={u._id}
-                                        //                     collection_id={id}
-                                        //                     card_id={card_id}
-                                        //                 />
-                                        //             </TableRowColumn>
-                                        //         ))}
-                                        // </TableRow>
+                                        <TableRow>
+                                            <TableRowColumn>
+                                                {u.name}
+                                            </TableRowColumn>
+                                            {this.props.collections
+                                                .filter(c => c._id === id)[0]
+                                                .cards.map((card_id, i) => (
+                                                    <TableRowColumn>
+                                                        <Cards.CardEvaluationContainer
+                                                            user_id={u._id}
+                                                            collection_id={id}
+                                                            card_id={card_id}
+                                                        />
+                                                    </TableRowColumn>
+                                                ))}
+                                        </TableRow>
                                     ))}
                             </TableBody>
                         </Table>

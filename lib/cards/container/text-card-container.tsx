@@ -7,21 +7,10 @@ import { assign, noop } from 'lodash';
 import { convert_attachment_url } from '../utils';
 
 // components
-import TextCardComponent from '../components/text-card-component';
-
-// types
-import { ITextCard, ITextCardData, IState } from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-import { select_data, select_collection } from 'lib/data/selectors';
-
-// actions
-import { create_data, update_data, get_data } from 'lib/data/actions';
-import { get_card, update_card } from 'lib/cards/actions';
+import TextCardComponent from '../components/text';
 
 // modules
-import * as Data from 'lib/data';
+import * as Cards from '../';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
@@ -32,8 +21,8 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: ITextCard;
-    data: ITextCardData;
+    card: Cards.ITextCard;
+    data: Cards.ITextCardData;
 }
 
 interface IDispatchProps {
@@ -58,7 +47,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
         this.log('checking for data');
         this.props
             .dispatch(
-                Data.actions.get_card_data(
+                Cards.actions.get_card_data(
                     this.props.user_id,
                     this.props.collection_id,
                     this.props.card_id
@@ -69,7 +58,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(
-                            create_data<ITextCardData>({
+                            Cards.actions.create_data<Cards.ITextCardData>({
                                 _id:
                                     this.props.user_id +
                                     '-' +
@@ -112,20 +101,23 @@ export class TextCardContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
         user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id) as ITextCard,
-        data: select_data(
+        card: Cards.selectors.select_card(
+            state,
+            ownProps.card_id
+        ) as Cards.ITextCard,
+        data: Cards.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,
             ownProps.card_id
-        ) as ITextCardData
+        ) as Cards.ITextCardData
     };
 }
 

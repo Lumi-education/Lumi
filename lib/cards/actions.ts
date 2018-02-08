@@ -4,6 +4,10 @@ import { ICard } from './types';
 
 import * as k from './constants';
 
+export const DATA_GET_CARD_DATA_REQUEST = 'DATA_GET_CARD_DATA_REQUEST';
+export const DATA_GET_CARD_DATA_SUCCESS = 'DATA_GET_CARD_DATA_SUCCESS';
+export const DATA_GET_CARD_DATA_ERROR = 'DATA_GET_CARD_DATA_ERROR';
+
 export function get_cards(ids?: string[]) {
     return {
         types: [
@@ -75,5 +79,52 @@ export function select_card(card_id: string) {
 export function reset_card_selection() {
     return {
         type: k.CARD_SELECTION_RESET
+    };
+}
+
+export function create_data<T>(data: T) {
+    return {
+        types: [
+            k.DATA_CREATE_REQUEST,
+            k.DATA_CREATE_SUCCESS,
+            k.DATA_CREATE_ERROR
+        ],
+        api: API.create_data(data),
+        payload: { data }
+    };
+}
+
+export function get_user_collection_data(collection_id: string) {
+    return {
+        types: [k.DATA_GET_REQUEST, k.DATA_GET_SUCCESS, k.DATA_GET_ERROR],
+        api: API.get_user_collection_data(collection_id),
+        payload: { collection_id }
+    };
+}
+export function get_card_data(
+    user_id: string,
+    collection_id: string,
+    card_id: string
+) {
+    return {
+        types: [
+            DATA_GET_CARD_DATA_REQUEST,
+            DATA_GET_CARD_DATA_SUCCESS,
+            DATA_GET_CARD_DATA_ERROR
+        ],
+        api: API.get_card_data(user_id, collection_id, card_id),
+        payload: { user_id, collection_id, card_id }
+    };
+}
+
+export function update_data(data) {
+    return {
+        types: [
+            k.DATA_UPDATE_REQUEST,
+            k.DATA_UPDATE_SUCCESS,
+            k.DATA_UPDATE_ERROR
+        ],
+        api: API.update_data(data),
+        payload: { data }
     };
 }
