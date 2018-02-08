@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import FilterBar from 'lib/ui/components/filter-bar';
 import ActionBar from 'lib/ui/components/action-bar';
 
+import UserList from 'client/composites/user-list';
 // state
 import { IState } from 'client/state';
 
@@ -45,7 +46,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <User.UserListContainer
+                <UserList
                     filter={user => {
                         return this.state.search_text === ''
                             ? true

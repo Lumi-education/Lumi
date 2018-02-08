@@ -19,7 +19,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
 
 // modules
-import * as Users from '../';
+import * as Users from 'lib/users';
 import * as Grades from 'lib/grades';
 
 interface IPassedProps {

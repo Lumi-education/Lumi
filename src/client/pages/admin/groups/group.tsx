@@ -9,8 +9,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-// selectors
-// import { select_users_for_group } from 'lib/groups/selectors';
+import UserTable from 'client/composites/user-table';
 
 // types
 import { ActionBar } from 'lib/ui';
@@ -19,6 +18,8 @@ import { ICollection } from 'lib/collections/types';
 import * as Users from 'lib/users';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
+
+import CollectionAssignDialog from '../../../composites/collection-assign-dialog';
 
 import * as Collections from 'lib/collections';
 import * as Groups from 'lib/groups';
@@ -116,7 +117,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         case 'users':
                             return (
                                 <div>
-                                    <Users.container.Table
+                                    <UserTable
                                         filter={(user: Users.IUser) =>
                                             this.props.group_users.indexOf(
                                                 user._id
@@ -125,7 +126,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                     />
 
                                     <ActionBar>
-                                        <Collections.container.AssignDialog />
+                                        <CollectionAssignDialog />
                                         <Create_or_add_user_dialog
                                             group_id={this.props.group_id}
                                         />

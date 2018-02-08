@@ -16,19 +16,15 @@ import {
 import SVGGrade from 'material-ui/svg-icons/action/grade';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
+import LoadingPage from 'lib/ui/components/loading-page';
 
 // local
-import { IState } from '../types';
-
-// types
-import * as Users from 'lib/users';
-// actions
-import { create_user, get_users, delete_user } from 'lib/users/actions';
+import { IState } from 'client/state';
 
 // modules
 import * as Grades from 'lib/grades';
 import * as Core from 'lib/core';
-import LoadingPage from 'lib/ui/components/loading-page';
+import * as Users from 'lib/users';
 
 const log = debug('lumi:lib:users:container:user-table');
 
@@ -63,7 +59,7 @@ export class UserTableContainer extends React.Component<
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_users()).then(({ payload }) => {
+        this.props.dispatch(Users.actions.get_users()).then(({ payload }) => {
             this.props
                 .dispatch(
                     Core.actions.find(

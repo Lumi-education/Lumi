@@ -10,6 +10,8 @@ import SVGEdit from 'material-ui/svg-icons/content/create';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
+import CollectionAssignments from 'client/composites/collection-assignments';
+
 // state
 import { IState } from 'client/state';
 
@@ -176,7 +178,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                             );
                         case 'assignments':
                             return (
-                                <Collections.CollectionAssignmentContainer
+                                <CollectionAssignments
                                     user_id={this.props.user_id}
                                 />
                             );

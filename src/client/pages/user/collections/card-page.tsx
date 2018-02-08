@@ -89,25 +89,6 @@ export class UserCollectionCard extends React.Component<
                         this.setState({ show_collection_overview_dialog: true })
                     }
                 />
-                <Dialog
-                    autoScrollBodyContent={true}
-                    open={this.state.show_collection_overview_dialog}
-                    contentStyle={{ width: '100%' }}
-                    onRequestClose={() =>
-                        this.setState({
-                            show_collection_overview_dialog: false
-                        })
-                    }
-                >
-                    <Collections.CollectionOverviewContainer
-                        collection_id={this.props.collection_id}
-                        onListClick={(id: string) =>
-                            this.setState({
-                                show_collection_overview_dialog: false
-                            })
-                        }
-                    />
-                </Dialog>
             </div>
         );
     }
