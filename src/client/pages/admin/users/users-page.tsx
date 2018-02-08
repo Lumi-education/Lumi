@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { Paper } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 import ActionBar from 'lib/ui/components/action-bar';
 
@@ -46,17 +47,19 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <UserList
-                    filter={user => {
-                        return this.state.search_text === ''
-                            ? true
-                            : user.name
-                                  .toLocaleLowerCase()
-                                  .indexOf(
-                                      this.state.search_text.toLocaleLowerCase()
-                                  ) > -1;
-                    }}
-                />
+                <Paper>
+                    <UserList
+                        filter={user => {
+                            return this.state.search_text === ''
+                                ? true
+                                : user.name
+                                      .toLocaleLowerCase()
+                                      .indexOf(
+                                          this.state.search_text.toLocaleLowerCase()
+                                      ) > -1;
+                        }}
+                    />
+                </Paper>
                 <ActionBar>
                     <User.CreateUserContainer />
                 </ActionBar>

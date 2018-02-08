@@ -35,7 +35,6 @@ export class AdminAppBar extends React.Component<IProps, {}> {
         return (
             <AppBar
                 style={{
-                    position: 'fixed',
                     background: 'linear-gradient(120deg, #8e44ad, #3498db)'
                 }}
                 showMenuIconButton={true}

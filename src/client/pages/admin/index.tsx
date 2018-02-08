@@ -43,7 +43,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <AppBar />
                 <LeftDrawer />
                 <RightDrawer />
-                <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
+                <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
 

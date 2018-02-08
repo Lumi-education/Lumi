@@ -50,9 +50,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
             <div>
                 <Tabs
                     style={{
-                        position: 'fixed',
                         backgroundColor: '#FFFFFF',
-                        top: '64px',
                         zIndex: 1099,
                         width: '100%'
                     }}
