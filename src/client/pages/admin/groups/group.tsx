@@ -67,9 +67,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
             <div>
                 <Tabs
                     style={{
-                        position: 'fixed',
                         backgroundColor: '#FFFFFF',
-                        top: '64px',
                         zIndex: 1099,
                         width: '100%'
                     }}

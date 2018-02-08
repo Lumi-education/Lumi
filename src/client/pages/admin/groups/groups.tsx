@@ -24,11 +24,7 @@ import { IState } from 'client/state';
 import { IGroup } from 'lib/groups';
 
 // actions
-import {
-    get_groups,
-    delete_group,
-    create_group
-} from 'lib/groups/actions';
+import { get_groups, delete_group, create_group } from 'lib/groups/actions';
 
 interface IStateProps {
     groups: IGroup[];
@@ -68,36 +64,40 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
-                <List>
-                    {this.props.groups
-                        .filter(user => {
-                            return this.state.search_text === ''
-                                ? true
-                                : user.name
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })
-                        .map(group => (
-                            <div key={group._id}>
-                                <ListItem
-                                    leftAvatar={
-                                        <Avatar>
-                                            {group.name.substring(0, 3)}
-                                        </Avatar>
-                                    }
-                                    primaryText={group.name}
-                                    onClick={() =>
-                                        this.props.dispatch(
-                                            push('/admin/groups/' + group._id)
-                                        )
-                                    }
-                                />
-                                <Divider inset={true} />
-                            </div>
-                        ))}
-                </List>
+                <Paper>
+                    <List>
+                        {this.props.groups
+                            .filter(user => {
+                                return this.state.search_text === ''
+                                    ? true
+                                    : user.name
+                                          .toLocaleLowerCase()
+                                          .indexOf(
+                                              this.state.search_text.toLocaleLowerCase()
+                                          ) > -1;
+                            })
+                            .map(group => (
+                                <div key={group._id}>
+                                    <ListItem
+                                        leftAvatar={
+                                            <Avatar>
+                                                {group.name.substring(0, 3)}
+                                            </Avatar>
+                                        }
+                                        primaryText={group.name}
+                                        onClick={() =>
+                                            this.props.dispatch(
+                                                push(
+                                                    '/admin/groups/' + group._id
+                                                )
+                                            )
+                                        }
+                                    />
+                                    <Divider inset={true} />
+                                </div>
+                            ))}
+                    </List>
+                </Paper>
                 <FloatingActionButton
                     onClick={() =>
                         this.setState({ show_create_group_dialog: true })
