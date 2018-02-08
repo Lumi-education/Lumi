@@ -2,7 +2,7 @@ import { assign } from 'lodash';
 import { DB } from '../../db';
 import event from '../../core/event';
 
-import { ICollectionData } from 'lib/cards/types';
+import { ICollectionData } from 'lib/collections/types';
 
 export function submit_overdue_collections() {
     const db = new DB(null);
