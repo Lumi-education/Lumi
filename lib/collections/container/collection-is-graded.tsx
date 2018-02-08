@@ -12,7 +12,6 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 // modules
 import * as Collections from 'lib/collections';
-import * as Data from 'lib/data';
 
 interface IPassedProps {
     data_id: string;
@@ -43,14 +42,14 @@ export class CollectionIsGradedContainer extends React.Component<IProps, {}> {
         return (
             <Checkbox
                 onClick={e => {
-                    e.stopPropagation();
-                    this.props.dispatch(
-                        Data.actions.update_data(
-                            assign(this.props.collection_data, {
-                                is_graded: !this.props.collection_data.is_graded
-                            })
-                        )
-                    );
+                    // e.stopPropagation();
+                    // this.props.dispatch(
+                    //     Collections.actions.update_data(
+                    //         assign(this.props.collection_data, {
+                    //             is_graded: !this.props.collection_data.is_graded
+                    //         })
+                    //     )
+                    // );
                 }}
                 style={{ display: 'inline-block' }}
                 checked={this.props.collection_data.is_graded}

@@ -1,8 +1,6 @@
 import { assign, filter } from 'lodash';
 
-import { IState } from './types';
-
-import { ICollection, ICollectionData } from 'lib/collections/types';
+import { IState, ICollection, ICollectionData } from './types';
 
 export interface IUserCollection extends ICollectionData {
     name: string;

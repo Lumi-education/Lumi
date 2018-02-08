@@ -18,7 +18,7 @@ import { IState } from '../../../src/client/state';
 
 // types
 import { ICard } from 'lib/cards/types';
-import { ICollection } from '../types';
+import { ICollection } from 'lib/collections';
 
 // selectors
 import { select_cards_as_map } from 'lib/cards/selectors';

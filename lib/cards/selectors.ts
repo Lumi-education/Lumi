@@ -1,9 +1,6 @@
 import { Map } from 'immutable';
 import { filter } from 'lodash';
-import { ICard, IState, ICardData, IData } from './types';
-import { IFreetextCard } from 'lib/cards/types';
-
-// type Card = ICard | IFreetextCard;
+import { ICard, IState, ICardData, IData, IFreetextCard } from './types';
 
 export function select_all_cards(state: IState): ICard[] {
     return state.cards.map.toArray();

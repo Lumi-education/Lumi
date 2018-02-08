@@ -12,8 +12,6 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 // modules
 import * as Collections from 'lib/collections';
-import * as Cards from 'lib/cards';
-import * as Data from 'lib/data';
 
 interface IPassedProps {
     data_id: string;
@@ -44,14 +42,14 @@ export class CollectionSubmittedContainer extends React.Component<IProps, {}> {
         return (
             <Checkbox
                 onClick={e => {
-                    e.stopPropagation();
-                    this.props.dispatch(
-                        Data.actions.update_data(
-                            assign(this.props.collection_data, {
-                                submitted: !this.props.collection_data.submitted
-                            })
-                        )
-                    );
+                    // e.stopPropagation();
+                    // this.props.dispatch(
+                    //     Collections.actions.update_data(
+                    //         assign(this.props.collection_data, {
+                    //             submitted: !this.props.collection_data.submitted
+                    //         })
+                    //     )
+                    // );
                 }}
                 style={{ display: 'inline-block' }}
                 checkedIcon={<SVGCheck />}

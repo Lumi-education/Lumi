@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { Paper, RaisedButton } from 'material-ui';
 
-import { CollectionEvaluationContainer } from 'lib/collections';
 import * as moment from 'moment-timezone';
 // local
 import { IState } from 'client/state';
@@ -104,13 +103,9 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                     <Paper style={{ padding: '10px' }}>
                         {this.props.collection.submitted ? (
                             <div>
-                                {this.props.collection.is_graded ? (
-                                    <CollectionEvaluationContainer
-                                        collection_id={this.props.collection_id}
-                                    />
-                                ) : (
-                                    'Danke'
-                                )}
+                                {this.props.collection.is_graded
+                                    ? '...'
+                                    : 'Danke'}
                             </div>
                         ) : this.props.collection.is_graded ? (
                             'Du hast ' +

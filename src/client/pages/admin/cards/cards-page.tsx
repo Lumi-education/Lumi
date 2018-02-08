@@ -35,7 +35,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Tag from 'lib/tags/components/tag';
 import FilterBar from 'lib/ui/components/filter-bar';
 
-import CardListComponent from 'lib/composites/card-list';
+import CardListComponent from 'client/composites/card-list';
 
 import CardsRightDrawer from './right-drawer';
 

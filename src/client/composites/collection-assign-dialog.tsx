@@ -2,8 +2,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
-import ChipInput from 'material-ui-chip-input';
 import * as debug from 'debug';
+
+// components
 import {
     Dialog,
     DatePicker,
@@ -11,12 +12,13 @@ import {
     RaisedButton,
     FloatingActionButton
 } from 'material-ui';
+import ChipInput from 'material-ui-chip-input';
 
 // local
-import { IState } from '../../../src/client/state';
+import { IState } from '../state';
 
 // types
-import * as Collections from '../';
+import * as Collections from 'lib/collections';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
 

@@ -34,7 +34,6 @@ import { ICollection } from 'lib/collections/types';
 import { ICard } from 'lib/cards/types';
 
 // container
-import { CollectionEvaluationContainer } from 'lib/collections';
 // selectors
 import { select_cards_by_ids } from 'lib/cards/selectors';
 import { select_collection_by_id } from 'lib/collections/selectors';
