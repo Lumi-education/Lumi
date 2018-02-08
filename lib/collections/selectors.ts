@@ -2,8 +2,7 @@ import { assign, filter } from 'lodash';
 
 import { IState } from './types';
 
-import { ICollection } from 'lib/collections/types';
-import { ICollectionData } from 'lib/cards/types';
+import { ICollection, ICollectionData } from 'lib/collections/types';
 
 export interface IUserCollection extends ICollectionData {
     name: string;

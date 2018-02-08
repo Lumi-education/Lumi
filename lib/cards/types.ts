@@ -45,17 +45,6 @@ export interface IBaseData {
     updated_at: Date;
 }
 
-export interface ICollectionData extends IBaseData {
-    data_type: 'collection';
-    collection_id: string;
-    user_id: string;
-    submitted: boolean;
-    submit_date: Date;
-    is_graded: boolean;
-    score: number;
-    due_date: Date;
-}
-
 export interface ICardData extends IBaseData {
     card_id: string;
     collection_id: string;

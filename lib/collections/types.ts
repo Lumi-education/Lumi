@@ -1,7 +1,5 @@
 export type Collection_id = string;
 
-import { ICollectionData } from 'lib/cards';
-
 export interface ICollection {
     _id: Collection_id;
     type: 'collection';
@@ -11,6 +9,25 @@ export interface ICollection {
     created_at: Date;
     updated_at: Date;
     submit_messages: ICollectionSubmitMsg[];
+}
+
+export interface IBaseData {
+    _id: string;
+    type: 'data';
+    user_id: string;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface ICollectionData extends IBaseData {
+    data_type: 'collection';
+    collection_id: string;
+    user_id: string;
+    submitted: boolean;
+    submit_date: Date;
+    is_graded: boolean;
+    score: number;
+    due_date: Date;
 }
 
 export interface ICollectionSubmitMsg {

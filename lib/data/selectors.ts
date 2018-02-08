@@ -1,6 +1,7 @@
 import { Map } from 'immutable';
 
-import { IData, ICollectionData, IState } from 'lib/cards/types';
+import { IData, IState } from 'lib/cards/types';
+import { ICollectionData } from 'lib/collections/types';
 
 export function select_data(
     state: IState,

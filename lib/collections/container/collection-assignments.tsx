@@ -27,7 +27,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    assignments: Cards.ICollectionData[];
+    assignments: Collections.ICollectionData[];
 }
 
 interface IDispatchProps {

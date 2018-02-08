@@ -12,6 +12,7 @@ import MultiplechoiceComponent from 'lib/cards/components/multiplechoice-compone
 // modules
 import * as Data from 'lib/data';
 import * as Cards from '../';
+import * as Collections from 'lib/collections';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
@@ -24,7 +25,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: Cards.IMultiplechoiceCard;
     data: Cards.IMultiplechoiceCardData;
-    collection_data: Cards.ICollectionData;
+    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {

@@ -14,8 +14,8 @@ import CollectionEvaluationComponent from '../components/collection-evaluation';
 import { IState } from '../../../src/client/state';
 
 // types
-import { IData, ICollectionData } from 'lib/cards/types';
-import { ICollection } from 'lib/collections/types';
+import { IData } from 'lib/cards/types';
+import { ICollection, ICollectionData } from 'lib/collections/types';
 
 // selectors
 import { select_data_for_user_and_collection } from 'lib/data/selectors';

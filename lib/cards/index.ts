@@ -4,7 +4,6 @@ export {
     default as CardEvaluationContainer
 } from './container/card-evaluation';
 export { default as CardEvaluationRow } from './container/card-evaluation-row';
-export { ICollectionData } from './types';
 export {
     IState,
     ICardUI,

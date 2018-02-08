@@ -12,7 +12,6 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 // modules
 import * as Collections from 'lib/collections';
-import * as Cards from 'lib/cards';
 import * as Data from 'lib/data';
 
 interface IPassedProps {
@@ -20,7 +19,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    collection_data: Cards.ICollectionData;
+    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {

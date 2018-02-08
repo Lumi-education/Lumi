@@ -6,7 +6,7 @@ import {
     COLLECTION_DELETE_COLLECTION_REQUEST
 } from '../constants';
 
-import { ICollectionData } from 'lib/cards/types';
+import { ICollectionData } from 'lib/collections/types';
 
 const initialState: ICollectionData[] = [];
 

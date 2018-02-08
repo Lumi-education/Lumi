@@ -36,6 +36,7 @@ export {
     ICollection,
     ICollectionSubmitMsg,
     ICollectionUI,
+    ICollectionData,
     IState
 } from './types';
 

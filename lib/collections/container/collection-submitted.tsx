@@ -20,7 +20,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    collection_data: Cards.ICollectionData;
+    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {

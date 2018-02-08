@@ -11,14 +11,13 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 // modules
 import * as Collections from 'lib/collections';
-import * as Cards from 'lib/cards';
 
 interface IPassedProps {
     data_id: string;
 }
 
 interface IStateProps extends IPassedProps {
-    collection_data: Cards.ICollectionData;
+    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {

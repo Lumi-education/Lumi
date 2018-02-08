@@ -36,7 +36,7 @@ import * as Users from 'lib/users';
 const log = debug('lumi:pages:admin:analytics:monitor');
 
 interface IStateProps {
-    collection_data: Cards.ICollectionData[];
+    collection_data: Collections.ICollectionData[];
     collections: Collections.ICollection[];
     selected_collection_data: string[];
     users: Users.IUser[];

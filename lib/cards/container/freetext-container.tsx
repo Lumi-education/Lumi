@@ -12,6 +12,7 @@ import FreetextComponent from '../components/freetext-component';
 // modules
 import * as Cards from '../';
 import * as Data from 'lib/data';
+import * as Collections from 'lib/collections';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -24,7 +25,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: Cards.IFreetextCard;
     data: Cards.IFreetextCardData;
-    collection_data: Cards.ICollectionData;
+    collection_data: Collections.ICollectionData;
 }
 
 interface IDispatchProps {
