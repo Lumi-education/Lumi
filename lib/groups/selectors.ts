@@ -46,3 +46,7 @@ export function select_users_for_group(
         .filter(ref => ref.groups.indexOf(group_id) > -1)
         .map(ref => ref.user_id);
 }
+
+export function selected_groups(state: IState): IGroup[] {
+    return state.groups.ui.selected_groups.map(id => select_group(state, id));
+}

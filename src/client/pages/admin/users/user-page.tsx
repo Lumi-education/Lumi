@@ -108,7 +108,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Users.UserContainer
                                         user_id={this.props.user_id}
                                     >
-                                        <Groups.GroupsInputContainer
+                                        <Groups.UserGroupsContainer
                                             user_id={this.props.user_id}
                                         />
                                     </Users.UserContainer>

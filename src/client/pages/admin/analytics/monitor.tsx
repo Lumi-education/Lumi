@@ -32,6 +32,7 @@ import * as Collections from 'lib/collections';
 import * as Data from 'lib/data';
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
+import * as Groups from 'lib/groups';
 
 const log = debug('lumi:pages:admin:analytics:monitor');
 
@@ -86,64 +87,11 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
         if (this.state.loading) {
             return <LoadingPage />;
         }
-
-        const collection_ids = uniq(
-            this.props.users.map(u => u.location.split('/')[3]).filter(id => id)
-        );
-
-        if (collection_ids.length === 0) {
-            return <Paper>There are no users in any collections.</Paper>;
-        }
         return (
-            <div>
-                {collection_ids.map(id => (
-                    <Paper>
-                        <h1>
-                            <Collections.container.Name collection_id={id} />
-                        </h1>
-                        <Table>
-                            <TableHeader
-                                displaySelectAll={false}
-                                adjustForCheckbox={false}
-                            >
-                                <TableRow>
-                                    <TableHeaderColumn>User</TableHeaderColumn>
-                                    {this.props.collections
-                                        .filter(c => c._id === id)[0]
-                                        .cards.map((card_id, i) => (
-                                            <TableHeaderColumn>
-                                                {i + 1}
-                                            </TableHeaderColumn>
-                                        ))}
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {this.props.users
-                                    .filter(
-                                        user => user.location.indexOf(id) > -1
-                                    )
-                                    .map(u => (
-                                        <TableRow>
-                                            <TableRowColumn>
-                                                {u.name}
-                                            </TableRowColumn>
-                                            {this.props.collections
-                                                .filter(c => c._id === id)[0]
-                                                .cards.map((card_id, i) => (
-                                                    <TableRowColumn>
-                                                        <Cards.CardEvaluationContainer
-                                                            user_id={u._id}
-                                                            collection_id={id}
-                                                            card_id={card_id}
-                                                        />
-                                                    </TableRowColumn>
-                                                ))}
-                                        </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </Paper>
-                ))}
+            <div id="admin-analytics-monitor">
+                <Paper>
+                    <Groups.GroupsInput hintText="Select the groups you wish to monitor" />
+                </Paper>
             </div>
         );
     }
