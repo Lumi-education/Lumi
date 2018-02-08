@@ -19,7 +19,6 @@ import { IState } from '../../../src/client/state';
 // types
 import * as Collections from 'lib/collections';
 import * as Cards from 'lib/cards';
-import * as Data from 'lib/data';
 import * as Grades from 'lib/grades';
 
 interface IPassedProps {

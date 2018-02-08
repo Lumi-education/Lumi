@@ -27,7 +27,6 @@ import { IState } from 'client/state';
 // modules
 import * as Cards from 'lib/cards';
 import * as Collections from 'lib/collections';
-import * as Data from 'lib/data';
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 
