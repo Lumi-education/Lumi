@@ -71,9 +71,14 @@ export class UploadCardContainer extends React.Component<
                     this.props
                         .dispatch(
                             Cards.actions.create_data<Cards.IUploadCardData>({
-                                _id: undefined,
+                                _id:
+                                    this.props.user_id +
+                                    '-' +
+                                    this.props.collection_id +
+                                    '-' +
+                                    this.props.card_id,
                                 type: 'data',
-                                user_id: undefined,
+                                user_id: this.props.user_id,
                                 created_at: undefined,
                                 updated_at: undefined,
                                 card_type: 'upload',

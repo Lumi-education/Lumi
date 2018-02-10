@@ -5,7 +5,7 @@ import { assign } from 'lodash';
 import { push } from 'lib/ui/actions';
 
 // components
-import { Checkbox } from 'material-ui';
+import { Checkbox, Dialog } from 'material-ui';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGLoading from 'material-ui/svg-icons/action/cached';
@@ -35,9 +35,20 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class CardEvaluationContainer extends React.Component<IProps, {}> {
+interface IComponentState {
+    show_card: boolean;
+}
+
+export class CardEvaluationContainer extends React.Component<
+    IProps,
+    IComponentState
+> {
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            show_card: false
+        };
     }
 
     public componentWillMount() {
@@ -58,39 +69,48 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
 
     public render() {
         return (
-            <Checkbox
-                onClick={e => {
-                    // e.stopPropagation();
-                    // this.props.dispatch(
-                    //     Data.actions.update_data(
-                    //         assign(this.props.collection_data, {
-                    //             submitted: !this.props.collection_data.submitted
-                    //         })
-                    //     )
-                    // );
-                }}
-                style={{ display: 'inline-block' }}
-                disabled={!this.props.card_data._id}
-                checkedIcon={
-                    this.props.active ? (
-                        <SVGClose />
-                    ) : (
-                        card_type_icon(this.props.card.card_type)
-                    )
-                }
-                uncheckedIcon={
-                    this.props.active ? (
-                        <SVGClose />
-                    ) : (
-                        card_type_icon(this.props.card.card_type)
-                    )
-                }
-                checked={this.props.card_data.score === 1}
-                iconStyle={{
-                    fill:
-                        this.props.card_data.score === 1 ? '#2ecc71' : '#e74c3c'
-                }}
-            />
+            <div>
+                <Checkbox
+                    onClick={e => {
+                        e.stopPropagation();
+                        this.setState({ show_card: true });
+                    }}
+                    style={{ display: 'inline-block' }}
+                    disabled={!this.props.card_data._id}
+                    checkedIcon={
+                        this.props.active ? (
+                            <SVGClose />
+                        ) : (
+                            card_type_icon(this.props.card.card_type)
+                        )
+                    }
+                    uncheckedIcon={
+                        this.props.active ? (
+                            <SVGClose />
+                        ) : (
+                            card_type_icon(this.props.card.card_type)
+                        )
+                    }
+                    checked={this.props.card_data.score === 1}
+                    iconStyle={{
+                        fill:
+                            this.props.card_data.score === 1
+                                ? '#2ecc71'
+                                : '#e74c3c'
+                    }}
+                />
+                <Dialog
+                    open={this.state.show_card}
+                    onRequestClose={() => this.setState({ show_card: false })}
+                    autoScrollBodyContent={true}
+                >
+                    <Cards.CardViewContainer
+                        card_id={this.props.card_id}
+                        collection_id={this.props.collection_id}
+                        user_id={this.props.user_id}
+                    />{' '}
+                </Dialog>
+            </div>
         );
     }
 }
