@@ -53,6 +53,7 @@ export function select_data(
         score: 0,
         is_graded: false,
         type: 'data',
+        graded: true,
         created_at: new Date(),
         updated_at: new Date()
     });

@@ -82,6 +82,7 @@ export class VideoCardContainer extends React.Component<
                                 card_type: 'video',
                                 is_graded: false,
                                 data_type: 'card',
+                                graded: true,
                                 score: 0,
                                 card_id: this.props.card._id,
                                 collection_id: this.props.collection_id

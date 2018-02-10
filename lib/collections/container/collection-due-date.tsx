@@ -33,7 +33,7 @@ export class CollectionDueDateContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         if (!this.props.collection_data) {
-            this.props.dispatch(Core.actions.doc(this.props.data_id));
+            this.props.dispatch(Core.actions.get(this.props.data_id));
         }
     }
 

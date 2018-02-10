@@ -7,6 +7,7 @@ import * as debug from 'debug';
 
 // components
 import {
+    Checkbox,
     TextField,
     SelectField,
     MenuItem,
@@ -47,6 +48,7 @@ interface IComponentState {
     text?: string;
     items?: string[];
     answer?: string;
+    auto_grade?: boolean;
 
     card_type?;
 }
@@ -79,7 +81,8 @@ export class CardEditContainer extends React.Component<
             card_type: nextProps.card.card_type,
             text: nextProps.card.text,
             items: (nextProps.card as any).items,
-            answer: (nextProps.card as any).answer
+            answer: (nextProps.card as any).answer,
+            auto_grade: (nextProps.card as any).auto_grade
         });
     }
 
@@ -108,11 +111,11 @@ export class CardEditContainer extends React.Component<
                                     value="multiplechoice"
                                     primaryText="Multiplechoice"
                                 />
-                                {/* <MenuItem
+                                <MenuItem
                                     value="freetext"
                                     primaryText="Freetext"
                                 />
-                                <MenuItem value="text" primaryText="Text" /> */}
+                                {/*<MenuItem value="text" primaryText="Text" /> */}
                                 {/* <MenuItem value="video" primaryText="Video" /> */}
                                 <MenuItem value="upload" primaryText="Upload" />
                             </SelectField>
@@ -138,15 +141,32 @@ export class CardEditContainer extends React.Component<
                                 switch (this.state.card_type) {
                                     case 'freetext':
                                         return (
-                                            <TextField
-                                                floatingLabelText="Answer"
-                                                value={this.state.answer}
-                                                onChange={(e, v) =>
-                                                    this.setState({ answer: v })
-                                                }
-                                                fullWidth={true}
-                                                multiLine={true}
-                                            />
+                                            <div>
+                                                <TextField
+                                                    floatingLabelText="Answer"
+                                                    value={this.state.answer}
+                                                    onChange={(e, v) =>
+                                                        this.setState({
+                                                            answer: v
+                                                        })
+                                                    }
+                                                    fullWidth={true}
+                                                    multiLine={true}
+                                                />
+                                                <Checkbox
+                                                    checked={
+                                                        this.state.auto_grade
+                                                    }
+                                                    onCheck={() =>
+                                                        this.setState({
+                                                            auto_grade: !this
+                                                                .state
+                                                                .auto_grade
+                                                        })
+                                                    }
+                                                    label="Autograde"
+                                                />
+                                            </div>
                                         );
                                     case 'multiplechoice':
                                         return (

@@ -5,17 +5,18 @@ import { assign } from 'lodash';
 import { push } from 'lib/ui/actions';
 
 // components
-import { Checkbox, Dialog } from 'material-ui';
+import { Badge, Checkbox, Dialog, RaisedButton } from 'material-ui';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGLoading from 'material-ui/svg-icons/action/cached';
 import SVGMultiplechoice from 'material-ui/svg-icons/action/view-agenda';
 import SVGText from 'material-ui/svg-icons/action/view-headline';
 import SVGVideo from 'material-ui/svg-icons/notification/ondemand-video';
-
+import SVGFreetext from 'material-ui/svg-icons/content/text-format';
 // modules
 import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
 
 interface IPassedProps {
     collection_id: string;
@@ -75,7 +76,12 @@ export class CardEvaluationContainer extends React.Component<
                         e.stopPropagation();
                         this.setState({ show_card: true });
                     }}
-                    style={{ display: 'inline-block' }}
+                    style={{
+                        display: 'inline-block',
+                        backgroundColor: this.props.card_data.graded
+                            ? undefined
+                            : 'yellow'
+                    }}
                     disabled={!this.props.card_data._id}
                     checkedIcon={
                         this.props.active ? (
@@ -93,22 +99,40 @@ export class CardEvaluationContainer extends React.Component<
                     }
                     checked={this.props.card_data.score === 1}
                     iconStyle={{
-                        fill:
-                            this.props.card_data.score === 1
-                                ? '#2ecc71'
-                                : '#e74c3c'
+                        fill: UI.utils.get_grade_color(
+                            this.props.card_data.score * 100
+                        )
                     }}
                 />
                 <Dialog
+                    title={this.props.card.name}
                     open={this.state.show_card}
                     onRequestClose={() => this.setState({ show_card: false })}
                     autoScrollBodyContent={true}
+                    contentStyle={{ width: '100%' }}
+                    actions={[
+                        <RaisedButton
+                            label="Close"
+                            onClick={() => this.setState({ show_card: false })}
+                        />
+                    ]}
                 >
-                    <Cards.CardViewContainer
-                        card_id={this.props.card_id}
-                        collection_id={this.props.collection_id}
-                        user_id={this.props.user_id}
-                    />{' '}
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flex: 1 }}>
+                            <Cards.CardViewContainer
+                                card_id={this.props.card_id}
+                                collection_id={this.props.collection_id}
+                                user_id={this.props.user_id}
+                            />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <Cards.CardDataSettingsContainer
+                                user_id={this.props.user_id}
+                                collection_id={this.props.collection_id}
+                                card_id={this.props.card_id}
+                            />
+                        </div>
+                    </div>
                 </Dialog>
             </div>
         );
@@ -123,6 +147,8 @@ function card_type_icon(type: string) {
             return <SVGText />;
         case 'video':
             return <SVGVideo />;
+        case 'freetext':
+            return <SVGFreetext />;
         default:
             return <SVGCheck />;
     }

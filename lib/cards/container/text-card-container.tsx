@@ -72,6 +72,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
                                 score: 0,
                                 card_type: 'text',
                                 data_type: 'card',
+                                graded: true,
                                 is_graded: false,
                                 card_id: this.props.card._id,
                                 collection_id: this.props.collection_id

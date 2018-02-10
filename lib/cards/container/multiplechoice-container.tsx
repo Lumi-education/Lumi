@@ -78,6 +78,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                                     score: 0,
                                     card_type: 'multiplechoice',
                                     items: [],
+                                    graded: true,
                                     is_graded: true,
                                     data_type: 'card',
                                     card_id: this.props.card._id,

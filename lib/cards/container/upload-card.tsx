@@ -86,6 +86,7 @@ export class UploadCardContainer extends React.Component<
                                 is_graded: true,
                                 card_id: this.props.card._id,
                                 score: 0,
+                                graded: false,
                                 collection_id: this.props.collection_id,
                                 _attachments: undefined
                             })

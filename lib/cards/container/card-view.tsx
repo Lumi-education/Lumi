@@ -41,6 +41,12 @@ export class CardViewContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
+        const id =
+            this.props.user_id +
+            '-' +
+            this.props.collection_id +
+            '-' +
+            this.props.card_id;
         const card = this.props.card;
 
         if (card) {
@@ -48,7 +54,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'multiplechoice':
                     return (
                         <MultiplechoiceContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
                             user_id={this.props.user_id}
@@ -57,7 +63,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'freetext':
                     return (
                         <FreetextContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
                             user_id={this.props.user_id}
@@ -66,7 +72,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'video':
                     return (
                         <VideoCardContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
                             user_id={this.props.user_id}
@@ -75,7 +81,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'upload':
                     return (
                         <UploadCardContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
                             user_id={this.props.user_id}
@@ -84,7 +90,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'text':
                     return (
                         <TextCardContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
                             user_id={this.props.user_id}

@@ -36,7 +36,7 @@ export function find(query, options?) {
     };
 }
 
-export function doc(id: string) {
+export function get(id: string) {
     return {
         types: [CORE_DOC_REQUEST, CORE_DB_CHANGE, CORE_DOC_ERROR],
         api: API.doc(id),

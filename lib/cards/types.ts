@@ -52,6 +52,7 @@ export interface ICardData extends IBaseData {
     card_type: string;
     score: number;
     is_graded: boolean;
+    graded: boolean;
 }
 
 export interface ITextCard extends IBaseCard {
@@ -84,6 +85,7 @@ export interface IVideoCardData extends ICardData {
 
 export interface IFreetextCard extends IBaseCard {
     card_type: 'freetext';
+    auto_grade: boolean;
     answer: string;
     preview: boolean;
 }
@@ -91,6 +93,7 @@ export interface IFreetextCard extends IBaseCard {
 export interface IFreetextCardData extends ICardData {
     data_type: 'card';
     card_type: 'freetext';
+    auto_grade: boolean;
     answer: string;
 }
 

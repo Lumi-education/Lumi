@@ -97,6 +97,8 @@ export class FreetextCardContainer extends React.Component<
                                     card_type: 'freetext',
                                     answer: '',
                                     is_graded: true,
+                                    graded: false,
+                                    auto_grade: this.props.card.auto_grade,
                                     data_type: 'card',
                                     card_id: this.props.card._id,
                                     collection_id: this.props.collection_id
@@ -115,11 +117,12 @@ export class FreetextCardContainer extends React.Component<
     }
 
     public handleInput(answer: string) {
-        const score =
-            answer.replace(/\s/, '') ===
-            this.props.card.answer.replace(/\s/, '')
-                ? 1
-                : 0;
+        const score = this.props.card.auto_grade
+            ? answer.replace(/\s/, '') ===
+              this.props.card.answer.replace(/\s/, '')
+              ? 1
+              : 0
+            : this.props.data.score;
 
         this.setState({
             error_text: 'saving...',
@@ -130,7 +133,12 @@ export class FreetextCardContainer extends React.Component<
         this.props
             .dispatch(
                 Cards.actions.update_data(
-                    assign({}, this.props.data, { score, answer })
+                    assign(
+                        {},
+                        this.props.data,
+                        { graded: this.props.data.auto_grade },
+                        { score, answer }
+                    )
                 )
             )
             .then(res => {
