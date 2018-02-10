@@ -8,6 +8,10 @@ import { push } from 'lib/ui/actions';
 import { Checkbox } from 'material-ui';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
+import SVGLoading from 'material-ui/svg-icons/action/cached';
+import SVGMultiplechoice from 'material-ui/svg-icons/action/view-agenda';
+import SVGText from 'material-ui/svg-icons/action/view-headline';
+import SVGVideo from 'material-ui/svg-icons/notification/ondemand-video';
 
 // modules
 import * as Cards from 'lib/cards';
@@ -17,10 +21,12 @@ interface IPassedProps {
     collection_id: string;
     user_id: string;
     card_id: string;
+    active: boolean;
 }
 
 interface IStateProps extends IPassedProps {
     card_data: Cards.ICardData;
+    card: Cards.ICard;
 }
 
 interface IDispatchProps {
@@ -45,6 +51,9 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
                 })
             );
         }
+        if (!this.props.card._id) {
+            this.props.dispatch(Cards.actions.get_card(this.props.card_id));
+        }
     }
 
     public render() {
@@ -61,8 +70,21 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
                     // );
                 }}
                 style={{ display: 'inline-block' }}
-                checkedIcon={<SVGCheck />}
-                uncheckedIcon={<SVGClose />}
+                disabled={!this.props.card_data._id}
+                checkedIcon={
+                    this.props.active ? (
+                        <SVGClose />
+                    ) : (
+                        card_type_icon(this.props.card.card_type)
+                    )
+                }
+                uncheckedIcon={
+                    this.props.active ? (
+                        <SVGClose />
+                    ) : (
+                        card_type_icon(this.props.card.card_type)
+                    )
+                }
                 checked={this.props.card_data.score === 1}
                 iconStyle={{
                     fill:
@@ -70,6 +92,19 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
                 }}
             />
         );
+    }
+}
+
+function card_type_icon(type: string) {
+    switch (type) {
+        case 'multiplechoice':
+            return <SVGMultiplechoice />;
+        case 'text':
+            return <SVGText />;
+        case 'video':
+            return <SVGVideo />;
+        default:
+            return <SVGCheck />;
     }
 }
 
@@ -83,7 +118,9 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
             ownProps.user_id,
             ownProps.collection_id,
             ownProps.card_id
-        )
+        ),
+        card: Cards.selectors.select_card(state, ownProps.card_id),
+        active: ownProps.active
     };
 }
 

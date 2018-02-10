@@ -140,7 +140,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        group_users: Groups.selectors.select_users_for_group(
+        group_users: Groups.selectors.user_ids_for_group(
             state,
             ownProps.params.group_id
         ),

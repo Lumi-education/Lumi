@@ -10,6 +10,7 @@ import * as Groups from '../';
 
 interface IPassedProps {
     hintText?: string;
+    onAddGroup?: (group_id: string) => void;
 }
 
 interface IStateProps extends IPassedProps {
@@ -51,10 +52,11 @@ export class GroupInputContainer extends React.Component<IProps, {}> {
                 filter={AutoComplete.fuzzyFilter}
                 onRequestAdd={group => {
                     this.props.dispatch(Groups.actions.select_group(group._id));
+                    this.props.onAddGroup(group._id);
                 }}
-                onRequestDelete={group_id =>
-                    this.props.dispatch(Groups.actions.select_group(group_id))
-                }
+                onRequestDelete={group_id => {
+                    this.props.dispatch(Groups.actions.select_group(group_id));
+                }}
             />
         );
     }
@@ -64,7 +66,8 @@ function mapStateToProps(state: Groups.IState, ownProps): IStateProps {
     return {
         selected_groups: Groups.selectors.selected_groups(state),
         groups: state.groups.map,
-        hintText: ownProps.hintText || 'Groups'
+        hintText: ownProps.hintText || 'Groups',
+        onAddGroup: ownProps.onAddGroup
     };
 }
 

@@ -7,10 +7,11 @@ import UserChipInputContainer from './container/user-chip-input';
 import UserNameContainer from './container/user-name';
 import * as selectors from './selectors';
 import * as actions from './actions';
+import * as utils from './utils';
 
 const container = {
     ChipInput: UserChipInputContainer,
     OnlineStatus: UserOnlineStatusContainer,
     Name: UserNameContainer
 };
-export { actions, selectors, container };
+export { actions, selectors, container, utils };

@@ -18,7 +18,6 @@ import { push, right_drawer_open, set_appbar_title } from 'lib/ui/actions';
 // modules
 import * as Cards from 'lib/cards';
 import * as Collections from 'lib/collections';
-import * as Data from 'lib/data';
 
 interface IStateProps {
     collection: Collections.ICollection;
@@ -60,7 +59,7 @@ export class UserCollectionCard extends React.Component<
         this.props.dispatch(set_appbar_title(this.props.card.name));
 
         this.props.dispatch(
-            Data.actions.get_user_collection_data(this.props.collection_id)
+            Cards.actions.get_user_collection_data(this.props.collection_id)
         );
 
         this.props

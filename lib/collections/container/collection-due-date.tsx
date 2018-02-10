@@ -11,7 +11,7 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 // modules
 import * as Collections from 'lib/collections';
-
+import * as Core from 'lib/core';
 interface IPassedProps {
     data_id: string;
 }
@@ -32,12 +32,15 @@ export class CollectionDueDateContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        if (!this.props.collection_data._id) {
-            // this.props.dispatch(Users.actions.get_user(this.props.user_id));
+        if (!this.props.collection_data) {
+            this.props.dispatch(Core.actions.doc(this.props.data_id));
         }
     }
 
     public render() {
+        if (!this.props.collection_data) {
+            return <div>-</div>;
+        }
         return (
             <div>
                 {this.props.collection_data.due_date
