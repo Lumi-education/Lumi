@@ -35,8 +35,7 @@ import {
     right_drawer_close,
     right_drawer_open,
     push,
-    set_right_appbar_icon,
-    toggle_tag_id_filter
+    set_right_appbar_icon
 } from 'lib/ui/actions';
 import { logout } from 'lib/auth/actions';
 

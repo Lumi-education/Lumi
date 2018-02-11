@@ -7,14 +7,13 @@ import { Map } from 'immutable';
 // modules
 import * as Tags from '../';
 
-interface IPassedProps {
-    tag_ids: string[];
-    add: (tag: Tags.ITag) => void;
-    delete: (tag_id: string) => void;
-}
+interface IPassedProps {}
 
 interface IStateProps extends IPassedProps {
     tags: Map<string, Tags.ITag>;
+    tag_ids: string[];
+    add: (tag: Tags.ITag) => void;
+    delete: (tag_id: string) => void;
 }
 
 interface IDispatchProps {
@@ -38,8 +37,12 @@ export class TagFilterContainer extends React.Component<IProps, {}> {
             <Tags.TagInputComponent
                 tags={this.props.tags}
                 tag_ids={this.props.tag_ids || []}
-                add={this.props.add}
-                delete={this.props.delete}
+                add={tag =>
+                    this.props.dispatch(Tags.actions.select_tag(tag._id))
+                }
+                delete={tag_id =>
+                    this.props.dispatch(Tags.actions.select_tag(tag_id))
+                }
             />
         );
     }
@@ -48,7 +51,7 @@ export class TagFilterContainer extends React.Component<IProps, {}> {
 function mapStateToProps(state: Tags.IState, ownProps): IStateProps {
     return {
         tags: Tags.selectors.select_tags_as_map(state),
-        tag_ids: ownProps.tag_ids,
+        tag_ids: state.tags.ui.selected_tags,
         add: ownProps.add,
         delete: ownProps.delete
     };

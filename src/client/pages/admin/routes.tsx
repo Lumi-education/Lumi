@@ -18,7 +18,8 @@ import {
 } from 'client/pages/admin/groups';
 
 import { TagsPage } from 'client/pages/admin/tags';
-import { CardPage, CardsPage } from 'client/pages/admin/cards';
+import CardPage from 'client/pages/admin/cards/card-page';
+import CardsPage from 'client/pages/admin/cards/cards-page';
 
 import { User, Users } from 'client/pages/admin/users';
 

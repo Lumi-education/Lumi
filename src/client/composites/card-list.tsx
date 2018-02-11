@@ -51,17 +51,7 @@ export default class CardListComponent extends React.Component<IProps, {}> {
                                 </Avatar>
                             }
                             primaryText={card.name}
-                            secondaryText={
-                                <span>
-                                    <span>
-                                        {card.text
-                                            ? card.text.substring(0, 100)
-                                            : null}
-                                    </span>
-                                    <br />
-                                    <TagsContainer doc_id={card._id} />{' '}
-                                </span>
-                            }
+                            secondaryText={<TagsContainer doc_id={card._id} />}
                             secondaryTextLines={2}
                             onClick={() => this.props.onClick(card._id)}
                         />

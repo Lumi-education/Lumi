@@ -32,12 +32,12 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
+import TagFilterContainer from 'lib/tags/container/tag-filter';
+
 import Tag from 'lib/tags/components/tag';
 import FilterBar from 'lib/ui/components/filter-bar';
 
 import CardListComponent from 'client/composites/card-list';
-
-import CardsRightDrawer from './right-drawer';
 
 // local
 import { IState } from 'client/state';
@@ -76,7 +76,7 @@ interface IComponentState {
     search_text?: string;
     new_tag_name?: string;
     new_tag_description?: string;
-    loading: boolean;
+    loading?: boolean;
 }
 
 export class AdminCards extends React.Component<IProps, IComponentState> {
@@ -105,8 +105,14 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
         }
         return (
             <div>
-                <CardsRightDrawer />
                 <Paper>
+                    <TagFilterContainer />
+                    <FilterBar
+                        filter={this.state.search_text}
+                        set_filter={filter =>
+                            this.setState({ search_text: filter })
+                        }
+                    />
                     <CardListComponent
                         cards={this.props.cards.filter(card => {
                             return this.state.search_text === ''
@@ -150,10 +156,13 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         cards:
-            state.ui.tags_filter.length !== 0
+            state.tags.ui.selected_tags.length !== 0
                 ? select_cards_by_ids(
                       state,
-                      select_doc_ids_for_tags(state, state.ui.tags_filter)
+                      select_doc_ids_for_tags(
+                          state,
+                          state.tags.ui.selected_tags
+                      )
                   )
                 : select_all_cards(state)
     };
