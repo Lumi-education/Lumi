@@ -50,18 +50,24 @@ class AuthController extends Controller<{}> {
                     });
                 }
 
-                if (!bcrypt.compareSync(req.body.password, user.password)) {
-                    res.status(401).end();
-                } else {
-                    user.last_login = new Date();
-                    db.save(user, noop);
+                bcrypt.compare(
+                    req.body.password,
+                    user.password,
+                    (err, hash) => {
+                        if (err || !hash) {
+                            res.status(401).end();
+                        } else {
+                            user.last_login = new Date();
+                            db.save(user, noop);
 
-                    return res.status(200).json({
-                        jwt_token: jwt_token(user._id, user.level),
-                        _id: user._id,
-                        level: user.level
-                    });
-                }
+                            return res.status(200).json({
+                                jwt_token: jwt_token(user._id, user.level),
+                                _id: user._id,
+                                level: user.level
+                            });
+                        }
+                    }
+                );
             },
             User
         );
