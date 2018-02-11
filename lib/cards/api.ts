@@ -44,7 +44,7 @@ export function create_data(data) {
 export function update_data(data) {
     return request
         .put('/api/v0/user/data/' + data._id)
-        .send(data)
+        .send(assign(data, { processed: true }))
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

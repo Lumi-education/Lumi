@@ -54,6 +54,7 @@ export interface ICardData extends IBaseData {
     is_graded: boolean;
     graded: boolean;
     show_answer: boolean;
+    processed: boolean;
 }
 
 export interface ITextCard extends IBaseCard {

@@ -14,11 +14,7 @@ import { IState } from 'client/state';
 // selectors
 
 // actions
-import {
-    push,
-    right_drawer_open,
-    left_drawer_open
-} from 'lib/ui/actions';
+import { push, right_drawer_open, left_drawer_open } from 'lib/ui/actions';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;

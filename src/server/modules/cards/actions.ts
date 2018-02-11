@@ -39,11 +39,69 @@ export function create_card_data(
                         card_type: 'multiplechoice',
                         items: [],
                         graded: true,
+                        processed: false,
                         show_answer: false,
                         is_graded: true,
                         data_type: 'card'
                     });
                     break;
+                case 'video':
+                    db.insert({
+                        user_id,
+                        collection_id,
+                        card_id,
+                        _id: user_id + '-' + collection_id + '-' + card_id,
+                        type: 'data',
+                        created_at: undefined,
+                        updated_at: undefined,
+                        card_type: 'video',
+                        processed: false,
+                        show_answer: false,
+                        is_graded: false,
+                        data_type: 'card',
+                        graded: true,
+                        score: 0
+                    });
+                    break;
+                case 'upload':
+                    db.insert({
+                        user_id,
+                        collection_id,
+                        card_id,
+                        _id: user_id + '-' + collection_id + '-' + card_id,
+                        type: 'data',
+                        created_at: undefined,
+                        updated_at: undefined,
+                        card_type: 'upload',
+                        processed: false,
+                        data_type: 'card',
+                        is_graded: true,
+                        show_answer: false,
+                        score: 0,
+                        graded: false,
+                        _attachments: undefined
+                    });
+                    break;
+                case 'freetext':
+                    db.insert({
+                        user_id,
+                        collection_id,
+                        card_id,
+                        _id: user_id + '-' + collection_id + '-' + card_id,
+                        type: 'data',
+                        created_at: undefined,
+                        updated_at: undefined,
+                        score: 0,
+                        show_answer: false,
+                        processed: false,
+                        card_type: 'freetext',
+                        answer: '',
+                        is_graded: true,
+                        graded: false,
+                        auto_grade: card.auto_grade,
+                        data_type: 'card'
+                    });
+                case 'text':
                 default:
                     db.insert({
                         user_id,
@@ -53,6 +111,7 @@ export function create_card_data(
                         type: 'data',
                         created_at: undefined,
                         updated_at: undefined,
+                        processed: false,
                         score: 0,
                         card_type: 'text',
                         graded: false,

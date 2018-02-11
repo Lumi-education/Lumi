@@ -82,6 +82,7 @@ export class UploadCardContainer extends React.Component<
                                 created_at: undefined,
                                 updated_at: undefined,
                                 card_type: 'upload',
+                                processed: true,
                                 data_type: 'card',
                                 is_graded: true,
                                 show_answer: false,

@@ -107,11 +107,14 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
                     <CollectionMonitorTable
                         key={collection_id}
                         collection_id={collection_id}
-                        users={this.props.users.filter(
-                            user =>
-                                Users.utils.get_collection_id(user.location) ===
-                                collection_id
-                        )}
+                        user_ids={this.props.users
+                            .filter(
+                                user =>
+                                    Users.utils.get_collection_id(
+                                        user.location
+                                    ) === collection_id
+                            )
+                            .map(u => u._id)}
                     />
                 ))}
 

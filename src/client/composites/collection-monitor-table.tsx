@@ -24,7 +24,7 @@ import * as Core from 'lib/core';
 
 interface IPassedProps {
     collection_id: string;
-    users: Users.IUser[];
+    user_ids: string[];
 }
 
 interface IStateProps extends IPassedProps {
@@ -70,7 +70,7 @@ export class CollectionTableHeaderContainer extends React.Component<
                                 type: 'data',
                                 collection_id: this.props.collection_id,
                                 user_id: {
-                                    $in: this.props.users.map(u => u._id)
+                                    $in: this.props.user_ids
                                 },
                                 card_id: {
                                     $in: this.props.collection.cards
@@ -78,7 +78,7 @@ export class CollectionTableHeaderContainer extends React.Component<
                             },
                             {
                                 limit:
-                                    this.props.users.length *
+                                    this.props.user_ids.length *
                                     this.props.collection.cards.length
                             }
                         )
@@ -108,6 +108,7 @@ export class CollectionTableHeaderContainer extends React.Component<
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>User</TableHeaderColumn>
+                            <TableHeaderColumn>Status</TableHeaderColumn>
                             {this.props.collection.cards.map((c, i) => (
                                 <TableHeaderColumn
                                     key={this.props.collection_id + i}
@@ -119,38 +120,40 @@ export class CollectionTableHeaderContainer extends React.Component<
                             <TableHeaderColumn>Score</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        {this.props.users.map(user => (
-                            <TableRow key={user._id}>
+                    <TableBody preScanRows={false}>
+                        {this.props.user_ids.map(user_id => (
+                            <TableRow key={user_id}>
                                 <TableRowColumn>
-                                    <Users.container.Name user_id={user._id} />
+                                    <Users.container.Name user_id={user_id} />
                                 </TableRowColumn>
+                                <TableRowColumn>
+                                    <Users.container.OnlineStatus
+                                        user_id={user_id}
+                                    />
+                                </TableRowColumn>
+
                                 {this.props.collection.cards.map(card_id => (
                                     <TableRowColumn
                                         key={
                                             this.props.collection_id +
-                                            user._id +
+                                            user_id +
                                             card_id
                                         }
                                     >
                                         <Cards.CardEvaluationContainer
-                                            user_id={user._id}
+                                            user_id={user_id}
                                             collection_id={
                                                 this.props.collection_id
                                             }
                                             card_id={card_id}
-                                            active={
-                                                Users.utils.get_card_id(
-                                                    user.location
-                                                ) === card_id
-                                            }
+                                            active={false}
                                         />
                                     </TableRowColumn>
                                 ))}
                                 <TableRowColumn>
                                     <Collections.container.DueDate
                                         data_id={
-                                            user._id +
+                                            user_id +
                                             '-' +
                                             this.props.collection_id
                                         }
@@ -159,7 +162,7 @@ export class CollectionTableHeaderContainer extends React.Component<
                                 <TableRowColumn>
                                     <CollectionEvaluation
                                         collection_id={this.props.collection_id}
-                                        user_id={user._id}
+                                        user_id={user_id}
                                     />
                                 </TableRowColumn>
                             </TableRow>
@@ -173,7 +176,7 @@ export class CollectionTableHeaderContainer extends React.Component<
 
 function mapStateToProps(state: Collections.IState, ownProps): IStateProps {
     return {
-        users: ownProps.users,
+        user_ids: ownProps.user_ids,
         collection_id: ownProps.collection_id,
         collection: Collections.selectors.select_collection_by_id(
             state,

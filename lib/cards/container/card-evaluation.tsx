@@ -83,7 +83,7 @@ export class CardEvaluationContainer extends React.Component<
                             : 'yellow',
                         zIndex: 1000
                     }}
-                    disabled={!this.props.card_data._id}
+                    disabled={!this.props.card_data.processed}
                     checkedIcon={
                         this.props.active ? (
                             <SVGClose />

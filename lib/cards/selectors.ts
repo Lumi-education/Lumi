@@ -50,6 +50,7 @@ export function select_data(
         _id: undefined,
         card_type: 'text',
         data_type: 'card',
+        processed: true,
         score: 0,
         show_answer: false,
         is_graded: false,

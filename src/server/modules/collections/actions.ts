@@ -59,6 +59,7 @@ export function submit_collection(id: string) {
 
             data.forEach(d => {
                 d.show_answer = true;
+                d.processed = true;
                 db.save(d);
             });
 

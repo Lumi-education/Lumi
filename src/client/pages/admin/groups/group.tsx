@@ -21,6 +21,8 @@ import Create_or_add_user_dialog from './create_or_add_user_dialog';
 
 import CollectionAssignDialog from '../../../composites/collection-assign-dialog';
 
+import CollectionMonitorTable from 'client/composites/collection-monitor-table';
+
 import * as Collections from 'lib/collections';
 import * as Groups from 'lib/groups';
 
@@ -102,6 +104,19 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                             )
                         }
                     />
+                    <Tab
+                        label="Collections"
+                        value="collections"
+                        onActive={() =>
+                            this.props.dispatch(
+                                push(
+                                    '/admin/groups/' +
+                                        this.props.group_id +
+                                        '/collections'
+                                )
+                            )
+                        }
+                    />
                 </Tabs>
                 {(() => {
                     switch (this.props.tab) {
@@ -129,6 +144,23 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                             group_id={this.props.group_id}
                                         />
                                     </ActionBar>
+                                </div>
+                            );
+                        case 'collections':
+                            return (
+                                <div>
+                                    <Collections.container.ChipInput />
+                                    {this.props.selected_collections.map(
+                                        collection_id => (
+                                            <CollectionMonitorTable
+                                                key={collection_id}
+                                                collection_id={collection_id}
+                                                user_ids={
+                                                    this.props.group_users
+                                                }
+                                            />
+                                        )
+                                    )}
                                 </div>
                             );
                     }
