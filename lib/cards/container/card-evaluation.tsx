@@ -80,7 +80,8 @@ export class CardEvaluationContainer extends React.Component<
                         display: 'inline-block',
                         backgroundColor: this.props.card_data.graded
                             ? undefined
-                            : 'yellow'
+                            : 'yellow',
+                        zIndex: 1000
                     }}
                     disabled={!this.props.card_data._id}
                     checkedIcon={

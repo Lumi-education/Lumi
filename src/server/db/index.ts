@@ -19,7 +19,7 @@ export class DB {
     private db: string;
     private nano: any;
 
-    constructor(res: express.Response) {
+    constructor(res?: express.Response) {
         this.res = res;
 
         this.db = process.env.DB_HOST + '/' + process.env.DB + '/';

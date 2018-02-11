@@ -12,7 +12,7 @@ export default class Controller<T> {
     constructor(type: string, _view?) {
         this.type = type;
         if (_view) {
-            const _db = new DB(null);
+            const _db = new DB();
             _db.checkView('_design/' + type, view => {
                 if (!view) {
                     log(this.type + '-view not found -> creating view');

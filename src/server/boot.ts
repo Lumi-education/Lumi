@@ -65,6 +65,7 @@ function boot() {
             'express-server successfully booted on port ' + process.env.PORT ||
                 80
         );
+        raven.captureMessage('server booted', { level: 'info' });
     });
 
     server.on('error', raven.captureException);

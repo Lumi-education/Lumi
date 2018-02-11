@@ -94,6 +94,7 @@ export class FreetextCardContainer extends React.Component<
                                     created_at: undefined,
                                     updated_at: undefined,
                                     score: 0,
+                                    show_answer: false,
                                     card_type: 'freetext',
                                     answer: '',
                                     is_graded: true,

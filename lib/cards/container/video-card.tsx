@@ -80,6 +80,7 @@ export class VideoCardContainer extends React.Component<
                                 created_at: undefined,
                                 updated_at: undefined,
                                 card_type: 'video',
+                                show_answer: false,
                                 is_graded: false,
                                 data_type: 'card',
                                 graded: true,

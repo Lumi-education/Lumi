@@ -79,6 +79,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                                     card_type: 'multiplechoice',
                                     items: [],
                                     graded: true,
+                                    show_answer: false,
                                     is_graded: true,
                                     data_type: 'card',
                                     card_id: this.props.card._id,
@@ -107,7 +108,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     text={card.text}
                     items={card.items}
                     selected_items={data.items || []}
-                    show_correct_values={false}
+                    show_correct_values={this.props.data.show_answer}
                     cb={(items, score) => {
                         this.props.dispatch(
                             Cards.actions.update_data(

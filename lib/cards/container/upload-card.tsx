@@ -84,6 +84,7 @@ export class UploadCardContainer extends React.Component<
                                 card_type: 'upload',
                                 data_type: 'card',
                                 is_graded: true,
+                                show_answer: false,
                                 card_id: this.props.card._id,
                                 score: 0,
                                 graded: false,

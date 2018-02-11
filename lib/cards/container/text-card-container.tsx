@@ -68,6 +68,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
                                 type: 'data',
                                 user_id: undefined,
                                 created_at: undefined,
+                                show_answer: false,
                                 updated_at: undefined,
                                 score: 0,
                                 card_type: 'text',

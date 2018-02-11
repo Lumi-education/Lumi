@@ -1,11 +1,12 @@
-import { assign } from 'lodash';
+import { assign, noop } from 'lodash';
 import { DB } from '../../db';
 import event from '../../core/event';
 
 import { ICollectionData } from 'lib/collections/types';
+import { ICardData } from 'lib/cards/types';
 
 export function submit_overdue_collections() {
-    const db = new DB(null);
+    const db = new DB();
 
     db.find(
         {
@@ -22,7 +23,7 @@ export function submit_overdue_collections() {
 }
 
 export function submit_collection(id: string) {
-    const db = new DB(null);
+    const db = new DB();
 
     // collection_data.submitted = true;
     // collection_data.submit_date = new Date();
@@ -34,17 +35,17 @@ export function submit_collection(id: string) {
             collection_id,
             user_id,
             type: 'data',
-            data_type: 'card',
-            is_graded: true
+            data_type: 'card'
         },
         { limit: 40 },
-        data => {
+        (data: ICardData[]) => {
             const correct = data
                 .filter(
                     d =>
                         d.data_type === 'card' &&
                         d.card_type !== 'video' &&
-                        d.card_type !== 'text'
+                        d.card_type !== 'text' &&
+                        d.is_graded
                 )
                 .reduce((p, a) => p + (a.score || 0), 0);
 
@@ -52,8 +53,14 @@ export function submit_collection(id: string) {
                 d =>
                     d.data_type === 'card' &&
                     d.card_type !== 'video' &&
-                    d.card_type !== 'text'
+                    d.card_type !== 'text' &&
+                    d.is_graded
             ).length;
+
+            data.forEach(d => {
+                d.show_answer = true;
+                db.save(d);
+            });
 
             // collection_data.score = correct / num_tasks;
 
@@ -77,7 +84,7 @@ export function submit_collection(id: string) {
 }
 
 export function delete_assignment(id: string) {
-    const db = new DB(null);
+    const db = new DB();
 
     db.delete(id, () => {
         event.emit('COLLECTIONS/ASSIGNMENT_DELETED', { _id: id });
@@ -109,7 +116,7 @@ export function assign_collection(
     );
 
     db.insert(data, res => {
-        cb(res);
+        cb ? cb(res) : noop();
         event.emit(
             'COLLECTIONS/COLLECTION_ASSIGNED',
             assign(data, { _id: res.id })

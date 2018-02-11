@@ -51,6 +51,7 @@ export function select_data(
         card_type: 'text',
         data_type: 'card',
         score: 0,
+        show_answer: false,
         is_graded: false,
         type: 'data',
         graded: true,
