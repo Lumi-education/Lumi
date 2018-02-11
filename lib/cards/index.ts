@@ -6,6 +6,8 @@ export {
 export {
     default as CardEvaluationContainer
 } from './container/card-evaluation';
+export { default as CardsContainer } from './container/cards';
+
 export {
     IState,
     ICardUI,
