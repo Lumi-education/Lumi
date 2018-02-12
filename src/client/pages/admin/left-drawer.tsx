@@ -29,7 +29,7 @@ import { IState } from 'client/state';
 
 // modules
 import { ui_actions } from 'lib/ui';
-import { auth_actions } from 'lib/auth';
+import * as Auth from 'lib/auth';
 
 declare var process;
 
@@ -152,7 +152,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             primaryText="Logout"
                             leftIcon={<SVGPower />}
                             onClick={() =>
-                                this.props.dispatch(auth_actions.logout())
+                                this.props.dispatch(Auth.actions.logout())
                             }
                         />
                         <Divider />

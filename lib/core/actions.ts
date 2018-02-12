@@ -9,6 +9,8 @@ export const CORE_DB_UPDATE_ERROR = 'CORE_DB_UPDATE_ERROR';
 export const CORE_ACTION_REQUEST = 'CORE_ACTION_REQUEST';
 export const CORE_ACTION_SUCCESS = 'CORE_ACTION_SUCCESS';
 export const CORE_ACTION_ERROR = 'CORE_ACTION_ERROR';
+export const CORE_DOC_REQUEST = 'CORE_DOC_REQUEST';
+export const CORE_DOC_ERROR = 'CORE_DOC_ERROR';
 
 import * as API from './api';
 
@@ -26,11 +28,19 @@ export function hide_attachment_dialog() {
     };
 }
 
-export function find(query) {
+export function find(query, options?) {
     return {
         types: [CORE_DB_FIND_REQUEST, CORE_DB_CHANGE, CORE_DB_FIND_ERROR],
-        api: API.find(query),
-        payload: { query }
+        api: API.find(query, options),
+        payload: { query, options }
+    };
+}
+
+export function get(id: string) {
+    return {
+        types: [CORE_DOC_REQUEST, CORE_DB_CHANGE, CORE_DOC_ERROR],
+        api: API.doc(id),
+        payload: { id }
     };
 }
 

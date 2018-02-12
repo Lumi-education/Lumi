@@ -1,4 +1,5 @@
-export { default as GroupsInputContainer } from './container/groups-input';
+export { default as UserGroupsContainer } from './container/user-groups';
+export { default as GroupsInput } from './container/group-input';
 export { IState, IGroup, IGroupRef } from './types';
 export { default as GroupSettingsContainer } from './container/group-settings';
 import * as selectors from './selectors';

@@ -9,7 +9,7 @@ import {
 
 import { convert_attachment_url } from 'lib/cards/utils';
 
-import MultiplechoiceComponent from 'lib/cards/components/multiplechoice-component';
+import MultiplechoiceComponent from 'lib/cards/components/multiplechoice';
 import Paper from 'material-ui/Paper';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import SVGClose from 'material-ui/svg-icons/navigation/close';

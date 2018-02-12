@@ -20,9 +20,14 @@ export interface ITagRef {
     updated_at?: Date;
 }
 
+export interface ITagsUI {
+    selected_tags: string[];
+}
+
 export interface IState {
     tags: {
         map: Map<string, ITag>;
         refs: Map<string, ITagRef>;
+        ui: ITagsUI;
     };
 }

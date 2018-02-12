@@ -18,11 +18,10 @@ import {
 } from 'client/pages/admin/groups';
 
 import { TagsPage } from 'client/pages/admin/tags';
-import { CardPage, CardsPage } from 'client/pages/admin/cards';
+import CardPage from 'client/pages/admin/cards/card-page';
+import CardsPage from 'client/pages/admin/cards/cards-page';
 
 import { User, Users } from 'client/pages/admin/users';
-
-import { Progress } from 'client/pages/admin/analytics';
 
 const routes = (
     <Route path="admin" component={AdminIndex}>
@@ -42,7 +41,6 @@ const routes = (
             path="groups/:group_id/users/add"
             component={CreateOrAddUserDialog}
         />
-        <Route path="analytics/progress" component={Progress} />
         <Route path="analytics/assignments" component={AssignmentsPage} />
         <Route path="analytics/monitor" component={Monitor} />
         <Route path="users" component={Users} />

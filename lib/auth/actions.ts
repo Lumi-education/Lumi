@@ -1,16 +1,10 @@
-import * as shortid from 'shortid';
-
 declare var window;
 
 import * as API from './api';
 
 import * as k from './constants';
 
-export function login(
-    username: string,
-    password: string,
-    id: string = shortid()
-) {
+export function login(username: string, password: string) {
     return {
         types: [k.AUTH_LOGIN_REQUEST, k.AUTH_LOGIN_SUCCESS, k.AUTH_LOGIN_ERROR],
         api: API.login(username, password),
@@ -18,7 +12,7 @@ export function login(
     };
 }
 
-export function logout(id = shortid()) {
+export function logout() {
     return {
         types: [
             k.AUTH_LOGOUT_REQUEST,
@@ -26,7 +20,7 @@ export function logout(id = shortid()) {
             k.AUTH_LOGOUT_ERROR
         ],
         api: API.logout(),
-        payload: { id }
+        payload: {}
     };
 }
 
@@ -58,7 +52,7 @@ export function register(username: string, password: string) {
     };
 }
 
-export function get_session(id = shortid()) {
+export function get_session() {
     return {
         types: [
             k.AUTH_GET_SESSION_REQUEST,
@@ -66,14 +60,7 @@ export function get_session(id = shortid()) {
             k.AUTH_GET_SESSION_ERROR
         ],
         api: API.get_session(),
-        payload: { id }
-    };
-}
-
-export function check_username(username: string) {
-    return {
-        type: k.AUTH_LOGIN_CHECK_USERNAME_REQUEST,
-        payload: { username }
+        payload: {}
     };
 }
 

@@ -4,11 +4,7 @@ import * as debug from 'debug';
 
 import * as moment from 'moment';
 
-// types
-import { IState } from '../types';
-
 // components
-
 import { Avatar, Divider, List, ListItem } from 'material-ui';
 
 // modules
@@ -39,7 +35,7 @@ export class CurrentGradeContainer extends React.Component<IProps, {}> {
     public componentWillMount() {
         log('componentWillMount');
 
-        this.props.dispatch(Grades.actions.get_user_grades(this.props.user_id));
+        // this.props.dispatch(Grades.actions.get_user_grades(this.props.user_id));
     }
 
     public render() {
@@ -60,7 +56,7 @@ export class CurrentGradeContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Grades.IState, ownProps): IStateProps {
     return {
         grades: Grades.selectors.grades_for_user(state, ownProps.user_id),
         user_id: ownProps.user_id

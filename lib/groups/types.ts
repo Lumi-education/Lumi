@@ -19,9 +19,14 @@ export interface IGroupRef {
     updated_at?: Date;
 }
 
+export interface IGroupUI {
+    selected_groups: string[];
+}
+
 export interface IState {
     groups: {
         map: Map<string, IGroup>;
         refs: Map<string, IGroupRef>;
+        ui: IGroupUI;
     };
 }

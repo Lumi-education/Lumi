@@ -9,8 +9,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-// selectors
-// import { select_users_for_group } from 'lib/groups/selectors';
+import UserTable from 'client/composites/user-table';
 
 // types
 import { ActionBar } from 'lib/ui';
@@ -19,6 +18,10 @@ import { ICollection } from 'lib/collections/types';
 import * as Users from 'lib/users';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
+
+import CollectionAssignDialog from '../../../composites/collection-assign-dialog';
+
+import CollectionMonitorTable from 'client/composites/collection-monitor-table';
 
 import * as Collections from 'lib/collections';
 import * as Groups from 'lib/groups';
@@ -66,9 +69,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
             <div>
                 <Tabs
                     style={{
-                        position: 'fixed',
                         backgroundColor: '#FFFFFF',
-                        top: '64px',
                         zIndex: 1099,
                         width: '100%'
                     }}
@@ -103,6 +104,19 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                             )
                         }
                     />
+                    <Tab
+                        label="Collections"
+                        value="collections"
+                        onActive={() =>
+                            this.props.dispatch(
+                                push(
+                                    '/admin/groups/' +
+                                        this.props.group_id +
+                                        '/collections'
+                                )
+                            )
+                        }
+                    />
                 </Tabs>
                 {(() => {
                     switch (this.props.tab) {
@@ -116,7 +130,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         case 'users':
                             return (
                                 <div>
-                                    <Users.container.Table
+                                    <UserTable
                                         filter={(user: Users.IUser) =>
                                             this.props.group_users.indexOf(
                                                 user._id
@@ -125,11 +139,28 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                     />
 
                                     <ActionBar>
-                                        <Collections.container.AssignDialog />
+                                        <CollectionAssignDialog />
                                         <Create_or_add_user_dialog
                                             group_id={this.props.group_id}
                                         />
                                     </ActionBar>
+                                </div>
+                            );
+                        case 'collections':
+                            return (
+                                <div>
+                                    <Collections.container.ChipInput />
+                                    {this.props.selected_collections.map(
+                                        collection_id => (
+                                            <CollectionMonitorTable
+                                                key={collection_id}
+                                                collection_id={collection_id}
+                                                user_ids={
+                                                    this.props.group_users
+                                                }
+                                            />
+                                        )
+                                    )}
                                 </div>
                             );
                     }
@@ -141,7 +172,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        group_users: Groups.selectors.select_users_for_group(
+        group_users: Groups.selectors.user_ids_for_group(
             state,
             ownProps.params.group_id
         ),

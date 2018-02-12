@@ -10,6 +10,8 @@ import SVGEdit from 'material-ui/svg-icons/content/create';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
+import CollectionAssignments from 'client/composites/collection-assignments';
+
 // state
 import { IState } from 'client/state';
 
@@ -48,9 +50,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
             <div>
                 <Tabs
                     style={{
-                        position: 'fixed',
                         backgroundColor: '#FFFFFF',
-                        top: '64px',
                         zIndex: 1099,
                         width: '100%'
                     }}
@@ -108,7 +108,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Users.UserContainer
                                         user_id={this.props.user_id}
                                     >
-                                        <Groups.GroupsInputContainer
+                                        <Groups.UserGroupsContainer
                                             user_id={this.props.user_id}
                                         />
                                     </Users.UserContainer>
@@ -176,7 +176,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                             );
                         case 'assignments':
                             return (
-                                <Collections.CollectionAssignmentContainer
+                                <CollectionAssignments
                                     user_id={this.props.user_id}
                                 />
                             );

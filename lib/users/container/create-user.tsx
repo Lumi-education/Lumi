@@ -1,17 +1,13 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push, goBack } from 'lib/ui/actions';
 
+// components
 import { FloatingActionButton } from 'material-ui';
-
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-// state
-import { IState } from '../types';
-
 // modules
-import * as Users from 'lib/users';
+import * as Users from '../';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {}
@@ -51,7 +47,7 @@ export class CreateUserContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.IState, ownProps): IStateProps {
     return {};
 }
 

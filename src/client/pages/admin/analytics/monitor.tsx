@@ -23,20 +23,22 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 
 import LoadingPage from 'lib/ui/components/loading-page';
 
+import CollectionMonitorTable from 'client/composites/collection-monitor-table';
+
 // state
 import { IState } from 'client/state';
 
 // modules
 import * as Cards from 'lib/cards';
 import * as Collections from 'lib/collections';
-import * as Data from 'lib/data';
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
+import * as Groups from 'lib/groups';
 
 const log = debug('lumi:pages:admin:analytics:monitor');
 
 interface IStateProps {
-    collection_data: Cards.ICollectionData[];
+    collection_data: Collections.ICollectionData[];
     collections: Collections.ICollection[];
     selected_collection_data: string[];
     users: Users.IUser[];
@@ -64,90 +66,83 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
 
     public componentWillMount() {
         this.setState({ loading: true });
-
-        this.props
-            .dispatch(
-                Core.actions.find({ data_type: 'collection', submitted: false })
-            )
-            .then(res => {
-                this.props
-                    .dispatch(
-                        Collections.actions.get_collections(
-                            res.payload.map(d => d.collection_id)
-                        )
-                    )
-                    .then(r => {
-                        this.setState({ loading: false });
-                    });
-            });
     }
 
     public render() {
-        if (this.state.loading) {
-            return <LoadingPage />;
-        }
-
-        const collection_ids = uniq(
-            this.props.users.map(u => u.location.split('/')[3]).filter(id => id)
-        );
-
-        if (collection_ids.length === 0) {
-            return <Paper>There are no users in any collections.</Paper>;
-        }
         return (
-            <div>
-                {collection_ids.map(id => (
-                    <Paper>
-                        <h1>
-                            <Collections.container.Name collection_id={id} />
-                        </h1>
-                        <Table>
-                            <TableHeader
-                                displaySelectAll={false}
-                                adjustForCheckbox={false}
-                            >
-                                <TableRow>
-                                    <TableHeaderColumn>User</TableHeaderColumn>
-                                    {this.props.collections
-                                        .filter(c => c._id === id)[0]
-                                        .cards.map((card_id, i) => (
-                                            <TableHeaderColumn>
-                                                {i + 1}
-                                            </TableHeaderColumn>
-                                        ))}
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {this.props.users
-                                    .filter(
-                                        user => user.location.indexOf(id) > -1
-                                    )
-                                    .map(u => (
-                                        <Cards.CardEvaluationRow
-                                            collection_id={id}
+            <div id="admin-analytics-monitor">
+                <Paper>
+                    <Groups.GroupsInput
+                        hintText="Select the groups you wish to monitor"
+                        onAddGroup={group_id => {
+                            this.props
+                                .dispatch(
+                                    Core.actions.find({
+                                        groups: { $in: [group_id] },
+                                        type: 'group_ref'
+                                    })
+                                )
+                                .then(({ payload }) => {
+                                    this.props.dispatch(
+                                        Core.actions.find({
+                                            type: 'user',
+                                            _id: {
+                                                $in: payload.map(
+                                                    ref => ref.user_id
+                                                )
+                                            }
+                                        })
+                                    );
+                                });
+                        }}
+                    />
+                </Paper>
+
+                {uniq(
+                    this.props.users
+                        .map(u => Users.utils.get_collection_id(u.location))
+                        .filter(id => id)
+                        .filter(id => id !== 'no collection')
+                ).map(collection_id => (
+                    <CollectionMonitorTable
+                        key={collection_id}
+                        collection_id={collection_id}
+                        user_ids={this.props.users
+                            .filter(
+                                user =>
+                                    Users.utils.get_collection_id(
+                                        user.location
+                                    ) === collection_id
+                            )
+                            .map(u => u._id)}
+                    />
+                ))}
+
+                <Paper>
+                    <h1>Offline</h1>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>User</TableHeaderColumn>
+                                <TableHeaderColumn>Status</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {this.props.users.filter(u => !u.online).map(u => (
+                                <TableRow key={u._id}>
+                                    <TableRowColumn>
+                                        <Users.container.Name user_id={u._id} />
+                                    </TableRowColumn>
+                                    <TableRowColumn>
+                                        <Users.container.OnlineStatus
                                             user_id={u._id}
                                         />
-                                        // <TableRow>
-                                        //     <TableRowColumn>
-                                        //         {u.name}
-                                        //     </TableRowColumn>
-                                        //     {this.props.collections
-                                        //         .filter(c => c._id === id)[0]
-                                        //         .cards.map((card_id, i) => (
-                                        //             <TableRowColumn>
-                                        //                 <Cards.CardEvaluationContainer
-                                        //                     user_id={u._id}
-                                        //                     collection_id={id}
-                                        //                     card_id={card_id}
-                                        //                 />
-                                        //             </TableRowColumn>
-                                        //         ))}
-                                        // </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </Paper>
-                ))}
+                                    </TableRowColumn>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         );
     }
@@ -155,7 +150,13 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        users: Users.selectors.query(state, { online: true, level: 1 }),
+        users: Users.selectors.users(
+            state,
+            Groups.selectors.user_ids_for_groups(
+                state,
+                state.groups.ui.selected_groups
+            )
+        ),
         collection_data: Collections.selectors.data_query(state, {
             submitted: false
         }),

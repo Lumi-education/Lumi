@@ -13,7 +13,6 @@ import {
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
-    UI_TOGGLE_TAG_ID_FILTER,
     UI_SET_APPBAR_TITLE
 } from './constants';
 
@@ -26,7 +25,6 @@ const initialState: IUI = {
     show_cards_dialog: false,
     selected_card_ids: [],
     right_appbar_icon: null,
-    tags_filter: [],
     appbar_title: ''
 };
 
@@ -76,18 +74,6 @@ export default function(state: IUI = initialState, action): IUI {
 
         case UI_SET_RIGHT_APPBAR_ICON:
             return assign({}, state, { right_appbar_icon: action.payload });
-
-        case UI_TOGGLE_TAG_ID_FILTER:
-            if (state.tags_filter.indexOf(action.payload.tag_id) > -1) {
-                return assign({}, state, {
-                    tags_filter: state.tags_filter.filter(
-                        tag_id => tag_id !== action.payload.tag_id
-                    )
-                });
-            }
-            return assign({}, state, {
-                tags_filter: [...state.tags_filter, action.payload.tag_id]
-            });
 
         default:
             return state;

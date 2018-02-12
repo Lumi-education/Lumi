@@ -155,7 +155,7 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
         left_drawer_show: state.ui.left_drawer_show,
         collections: select_collections_for_user(state),
         user_id: state.auth.user_id,
-        username: state.users.me.name
+        username: state.auth.username
     };
 }
 

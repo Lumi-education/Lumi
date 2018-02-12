@@ -19,7 +19,7 @@ export class DB {
     private db: string;
     private nano: any;
 
-    constructor(res: express.Response) {
+    constructor(res?: express.Response) {
         this.res = res;
 
         this.db = process.env.DB_HOST + '/' + process.env.DB + '/';
@@ -71,12 +71,14 @@ export class DB {
                 if (cb) {
                     cb(res);
                 } else {
-                    this.res.status(200).json(
-                        assign({}, doc, {
-                            _id: res.body.id,
-                            _rev: res.body.rev
-                        })
-                    );
+                    if (this.res) {
+                        this.res.status(200).json(
+                            assign({}, doc, {
+                                _id: res.body.id,
+                                _rev: res.body.rev
+                            })
+                        );
+                    }
                 }
             })
             .catch(this.handle_error);
@@ -91,12 +93,14 @@ export class DB {
                 if (cb) {
                     cb(res);
                 } else {
-                    this.res.status(200).json(
-                        assign({}, doc, {
-                            _id: res.body.id,
-                            _rev: res.body.rev
-                        })
-                    );
+                    if (this.res) {
+                        this.res.status(200).json(
+                            assign({}, doc, {
+                                _id: res.body.id,
+                                _rev: res.body.rev
+                            })
+                        );
+                    }
                 }
             })
             .catch(this.handle_error);
@@ -187,7 +191,9 @@ export class DB {
                 .then(() => {
                     log('DELETED: ', id);
                     if (!cb) {
-                        this.res.status(200).end();
+                        if (this.res) {
+                            this.res.status(200).end();
+                        }
                     }
                 })
                 .catch(this.handle_error);

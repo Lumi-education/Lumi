@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { Paper, RaisedButton } from 'material-ui';
 
-import { CollectionEvaluationContainer } from 'lib/collections';
 import * as moment from 'moment-timezone';
 // local
 import { IState } from 'client/state';
@@ -14,7 +13,6 @@ import { IData } from 'lib/cards/types';
 
 // actions
 import { get_collection, submit_collection } from 'lib/collections/actions';
-import { get_user_collection_data } from 'lib/data/actions';
 import { push, set_appbar_title } from 'lib/ui/actions';
 
 // selectors
@@ -23,10 +21,10 @@ import {
     select_collection_for_user
 } from 'lib/collections/selectors';
 
-import { select_data_for_user_and_collection } from 'lib/data/selectors';
-
 // modules
 import * as Grades from 'lib/grades';
+import * as Collections from 'lib/collections';
+import * as Cards from 'lib/cards';
 
 interface IStateProps {
     user_id: string;
@@ -104,13 +102,9 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                     <Paper style={{ padding: '10px' }}>
                         {this.props.collection.submitted ? (
                             <div>
-                                {this.props.collection.is_graded ? (
-                                    <CollectionEvaluationContainer
-                                        collection_id={this.props.collection_id}
-                                    />
-                                ) : (
-                                    'Danke'
-                                )}
+                                {this.props.collection.is_graded
+                                    ? '...'
+                                    : 'Danke'}
                             </div>
                         ) : this.props.collection.is_graded ? (
                             'Du hast ' +
@@ -177,11 +171,10 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             ownProps.params.collection_id
         ),
-        data: select_data_for_user_and_collection(
-            state,
+        data: Cards.selectors.data_query(state, {
             user_id,
-            ownProps.params.collection_id
-        )
+            collection_id: ownProps.params.collection_id
+        }) as IData[]
     };
 }
 

@@ -9,7 +9,15 @@ export class CoreController {
     public find(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.find(req.body.selector, {}, docs => res.status(200).json(docs));
+        db.find(req.body.selector, req.body.options || {}, docs =>
+            res.status(200).json(docs)
+        );
+    }
+
+    public doc(req: IRequest, res: express.Response) {
+        const db = new DB(res);
+
+        db.findById(req.params.id, doc => res.status(200).json([doc]));
     }
 
     public update(req: IRequest, res: express.Response) {

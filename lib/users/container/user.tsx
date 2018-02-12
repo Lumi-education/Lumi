@@ -1,8 +1,8 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push, goBack } from 'lib/ui/actions';
 
+// components
 import {
     Dialog,
     TextField,
@@ -15,20 +15,14 @@ import { RaisedButtonComponent } from 'lib/ui';
 
 import { state_color } from 'lib/ui/utils';
 
-// local
-import { IState } from '../types';
-
-// types
-import { IUser } from 'lib/users';
-
-// actions
-import { get_user, update_user, delete_user } from 'lib/users/actions';
+// modules
+import * as Users from '../';
 
 interface IPassedProps {
     user_id: string;
 }
 interface IStateProps extends IPassedProps {
-    user: IUser;
+    user: Users.IUser;
 }
 
 interface IDispatchProps {
@@ -59,12 +53,14 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_user(this.props.user_id)).then(res => {
-            this.setState({
-                name: this.props.user.name,
-                level: this.props.user.level
+        this.props
+            .dispatch(Users.actions.get_user(this.props.user_id))
+            .then(res => {
+                this.setState({
+                    name: this.props.user.name,
+                    level: this.props.user.level
+                });
             });
-        });
     }
 
     public updated_state() {
@@ -130,7 +126,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                         <div style={{ flex: 1 }}>
                             <RaisedButtonComponent
                                 dispatch={this.props.dispatch}
-                                action={update_user(
+                                action={Users.actions.update_user(
                                     this.props.user._id,
                                     this.updated_state()
                                 )}
@@ -163,7 +159,9 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                 onClick={() => {
                                     this.props
                                         .dispatch(
-                                            delete_user(this.props.user_id)
+                                            Users.actions.delete_user(
+                                                this.props.user_id
+                                            )
                                         )
                                         .then(res =>
                                             this.props.dispatch(
@@ -187,7 +185,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.IState, ownProps): IStateProps {
     return {
         user: state.users.list.filter(u => u._id === ownProps.user_id)[0],
         user_id: ownProps.user_id

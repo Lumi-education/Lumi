@@ -18,7 +18,6 @@ import { push, right_drawer_open, set_appbar_title } from 'lib/ui/actions';
 // modules
 import * as Cards from 'lib/cards';
 import * as Collections from 'lib/collections';
-import * as Data from 'lib/data';
 
 interface IStateProps {
     collection: Collections.ICollection;
@@ -60,7 +59,7 @@ export class UserCollectionCard extends React.Component<
         this.props.dispatch(set_appbar_title(this.props.card.name));
 
         this.props.dispatch(
-            Data.actions.get_user_collection_data(this.props.collection_id)
+            Cards.actions.get_user_collection_data(this.props.collection_id)
         );
 
         this.props
@@ -89,25 +88,6 @@ export class UserCollectionCard extends React.Component<
                         this.setState({ show_collection_overview_dialog: true })
                     }
                 />
-                <Dialog
-                    autoScrollBodyContent={true}
-                    open={this.state.show_collection_overview_dialog}
-                    contentStyle={{ width: '100%' }}
-                    onRequestClose={() =>
-                        this.setState({
-                            show_collection_overview_dialog: false
-                        })
-                    }
-                >
-                    <Collections.CollectionOverviewContainer
-                        collection_id={this.props.collection_id}
-                        onListClick={(id: string) =>
-                            this.setState({
-                                show_collection_overview_dialog: false
-                            })
-                        }
-                    />
-                </Dialog>
             </div>
         );
     }

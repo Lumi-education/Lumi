@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-// components
-import { AppBar } from 'material-ui';
-
 // container
 import LeftDrawer from './left-drawer';
 import RightDrawer from './right-drawer';
+import AppBar from './app-bar';
 
 // state
 import { IState } from 'client/state';
@@ -42,23 +40,10 @@ export class AdminRoot extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="AdminRoot">
-                <AppBar
-                    style={{
-                        position: 'fixed',
-                        background: 'linear-gradient(120deg, #8e44ad, #3498db)'
-                    }}
-                    showMenuIconButton={true}
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(ui_actions.left_drawer_open())
-                    }
-                    iconElementRight={this.props.right_appbar_icon}
-                    onRightIconButtonTouchTap={() =>
-                        this.props.dispatch(ui_actions.right_drawer_open())
-                    }
-                />
+                <AppBar />
                 <LeftDrawer />
                 <RightDrawer />
-                <div style={{ paddingTop: '120px', paddingBottom: '40px' }}>
+                <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
 

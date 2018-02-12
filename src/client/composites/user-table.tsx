@@ -16,17 +16,15 @@ import {
 import SVGGrade from 'material-ui/svg-icons/action/grade';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
+import LoadingPage from 'lib/ui/components/loading-page';
 
 // local
-import { IState } from '../types';
-
-// types
-import * as Users from 'lib/users';
-// actions
-import { create_user, get_users, delete_user } from 'lib/users/actions';
+import { IState } from 'client/state';
 
 // modules
 import * as Grades from 'lib/grades';
+import * as Core from 'lib/core';
+import * as Users from 'lib/users';
 
 const log = debug('lumi:lib:users:container:user-table');
 
@@ -40,21 +38,46 @@ interface IStateProps extends IPassedProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class UserTableContainer extends React.Component<IProps, {}> {
+interface IComponentState {
+    loading: boolean;
+}
+export class UserTableContainer extends React.Component<
+    IProps,
+    IComponentState
+> {
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            loading: true
+        };
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_users());
+        this.props.dispatch(Users.actions.get_users()).then(({ payload }) => {
+            this.props
+                .dispatch(
+                    Core.actions.find(
+                        {
+                            user_id: { $in: payload.map(u => u._id) },
+                            type: 'grade'
+                        },
+                        { limit: 500 }
+                    )
+                )
+                .then(res => this.setState({ loading: false }));
+        });
     }
 
     public render() {
+        if (this.state.loading) {
+            return <LoadingPage />;
+        }
         const users = this.props.users.filter(this.props.filter);
 
         return (

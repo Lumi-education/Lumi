@@ -45,17 +45,6 @@ export interface IBaseData {
     updated_at: Date;
 }
 
-export interface ICollectionData extends IBaseData {
-    data_type: 'collection';
-    collection_id: string;
-    user_id: string;
-    submitted: boolean;
-    submit_date: Date;
-    is_graded: boolean;
-    score: number;
-    due_date: Date;
-}
-
 export interface ICardData extends IBaseData {
     card_id: string;
     collection_id: string;
@@ -63,6 +52,9 @@ export interface ICardData extends IBaseData {
     card_type: string;
     score: number;
     is_graded: boolean;
+    graded: boolean;
+    show_answer: boolean;
+    processed: boolean;
 }
 
 export interface ITextCard extends IBaseCard {
@@ -95,6 +87,7 @@ export interface IVideoCardData extends ICardData {
 
 export interface IFreetextCard extends IBaseCard {
     card_type: 'freetext';
+    auto_grade: boolean;
     answer: string;
     preview: boolean;
 }
@@ -102,6 +95,7 @@ export interface IFreetextCard extends IBaseCard {
 export interface IFreetextCardData extends ICardData {
     data_type: 'card';
     card_type: 'freetext';
+    auto_grade: boolean;
     answer: string;
 }
 
@@ -123,8 +117,6 @@ export interface IState {
     cards: {
         map: Map<string, ICard>;
         ui: ICardUI;
-    };
-    data: {
-        map: Map<string, IData>;
+        data: Map<string, IData>;
     };
 }

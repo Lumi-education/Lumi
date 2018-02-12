@@ -4,36 +4,16 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
-// components
-import { TagInputComponent } from '../';
+// modules
+import * as Tags from '../';
 
-// types
-import { IState } from 'client/state';
-import { ITag } from '../types';
-
-// selectors
-import {
-    select_tag_ids_for_doc,
-    select_tags_as_map
-} from 'lib/tags/selectors';
-
-// actions
-import {
-    create_tag_and_add_to_doc,
-    get_tags,
-    delete_tag,
-    add_tag_to_doc,
-    rem_tag_from_doc
-} from 'lib/tags/actions';
-
-interface IPassedProps {
-    tag_ids: string[];
-    add: (tag: ITag) => void;
-    delete: (tag_id: string) => void;
-}
+interface IPassedProps {}
 
 interface IStateProps extends IPassedProps {
-    tags: Map<string, ITag>;
+    tags: Map<string, Tags.ITag>;
+    tag_ids: string[];
+    add: (tag: Tags.ITag) => void;
+    delete: (tag_id: string) => void;
 }
 
 interface IDispatchProps {
@@ -48,26 +28,30 @@ export class TagFilterContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_tags());
+        this.props.dispatch(Tags.actions.get_tags());
     }
 
     public render() {
         const tags = this.props.tags;
         return (
-            <TagInputComponent
+            <Tags.TagInputComponent
                 tags={this.props.tags}
                 tag_ids={this.props.tag_ids || []}
-                add={this.props.add}
-                delete={this.props.delete}
+                add={tag =>
+                    this.props.dispatch(Tags.actions.select_tag(tag._id))
+                }
+                delete={tag_id =>
+                    this.props.dispatch(Tags.actions.select_tag(tag_id))
+                }
             />
         );
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Tags.IState, ownProps): IStateProps {
     return {
-        tags: select_tags_as_map(state),
-        tag_ids: ownProps.tag_ids,
+        tags: Tags.selectors.select_tags_as_map(state),
+        tag_ids: state.tags.ui.selected_tags,
         add: ownProps.add,
         delete: ownProps.delete
     };

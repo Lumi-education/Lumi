@@ -7,24 +7,10 @@ import { assign, noop } from 'lodash';
 import { convert_attachment_url } from '../utils';
 
 // components
-import MultiplechoiceComponent from 'lib/cards/components/multiplechoice-component';
+import MultiplechoiceComponent from 'lib/cards/components/multiplechoice';
 
-// types
-import {
-    IMultiplechoiceCard,
-    IMultiplechoiceCardData,
-    ICollectionData,
-    IState
-} from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-import { select_data, select_collection } from 'lib/data/selectors';
-
-// actions
-import { create_data, update_data, get_data } from 'lib/data/actions';
-import * as Data from 'lib/data';
-import { get_card, update_card } from 'lib/cards/actions';
+// modules
+import * as Cards from '../';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
@@ -35,9 +21,8 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: IMultiplechoiceCard;
-    data: IMultiplechoiceCardData;
-    collection_data: ICollectionData;
+    card: Cards.IMultiplechoiceCard;
+    data: Cards.IMultiplechoiceCardData;
 }
 
 interface IDispatchProps {
@@ -66,7 +51,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         if (!this.props.data._id) {
             this.props
                 .dispatch(
-                    Data.actions.get_card_data(
+                    Cards.actions.get_card_data(
                         this.props.user_id,
                         this.props.collection_id,
                         this.props.card_id
@@ -77,7 +62,9 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                         this.log('no data found. creating..');
                         this.props
                             .dispatch(
-                                create_data<IMultiplechoiceCardData>({
+                                Cards.actions.create_data<
+                                    Cards.IMultiplechoiceCardData
+                                >({
                                     _id:
                                         this.props.user_id +
                                         '-' +
@@ -91,6 +78,9 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                                     score: 0,
                                     card_type: 'multiplechoice',
                                     items: [],
+                                    graded: true,
+                                    processed: true,
+                                    show_answer: false,
                                     is_graded: true,
                                     data_type: 'card',
                                     card_id: this.props.card._id,
@@ -119,18 +109,16 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     text={card.text}
                     items={card.items}
                     selected_items={data.items || []}
-                    show_correct_values={this.props.collection_data.submitted}
+                    show_correct_values={this.props.data.show_answer}
                     cb={(items, score) => {
-                        this.props.collection_data.submitted
-                            ? noop()
-                            : this.props.dispatch(
-                                  update_data(
-                                      assign({}, this.props.data, {
-                                          items,
-                                          score
-                                      })
-                                  )
-                              );
+                        this.props.dispatch(
+                            Cards.actions.update_data(
+                                assign({}, this.props.data, {
+                                    items,
+                                    score
+                                })
+                            )
+                        );
                     }}
                 />
             );
@@ -140,21 +128,23 @@ export class MultiplechoiceCardViewContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
         user_id: ownProps.user_id || (state as any).auth.user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id) as IMultiplechoiceCard,
-        collection_data: select_collection(state, ownProps.collection_id),
-        data: select_data(
+        card: Cards.selectors.select_card(
+            state,
+            ownProps.card_id
+        ) as Cards.IMultiplechoiceCard,
+        data: Cards.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,
             ownProps.card_id
-        ) as IMultiplechoiceCardData
+        ) as Cards.IMultiplechoiceCardData
     };
 }
 

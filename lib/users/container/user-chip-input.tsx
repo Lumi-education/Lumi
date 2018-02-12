@@ -1,13 +1,10 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 import * as debug from 'debug';
+
+// components
 import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
-
-// local
-import { IState } from '../../../src/client/state';
 
 // modules
 import * as Users from '../';
@@ -72,7 +69,7 @@ export class UsersChipInputContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.IState, ownProps): IStateProps {
     const user_ids = state.users.ui.selected_users || [];
 
     return {

@@ -18,7 +18,6 @@ export interface IState {
     users: {
         list: IUser[];
         ui: IUsersUI;
-        me: IUser;
     };
 }
 

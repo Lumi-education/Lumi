@@ -15,6 +15,7 @@ export const TAGS_ADD_TO_DOC_ERROR = 'TAGS_ADD_TO_DOC_ERROR';
 export const TAGS_REM_FROM_DOC_REQUEST = 'TAGS_REM_FROM_DOC_REQUEST';
 export const TAGS_REM_FROM_DOC_SUCCESS = 'TAGS_REM_FROM_DOC_SUCCESS';
 export const TAGS_REM_FROM_DOC_ERROR = 'TAGS_REM_FROM_DOC_ERROR';
+export const TAGS_UI_SELECT_TAG_ID = 'TAGS_UI_SELECT_TAG_ID';
 
 import * as API from './api';
 
@@ -87,5 +88,14 @@ export function create_tag_and_add_to_doc(doc_id: string, tag_name: string) {
                 dispatch(add_tag_to_doc(doc_id, res.body._id));
             })
             .catch();
+    };
+}
+
+export function select_tag(tag_id: string) {
+    return {
+        type: TAGS_UI_SELECT_TAG_ID,
+        payload: {
+            tag_id
+        }
     };
 }

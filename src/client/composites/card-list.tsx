@@ -7,7 +7,7 @@ import { Avatar, Divider, List, ListItem, IconButton } from 'material-ui';
 import TagsContainer from 'lib/tags/container/tags';
 
 // types
-import { ICard } from '../types';
+import { ICard } from 'lib/cards';
 
 interface IStateProps {
     cards: ICard[];
@@ -51,17 +51,7 @@ export default class CardListComponent extends React.Component<IProps, {}> {
                                 </Avatar>
                             }
                             primaryText={card.name}
-                            secondaryText={
-                                <span>
-                                    <span>
-                                        {card.text
-                                            ? card.text.substring(0, 100)
-                                            : null}
-                                    </span>
-                                    <br />
-                                    <TagsContainer doc_id={card._id} />{' '}
-                                </span>
-                            }
+                            secondaryText={<TagsContainer doc_id={card._id} />}
                             secondaryTextLines={2}
                             onClick={() => this.props.onClick(card._id)}
                         />

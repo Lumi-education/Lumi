@@ -18,14 +18,10 @@ export default class LoadingPage extends React.Component<IProps, {}> {
             <div
                 style={{
                     width: '100%',
-                    height: '100vh',
-                    background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+                    height: '100vh'
                 }}
-            >
-                <Paper style={{ padding: '20px' }}>
-                    <h1>Loading</h1>
-                </Paper>
-            </div>
+                className="loading"
+            />
         );
     }
 }

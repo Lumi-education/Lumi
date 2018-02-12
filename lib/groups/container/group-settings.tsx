@@ -15,28 +15,14 @@ import { RaisedButtonComponent } from 'lib/ui';
 
 import { state_color } from 'lib/ui/utils';
 
-// local
-import { IState } from 'client/state';
-
-// types
-import { IGroup } from 'lib/groups';
-
-// actions
-
-import {
-    get_group,
-    get_groups,
-    create_and_add_group
-} from 'lib/groups/actions';
-
-// selectors
+// modules
 import * as Groups from '../';
 
 interface IPassedProps {
     group_id: string;
 }
 interface IStateProps extends IPassedProps {
-    group: IGroup;
+    group: Groups.IGroup;
 }
 
 interface IDispatchProps {
@@ -68,11 +54,13 @@ export class GroupSettingsContainer extends React.Component<
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_group(this.props.group_id)).then(res => {
-            this.setState({
-                name: this.props.group.name
+        this.props
+            .dispatch(Groups.actions.get_group(this.props.group_id))
+            .then(res => {
+                this.setState({
+                    name: this.props.group.name
+                });
             });
-        });
     }
 
     public updated_state() {
@@ -168,7 +156,7 @@ export class GroupSettingsContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Groups.IState, ownProps): IStateProps {
     return {
         group: Groups.selectors.select_group(state, ownProps.group_id),
         group_id: ownProps.group_id

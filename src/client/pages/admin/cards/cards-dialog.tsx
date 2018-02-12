@@ -18,6 +18,7 @@ import { IState } from 'client/state';
 
 // modules
 import * as Cards from 'lib/cards';
+import * as Tags from 'lib/tags';
 
 interface IPassedProps {
     collection_id: string;
@@ -25,6 +26,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     show_cards_dialog: boolean;
+    card_ids: string[];
     selected_card_ids: string[];
 }
 
@@ -78,8 +80,14 @@ export class CardsDialog extends React.Component<IProps, {}> {
             >
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 1 }}>
+                        <Tags.TagsFilterContainer />
+
                         <CardList
-                            card_ids={['all']}
+                            card_ids={
+                                this.props.card_ids.length === 0
+                                    ? ['all']
+                                    : this.props.card_ids
+                            }
                             onClick={card_id =>
                                 this.props.dispatch(
                                     Cards.actions.select_card(card_id)
@@ -95,6 +103,10 @@ export class CardsDialog extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
+        card_ids: Tags.selectors.select_doc_ids_for_tags(
+            state,
+            state.tags.ui.selected_tags
+        ),
         show_cards_dialog: state.ui.show_cards_dialog,
         collection_id: ownProps.collection_id,
         selected_card_ids: state.cards.ui.selected_cards

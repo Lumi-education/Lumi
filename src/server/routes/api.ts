@@ -23,6 +23,7 @@ router.post(
     mw.level(3),
     CoreController.action
 );
+router.get('/core/doc/:id', mw.auth, mw.level(3), CoreController.doc);
 
 // mw.auth
 router.post('/auth/login', AuthController.login);

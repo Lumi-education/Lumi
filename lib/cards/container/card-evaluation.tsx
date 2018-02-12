@@ -3,27 +3,31 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { assign } from 'lodash';
 import { push } from 'lib/ui/actions';
-import * as moment from 'moment-timezone';
-import { Checkbox } from 'material-ui';
-// local
-import { IState } from '../types';
+
+// components
+import { Badge, Checkbox, Dialog, RaisedButton } from 'material-ui';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-// types
-import * as Users from 'lib/users';
-import * as Data from 'lib/data';
-import * as Collections from 'lib/collections';
+import SVGLoading from 'material-ui/svg-icons/action/cached';
+import SVGMultiplechoice from 'material-ui/svg-icons/action/view-agenda';
+import SVGText from 'material-ui/svg-icons/action/view-headline';
+import SVGVideo from 'material-ui/svg-icons/notification/ondemand-video';
+import SVGFreetext from 'material-ui/svg-icons/content/text-format';
+// modules
 import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
 
 interface IPassedProps {
     collection_id: string;
     user_id: string;
     card_id: string;
+    active: boolean;
 }
 
 interface IStateProps extends IPassedProps {
     card_data: Cards.ICardData;
+    card: Cards.ICard;
 }
 
 interface IDispatchProps {
@@ -32,9 +36,20 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class CardEvaluationContainer extends React.Component<IProps, {}> {
+interface IComponentState {
+    show_card: boolean;
+}
+
+export class CardEvaluationContainer extends React.Component<
+    IProps,
+    IComponentState
+> {
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            show_card: false
+        };
     }
 
     public componentWillMount() {
@@ -48,45 +63,111 @@ export class CardEvaluationContainer extends React.Component<IProps, {}> {
                 })
             );
         }
+        if (!this.props.card._id) {
+            this.props.dispatch(Cards.actions.get_card(this.props.card_id));
+        }
     }
 
     public render() {
         return (
-            <Checkbox
-                onClick={e => {
-                    // e.stopPropagation();
-                    // this.props.dispatch(
-                    //     Data.actions.update_data(
-                    //         assign(this.props.collection_data, {
-                    //             submitted: !this.props.collection_data.submitted
-                    //         })
-                    //     )
-                    // );
-                }}
-                style={{ display: 'inline-block' }}
-                checkedIcon={<SVGCheck />}
-                uncheckedIcon={<SVGClose />}
-                checked={this.props.card_data.score === 1}
-                iconStyle={{
-                    fill:
-                        this.props.card_data.score === 1 ? '#2ecc71' : '#e74c3c'
-                }}
-            />
+            <div>
+                <Checkbox
+                    onClick={e => {
+                        e.stopPropagation();
+                        this.setState({ show_card: true });
+                    }}
+                    style={{
+                        display: 'inline-block',
+                        backgroundColor: this.props.card_data.graded
+                            ? undefined
+                            : 'yellow',
+                        zIndex: 1000
+                    }}
+                    disabled={!this.props.card_data.processed}
+                    checkedIcon={
+                        this.props.active ? (
+                            <SVGClose />
+                        ) : (
+                            card_type_icon(this.props.card.card_type)
+                        )
+                    }
+                    uncheckedIcon={
+                        this.props.active ? (
+                            <SVGClose />
+                        ) : (
+                            card_type_icon(this.props.card.card_type)
+                        )
+                    }
+                    checked={this.props.card_data.score === 1}
+                    iconStyle={{
+                        fill: UI.utils.get_grade_color(
+                            this.props.card_data.score * 100
+                        )
+                    }}
+                />
+                <Dialog
+                    title={this.props.card.name}
+                    open={this.state.show_card}
+                    onRequestClose={() => this.setState({ show_card: false })}
+                    autoScrollBodyContent={true}
+                    contentStyle={{ width: '100%' }}
+                    actions={[
+                        <RaisedButton
+                            label="Close"
+                            onClick={() => this.setState({ show_card: false })}
+                        />
+                    ]}
+                >
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flex: 1 }}>
+                            <Cards.CardViewContainer
+                                card_id={this.props.card_id}
+                                collection_id={this.props.collection_id}
+                                user_id={this.props.user_id}
+                            />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <Cards.CardDataSettingsContainer
+                                user_id={this.props.user_id}
+                                collection_id={this.props.collection_id}
+                                card_id={this.props.card_id}
+                            />
+                        </div>
+                    </div>
+                </Dialog>
+            </div>
         );
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function card_type_icon(type: string) {
+    switch (type) {
+        case 'multiplechoice':
+            return <SVGMultiplechoice />;
+        case 'text':
+            return <SVGText />;
+        case 'video':
+            return <SVGVideo />;
+        case 'freetext':
+            return <SVGFreetext />;
+        default:
+            return <SVGCheck />;
+    }
+}
+
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         user_id: ownProps.user_id,
         collection_id: ownProps.collection_id,
         card_id: ownProps.card_id,
-        card_data: Data.selectors.select_data(
+        card_data: Cards.selectors.select_data(
             state,
             ownProps.user_id,
             ownProps.collection_id,
             ownProps.card_id
-        )
+        ),
+        card: Cards.selectors.select_card(state, ownProps.card_id),
+        active: ownProps.active
     };
 }
 

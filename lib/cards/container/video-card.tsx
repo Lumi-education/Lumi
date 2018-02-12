@@ -5,17 +5,9 @@ import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
 // components
-import VideoCardComponent from '../components/video-card';
+import VideoCardComponent from '../components/video';
 
-// types
-import { IVideoCard, IVideoCardData, IState } from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-import { select_data, select_collection } from 'lib/data/selectors';
-
-// actions
-import * as Data from 'lib/data';
+import * as Cards from '../';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -26,9 +18,8 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    card: IVideoCard;
-    data: IVideoCardData;
-    // collection_data;
+    card: Cards.IVideoCard;
+    data: Cards.IVideoCardData;
 }
 
 interface IDispatchProps {
@@ -66,7 +57,7 @@ export class VideoCardContainer extends React.Component<
         this.log('checking for data');
         this.props
             .dispatch(
-                Data.actions.get_card_data(
+                Cards.actions.get_card_data(
                     this.props.user_id,
                     this.props.collection_id,
                     this.props.card_id
@@ -77,7 +68,7 @@ export class VideoCardContainer extends React.Component<
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(
-                            Data.actions.create_data<IVideoCardData>({
+                            Cards.actions.create_data<Cards.IVideoCardData>({
                                 _id:
                                     this.props.user_id +
                                     '-' +
@@ -89,8 +80,11 @@ export class VideoCardContainer extends React.Component<
                                 created_at: undefined,
                                 updated_at: undefined,
                                 card_type: 'video',
+                                processed: true,
+                                show_answer: false,
                                 is_graded: false,
                                 data_type: 'card',
+                                graded: true,
                                 score: 0,
                                 card_id: this.props.card._id,
                                 collection_id: this.props.collection_id
@@ -118,20 +112,23 @@ export class VideoCardContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
         user_id,
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id) as IVideoCard,
-        data: select_data(
+        card: Cards.selectors.select_card(
+            state,
+            ownProps.card_id
+        ) as Cards.IVideoCard,
+        data: Cards.selectors.select_data(
             state,
             user_id,
             ownProps.collection_id,
             ownProps.card_id
-        ) as IVideoCardData
+        ) as Cards.IVideoCardData
     };
 }
 

@@ -11,22 +11,16 @@ import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import TextCardContainer from './text-card-container';
 
-// types
-import { ICard, IState } from '../types';
-
-// selectors
-import { select_card } from 'lib/cards/selectors';
-
-// actions
-import { get_card } from 'lib/cards/actions';
+import * as Cards from '../';
 
 interface IPassedProps {
     card_id: string;
     collection_id: string;
+    user_id?: string;
 }
 
 interface IStateProps extends IPassedProps {
-    card: ICard;
+    card: Cards.ICard;
 }
 
 interface IDispatchProps {
@@ -42,11 +36,17 @@ export class CardViewContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         if (!this.props.card._id) {
-            this.props.dispatch(get_card(this.props.card_id));
+            this.props.dispatch(Cards.actions.get_card(this.props.card_id));
         }
     }
 
     public render() {
+        const id =
+            this.props.user_id +
+            '-' +
+            this.props.collection_id +
+            '-' +
+            this.props.card_id;
         const card = this.props.card;
 
         if (card) {
@@ -54,41 +54,46 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 case 'multiplechoice':
                     return (
                         <MultiplechoiceContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
+                            user_id={this.props.user_id}
                         />
                     );
                 case 'freetext':
                     return (
                         <FreetextContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
+                            user_id={this.props.user_id}
                         />
                     );
                 case 'video':
                     return (
                         <VideoCardContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
+                            user_id={this.props.user_id}
                         />
                     );
                 case 'upload':
                     return (
                         <UploadCardContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
+                            user_id={this.props.user_id}
                         />
                     );
                 case 'text':
                     return (
                         <TextCardContainer
-                            key={this.props.card_id}
+                            key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
+                            user_id={this.props.user_id}
                         />
                     );
             }
@@ -98,11 +103,12 @@ export class CardViewContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         card_id: ownProps.card_id,
         collection_id: ownProps.collection_id,
-        card: select_card(state, ownProps.card_id)
+        card: Cards.selectors.select_card(state, ownProps.card_id),
+        user_id: ownProps.user_id || (state as any).auth.user_id
     };
 }
 

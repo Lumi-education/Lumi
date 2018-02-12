@@ -4,27 +4,12 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 import * as debug from 'debug';
+
 // components
-import CollectionSettingsComponent from '../components/collection-settings';
-// local
-import { IState } from '../../../src/client/state';
-
-// types
-import { ICollection } from 'lib/collections/types';
-import { ICard } from 'lib/cards/types';
-
-// selectors
-import { select_cards_as_map } from 'lib/cards/selectors';
-import { select_collection_by_id } from 'lib/collections/selectors';
-
-// actions
-import {
-    get_collection,
-    update_collection,
-    delete_collection
-} from 'lib/collections/actions';
-
 import { Dialog, RaisedButton } from 'material-ui';
+
+// modules
+import * as Collections from '../';
 
 const log_action = debug('lumi:actions:collection-settings');
 const log_props = debug('lumi:props:collections:container:collection-settings');
@@ -34,7 +19,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    collection: ICollection;
+    collection: Collections.ICollection;
 }
 
 interface IDispatchProps {
@@ -61,7 +46,9 @@ export class CollectionSettingsContainer extends React.Component<
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_collection(this.props.collection_id));
+        this.props.dispatch(
+            Collections.actions.get_collection(this.props.collection_id)
+        );
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
@@ -71,10 +58,13 @@ export class CollectionSettingsContainer extends React.Component<
     public render() {
         return (
             <div>
-                <CollectionSettingsComponent
+                <Collections.CollectionSettingsComponent
                     update={update =>
                         this.props.dispatch(
-                            update_collection(this.props.collection_id, update)
+                            Collections.actions.update_collection(
+                                this.props.collection_id,
+                                update
+                            )
                         )
                     }
                     delete={() =>
@@ -103,7 +93,7 @@ export class CollectionSettingsContainer extends React.Component<
                             onClick={() => {
                                 this.props
                                     .dispatch(
-                                        delete_collection(
+                                        Collections.actions.delete_collection(
                                             this.props.collection_id
                                         )
                                     )
@@ -131,10 +121,13 @@ export class CollectionSettingsContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Collections.IState, ownProps): IStateProps {
     return {
         collection_id: ownProps.collection_id,
-        collection: select_collection_by_id(state, ownProps.collection_id)
+        collection: Collections.selectors.select_collection_by_id(
+            state,
+            ownProps.collection_id
+        )
     };
 }
 

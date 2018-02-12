@@ -17,7 +17,6 @@ import {
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
-    UI_TOGGLE_TAG_ID_FILTER,
     UI_SET_APPBAR_TITLE
 } from './constants';
 import { disable_collection } from 'lib/groups/api';
@@ -43,13 +42,6 @@ export function set_appbar_title(title: string) {
     return {
         type: UI_SET_APPBAR_TITLE,
         payload: { title }
-    };
-}
-
-export function toggle_tag_id_filter(tag_id: string) {
-    return {
-        type: UI_TOGGLE_TAG_ID_FILTER,
-        payload: { tag_id }
     };
 }
 

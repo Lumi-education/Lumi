@@ -53,9 +53,7 @@ export class AttachmentListContainer extends React.Component<IProps, {}> {
                             key => (
                                 <a
                                     href={
-                                        '/api/v0/' +
-                                        window.location.pathname.split('/')[1] +
-                                        '/cards/' +
+                                        '/api/v0/cards/' +
                                         this.props.doc_id +
                                         '/attachment/' +
                                         key

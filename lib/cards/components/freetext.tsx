@@ -43,6 +43,7 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         log('componentDidMount');
+        this.setState({ value: this.props.answer });
     }
 
     public typeset() {

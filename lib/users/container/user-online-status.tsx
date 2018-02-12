@@ -1,14 +1,14 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import * as moment from 'moment-timezone';
+
+// components
 import { Checkbox } from 'material-ui';
-// local
-import { IState } from '../types';
 import SVGOnline from 'material-ui/svg-icons/av/fiber-manual-record';
-// types
-import * as Users from 'lib/users';
+
+// modules
+import * as Users from '../';
 
 interface IPassedProps {
     user_id: string;
@@ -49,7 +49,7 @@ export class UserOnlineStatusContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.IState, ownProps): IStateProps {
     return {
         user_id: ownProps.user_id,
         user: Users.selectors.user(state, ownProps.user_id)

@@ -49,9 +49,7 @@ export default class AttachmentComponent extends React.Component<IProps, {}> {
         acceptedFiles.forEach(file => {
             const req = request
                 .put(
-                    '/api/v0/' +
-                        window.location.pathname.split('/')[1] +
-                        '/cards/' +
+                    '/api/v0/cards/' +
                         this.props.doc_id +
                         '/attachment/' +
                         file.name +
@@ -69,9 +67,7 @@ export default class AttachmentComponent extends React.Component<IProps, {}> {
     public _delete(key: string) {
         request
             .delete(
-                '/api/v0/' +
-                    window.location.pathname.split('/')[1] +
-                    '/cards/' +
+                '/api/v0/cards/' +
                     this.props.doc_id +
                     '/attachment/' +
                     key +
@@ -90,18 +86,29 @@ export default class AttachmentComponent extends React.Component<IProps, {}> {
                     {(() => {
                         return Object.keys(this.props.attachments || {}).map(
                             key => (
-                                <ListItem
-                                    key={key}
-                                    onClick={() => this.insertAttachment(key)}
-                                    primaryText={key}
-                                    rightIconButton={
-                                        <IconButton
-                                            onClick={() => this._delete(key)}
-                                        >
-                                            <SVGClose />
-                                        </IconButton>
+                                <a
+                                    href={
+                                        '/api/v0/cards/' +
+                                        this.props.doc_id +
+                                        '/attachment/' +
+                                        key
                                     }
-                                />
+                                    target="_blank"
+                                >
+                                    <ListItem
+                                        key={key}
+                                        primaryText={key}
+                                        rightIconButton={
+                                            <IconButton
+                                                onClick={() =>
+                                                    this._delete(key)
+                                                }
+                                            >
+                                                <SVGClose />
+                                            </IconButton>
+                                        }
+                                    />
+                                </a>
                             )
                         );
                     })()}

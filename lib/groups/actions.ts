@@ -39,6 +39,8 @@ import {
     GROUPS_UPDATE_GROUP_ERROR
 } from './constants';
 
+export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP';
+
 import * as API from './api';
 
 export function add_group(user_id: string, group_id: string) {
@@ -199,5 +201,12 @@ export function update_group(group_id: string, update) {
         ],
         api: API.update_group(group_id, update),
         payload: { group_id, update }
+    };
+}
+
+export function select_group(group_id: string) {
+    return {
+        type: GROUPS_SELECT_GROUP,
+        payload: { group_id }
     };
 }
