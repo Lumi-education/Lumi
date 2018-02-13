@@ -78,12 +78,18 @@ export class CardEvaluationContainer extends React.Component<
                     }}
                     style={{
                         display: 'inline-block',
-                        backgroundColor: this.props.card_data.graded
-                            ? undefined
-                            : 'yellow',
+                        backgroundColor:
+                            !this.props.card_data.graded &&
+                            this.props.card_data.processed
+                                ? 'yellow'
+                                : undefined,
                         zIndex: 1000
                     }}
-                    disabled={!this.props.card_data.processed}
+                    disabled={
+                        !this.props.card_data.processed ||
+                        this.props.card.card_type === 'video' ||
+                        this.props.card.card_type === 'text'
+                    }
                     checkedIcon={
                         this.props.active ? (
                             <SVGClose />
