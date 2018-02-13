@@ -11,7 +11,7 @@ import UserList from 'client/composites/user-list';
 import { IState } from 'client/state';
 
 // modules
-import * as User from 'lib/users';
+import * as Users from 'lib/users';
 
 interface IStateProps {}
 
@@ -35,7 +35,11 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(User.actions.get_users());
+        this.props.dispatch(Users.actions.get_users());
+    }
+
+    public componentWillUnmount() {
+        this.props.dispatch(Users.actions.selection_reset());
     }
 
     public render() {
@@ -61,7 +65,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                     />
                 </Paper>
                 <ActionBar>
-                    <User.CreateUserContainer />
+                    <Users.CreateUserContainer />
                 </ActionBar>
             </div>
         );
