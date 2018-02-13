@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
-
+import * as raven from 'raven-js';
 import { convert_attachment_url } from '../utils';
 
 // components
@@ -78,6 +78,7 @@ export class FreetextCardContainer extends React.Component<
                 .then(res => {
                     if (res.response.status === 404) {
                         this.log('no data found. creating..');
+                        raven.captureMessage('data not found');
                         this.props
                             .dispatch(
                                 Cards.actions.create_data<
