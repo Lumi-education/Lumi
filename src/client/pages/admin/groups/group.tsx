@@ -161,6 +161,10 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                             />
                                         )
                                     )}
+                                    <ActionBar>
+                                        <Collections.CollectionUnsubmitSelectedButtonContainer />
+                                        <Collections.CollectionSubmitSelectedButtonContainer />
+                                    </ActionBar>
                                 </div>
                             );
                     }

@@ -173,31 +173,8 @@ export class AdminAssignmentsPage extends React.Component<
                     </TableBody>
                 </Table>
                 <ActionBar>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                Core.actions.action(
-                                    'DELETE_ASSIGNMENT',
-                                    this.props.selected_collection_data
-                                )
-                            );
-                        }}
-                    >
-                        <SVGClose />
-                    </FloatingActionButton>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                Core.actions.action(
-                                    'SUBMIT_COLLECTION',
-                                    this.props.selected_collection_data,
-                                    { submitted: true }
-                                )
-                            );
-                        }}
-                    >
-                        <SVGDone />
-                    </FloatingActionButton>
+                    <Collections.CollectionUnsubmitSelectedButtonContainer />
+                    <Collections.CollectionSubmitSelectedButtonContainer />
                 </ActionBar>
             </div>
         );

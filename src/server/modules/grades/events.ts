@@ -1,5 +1,9 @@
 import event from '../../core/event';
 import * as debug from 'debug';
+import { DB } from '../../db';
+
+import { ICollectionData } from 'lib/collections/types';
+import { IGrade } from 'lib/grades/types';
 
 const log = debug('lumi:modules:collections:events');
 
@@ -23,4 +27,23 @@ export default function boot() {
             });
         }
     });
+
+    event.on(
+        'COLLECTIONS/COLLECTION_UNSUBMITTED',
+        (collection_data: ICollectionData) => {
+            const db = new DB();
+
+            db.find(
+                {
+                    type: 'grade',
+                    ref_id: collection_data.collection_id,
+                    user_id: collection_data.user_id
+                },
+                {},
+                (grades: IGrade[]) => {
+                    grades.forEach(grade => actions.delete_grade(grade._id));
+                }
+            );
+        }
+    );
 }

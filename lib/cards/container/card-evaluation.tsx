@@ -6,6 +6,7 @@ import { push } from 'lib/ui/actions';
 
 // components
 import { Badge, Checkbox, Dialog, RaisedButton } from 'material-ui';
+import SVGError from 'material-ui/svg-icons/alert/error';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGLoading from 'material-ui/svg-icons/action/cached';
@@ -23,6 +24,7 @@ interface IPassedProps {
     user_id: string;
     card_id: string;
     active: boolean;
+    repair?: boolean;
 }
 
 interface IStateProps extends IPassedProps {
@@ -31,7 +33,7 @@ interface IStateProps extends IPassedProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -53,15 +55,26 @@ export class CardEvaluationContainer extends React.Component<
     }
 
     public componentWillMount() {
-        if (!this.props.card_data._id) {
-            this.props.dispatch(
-                Core.actions.find({
-                    type: 'data',
-                    user_id: this.props.user_id,
-                    collection_id: this.props.collection_id,
-                    card_id: this.props.card_id
-                })
-            );
+        if (!this.props.card_data._id && this.props.repair) {
+            this.props
+                .dispatch(
+                    Cards.actions.get_card_data(
+                        this.props.user_id,
+                        this.props.collection_id,
+                        this.props.card_id
+                    )
+                )
+                .then(res => {
+                    if (res.response.status === 404) {
+                        this.props.dispatch(
+                            Core.actions.action('CREATE_CARD_DATA', [], {
+                                user_id: this.props.user_id,
+                                collection_id: this.props.collection_id,
+                                card_id: this.props.card_id
+                            })
+                        );
+                    }
+                });
         }
         if (!this.props.card._id) {
             this.props.dispatch(Cards.actions.get_card(this.props.card_id));
@@ -69,6 +82,14 @@ export class CardEvaluationContainer extends React.Component<
     }
 
     public render() {
+        if (!this.props.card_data._id) {
+            return (
+                <Checkbox
+                    iconStyle={{ fill: 'grey' }}
+                    uncheckedIcon={<SVGError />}
+                />
+            );
+        }
         return (
             <div>
                 <Checkbox
@@ -173,7 +194,8 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
             ownProps.card_id
         ),
         card: Cards.selectors.select_card(state, ownProps.card_id),
-        active: ownProps.active
+        active: ownProps.active,
+        repair: ownProps.repair
     };
 }
 
