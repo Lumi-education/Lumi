@@ -2,6 +2,7 @@ import * as express from 'express';
 import { assign } from 'lodash';
 import { DB } from '../../db';
 import { IRequest } from '../../middleware/auth';
+import * as raven from 'raven';
 
 import User from '../../models/User';
 import Group from '../../models/Group';
@@ -11,6 +12,8 @@ import Data from '../../models/Data';
 export class UserController {
     public createData(req: IRequest, res: express.Response) {
         const db = new DB(res);
+
+        raven.captureException(new Error('data not found'), { req });
 
         db.insert(new Data(assign({}, { user_id: req.user._id }, req.body)));
     }

@@ -84,11 +84,20 @@ export function submit_collection(id: string) {
     );
 }
 
+export function unsubmit_collection(id: string) {
+    const db = new DB();
+
+    db.update_one(id, { submitted: false }, doc => {
+        event.emit('COLLECTIONS/COLLECTION_UNSUBMITTED', doc);
+    });
+}
 export function delete_assignment(id: string) {
     const db = new DB();
 
-    db.delete(id, () => {
-        event.emit('COLLECTIONS/ASSIGNMENT_DELETED', { _id: id });
+    db.findById(id, doc => {
+        db.delete(id, () => {
+            event.emit('COLLECTIONS/ASSIGNMENT_DELETED', doc);
+        });
     });
 }
 

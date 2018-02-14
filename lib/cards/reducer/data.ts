@@ -30,7 +30,9 @@ export default function(
         case 'USERS_INIT_USER_SUCCESS':
             return state.merge(
                 Map<string, {}>(
-                    arrayToObject(action.payload.filter(d => d.type === 'data'))
+                    arrayToObject(
+                        action.payload.filter(d => d.data_type === 'card')
+                    )
                 )
             );
 

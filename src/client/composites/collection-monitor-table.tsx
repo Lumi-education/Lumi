@@ -29,6 +29,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     collection: Collections.ICollection;
+    collection_data: (user_id: string) => Collections.ICollectionData;
 }
 
 interface IDispatchProps {
@@ -71,15 +72,13 @@ export class CollectionTableHeaderContainer extends React.Component<
                                 collection_id: this.props.collection_id,
                                 user_id: {
                                     $in: this.props.user_ids
-                                },
-                                card_id: {
-                                    $in: this.props.collection.cards
                                 }
                             },
                             {
                                 limit:
                                     this.props.user_ids.length *
-                                    this.props.collection.cards.length
+                                        this.props.collection.cards.length +
+                                    this.props.user_ids.length
                             }
                         )
                     )
@@ -104,7 +103,44 @@ export class CollectionTableHeaderContainer extends React.Component<
                         collection_id={this.props.collection_id}
                     />
                 </h1>
-                <Table>
+                <Table
+                    onRowSelection={rows => {
+                        switch (rows) {
+                            case 'all':
+                                this.props.dispatch(
+                                    Collections.actions.select_collection_data(
+                                        this.props.user_ids.map(
+                                            user_id =>
+                                                user_id +
+                                                '-' +
+                                                this.props.collection_id
+                                        )
+                                    )
+                                );
+                                break;
+                            case 'none':
+                                this.props.dispatch(
+                                    Collections.actions.select_collection_data(
+                                        []
+                                    )
+                                );
+                                break;
+                            default:
+                                const collection_data_ids = (rows as number[]).map(
+                                    row =>
+                                        this.props.user_ids[row] +
+                                        '-' +
+                                        this.props.collection_id
+                                );
+                                this.props.dispatch(
+                                    Collections.actions.select_collection_data(
+                                        collection_data_ids
+                                    )
+                                );
+                        }
+                    }}
+                    multiSelectable={true}
+                >
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>User</TableHeaderColumn>
@@ -116,13 +152,22 @@ export class CollectionTableHeaderContainer extends React.Component<
                                     {i + 1}
                                 </TableHeaderColumn>
                             ))}
-                            <TableHeaderColumn>Due</TableHeaderColumn>
                             <TableHeaderColumn>Score</TableHeaderColumn>
+                            <TableHeaderColumn>Submitted</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody preScanRows={false}>
+                    <TableBody preScanRows={false} deselectOnClickaway={false}>
                         {this.props.user_ids.map(user_id => (
-                            <TableRow key={user_id}>
+                            <TableRow
+                                key={user_id}
+                                style={{
+                                    background:
+                                        this.props.collection_data(user_id) ===
+                                        undefined
+                                            ? 'grey'
+                                            : null
+                                }}
+                            >
                                 <TableRowColumn>
                                     <Users.container.Name user_id={user_id} />
                                 </TableRowColumn>
@@ -147,22 +192,27 @@ export class CollectionTableHeaderContainer extends React.Component<
                                             }
                                             card_id={card_id}
                                             active={false}
+                                            repair={
+                                                this.props.collection_data(
+                                                    user_id
+                                                ) !== undefined
+                                            }
                                         />
                                     </TableRowColumn>
                                 ))}
                                 <TableRowColumn>
-                                    <Collections.container.DueDate
+                                    <CollectionEvaluation
+                                        collection_id={this.props.collection_id}
+                                        user_id={user_id}
+                                    />
+                                </TableRowColumn>
+                                <TableRowColumn>
+                                    <Collections.container.Submitted
                                         data_id={
                                             user_id +
                                             '-' +
                                             this.props.collection_id
                                         }
-                                    />
-                                </TableRowColumn>
-                                <TableRowColumn>
-                                    <CollectionEvaluation
-                                        collection_id={this.props.collection_id}
-                                        user_id={user_id}
                                     />
                                 </TableRowColumn>
                             </TableRow>
@@ -181,7 +231,12 @@ function mapStateToProps(state: Collections.IState, ownProps): IStateProps {
         collection: Collections.selectors.select_collection_by_id(
             state,
             ownProps.collection_id
-        )
+        ),
+        collection_data: (user_id: string) =>
+            Collections.selectors.data_query(state, {
+                user_id,
+                collection_id: ownProps.collection_id
+            })[0]
     };
 }
 

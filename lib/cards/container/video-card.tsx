@@ -3,6 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
+import * as raven from 'raven-js';
 
 // components
 import VideoCardComponent from '../components/video';
@@ -65,6 +66,7 @@ export class VideoCardContainer extends React.Component<
             )
             .then(res => {
                 if (res.response.status === 404) {
+                    raven.captureMessage('data not found');
                     this.log('no data found. creating..');
                     this.props
                         .dispatch(

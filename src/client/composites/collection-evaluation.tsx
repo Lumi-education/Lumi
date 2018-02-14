@@ -69,8 +69,11 @@ export class CollectionEvaluationContainer extends React.Component<
             return <Avatar>0</Avatar>;
         }
         const grade =
-            this.props.card_data.map(d => d.score).reduce((p, c) => p + c, 0) /
-            this.props.collection.cards.length *
+            this.props.card_data
+                .filter(d => d.is_graded)
+                .map(d => d.score)
+                .reduce((p, c) => p + c, 0) /
+            this.props.card_data.filter(d => d.is_graded).length *
             100;
 
         return (

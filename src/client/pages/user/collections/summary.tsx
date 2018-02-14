@@ -129,33 +129,6 @@ export class UserCollectionSummary extends React.Component<IProps, {}> {
                         )
                     }
                 />
-                {this.props.collection.due_date ? null : (
-                    <RaisedButton
-                        label="Abgeben"
-                        disabled={
-                            this._cards() < this._graded_tasks() ||
-                            this.props.collection.submitted
-                        }
-                        fullWidth={true}
-                        secondary={true}
-                        onClick={() => {
-                            this.props.dispatch(
-                                submit_collection(this.props.collection_id)
-                            );
-                            if (this.props.collection.is_graded) {
-                                this.props.dispatch(
-                                    Grades.actions.create_grade(
-                                        this.props.user_id,
-                                        'Arbeitsblatt',
-                                        this._grade(),
-                                        this.props.collection.name,
-                                        this.props.collection_id
-                                    )
-                                );
-                            }
-                        }}
-                    />
-                )}
             </div>
         );
     }

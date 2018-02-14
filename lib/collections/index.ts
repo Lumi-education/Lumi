@@ -19,6 +19,13 @@ import CollectionSubmittedContainer from './container/collection-submitted';
 import CollectionDueDateContainer from './container/collection-due-date';
 import CollectionIsGradedContainer from './container/collection-is-graded';
 export {
+    default as CollectionSubmitSelectedButtonContainer
+} from './container/collection-submit-selected-button';
+export {
+    default as CollectionUnsubmitSelectedButtonContainer
+} from './container/collection-unsubmit-selected-button';
+
+export {
     ICollection,
     ICollectionSubmitMsg,
     ICollectionUI,
