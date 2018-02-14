@@ -96,35 +96,27 @@ export class UserBottomNavigation extends React.Component<IProps, {}> {
                 />
 
                 <BottomNavigationItem
+                    style={{
+                        display:
+                            last(this.props.collection.cards) !==
+                            this.props.card_id
+                                ? 'block'
+                                : 'none'
+                    }}
                     onClick={() =>
-                        last(this.props.collection.cards) === this.props.card_id
-                            ? this.props.dispatch(
-                                  push(
-                                      '/user/collections/' +
-                                          this.props.collection_id +
-                                          '/summary'
-                                  )
-                              )
-                            : this.props.dispatch(
-                                  push(
-                                      '/user/collections/' +
-                                          this.props.collection._id +
-                                          '/cards/' +
-                                          next(
-                                              this.props.collection.cards,
-                                              this.props.card_id
-                                          )
-                                  )
-                              )
-                    }
-                    icon={
-                        last(this.props.collection.cards) ===
-                        this.props.card_id ? (
-                            <SVGSummary />
-                        ) : (
-                            <SVGRight />
+                        this.props.dispatch(
+                            push(
+                                '/user/collections/' +
+                                    this.props.collection._id +
+                                    '/cards/' +
+                                    next(
+                                        this.props.collection.cards,
+                                        this.props.card_id
+                                    )
+                            )
                         )
                     }
+                    icon={<SVGRight />}
                 />
             </BottomNavigation>
         );
