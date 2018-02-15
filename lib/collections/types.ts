@@ -28,6 +28,8 @@ export interface ICollectionData extends IBaseData {
     is_graded: boolean;
     score: number;
     due_date: Date;
+    auto_complete: boolean;
+    completed: boolean;
 }
 
 export interface ICollectionSubmitMsg {

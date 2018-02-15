@@ -117,9 +117,7 @@ export class CollectionAssignmentsContainer extends React.Component<
                                 />
                             </TableRowColumn>
                             <TableRowColumn>
-                                <Collections.container.Submitted
-                                    data_id={a._id}
-                                />
+                                <Collections.container.State data_id={a._id} />
                             </TableRowColumn>
                         </TableRow>
                     ))}

@@ -1,5 +1,5 @@
-import cron from './cron';
+import events from './events';
 
 export default function boot() {
-    cron();
+    events();
 }

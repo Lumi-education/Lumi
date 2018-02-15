@@ -10,7 +10,7 @@ const log = debug('lumi:modules:collections:events');
 import * as actions from './actions';
 
 export default function boot() {
-    event.on('COLLECTIONS/COLLECTION_SUBMITTED', collection_data => {
+    event.on('COLLECTIONS/COLLECTION_COMPLETED', collection_data => {
         if (collection_data.is_graded) {
             actions.assign_grade({
                 _id: undefined,
@@ -29,7 +29,7 @@ export default function boot() {
     });
 
     event.on(
-        'COLLECTIONS/COLLECTION_UNSUBMITTED',
+        'COLLECTIONS/COLLECTION_UNCOMPLETED',
         (collection_data: ICollectionData) => {
             const db = new DB();
 

@@ -15,7 +15,7 @@ export {
 } from './components/collection-settings';
 import CollectionsChipInputContainer from './container/collection-chip-input';
 import CollectionNameContainer from './container/collection-name';
-import CollectionSubmittedContainer from './container/collection-submitted';
+import CollectionStateContainer from './container/collection-state';
 import CollectionDueDateContainer from './container/collection-due-date';
 import CollectionIsGradedContainer from './container/collection-is-graded';
 export {
@@ -41,7 +41,7 @@ const container = {
     ChipInput: CollectionsChipInputContainer,
     List: CollectionListContainer,
     Name: CollectionNameContainer,
-    Submitted: CollectionSubmittedContainer,
+    State: CollectionStateContainer,
     DueDate: CollectionDueDateContainer,
     IsGraded: CollectionIsGradedContainer
 };

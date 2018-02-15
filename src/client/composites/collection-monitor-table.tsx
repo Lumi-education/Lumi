@@ -207,7 +207,7 @@ export class CollectionTableHeaderContainer extends React.Component<
                                     />
                                 </TableRowColumn>
                                 <TableRowColumn>
-                                    <Collections.container.Submitted
+                                    <Collections.container.State
                                         data_id={
                                             user_id +
                                             '-' +

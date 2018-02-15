@@ -38,6 +38,14 @@ export class CoreController {
         const payload = req.body;
 
         switch (req.params.action) {
+            case 'COMPLETE_COLLECTION':
+                ids.forEach(id => CollectionActions.complete_collection(id));
+                res.status(200).end();
+                break;
+            case 'UNCOMPLETE_COLLECTION':
+                ids.forEach(id => CollectionActions.uncomplete_collection(id));
+                res.status(200).end();
+                break;
             case 'SUBMIT_COLLECTION':
                 ids.forEach(id => CollectionActions.submit_collection(id));
                 res.status(200).end();
