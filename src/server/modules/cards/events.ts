@@ -49,4 +49,26 @@ export default function boot() {
             );
         }
     );
+
+    event.on(
+        'COLLECTIONS/COLLECTION_UNCOMPLETED',
+        (collection_data: ICollectionData) => {
+            const db = new DB();
+
+            db.find(
+                {
+                    type: 'data',
+                    data_type: 'card',
+                    collection_id: collection_data.collection_id,
+                    user_id: collection_data.user_id
+                },
+                {},
+                (card_data: ICardData[]) => {
+                    card_data.forEach(data => {
+                        actions.hide_answer(data._id);
+                    });
+                }
+            );
+        }
+    );
 }

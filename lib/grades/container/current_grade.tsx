@@ -35,7 +35,7 @@ export class CurrentGradeContainer extends React.Component<IProps, {}> {
     public componentWillMount() {
         log('componentWillMount');
 
-        // this.props.dispatch(Grades.actions.get_user_grades(this.props.user_id));
+        this.props.dispatch(Grades.actions.get_user_grades(this.props.user_id));
     }
 
     public render() {

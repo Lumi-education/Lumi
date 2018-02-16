@@ -6,6 +6,7 @@ import { Dialog } from 'material-ui';
 
 // container
 import BottomNavigation from './bottom-navigation';
+import CollectionSummary from './summary';
 
 // local
 import { IState } from 'client/state';
@@ -57,20 +58,6 @@ export class UserCollectionCard extends React.Component<
 
     public componentWillMount() {
         this.props.dispatch(set_appbar_title(this.props.card.name));
-
-        this.props.dispatch(
-            Cards.actions.get_user_collection_data(this.props.collection_id)
-        );
-
-        this.props
-            .dispatch(
-                Collections.actions.get_collection(this.props.collection_id)
-            )
-            .then(res => {
-                this.props.dispatch(
-                    Cards.actions.get_cards(this.props.collection.cards)
-                );
-            });
     }
 
     public render() {
@@ -85,7 +72,13 @@ export class UserCollectionCard extends React.Component<
                     card_id={this.props.card_id}
                     collection_id={this.props.collection_id}
                     onOverviewClick={() =>
-                        this.setState({ show_collection_overview_dialog: true })
+                        this.props.dispatch(
+                            push(
+                                '/user/collections/' +
+                                    this.props.collection_id +
+                                    '/summary'
+                            )
+                        )
                     }
                 />
             </div>

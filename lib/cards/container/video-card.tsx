@@ -103,6 +103,16 @@ export class VideoCardContainer extends React.Component<
             });
     }
 
+    public componentDidMount() {
+        if (!this.props.data.processed) {
+            this.props.dispatch(
+                Cards.actions.update_data(
+                    assign({}, this.props.data, { processed: true })
+                )
+            );
+        }
+    }
+
     public render() {
         const { card, data } = this.props;
 
