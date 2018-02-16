@@ -32,14 +32,14 @@ if (process.env.NODE_ENV !== 'production') {
     wait_for_couchdb(() => {
         check_db(() => {
             boot();
-            boot_cron();
+            // boot_cron();
             modules();
         });
     });
 } else {
     const numCPUs = os.cpus().length;
     if (cluster.isMaster) {
-        boot_cron();
+        // boot_cron();
         modules();
         for (let i = 0; i < numCPUs; i++) {
             const worker = cluster.fork();

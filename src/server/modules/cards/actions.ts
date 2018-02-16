@@ -16,6 +16,16 @@ export function show_answer(data_id: string) {
     }
 }
 
+export function hide_answer(data_id: string) {
+    try {
+        const db = new DB();
+
+        db.update_one(data_id, { show_answer: false });
+    } catch (err) {
+        raven.captureException(err);
+    }
+}
+
 export function delete_card_data(
     user_id: string,
     collection_id: string,

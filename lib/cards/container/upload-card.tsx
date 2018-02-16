@@ -106,6 +106,14 @@ export class UploadCardContainer extends React.Component<
             });
     }
 
+    public componentDidMount() {
+        this.props.dispatch(
+            Cards.actions.update_data(
+                assign({}, this.props.data, { processed: true })
+            )
+        );
+    }
+
     public render() {
         const { card, data } = this.props;
 

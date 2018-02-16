@@ -184,7 +184,7 @@ export class AdminAssignmentsPage extends React.Component<
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         collections: Collections.selectors.data_query(state, {
-            submitted: false
+            completed: false
         }),
         selected_collection_data: state.collections.ui.selected_collection_data
     };

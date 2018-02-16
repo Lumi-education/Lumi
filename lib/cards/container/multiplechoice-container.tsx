@@ -113,14 +113,16 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     selected_items={data.items || []}
                     show_correct_values={this.props.data.show_answer}
                     cb={(items, score) => {
-                        this.props.dispatch(
-                            Cards.actions.update_data(
-                                assign({}, this.props.data, {
-                                    items,
-                                    score
-                                })
-                            )
-                        );
+                        this.props.data.show_answer
+                            ? noop()
+                            : this.props.dispatch(
+                                  Cards.actions.update_data(
+                                      assign({}, this.props.data, {
+                                          items,
+                                          score
+                                      })
+                                  )
+                              );
                     }}
                 />
             );

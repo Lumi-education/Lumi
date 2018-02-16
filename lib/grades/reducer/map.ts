@@ -20,13 +20,16 @@ export default function(
         case GRADES_GET_USER_GRADES_SUCCESS:
         case 'DB_CHANGE':
         case 'USERS_INIT_USER_SUCCESS':
-            return state.merge(
-                Map<string, IGrade>(
-                    arrayToObject(
-                        action.payload.filter(d => d.type === 'grade')
+            return state
+                .merge(
+                    Map<string, IGrade>(
+                        arrayToObject(
+                            action.payload.filter(d => d.type === 'grade')
+                        )
                     )
                 )
-            );
+                .filter(grade => !(grade as any)._deleted)
+                .toMap();
 
         case GRADES_CREATE_GRADE_SUCCESS:
             const o = {};
