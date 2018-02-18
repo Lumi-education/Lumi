@@ -32,3 +32,4 @@ sudo curl get.lumi.education | sh
 ```
 
 eingeben und Lumi wird installiert.
+[Hier](../lumi/FIRST-STEPS.md) geht es weiter zu den ersten Schritten.
