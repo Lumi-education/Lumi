@@ -173,31 +173,8 @@ export class AdminAssignmentsPage extends React.Component<
                     </TableBody>
                 </Table>
                 <ActionBar>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                Core.actions.action(
-                                    'DELETE_ASSIGNMENT',
-                                    this.props.selected_collection_data
-                                )
-                            );
-                        }}
-                    >
-                        <SVGClose />
-                    </FloatingActionButton>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                Core.actions.action(
-                                    'SUBMIT_COLLECTION',
-                                    this.props.selected_collection_data,
-                                    { submitted: true }
-                                )
-                            );
-                        }}
-                    >
-                        <SVGDone />
-                    </FloatingActionButton>
+                    <Collections.CollectionUnsubmitSelectedButtonContainer />
+                    <Collections.CollectionSubmitSelectedButtonContainer />
                 </ActionBar>
             </div>
         );
@@ -207,7 +184,7 @@ export class AdminAssignmentsPage extends React.Component<
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         collections: Collections.selectors.data_query(state, {
-            submitted: false
+            completed: false
         }),
         selected_collection_data: state.collections.ui.selected_collection_data
     };

@@ -13,6 +13,7 @@
 
 ### Lumi
 
+* [Erste Schritte](lumi/FIRST-STEPS.md)
 * [Konzept](lumi/CONCEPT.md)
 * [Terminologie](lumi/TERMINOLOGY.md)
 * [Featues](lumi/FEATURES.md)
@@ -20,5 +21,5 @@
 ### Raspberry Pi
 
 * [Installation](install/README.md)
-  * [Bekannte Fehler](install/TROUBLE.md)
+    * [Bekannte Fehler](install/TROUBLE.md)
 * [Update](install/UPDATE.md)

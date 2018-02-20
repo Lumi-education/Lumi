@@ -194,6 +194,8 @@ export class DB {
                         if (this.res) {
                             this.res.status(200).end();
                         }
+                    } else {
+                        cb();
                     }
                 })
                 .catch(this.handle_error);

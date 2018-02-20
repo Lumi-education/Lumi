@@ -10,6 +10,7 @@ import UserDashboard from 'client/pages/user/dashboard';
 import UserAssignments from './assignments';
 import SubmittedAssignments from './submitted-assignments';
 import CollectionSummary from './collections/summary';
+import CollectionFetch from './collections/fetch';
 import Grades from './grades';
 
 export default (
@@ -18,17 +19,10 @@ export default (
         <Route path="assignments" component={UserAssignments} />
         <Route path="grades" component={Grades} />
         <Route path="submitted-assignments" component={SubmittedAssignments} />
-        <Route
-            path="collections/:collection_id"
-            component={UserCollectionsRedirect}
-        />
-        <Route
-            path="collections/:collection_id/cards/:card_id"
-            component={UserCardPage}
-        />
-        <Route
-            path="collections/:collection_id/summary"
-            component={CollectionSummary}
-        />
+        <Route path="collections/:collection_id" component={CollectionFetch}>
+            <IndexRoute component={UserCollectionsRedirect} />
+            <Route path="cards/:card_id" component={UserCardPage} />
+            <Route path="summary" component={CollectionSummary} />
+        </Route>
     </Route>
 );

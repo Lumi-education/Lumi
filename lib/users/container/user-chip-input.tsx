@@ -35,6 +35,10 @@ export class UsersChipInputContainer extends React.Component<IProps, {}> {
         this.props.dispatch(Users.actions.get_users());
     }
 
+    public componentWillUnmount() {
+        this.props.dispatch(Users.actions.selection_reset());
+    }
+
     public render() {
         return (
             <ChipInput

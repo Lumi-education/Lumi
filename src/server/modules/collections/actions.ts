@@ -22,7 +22,22 @@ export function submit_overdue_collections() {
     );
 }
 
-export function submit_collection(id: string) {
+export function submit_collection(collection_data_id: string) {
+    const db = new DB();
+
+    db.update_one(
+        collection_data_id,
+        {
+            submitted: true,
+            submit_date: new Date()
+        },
+        (collection_data: ICollectionData) => {
+            event.emit('COLLECTIONS/COLLECTION_SUBMITTED', collection_data);
+        }
+    );
+}
+
+export function complete_collection(id: string) {
     const db = new DB();
 
     // collection_data.submitted = true;
@@ -68,12 +83,11 @@ export function submit_collection(id: string) {
             db.update_one(
                 id,
                 {
-                    submitted: true,
-                    submit_date: new Date(),
+                    completed: true,
                     score: correct / num_tasks
                 },
                 doc => {
-                    event.emit('COLLECTIONS/COLLECTION_SUBMITTED', doc);
+                    event.emit('COLLECTIONS/COLLECTION_COMPLETED', doc);
                 }
             );
 
@@ -84,11 +98,29 @@ export function submit_collection(id: string) {
     );
 }
 
+export function uncomplete_collection(id: string) {
+    const db = new DB();
+
+    db.update_one(id, { completed: false }, doc => {
+        event.emit('COLLECTIONS/COLLECTION_UNCOMPLETED', doc);
+    });
+}
+
+export function unsubmit_collection(id: string) {
+    const db = new DB();
+
+    db.update_one(id, { submitted: false, submit_date: undefined }, doc => {
+        event.emit('COLLECTIONS/COLLECTION_UNSUBMITTED', doc);
+    });
+}
+
 export function delete_assignment(id: string) {
     const db = new DB();
 
-    db.delete(id, () => {
-        event.emit('COLLECTIONS/ASSIGNMENT_DELETED', { _id: id });
+    db.findById(id, doc => {
+        db.delete(id, () => {
+            event.emit('COLLECTIONS/ASSIGNMENT_DELETED', doc);
+        });
     });
 }
 
