@@ -20,7 +20,6 @@ import app from './core/app';
 import wait_for_db from './db/wait';
 import setup_db from './db/setup';
 
-import { boot as boot_cron } from './core/cron';
 import boot_modules from './modules/boot';
 
 declare var process;
