@@ -129,4 +129,4 @@ class TagsController extends Controller<Tag> {
     }
 }
 
-export default new TagsController();
+export default TagsController;

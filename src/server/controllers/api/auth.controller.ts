@@ -173,7 +173,7 @@ class AuthController extends Controller<{}> {
     }
 }
 
-export default new AuthController();
+export default AuthController;
 
 function jwt_token(user_id: string, level: number): any {
     return jwt.encode(

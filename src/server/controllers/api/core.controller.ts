@@ -73,4 +73,4 @@ export class CoreController {
     }
 }
 
-export default new CoreController();
+export default CoreController;

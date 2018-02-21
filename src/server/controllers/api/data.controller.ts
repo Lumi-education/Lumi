@@ -94,4 +94,4 @@ class DataController extends Controller<Data> {
     }
 }
 
-export default new DataController();
+export default DataController;

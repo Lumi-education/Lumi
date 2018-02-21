@@ -2,7 +2,7 @@ import * as _debug from 'debug';
 import * as superagent from 'superagent';
 import * as raven from 'raven';
 
-const debug = _debug('db:check');
+const debug = _debug('lumi:db:setup');
 
 export default function(done: () => void) {
     debug('check for db: ' + process.env.DB);

@@ -1,7 +1,4 @@
-import * as _debug from 'debug';
 import * as raven from 'raven';
-import * as cluster from 'cluster';
-import * as os from 'os';
 
 raven
     .config(process.env.SENTRY, {
@@ -15,22 +12,21 @@ raven
     })
     .install();
 
-import app from './core/app';
+import * as cluster from 'cluster';
+import * as os from 'os';
 
 import wait_for_db from './db/wait';
 import setup_db from './db/setup';
 
+import boot_core from './core/boot';
 import boot_modules from './modules/boot';
 
 declare var process;
 
-const debug = _debug('core');
-const express_debug = _debug('boot:express');
-
 if (process.env.NODE_ENV !== 'production') {
     wait_for_db(() => {
         setup_db(() => {
-            boot();
+            boot_core();
             boot_modules();
         });
     });
@@ -48,23 +44,7 @@ if (process.env.NODE_ENV !== 'production') {
             const worker = cluster.fork();
         });
     } else {
-        boot();
+        boot_core();
         boot_modules();
     }
-}
-
-function boot() {
-    debug('starting boot-sequence');
-
-    const server = app.listen(process.env.PORT || 80, () => {
-        debug(
-            'express-server successfully booted on port ' + process.env.PORT ||
-                80
-        );
-        raven.captureMessage('server booted', { level: 'info' });
-    });
-
-    server.on('error', raven.captureException);
-
-    debug('finished boot-sequence');
 }

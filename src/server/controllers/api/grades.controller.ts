@@ -56,4 +56,4 @@ class GradesController extends Controller<{}> {
     }
 }
 
-export default new GradesController();
+export default GradesController;

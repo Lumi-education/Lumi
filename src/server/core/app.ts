@@ -6,22 +6,27 @@ import * as compression from 'compression';
 import * as raven from 'raven';
 import routes from '../routes';
 
-const debug = _debug('server');
+const log = _debug('lumi:core:app');
 
-const app: express.Application = express();
+export default function boot(): express.Application {
+    log('start boot-sequence');
+    const app: express.Application = express();
 
-app.use(raven.requestHandler());
-app.use(raven.errorHandler());
+    app.use(raven.requestHandler());
+    app.use(raven.errorHandler());
 
-app.use(bodyParser.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: true
-    })
-);
+    app.use(bodyParser.json());
+    app.use(
+        bodyParser.urlencoded({
+            extended: true
+        })
+    );
 
-app.use(compression());
+    app.use(compression());
 
-app.use(routes);
+    app.use(routes());
 
-export default app;
+    log('end boot-sequence');
+
+    return app;
+}

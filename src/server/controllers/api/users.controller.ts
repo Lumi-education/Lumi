@@ -114,4 +114,4 @@ class UserController extends Controller<User> {
     }
 }
 
-export default new UserController();
+export default UserController;
