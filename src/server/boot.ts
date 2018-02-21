@@ -21,7 +21,7 @@ import wait_for_couchdb from './utils/wait_for_couchdb';
 import check_db from './db/check';
 
 import { boot as boot_cron } from './core/cron';
-import modules from './modules/boot';
+import boot_modules from './modules/boot';
 
 declare var process;
 
@@ -32,15 +32,12 @@ if (process.env.NODE_ENV !== 'production') {
     wait_for_couchdb(() => {
         check_db(() => {
             boot();
-            // boot_cron();
-            modules();
+            boot_modules();
         });
     });
 } else {
     const numCPUs = os.cpus().length;
     if (cluster.isMaster) {
-        // boot_cron();
-        modules();
         for (let i = 0; i < numCPUs; i++) {
             const worker = cluster.fork();
         }
@@ -52,6 +49,7 @@ if (process.env.NODE_ENV !== 'production') {
         wait_for_couchdb(() => {
             check_db(() => {
                 boot();
+                boot_modules();
             });
         });
     }
