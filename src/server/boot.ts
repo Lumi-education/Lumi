@@ -17,8 +17,8 @@ raven
 
 import app from './core/app';
 
-import wait_for_couchdb from './utils/wait_for_couchdb';
-import check_db from './db/check';
+import wait_for_db from './db/wait';
+import setup_db from './db/setup';
 
 import { boot as boot_cron } from './core/cron';
 import boot_modules from './modules/boot';
@@ -29,8 +29,8 @@ const debug = _debug('core');
 const express_debug = _debug('boot:express');
 
 if (process.env.NODE_ENV !== 'production') {
-    wait_for_couchdb(() => {
-        check_db(() => {
+    wait_for_db(() => {
+        setup_db(() => {
             boot();
             boot_modules();
         });
@@ -38,20 +38,19 @@ if (process.env.NODE_ENV !== 'production') {
 } else {
     const numCPUs = os.cpus().length;
     if (cluster.isMaster) {
-        for (let i = 0; i < numCPUs; i++) {
-            const worker = cluster.fork();
-        }
-
+        wait_for_db(() => {
+            setup_db(() => {
+                for (let i = 0; i < numCPUs; i++) {
+                    const worker = cluster.fork();
+                }
+            });
+        });
         cluster.on('exit', (deadWorker, code, signal) => {
             const worker = cluster.fork();
         });
     } else {
-        wait_for_couchdb(() => {
-            check_db(() => {
-                boot();
-                boot_modules();
-            });
-        });
+        boot();
+        boot_modules();
     }
 }
 

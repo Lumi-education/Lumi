@@ -4,7 +4,7 @@ import * as raven from 'raven';
 const debug = _debug('wait_for_couchdb');
 
 export default function wait_for_couchdb(boot: () => void) {
-    debug('start polling for dbs');
+    debug('start polling for db');
     const couchdb_polling = setInterval(() => {
         debug('polling ' + process.env.DB_HOST);
         superagent
