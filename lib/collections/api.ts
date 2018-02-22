@@ -71,7 +71,7 @@ export function submit_collection(collection_id: string) {
 
 export function reset_collection(collection_meta_id: string) {
     return request
-        .put('/api/user/collection/' + collection_meta_id + '/reset')
+        .put('/api/v0/user/collection/' + collection_meta_id + '/reset')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

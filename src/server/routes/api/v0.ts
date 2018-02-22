@@ -1,18 +1,18 @@
 import * as express from 'express';
 import * as debug from 'debug';
-import { auth, level } from '../middleware/auth';
-import mw from '../middleware';
+import { auth, level } from '../../middleware/auth';
+import mw from '../../middleware';
 
-import AuthController from '../controllers/api/auth.controller';
-import DataController from '../controllers/api/data.controller';
-import CardsController from '../controllers/api/cards.controller';
-import CollectionController from '../controllers/api/collections.controller';
-import GroupController from '../controllers/api/groups.controller';
-import UsersController from '../controllers/api/users.controller';
-import UserController from '../controllers/api/user.controller';
-import TagsController from '../controllers/api/tags.controller';
-import GradesController from '../controllers/api/grades.controller';
-import CoreController from '../controllers/api/core.controller';
+import AuthController from '../../controllers/api/auth.controller';
+import DataController from '../../controllers/api/data.controller';
+import CardsController from '../../controllers/api/cards.controller';
+import CollectionController from '../../controllers/api/collections.controller';
+import GroupController from '../../controllers/api/groups.controller';
+import UsersController from '../../controllers/api/users.controller';
+import UserController from '../../controllers/api/user.controller';
+import TagsController from '../../controllers/api/tags.controller';
+import GradesController from '../../controllers/api/grades.controller';
+import CoreController from '../../controllers/api/core.controller';
 
 const log = debug('lumi:routes:api');
 
