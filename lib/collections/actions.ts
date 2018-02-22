@@ -105,18 +105,6 @@ export function get_user_collections() {
     };
 }
 
-export function collection_create_meta(collection_id: string) {
-    return {
-        types: [
-            k.COLLECTION_CREATEMETA_REQUEST,
-            k.COLLECTION_CREATEMETA_SUCCESS,
-            k.COLLECTION_CREATEMETA_ERROR
-        ],
-        api: API.post_collectionmeta(collection_id),
-        payload: { collection_id }
-    };
-}
-
 export function submit_collection(collection_id: string) {
     return {
         types: [
