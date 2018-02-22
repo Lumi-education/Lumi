@@ -130,7 +130,7 @@ class AuthController extends Controller<{}> {
                 const user = docs[0];
 
                 if (!user.password) {
-                    bcrypt.hash(req.body.password, null, null, hash => {
+                    bcrypt.hash(req.body.password, null, null, (err, hash) => {
                         db.update_one(
                             user._id,
                             {
