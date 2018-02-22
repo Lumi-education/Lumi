@@ -13,7 +13,7 @@ export default function(): express.Router {
     const router = express.Router();
 
     router.use('/api/v0', api_routes());
-    router.use('/api', api_routes);
+    router.use('/api', api_routes());
     router.use('/files', files_route);
     router.use('/docs', docs_route);
     router.use('/', static_routes);
