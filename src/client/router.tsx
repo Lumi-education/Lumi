@@ -27,6 +27,7 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
                         {userRoutes}
                         {adminRoutes}
                     </Route>
+                    <Redirect from="*" to="/" />
                 </Route>
             </Router>
         );
