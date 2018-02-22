@@ -80,4 +80,4 @@ class CardController extends Controller<Card> {
     }
 }
 
-export default new CardController();
+export default CardController;

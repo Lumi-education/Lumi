@@ -186,4 +186,4 @@ class GroupController extends Controller<Group> {
     }
 }
 
-export default new GroupController();
+export default GroupController;

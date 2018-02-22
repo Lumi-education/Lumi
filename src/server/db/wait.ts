@@ -1,10 +1,11 @@
 import * as superagent from 'superagent';
 import * as _debug from 'debug';
 import * as raven from 'raven';
-const debug = _debug('wait_for_couchdb');
+
+const debug = _debug('lumi:db:wait');
 
 export default function wait_for_couchdb(boot: () => void) {
-    debug('start polling for dbs');
+    debug('start polling for db');
     const couchdb_polling = setInterval(() => {
         debug('polling ' + process.env.DB_HOST);
         superagent

@@ -4,8 +4,6 @@ import * as express from 'express';
 import * as debug from 'debug';
 import * as nano from 'nano';
 
-import webhook from '../core/webhook';
-
 import * as raven from 'raven';
 
 // const db = process.env.DB_HOST + '/' + process.env.DB + '/';

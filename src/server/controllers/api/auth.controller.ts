@@ -8,8 +8,6 @@ import { DB } from '../../db';
 import User from '../../models/User';
 import Controller from '../controller';
 
-import webhook from '../../core/webhook';
-
 class AuthController extends Controller<{}> {
     constructor() {
         const _view = {
@@ -130,7 +128,7 @@ class AuthController extends Controller<{}> {
                 const user = docs[0];
 
                 if (!user.password) {
-                    bcrypt.hash(req.body.password, null, null, hash => {
+                    bcrypt.hash(req.body.password, null, null, (err, hash) => {
                         db.update_one(
                             user._id,
                             {
@@ -173,7 +171,7 @@ class AuthController extends Controller<{}> {
     }
 }
 
-export default new AuthController();
+export default AuthController;
 
 function jwt_token(user_id: string, level: number): any {
     return jwt.encode(

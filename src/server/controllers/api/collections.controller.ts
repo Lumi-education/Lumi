@@ -108,4 +108,4 @@ class CollectionController extends Controller<Collection> {
     }
 }
 
-export default new CollectionController();
+export default CollectionController;
