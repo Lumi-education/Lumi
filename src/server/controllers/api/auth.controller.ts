@@ -8,8 +8,6 @@ import { DB } from '../../db';
 import User from '../../models/User';
 import Controller from '../controller';
 
-import webhook from '../../core/webhook';
-
 class AuthController extends Controller<{}> {
     constructor() {
         const _view = {
