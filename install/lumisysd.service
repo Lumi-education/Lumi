@@ -1,0 +1,12 @@
+[Unit]
+Description=Lumi System Daemon
+After=multi-user.target
+ 
+[Service]
+Type=simple
+EnvironmentFile=/lumi/.env
+ExecStart=/usr/bin/nodejs /lumi/lumisysd
+Restart=always
+ 
+[Install]
+WantedBy=multi-user.target
