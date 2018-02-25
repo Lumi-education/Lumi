@@ -13,6 +13,7 @@ import UserController from '../../controllers/api/user.controller';
 import TagsController from '../../controllers/api/tags.controller';
 import GradesController from '../../controllers/api/grades.controller';
 import CoreController from '../../controllers/api/core.controller';
+import SystemController from '../../controllers/api/system.controller';
 
 const log = debug('lumi:routes:api');
 
@@ -30,6 +31,7 @@ export default function(): express.Router {
     const tagsController = new TagsController();
     const gradesController = new GradesController();
     const coreController = new CoreController();
+    const systemController = new SystemController();
 
     router.post('/core/find', mw.auth, mw.level(3), coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
@@ -40,6 +42,8 @@ export default function(): express.Router {
         coreController.action
     );
     router.get('/core/doc/:id', mw.auth, mw.level(3), coreController.doc);
+
+    router.post('/system/shutdown', systemController.shutdown);
 
     // mw.auth
     router.post('/auth/login', authController.login);
