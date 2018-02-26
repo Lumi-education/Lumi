@@ -11,6 +11,12 @@ class SystemController {
             target: 'http://localhost:' + process.env.SYSTEM_PORT + '/api/v0/'
         });
     }
+
+    public settings(req: express.Request, res: express.Response) {
+        res.status(200).json({
+            changes_port: process.env.CHANGES_PORT
+        });
+    }
 }
 
 export default SystemController;
