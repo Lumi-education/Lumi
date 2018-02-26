@@ -1,17 +1,17 @@
 FROM arm32v7/node:8.6.0
 
-# Adding source files into container
-ADD . /srv
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN mkdir -p /srv && cp -a /tmp/node_modules /srv
 
-# Define working directory
+ARG VERSION
+
 WORKDIR /srv
-
-# Install app dependencies & build
-RUN npm install
-RUN npm run build
-
+ADD . /srv
+RUN NODE_ENV=production VERSION=$VERSION ./node_modules/.bin/webpack --config './config/webpack.config.prod.js' --progress --colors
+RUN ./node_modules/.bin/tsc --project tsconfig.server.json
 # Open Port 80
 EXPOSE 80
 
 # Run Node.js
-CMD ["node", "build/server/boot.js"]
+CMD ["node", "build/src/server/boot.js"]

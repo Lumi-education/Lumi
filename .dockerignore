@@ -2,7 +2,9 @@
 .gitignore
 .env
 dist
-build
 node_modules
+docs
 *.log
 .vscode
+dev
+docker-compose.yml

@@ -1,0 +1,22 @@
+import { DB } from '../../db';
+import event from '../../core/event';
+
+export function assign_grade(grade) {
+    const db = new DB();
+
+    db.insert(grade, res => {
+        db.findById(res.body.id, assigned_grade => {
+            event.emit('GRADES/GRADE_ASSIGNED', assigned_grade);
+        });
+    });
+}
+
+export function delete_grade(grade_id: string) {
+    const db = new DB();
+
+    db.findById(grade_id, grade => {
+        db.delete(grade_id, () => {
+            event.emit('GRADES/GRADE_DELETED', grade);
+        });
+    });
+}

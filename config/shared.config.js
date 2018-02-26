@@ -12,7 +12,7 @@ const tslintOptions = {
 };
 
 const entries = {
-    client: './app/client/boot'
+    client: './src/client/boot'
 };
 
 module.exports = {
@@ -20,8 +20,10 @@ module.exports = {
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, '../build/client'),
+        sourceMapFilename: '[name].[hash].js.map',
         publicPath: '/'
     },
+
     module: {
         rules: [
             {
@@ -54,15 +56,19 @@ module.exports = {
                         options: babelOptions
                     }
                 ]
+            },
+            {
+                test: /\.js$/,
+                use: ['source-map-loader'],
+                enforce: 'pre'
             }
         ]
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
-            client: path.resolve(__dirname, '../app/client'),
-            'common/types': path.resolve(__dirname, '../app/common'),
-            lumi: path.resolve(__dirname, '../app')
+            lib: path.resolve(__dirname, '../lib'),
+            client: path.resolve(__dirname, '../src/client')
         }
     }
 };

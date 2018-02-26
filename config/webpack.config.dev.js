@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const version = require('../package.json').version;
 const sharedConfig = require('./shared.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     devServer: {
@@ -29,13 +30,16 @@ module.exports = Object.assign(sharedConfig, {
             minChunks: ({ resource }) => /node_modules/.test(resource)
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../app/client/index.html')
+            template: path.resolve(__dirname, '../src/client/index.html')
         }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-                VERSION: JSON.stringify(version)
+                VERSION: JSON.stringify(process.env.VERSION || version)
             }
-        })
+        }) //,
+        // new UglifyJSPlugin({
+        //     sourceMap: true
+        // })
     ]
 });

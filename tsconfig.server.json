@@ -8,8 +8,8 @@
         "noImplicitAny": false,
         "allowJs": true,
         "outDir": "./build",
-        "baseUrl": "./app",
+        "baseUrl": "./",
         "sourceMap": true
     },
-    "files": ["app/server/boot.ts"]
+    "files": ["src/server/boot.ts"]
 }

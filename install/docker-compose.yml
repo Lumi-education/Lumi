@@ -7,16 +7,33 @@ services:
         - webnet
     environment:
         - PORT=80
+        - LUMI_ID=${ID}
         - NODE_ENV=${NODE_ENV}
         - KEY=${KEY}
-        - DEBUG=${DEBUG}
         - DB_HOST=${DB_HOST}
         - DB=${DB}
+    volumes:
+        - ./files:/srv/files
     ports:
         - ${PORT}:80
-        - 8081:8081
     depends_on:
         - "couchdb"
+  lumi-changes:
+    image: lumieducation/lumi-changes:v1.0.0
+    restart: always
+    networks:
+      - webnet
+    environment:
+      - KEY=${KEY}
+      - NODE_ENV=${NODE_ENV}
+      - DB_HOST=${DB_HOST}
+      - DB=${DB}
+      - BRANCH=${BRANCH}
+      - VERSION=v1.0.0
+    ports:
+      - 8081:8081
+    depends_on:
+      - "couchdb"
   apd:
     image: lumieducation/apd:${BRANCH}
     privileged: true
