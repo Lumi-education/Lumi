@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import * as socketio from 'socket.io-client';
 
 import { IState } from '../types';
+import * as System from 'lib/system';
 
 declare var window;
 
 interface IProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 export class WebsocketContainer extends React.Component<IProps, {}> {
@@ -17,16 +18,22 @@ export class WebsocketContainer extends React.Component<IProps, {}> {
     }
 
     public componentDidMount() {
-        const socket = socketio.connect(
-            'http://' + window.location.hostname + ':8081',
-            {
-                query: { jwt_token: window.localStorage.jwt_token }
-            }
-        );
+        let socket;
+        this.props.dispatch(System.actions.get_settings()).then(res => {
+            socket = socketio.connect(
+                'http://' +
+                    window.location.hostname +
+                    ':' +
+                    res.payload.changes_port,
+                {
+                    query: { jwt_token: window.localStorage.jwt_token }
+                }
+            );
 
-        socket.on('DB_CHANGE', msg => {
-            const action = JSON.parse(msg);
-            this.props.dispatch(action);
+            socket.on('DB_CHANGE', msg => {
+                const action = JSON.parse(msg);
+                this.props.dispatch(action);
+            });
         });
     }
 

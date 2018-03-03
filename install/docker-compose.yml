@@ -31,7 +31,7 @@ services:
       - BRANCH=${BRANCH}
       - VERSION=v1.0.0
     ports:
-      - 8081:8081
+      - ${CHANGES_PORT}:8081
     depends_on:
       - "couchdb"
   apd:
