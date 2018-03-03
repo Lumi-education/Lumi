@@ -44,6 +44,7 @@ export default function(): express.Router {
     router.get('/core/doc/:id', mw.auth, mw.level(3), coreController.doc);
 
     router.post('/system/shutdown', systemController.shutdown);
+    router.get('/system/settings', systemController.settings);
 
     // mw.auth
     router.post('/auth/login', authController.login);
