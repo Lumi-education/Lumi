@@ -1,9 +1,11 @@
 import * as express from 'express';
+import { assign } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
 import proxy from '../../core/proxy';
 
 import Controller from '../controller';
+import { DB } from '../../db';
 
 class SystemController {
     public shutdown(req: express.Request, res: express.Response) {
@@ -13,8 +15,17 @@ class SystemController {
     }
 
     public settings(req: express.Request, res: express.Response) {
-        res.status(200).json({
-            changes_port: process.env.CHANGES_PORT
+        const db = new DB();
+
+        db.findById('system', system => {
+            res.status(200).json(
+                assign(
+                    {
+                        changes_port: process.env.CHANGES_PORT
+                    },
+                    system
+                )
+            );
         });
     }
 }
