@@ -130,23 +130,24 @@ export function assign_collection(
     collection_data,
     cb?: (res) => void
 ) {
-    const data: ICollectionData = assign(
-        {
-            user_id,
-            collection_id: collection_data.collection_id,
-            _id: user_id + '-' + collection_data.collection_id,
-            data_type: 'collection',
-            submitted: false,
-            submit_date: undefined,
-            score: 0,
-            type: 'data',
-            is_graded: true,
-            created_at: new Date(),
-            updated_at: undefined,
-            due_date: undefined
-        },
-        collection_data
-    );
+    const _data: ICollectionData = {
+        user_id,
+        collection_id: collection_data.collection_id,
+        _id: user_id + '-' + collection_data.collection_id,
+        data_type: 'collection',
+        submitted: false,
+        submit_date: undefined,
+        score: 0,
+        type: 'data',
+        is_graded: true,
+        created_at: new Date(),
+        updated_at: undefined,
+        due_date: undefined,
+        auto_complete: false,
+        completed: false
+    };
+
+    const data: ICollectionData = assign(_data, collection_data);
 
     db.insert(data, res => {
         cb ? cb(res) : noop();

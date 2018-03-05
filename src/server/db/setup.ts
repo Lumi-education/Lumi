@@ -9,7 +9,8 @@ const debug = _debug('lumi:db:setup');
 const system: ISystemSettings = {
     _id: 'system',
     enable_guest_accounts: false,
-    auto_guest_login: false
+    auto_guest_login: false,
+    auto_assign_to_groups: []
 };
 
 export default function(done: () => void) {

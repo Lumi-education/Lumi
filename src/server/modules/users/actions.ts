@@ -19,9 +19,11 @@ export function create_user(
                 name: username,
                 password: pw
             }),
-            user => {
-                event.emit('USERS/USER_CREATED', user);
-                cb(user);
+            res => {
+                db.findById(res.body.id, user => {
+                    event.emit('USERS/USER_CREATED', user);
+                    cb(user);
+                });
             }
         );
     });
