@@ -8,6 +8,8 @@ import { DB } from '../../db';
 import User from '../../models/User';
 import Controller from '../controller';
 
+import * as UserActions from '../../modules/users/actions';
+
 class AuthController extends Controller<{}> {
     constructor() {
         const _view = {
@@ -81,24 +83,11 @@ class AuthController extends Controller<{}> {
                 if (user) {
                     res.status(409).end();
                 } else {
-                    db.insert(
-                        new User({
-                            name: req.body.username
-                        }),
-                        doc => {
-                            db.insert(
-                                {
-                                    _id: doc.body.id + '-pw',
-                                    user_id: doc.body.id,
-                                    password: bcrypt.hashSync(
-                                        req.body.password
-                                    ),
-                                    type: 'password'
-                                },
-                                () => {
-                                    res.status(201).end();
-                                }
-                            );
+                    UserActions.create_user(
+                        req.body.username,
+                        req.body.password,
+                        _user => {
+                            res.status(200).json(_user);
                         }
                     );
                 }

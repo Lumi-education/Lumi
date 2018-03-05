@@ -5,8 +5,7 @@ export interface IGroup {
     _id: Group_id;
     type: 'group';
     name: string;
-    assigned_collections: string[];
-    active_collections: string[];
+    auto_assign_collections: string[];
     created_at: Date;
 }
 
