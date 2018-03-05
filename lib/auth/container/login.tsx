@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 import * as raven from 'raven-js';
+import * as shortid from 'shortid';
 
 // utils
 import { state_color, random_bg } from 'lib/ui/utils';
@@ -11,12 +12,17 @@ import { TextField, Paper, RaisedButton } from 'material-ui';
 
 // modules
 import * as Auth from '../';
+import * as System from 'lib/system';
 
 declare var window;
 
 const log = debug('lumi:auth:container:login');
 
-interface IStateProps {}
+interface IState extends Auth.IState, System.IState {}
+
+interface IStateProps {
+    enable_guest_accounts: boolean;
+}
 
 interface IDispatchProps {
     dispatch: (action) => any;
@@ -46,6 +52,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
         };
 
         this.login = this.login.bind(this);
+        this.guest_login = this.guest_login.bind(this);
     }
 
     public login() {
@@ -80,6 +87,21 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                         this.props.dispatch(Auth.actions.get_session());
                         break;
                 }
+            });
+    }
+
+    public guest_login() {
+        const username = 'guest_' + shortid();
+        this.props
+            .dispatch(Auth.actions.register(username, 'guest'))
+            .then(r => {
+                this.props
+                    .dispatch(Auth.actions.login(username, 'guest'))
+                    .then(re => {
+                        window.localStorage.jwt_token = re.payload.jwt_token;
+
+                        this.props.dispatch(Auth.actions.get_session());
+                    });
             });
     }
 
@@ -185,6 +207,23 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                     onClick={this.login}
                                 />
                             </Paper>
+
+                            {this.props.enable_guest_accounts ? (
+                                <Paper zDepth={2}>
+                                    <RaisedButton
+                                        fullWidth={true}
+                                        label={'GUEST'}
+                                        style={{
+                                            borderRadius: '6px'
+                                        }}
+                                        buttonStyle={{
+                                            backgroundColor: this.state
+                                                .login_button_color
+                                        }}
+                                        onClick={this.guest_login}
+                                    />
+                                </Paper>
+                            ) : null}
                         </div>
                     </div>
                 </div>
@@ -195,8 +234,10 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 }
 
-function mapStateToProps(state: Auth.IState, ownProps: {}): IStateProps {
-    return {};
+function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+    return {
+        enable_guest_accounts: state.system.enable_guest_accounts
+    };
 }
 
 function mapDispatchToProps(dispatch): IDispatchProps {
