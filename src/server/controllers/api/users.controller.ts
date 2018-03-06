@@ -14,26 +14,7 @@ import { assign_collection } from '../../modules/collections/actions';
 
 class UserController extends Controller<User> {
     constructor() {
-        const _view = {
-            _id: '_design/user',
-            views: {
-                with_groups: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "user") { \n    emit(doc._id, 1);\n    doc.groups.forEach(function(group_id) {\n      emit(doc._id, {_id: group_id});\n    })\n  }\n}'
-                },
-                list: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "user") { emit(doc._id, 1); }\n}'
-                },
-                init: {
-                    map:
-                        'function (doc) {\n  if (doc.user_id) { emit(doc.user_id, 1); }\n}'
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('user', _view);
+        super('user');
     }
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);

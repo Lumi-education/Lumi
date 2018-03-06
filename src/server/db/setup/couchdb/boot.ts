@@ -4,6 +4,8 @@ import * as raven from 'raven';
 
 import { ISystemSettings } from 'lib/system/types';
 
+import boot_views from './views';
+
 const debug = _debug('lumi:db:setup');
 
 const system: ISystemSettings = {
@@ -19,7 +21,7 @@ export default function(done: () => void) {
         .get(process.env.DB_HOST + '/' + process.env.DB)
         .then(res => {
             debug(process.env.DB + ': OK');
-            done();
+            boot_views(() => done());
         })
         .catch(err => {
             if (err.status === 404) {
@@ -54,7 +56,7 @@ export default function(done: () => void) {
                                     )
                                     .send(system)
                                     .then(_r => {
-                                        done();
+                                        boot_views(() => done());
                                     });
                             });
                     })

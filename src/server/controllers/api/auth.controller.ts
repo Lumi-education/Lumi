@@ -12,18 +12,7 @@ import * as UserActions from '../../modules/users/actions';
 
 class AuthController extends Controller<{}> {
     constructor() {
-        const _view = {
-            _id: '_design/auth',
-            views: {
-                check_username: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "user") { emit(doc.name, {\n    username: doc.name,\n    password: doc.password\n  }); }\n}'
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('auth', _view);
+        super('auth');
     }
 
     public login(req: IRequest, res: express.Response) {
