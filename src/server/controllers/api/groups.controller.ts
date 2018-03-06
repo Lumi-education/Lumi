@@ -14,30 +14,7 @@ import { assign_collection } from '../../modules/collections/actions';
 
 class GroupController extends Controller<Group> {
     constructor() {
-        const _view = {
-            _id: '_design/group',
-            views: {
-                for_user: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "group_ref") { \n    emit(doc.user_id, 1);\n    doc.groups.forEach(function(group_id) { emit(doc.user_id, { _id: group_id}); })\n  }\n}'
-                },
-                list: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "group") { emit(doc._id, 1); }\n}'
-                },
-                with_collections_and_users: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "group") {\n    emit(doc._id, 1);\n    doc.assigned_collections.forEach(function(collection_id) {\n      emit(doc._id, { _id: collection_id });\n    });\n  }\n  if (doc.type === "group_ref") {\n    doc.groups.forEach(function(group_id) { emit(group_id, { _id: doc._id })});\n  }\n}'
-                },
-                user: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'group_ref') { \n    doc.groups.forEach(function(group_id) { emit(group_id, { _id: doc.user_id }); });\n}\n}"
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('group', _view);
+        super('group');
     }
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);

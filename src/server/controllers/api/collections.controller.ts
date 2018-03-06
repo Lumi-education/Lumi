@@ -10,30 +10,7 @@ import { DB } from '../../db';
 
 class CollectionController extends Controller<Collection> {
     constructor() {
-        const _view = {
-            _id: '_design/collection',
-            views: {
-                with_cards: {
-                    map:
-                        "function (doc) {\n  if (doc.type == 'collection') {\n    emit(doc._id, 1);\n    for (var i in doc.cards) {\n      emit(doc._id, { _id: doc.cards[i] });\n    }\n  }\n  \n}"
-                },
-                by_group: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'group') {\n    doc.assigned_collections.forEach(function(collection_id) {\n      emit(doc._id, { _id: collection_id });\n    })\n  }\n}"
-                },
-                for_user: {
-                    map:
-                        "function (doc) {\n  if (doc.data_type === 'collection') { \n    emit(doc.user_id, 1); \n    emit(doc.user_id, {_id: doc.collection_id});\n  }\n}"
-                },
-                list: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'collection') { emit(doc._id, 1); }\n}"
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('collection', _view);
+        super('collection');
     }
 
     public action(req: IRequest, res: express.Response) {

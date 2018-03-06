@@ -9,29 +9,8 @@ const log = debug('lumi:controller');
 export default class Controller<T> {
     private type: string;
 
-    constructor(type: string, _view?) {
+    constructor(type: string) {
         this.type = type;
-        if (_view) {
-            const _db = new DB();
-            _db.checkView('_design/' + type, view => {
-                if (!view) {
-                    log(this.type + '-view not found -> creating view');
-                    _db.insert(_view, () => {
-                        log(this.type + '-view created');
-                    });
-                }
-                if (view) {
-                    if (isEqual(view.views, _view.views)) {
-                        log(this.type + '-view is up to date');
-                    } else {
-                        log(this.type + '-view is not up to date -> updating');
-                        _db.update_one('_design/' + this.type, _view, doc => {
-                            log(this.type + '-view updated');
-                        });
-                    }
-                }
-            });
-        }
 
         this.list = this.list.bind(this);
         this.read = this.read.bind(this);
