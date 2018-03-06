@@ -13,25 +13,7 @@ const log = debug('lumi:controllers:data');
 class DataController extends Controller<Data> {
     constructor() {
         log('entering constructor');
-        const _view = {
-            _id: '_design/data',
-            views: {
-                for_user: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'data') { \n  emit(doc.user_id, 1);\n  }\n}"
-                },
-                for_user_and_collection: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'data') { \n  emit(doc.user_id+doc.collection_id, 1);\n  }\n}"
-                },
-                for_user_and_collection_and_card: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'data') { \n  emit(doc.user_id+doc.collection_id+doc.card_id, 1);\n  }\n}"
-                }
-            },
-            language: 'javascript'
-        };
-        super('data', _view);
+        super('data');
     }
 
     public create(req: IRequest, res: express.Response) {

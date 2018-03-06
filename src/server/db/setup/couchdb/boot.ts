@@ -2,7 +2,18 @@ import * as _debug from 'debug';
 import * as superagent from 'superagent';
 import * as raven from 'raven';
 
+import { ISystemSettings } from 'lib/system/types';
+
+import boot_views from './views';
+
 const debug = _debug('lumi:db:setup');
+
+const system: ISystemSettings = {
+    _id: 'system',
+    enable_guest_accounts: false,
+    auto_guest_login: false,
+    auto_assign_to_groups: []
+};
 
 export default function(done: () => void) {
     debug('check for db: ' + process.env.DB);
@@ -10,7 +21,7 @@ export default function(done: () => void) {
         .get(process.env.DB_HOST + '/' + process.env.DB)
         .then(res => {
             debug(process.env.DB + ': OK');
-            done();
+            boot_views(() => done());
         })
         .catch(err => {
             if (err.status === 404) {
@@ -36,7 +47,17 @@ export default function(done: () => void) {
                                 type: 'user'
                             })
                             .then(r => {
-                                done();
+                                superagent
+                                    .put(
+                                        process.env.DB_HOST +
+                                            '/' +
+                                            process.env.DB +
+                                            '/system'
+                                    )
+                                    .send(system)
+                                    .then(_r => {
+                                        boot_views(() => done());
+                                    });
                             });
                     })
                     .catch(error => {

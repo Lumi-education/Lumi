@@ -10,18 +10,7 @@ import Controller from '../controller';
 
 class CardController extends Controller<Card> {
     constructor() {
-        const _view = {
-            _id: '_design/card',
-            views: {
-                list: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'card') { emit(doc._id, 1); }\n}"
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('card', _view);
+        super('card');
     }
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res);

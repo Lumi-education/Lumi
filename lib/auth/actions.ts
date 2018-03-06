@@ -25,31 +25,40 @@ export function logout() {
 }
 
 export function register(username: string, password: string) {
-    return dispatch => {
-        dispatch({ type: k.AUTH_REGISTER_REQUEST, payload: { username } });
-
-        API.register(username, password)
-            .then(res => {
-                switch (res.status) {
-                    case 201:
-                    case 200:
-                        dispatch({
-                            type: k.AUTH_REGISTER_SUCCESS,
-                            payload: { username, response: res }
-                        });
-                        dispatch(login(username, password));
-                        break;
-                    default:
-                        break;
-                }
-            })
-            .catch(err => {
-                dispatch({
-                    type: k.AUTH_REGISTER_ERROR,
-                    payload: { username, response: err }
-                });
-            });
+    return {
+        types: [
+            k.AUTH_REGISTER_REQUEST,
+            k.AUTH_REGISTER_SUCCESS,
+            k.AUTH_REGISTER_ERROR
+        ],
+        api: API.register(username, password),
+        payload: { username }
     };
+
+    // return dispatch => {
+    //     dispatch({ type: k.AUTH_REGISTER_REQUEST, payload: { username } });
+
+    //     API.register(username, password)
+    //         .then(res => {
+    //             switch (res.status) {
+    //                 case 201:
+    //                 case 200:
+    //                     dispatch({
+    //                         type: k.AUTH_REGISTER_SUCCESS,
+    //                         payload: { username, response: res }
+    //                     });
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //         })
+    //         .catch(err => {
+    //             dispatch({
+    //                 type: k.AUTH_REGISTER_ERROR,
+    //                 payload: { username, response: err }
+    //             });
+    //         });
+    // };
 }
 
 export function get_session() {

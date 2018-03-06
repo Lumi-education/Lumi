@@ -8,20 +8,11 @@ import { DB } from '../../db';
 import User from '../../models/User';
 import Controller from '../controller';
 
+import * as UserActions from '../../modules/users/actions';
+
 class AuthController extends Controller<{}> {
     constructor() {
-        const _view = {
-            _id: '_design/auth',
-            views: {
-                check_username: {
-                    map:
-                        'function (doc) {\n  if (doc.type === "user") { emit(doc.name, {\n    username: doc.name,\n    password: doc.password\n  }); }\n}'
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('auth', _view);
+        super('auth');
     }
 
     public login(req: IRequest, res: express.Response) {
@@ -81,24 +72,11 @@ class AuthController extends Controller<{}> {
                 if (user) {
                     res.status(409).end();
                 } else {
-                    db.insert(
-                        new User({
-                            name: req.body.username
-                        }),
-                        doc => {
-                            db.insert(
-                                {
-                                    _id: doc.body.id + '-pw',
-                                    user_id: doc.body.id,
-                                    password: bcrypt.hashSync(
-                                        req.body.password
-                                    ),
-                                    type: 'password'
-                                },
-                                () => {
-                                    res.status(201).end();
-                                }
-                            );
+                    UserActions.create_user(
+                        req.body.username,
+                        req.body.password,
+                        _user => {
+                            res.status(200).json(_user);
                         }
                     );
                 }

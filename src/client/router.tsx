@@ -3,6 +3,9 @@ import * as React from 'react';
 import { Redirect, Route, IndexRoute, Router } from 'react-router';
 
 import Auth from 'lib/auth/container/auth';
+import Login from 'lib/auth/container/login';
+import { SystemContainer } from 'lib/system';
+
 import * as Core from 'lib/core';
 import Landing from 'client/pages/landing';
 
@@ -21,13 +24,16 @@ export default class RouterWrapper extends React.Component<IProps, {}> {
     public render() {
         return (
             <Router history={this.props.history}>
-                <Route component={Auth}>
-                    <Route component={Core.container.websocket}>
-                        <Route path="/" component={Landing} />
-                        {userRoutes}
-                        {adminRoutes}
+                <Route component={SystemContainer}>
+                    <Route path="login" component={Login} />
+                    <Route component={Auth}>
+                        <Route component={Core.container.websocket}>
+                            <Route path="/" component={Landing} />
+                            {userRoutes}
+                            {adminRoutes}
+                        </Route>
+                        <Redirect from="*" to="/" />
                     </Route>
-                    <Redirect from="*" to="/" />
                 </Route>
             </Router>
         );

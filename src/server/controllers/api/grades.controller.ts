@@ -8,18 +8,7 @@ import Controller from '../controller';
 
 class GradesController extends Controller<{}> {
     constructor() {
-        const _view = {
-            _id: '_design/grade',
-            views: {
-                user: {
-                    map:
-                        "function (doc) {\n  if (doc.type === 'grade') { \n  emit(doc.user_id, 1);\n  }\n}"
-                }
-            },
-            language: 'javascript'
-        };
-
-        super('grade', _view);
+        super('grade');
     }
 
     public user(req: IRequest, res: express.Response) {
