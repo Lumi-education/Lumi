@@ -12,6 +12,7 @@ services:
         - KEY=${KEY}
         - DB_HOST=${DB_HOST}
         - DB=${DB}
+        - CHANGES_PORT=${CHANGES_PORT}
     volumes:
         - ./files:/srv/files
     ports:
