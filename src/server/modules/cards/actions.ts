@@ -20,7 +20,9 @@ export function hide_answer(data_id: string) {
     try {
         const db = new DB();
 
-        db.update_one(data_id, { show_answer: false });
+        db.update_one(data_id, { show_answer: false }, doc =>
+            event.emit('CARDS/CARD_DATA_UPDATED', doc)
+        );
     } catch (err) {
         raven.captureException(err);
     }
@@ -44,8 +46,8 @@ export function delete_card_data(
 export function create_card_data(
     user_id: string,
     collection_id: string,
-    card_id: string,
-    cb?: (res: any) => void
+    card_id: string // ,
+    // cb?: (res: any) => void
 ) {
     try {
         const db = new DB();
@@ -71,7 +73,9 @@ export function create_card_data(
                             is_graded: true,
                             data_type: 'card'
                         },
-                        cb
+                        doc => {
+                            event.emit('CARDS/CARD_DATA_CREATED', doc);
+                        }
                     );
                     break;
                 case 'video':
@@ -92,7 +96,9 @@ export function create_card_data(
                             graded: true,
                             score: 0
                         },
-                        cb
+                        doc => {
+                            event.emit('CARDS/CARD_DATA_CREATED', doc);
+                        }
                     );
                     break;
                 case 'upload':
@@ -114,7 +120,9 @@ export function create_card_data(
                             graded: false,
                             _attachments: undefined
                         },
-                        cb
+                        doc => {
+                            event.emit('CARDS/CARD_DATA_CREATED', doc);
+                        }
                     );
                     break;
                 case 'freetext':
@@ -137,7 +145,9 @@ export function create_card_data(
                             auto_grade: card.auto_grade,
                             data_type: 'card'
                         },
-                        cb
+                        doc => {
+                            event.emit('CARDS/CARD_DATA_CREATED', doc);
+                        }
                     );
                 case 'text':
                 default:
@@ -158,7 +168,9 @@ export function create_card_data(
                             is_graded: false,
                             data_type: 'card'
                         },
-                        cb
+                        doc => {
+                            event.emit('CARDS/CARD_DATA_CREATED', doc);
+                        }
                     );
             }
         });
