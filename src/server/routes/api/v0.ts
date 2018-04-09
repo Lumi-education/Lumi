@@ -60,7 +60,6 @@ export default function(): express.Router {
     router.get('/cards/:id', cardsController.read);
     router.put('/cards/:id', cardsController.update);
     router.delete('/cards/:id', cardsController.delete);
-    router.put('/cards/:id/action', cardsController.action);
     // cards -> attachments
     router.all('/cards/:id/attachment/:attachment', cardsController.attachment);
 
