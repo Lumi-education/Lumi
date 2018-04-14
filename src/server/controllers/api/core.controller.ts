@@ -62,12 +62,12 @@ export class CoreController {
                 CardActions.create_card_data(
                     payload.user_id,
                     payload.collection_id,
-                    payload.card_id,
-                    _res => {
-                        db.findById(_res.body.id, doc => {
-                            res.status(200).json(doc);
-                        });
-                    }
+                    payload.card_id // ,
+                    // _res => {
+                    //     db.findById(_res.body.id, doc => {
+                    //         res.status(200).json(doc);
+                    //     });
+                    // }
                 );
         }
     }

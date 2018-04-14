@@ -104,6 +104,16 @@ export class DB {
             .catch(this.handle_error);
     }
 
+    public insertMany(docs: any[], options, callback: (error, result) => void) {
+        request
+            .post(this.db + '_bulk_docs')
+            .send({ docs })
+            .then(res => {
+                callback(null, res.body);
+            })
+            .catch(this.handle_error);
+    }
+
     public find(query, options, cb: (doc) => void, type?) {
         if (options.limit) {
             options.limit = parseInt(options.limit, 10);
@@ -146,6 +156,20 @@ export class DB {
                     .catch(this.handle_error);
             })
             .catch(this.handle_error);
+    }
+
+    public update(selector, update, options, cb: (docs) => void) {
+        this.find(selector, options, docs => {
+            const updated_docs = docs.map(doc => assign(doc, update));
+
+            request
+                .post(this.db + '_bulk_docs')
+                .send({ docs: updated_docs })
+                .then(res => {
+                    cb(res.body);
+                })
+                .catch(this.handle_error);
+        });
     }
 
     public checkView(name: string, cb: (doc) => void) {

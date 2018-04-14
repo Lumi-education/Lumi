@@ -26,21 +26,6 @@ class CardController extends Controller<Card> {
         });
     }
 
-    public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.findById(
-            req.params.id,
-            (card: Card) => {
-                switch (req.body.type) {
-                    default:
-                        break;
-                }
-            },
-            Card
-        );
-    }
-
     public list(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
