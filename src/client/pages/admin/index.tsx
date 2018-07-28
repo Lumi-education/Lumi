@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 // container
 import LeftDrawer from './left-drawer';
@@ -7,11 +7,11 @@ import RightDrawer from './right-drawer';
 import AppBar from './app-bar';
 
 // state
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
 // modules
-import { ui_actions } from 'lib/ui';
-import { random_bg } from 'lib/ui/utils';
+import {actions as ui_actions} from 'lib/ui';
+import {random_bg} from 'lib/ui/utils';
 import * as Grades from 'lib/grades';
 
 interface IStateProps {
@@ -43,9 +43,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <AppBar />
                 <LeftDrawer />
                 <RightDrawer />
-                <div style={{ paddingBottom: '40px' }}>
-                    {this.props.children}
-                </div>
+                <div style={{paddingBottom: '40px'}}>{this.props.children}</div>
 
                 <Grades.CreateGradeDialogContainer />
             </div>
@@ -66,6 +64,7 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminRoot
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminRoot);

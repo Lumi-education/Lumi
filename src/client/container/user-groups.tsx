@@ -1,12 +1,10 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Map } from 'immutable';
+import {connect} from 'react-redux';
+import {Map} from 'immutable';
 
-import { AutoComplete } from 'material-ui';
+import {AutoComplete} from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
-
-import * as Groups from '../';
 
 // actions
 import {
@@ -15,7 +13,11 @@ import {
     create_and_add_group,
     add_group,
     rem_group
-} from 'lib/groups/actions';
+} from '../../../lib/groups/actions';
+
+import {IState} from 'client/state';
+import * as Groups from 'lib/groups';
+import * as Users from 'lib/users';
 
 interface IPassedProps {
     user_id: string;
@@ -79,13 +81,14 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: Groups.IState, ownProps): IStateProps {
+function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id: ownProps.user_id,
-        user_groups: Groups.selectors.select_groups_for_user(
-            state,
-            ownProps.user_id
-        ),
+        user_groups: Users.selectors
+            .user(state, ownProps.user_id)
+            .groups.map(group_id =>
+                Groups.selectors.select_group(state, group_id)
+            ),
         groups: state.groups.map
     };
 }

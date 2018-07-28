@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 // material-ui
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
-import { List, ListItem } from 'material-ui/List';
+import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
@@ -18,9 +18,9 @@ import SVGAssignments from 'material-ui/svg-icons/action/assignment';
 import SVGAssignmentsTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 
 // actions
-import { push, left_drawer_close, left_drawer_open } from 'lib/ui/actions';
+import {push, left_drawer_close, left_drawer_open} from 'lib/ui/actions';
 
-import { logout } from 'lib/auth/actions';
+import {logout} from 'lib/auth/actions';
 
 // selector
 import {
@@ -29,10 +29,12 @@ import {
 } from 'lib/collections/selectors';
 
 // types
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
 // modules
 import * as Grades from 'lib/grades';
+import * as Users from 'lib/users';
+import * as Groups from 'lib/groups';
 
 declare var process;
 
@@ -40,7 +42,9 @@ interface IStateProps {
     left_drawer_show: boolean;
     collections: IUserCollection[];
     user_id: string;
+    user: Users.IUser;
     username: string;
+    group: (group_id: string) => Groups.IGroup;
 }
 
 interface IDispatchProps {
@@ -67,7 +71,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     onRequestChange={() =>
                         this.props.dispatch(left_drawer_close())
                     }
-                    containerStyle={{ backgroundColor: '#FFFFFF' }}
+                    containerStyle={{backgroundColor: '#FFFFFF'}}
                 >
                     <AppBar
                         title={this.props.username}
@@ -89,52 +93,27 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             leftIcon={<SVGDashboard />}
                         />
                         <ListItem
-                            primaryText="Arbeitsblätter"
-                            onClick={() =>
-                                this.props.dispatch(push('/user/assignments'))
-                            }
+                            primaryText="Kurse"
                             leftIcon={<SVGAssignments />}
-                            rightAvatar={
-                                <Avatar>
-                                    {
-                                        this.props.collections.filter(
-                                            c => !c.submitted
-                                        ).length
-                                    }
-                                </Avatar>
-                            }
-                        />
-                        <ListItem
-                            primaryText="Abgegebene Arbeitsblätter"
-                            onClick={() =>
-                                this.props.dispatch(
-                                    push('/user/submitted-assignments')
-                                )
-                            }
-                            leftIcon={<SVGAssignmentsTurnedIn />}
-                            rightAvatar={
-                                <Avatar>
-                                    {
-                                        this.props.collections.filter(
-                                            c => c.submitted
-                                        ).length
-                                    }
-                                </Avatar>
-                            }
-                        />
-                        <ListItem
-                            primaryText="Noten"
-                            onClick={() =>
-                                this.props.dispatch(push('/user/grades'))
-                            }
-                            leftIcon={<Grades.svg.Grade />}
-                            rightAvatar={
-                                <div>
-                                    <Grades.CurrentGradeContainer
-                                        user_id={this.props.user_id}
+                            primaryTogglesNestedList={true}
+                            nestedItems={this.props.user.groups.map(
+                                group_id => (
+                                    <ListItem
+                                        key={group_id}
+                                        primaryText={
+                                            this.props.group(group_id).name
+                                        }
+                                        onClick={() =>
+                                            this.props.dispatch(
+                                                push(
+                                                    '/user/flow?course_id=' +
+                                                        group_id
+                                                )
+                                            )
+                                        }
                                     />
-                                </div>
-                            }
+                                )
+                            )}
                         />
                         <ListItem
                             primaryText="Logout"
@@ -154,8 +133,10 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         left_drawer_show: state.ui.left_drawer_show,
         collections: select_collections_for_user(state),
+        user: state.users.me,
         user_id: state.auth.user_id,
-        username: state.auth.username
+        username: state.auth.username,
+        group: group_id => Groups.selectors.select_group(state, group_id)
     };
 }
 
@@ -165,6 +146,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    UserLeftDrawer
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserLeftDrawer);

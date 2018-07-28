@@ -1,9 +1,9 @@
-import { assign, noop } from 'lodash';
-import { DB } from '../../db';
+import {assign, noop} from 'lodash';
+import {DB} from '../../db';
 import event from '../../core/event';
 import * as bcrypt from 'bcrypt-nodejs';
 
-import { IUser } from 'lib/users/types';
+import {IUser} from '../../../../lib/users/types';
 import User from '../../models/User';
 
 export function create_user(

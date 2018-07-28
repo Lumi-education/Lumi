@@ -4,6 +4,7 @@ const version = require('../package.json').version;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const sharedConfig = require('./shared.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     devtool: 'source-map',
@@ -11,7 +12,7 @@ module.exports = Object.assign(sharedConfig, {
         // Extract all 3rd party modules into a separate 'vendor' chunk
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks: ({ resource }) => /node_modules/.test(resource)
+            minChunks: ({resource}) => /node_modules/.test(resource)
         }),
         new webpack.DefinePlugin({
             'process.env': {
@@ -24,6 +25,13 @@ module.exports = Object.assign(sharedConfig, {
         }),
         new UglifyJSPlugin({
             sourceMap: true
-        })
+        }),
+        new CopyWebpackPlugin([
+            {
+                from: 'lib/cards/h5p',
+                to: 'h5p',
+                toType: 'dir'
+            }
+        ])
     ]
 });

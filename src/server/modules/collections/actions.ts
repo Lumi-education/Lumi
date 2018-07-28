@@ -1,21 +1,25 @@
-import { assign, noop } from 'lodash';
-import { DB } from '../../db';
+import {assign, noop} from 'lodash';
+import {DB} from '../../db';
 import event from '../../core/event';
 
-import { ICollectionData } from 'lib/collections/types';
-import { ICardData } from 'lib/cards/types';
+import {ICollectionData} from '../../../../lib/collections/types';
+import {ICardData} from '../../../../lib/cards/types';
 
 export function submit_overdue_collections() {
     const db = new DB();
 
     db.find(
         {
-            due_date: { $lte: new Date() },
+            due_date: {
+                $lte: new Date()
+            },
             submitted: false,
             type: 'data',
             data_type: 'collection'
         },
-        { limit: 30 },
+        {
+            limit: 30
+        },
         docs => {
             docs.forEach(doc => submit_collection(doc._id));
         }
@@ -40,8 +44,7 @@ export function submit_collection(collection_data_id: string) {
 export function complete_collection(id: string) {
     const db = new DB();
 
-    // collection_data.submitted = true;
-    // collection_data.submit_date = new Date();
+    // collection_data.submitted = true; collection_data.submit_date = new Date();
     const user_id = id.split('-')[0];
     const collection_id = id.split('-')[1];
 
@@ -52,7 +55,9 @@ export function complete_collection(id: string) {
             type: 'data',
             data_type: 'card'
         },
-        { limit: 40 },
+        {
+            limit: 40
+        },
         (data: ICardData[]) => {
             const correct = data
                 .filter(
@@ -91,9 +96,7 @@ export function complete_collection(id: string) {
                 }
             );
 
-            // db.save(collection_data, () => {
-
-            // });
+            // db.save(collection_data, () => { });
         }
     );
 }
@@ -101,17 +104,30 @@ export function complete_collection(id: string) {
 export function uncomplete_collection(id: string) {
     const db = new DB();
 
-    db.update_one(id, { completed: false }, doc => {
-        event.emit('COLLECTIONS/COLLECTION_UNCOMPLETED', doc);
-    });
+    db.update_one(
+        id,
+        {
+            completed: false
+        },
+        doc => {
+            event.emit('COLLECTIONS/COLLECTION_UNCOMPLETED', doc);
+        }
+    );
 }
 
 export function unsubmit_collection(id: string) {
     const db = new DB();
 
-    db.update_one(id, { submitted: false, submit_date: undefined }, doc => {
-        event.emit('COLLECTIONS/COLLECTION_UNSUBMITTED', doc);
-    });
+    db.update_one(
+        id,
+        {
+            submitted: false,
+            submit_date: undefined
+        },
+        doc => {
+            event.emit('COLLECTIONS/COLLECTION_UNSUBMITTED', doc);
+        }
+    );
 }
 
 export function delete_assignment(id: string) {
@@ -147,13 +163,23 @@ export function assign_collection(
         completed: false
     };
 
+    const assignment = {
+        user_id,
+        collection_id: collection_data.collection_id,
+        type: 'assignment',
+        group_id: 'test',
+        completed: false
+    };
+
+    db.insert(assignment);
+
     const data: ICollectionData = assign(_data, collection_data);
 
     db.insert(data, res => {
         cb ? cb(res) : noop();
         event.emit(
             'COLLECTIONS/COLLECTION_ASSIGNED',
-            assign(data, { _id: res.id })
+            assign(data, {_id: res.id})
         );
     });
 }

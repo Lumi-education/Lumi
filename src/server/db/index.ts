@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-import { assign, noop } from 'lodash';
+import {assign, noop} from 'lodash';
 import * as express from 'express';
 import * as debug from 'debug';
 import * as nano from 'nano';
@@ -63,7 +63,7 @@ export class DB {
     public save(doc, cb?: (res) => void) {
         request
             .put(this.db + doc._id)
-            .send(assign(doc, { updated_at: new Date() }))
+            .send(assign(doc, {updated_at: new Date()}))
             .then(res => {
                 log('SAVED', doc._id);
                 if (cb) {
@@ -85,7 +85,7 @@ export class DB {
     public insert(doc, cb?: (res) => void) {
         request
             .post(this.db)
-            .send(assign(doc, { created_at: new Date() }))
+            .send(assign(doc, {created_at: new Date()}))
             .then(res => {
                 log('CREATED: ', res.body.id);
                 if (cb) {
@@ -107,7 +107,7 @@ export class DB {
     public insertMany(docs: any[], options, callback: (error, result) => void) {
         request
             .post(this.db + '_bulk_docs')
-            .send({ docs })
+            .send({docs})
             .then(res => {
                 callback(null, res.body);
             })
@@ -120,7 +120,14 @@ export class DB {
         }
         request
             .post(this.db + '_find')
-            .send(assign({ selector: query }, options))
+            .send(
+                assign(
+                    {
+                        selector: query
+                    },
+                    options
+                )
+            )
             .then(res => {
                 cb(type ? res.body.docs.map(d => new type(d)) : res.body.docs);
             })
@@ -130,7 +137,7 @@ export class DB {
     public findOne(query, options, cb: (doc) => void, type?) {
         this.find(
             query,
-            assign(options, { limit: 1 }),
+            assign(options, {limit: 1}),
             docs => {
                 cb(docs[0]);
             },
@@ -141,7 +148,7 @@ export class DB {
     public update_one(id: string, update, cb?: (doc) => void) {
         request
             .get(this.db + id)
-            .then(({ body }) => {
+            .then(({body}) => {
                 const newDoc = assign({}, body, update, {
                     updated_at: new Date()
                 });
@@ -150,7 +157,7 @@ export class DB {
                     .send(newDoc)
                     .then(res => {
                         cb
-                            ? cb(assign({}, newDoc, { _rev: res.body.rev }))
+                            ? cb(assign({}, newDoc, {_rev: res.body.rev}))
                             : noop();
                     })
                     .catch(this.handle_error);
@@ -164,7 +171,7 @@ export class DB {
 
             request
                 .post(this.db + '_bulk_docs')
-                .send({ docs: updated_docs })
+                .send({docs: updated_docs})
                 .then(res => {
                     cb(res.body);
                 })
@@ -187,7 +194,7 @@ export class DB {
     }
 
     public view(_design: string, index: string, options, cb: (docs) => void) {
-        const _options = assign(options, { include_docs: true });
+        const _options = assign(options, {include_docs: true});
 
         this.nano.view(_design, index, _options, (err, body) => {
             if (err) {
@@ -242,22 +249,24 @@ export class DB {
     }
 
     private handle_error(err) {
-        raven.captureException(err);
+        // raven.captureException(err);
 
-        if (this.res) {
-            try {
-                this.res
-                    .status(
-                        err.status > 100 && err.status < 520 ? err.status : 500
-                    )
-                    .json(
-                        process.env.NODE_ENV === 'development'
-                            ? err
-                            : { message: err.message || err }
-                    );
-            } catch (err) {
-                raven.captureException(err);
-            }
-        }
+        throw new Error(err);
+
+        // if (this.res) {
+        //     try {
+        //         this.res
+        //             .status(
+        //                 err.status > 100 && err.status < 520 ? err.status : 500
+        //             )
+        //             .json(
+        //                 process.env.NODE_ENV === 'development'
+        //                     ? err
+        //                     : {message: err.message || err}
+        //             );
+        //     } catch (err) {
+        //         raven.captureException(err);
+        //     }
+        // }
     }
 }

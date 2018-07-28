@@ -5,7 +5,6 @@ import { push } from 'lib/ui/actions';
 import * as markdownit from 'markdown-it';
 import * as debug from 'debug';
 import { Map } from 'immutable';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 
 import FlatButton from 'material-ui/FlatButton';
@@ -57,6 +56,8 @@ import { get_cards, create_card } from 'lib/cards/actions';
 import { get_tags } from 'lib/tags/actions';
 
 import LoadingPage from 'lib/ui/components/loading-page';
+
+import Card from 'lib/cards/components/card';
 
 const md = markdownit();
 const log = debug('lumi:modules:admin:cards:cards-page');
@@ -113,7 +114,17 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                             this.setState({ search_text: filter })
                         }
                     />
-                    <CardListComponent
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            background:
+                                'linear-gradient(90deg, #3498db, #1abc9c)'
+                        }}
+                    >
+                        {this.props.cards.map(card => <Card card={card} />)}
+                    </div>
+                    {/* <CardListComponent
                         cards={this.props.cards.filter(card => {
                             return this.state.search_text === ''
                                 ? true
@@ -127,7 +138,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         onClick={(id: string) =>
                             this.props.dispatch(push('/admin/cards/' + id))
                         }
-                    />
+                    /> */}
                 </Paper>
 
                 <FloatingActionButton

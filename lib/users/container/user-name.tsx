@@ -1,10 +1,10 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {push} from '../../ui/actions';
 
 // modules
-import * as Users from '../';
+import * as Users from '..';
 
 interface IPassedProps {
     user_id: string;

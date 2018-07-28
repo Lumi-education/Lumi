@@ -1,6 +1,6 @@
 import * as API from './api';
 
-import { ICard } from './types';
+import {ICard} from './types';
 
 import * as k from './constants';
 
@@ -27,7 +27,7 @@ export function get_card(card_id: string) {
             k.CARDS_GET_CARD_ERROR
         ],
         api: API.get_card(card_id),
-        payload: { card_id }
+        payload: {card_id}
     };
 }
 
@@ -39,7 +39,7 @@ export function update_card(card_id: string, update) {
             k.CARDS_UPDATE_CARD_ERROR
         ],
         api: API.update_card(card_id, update),
-        payload: { card_id, update }
+        payload: {card_id, update}
     };
 }
 
@@ -51,7 +51,7 @@ export function create_card(card?) {
             k.CARDS_CREATE_CARD_ERROR
         ],
         api: API.create_card(card),
-        payload: { card }
+        payload: {card}
     };
 }
 
@@ -63,7 +63,7 @@ export function delete_card(card_id: string) {
             k.CARDS_DELETE_CARD_ERROR
         ],
         api: API.delete_card(card_id),
-        payload: { card_id }
+        payload: {card_id}
     };
 }
 
@@ -90,7 +90,7 @@ export function create_data<T>(data: T) {
             k.DATA_CREATE_ERROR
         ],
         api: API.create_data(data),
-        payload: { data }
+        payload: {data}
     };
 }
 
@@ -98,7 +98,7 @@ export function get_user_collection_data(collection_id: string) {
     return {
         types: [k.DATA_GET_REQUEST, k.DATA_GET_SUCCESS, k.DATA_GET_ERROR],
         api: API.get_user_collection_data(collection_id),
-        payload: { collection_id }
+        payload: {collection_id}
     };
 }
 export function get_card_data(
@@ -113,7 +113,7 @@ export function get_card_data(
             DATA_GET_CARD_DATA_ERROR
         ],
         api: API.get_card_data(user_id, collection_id, card_id),
-        payload: { user_id, collection_id, card_id }
+        payload: {user_id, collection_id, card_id}
     };
 }
 
@@ -125,6 +125,14 @@ export function update_data(data) {
             k.DATA_UPDATE_ERROR
         ],
         api: API.update_data(data),
-        payload: { data }
+        payload: {data}
+    };
+}
+
+export function get_h5p(content_id: string) {
+    return {
+        types: ['GET_H5P_REQUEST', 'GET_H5P_SUCCESS', 'GET_H5P_ERROR'],
+        api: API.get_h5p(content_id),
+        payload: {content_id}
     };
 }

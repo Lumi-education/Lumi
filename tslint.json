@@ -19,12 +19,15 @@
         "strict-boolean-expressions": false,
         "no-increment-decrement": false,
         "no-empty-interface": false,
+        "no-eval": false,
+        "prefer-for-of": false,
         "variable-name": [
             true,
             "ban-keywords",
             "check-format",
             "allow-leading-underscore",
             "allow-snake-case"
-        ]
+        ],
+        "no-console": false
     }
 }

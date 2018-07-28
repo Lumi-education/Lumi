@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push, goBack } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {push, goBack} from '../../ui/actions';
 
 // components
 import {
@@ -11,12 +11,12 @@ import {
     RaisedButton
 } from 'material-ui';
 
-import { RaisedButtonComponent } from 'lib/ui';
+import {RaisedButtonComponent} from '../../ui';
 
-import { state_color } from 'lib/ui/utils';
+import {state_color} from '../../ui/utils';
 
 // modules
-import * as Users from '../';
+import * as Users from '..';
 
 interface IPassedProps {
     user_id: string;
@@ -79,25 +79,25 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                         floatingLabelText="Name"
                         value={this.state.name}
                         fullWidth={true}
-                        onChange={(e, name) => this.setState({ name })}
+                        onChange={(e, name) => this.setState({name})}
                         errorText={
                             this.props.user.name !== this.state.name
                                 ? 'Previous: ' + this.props.user.name
                                 : null
                         }
-                        errorStyle={{ color: state_color('pending') }}
+                        errorStyle={{color: state_color('pending')}}
                     />
                     <SelectField
                         floatingLabelText="Level"
                         fullWidth={true}
                         value={this.state.level}
-                        onChange={(e, i, v) => this.setState({ level: v })}
+                        onChange={(e, i, v) => this.setState({level: v})}
                         errorText={
                             this.props.user.level !== this.state.level
                                 ? 'Previous: ' + this.props.user.level
                                 : null
                         }
-                        errorStyle={{ color: state_color('pending') }}
+                        errorStyle={{color: state_color('pending')}}
                     >
                         <MenuItem value={1} primaryText="Gast" />
                         <MenuItem value={2} primaryText="Benutzer" />
@@ -105,25 +105,25 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                         <MenuItem value={4} primaryText="Admin" />
                     </SelectField>
                     {this.props.children}
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flex: 1 }}>
+                    <div style={{display: 'flex'}}>
+                        <div style={{flex: 1}}>
                             <RaisedButton
                                 fullWidth={true}
                                 label="Back"
                                 onClick={() => this.props.dispatch(goBack())}
                             />
                         </div>
-                        <div style={{ flex: 1 }}>
+                        <div style={{flex: 1}}>
                             <RaisedButton
                                 fullWidth={true}
                                 secondary={true}
                                 onClick={() =>
-                                    this.setState({ show_delete_dialog: true })
+                                    this.setState({show_delete_dialog: true})
                                 }
                                 label="Delete"
                             />
                         </div>
-                        <div style={{ flex: 1 }}>
+                        <div style={{flex: 1}}>
                             <RaisedButtonComponent
                                 dispatch={this.props.dispatch}
                                 action={Users.actions.update_user(
@@ -143,13 +143,13 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                     <Dialog
                         open={this.state.show_delete_dialog}
                         onRequestClose={() =>
-                            this.setState({ show_delete_dialog: false })
+                            this.setState({show_delete_dialog: false})
                         }
                         title={'Delete user'}
                         actions={[
                             <RaisedButton
                                 onClick={() =>
-                                    this.setState({ show_delete_dialog: false })
+                                    this.setState({show_delete_dialog: false})
                                 }
                                 secondary={true}
                                 fullWidth={true}

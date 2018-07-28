@@ -1,7 +1,8 @@
 import * as express from 'express';
 import * as debug from 'debug';
-import { auth, level } from '../../middleware/auth';
+import {auth, level} from '../../middleware/auth';
 import mw from '../../middleware';
+import * as path from 'path';
 
 import AuthController from '../../controllers/api/auth.controller';
 import DataController from '../../controllers/api/data.controller';
@@ -14,6 +15,8 @@ import TagsController from '../../controllers/api/tags.controller';
 import GradesController from '../../controllers/api/grades.controller';
 import CoreController from '../../controllers/api/core.controller';
 import SystemController from '../../controllers/api/system.controller';
+import ResourcesController from '../../controllers/api/resources.controller';
+import FlowController from '../../controllers/api/flow.controller';
 
 const log = debug('lumi:routes:api');
 
@@ -32,8 +35,31 @@ export default function(): express.Router {
     const gradesController = new GradesController();
     const coreController = new CoreController();
     const systemController = new SystemController();
+    const resourcesController = new ResourcesController();
+    const flowController = new FlowController();
 
-    router.post('/core/find', mw.auth, mw.level(3), coreController.find);
+    router.post('/flow/assign', flowController.assign);
+    router.get('/flow/assignments', flowController.get_assignments);
+
+    router.get(
+        '/flow/assignment/:assignment_id/state',
+        flowController.get_state
+    );
+    router.post(
+        '/flow/assignment/:assignment_id/state',
+        flowController.save_state
+    );
+
+    router.post(
+        '/flow/assignment/:assignment_id/data',
+        flowController.save_data
+    );
+
+    router.get('/resources/:id', resourcesController.find);
+    router.get('/resources', resourcesController.list);
+    router.get('/resources/*', resourcesController.any);
+
+    router.post('/core/find', mw.auth, coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
     router.post(
         '/core/action/:action',
@@ -41,7 +67,7 @@ export default function(): express.Router {
         mw.level(3),
         coreController.action
     );
-    router.get('/core/doc/:id', mw.auth, mw.level(3), coreController.doc);
+    router.get('/core/doc/:id', mw.auth, coreController.doc);
 
     router.post('/system/shutdown', systemController.shutdown);
     router.get('/system/settings', systemController.settings);
@@ -60,6 +86,10 @@ export default function(): express.Router {
     router.get('/cards/:id', cardsController.read);
     router.put('/cards/:id', cardsController.update);
     router.delete('/cards/:id', cardsController.delete);
+    router.get('/cards/h5p/:content_id', cardsController.h5p);
+
+    router.get('/h5p/*', cardsController.h5p_proxy);
+
     // cards -> attachments
     router.all('/cards/:id/attachment/:attachment', cardsController.attachment);
 

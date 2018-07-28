@@ -1,24 +1,22 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
-import { ICollection } from 'lib/collections/types';
+import {ICollection} from 'lib/collections/types';
 
 import Paper from 'material-ui/Paper';
 
-import UserAssignments from './assignments';
-
 // components
-import { CollectionListComponent } from 'lib/collections';
+import {CollectionListComponent} from 'lib/collections';
 
 // selectors
-import { select_collections_as_array } from 'lib/collections/selectors';
+import {select_collections_as_array} from 'lib/collections/selectors';
 
 // actions
-import { left_drawer_open, push } from 'lib/ui/actions';
+import {left_drawer_open, push} from 'lib/ui/actions';
 
-import { get_user_collections } from 'lib/collections/actions';
+import {get_user_collections} from 'lib/collections/actions';
 
 interface IStateProps {
     collections: ICollection[];
@@ -40,11 +38,7 @@ export class UserDashboard extends React.Component<IProps, {}> {
     }
 
     public render() {
-        return (
-            <div id="dashboard">
-                <UserAssignments />
-            </div>
-        );
+        return <div id="dashboard" />;
     }
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
@@ -59,6 +53,7 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    UserDashboard
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserDashboard);

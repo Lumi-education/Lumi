@@ -1,8 +1,8 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { assign, noop } from 'lodash';
+import {assign, noop} from 'lodash';
 
 // components
 import FreetextContainer from './freetext-container';
@@ -10,6 +10,7 @@ import VideoCardContainer from './video-card';
 import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import TextCardContainer from './text-card-container';
+import H5PCardContainer from './h5p';
 
 import * as Cards from '../';
 
@@ -32,12 +33,6 @@ interface IProps extends IStateProps, IDispatchProps {}
 export class CardViewContainer extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-    }
-
-    public componentWillMount() {
-        if (!this.props.card._id) {
-            this.props.dispatch(Cards.actions.get_card(this.props.card_id));
-        }
     }
 
     public render() {
@@ -93,6 +88,15 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                             key={id}
                             card_id={this.props.card_id}
                             collection_id={this.props.collection_id}
+                            user_id={this.props.user_id}
+                        />
+                    );
+                case 'h5p':
+                    return (
+                        <H5PCardContainer
+                            key={id}
+                            assignment_id={this.props.collection_id}
+                            card_id={this.props.card_id}
                             user_id={this.props.user_id}
                         />
                     );

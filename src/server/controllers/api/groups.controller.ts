@@ -1,16 +1,16 @@
 import * as express from 'express';
 import * as raven from 'raven';
-import { noop } from 'lodash';
-import { IRequest } from '../../middleware/auth';
+import {noop, uniq} from 'lodash';
+import {IRequest} from '../../middleware/auth';
 
 import Group from '../../models/Group';
 import User from '../../models/User';
 import Collection from '../../models/Collection';
 
-import { DB } from '../../db';
+import {DB} from '../../db';
 
 import Controller from '../controller';
-import { assign_collection } from '../../modules/collections/actions';
+import {assign_collection} from '../../modules/collections/actions';
 
 class GroupController extends Controller<Group> {
     constructor() {
@@ -36,7 +36,7 @@ class GroupController extends Controller<Group> {
         db.view(
             'group',
             'with_collections_and_users',
-            { key: req.params.id },
+            {key: req.params.id},
             docs => {
                 res.status(200).json(docs);
             }
@@ -46,7 +46,7 @@ class GroupController extends Controller<Group> {
     public for_user(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('group', 'for_user', { key: req.params.user_id }, docs => {
+        db.view('group', 'for_user', {key: req.params.user_id}, docs => {
             res.status(200).json(docs);
         });
     }
@@ -56,10 +56,10 @@ class GroupController extends Controller<Group> {
 
         db.find(
             {
-                groups: { $in: [req.params.id] },
+                groups: {$in: [req.params.id]},
                 type: 'user'
             },
-            { limit: 1000 },
+            {limit: 1000},
             (users: User[]) => {
                 users.forEach(user => {
                     user.rem_group(req.params.id);
@@ -81,36 +81,35 @@ class GroupController extends Controller<Group> {
                 (group: Group) => {
                     switch (req.body.type) {
                         case 'ADD_USER_TO_GROUP':
-                            db._findById(
-                                req.body.payload.user_id + '-groups',
-                                (err, group_ref) => {
-                                    if (err) {
-                                        const _group_ref = {
-                                            _id:
-                                                req.body.payload.user_id +
-                                                '-groups',
-                                            user_id: req.body.payload.user_id,
-                                            groups: [req.params.id],
-                                            type: 'group_ref'
-                                        };
-                                        db.insert(_group_ref);
-                                    } else {
-                                        group_ref.groups.push(req.params.id);
-                                        db.save(group_ref);
-                                    }
+                            db.findById(req.body.payload.user_id, user => {
+                                user.groups = uniq([
+                                    ...user.groups,
+                                    req.params.id
+                                ]);
+
+                                if (!user.flow) {
+                                    user.flow = {};
                                 }
-                            );
+
+                                user.flow[req.params.id] = [];
+
+                                db.update_one(user._id, user);
+                            });
+
                             break;
                         case 'REM_USER_FROM_GROUP':
-                            db.findById(
-                                req.body.payload.user_id + '-groups',
-                                group_ref => {
-                                    group_ref.groups = group_ref.groups.filter(
+                            db.findById(req.body.payload.user_id, user => {
+                                user.groups = uniq(
+                                    user.groups.filter(
                                         group_id => group_id !== req.params.id
-                                    );
-                                    db.save(group_ref);
-                                }
-                            );
+                                    )
+                                );
+
+                                user.flow[req.params.id] = undefined;
+
+                                db.update_one(user._id, user);
+                            });
+
                             break;
                         case 'ADD_COLLECTION':
                             throw new Error(

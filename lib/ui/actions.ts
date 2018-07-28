@@ -1,4 +1,4 @@
-import { push as _push, goBack } from 'react-router-redux';
+import {push as _push, goBack} from 'react-router-redux';
 import * as qs from 'query-string';
 import * as url_parse from 'url-parse';
 import * as debug from 'debug';
@@ -19,15 +19,15 @@ import {
     UI_SET_RIGHT_APPBAR_ICON,
     UI_SET_APPBAR_TITLE
 } from './constants';
-import { disable_collection } from 'lib/groups/api';
+import {disable_collection} from '../groups/api';
 
-import * as Users from 'lib/users';
+import * as Users from '../users';
 
 export function push(url: string) {
     return dispatch => {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
-        dispatch(Users.actions.update_user('myself', { location: url }));
+        dispatch(Users.actions.update_user('myself', {location: url}));
         dispatch(_push(url));
     };
 }
@@ -41,7 +41,7 @@ export function goBack() {
 export function set_appbar_title(title: string) {
     return {
         type: UI_SET_APPBAR_TITLE,
-        payload: { title }
+        payload: {title}
     };
 }
 
@@ -62,7 +62,7 @@ export function set_right_appbar_icon(icon: JSX.Element) {
 export function snackbar_open(text: string) {
     return {
         type: UI_SNACKBAR_OPEN,
-        payload: { text }
+        payload: {text}
     };
 }
 

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {push} from '../../ui/actions';
 import * as moment from 'moment-timezone';
 
 // components
-import { Checkbox } from 'material-ui';
+import {Checkbox} from 'material-ui';
 import SVGOnline from 'material-ui/svg-icons/av/fiber-manual-record';
 
 // modules
-import * as Users from '../';
+import * as Users from '..';
 
 interface IPassedProps {
     user_id: string;
@@ -38,7 +38,7 @@ export class UserOnlineStatusContainer extends React.Component<IProps, {}> {
     public render() {
         return (
             <Checkbox
-                style={{ display: 'inline-block' }}
+                style={{display: 'inline-block'}}
                 checkedIcon={<SVGOnline />}
                 checked={true}
                 iconStyle={{

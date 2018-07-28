@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 // material-ui
 import {
@@ -25,10 +25,10 @@ import SVGAssignment from 'material-ui/svg-icons/action/assignment';
 import SVGMonitor from 'material-ui/svg-icons/image/remove-red-eye';
 
 // state
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
 // modules
-import { ui_actions } from 'lib/ui';
+import {actions as ui_actions} from 'lib/ui';
 import * as Auth from 'lib/auth';
 import * as System from 'lib/system';
 
@@ -61,6 +61,12 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
     }
 
     public render() {
+        const leftIcon = (
+            <IconButton>
+                <SVGClose />
+            </IconButton>
+        );
+
         return (
             <div>
                 <Drawer
@@ -73,59 +79,45 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                     }}
                 >
                     <AppBar
-                        style={{ backgroundColor: '#8e44ad' }}
+                        style={{
+                            backgroundColor: '#8e44ad'
+                        }}
                         showMenuIconButton={true}
-                        iconElementLeft={
-                            <IconButton>
-                                <SVGClose />
-                            </IconButton>
-                        }
+                        iconElementLeft={leftIcon}
                         onLeftIconButtonTouchTap={() =>
                             this.props.left_drawer_close()
                         }
                     />
 
-                    <List style={{ backgroundColor: '#FFFFFF' }}>
-                        <Subheader>Users</Subheader>
+                    <List
+                        style={{
+                            backgroundColor: '#FFFFFF'
+                        }}
+                    >
+                        <Subheader>Lumi</Subheader>
                         <ListItem
-                            primaryText="Users"
+                            primaryText="Schüler"
                             leftIcon={<SVGPerson />}
                             onTouchTap={() => {
                                 this.props.push('/admin/users');
                             }}
                         />
                         <ListItem
-                            primaryText="Groups"
+                            primaryText="Kurse"
                             leftIcon={<SVGGroup />}
                             onTouchTap={() => {
                                 this.props.push('/admin/groups');
                             }}
                         />
-                        <Divider />
-                        <Subheader>Cards</Subheader>
                         <ListItem
-                            primaryText="Cards"
+                            primaryText="Material"
                             leftIcon={<SVGCards />}
                             onTouchTap={() => {
                                 this.props.push('/admin/cards');
                             }}
                         />
-                        <ListItem
-                            primaryText="Collections"
-                            leftIcon={<SVGCollections />}
-                            onTouchTap={() => {
-                                this.props.push('/admin/collections');
-                            }}
-                        />
-                        <ListItem
-                            primaryText="Tags"
-                            leftIcon={<SVGTags />}
-                            onTouchTap={() => {
-                                this.props.push('/admin/tags');
-                            }}
-                        />
                         <Divider />
-                        <Subheader>Analytics</Subheader>
+                        <Subheader>Diagnostik</Subheader>
                         <ListItem
                             primaryText="Monitor"
                             leftIcon={<SVGMonitor />}
@@ -133,31 +125,19 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/analytics/monitor');
                             }}
                         />
-                        {/* <ListItem
-                            primaryText="Progress"
-                            leftIcon={<SVGTrendingUp />}
-                            onTouchTap={() => {
-                                this.props.push('/admin/analytics/progress');
-                            }}
-                        /> */}
-                        <ListItem
-                            primaryText="Assignments"
-                            leftIcon={<SVGAssignment />}
-                            onTouchTap={() => {
-                                this.props.push('/admin/analytics/assignments');
-                            }}
-                        />
                         <Divider />
-                        <Subheader>User</Subheader>
+                        <Subheader>Benutzer</Subheader>
                         <ListItem
-                            primaryText="Logout"
+                            primaryText="Abmelden"
                             leftIcon={<SVGPower />}
                             onClick={() =>
                                 this.props.dispatch(Auth.actions.logout())
                             }
                         />
+                        <Subheader>System</Subheader>
+
                         <ListItem
-                            primaryText="Shutdown"
+                            primaryText="Ausschalten"
                             leftIcon={<SVGPower />}
                             onClick={() =>
                                 this.props.dispatch(System.actions.shutdown())
@@ -165,7 +145,12 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         />
                         <Divider />
                         <Subheader>
-                            <a style={{ textDecoration: 'none' }} href="/docs">
+                            <a
+                                style={{
+                                    textDecoration: 'none'
+                                }}
+                                href="/docs"
+                            >
                                 {process.env.VERSION}
                             </a>
                         </Subheader>
@@ -177,9 +162,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState): IStateProps {
-    return {
-        left_drawer_show: state.ui.left_drawer_show
-    };
+    return {left_drawer_show: state.ui.left_drawer_show};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -194,6 +177,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminLeftDrawer
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminLeftDrawer);

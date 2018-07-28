@@ -1,16 +1,16 @@
-import { assign } from 'lodash';
-import { DB } from '../../db';
+import {assign} from 'lodash';
+import {DB} from '../../db';
 import event from '../../core/event';
 import * as raven from 'raven';
 
-import { ICollectionData, ICollection } from 'lib/collections/types';
-import { ICardData, ICard } from 'lib/cards/types';
+import {ICollectionData, ICollection} from '../../../../lib/collections/types';
+import {ICardData, ICard} from '../../../../lib/cards/types';
 
 export function show_answer(data_id: string) {
     try {
         const db = new DB();
 
-        db.update_one(data_id, { show_answer: true });
+        db.update_one(data_id, {show_answer: true});
     } catch (err) {
         raven.captureException(err);
     }
@@ -20,8 +20,12 @@ export function hide_answer(data_id: string) {
     try {
         const db = new DB();
 
-        db.update_one(data_id, { show_answer: false }, doc =>
-            event.emit('CARDS/CARD_DATA_UPDATED', doc)
+        db.update_one(
+            data_id,
+            {
+                show_answer: false
+            },
+            doc => event.emit('CARDS/CARD_DATA_UPDATED', doc)
         );
     } catch (err) {
         raven.captureException(err);
@@ -67,6 +71,7 @@ export function create_card_data(
                             score: 0,
                             card_type: 'multiplechoice',
                             items: [],
+                            group_id: 'test',
                             graded: true,
                             processed: false,
                             show_answer: false,
@@ -89,6 +94,7 @@ export function create_card_data(
                             created_at: undefined,
                             updated_at: undefined,
                             card_type: 'video',
+                            group_id: 'test',
                             processed: false,
                             show_answer: false,
                             is_graded: false,
@@ -114,6 +120,7 @@ export function create_card_data(
                             card_type: 'upload',
                             processed: false,
                             data_type: 'card',
+                            group_id: 'test',
                             is_graded: true,
                             show_answer: false,
                             score: 0,
@@ -140,6 +147,7 @@ export function create_card_data(
                             processed: false,
                             card_type: 'freetext',
                             answer: '',
+                            group_id: 'test',
                             is_graded: true,
                             graded: false,
                             auto_grade: card.auto_grade,
@@ -162,6 +170,7 @@ export function create_card_data(
                             updated_at: undefined,
                             processed: false,
                             score: 0,
+                            group_id: 'test',
                             card_type: 'text',
                             graded: false,
                             show_answer: false,

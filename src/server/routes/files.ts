@@ -4,9 +4,6 @@ import * as serveIndex from 'serve-index';
 
 const router = express.Router();
 
-router.use(
-    express.static(path.resolve('files')),
-    serveIndex(path.resolve('files'), { icons: true })
-);
+router.use(express.static(path.resolve('files')));
 
 export default router;

@@ -5,7 +5,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 // types
-import { ICollection } from 'lib/collections/types';
+import {ICollection} from '../../collections/types';
 
 interface IProps {
     action: () => void;

@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-import { assign } from 'lodash';
+import {assign} from 'lodash';
 declare var window;
 
 export function get_cards(_ids?: string[]) {
@@ -44,7 +44,7 @@ export function create_data(data) {
 export function update_data(data) {
     return request
         .put('/api/v0/user/data/' + data._id)
-        .send(assign(data, { processed: true }))
+        .send(assign(data, {processed: true}))
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
@@ -61,5 +61,11 @@ export function get_card_data(
 export function get_user_collection_data(collection_id: string) {
     return request
         .get('/api/v0/user/data/collections/' + collection_id)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function get_h5p(content_id: string) {
+    return request
+        .get('/api/v0/cards/h5p/' + content_id)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

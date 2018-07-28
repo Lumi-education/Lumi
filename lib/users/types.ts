@@ -12,12 +12,14 @@ export interface IUser {
     online: boolean;
     location: string;
     password: string;
+    flow: {};
 }
 
 export interface IState {
     users: {
         list: IUser[];
         ui: IUsersUI;
+        me: IUser;
     };
 }
 

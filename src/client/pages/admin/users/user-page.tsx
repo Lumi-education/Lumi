@@ -1,9 +1,9 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {push} from 'lib/ui/actions';
 
-import { Paper, Tabs, Tab, FloatingActionButton, MenuItem } from 'material-ui';
+import {Paper, Tabs, Tab, FloatingActionButton, MenuItem} from 'material-ui';
 import SVGGrade from 'material-ui/svg-icons/action/grade';
 import SVGDelete from 'material-ui/svg-icons/content/remove';
 import SVGEdit from 'material-ui/svg-icons/content/create';
@@ -12,8 +12,12 @@ import ActionBar from 'lib/ui/components/action-bar';
 
 import CollectionAssignments from 'client/composites/collection-assignments';
 
+import UserFlowTab from './user-flow-tab';
+
+import UserGroupsInput from 'client/container/user-groups';
+
 // state
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
 // modules
 import * as Users from 'lib/users';
@@ -24,6 +28,7 @@ import * as Collections from 'lib/collections';
 interface IStateProps {
     user_id: string;
     tab: string;
+    course_id: string;
 }
 
 interface IDispatchProps {
@@ -86,14 +91,14 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         }
                     />
                     <Tab
-                        label="Assignments"
-                        value="assignments"
+                        label="Flow"
+                        value="flow"
                         onActive={() =>
                             this.props.dispatch(
                                 push(
                                     '/admin/users/' +
                                         this.props.user_id +
-                                        '/assignments'
+                                        '/flow'
                                 )
                             )
                         }
@@ -108,7 +113,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Users.UserContainer
                                         user_id={this.props.user_id}
                                     >
-                                        <Groups.UserGroupsContainer
+                                        <UserGroupsInput
                                             user_id={this.props.user_id}
                                         />
                                     </Users.UserContainer>
@@ -174,10 +179,11 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Grades.CreateGradeDialogContainer />
                                 </div>
                             );
-                        case 'assignments':
+                        case 'flow':
                             return (
-                                <CollectionAssignments
+                                <UserFlowTab
                                     user_id={this.props.user_id}
+                                    course_id={this.props.course_id}
                                 />
                             );
                     }
@@ -190,7 +196,8 @@ export class AdminUserPage extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id: ownProps.params.user_id,
-        tab: ownProps.params.tab
+        tab: ownProps.params.tab,
+        course_id: ownProps.location.query.course_id
     };
 }
 
@@ -200,6 +207,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminUserPage
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminUserPage);

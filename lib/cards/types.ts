@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import {Map} from 'immutable';
 
 type Card_id = string;
 type Data_id = string;
@@ -8,7 +8,8 @@ export type Card_types =
     | 'text'
     | 'sort'
     | 'upload'
-    | 'video';
+    | 'video'
+    | 'h5p';
 type Markdown = string;
 
 export type ICard =
@@ -16,7 +17,8 @@ export type ICard =
     | IMultiplechoiceCard
     | IVideoCard
     | IUploadCard
-    | ITextCard;
+    | ITextCard
+    | IH5PCard;
 
 export type IData =
     | IFreetextCardData
@@ -49,6 +51,7 @@ export interface ICardData extends IBaseData {
     card_id: string;
     collection_id: string;
     data_type: 'card';
+    group_id?: string;
     card_type: string;
     score: number;
     is_graded: boolean;
@@ -59,6 +62,11 @@ export interface ICardData extends IBaseData {
 
 export interface ITextCard extends IBaseCard {
     card_type: 'text';
+}
+
+export interface IH5PCard extends IBaseCard {
+    content_id: string;
+    card_type: 'h5p';
 }
 
 export interface ITextCardData extends ICardData {

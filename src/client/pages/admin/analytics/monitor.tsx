@@ -1,8 +1,8 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { uniq } from 'lodash';
-import { push } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {uniq} from 'lodash';
+import {push} from 'lib/ui/actions';
 import * as debug from 'debug';
 
 // components
@@ -26,7 +26,7 @@ import LoadingPage from 'lib/ui/components/loading-page';
 import CollectionMonitorTable from 'client/composites/collection-monitor-table';
 
 // state
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
 // modules
 import * as Cards from 'lib/cards';
@@ -41,7 +41,6 @@ interface IStateProps {
     collection_data: Collections.ICollectionData[];
     collections: Collections.ICollection[];
     selected_collection_data: string[];
-    users: Users.IUser[];
 }
 
 interface IDispatchProps {
@@ -65,13 +64,13 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: true });
+        this.setState({loading: true});
     }
 
     public render() {
         return (
             <div id="admin-analytics-monitor">
-                <Paper>
+                {/* <Paper>
                     <Groups.GroupsInput
                         hintText="Select the groups you wish to monitor"
                         onAddGroup={group_id => {
@@ -142,7 +141,7 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
                             ))}
                         </TableBody>
                     </Table>
-                </Paper>
+                </Paper> */}
             </div>
         );
     }
@@ -150,13 +149,6 @@ export class AdminMonitorPage extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        users: Users.selectors.users(
-            state,
-            Groups.selectors.user_ids_for_groups(
-                state,
-                state.groups.ui.selected_groups
-            )
-        ),
         collection_data: Collections.selectors.data_query(state, {
             submitted: false
         }),
@@ -172,7 +164,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, { collection_id: string }>(
+export default connect<{}, {}, {collection_id: string}>(
     mapStateToProps,
     mapDispatchToProps
 )(AdminMonitorPage);
