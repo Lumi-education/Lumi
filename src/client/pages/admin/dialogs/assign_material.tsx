@@ -19,8 +19,8 @@ import CardList from 'lib/cards/container/card-list';
 // local
 import {IState} from 'client/state';
 
-// types
-import * as Collections from 'lib/collections';
+// modules
+import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
@@ -69,7 +69,7 @@ export class AssignMaterialDialog extends React.Component<
                 <FloatingActionButton
                     onClick={() =>
                         this.props.dispatch(
-                            Collections.actions.show_assign_collection_dialog()
+                            UI.actions.toggle_assign_material_dialog()
                         )
                     }
                     style={{
@@ -90,7 +90,7 @@ export class AssignMaterialDialog extends React.Component<
                             label="Cancel"
                             onClick={() =>
                                 this.props.dispatch(
-                                    Collections.actions.hide_assign_collection_dialog()
+                                    UI.actions.toggle_assign_material_dialog()
                                 )
                             }
                         />,
@@ -108,7 +108,7 @@ export class AssignMaterialDialog extends React.Component<
                                     )
                                     .then(res => {
                                         this.props.dispatch(
-                                            Collections.actions.hide_assign_collection_dialog()
+                                            UI.actions.toggle_assign_material_dialog()
                                         );
                                     });
                             }}
@@ -117,7 +117,7 @@ export class AssignMaterialDialog extends React.Component<
                     open={this.props.open}
                     onRequestClose={() =>
                         this.props.dispatch(
-                            Collections.actions.hide_assign_collection_dialog()
+                            UI.actions.toggle_assign_material_dialog()
                         )
                     }
                 >
@@ -152,7 +152,7 @@ export class AssignMaterialDialog extends React.Component<
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        open: state.collections.ui.show_assign_collection_dialog,
+        open: state.ui.show_assign_material_dialog,
         user_ids: state.users.ui.selected_users,
         card_ids: state.cards.ui.selected_cards,
         group_id: ownProps.group_id

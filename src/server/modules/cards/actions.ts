@@ -3,7 +3,6 @@ import {DB} from '../../db';
 import event from '../../core/event';
 import * as raven from 'raven';
 
-import {ICollectionData, ICollection} from '../../../../lib/collections/types';
 import {ICardData, ICard} from '../../../../lib/cards/types';
 
 export function show_answer(data_id: string) {

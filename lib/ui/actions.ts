@@ -13,11 +13,11 @@ import {
     UI_RIGHT_DRAWER_CLOSE,
     UI_RIGHT_DRAWER_OPEN,
     UI_SNACKBAR_OPEN,
-    UI_SNACKBAR_CLOSE,
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
-    UI_SET_APPBAR_TITLE
+    UI_SET_APPBAR_TITLE,
+    UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
 } from './constants';
 import {disable_collection} from '../groups/api';
 
@@ -103,5 +103,11 @@ export function right_drawer_open() {
 export function right_drawer_close() {
     return {
         type: UI_RIGHT_DRAWER_CLOSE
+    };
+}
+
+export function toggle_assign_material_dialog() {
+    return {
+        type: UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
     };
 }

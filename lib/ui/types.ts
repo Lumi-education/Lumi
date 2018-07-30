@@ -8,6 +8,7 @@ export interface IUI {
     selected_card_ids: string[];
     right_appbar_icon: JSX.Element;
     appbar_title: string;
+    show_assign_material_dialog: boolean;
 }
 
 export interface IState {

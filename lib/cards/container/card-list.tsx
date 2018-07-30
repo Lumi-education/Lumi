@@ -1,11 +1,10 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as debug from 'debug';
-import { assign, noop } from 'lodash';
+import {assign, noop} from 'lodash';
 
 // components
-import CardListComponent from 'client/composites/card-list';
 
 // modules
 import * as Cards from 'lib/cards';
@@ -45,13 +44,7 @@ export class CardListContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
-        return (
-            <CardListComponent
-                cards={this.props.cards}
-                selected_card_ids={this.props.selected_cards}
-                onClick={this.props.onClick}
-            />
-        );
+        return <div>Card List</div>;
     }
 }
 

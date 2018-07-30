@@ -7,7 +7,6 @@ import * as path from 'path';
 import AuthController from '../../controllers/api/auth.controller';
 import DataController from '../../controllers/api/data.controller';
 import CardsController from '../../controllers/api/cards.controller';
-import CollectionController from '../../controllers/api/collections.controller';
 import GroupController from '../../controllers/api/groups.controller';
 import UsersController from '../../controllers/api/users.controller';
 import UserController from '../../controllers/api/user.controller';
@@ -27,7 +26,6 @@ export default function(): express.Router {
     const authController = new AuthController();
     const dataController = new DataController();
     const cardsController = new CardsController();
-    const collectionController = new CollectionController();
     const groupController = new GroupController();
     const usersController = new UsersController();
     const userController = new UserController();
@@ -93,14 +91,6 @@ export default function(): express.Router {
     // cards -> attachments
     router.all('/cards/:id/attachment/:attachment', cardsController.attachment);
 
-    // collections
-    router.get('/collections', collectionController.list);
-    router.post('/collections', collectionController.create);
-    router.get('/collections/:id', collectionController.read);
-    router.put('/collections/:id', collectionController.update);
-    router.delete('/collections/:id', collectionController.delete);
-    router.put('/collections/:id/action', collectionController.action);
-
     // groups
     router.get('/groups', mw.auth, groupController.list);
     router.post('/groups', groupController.create);
@@ -145,8 +135,6 @@ export default function(): express.Router {
         dataController.forUserAndCollection
     );
 
-    router.get('/user/collections', mw.auth, collectionController.for_user);
-
     router.post('/user/data', mw.auth, userController.createData);
     router.put('/user/data/:id', mw.auth, userController.updateData);
 
@@ -156,7 +144,6 @@ export default function(): express.Router {
     // users
     router.get('/users', usersController.list);
     router.post('/users', usersController.create);
-    router.post('/users/action/:action', usersController.actions);
     router.get('/users/:id', usersController.read);
     router.put('/users/:id', mw.auth, usersController.update);
     router.put('/users/:id/action', usersController.action);

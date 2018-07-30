@@ -10,8 +10,6 @@ import SVGEdit from 'material-ui/svg-icons/content/create';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
-import CollectionAssignments from 'client/composites/collection-assignments';
-
 import UserFlowTab from './user-flow-tab';
 
 import UserGroupsInput from 'client/container/user-groups';
@@ -23,7 +21,6 @@ import {IState} from 'client/state';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Grades from 'lib/grades';
-import * as Collections from 'lib/collections';
 
 interface IStateProps {
     user_id: string;

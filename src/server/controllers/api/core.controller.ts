@@ -1,9 +1,8 @@
 import * as express from 'express';
-import { assign } from 'lodash';
-import { DB } from '../../db';
-import { IRequest } from '../../middleware/auth';
+import {assign} from 'lodash';
+import {DB} from '../../db';
+import {IRequest} from '../../middleware/auth';
 
-import * as CollectionActions from '../../modules/collections/actions';
 import * as CardActions from '../../modules/cards/actions';
 
 export class CoreController {
@@ -38,26 +37,6 @@ export class CoreController {
         const payload = req.body;
 
         switch (req.params.action) {
-            case 'COMPLETE_COLLECTION':
-                ids.forEach(id => CollectionActions.complete_collection(id));
-                res.status(200).end();
-                break;
-            case 'UNCOMPLETE_COLLECTION':
-                ids.forEach(id => CollectionActions.uncomplete_collection(id));
-                res.status(200).end();
-                break;
-            case 'SUBMIT_COLLECTION':
-                ids.forEach(id => CollectionActions.submit_collection(id));
-                res.status(200).end();
-                break;
-            case 'UNSUBMIT_COLLECTION':
-                ids.forEach(id => CollectionActions.unsubmit_collection(id));
-                res.status(200).end();
-                break;
-            case 'DELETE_ASSIGNMENT':
-                ids.forEach(id => CollectionActions.delete_assignment(id));
-                res.status(200).end();
-                break;
             case 'CREATE_CARD_DATA':
                 CardActions.create_card_data(
                     payload.user_id,

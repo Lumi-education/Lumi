@@ -9,12 +9,6 @@ import * as moment from 'moment-timezone';
 // actions
 import {push} from 'lib/ui/actions';
 
-// selector
-import {
-    select_collections_for_user,
-    IUserCollection
-} from 'lib/collections/selectors';
-
 // types
 import {IState} from 'client/state';
 import * as Flow from 'lib/flow';

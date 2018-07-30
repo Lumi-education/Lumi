@@ -9,9 +9,6 @@ import AppBar from './app-bar';
 // components
 import LeftDrawer from './left-drawer';
 
-// actions
-import {get_user_collections} from 'lib/collections/actions';
-
 // modules
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
@@ -33,7 +30,6 @@ export class Root extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_user_collections());
         this.props.dispatch(Groups.actions.get_groups());
     }
 

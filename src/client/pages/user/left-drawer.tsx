@@ -22,12 +22,6 @@ import {push, left_drawer_close, left_drawer_open} from 'lib/ui/actions';
 
 import {logout} from 'lib/auth/actions';
 
-// selector
-import {
-    select_collections_for_user,
-    IUserCollection
-} from 'lib/collections/selectors';
-
 // types
 import {IState} from 'client/state';
 
@@ -40,7 +34,6 @@ declare var process;
 
 interface IStateProps {
     left_drawer_show: boolean;
-    collections: IUserCollection[];
     user_id: string;
     user: Users.IUser;
     username: string;
@@ -132,7 +125,6 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         left_drawer_show: state.ui.left_drawer_show,
-        collections: select_collections_for_user(state),
         user: state.users.me,
         user_id: state.auth.user_id,
         username: state.auth.username,

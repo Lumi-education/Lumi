@@ -9,12 +9,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-import UserTable from 'client/composites/user-table';
-
 // types
 import {ActionBar} from 'lib/ui';
 import {IState} from 'client/state';
-import {ICollection} from 'lib/collections/types';
 import * as Users from 'lib/users';
 
 import GroupUsersTab from './group-users-tab';
@@ -30,7 +27,6 @@ interface IStateProps {
     tab: string;
     // group_users: string[];
     group: Groups.IGroup;
-    selected_collections: string[];
 }
 
 interface IDispatchProps {
@@ -150,7 +146,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         //     .map(user => user._id),
         group: Groups.selectors.select_group(state, ownProps.params.group_id),
         tab: ownProps.params.tab,
-        selected_collections: state.collections.ui.selected_collections,
         group_id: ownProps.params.group_id
     };
 }

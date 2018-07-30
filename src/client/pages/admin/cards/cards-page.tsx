@@ -1,17 +1,17 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {push} from 'lib/ui/actions';
 import * as markdownit from 'markdown-it';
 import * as debug from 'debug';
-import { Map } from 'immutable';
+import {Map} from 'immutable';
 import Chip from 'material-ui/Chip';
 
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { List, ListItem } from 'material-ui/List';
+import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
@@ -36,24 +36,19 @@ import TagFilterContainer from 'lib/tags/container/tag-filter';
 import Tag from 'lib/tags/components/tag';
 import FilterBar from 'lib/ui/components/filter-bar';
 
-import CardListComponent from 'client/composites/card-list';
-
 // local
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 
 // types
-import { ICard } from 'lib/cards/types';
+import {ICard} from 'lib/cards/types';
 
 // selectors
-import { select_all_cards, select_cards_by_ids } from 'lib/cards/selectors';
-import {
-    select_tags_as_map,
-    select_doc_ids_for_tags
-} from 'lib/tags/selectors';
+import {select_all_cards, select_cards_by_ids} from 'lib/cards/selectors';
+import {select_tags_as_map, select_doc_ids_for_tags} from 'lib/tags/selectors';
 
 // actions
-import { get_cards, create_card } from 'lib/cards/actions';
-import { get_tags } from 'lib/tags/actions';
+import {get_cards, create_card} from 'lib/cards/actions';
+import {get_tags} from 'lib/tags/actions';
 
 import LoadingPage from 'lib/ui/components/loading-page';
 
@@ -96,7 +91,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.props.dispatch(get_cards());
         this.props.dispatch(get_tags()).then(res => {
-            this.setState({ loading: false });
+            this.setState({loading: false});
         });
     }
 
@@ -111,7 +106,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     <FilterBar
                         filter={this.state.search_text}
                         set_filter={filter =>
-                            this.setState({ search_text: filter })
+                            this.setState({search_text: filter})
                         }
                     />
                     <div
@@ -185,9 +180,10 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminCards
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminCards);
 
 const iconButtonElement = (
     <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">

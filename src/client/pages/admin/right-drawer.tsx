@@ -1,6 +1,6 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as debug from 'debug';
 
 // material-ui
@@ -28,7 +28,7 @@ import SVGGroup from 'material-ui/svg-icons/social/group';
 import TagFilterContainer from 'lib/tags/container/tag-filter';
 
 // types
-import { IState } from 'client/state';
+import {IState} from 'client/state';
 declare var process;
 // actions
 import {
@@ -37,10 +37,9 @@ import {
     push,
     set_right_appbar_icon
 } from 'lib/ui/actions';
-import { logout } from 'lib/auth/actions';
+import {logout} from 'lib/auth/actions';
 
 import * as Users from 'lib/users';
-import * as Collections from 'lib/collections';
 import * as Grades from 'lib/grades';
 
 const log = debug('lumi:pages:cards:right-drawer');
@@ -101,7 +100,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                     }}
                 >
                     <AppBar
-                        style={{ backgroundColor: '#3498db' }}
+                        style={{backgroundColor: '#3498db'}}
                         showMenuIconButton={true}
                         iconElementLeft={
                             <IconButton>
@@ -196,9 +195,10 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    RightDrawer
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(RightDrawer);
 
 const iconButtonElement = (
     <IconButton touch={true}>

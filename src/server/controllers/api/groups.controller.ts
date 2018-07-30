@@ -5,12 +5,10 @@ import {IRequest} from '../../middleware/auth';
 
 import Group from '../../models/Group';
 import User from '../../models/User';
-import Collection from '../../models/Collection';
 
 import {DB} from '../../db';
 
 import Controller from '../controller';
-import {assign_collection} from '../../modules/collections/actions';
 
 class GroupController extends Controller<Group> {
     constructor() {

@@ -1,6 +1,6 @@
-import { assign, uniq } from 'lodash';
+import {assign, uniq} from 'lodash';
 
-import { IUI } from './types';
+import {IUI} from './types';
 
 import {
     UI_DIALOG_CLOSE,
@@ -13,7 +13,8 @@ import {
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
-    UI_SET_APPBAR_TITLE
+    UI_SET_APPBAR_TITLE,
+    UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
 } from './constants';
 
 const initialState: IUI = {
@@ -25,13 +26,14 @@ const initialState: IUI = {
     show_cards_dialog: false,
     selected_card_ids: [],
     right_appbar_icon: null,
-    appbar_title: ''
+    appbar_title: '',
+    show_assign_material_dialog: false
 };
 
 export default function(state: IUI = initialState, action): IUI {
     switch (action.type) {
         case UI_SET_APPBAR_TITLE:
-            return assign({}, state, { appbar_title: action.payload.title });
+            return assign({}, state, {appbar_title: action.payload.title});
 
         case UI_SNACKBAR_OPEN:
             return assign({}, state, {
@@ -54,26 +56,31 @@ export default function(state: IUI = initialState, action): IUI {
                 show_cards_dialog: !state.show_cards_dialog
             });
 
+        case UI_TOGGLE_ASSIGN_MATERIAL_DIALOG:
+            return assign({}, state, {
+                show_assign_material_dialog: !state.show_assign_material_dialog
+            });
+
         case UI_OPEN_LEFT_DRAWER:
-            return assign({}, state, { left_drawer_show: true });
+            return assign({}, state, {left_drawer_show: true});
 
         case UI_LEFT_DRAWER_CLOSE:
-            return assign({}, state, { left_drawer_show: false });
+            return assign({}, state, {left_drawer_show: false});
 
         case UI_DIALOG_OPEN:
-            return assign({}, state, { dialog_show: true });
+            return assign({}, state, {dialog_show: true});
 
         case UI_DIALOG_CLOSE:
-            return assign({}, state, { dialog_show: false });
+            return assign({}, state, {dialog_show: false});
 
         case UI_RIGHT_DRAWER_OPEN:
-            return assign({}, state, { right_drawer_show: true });
+            return assign({}, state, {right_drawer_show: true});
 
         case UI_RIGHT_DRAWER_CLOSE:
-            return assign({}, state, { right_drawer_show: false });
+            return assign({}, state, {right_drawer_show: false});
 
         case UI_SET_RIGHT_APPBAR_ICON:
-            return assign({}, state, { right_appbar_icon: action.payload });
+            return assign({}, state, {right_appbar_icon: action.payload});
 
         default:
             return state;
