@@ -1,10 +1,10 @@
 import * as express from 'express';
-import {assign, noop} from 'lodash';
+import {assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
 import db from '../../db';
 
-import {IAssignment} from '../../../../lib/flow';
+import {IAssignment} from 'lib/flow/types';
 
 class FlowController {
     public get_assignments(req: IRequest, res: express.Response) {

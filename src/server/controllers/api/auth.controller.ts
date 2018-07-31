@@ -4,8 +4,10 @@ import * as jwt from 'jwt-simple';
 import {assign, noop} from 'lodash';
 
 import {IRequest} from '../../middleware/auth';
+
 import db from '../../db';
 import Controller from '../controller';
+
 import {IUser} from 'lib/users/types';
 
 class AuthController extends Controller<{}> {

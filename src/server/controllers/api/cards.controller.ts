@@ -2,11 +2,11 @@ import * as express from 'express';
 import {IRequest} from '../../middleware/auth';
 
 import proxy from '../../core/proxy';
+
 import db from '../../db';
+import Controller from '../controller';
 
 import {ICard} from 'lib/cards/types';
-
-import Controller from '../controller';
 
 class CardController extends Controller<ICard> {
     constructor() {

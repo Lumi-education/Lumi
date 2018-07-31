@@ -1,11 +1,11 @@
 import * as express from 'express';
-import {assign, noop} from 'lodash';
+import {assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
 import db from '../../db';
-import {ITag} from 'lib/tags/types';
-
 import Controller from '../controller';
+
+import {ITag} from 'lib/tags/types';
 
 class TagsController extends Controller<{}> {
     constructor() {

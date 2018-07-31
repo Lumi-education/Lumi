@@ -1,9 +1,8 @@
 import * as express from 'express';
-import {assign, noop} from 'lodash';
+import {assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
 import db from '../../db';
-
 import Controller from '../controller';
 
 class GradesController extends Controller<{}> {

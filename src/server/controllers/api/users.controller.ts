@@ -1,14 +1,12 @@
 import * as express from 'express';
 import * as raven from 'raven';
 import {IRequest} from '../../middleware/auth';
-import * as bcrypt from 'bcrypt-nodejs';
 import {assign} from 'lodash';
 
-import {IUser} from 'lib/users/types';
-
 import db from '../../db';
-
 import Controller from '../controller';
+
+import {IUser} from 'lib/users/types';
 
 class UsersController extends Controller<{}> {
     constructor() {

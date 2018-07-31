@@ -1,8 +1,9 @@
 import * as express from 'express';
 import {assign} from 'lodash';
-import db from '../../db';
 import {IRequest} from '../../middleware/auth';
+
 import proxy from '../../core/proxy';
+import db from '../../db';
 
 export class CoreController {
     public find(req: IRequest, res: express.Response) {

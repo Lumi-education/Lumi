@@ -5,9 +5,7 @@ import * as nano from 'nano';
 
 import * as raven from 'raven';
 
-// const db = process.env.DB_HOST + '/' + process.env.DB + '/';
 const _nano = nano(process.env.DB_HOST);
-// const nano_db = _nano.use(process.env.DB);
 
 const log = debug('lumi:db');
 

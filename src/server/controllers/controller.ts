@@ -1,5 +1,4 @@
 import * as express from 'express';
-import {isEqual} from 'lodash';
 import {IRequest} from '../middleware/auth';
 import * as debug from 'debug';
 import db from '../db';

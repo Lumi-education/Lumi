@@ -3,12 +3,11 @@ import * as raven from 'raven';
 import {uniq, assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
+import db from '../../db';
+import Controller from '../controller';
+
 import {IUser} from 'lib/users/types';
 import {IGroup} from 'lib/groups/types';
-
-import db from '../../db';
-
-import Controller from '../controller';
 
 class GroupController extends Controller<{}> {
     constructor() {

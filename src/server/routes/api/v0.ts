@@ -1,8 +1,7 @@
 import * as express from 'express';
 import * as debug from 'debug';
-import {auth, level} from '../../middleware/auth';
+
 import mw from '../../middleware';
-import * as path from 'path';
 
 import AuthController from '../../controllers/api/auth.controller';
 import CardsController from '../../controllers/api/cards.controller';
