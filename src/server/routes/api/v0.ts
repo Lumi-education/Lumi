@@ -5,16 +5,12 @@ import mw from '../../middleware';
 import * as path from 'path';
 
 import AuthController from '../../controllers/api/auth.controller';
-import DataController from '../../controllers/api/data.controller';
 import CardsController from '../../controllers/api/cards.controller';
 import GroupController from '../../controllers/api/groups.controller';
 import UsersController from '../../controllers/api/users.controller';
-import UserController from '../../controllers/api/user.controller';
 import TagsController from '../../controllers/api/tags.controller';
 import GradesController from '../../controllers/api/grades.controller';
 import CoreController from '../../controllers/api/core.controller';
-import SystemController from '../../controllers/api/system.controller';
-import ResourcesController from '../../controllers/api/resources.controller';
 import FlowController from '../../controllers/api/flow.controller';
 
 const log = debug('lumi:routes:api');
@@ -24,16 +20,12 @@ export default function(): express.Router {
     const router = express.Router();
 
     const authController = new AuthController();
-    const dataController = new DataController();
     const cardsController = new CardsController();
     const groupController = new GroupController();
     const usersController = new UsersController();
-    const userController = new UserController();
     const tagsController = new TagsController();
     const gradesController = new GradesController();
     const coreController = new CoreController();
-    const systemController = new SystemController();
-    const resourcesController = new ResourcesController();
     const flowController = new FlowController();
 
     router.post('/flow/assign', flowController.assign);
@@ -53,22 +45,12 @@ export default function(): express.Router {
         flowController.save_data
     );
 
-    router.get('/resources/:id', resourcesController.find);
-    router.get('/resources', resourcesController.list);
-    router.get('/resources/*', resourcesController.any);
-
     router.post('/core/find', mw.auth, coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
-    router.post(
-        '/core/action/:action',
-        mw.auth,
-        mw.level(3),
-        coreController.action
-    );
     router.get('/core/doc/:id', mw.auth, coreController.doc);
 
-    router.post('/system/shutdown', systemController.shutdown);
-    router.get('/system/settings', systemController.settings);
+    router.post('/system/shutdown', coreController.shutdown);
+    router.get('/system/settings', coreController.settings);
 
     // mw.auth
     router.post('/auth/login', authController.login);
@@ -84,7 +66,6 @@ export default function(): express.Router {
     router.get('/cards/:id', cardsController.read);
     router.put('/cards/:id', cardsController.update);
     router.delete('/cards/:id', cardsController.delete);
-    router.get('/cards/h5p/:content_id', cardsController.h5p);
 
     router.get('/h5p/*', cardsController.h5p_proxy);
 
@@ -110,33 +91,12 @@ export default function(): express.Router {
     router.delete('/tags/:id', tagsController.delete);
     router.put('/tags/:id/action', tagsController.action);
 
-    // data
-    router.get('/data', mw.auth, dataController.find);
-    router.post('/data', dataController.create);
-    router.put(
-        '/data/submit_collection',
-        mw.auth,
-        dataController.submit_collection
-    );
-    router.get('/data/:id', dataController.read);
-    router.put('/data/:id', dataController.update);
-    router.delete('/data/:id', dataController.delete);
-
     // user -> carddata
     router.get('/user/card', mw.auth, cardsController.list);
     router.post('/user/card', mw.auth, cardsController.create);
     router.get('/user/card/:id', mw.auth, cardsController.read);
     router.put('/user/card/:id', mw.auth, cardsController.update);
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
-
-    router.get(
-        '/user/data/collections/:collection_id',
-        mw.auth,
-        dataController.forUserAndCollection
-    );
-
-    router.post('/user/data', mw.auth, userController.createData);
-    router.put('/user/data/:id', mw.auth, userController.updateData);
 
     // user -> groups
     router.get('/user/groups', mw.auth);
@@ -146,7 +106,6 @@ export default function(): express.Router {
     router.post('/users', usersController.create);
     router.get('/users/:id', usersController.read);
     router.put('/users/:id', mw.auth, usersController.update);
-    router.put('/users/:id/action', usersController.action);
     router.delete('/users/:id', usersController.delete);
     router.get('/users/:id/init', usersController.init);
 
@@ -154,11 +113,6 @@ export default function(): express.Router {
     router.post('/users/:user_id/grades', gradesController.create);
     router.delete('/grades/:id', gradesController.delete);
     router.put('/grades/:id', gradesController.update);
-
-    router.get('/users/:user_id/collections/:collection_id', mw.auth);
-    router.put('/users/:user_id/collections/:collection_id', mw.auth);
-    router.get('/users/:user_id/cards/:card_id', mw.auth);
-    router.put('/users/:user_id/cards/:card_id', mw.auth);
 
     router.get('/users/:user_id/groups', mw.auth, groupController.for_user);
     router.post('/users/:user_id/groups', mw.auth);

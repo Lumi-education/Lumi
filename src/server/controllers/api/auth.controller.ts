@@ -1,14 +1,12 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt-nodejs';
 import * as jwt from 'jwt-simple';
-import { assign, noop } from 'lodash';
+import {assign, noop} from 'lodash';
 
-import { IRequest } from '../../middleware/auth';
-import { DB } from '../../db';
-import User from '../../models/User';
+import {IRequest} from '../../middleware/auth';
+import {DB} from '../../db';
 import Controller from '../controller';
-
-import * as UserActions from '../../modules/users/actions';
+import {IUser} from 'lib/users/types';
 
 class AuthController extends Controller<{}> {
     constructor() {
@@ -24,7 +22,7 @@ class AuthController extends Controller<{}> {
                 name: req.body.username
             },
             {},
-            (user: User) => {
+            (user: IUser) => {
                 if (!user) {
                     return res.status(404).json({
                         message: 'user not found',
@@ -57,8 +55,7 @@ class AuthController extends Controller<{}> {
                         }
                     }
                 );
-            },
-            User
+            }
         );
     }
 
@@ -66,22 +63,37 @@ class AuthController extends Controller<{}> {
         const db = new DB(res);
 
         db.findOne(
-            { name: req.body.username, type: 'user' },
-            {},
-            (user: User) => {
+            {name: req.body.username, type: 'user'},
+            {limit: 1},
+            (user: IUser) => {
                 if (user) {
                     res.status(409).end();
                 } else {
-                    UserActions.create_user(
-                        req.body.username,
-                        req.body.password,
-                        _user => {
-                            res.status(200).json(_user);
-                        }
-                    );
+                    bcrypt.hash(req.body.password, null, null, (err, pw) => {
+                        const new_user: IUser = {
+                            _id: undefined,
+                            type: 'user',
+                            name: 'no name',
+                            level: 0,
+                            groups: [],
+                            last_login: undefined,
+                            last_active: undefined,
+                            online: false,
+                            location: '/',
+                            password: pw,
+                            flow: []
+                        };
+
+                        assign(new_user, req.body, {password: pw});
+
+                        db.insert(new_user, response => {
+                            db.findById(response.body.id, _user => {
+                                res.status(200).json(_user);
+                            });
+                        });
+                    });
                 }
-            },
-            User
+            }
         );
     }
 
@@ -91,7 +103,7 @@ class AuthController extends Controller<{}> {
 
     public get_session(req: IRequest, res: express.Response) {
         const db = new DB(res);
-        db.update_one(req.user._id, { last_active: new Date() });
+        db.update_one(req.user._id, {last_active: new Date()});
 
         db.findById(req.user._id, user => {
             res.status(200).json(user);
@@ -101,7 +113,7 @@ class AuthController extends Controller<{}> {
     public set_password(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('auth', 'check_username', { key: req.body.username }, docs => {
+        db.view('auth', 'check_username', {key: req.body.username}, docs => {
             if (docs.length === 1) {
                 const user = docs[0];
 
@@ -129,23 +141,18 @@ class AuthController extends Controller<{}> {
     public username(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view(
-            'auth',
-            'check_username',
-            { key: req.params.username },
-            docs => {
-                if (docs.length === 1) {
-                    const user = docs[0];
+        db.view('auth', 'check_username', {key: req.params.username}, docs => {
+            if (docs.length === 1) {
+                const user = docs[0];
 
-                    res.status(200).json({
-                        username: req.params.username,
-                        password: user.password ? true : false
-                    });
-                } else {
-                    res.status(404).end();
-                }
+                res.status(200).json({
+                    username: req.params.username,
+                    password: user.password ? true : false
+                });
+            } else {
+                res.status(404).end();
             }
-        );
+        });
     }
 }
 

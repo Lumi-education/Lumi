@@ -4,13 +4,13 @@ import {IRequest} from '../../middleware/auth';
 import * as bcrypt from 'bcrypt-nodejs';
 import {assign} from 'lodash';
 
-import User from '../../models/User';
-import Group from '../../models/Group';
+import {IUser} from 'lib/users/types';
+
 import {DB} from '../../db';
 
 import Controller from '../controller';
 
-class UserController extends Controller<User> {
+class UsersController extends Controller<{}> {
     constructor() {
         super('user');
     }
@@ -33,31 +33,25 @@ class UserController extends Controller<User> {
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.insert(new User(assign({}, req.body, {password: undefined})));
-    }
+        const new_user: IUser = {
+            _id: undefined,
+            type: 'user',
+            name: 'no name',
+            level: 0,
+            groups: [],
+            last_login: undefined,
+            last_active: undefined,
+            online: false,
+            location: '/',
+            password: undefined,
+            flow: []
+        };
 
-    public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        assign(new_user, req.body, {password: undefined});
 
-        db.findById(
-            req.params.id,
-            (user: User) => {
-                switch (req.body.type) {
-                    case 'ADD_GROUP':
-                        user.add_group(req.body.payload.group_id);
-                        db.save(user);
-                        break;
-                    case 'REM_GROUP':
-                        user.rem_group(req.body.payload.group_id);
-                        db.save(user);
-                        break;
-
-                    default:
-                        break;
-                }
-            },
-            User
-        );
+        db.insert(new_user, user => {
+            res.status(200).json(user);
+        });
     }
 
     public init(req: IRequest, res: express.Response) {
@@ -74,4 +68,4 @@ class UserController extends Controller<User> {
     }
 }
 
-export default UserController;
+export default UsersController;

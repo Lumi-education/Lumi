@@ -1,13 +1,13 @@
 import * as express from 'express';
-import { assign, noop } from 'lodash';
-import { IRequest } from '../../middleware/auth';
+import {assign, noop} from 'lodash';
+import {IRequest} from '../../middleware/auth';
 
-import Tag from '../../models/Tag';
-import { DB } from '../../db';
+import {DB} from '../../db';
+import {ITag} from 'lib/tags/types';
 
 import Controller from '../controller';
 
-class TagsController extends Controller<Tag> {
+class TagsController extends Controller<{}> {
     constructor() {
         super('tag');
     }
@@ -51,7 +51,7 @@ class TagsController extends Controller<Tag> {
     public index(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.view('tag', 'index', { key: req.query.tag_id }, docs => {
+        db.view('tag', 'index', {key: req.query.tag_id}, docs => {
             res.status(200).json(docs);
         });
     }
@@ -59,7 +59,21 @@ class TagsController extends Controller<Tag> {
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.insert(new Tag(req.body));
+        const new_tag: ITag = {
+            _id: undefined,
+            type: 'tag',
+            name: 'no name',
+            short_name: 'nn',
+            description: '',
+            color: 'red',
+            created_at: new Date()
+        };
+
+        assign(new_tag, req.body);
+
+        db.insert(new_tag, tag => {
+            res.status(200).json(tag);
+        });
     }
 
     public read(req: IRequest, res: express.Response) {
@@ -88,19 +102,6 @@ class TagsController extends Controller<Tag> {
 
     public delete(req: IRequest, res: express.Response) {
         const db = new DB(res);
-
-        // db.find(
-        //     {
-        //         tag_id: req.params.id,
-        //         type: 'tag_ref'
-        //     },
-        //     {},
-        //     docs => {
-        //         docs.forEach(doc => {
-        //             db.delete(doc._id, noop);
-        //         });
-        //     }
-        // );
 
         db.delete(req.params.id);
     }

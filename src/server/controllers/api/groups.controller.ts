@@ -1,16 +1,16 @@
 import * as express from 'express';
 import * as raven from 'raven';
-import {noop, uniq} from 'lodash';
+import {uniq, assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
-import Group from '../../models/Group';
-import User from '../../models/User';
+import {IUser} from 'lib/users/types';
+import {IGroup} from 'lib/groups/types';
 
 import {DB} from '../../db';
 
 import Controller from '../controller';
 
-class GroupController extends Controller<Group> {
+class GroupController extends Controller<{}> {
     constructor() {
         super('group');
     }
@@ -25,7 +25,19 @@ class GroupController extends Controller<Group> {
     public create(req: IRequest, res: express.Response) {
         const db = new DB(res);
 
-        db.insert(new Group(req.body));
+        const new_group: IGroup = {
+            _id: undefined,
+            type: 'group',
+            name: 'no name',
+            flow_order: [],
+            created_at: new Date()
+        };
+
+        assign(new_group, req.body);
+
+        db.insert(new_group, group => {
+            res.status(200).json(group);
+        });
     }
 
     public read(req: IRequest, res: express.Response) {
@@ -58,101 +70,56 @@ class GroupController extends Controller<Group> {
                 type: 'user'
             },
             {limit: 1000},
-            (users: User[]) => {
-                users.forEach(user => {
-                    user.rem_group(req.params.id);
-                    db.save(user, noop);
-                });
-            },
-            User
-        );
+            (users: IUser[]) => {
+                users.map(user =>
+                    user.groups.filter(group_id => group_id !== req.params.id)
+                );
 
-        db.delete(req.params.id);
+                db.insertMany(users, {}, () => {
+                    db.delete(req.params.id);
+                    res.status(200).end();
+                });
+            }
+        );
     }
 
     public action(req: IRequest, res: express.Response) {
         try {
             const db = new DB(res);
 
-            db.findById(
-                req.params.id,
-                (group: Group) => {
-                    switch (req.body.type) {
-                        case 'ADD_USER_TO_GROUP':
-                            db.findById(req.body.payload.user_id, user => {
-                                user.groups = uniq([
-                                    ...user.groups,
-                                    req.params.id
-                                ]);
+            db.findById(req.params.id, group => {
+                switch (req.body.type) {
+                    case 'ADD_USER_TO_GROUP':
+                        db.findById(req.body.payload.user_id, user => {
+                            user.groups = uniq([...user.groups, req.params.id]);
 
-                                if (!user.flow) {
-                                    user.flow = {};
-                                }
+                            if (!user.flow) {
+                                user.flow = {};
+                            }
 
-                                user.flow[req.params.id] = [];
+                            user.flow[req.params.id] = [];
 
-                                db.update_one(user._id, user);
-                            });
+                            db.update_one(user._id, user);
+                        });
 
-                            break;
-                        case 'REM_USER_FROM_GROUP':
-                            db.findById(req.body.payload.user_id, user => {
-                                user.groups = uniq(
-                                    user.groups.filter(
-                                        group_id => group_id !== req.params.id
-                                    )
-                                );
-
-                                user.flow[req.params.id] = undefined;
-
-                                db.update_one(user._id, user);
-                            });
-
-                            break;
-                        case 'ADD_COLLECTION':
-                            throw new Error(
-                                'GROUPS/ACTIONS/ADD_COLLECTION is deprecated. -> Use USERS/ACTIONS/ASSIGN_COLLECTION'
+                        break;
+                    case 'REM_USER_FROM_GROUP':
+                        db.findById(req.body.payload.user_id, user => {
+                            user.groups = uniq(
+                                user.groups.filter(
+                                    group_id => group_id !== req.params.id
+                                )
                             );
 
-                        // group.add_collection(req.body.payload.collection_id);
+                            user.flow[req.params.id] = undefined;
 
-                        // group.get_users(db, (users: IUser[]) => {
-                        //     users.forEach(user =>
-                        //         assign_collection(
-                        //             db,
-                        //             user._id,
-                        //             req.body.payload.collection_id,
-                        //             req.body.payload.is_graded,
-                        //             noop
-                        //         )
-                        //     );
-                        // });
-
-                        // db.save(group);
-                        case 'REM_COLLECTION':
-                            group.rem_collections(
-                                req.body.payload.collection_ids
-                            );
-                            db.save(group);
-                            break;
-                        case 'ENABLE_COLLECTION':
-                            group.enable_collection(
-                                req.body.payload.collection_id
-                            );
-                            db.save(group);
-                            break;
-                        case 'DISABLE_COLLECTION':
-                            group.disable_collection(
-                                req.body.payload.collection_id
-                            );
-                            db.save(group);
-                            break;
-                        default:
-                            break;
-                    }
-                },
-                Group
-            );
+                            db.update_one(user._id, user);
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            });
         } catch (err) {
             raven.captureException(err);
             res.status(500).json(err);

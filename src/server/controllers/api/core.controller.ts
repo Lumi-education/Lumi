@@ -2,8 +2,7 @@ import * as express from 'express';
 import {assign} from 'lodash';
 import {DB} from '../../db';
 import {IRequest} from '../../middleware/auth';
-
-import * as CardActions from '../../modules/cards/actions';
+import proxy from '../../core/proxy';
 
 export class CoreController {
     public find(req: IRequest, res: express.Response) {
@@ -30,25 +29,25 @@ export class CoreController {
         res.status(200).end();
     }
 
-    public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+    public shutdown(req: express.Request, res: express.Response) {
+        proxy.web(req, res, {
+            target: 'http://localhost:' + process.env.SYSTEM_PORT + '/api/v0/'
+        });
+    }
 
-        const ids = JSON.parse(req.query.ids);
-        const payload = req.body;
+    public settings(req: express.Request, res: express.Response) {
+        const db = new DB();
 
-        switch (req.params.action) {
-            case 'CREATE_CARD_DATA':
-                CardActions.create_card_data(
-                    payload.user_id,
-                    payload.collection_id,
-                    payload.card_id // ,
-                    // _res => {
-                    //     db.findById(_res.body.id, doc => {
-                    //         res.status(200).json(doc);
-                    //     });
-                    // }
-                );
-        }
+        db.findById('system', system => {
+            res.status(200).json(
+                assign(
+                    {
+                        changes_port: process.env.CHANGES_PORT
+                    },
+                    system
+                )
+            );
+        });
     }
 }
 
