@@ -1,8 +1,8 @@
 import * as express from 'express';
-import { isEqual } from 'lodash';
-import { IRequest } from '../middleware/auth';
+import {isEqual} from 'lodash';
+import {IRequest} from '../middleware/auth';
 import * as debug from 'debug';
-import { DB } from '../db';
+import db from '../db';
 
 const log = debug('lumi:controller');
 
@@ -17,33 +17,28 @@ export default class Controller<T> {
     }
 
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.find({ type: this.type }, req.query, (docs: T[]) => {
+        db.find({type: this.type}, req.query, (error, docs: T[]) => {
             res.status(200).json(docs);
         });
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-        db.findById(req.params.id, (doc: T) => {
+        db.findById(req.params.id, (error, doc: T) => {
             res.status(200).json([doc]);
         });
     }
 
     public update(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         const id = req.params.id === 'myself' ? req.user._id : req.params.id;
 
-        db.update_one(id, req.body, (doc: T) => {
+        db.updateOne(id, req.body, (error, doc: T) => {
             res.status(200).json(doc);
         });
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         db.delete(req.params.id);
+
+        res.status(200).end();
     }
 }

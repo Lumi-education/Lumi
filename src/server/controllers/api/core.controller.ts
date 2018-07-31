@@ -1,32 +1,26 @@
 import * as express from 'express';
 import {assign} from 'lodash';
-import {DB} from '../../db';
+import db from '../../db';
 import {IRequest} from '../../middleware/auth';
 import proxy from '../../core/proxy';
 
 export class CoreController {
     public find(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.find(req.body.selector, req.body.options || {}, docs =>
+        db.find(req.body.selector, req.body.options || {}, (error, docs) =>
             res.status(200).json(docs)
         );
     }
 
     public doc(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.findById(req.params.id, doc => res.status(200).json([doc]));
+        db.findById(req.params.id, (error, doc) => res.status(200).json([doc]));
     }
 
     public update(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         JSON.parse(req.params.ids).forEach(id => {
-            db.update_one(id, req.body);
+            db.updateOne(id, req.body, (error, doc) => {
+                res.status(200).json(doc);
+            });
         });
-
-        res.status(200).end();
     }
 
     public shutdown(req: express.Request, res: express.Response) {
@@ -36,9 +30,7 @@ export class CoreController {
     }
 
     public settings(req: express.Request, res: express.Response) {
-        const db = new DB();
-
-        db.findById('system', system => {
+        db.findById('system', (error, system) => {
             res.status(200).json(
                 assign(
                     {

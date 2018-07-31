@@ -1,6 +1,6 @@
-import { DB } from '../../';
+import {DB} from '../../';
 import * as debug from 'debug';
-import { isEqual } from 'lodash';
+import {isEqual} from 'lodash';
 
 const log = debug('db:setup:couchdb:views');
 
@@ -30,7 +30,7 @@ function check_view(type: string, _view) {
                 log(type + '-view is up to date');
             } else {
                 log(type + '-view is not up to date -> updating');
-                _db.update_one('_design/' + type, _view, doc => {
+                _db.updateOne('_design/' + type, _view, (err, doc) => {
                     log(type + '-view updated');
                 });
             }

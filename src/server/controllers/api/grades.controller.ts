@@ -1,8 +1,8 @@
 import * as express from 'express';
-import { assign, noop } from 'lodash';
-import { IRequest } from '../../middleware/auth';
+import {assign, noop} from 'lodash';
+import {IRequest} from '../../middleware/auth';
 
-import { DB } from '../../db';
+import db from '../../db';
 
 import Controller from '../controller';
 
@@ -12,16 +12,12 @@ class GradesController extends Controller<{}> {
     }
 
     public user(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('grade', 'user', { key: req.params.user_id }, grades => {
+        db.view('grade', 'user', {key: req.params.user_id}, (error, grades) => {
             res.status(200).json(grades);
         });
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         const default_grade = {
             _id: undefined,
             created_at: new Date(),
@@ -35,13 +31,15 @@ class GradesController extends Controller<{}> {
             grade_type: 'no'
         };
 
-        db.insert(assign({}, default_grade, req.body));
+        db.insert(assign({}, default_grade, req.body), (error, doc) => {
+            res.status(200).json([doc]);
+        });
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.delete(req.params.id);
+        db.delete(req.params.id, error => {
+            res.status(200).end();
+        });
     }
 }
 

@@ -6,7 +6,7 @@ import {assign} from 'lodash';
 
 import {IUser} from 'lib/users/types';
 
-import {DB} from '../../db';
+import db from '../../db';
 
 import Controller from '../controller';
 
@@ -15,24 +15,18 @@ class UsersController extends Controller<{}> {
         super('user');
     }
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('user', 'list', req.query, docs => {
+        db.view('user', 'list', req.query, (error, docs) => {
             res.status(200).json(docs);
         });
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('user', 'with_groups', {key: req.params.id}, docs => {
+        db.view('user', 'with_groups', {key: req.params.id}, (error, docs) => {
             res.status(200).json(docs);
         });
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         const new_user: IUser = {
             _id: undefined,
             type: 'user',
@@ -49,16 +43,14 @@ class UsersController extends Controller<{}> {
 
         assign(new_user, req.body, {password: undefined});
 
-        db.insert(new_user, user => {
+        db.insert(new_user, (error, user) => {
             res.status(200).json(user);
         });
     }
 
     public init(req: IRequest, res: express.Response) {
         try {
-            const db = new DB(res);
-
-            db.view('user', 'init', {key: req.params.id}, docs =>
+            db.view('user', 'init', {key: req.params.id}, (error, docs) =>
                 res.status(200).json(docs)
             );
         } catch (err) {

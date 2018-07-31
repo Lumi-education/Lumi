@@ -2,14 +2,12 @@ import * as express from 'express';
 import {assign, noop} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
-import {DB} from '../../db';
+import db from '../../db';
 
 import {IAssignment} from '../../../../lib/flow';
 
 class FlowController {
     public get_assignments(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         db.find(
             assign(
                 {
@@ -18,22 +16,20 @@ class FlowController {
                 req.query
             ),
             {},
-            docs => {
+            (error, docs) => {
                 res.status(200).json(docs);
             }
         );
     }
 
     public delete_assignment(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         db.find(
             {
                 type: 'assignment',
                 assignment_id: req.body.assignment_id
             },
             {},
-            (assignments: IAssignment[]) => {
+            (error, assignments: IAssignment[]) => {
                 assignments.forEach(assignment => {
                     db.delete(assignment._id);
                 });
@@ -42,44 +38,45 @@ class FlowController {
     }
 
     public save_state(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        db.findById(
+            req.params.assignment_id,
+            (error, assignment: IAssignment) => {
+                assignment.state = req.body;
 
-        db.findById(req.params.assignment_id, (assignment: IAssignment) => {
-            assignment.state = req.body;
-
-            db.update_one(req.params.assignment_id, assignment, a => {
-                res.status(200).end();
-            });
-        });
+                db.updateOne(req.params.assignment_id, assignment, a => {
+                    res.status(200).end();
+                });
+            }
+        );
     }
 
     public save_data(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        db.findById(
+            req.params.assignment_id,
+            (error, assignment: IAssignment) => {
+                if (!assignment.data) {
+                    assignment.data = [];
+                }
+                assignment.data.push(req.body);
+                assignment.completed = true;
 
-        db.findById(req.params.assignment_id, (assignment: IAssignment) => {
-            if (!assignment.data) {
-                assignment.data = [];
+                db.updateOne(req.params.assignment_id, assignment, (err, a) => {
+                    res.status(200).end();
+                });
             }
-            assignment.data.push(req.body);
-            assignment.completed = true;
-
-            db.update_one(req.params.assignment_id, assignment, a => {
-                res.status(200).end();
-            });
-        });
+        );
     }
 
     public get_state(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.findById(req.params.assignment_id, (assignment: IAssignment) => {
-            res.status(200).json(assign(assignment.state, {success: true}));
-        });
+        db.findById(
+            req.params.assignment_id,
+            (error, assignment: IAssignment) => {
+                res.status(200).json(assign(assignment.state, {success: true}));
+            }
+        );
     }
 
     public assign(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         // required params: user_id[] && card_id[] && group_id
 
         if (!req.body.group_id || !req.body.user_ids || !req.body.card_ids) {
