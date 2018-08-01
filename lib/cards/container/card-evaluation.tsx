@@ -1,11 +1,11 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { assign } from 'lodash';
-import { push } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {assign} from 'lodash';
+import {push} from 'lib/ui/actions';
 
 // components
-import { Badge, Checkbox, Dialog, RaisedButton } from 'material-ui';
+import {Badge, Checkbox, Dialog, RaisedButton} from 'material-ui';
 import SVGError from 'material-ui/svg-icons/alert/error';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 import SVGClose from 'material-ui/svg-icons/navigation/close';
@@ -56,25 +56,13 @@ export class CardEvaluationContainer extends React.Component<
 
     public componentWillMount() {
         if (!this.props.card_data._id && this.props.repair) {
-            this.props
-                .dispatch(
-                    Cards.actions.get_card_data(
-                        this.props.user_id,
-                        this.props.collection_id,
-                        this.props.card_id
-                    )
+            this.props.dispatch(
+                Cards.actions.get_card_data(
+                    this.props.user_id,
+                    this.props.collection_id,
+                    this.props.card_id
                 )
-                .then(res => {
-                    if (res.response.status === 404) {
-                        this.props.dispatch(
-                            Core.actions.action('CREATE_CARD_DATA', [], {
-                                user_id: this.props.user_id,
-                                collection_id: this.props.collection_id,
-                                card_id: this.props.card_id
-                            })
-                        );
-                    }
-                });
+            );
         }
         if (!this.props.card._id) {
             this.props.dispatch(Cards.actions.get_card(this.props.card_id));
@@ -85,7 +73,7 @@ export class CardEvaluationContainer extends React.Component<
         if (!this.props.card_data._id) {
             return (
                 <Checkbox
-                    iconStyle={{ fill: 'grey' }}
+                    iconStyle={{fill: 'grey'}}
                     uncheckedIcon={<SVGError />}
                 />
             );
@@ -95,7 +83,7 @@ export class CardEvaluationContainer extends React.Component<
                 <Checkbox
                     onClick={e => {
                         e.stopPropagation();
-                        this.setState({ show_card: true });
+                        this.setState({show_card: true});
                     }}
                     style={{
                         display: 'inline-block',
@@ -135,25 +123,25 @@ export class CardEvaluationContainer extends React.Component<
                 <Dialog
                     title={this.props.card.name}
                     open={this.state.show_card}
-                    onRequestClose={() => this.setState({ show_card: false })}
+                    onRequestClose={() => this.setState({show_card: false})}
                     autoScrollBodyContent={true}
-                    contentStyle={{ width: '100%' }}
+                    contentStyle={{width: '100%'}}
                     actions={[
                         <RaisedButton
                             label="Close"
-                            onClick={() => this.setState({ show_card: false })}
+                            onClick={() => this.setState({show_card: false})}
                         />
                     ]}
                 >
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flex: 1 }}>
+                    <div style={{display: 'flex'}}>
+                        <div style={{flex: 1}}>
                             <Cards.CardViewContainer
                                 card_id={this.props.card_id}
                                 collection_id={this.props.collection_id}
                                 user_id={this.props.user_id}
                             />
                         </div>
-                        <div style={{ flex: 1 }}>
+                        <div style={{flex: 1}}>
                             <Cards.CardDataSettingsContainer
                                 user_id={this.props.user_id}
                                 collection_id={this.props.collection_id}

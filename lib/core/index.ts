@@ -1,12 +1,14 @@
 import * as constants from './constants';
 import * as types from './types';
 import * as actions from './actions';
-export { IState } from './types';
+import * as selectors from './selectors';
+
+export {IState} from './types';
 import WebsocketContainer from './container/websocket';
 import reducer from './reducer';
 import AttachmentComponent from './components/attachment';
-import AttachmentListContainer from './container/attachment-list';
 import FetchContainer from './container/fetch';
+import SystemContainer from './container/system';
 
 const components = {
     attachment: AttachmentComponent
@@ -14,8 +16,8 @@ const components = {
 
 const container = {
     websocket: WebsocketContainer,
-    attachmentList: AttachmentListContainer,
-    Fetch: FetchContainer
+    Fetch: FetchContainer,
+    System: SystemContainer
 };
 
-export { actions, constants, types, container, components, reducer };
+export {actions, selectors, constants, types, container, components, reducer};

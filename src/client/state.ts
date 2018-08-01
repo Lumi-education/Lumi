@@ -9,7 +9,6 @@ import {IState as ITags, tags_reducer as tags} from 'lib/tags';
 import {IState as IUI, ui_reducer as ui} from 'lib/ui';
 import {IState as IUsers, users_reducer as users} from 'lib/users';
 import {IState as IGrades, reducer as grades} from 'lib/grades';
-import {IState as ISystem, reducer as system} from 'lib/system';
 import {IState as IFlow, reducer as flow} from 'lib/flow';
 
 const root_reducer = combineReducers({
@@ -21,7 +20,6 @@ const root_reducer = combineReducers({
     users,
     tags,
     grades,
-    system,
     flow,
     routing: routerReducer
 });
@@ -36,5 +34,4 @@ export interface IState
         IGroups,
         IUI,
         IGrades,
-        ISystem,
         IFlow {}

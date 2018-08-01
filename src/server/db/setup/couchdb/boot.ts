@@ -2,7 +2,7 @@ import * as _debug from 'debug';
 import * as superagent from 'superagent';
 import * as raven from 'raven';
 
-import { ISystemSettings } from 'lib/system/types';
+import {ISystemSettings} from 'lib/core/types';
 
 import boot_views from './views';
 
@@ -10,9 +10,7 @@ const debug = _debug('lumi:db:setup');
 
 const system: ISystemSettings = {
     _id: 'system',
-    enable_guest_accounts: false,
-    auto_guest_login: false,
-    auto_assign_to_groups: []
+    changes_port: process.env.CHANGES_PORT
 };
 
 export default function(done: () => void) {

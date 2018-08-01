@@ -1,14 +1,12 @@
-import { assign, uniq } from 'lodash';
+import {assign, uniq} from 'lodash';
 
-import { ISystemSettings } from './types';
+import {ISystemSettings} from '../types';
 
-import { SYSTEM_GET_SETTINGS_SUCCESS } from './actions';
+import {SYSTEM_GET_SETTINGS_SUCCESS} from '../actions';
 
 const initialState: ISystemSettings = {
     _id: 'system',
-    enable_guest_accounts: false,
-    auto_guest_login: false,
-    auto_assign_to_groups: []
+    changes_port: 3001
 };
 
 export default function(

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { IState } from '../types';
-import * as System from '../';
+import {IState} from '../types';
+
+import * as Core from '../';
 
 declare var window;
 
@@ -27,8 +28,8 @@ export class SystemSettingsContainer extends React.Component<
     }
 
     public componentDidMount() {
-        this.props.dispatch(System.actions.get_settings()).then(res => {
-            this.setState({ loading: false });
+        this.props.dispatch(Core.actions.get_settings()).then(res => {
+            this.setState({loading: false});
         });
     }
 
@@ -51,6 +52,7 @@ function mapDispatchToProps(dispatch): IProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    SystemSettingsContainer
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(SystemSettingsContainer);

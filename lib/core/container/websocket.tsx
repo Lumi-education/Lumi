@@ -1,39 +1,45 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import * as socketio from 'socket.io-client';
 
-import { IState } from '../types';
-import * as System from 'lib/system';
+import * as Core from '../';
 
 declare var window;
 
-interface IProps {
+interface IStateProps {
+    changes_port: number;
+}
+
+interface IDispatchProps {
     dispatch: (action) => any;
 }
 
-export class WebsocketContainer extends React.Component<IProps, {}> {
+interface IProps extends IStateProps, IDispatchProps {}
+
+export class WebsocketContainer extends React.Component<
+    IProps,
+    IDispatchProps
+> {
     constructor(props: IProps) {
         super(props);
     }
 
     public componentDidMount() {
         let socket;
-        this.props.dispatch(System.actions.get_settings()).then(res => {
-            socket = socketio.connect(
-                'http://' +
-                    window.location.hostname +
-                    ':' +
-                    res.payload.changes_port,
-                {
-                    query: { jwt_token: window.localStorage.jwt_token }
-                }
-            );
+        socket = socketio.connect(
+            'http://' +
+                window.location.hostname +
+                ':' +
+                this.props.changes_port,
+            {
+                query: {jwt_token: window.localStorage.jwt_token}
+            }
+        );
 
-            socket.on('DB_CHANGE', msg => {
-                const action = JSON.parse(msg);
-                this.props.dispatch(action);
-            });
+        socket.on('DB_CHANGE', msg => {
+            const action = JSON.parse(msg);
+            this.props.dispatch(action);
         });
     }
 
@@ -42,16 +48,19 @@ export class WebsocketContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}) {
-    return {};
+function mapStateToProps(state: Core.IState, ownProps: {}): IStateProps {
+    return {
+        changes_port: Core.selectors.system_settings(state).changes_port
+    };
 }
 
-function mapDispatchToProps(dispatch): IProps {
+function mapDispatchToProps(dispatch): IDispatchProps {
     return {
         dispatch: action => dispatch(action)
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    WebsocketContainer
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(WebsocketContainer);

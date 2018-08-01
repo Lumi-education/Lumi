@@ -1,24 +1,23 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as debug from 'debug';
 import * as raven from 'raven-js';
 import * as shortid from 'shortid';
 
 // utils
-import { state_color, random_bg } from 'lib/ui/utils';
+import {state_color, random_bg} from 'lib/ui/utils';
 
 // components
-import { TextField, Paper, RaisedButton } from 'material-ui';
+import {TextField, Paper, RaisedButton} from 'material-ui';
 
 // modules
 import * as Auth from '../';
-import * as System from 'lib/system';
 
 declare var window;
 
 const log = debug('lumi:auth:container:login');
 
-interface IState extends Auth.IState, System.IState {}
+interface IComponentState {}
 
 interface IStateProps {
     enable_guest_accounts: boolean;
@@ -68,13 +67,13 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                 log(res);
                 switch (res.response.status) {
                     case 404:
-                        this.setState({ username_error: 'username not found' });
+                        this.setState({username_error: 'username not found'});
                         this.setState({
                             login_button_color: state_color('error')
                         });
                         break;
                     case 401:
-                        this.setState({ password_error: 'password incorrect' });
+                        this.setState({password_error: 'password incorrect'});
                         this.setState({
                             login_button_color: state_color('error')
                         });
@@ -130,11 +129,11 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                         >
                             <TextField
                                 fullWidth={true}
-                                underlineFocusStyle={{ borderColor: 'black' }}
-                                inputStyle={{ fontWeight: 600 }}
+                                underlineFocusStyle={{borderColor: 'black'}}
+                                inputStyle={{fontWeight: 600}}
                                 hintText="Username"
                                 type="text"
-                                style={{ borderBottom: '1px solid #E4E8EB' }}
+                                style={{borderBottom: '1px solid #E4E8EB'}}
                                 underlineShow={this.state.username_error !== ''}
                                 errorText={this.state.username_error}
                                 value={this.state.username}
@@ -156,8 +155,8 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
 
                             <TextField
                                 fullWidth={true}
-                                underlineFocusStyle={{ borderColor: 'black' }}
-                                inputStyle={{ fontWeight: 600 }}
+                                underlineFocusStyle={{borderColor: 'black'}}
+                                inputStyle={{fontWeight: 600}}
                                 hintText="Passwort"
                                 underlineShow={this.state.password_error !== ''}
                                 errorText={this.state.password_error}
@@ -234,9 +233,9 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Auth.IState, ownProps: {}): IStateProps {
     return {
-        enable_guest_accounts: state.system.enable_guest_accounts
+        enable_guest_accounts: false
     };
 }
 

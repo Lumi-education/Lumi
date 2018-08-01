@@ -1,11 +1,10 @@
 export interface IState {
     core: {
-        attachments: IAttachments;
+        system: ISystemSettings;
     };
 }
 
-export interface IAttachments {
-    dialog_open: boolean;
-    doc_id: string;
-    _attachments;
+export interface ISystemSettings {
+    _id: 'system';
+    changes_port: number;
 }

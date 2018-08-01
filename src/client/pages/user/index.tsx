@@ -39,8 +39,6 @@ export class Root extends React.Component<IProps, {}> {
                 <AppBar />
                 <LeftDrawer />
                 <div style={{paddingBottom: '80px'}}>{this.props.children}</div>
-
-                <Core.container.attachmentList />
             </div>
         );
     }
