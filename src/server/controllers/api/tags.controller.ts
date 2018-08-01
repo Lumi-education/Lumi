@@ -3,15 +3,10 @@ import {assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
 import db from '../../db';
-import Controller from '../controller';
 
 import {ITag} from 'lib/tags/types';
 
-class TagsController extends Controller<{}> {
-    constructor() {
-        super('tag');
-    }
-
+class TagsController {
     public action(req: IRequest, res: express.Response) {
         switch (req.body.type) {
             case 'ADD_TO_DOC':
@@ -82,6 +77,12 @@ class TagsController extends Controller<{}> {
     public read(req: IRequest, res: express.Response) {
         db.findById(req.params.id, (error, tag) => {
             res.status(200).json([tag]);
+        });
+    }
+
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
         });
     }
 

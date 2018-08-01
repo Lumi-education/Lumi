@@ -4,15 +4,11 @@ import {uniq, assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
 import db from '../../db';
-import Controller from '../controller';
 
 import {IUser} from 'lib/users/types';
 import {IGroup} from 'lib/groups/types';
 
-class GroupController extends Controller<{}> {
-    constructor() {
-        super('group');
-    }
+class GroupController {
     public list(req: IRequest, res: express.Response) {
         db.view('group', 'list', {}, (error, docs) => {
             res.status(200).json(docs);
@@ -46,6 +42,12 @@ class GroupController extends Controller<{}> {
         );
     }
 
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
+    }
+
     public for_user(req: IRequest, res: express.Response) {
         db.view(
             'group',
@@ -70,8 +72,9 @@ class GroupController extends Controller<{}> {
                 );
 
                 db.insertMany(users, {}, () => {
-                    db.delete(req.params.id);
-                    res.status(200).end();
+                    db.delete(req.params.id, err => {
+                        res.status(200).end();
+                    });
                 });
             }
         );

@@ -97,9 +97,6 @@ export default function(): express.Router {
     router.put('/user/card/:id', mw.auth, cardsController.update);
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
 
-    // user -> groups
-    router.get('/user/groups', mw.auth);
-
     // users
     router.get('/users', usersController.list);
     router.post('/users', usersController.create);

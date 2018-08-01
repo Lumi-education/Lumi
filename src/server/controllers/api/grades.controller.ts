@@ -3,13 +3,8 @@ import {assign} from 'lodash';
 import {IRequest} from '../../middleware/auth';
 
 import db from '../../db';
-import Controller from '../controller';
 
-class GradesController extends Controller<{}> {
-    constructor() {
-        super('grade');
-    }
-
+class GradesController {
     public user(req: IRequest, res: express.Response) {
         db.view('grade', 'user', {key: req.params.user_id}, (error, grades) => {
             res.status(200).json(grades);
@@ -32,6 +27,12 @@ class GradesController extends Controller<{}> {
 
         db.insert(assign({}, default_grade, req.body), (error, doc) => {
             res.status(200).json([doc]);
+        });
+    }
+
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
         });
     }
 

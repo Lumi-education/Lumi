@@ -4,22 +4,12 @@ import {IRequest} from '../../middleware/auth';
 import {assign} from 'lodash';
 
 import db from '../../db';
-import Controller from '../controller';
 
 import {IUser} from 'lib/users/types';
 
-class UsersController extends Controller<{}> {
-    constructor() {
-        super('user');
-    }
+class UsersController {
     public list(req: IRequest, res: express.Response) {
         db.view('user', 'list', req.query, (error, docs) => {
-            res.status(200).json(docs);
-        });
-    }
-
-    public read(req: IRequest, res: express.Response) {
-        db.view('user', 'with_groups', {key: req.params.id}, (error, docs) => {
             res.status(200).json(docs);
         });
     }
@@ -43,6 +33,24 @@ class UsersController extends Controller<{}> {
 
         db.insert(new_user, (error, user) => {
             res.status(200).json(user);
+        });
+    }
+
+    public read(req: IRequest, res: express.Response) {
+        db.view('user', 'with_groups', {key: req.params.id}, (error, docs) => {
+            res.status(200).json(docs);
+        });
+    }
+
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
+    }
+
+    public delete(req: IRequest, res: express.Response) {
+        db.delete(req.params.id, err => {
+            res.status(200).end();
         });
     }
 

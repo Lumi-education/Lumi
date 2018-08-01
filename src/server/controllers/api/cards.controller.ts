@@ -4,14 +4,10 @@ import {IRequest} from '../../middleware/auth';
 import proxy from '../../core/proxy';
 
 import db from '../../db';
-import Controller from '../controller';
 
 import {ICard} from 'lib/cards/types';
 
-class CardController extends Controller<ICard> {
-    constructor() {
-        super('card');
-    }
+class CardController {
     public create(req: IRequest, res: express.Response) {
         const new_card: ICard = req.body;
         db.insert(new_card);
@@ -20,6 +16,18 @@ class CardController extends Controller<ICard> {
     public read(req: IRequest, res: express.Response) {
         db.findById(req.params.id, (error, card: ICard) => {
             res.status(200).json([card]);
+        });
+    }
+
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
+    }
+
+    public delete(req: IRequest, res: express.Response) {
+        db.delete(req.params.id, err => {
+            res.status(200).end();
         });
     }
 
