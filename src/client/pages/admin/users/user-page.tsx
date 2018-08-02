@@ -43,7 +43,6 @@ export class AdminUserPage extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(Users.actions.get_user(this.props.user_id));
-        this.props.dispatch(Users.actions.init(this.props.user_id));
         this.props.dispatch(Groups.actions.get_groups());
     }
 

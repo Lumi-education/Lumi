@@ -10,7 +10,7 @@ import {
     USERS_GET_USER_SUCCESS,
     USERS_DELETE_USER_REQUEST,
     USERS_UPDATE_USER_REQUEST
-} from '../constants';
+} from '../actions';
 
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {

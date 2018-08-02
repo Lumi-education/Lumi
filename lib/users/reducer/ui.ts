@@ -1,12 +1,12 @@
-import {assign, unionBy} from 'lodash';
+import { assign } from 'lodash';
 
 import {
     USERS_UI_SELECT,
     USERS_UI_SELECTION_RESET,
     USERS_UI_SET_SELECTED_USERS
-} from '../constants';
+} from '../actions';
 
-import {IUsersUI} from '..';
+import { IUsersUI } from '..';
 
 const initialState: IUsersUI = {
     selected_users: []
@@ -30,7 +30,7 @@ export default function(state: IUsersUI = initialState, action): IUsersUI {
             });
 
         case USERS_UI_SELECTION_RESET:
-            return assign({}, state, {selected_users: []});
+            return assign({}, state, { selected_users: [] });
 
         case USERS_UI_SET_SELECTED_USERS:
             return assign({}, state, {

@@ -18,7 +18,7 @@ import {
 import {
     USERS_GET_USERS_SUCCESS,
     USERS_GET_USER_SUCCESS
-} from 'lib/users/constants';
+} from 'lib/users/actions';
 
 export default function(
     state: Map<string, IGroup> = Map<string, IGroup>({}),

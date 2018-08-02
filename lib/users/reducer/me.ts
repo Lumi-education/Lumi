@@ -1,8 +1,6 @@
-import {assign, unionBy} from 'lodash';
+import { IUser } from '../types';
 
-import {IUser} from '../types';
-
-import {AUTH_GET_SESSION_SUCCESS} from '../../auth/constants';
+import { AUTH_GET_SESSION_SUCCESS } from '../../auth/constants';
 
 const initialState: IUser = {
     _id: undefined,
