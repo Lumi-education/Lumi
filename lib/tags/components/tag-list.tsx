@@ -1,12 +1,11 @@
 import * as React from 'react';
 
 // components
-import Avatar from 'material-ui/Avatar';
-import Divider from 'material-ui/Divider';
-import { List, ListItem } from 'material-ui/List';
+import { List } from 'material-ui/List';
 
 // container
 import TagListItemContainer from '../container/tag-list-item';
+
 // types
 import { ITag } from '../types';
 

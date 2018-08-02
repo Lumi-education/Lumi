@@ -1,6 +1,6 @@
 import { IUser } from '../types';
 
-import { AUTH_GET_SESSION_SUCCESS } from '../../auth/constants';
+import { AUTH_GET_SESSION_SUCCESS } from 'lib/auth/actions';
 
 const initialState: IUser = {
     _id: undefined,

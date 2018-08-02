@@ -1,8 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
-import { Map } from 'immutable';
 
 // components
 import { ListItem } from 'material-ui/List';
@@ -21,11 +19,7 @@ import { ITag, IState } from '../types';
 import { select_tag } from 'lib/tags/selectors';
 
 // actions
-import {
-    create_tag_and_add_to_doc,
-    get_tags,
-    delete_tag
-} from 'lib/tags/actions';
+import { delete_tag } from 'lib/tags/actions';
 
 interface IPassedProps {
     tag_id: string;

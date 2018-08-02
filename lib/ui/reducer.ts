@@ -1,6 +1,6 @@
-import {assign, uniq} from 'lodash';
+import { assign, uniq } from 'lodash';
 
-import {IUI} from './types';
+import { IUI } from './types';
 
 import {
     UI_DIALOG_CLOSE,
@@ -15,7 +15,7 @@ import {
     UI_SET_RIGHT_APPBAR_ICON,
     UI_SET_APPBAR_TITLE,
     UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
-} from './constants';
+} from './actions';
 
 const initialState: IUI = {
     left_drawer_show: false,
@@ -33,7 +33,7 @@ const initialState: IUI = {
 export default function(state: IUI = initialState, action): IUI {
     switch (action.type) {
         case UI_SET_APPBAR_TITLE:
-            return assign({}, state, {appbar_title: action.payload.title});
+            return assign({}, state, { appbar_title: action.payload.title });
 
         case UI_SNACKBAR_OPEN:
             return assign({}, state, {
@@ -62,25 +62,25 @@ export default function(state: IUI = initialState, action): IUI {
             });
 
         case UI_OPEN_LEFT_DRAWER:
-            return assign({}, state, {left_drawer_show: true});
+            return assign({}, state, { left_drawer_show: true });
 
         case UI_LEFT_DRAWER_CLOSE:
-            return assign({}, state, {left_drawer_show: false});
+            return assign({}, state, { left_drawer_show: false });
 
         case UI_DIALOG_OPEN:
-            return assign({}, state, {dialog_show: true});
+            return assign({}, state, { dialog_show: true });
 
         case UI_DIALOG_CLOSE:
-            return assign({}, state, {dialog_show: false});
+            return assign({}, state, { dialog_show: false });
 
         case UI_RIGHT_DRAWER_OPEN:
-            return assign({}, state, {right_drawer_show: true});
+            return assign({}, state, { right_drawer_show: true });
 
         case UI_RIGHT_DRAWER_CLOSE:
-            return assign({}, state, {right_drawer_show: false});
+            return assign({}, state, { right_drawer_show: false });
 
         case UI_SET_RIGHT_APPBAR_ICON:
-            return assign({}, state, {right_appbar_icon: action.payload});
+            return assign({}, state, { right_appbar_icon: action.payload });
 
         default:
             return state;

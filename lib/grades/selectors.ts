@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import { IState, IGrade } from './types';
 
 export function grades_for_user(state: IState, user_id: string): IGrade[] {

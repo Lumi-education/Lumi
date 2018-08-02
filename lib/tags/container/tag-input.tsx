@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
 // components
@@ -17,7 +16,6 @@ import { select_tag_ids_for_doc, select_tags_as_map } from 'lib/tags/selectors';
 import {
     create_tag_and_add_to_doc,
     get_tags,
-    delete_tag,
     add_tag_to_doc,
     rem_tag_from_doc
 } from 'lib/tags/actions';

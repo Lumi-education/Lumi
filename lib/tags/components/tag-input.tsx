@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { Map } from 'immutable';
 
-import Avatar from 'material-ui/Avatar';
 import AutoComplete from 'material-ui/AutoComplete';
 import ChipInput from 'material-ui-chip-input';
 

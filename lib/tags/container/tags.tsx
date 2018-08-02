@@ -1,19 +1,12 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-// import { push } from 'lib/ui/actions';
-import { Map } from 'immutable';
-
-// components
 
 // types
 import { IState, ITag } from '../types';
 
 // selectors
 import { select_tags_by_doc_id } from '../selectors';
-
-// actions
-import { get_tags } from '../actions';
 
 interface IPassedProps {
     doc_id: string;
@@ -40,10 +33,6 @@ export class TagsContainer extends React.Component<IProps, IComponentState> {
         this.state = {
             requested: false
         };
-    }
-
-    public componentWillMount() {
-        // this.props.dispatch(get_tags(this.props.doc_id));
     }
 
     public render() {

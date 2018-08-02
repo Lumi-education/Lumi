@@ -1,5 +1,3 @@
-import { assign, unionBy } from 'lodash';
-
 import { Map } from 'immutable';
 
 import { IGrade } from '../types';

@@ -1,43 +1,44 @@
-import * as shortid from 'shortid';
-
-import {
-    GROUPS_GET_USER_GROUPS_REQUEST,
-    GROUPS_GET_USER_GROUPS_SUCCESS,
-    GROUPS_GET_USER_GROUPS_ERROR,
-    GROUPS_CREATE_REQUEST,
-    GROUPS_CREATE_SUCCESS,
-    GROUPS_CREATE_ERROR,
-    GROUPS_DELETE_REQUEST,
-    GROUPS_DELETE_SUCCESS,
-    GROUPS_DELETE_ERROR,
-    GROUPS_GET_GROUPS_REQUEST,
-    GROUPS_GET_GROUPS_SUCCESS,
-    GROUPS_GET_GROUPS_ERROR,
-    GROUPS_GET_GROUP_REQUEST,
-    GROUPS_GET_GROUP_SUCCESS,
-    GROUPS_GET_GROUP_ERROR,
-    GROUPS_ADD_COLLECTION_REQUEST,
-    GROUPS_ADD_COLLECTION_SUCCESS,
-    GROUPS_ADD_COLLECTION_ERROR,
-    GROUPS_REM_COLLECTION_REQUEST,
-    GROUPS_REM_COLLECTION_SUCCESS,
-    GROUPS_REM_COLLECTION_ERROR,
-    GROUPS_ENABLE_COLLECTION_REQUEST,
-    GROUPS_ENABLE_COLLECTION_SUCCESS,
-    GROUPS_ENABLE_COLLECTION_ERROR,
-    GROUPS_DISABLE_COLLECTION_REQUEST,
-    GROUPS_DISABLE_COLLECTION_SUCCESS,
-    GROUPS_DISABLE_COLLECTION_ERROR,
-    GROUPS_ADD_GROUP_REQUEST,
-    GROUPS_ADD_GROUP_SUCCESS,
-    GROUPS_ADD_GROUP_ERROR,
-    GROUPS_REM_GROUP_REQUEST,
-    GROUPS_REM_GROUP_SUCCESS,
-    GROUPS_REM_GROUP_ERROR,
-    GROUPS_UPDATE_GROUP_REQUEST,
-    GROUPS_UPDATE_GROUP_SUCCESS,
-    GROUPS_UPDATE_GROUP_ERROR
-} from './constants';
+export const GROUPS_GET_USER_GROUPS_REQUEST = 'GROUPS_GET_USER_GROUPS_REQUEST';
+export const GROUPS_GET_USER_GROUPS_SUCCESS = 'GROUPS_GET_USER_GROUPS_SUCCESS';
+export const GROUPS_GET_USER_GROUPS_ERROR = 'GROUPS_GET_USER_GROUPS_ERROR';
+export const GROUPS_CREATE_REQUEST = 'GROUPS_CREATE_REQUEST';
+export const GROUPS_CREATE_SUCCESS = 'GROUPS_CREATE_SUCCESS';
+export const GROUPS_CREATE_ERROR = 'GROUPS_CREATE_ERROR';
+export const GROUPS_ENABLE_COLLECTION_REQUEST =
+    'GROUPS_ENABLE_COLLECTION_REQUEST';
+export const GROUPS_ENABLE_COLLECTION_SUCCESS =
+    'GROUPS_ENABLE_COLLECTION_SUCCESS';
+export const GROUPS_ENABLE_COLLECTION_ERROR = 'GROUPS_ENABLE_COLLECTION_ERROR';
+export const GROUPS_DISABLE_COLLECTION_REQUEST =
+    'GROUPS_DISABLE_COLLECTION_REQUEST';
+export const GROUPS_DISABLE_COLLECTION_SUCCESS =
+    'GROUPS_DISABLE_COLLECTION_SUCCESS';
+export const GROUPS_DISABLE_COLLECTION_ERROR =
+    'GROUPS_DISABLE_COLLECTION_ERROR';
+export const GROUPS_DELETE_REQUEST = 'GROUPS_DELETE_REQUEST';
+export const GROUPS_DELETE_SUCCESS = 'GROUPS_DELETE_SUCCESS';
+export const GROUPS_DELETE_ERROR = 'GROUPS_DELETE_ERROR';
+export const GROUPS_GET_GROUP_REQUEST = 'GROUPS_GET_GROUP_REQUEST';
+export const GROUPS_GET_GROUP_SUCCESS = 'GROUPS_GET_GROUP_SUCCESS';
+export const GROUPS_GET_GROUP_ERROR = 'GROUPS_GET_GROUP_ERROR';
+export const GROUPS_GET_GROUPS_REQUEST = 'GROUPS_GET_GROUPS_REQUEST';
+export const GROUPS_GET_GROUPS_SUCCESS = 'GROUPS_GET_GROUPS_SUCCESS';
+export const GROUPS_GET_GROUPS_ERROR = 'GROUPS_GET_GROUPS_ERROR';
+export const GROUPS_ADD_COLLECTION_REQUEST = 'GROUPS_ADD_COLLECTION_REQUEST';
+export const GROUPS_ADD_COLLECTION_SUCCESS = 'GROUPS_ADD_COLLECTION_SUCCESS';
+export const GROUPS_ADD_COLLECTION_ERROR = 'GROUPS_ADD_COLLECTION_ERROR';
+export const GROUPS_REM_COLLECTION_REQUEST = 'GROUPS_REM_COLLECTION_REQUEST';
+export const GROUPS_REM_COLLECTION_SUCCESS = 'GROUPS_REM_COLLECTION_SUCCESS';
+export const GROUPS_REM_COLLECTION_ERROR = 'GROUPS_REM_COLLECTION_ERROR';
+export const GROUPS_ADD_GROUP_REQUEST = 'GROUPS_ADD_GROUP_REQUEST';
+export const GROUPS_ADD_GROUP_SUCCESS = 'GROUPS_ADD_GROUP_SUCCESS';
+export const GROUPS_ADD_GROUP_ERROR = 'GROUPS_ADD_GROUP_ERROR';
+export const GROUPS_REM_GROUP_REQUEST = 'GROUPS_REM_GROUP_REQUEST';
+export const GROUPS_REM_GROUP_SUCCESS = 'GROUPS_REM_GROUP_SUCCESS';
+export const GROUPS_REM_GROUP_ERROR = 'GROUPS_REM_GROUP_ERROR';
+export const GROUPS_UPDATE_GROUP_REQUEST = 'GROUPS_UPDATE_GROUP_REQUEST';
+export const GROUPS_UPDATE_GROUP_SUCCESS = 'GROUPS_UPDATE_GROUP_SUCCESS';
+export const GROUPS_UPDATE_GROUP_ERROR = 'GROUPS_UPDATE_GROUP_ERROR';
 
 export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP';
 
@@ -64,61 +65,6 @@ export function rem_group(user_id: string, group_id: string) {
         ],
         api: API.rem_group(user_id, group_id),
         payload: { payload: { user_id, group_id } }
-    };
-}
-
-export function add_collection_to_group(
-    group_id: string,
-    collection_id: string,
-    id = shortid()
-) {
-    return {
-        types: [
-            GROUPS_ADD_COLLECTION_REQUEST,
-            GROUPS_ADD_COLLECTION_SUCCESS,
-            GROUPS_ADD_COLLECTION_ERROR
-        ],
-        api: API.add_collection_to_group(group_id, collection_id),
-        payload: { id, group_id, collection_id }
-    };
-}
-
-export function enable_collection(group_id: string, collection_id: string) {
-    return {
-        types: [
-            GROUPS_ENABLE_COLLECTION_REQUEST,
-            GROUPS_ENABLE_COLLECTION_SUCCESS,
-            GROUPS_ENABLE_COLLECTION_ERROR
-        ],
-        api: API.enable_collection(group_id, collection_id),
-        payload: { group_id, collection_id }
-    };
-}
-
-export function disable_collection(group_id: string, collection_id: string) {
-    return {
-        types: [
-            GROUPS_DISABLE_COLLECTION_REQUEST,
-            GROUPS_DISABLE_COLLECTION_SUCCESS,
-            GROUPS_DISABLE_COLLECTION_ERROR
-        ],
-        api: API.disable_collection(group_id, collection_id),
-        payload: { group_id, collection_id }
-    };
-}
-
-export function rem_collection_from_group(
-    group_id: string,
-    collection_ids: string[]
-) {
-    return {
-        types: [
-            GROUPS_REM_COLLECTION_REQUEST,
-            GROUPS_REM_COLLECTION_SUCCESS,
-            GROUPS_REM_COLLECTION_ERROR
-        ],
-        api: API.rem_collection_from_group(group_id, collection_ids),
-        payload: { group_id, collection_ids }
     };
 }
 

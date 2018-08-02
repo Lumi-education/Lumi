@@ -1,5 +1,3 @@
-import { assign, unionBy } from 'lodash';
-
 import { Map } from 'immutable';
 
 import { IGroup } from '../types';
@@ -13,7 +11,7 @@ import {
     GROUPS_DELETE_SUCCESS,
     GROUPS_ADD_COLLECTION_SUCCESS,
     GROUPS_REM_COLLECTION_SUCCESS
-} from '../constants';
+} from '../actions';
 
 import {
     USERS_GET_USERS_SUCCESS,

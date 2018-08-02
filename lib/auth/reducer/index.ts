@@ -1,8 +1,8 @@
-import {assign, unionBy} from 'lodash';
+import { assign, unionBy } from 'lodash';
 
-import {IAuth} from '../types';
+import { IAuth } from '../types';
 
-import * as k from '../constants';
+import * as k from '../actions';
 
 const initialState: IAuth = {
     userlevel: 0,
@@ -22,7 +22,7 @@ export default function(state: IAuth = initialState, action): IAuth {
             });
 
         case k.AUTH_LOGIN_SET_PASSWORD_SUCCESS:
-            return assign({}, state, {password: true});
+            return assign({}, state, { password: true });
 
         case k.AUTH_LOGOUT_SUCCESS:
             window.localStorage.clear();

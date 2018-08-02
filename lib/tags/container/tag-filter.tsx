@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
 // modules
@@ -32,7 +31,6 @@ export class TagFilterContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
-        const tags = this.props.tags;
         return (
             <Tags.TagInputComponent
                 tags={this.props.tags}

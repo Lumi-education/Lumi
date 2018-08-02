@@ -1,11 +1,10 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 type Group_id = string;
 
 export interface IGroup {
     _id: Group_id;
     type: 'group';
     name: string;
-    flow_order: string[];
     created_at: Date;
 }
 

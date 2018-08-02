@@ -1,13 +1,10 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as raven from 'raven-js';
 import * as debug from 'debug';
-import * as shortid from 'shortid';
 
 // actions
 import * as Auth from '../';
-
-declare var window;
 
 const log = debug('lumi:auth');
 
@@ -68,7 +65,7 @@ export class AuthContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: Auth.IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Auth.IState, ownProps): IStateProps {
     return {
         user_id: state.auth.user_id,
         location: (state as any).routing.locationBeforeTransitions.pathname

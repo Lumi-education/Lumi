@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import * as socketio from 'socket.io-client';
 
@@ -33,7 +33,7 @@ export class WebsocketContainer extends React.Component<
                 ':' +
                 this.props.changes_port,
             {
-                query: {jwt_token: window.localStorage.jwt_token}
+                query: { jwt_token: window.localStorage.jwt_token }
             }
         );
 

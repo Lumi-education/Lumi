@@ -3,13 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
-import {
-    Dialog,
-    TextField,
-    SelectField,
-    MenuItem,
-    RaisedButton
-} from 'material-ui';
+import { Dialog, TextField, RaisedButton } from 'material-ui';
 
 import { RaisedButtonComponent } from 'lib/ui';
 

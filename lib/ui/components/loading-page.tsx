@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import { Paper } from 'material-ui';
-
 interface IStateProps {}
 
 interface IDispatchProps {}

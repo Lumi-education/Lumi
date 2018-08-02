@@ -1,15 +1,4 @@
-import {IAssignment, IState} from './types';
-import {uniqBy} from 'lodash';
-
-export function assignments_for_group(
-    state: IState,
-    group_id: string
-): IAssignment[] {
-    return uniqBy(
-        state.flow.assignments.filter(c => c.group_id === group_id),
-        'card_id'
-    );
-}
+import { IAssignment, IState } from './types';
 
 export function assignment_for_user(
     state: IState,

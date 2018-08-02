@@ -1,5 +1,3 @@
-import * as shortid from 'shortid';
-
 export const TAGS_CREATE_TAG_REQUEST = 'TAGS_CREATE_TAG_REQUEST';
 export const TAGS_CREATE_TAG_SUCCESS = 'TAGS_CREATE_TAG_SUCCESS';
 export const TAGS_CREATE_TAG_ERROR = 'TAGS_CREATE_TAG_ERROR';

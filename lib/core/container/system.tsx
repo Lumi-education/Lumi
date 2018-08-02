@@ -1,11 +1,9 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {IState} from '../types';
+import { IState } from '../types';
 
 import * as Core from '../';
-
-declare var window;
 
 interface IProps {
     dispatch: (action) => any;
@@ -29,7 +27,7 @@ export class SystemSettingsContainer extends React.Component<
 
     public componentDidMount() {
         this.props.dispatch(Core.actions.get_settings()).then(res => {
-            this.setState({loading: false});
+            this.setState({ loading: false });
         });
     }
 

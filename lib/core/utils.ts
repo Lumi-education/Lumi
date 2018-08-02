@@ -1,9 +1,4 @@
 import * as classnames from 'classnames';
-import * as fetch from 'isomorphic-fetch';
-
-import { assign, isEqual } from 'lodash';
-
-declare var window;
 
 export function get_grade_string(grade: number) {
     const grade_strings = {

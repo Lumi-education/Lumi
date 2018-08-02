@@ -11,11 +11,9 @@ import {
     List,
     ListItem,
     IconMenu,
-    MenuItem,
     IconButton
 } from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SVGDelete from 'material-ui/svg-icons/content/remove';
 
 // modules
 import * as Grades from '../';

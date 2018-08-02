@@ -1,12 +1,11 @@
 import * as request from 'superagent';
-import {assign} from 'lodash';
 
 declare var window;
 
 export function find(query, options?) {
     return request
         .post('/api/v0/core/find')
-        .send({options, selector: query})
+        .send({ options, selector: query })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

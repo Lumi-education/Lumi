@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-import {assign} from 'lodash';
+import { assign } from 'lodash';
 declare var window;
 
 export function get_cards(_ids?: string[]) {
@@ -44,7 +44,7 @@ export function create_data(data) {
 export function update_data(data) {
     return request
         .put('/api/v0/user/data/' + data._id)
-        .send(assign(data, {processed: true}))
+        .send(assign(data, { processed: true }))
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

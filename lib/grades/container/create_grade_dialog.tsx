@@ -2,22 +2,17 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import * as moment from 'moment';
-
 import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 
 // components
 import {
     Dialog,
     TextField,
-    FloatingActionButton,
     SelectField,
     MenuItem,
     Slider,
     RaisedButton
 } from 'material-ui';
-
-import SVGGrade from 'material-ui/svg-icons/action/grade';
 
 // modules
 import * as Grades from '../';

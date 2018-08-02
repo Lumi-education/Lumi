@@ -1,25 +1,20 @@
-import {push as _push, goBack} from 'react-router-redux';
-import * as qs from 'query-string';
-import * as url_parse from 'url-parse';
-import * as debug from 'debug';
+import { push as _push, goBack } from 'react-router-redux';
 
-declare var window;
-
-import {
-    UI_DIALOG_CLOSE,
-    UI_DIALOG_OPEN,
-    UI_LEFT_DRAWER_CLOSE,
-    UI_OPEN_LEFT_DRAWER,
-    UI_RIGHT_DRAWER_CLOSE,
-    UI_RIGHT_DRAWER_OPEN,
-    UI_SNACKBAR_OPEN,
-    UI_TOGGLE_CARDS_DIALOG,
-    UI_SELECT_CARD,
-    UI_SET_RIGHT_APPBAR_ICON,
-    UI_SET_APPBAR_TITLE,
-    UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
-} from './constants';
-import {disable_collection} from '../groups/api';
+export const UI_OPEN_LEFT_DRAWER = 'UI_OPEN_LEFT_DRAWER';
+export const UI_LEFT_DRAWER_CLOSE = 'UI_LEFT_DRAWER_CLOSE';
+export const UI_CLOSE_LEFT_DRAWER = 'UI_CLOSE_LEFT_DRAWER';
+export const UI_RIGHT_DRAWER_OPEN = 'UI_RIGHT_DRAWER_OPEN';
+export const UI_RIGHT_DRAWER_CLOSE = 'UI_RIGHT_DRAWER_CLOSE';
+export const UI_DIALOG_OPEN = 'UI_DIALOG_OPEN';
+export const UI_DIALOG_CLOSE = 'UI_DIALOG_CLOSE';
+export const UI_SNACKBAR_OPEN = 'UI_SNACKBAR_OPEN';
+export const UI_SNACKBAR_CLOSE = 'UI_SNACBKBAR_CLOSE';
+export const UI_TOGGLE_CARDS_DIALOG = 'UI_TOGGLE_CARDS_DIALOG';
+export const UI_SELECT_CARD = 'UI_SELECT_CARD';
+export const UI_SET_RIGHT_APPBAR_ICON = 'UI_SET_RIGHT_APPBAR_ICON';
+export const UI_SET_APPBAR_TITLE = 'UI_SET_APPBAR_TITLE';
+export const UI_TOGGLE_ASSIGN_MATERIAL_DIALOG =
+    'UI_TOGGLE_ASSIGN_MATERIAL_DIALOG';
 
 import * as Users from '../users';
 
@@ -27,7 +22,7 @@ export function push(url: string) {
     return dispatch => {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
-        dispatch(Users.actions.update_user('myself', {location: url}));
+        dispatch(Users.actions.update_user('myself', { location: url }));
         dispatch(_push(url));
     };
 }
@@ -41,7 +36,7 @@ export function goBack() {
 export function set_appbar_title(title: string) {
     return {
         type: UI_SET_APPBAR_TITLE,
-        payload: {title}
+        payload: { title }
     };
 }
 
@@ -62,7 +57,7 @@ export function set_right_appbar_icon(icon: JSX.Element) {
 export function snackbar_open(text: string) {
     return {
         type: UI_SNACKBAR_OPEN,
-        payload: {text}
+        payload: { text }
     };
 }
 

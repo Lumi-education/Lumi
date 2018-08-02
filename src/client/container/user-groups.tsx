@@ -8,7 +8,6 @@ import ChipInput from 'material-ui-chip-input';
 
 // actions
 import {
-    get_groups,
     get_user_groups,
     create_and_add_group,
     add_group,
