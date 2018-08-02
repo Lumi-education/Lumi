@@ -1,30 +1,24 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
-import { Map } from 'immutable';
+import {connect} from 'react-redux';
+import {push} from 'lib/ui/actions';
 
-import Avatar from 'material-ui/Avatar';
-import Paper from 'material-ui/Paper';
-import { List, ListItem } from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import SVGClose from 'material-ui/svg-icons/navigation/close';
+import {Avatar, Paper, Divider, List, ListItem} from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import Divider from 'material-ui/Divider';
 
 import CreateGroupDialog from './create_group_dialog';
 
 // selectors
-import { groups_list } from 'lib/groups/selectors';
+import {groups_list} from 'lib/groups/selectors';
 
 // types
-import { IState } from 'client/state';
-import { IGroup } from 'lib/groups';
+import {IState} from 'client/state';
+import {IGroup} from 'lib/groups';
 
 // actions
-import { get_groups, delete_group, create_group } from 'lib/groups/actions';
+import {get_groups, delete_group, create_group} from 'lib/groups/actions';
 
 interface IStateProps {
     groups: IGroup[];
@@ -60,9 +54,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
             <div>
                 <FilterBar
                     filter={this.state.search_text}
-                    set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
+                    set_filter={filter => this.setState({search_text: filter})}
                 />
                 <Paper>
                     <List>
@@ -100,7 +92,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 </Paper>
                 <FloatingActionButton
                     onClick={() =>
-                        this.setState({ show_create_group_dialog: true })
+                        this.setState({show_create_group_dialog: true})
                     }
                     style={{
                         margin: '20px',
@@ -117,7 +109,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                             this.props.dispatch(create_group(name))
                         }
                         close={() =>
-                            this.setState({ show_create_group_dialog: false })
+                            this.setState({show_create_group_dialog: false})
                         }
                     />
                 ) : null}
@@ -138,6 +130,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminGroups
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminGroups);

@@ -4,17 +4,11 @@ import { connect } from 'react-redux';
 
 import { AppBar } from 'material-ui';
 
-// container
-
 // local
 import { IState } from 'client/state';
 
-// types
-
-// selectors
-
 // actions
-import { push, right_drawer_open, left_drawer_open } from 'lib/ui/actions';
+import { right_drawer_open, left_drawer_open } from 'lib/ui/actions';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;

@@ -1,12 +1,11 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {uniq} from 'lodash';
-import {push} from 'lib/ui/actions';
+import { connect } from 'react-redux';
+import { push } from 'lib/ui/actions';
 
 // types
-import {ActionBar} from 'lib/ui';
-import {IState} from 'client/state';
+import { ActionBar } from 'lib/ui';
+import { IState } from 'client/state';
 
 import {
     Badge,
@@ -23,19 +22,13 @@ import {
 
 import AssignMaterialDialog from '../dialogs/assign_material';
 
-import {Pie} from 'react-chartjs-2';
-
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
-import {CardsContainer} from 'lib/cards/container/cards';
-import {assign} from 'lib/flow/actions';
-import {stat} from 'fs';
-import {get_grade_color} from 'lib/core/utils';
-import group from '../../../../../node_modules/client/pages/admin/groups/group';
-// actions
+import { get_grade_color } from 'lib/core/utils';
+
 interface IPassedProps {
     user_id: string;
     course_id: string;
@@ -81,14 +74,14 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
             push('/admin/users/' + this.props.user_id + '/flow?course_id=' + v)
         );
 
-        this.setState({loading: 'lade Schüler'});
+        this.setState({ loading: 'lade Schüler' });
 
         this.props
             .dispatch(Users.actions.get_user(this.props.user_id))
             .then(user_response => {
                 const user: Users.IUser = user_response.payload[0];
 
-                this.setState({loading: 'lade Aufgaben'});
+                this.setState({ loading: 'lade Aufgaben' });
                 this.props
                     .dispatch(
                         Core.actions.find(
@@ -103,7 +96,7 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                         )
                     )
                     .then(assignment_response => {
-                        this.setState({loading: 'lade Karten'});
+                        this.setState({ loading: 'lade Karten' });
                         this.props
                             .dispatch(
                                 Cards.actions.get_cards(
@@ -113,7 +106,7 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                                 )
                             )
                             .then(card_response => {
-                                this.setState({loading: 'finished'});
+                                this.setState({ loading: 'finished' });
                                 this.props.dispatch(
                                     Users.actions.set_selected_users([
                                         this.props.user_id
@@ -148,11 +141,11 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                     </SelectField>
                 </Paper>
                 {this.state.loading !== 'finished' ? (
-                    <Paper style={{margin: '15px', padding: '20px'}}>
+                    <Paper style={{ margin: '15px', padding: '20px' }}>
                         {this.state.loading}
                     </Paper>
                 ) : (
-                    <Paper style={{margin: '15px'}}>
+                    <Paper style={{ margin: '15px' }}>
                         <Table>
                             <TableHeader>
                                 <TableRow>

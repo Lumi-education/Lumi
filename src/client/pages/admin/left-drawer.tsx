@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 // material-ui
 import {
@@ -14,21 +14,17 @@ import {
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-import SVGCollections from 'material-ui/svg-icons/action/book';
 import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 import SVGGroup from 'material-ui/svg-icons/social/group';
-import SVGTags from 'material-ui/svg-icons/action/label';
 import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
-import SVGTrendingUp from 'material-ui/svg-icons/action/trending-up';
-import SVGAssignment from 'material-ui/svg-icons/action/assignment';
 import SVGMonitor from 'material-ui/svg-icons/image/remove-red-eye';
 
 // state
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 
 // modules
-import {actions as ui_actions} from 'lib/ui';
+import { actions as ui_actions } from 'lib/ui';
 import * as Auth from 'lib/auth';
 import * as Core from 'lib/core';
 
@@ -162,7 +158,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState): IStateProps {
-    return {left_drawer_show: state.ui.left_drawer_show};
+    return { left_drawer_show: state.ui.left_drawer_show };
 }
 
 function mapDispatchToProps(dispatch) {

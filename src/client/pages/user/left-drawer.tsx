@@ -1,32 +1,31 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 // material-ui
-import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
+import {
+    AppBar,
+    Drawer,
+    IconButton,
+    List,
+    ListItem,
+    Subheader,
+    Divider
+} from 'material-ui';
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGDashboard from 'material-ui/svg-icons/action/dashboard';
 import SVGAssignments from 'material-ui/svg-icons/action/assignment';
-import SVGAssignmentsTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 
 // actions
-import {push, left_drawer_close, left_drawer_open} from 'lib/ui/actions';
-
-import {logout} from 'lib/auth/actions';
+import { push, left_drawer_close } from 'lib/ui/actions';
+import { logout } from 'lib/auth/actions';
 
 // types
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 
 // modules
-import * as Grades from 'lib/grades';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 
@@ -64,7 +63,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     onRequestChange={() =>
                         this.props.dispatch(left_drawer_close())
                     }
-                    containerStyle={{backgroundColor: '#FFFFFF'}}
+                    containerStyle={{ backgroundColor: '#FFFFFF' }}
                 >
                     <AppBar
                         title={this.props.username}

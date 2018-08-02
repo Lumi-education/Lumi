@@ -1,16 +1,14 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 // material-ui
-import {Avatar, List, ListItem, Subheader, Divider, Paper} from 'material-ui';
+import { Avatar, List, ListItem, Subheader, Divider, Paper } from 'material-ui';
 
-// material-ui -> icons
-import * as moment from 'moment-timezone';
 // actions
-import {push} from 'lib/ui/actions';
+import { push } from 'lib/ui/actions';
 
 // types
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
@@ -42,8 +40,8 @@ export class UserFlow extends React.Component<IProps, {}> {
         this.props
             .dispatch(
                 Core.actions.find(
-                    {type: 'assignment', _id: {$in: this.props.flow}},
-                    {limit: 100}
+                    { type: 'assignment', _id: { $in: this.props.flow } },
+                    { limit: 100 }
                 )
             )
             .then(assignment_response => {

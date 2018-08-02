@@ -1,13 +1,13 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {Paper} from 'material-ui';
+import { Paper } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 import ActionBar from 'lib/ui/components/action-bar';
 
 // state
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 
 // modules
 import * as Users from 'lib/users';
@@ -46,7 +46,9 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
             <div>
                 <FilterBar
                     filter={this.state.search_text}
-                    set_filter={filter => this.setState({search_text: filter})}
+                    set_filter={filter =>
+                        this.setState({ search_text: filter })
+                    }
                 />
                 <Paper>Add userlist</Paper>
                 <ActionBar>

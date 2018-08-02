@@ -1,29 +1,19 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {uniq} from 'lodash';
-import {push} from 'lib/ui/actions';
+import { connect } from 'react-redux';
+import { uniq } from 'lodash';
+import { push } from 'lib/ui/actions';
 
 // types
-import {ActionBar} from 'lib/ui';
-import {IState} from 'client/state';
+import { ActionBar } from 'lib/ui';
+import { IState } from 'client/state';
 
-import {Avatar, Divider, List, ListItem, Paper} from 'material-ui';
-
-import AssignMaterialDialog from '../dialogs/assign_material';
-
-import {Pie} from 'react-chartjs-2';
+import { Avatar, Divider, List, ListItem, Paper } from 'material-ui';
 
 import * as Core from 'lib/core';
-import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
-import {CardsContainer} from 'lib/cards/container/cards';
-import {assign} from 'lib/flow/actions';
-import {stat} from 'fs';
-import {get_grade_color} from 'lib/core/utils';
-import group from '../../../../../node_modules/client/pages/admin/groups/group';
+
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
 // actions
 
@@ -60,17 +50,17 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.props.dispatch(Groups.actions.get_groups());
 
-        this.setState({loading: 'lade Schüler'});
+        this.setState({ loading: 'lade Schüler' });
 
         this.props
             .dispatch(
                 Core.actions.find({
                     type: 'user',
-                    groups: {$in: [this.props.group_id]}
+                    groups: { $in: [this.props.group_id] }
                 })
             )
             .then(user_response => {
-                this.setState({loading: 'finished'});
+                this.setState({ loading: 'finished' });
             });
     }
 

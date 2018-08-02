@@ -1,12 +1,10 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {uniq} from 'lodash';
-import {push} from 'lib/ui/actions';
+import { connect } from 'react-redux';
 
 // types
-import {ActionBar} from 'lib/ui';
-import {IState} from 'client/state';
+import { ActionBar } from 'lib/ui';
+import { IState } from 'client/state';
 
 import {
     Table,
@@ -19,20 +17,11 @@ import {
 
 import AssignMaterialDialog from '../dialogs/assign_material';
 
-import {Pie} from 'react-chartjs-2';
-
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
-import {CardsContainer} from 'lib/cards/container/cards';
-import {assign} from 'lib/flow/actions';
-import {stat} from 'fs';
-import {get_grade_color} from 'lib/core/utils';
-import group from '../../../../../node_modules/client/pages/admin/groups/group';
-import Create_or_add_user_dialog from './create_or_add_user_dialog';
-import {assignment_by_id} from 'lib/flow/selectors';
 
 // actions
 
@@ -71,16 +60,16 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.props.dispatch(Groups.actions.get_groups());
 
-        this.setState({loading: 'lade Schüler'});
+        this.setState({ loading: 'lade Schüler' });
 
         this.props
             .dispatch(
                 Core.actions.find(
                     {
                         type: 'user',
-                        groups: {$in: [this.props.group_id]}
+                        groups: { $in: [this.props.group_id] }
                     },
-                    {limit: 25}
+                    { limit: 25 }
                 )
             )
             .then(user_response => {
@@ -98,7 +87,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                         type: 'assignment',
                         group_id: this.props.group_id
                     },
-                    {limit: 30 * 25}
+                    { limit: 30 * 25 }
                 )
             )
             .then(assignment_response => {
@@ -110,7 +99,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                     )
                 );
 
-                this.setState({loading: 'finished'});
+                this.setState({ loading: 'finished' });
             });
     }
 
@@ -155,7 +144,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
         }
         return (
             <div id="group-flow-tab">
-                <Table selectable={false} style={{overflow: 'scroll'}}>
+                <Table selectable={false} style={{ overflow: 'scroll' }}>
                     <TableHeader
                         displaySelectAll={false}
                         adjustForCheckbox={false}

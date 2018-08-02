@@ -1,52 +1,28 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-// material-ui
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-
-import {
-    Avatar,
-    Divider,
-    List,
-    ListItem,
-    Subheader,
-    IconButton,
-    MenuItem,
-    IconMenu
-} from 'material-ui';
-import SVGGrade from 'material-ui/svg-icons/action/grade';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SVGPreview from 'material-ui/svg-icons/image/remove-red-eye';
+import { AppBar, Drawer, List, Subheader, IconButton } from 'material-ui';
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGGroup from 'material-ui/svg-icons/social/group';
 
-import TagFilterContainer from 'lib/tags/container/tag-filter';
-
 // types
-import {IState} from 'client/state';
-declare var process;
+import { IState } from 'client/state';
+
 // actions
 import {
     right_drawer_close,
     right_drawer_open,
-    push,
     set_right_appbar_icon
 } from 'lib/ui/actions';
-import {logout} from 'lib/auth/actions';
-
-import * as Users from 'lib/users';
-import * as Grades from 'lib/grades';
 
 const log = debug('lumi:pages:cards:right-drawer');
 
 interface IStateProps {
     show: boolean;
-    users: Users.IUser[];
 }
 
 interface IDispatchProps {
@@ -67,7 +43,6 @@ export class RightDrawer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(Users.actions.get_users());
         this.props.dispatch(
             set_right_appbar_icon(
                 <IconButton>
@@ -86,7 +61,6 @@ export class RightDrawer extends React.Component<IProps, {}> {
     }
 
     public render() {
-        const users = this.props.users;
         return (
             <div>
                 <Drawer
@@ -100,7 +74,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                     }}
                 >
                     <AppBar
-                        style={{backgroundColor: '#3498db'}}
+                        style={{ backgroundColor: '#3498db' }}
                         showMenuIconButton={true}
                         iconElementLeft={
                             <IconButton>
@@ -110,69 +84,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                         onLeftIconButtonTouchTap={() => this.props.close()}
                     />
                     <List>
-                        <Subheader>Online</Subheader>
-                        {users
-                            .filter(u => u.online && u.level <= 2)
-                            .map(user => (
-                                <div key={user._id}>
-                                    <ListItem
-                                        leftAvatar={
-                                            <Avatar backgroundColor="#2ecc71">
-                                                {user.name.substring(0, 3)}
-                                            </Avatar>
-                                        }
-                                        primaryText={user.name}
-                                        secondaryText={user.location}
-                                        rightIconButton={
-                                            <IconMenu
-                                                iconButtonElement={
-                                                    iconButtonElement
-                                                }
-                                            >
-                                                <MenuItem
-                                                    onClick={() =>
-                                                        this.props.dispatch(
-                                                            push(
-                                                                '/admin/users/' +
-                                                                    user._id
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    View
-                                                </MenuItem>
-                                                <MenuItem
-                                                    onClick={() =>
-                                                        this.props.dispatch(
-                                                            Grades.actions.show_create_grade_dialog(
-                                                                user._id
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    Grade
-                                                </MenuItem>
-                                            </IconMenu>
-                                        }
-                                    />
-
-                                    <Divider inset={true} />
-                                </div>
-                            ))}
-                        <Subheader>Offline</Subheader>
-                        {users.filter(u => !u.online).map(user => (
-                            <div key={user._id}>
-                                <ListItem
-                                    leftAvatar={
-                                        <Avatar backgroundColor="#e74c3c">
-                                            {user.name.substring(0, 3)}
-                                        </Avatar>
-                                    }
-                                    primaryText={user.name}
-                                />
-                                <Divider inset={true} />
-                            </div>
-                        ))}
+                        <Subheader>-</Subheader>
                     </List>
                 </Drawer>
             </div>
@@ -182,8 +94,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState): IStateProps {
     return {
-        show: state.ui.right_drawer_show,
-        users: Users.selectors.query(state, {})
+        show: state.ui.right_drawer_show
     };
 }
 
@@ -199,9 +110,3 @@ export default connect<{}, {}, {}>(
     mapStateToProps,
     mapDispatchToProps
 )(RightDrawer);
-
-const iconButtonElement = (
-    <IconButton touch={true}>
-        <MoreVertIcon />
-    </IconButton>
-);

@@ -1,34 +1,23 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 // material-ui
-import {
-    Avatar,
-    List,
-    ListItem,
-    Subheader,
-    Divider,
-    Paper,
-    BottomNavigation,
-    BottomNavigationItem
-} from 'material-ui';
+import { Paper, BottomNavigation, BottomNavigationItem } from 'material-ui';
+
+// material-ui -> icons
 
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import SVGAssignment from 'material-ui/svg-icons/action/assignment';
 
-// material-ui -> icons
-import * as moment from 'moment-timezone';
 // actions
-import {push} from 'lib/ui/actions';
+import { push } from 'lib/ui/actions';
 
 // types
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
-import {assign} from 'lib/flow/actions';
 
 interface IStateProps {
     course_id: string;

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Paper } from 'material-ui';
 
 import FilterBar from 'lib/ui/components/filter-bar';
-import TagListComponent from 'lib/tags/components/tag-list';
 
 // state
 import { IState } from 'client/state';
@@ -79,6 +78,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminTagsPage
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminTagsPage);

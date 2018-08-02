@@ -47,6 +47,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    CardPage
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(CardPage);

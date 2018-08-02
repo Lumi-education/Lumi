@@ -1,64 +1,31 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {push} from 'lib/ui/actions';
-import * as markdownit from 'markdown-it';
+import { connect } from 'react-redux';
+import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
-import {Map} from 'immutable';
-import Chip from 'material-ui/Chip';
 
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import { FloatingActionButton, Paper } from 'material-ui';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
-import {
-    pinkA200,
-    transparent,
-    grey400,
-    darkBlack,
-    lightBlack
-} from 'material-ui/styles/colors';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import IconButton from 'material-ui/IconButton';
-import SVGContentCreate from 'material-ui/svg-icons/content/create';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+// svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import TagFilterContainer from 'lib/tags/container/tag-filter';
-
-import Tag from 'lib/tags/components/tag';
 import FilterBar from 'lib/ui/components/filter-bar';
 
 // local
-import {IState} from 'client/state';
-
-// types
-import {ICard} from 'lib/cards/types';
+import { IState } from 'client/state';
 
 // selectors
-import {select_all_cards, select_cards_by_ids} from 'lib/cards/selectors';
-import {select_tags_as_map, select_doc_ids_for_tags} from 'lib/tags/selectors';
+import * as Cards from 'lib/cards';
+import * as Tags from 'lib/tags';
 
-// actions
-import {get_cards, create_card} from 'lib/cards/actions';
-import {get_tags} from 'lib/tags/actions';
-
+// components
 import LoadingPage from 'lib/ui/components/loading-page';
 
-import Card from 'lib/cards/components/card';
-
-const md = markdownit();
 const log = debug('lumi:modules:admin:cards:cards-page');
 
 interface IStateProps {
-    cards: ICard[];
+    cards: Cards.ICard[];
 }
 
 interface IDispatchProps {
@@ -89,9 +56,9 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_cards());
-        this.props.dispatch(get_tags()).then(res => {
-            this.setState({loading: false});
+        this.props.dispatch(Cards.actions.get_cards());
+        this.props.dispatch(Tags.actions.get_tags()).then(res => {
+            this.setState({ loading: false });
         });
     }
 
@@ -106,44 +73,31 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     <FilterBar
                         filter={this.state.search_text}
                         set_filter={filter =>
-                            this.setState({search_text: filter})
+                            this.setState({ search_text: filter })
                         }
                     />
                     <div
                         style={{
                             display: 'flex',
-                            flexWrap: 'wrap',
-                            background:
-                                'linear-gradient(90deg, #3498db, #1abc9c)'
+                            flexWrap: 'wrap'
                         }}
                     >
-                        {this.props.cards.map(card => <Card card={card} />)}
+                        {this.props.cards.map(card => (
+                            <Cards.components.Card card={card} />
+                        ))}
                     </div>
-                    {/* <CardListComponent
-                        cards={this.props.cards.filter(card => {
-                            return this.state.search_text === ''
-                                ? true
-                                : (card.name + card.description)
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })}
-                        selected_card_ids={[]}
-                        onClick={(id: string) =>
-                            this.props.dispatch(push('/admin/cards/' + id))
-                        }
-                    /> */}
                 </Paper>
 
                 <FloatingActionButton
                     onClick={() => {
-                        this.props.dispatch(create_card()).then(res => {
-                            log('create_card promise resolved');
-                            this.props.dispatch(
-                                push('/admin/cards/' + res.payload._id)
-                            );
-                        });
+                        this.props
+                            .dispatch(Cards.actions.create_card())
+                            .then(res => {
+                                log('create_card promise resolved');
+                                this.props.dispatch(
+                                    push('/admin/cards/' + res.payload._id)
+                                );
+                            });
                     }}
                     style={{
                         margin: '20px',
@@ -163,14 +117,14 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         cards:
             state.tags.ui.selected_tags.length !== 0
-                ? select_cards_by_ids(
+                ? Cards.selectors.select_cards_by_ids(
                       state,
-                      select_doc_ids_for_tags(
+                      Tags.selectors.select_doc_ids_for_tags(
                           state,
                           state.tags.ui.selected_tags
                       )
                   )
-                : select_all_cards(state)
+                : Cards.selectors.select_all_cards(state)
     };
 }
 
@@ -184,15 +138,3 @@ export default connect<{}, {}, {}>(
     mapStateToProps,
     mapDispatchToProps
 )(AdminCards);
-
-const iconButtonElement = (
-    <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
-        <MoreVertIcon color={grey400} />
-    </IconButton>
-);
-
-function rightIconMenu(menuItems) {
-    return (
-        <IconMenu iconButtonElement={iconButtonElement}>{menuItems}</IconMenu>
-    );
-}

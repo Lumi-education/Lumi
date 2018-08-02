@@ -1,18 +1,13 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {push} from 'lib/ui/actions';
-import {Map} from 'immutable';
+import { connect } from 'react-redux';
+import { push } from 'lib/ui/actions';
 
-import Paper from 'material-ui/Paper';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import {Tabs, Tab} from 'material-ui/Tabs';
+import { Tabs, Tab } from 'material-ui/Tabs';
 
 // types
-import {ActionBar} from 'lib/ui';
-import {IState} from 'client/state';
-import * as Users from 'lib/users';
+import { ActionBar } from 'lib/ui';
+import { IState } from 'client/state';
 
 import GroupUsersTab from './group-users-tab';
 
@@ -20,12 +15,11 @@ import * as Groups from 'lib/groups';
 
 import GroupFlowTab from './group-flow-tab';
 // actions
-import {get_group} from 'lib/groups/actions';
+import { get_group } from 'lib/groups/actions';
 
 interface IStateProps {
     group_id: string;
     tab: string;
-    // group_users: string[];
     group: Groups.IGroup;
 }
 
@@ -141,9 +135,6 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        // group_users: Users.selectors
-        //     .users_in_group(state, ownProps.params.group_id)
-        //     .map(user => user._id),
         group: Groups.selectors.select_group(state, ownProps.params.group_id),
         tab: ownProps.params.tab,
         group_id: ownProps.params.group_id

@@ -1,20 +1,14 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 // components
-import {AppBar} from 'material-ui';
-
-// container
-import LeftDrawer from './left-drawer';
-import RightDrawer from './right-drawer';
+import { AppBar } from 'material-ui';
 
 // state
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 
 // modules
-import {actions as ui_actions} from 'lib/ui';
-import {random_bg} from 'lib/ui/utils';
-import * as Grades from 'lib/grades';
+import { actions as ui_actions } from 'lib/ui';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;
@@ -45,12 +39,13 @@ export class AdminAppBar extends React.Component<IProps, {}> {
                 onRightIconButtonTouchTap={() =>
                     this.props.dispatch(ui_actions.right_drawer_open())
                 }
+                iconElementRight={this.props.right_appbar_icon}
             />
         );
     }
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    return {right_appbar_icon: state.ui.right_appbar_icon};
+    return { right_appbar_icon: state.ui.right_appbar_icon };
 }
 
 function mapDispatchToProps(dispatch): IDispatchProps {

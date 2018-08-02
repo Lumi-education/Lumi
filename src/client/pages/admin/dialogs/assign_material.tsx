@@ -1,23 +1,15 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {push} from 'lib/ui/actions';
+import { connect } from 'react-redux';
 import * as debug from 'debug';
 
 // components
-import {
-    Dialog,
-    DatePicker,
-    TimePicker,
-    RaisedButton,
-    FloatingActionButton
-} from 'material-ui';
-import ChipInput from 'material-ui-chip-input';
+import { Dialog, RaisedButton, FloatingActionButton } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import CardList from 'lib/cards/container/card-list';
 
 // local
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 
 // modules
 import * as UI from 'lib/ui';

@@ -11,7 +11,6 @@ import CardList from 'lib/cards/container/card-list';
 
 // actions
 import { toggle_cards_dialog, select_card } from 'lib/ui/actions';
-import { add_cards_to_collection } from 'lib/collections/actions';
 
 // local
 import { IState } from 'client/state';
@@ -54,29 +53,7 @@ export class CardsDialog extends React.Component<IProps, {}> {
                 onRequestClose={() =>
                     this.props.dispatch(toggle_cards_dialog())
                 }
-                actions={[
-                    <RaisedButton
-                        primary={true}
-                        onClick={() => {
-                            this.props
-                                .dispatch(
-                                    add_cards_to_collection(
-                                        this.props.collection_id,
-                                        this.props.selected_card_ids
-                                    )
-                                )
-                                .then(res =>
-                                    this.props.dispatch(
-                                        Cards.actions.reset_card_selection()
-                                    )
-                                );
-                            this.props.dispatch(toggle_cards_dialog());
-                        }}
-                        label={
-                            'Add (' + this.props.selected_card_ids.length + ')'
-                        }
-                    />
-                ]}
+                actions={[]}
             >
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 1 }}>

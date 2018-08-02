@@ -1,15 +1,13 @@
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
 import * as createRavenMiddleware from 'raven-for-redux';
 import * as raven from 'raven-js';
-import { Map } from 'immutable';
 
-import { browserHistory, Route, Router } from 'react-router';
+import { browserHistory } from 'react-router';
 import apiMiddleware from './middleware/redux-api-middleware';
 import thunk from 'redux-thunk';
 
 declare var window;
-declare var process;
 
 import root_reducer from '../state';
 

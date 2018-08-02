@@ -1,18 +1,13 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 
-// container
 import AppBar from './app-bar';
-
-// components
 import LeftDrawer from './left-drawer';
 
 // modules
-import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
-import groups from '../../../../node_modules/client/pages/admin/groups/groups';
 
 interface IStateProps {
     location;
@@ -38,7 +33,9 @@ export class Root extends React.Component<IProps, {}> {
             <div id="root">
                 <AppBar />
                 <LeftDrawer />
-                <div style={{paddingBottom: '80px'}}>{this.props.children}</div>
+                <div style={{ paddingBottom: '80px' }}>
+                    {this.props.children}
+                </div>
             </div>
         );
     }

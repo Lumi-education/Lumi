@@ -1,9 +1,9 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {Map} from 'immutable';
+import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
-import {AutoComplete} from 'material-ui';
+import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
 // actions
@@ -15,7 +15,7 @@ import {
     rem_group
 } from '../../../lib/groups/actions';
 
-import {IState} from 'client/state';
+import { IState } from 'client/state';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 

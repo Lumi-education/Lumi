@@ -1,14 +1,7 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {IState} from 'client/state';
-
-import Paper from 'material-ui/Paper';
-
-// components
-
-// actions
-import {left_drawer_open, push} from 'lib/ui/actions';
+import { IState } from 'client/state';
 
 interface IStateProps {}
 

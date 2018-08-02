@@ -1,13 +1,9 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {IState} from 'client/state';
-
-import {MenuItem} from 'material-ui';
-import SVGView from 'material-ui/svg-icons/image/remove-red-eye';
+import { IState } from 'client/state';
 
 import * as Grades from 'lib/grades';
-import * as Core from 'lib/core';
 
 interface IStateProps {
     user_id: string;
