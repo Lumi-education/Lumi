@@ -5,6 +5,8 @@ import * as Enzyme from 'enzyme';
 import theme from '../style/theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+declare var global: any;
+
 const muiTheme = getMuiTheme(theme);
 
 Enzyme.configure({ adapter: new Adapter() });
