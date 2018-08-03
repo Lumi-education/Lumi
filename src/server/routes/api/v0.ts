@@ -103,7 +103,6 @@ export default function(): express.Router {
     router.get('/users/:id', usersController.read);
     router.put('/users/:id', mw.auth, usersController.update);
     router.delete('/users/:id', usersController.delete);
-    router.get('/users/:id/init', usersController.init);
 
     router.get('/users/:user_id/grades', gradesController.user);
     router.post('/users/:user_id/grades', gradesController.create);

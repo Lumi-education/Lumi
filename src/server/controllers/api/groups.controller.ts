@@ -1,12 +1,12 @@
 import * as express from 'express';
 import * as raven from 'raven';
-import {uniq, assign} from 'lodash';
-import {IRequest} from '../../middleware/auth';
+import { uniq, assign } from 'lodash';
+import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
 
-import {IUser} from 'lib/users/types';
-import {IGroup} from 'lib/groups/types';
+import { IUser } from 'lib/users/types';
+import { IGroup } from 'lib/groups/types';
 
 class GroupController {
     public list(req: IRequest, res: express.Response) {
@@ -20,7 +20,6 @@ class GroupController {
             _id: undefined,
             type: 'group',
             name: 'no name',
-            flow_order: [],
             created_at: new Date()
         };
 
@@ -35,7 +34,7 @@ class GroupController {
         db.view(
             'group',
             'with_collections_and_users',
-            {key: req.params.id},
+            { key: req.params.id },
             (error, docs) => {
                 res.status(200).json(docs);
             }
@@ -52,7 +51,7 @@ class GroupController {
         db.view(
             'group',
             'for_user',
-            {key: req.params.user_id},
+            { key: req.params.user_id },
             (error, docs) => {
                 res.status(200).json(docs);
             }
@@ -62,10 +61,10 @@ class GroupController {
     public delete(req: IRequest, res: express.Response) {
         db.find(
             {
-                groups: {$in: [req.params.id]},
+                groups: { $in: [req.params.id] },
                 type: 'user'
             },
-            {limit: 1000},
+            { limit: 1000 },
             (error, users: IUser[]) => {
                 users.map(user =>
                     user.groups.filter(group_id => group_id !== req.params.id)
