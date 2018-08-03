@@ -1,12 +1,9 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as debug from 'debug';
-import {assign, noop} from 'lodash';
 import * as ReactDOM from 'react-dom';
-import * as raven from 'raven-js';
 // components
-import VideoCardComponent from '../components/video';
 
 import * as Cards from '../';
 

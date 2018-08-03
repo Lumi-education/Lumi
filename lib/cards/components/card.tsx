@@ -1,18 +1,10 @@
 import * as React from 'react';
 import * as debug from 'debug';
 
-import {
-    Avatar,
-    Paper,
-    Card,
-    CardActions,
-    CardHeader,
-    CardText
-} from 'material-ui';
+import { Card, CardHeader, CardText } from 'material-ui';
 import { ICard } from '../';
 
 import * as markdownit from 'markdown-it';
-import { CardListContainer } from '../container/card-list';
 import { TagsContainer } from 'lib/tags';
 import { convert_attachment_url } from '../utils';
 

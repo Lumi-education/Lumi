@@ -37,30 +37,6 @@ export function data_query(state: IState, _query): ICardData[] {
     return filter(state.cards.data.toArray(), _query);
 }
 
-export function select_data(
-    state: IState,
-    user_id: string,
-    collection_id: string,
-    card_id: string
-): IData {
-    return state.cards.data.get(user_id + '-' + collection_id + '-' + card_id, {
-        card_id,
-        collection_id,
-        user_id,
-        _id: undefined,
-        card_type: 'text',
-        data_type: 'card',
-        processed: true,
-        score: 0,
-        show_answer: false,
-        is_graded: false,
-        type: 'data',
-        graded: true,
-        created_at: new Date(),
-        updated_at: new Date()
-    });
-}
-
 export function name(state: IState, _id: string): string {
     return select_card(state, _id).name;
 }

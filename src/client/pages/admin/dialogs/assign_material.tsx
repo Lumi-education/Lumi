@@ -6,7 +6,6 @@ import * as debug from 'debug';
 // components
 import { Dialog, RaisedButton, FloatingActionButton } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import CardList from 'lib/cards/container/card-list';
 
 // local
 import { IState } from 'client/state';
@@ -126,14 +125,14 @@ export class AssignMaterialDialog extends React.Component<
                         >
                             <Tags.TagsFilterContainer />
 
-                            <CardList
+                            {/* <CardList
                                 card_ids={['all']}
                                 onClick={card_id =>
                                     this.props.dispatch(
                                         Cards.actions.select_card(card_id)
                                     )
                                 }
-                            />
+                            /> */}
                         </div>
                     </div>
                 </Dialog>

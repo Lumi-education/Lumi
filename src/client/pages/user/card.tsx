@@ -78,7 +78,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                     <Cards.CardViewContainer
                         user_id={this.props.user_id}
                         card_id={this.props.assignment.card_id}
-                        collection_id={this.props.assignment_id}
+                        assignment_id={this.props.assignment_id}
                     />
                 </Paper>
                 <BottomNavigation

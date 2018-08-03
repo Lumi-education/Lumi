@@ -49,7 +49,7 @@ export interface IBaseData {
 
 export interface ICardData extends IBaseData {
     card_id: string;
-    collection_id: string;
+    assignment_id: string;
     data_type: 'card';
     group_id?: string;
     card_type: string;

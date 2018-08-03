@@ -1,22 +1,15 @@
 // modules
 import * as React from 'react';
-import {connect} from 'react-redux';
-
-import {assign, noop} from 'lodash';
+import { connect } from 'react-redux';
 
 // components
-import FreetextContainer from './freetext-container';
-import VideoCardContainer from './video-card';
-import MultiplechoiceContainer from './multiplechoice-container';
-import UploadCardContainer from './upload-card';
-import TextCardContainer from './text-card-container';
 import H5PCardContainer from './h5p';
 
 import * as Cards from '../';
 
 interface IPassedProps {
     card_id: string;
-    collection_id: string;
+    assignment_id: string;
     user_id?: string;
 }
 
@@ -36,66 +29,61 @@ export class CardViewContainer extends React.Component<IProps, {}> {
     }
 
     public render() {
-        const id =
-            this.props.user_id +
-            '-' +
-            this.props.collection_id +
-            '-' +
-            this.props.card_id;
         const card = this.props.card;
+        const assignment_id = this.props.assignment_id;
 
         if (card) {
             switch (card.card_type) {
-                case 'multiplechoice':
-                    return (
-                        <MultiplechoiceContainer
-                            key={id}
-                            card_id={this.props.card_id}
-                            collection_id={this.props.collection_id}
-                            user_id={this.props.user_id}
-                        />
-                    );
-                case 'freetext':
-                    return (
-                        <FreetextContainer
-                            key={id}
-                            card_id={this.props.card_id}
-                            collection_id={this.props.collection_id}
-                            user_id={this.props.user_id}
-                        />
-                    );
-                case 'video':
-                    return (
-                        <VideoCardContainer
-                            key={id}
-                            card_id={this.props.card_id}
-                            collection_id={this.props.collection_id}
-                            user_id={this.props.user_id}
-                        />
-                    );
-                case 'upload':
-                    return (
-                        <UploadCardContainer
-                            key={id}
-                            card_id={this.props.card_id}
-                            collection_id={this.props.collection_id}
-                            user_id={this.props.user_id}
-                        />
-                    );
-                case 'text':
-                    return (
-                        <TextCardContainer
-                            key={id}
-                            card_id={this.props.card_id}
-                            collection_id={this.props.collection_id}
-                            user_id={this.props.user_id}
-                        />
-                    );
+                // case 'multiplechoice':
+                //     return (
+                //         <MultiplechoiceContainer
+                //             key={assignment_id}
+                //             card_id={this.props.card_id}
+                //             assignment_id={this.props.assignment_id}
+                //             user_id={this.props.user_id}
+                //         />
+                //     );
+                // case 'freetext':
+                //     return (
+                //         <FreetextContainer
+                //             key={assignment_id}
+                //             card_id={this.props.card_id}
+                //             assignment_id={this.props.assignment_id}
+                //             user_id={this.props.user_id}
+                //         />
+                //     );
+                // case 'video':
+                //     return (
+                //         <VideoCardContainer
+                //             key={assignment_id}
+                //             card_id={this.props.card_id}
+                //             assignment_id={this.props.assignment_id}
+                //             user_id={this.props.user_id}
+                //         />
+                //     );
+                // case 'upload':
+                //     return (
+                //         <UploadCardContainer
+                //             key={assignment_id}
+                //             card_id={this.props.card_id}
+                //             assignment_id={this.props.assignment_id}
+                //             user_id={this.props.user_id}
+                //         />
+                //     );
+                // case 'text':
+                //     return (
+                //         <TextCardContainer
+                //             key={assignment_id}
+                //             card_id={this.props.card_id}
+                //             assignment_id={this.props.assignment_id}
+                //             user_id={this.props.user_id}
+                //         />
+                //     );
                 case 'h5p':
                     return (
                         <H5PCardContainer
-                            key={id}
-                            assignment_id={this.props.collection_id}
+                            key={assignment_id}
+                            assignment_id={this.props.assignment_id}
                             card_id={this.props.card_id}
                             user_id={this.props.user_id}
                         />
@@ -110,7 +98,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
 function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         card_id: ownProps.card_id,
-        collection_id: ownProps.collection_id,
+        assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(state, ownProps.card_id),
         user_id: ownProps.user_id || (state as any).auth.user_id
     };

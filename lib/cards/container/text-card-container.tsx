@@ -16,7 +16,7 @@ const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
 interface IPassedProps {
     card_id: string;
-    collection_id: string;
+    assignment_id: string;
     user_id?: string;
 }
 
@@ -49,7 +49,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
             .dispatch(
                 Cards.actions.get_card_data(
                     this.props.user_id,
-                    this.props.collection_id,
+                    this.props.assignment_id,
                     this.props.card_id
                 )
             )
@@ -64,7 +64,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
                                 _id:
                                     this.props.user_id +
                                     '-' +
-                                    this.props.collection_id +
+                                    this.props.assignment_id +
                                     '-' +
                                     this.props.card_id,
                                 type: 'data',
@@ -79,7 +79,7 @@ export class TextCardContainer extends React.Component<IProps, {}> {
                                 graded: true,
                                 is_graded: false,
                                 card_id: this.props.card._id,
-                                collection_id: this.props.collection_id
+                                assignment_id: this.props.assignment_id
                             })
                         )
                         .then(create_res => {
@@ -112,7 +112,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
         user_id,
         card_id: ownProps.card_id,
-        collection_id: ownProps.collection_id,
+        assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(
             state,
             ownProps.card_id
@@ -120,7 +120,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
         data: Cards.selectors.select_data(
             state,
             user_id,
-            ownProps.collection_id,
+            ownProps.assignment_id,
             ownProps.card_id
         ) as Cards.ITextCardData
     };
