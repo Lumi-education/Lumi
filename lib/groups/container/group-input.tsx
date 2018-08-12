@@ -51,8 +51,14 @@ export class GroupInputContainer extends React.Component<IProps, {}> {
                 openOnFocus={true}
                 filter={AutoComplete.fuzzyFilter}
                 onRequestAdd={group => {
-                    this.props.dispatch(Groups.actions.select_group(group._id));
-                    this.props.onAddGroup(group._id);
+                    if (group._id) {
+                        this.props.dispatch(
+                            Groups.actions.select_group(group._id)
+                        );
+                        if (this.props.onAddGroup) {
+                            this.props.onAddGroup(group._id);
+                        }
+                    }
                 }}
                 onRequestDelete={group_id => {
                     this.props.dispatch(Groups.actions.select_group(group_id));

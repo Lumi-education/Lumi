@@ -8,23 +8,22 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import { IState } from 'client/state';
 
-import { IUser } from 'lib/users';
+import * as Users from 'lib/users';
+import * as Groups from 'lib/groups';
+import { create_user } from 'lib/users/api';
 
 // actions
-import { get_users } from 'lib/users/actions';
-
-import { add_group } from 'lib/groups/actions';
 
 interface IPassedProps {
     group_id: string;
 }
 
 interface IStateProps extends IPassedProps {
-    users: IUser[];
+    users: Users.IUser[];
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -52,17 +51,39 @@ export class AdminCreateOrAddUserDialog extends React.Component<
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_users());
+        this.props.dispatch(Users.actions.get_users());
     }
 
     public create_or_add_user(user) {
-        // if (user._id) {
-        this.props.dispatch(add_group(user._id, this.props.group_id));
-        // } else {
-        //     this.props.dispatch(
-        //         create_user(user, { groups: [this.props.group_id] })
-        //     );
-        // }
+        const user_names = this.props.users.map(_user => _user.name);
+
+        if (user_names.indexOf(user.name) > -1) {
+            const existing_user = this.props.users.filter(
+                _user => _user.name === user.name
+            )[0];
+
+            this.props.dispatch(
+                Groups.actions.add_group(existing_user._id, this.props.group_id)
+            );
+        } else {
+            this.props
+                .dispatch(Users.actions.create_user(user))
+                .then(create_user_response => {
+                    const created_user = create_user_response.payload;
+                    this.props.dispatch(
+                        Groups.actions.add_group(
+                            created_user._id,
+                            this.props.group_id
+                        )
+                    );
+                });
+        }
+
+        if (user._id) {
+            this.props.dispatch(
+                Groups.actions.add_group(user._id, this.props.group_id)
+            );
+        }
 
         this.close();
     }
@@ -94,14 +115,14 @@ export class AdminCreateOrAddUserDialog extends React.Component<
                     <ContentAdd />
                 </FloatingActionButton>
                 <Dialog
-                    title="Add User"
+                    title="Add or create User"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                     onRequestClose={this.close}
                 >
                     <AutoComplete
-                        floatingLabelText="Add existing user"
+                        floatingLabelText="Add or create user"
                         filter={AutoComplete.fuzzyFilter}
                         dataSource={this.props.users}
                         dataSourceConfig={{ text: 'name', value: '_id' }}

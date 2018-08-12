@@ -1,6 +1,6 @@
 import * as express from 'express';
-import {assign} from 'lodash';
-import {IRequest} from '../../middleware/auth';
+import { assign } from 'lodash';
+import { IRequest } from '../../middleware/auth';
 
 import proxy from '../../core/proxy';
 import db from '../../db';

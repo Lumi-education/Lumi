@@ -13,7 +13,8 @@ const initialState: IUser = {
     online: false,
     location: '',
     password: '',
-    flow: []
+    flow: [],
+    _deleted: false
 };
 
 export default function(state: IUser = initialState, action): IUser {

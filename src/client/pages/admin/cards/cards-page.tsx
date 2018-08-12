@@ -16,11 +16,13 @@ import FilterBar from 'lib/ui/components/filter-bar';
 import { IState } from 'client/state';
 
 // selectors
+import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Tags from 'lib/tags';
 
 // components
 import LoadingPage from 'lib/ui/components/loading-page';
+import CreateCardDialog from '../dialogs/create-card';
 
 const log = debug('lumi:modules:admin:cards:cards-page');
 
@@ -39,7 +41,8 @@ interface IComponentState {
     search_text?: string;
     new_tag_name?: string;
     new_tag_description?: string;
-    loading?: boolean;
+    loading?: string;
+    loading_step?: number;
 }
 
 export class AdminCards extends React.Component<IProps, IComponentState> {
@@ -51,53 +54,60 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             search_text: '',
             new_tag_name: '',
             new_tag_description: '',
-            loading: true
+            loading: 'init',
+            loading_step: 0
         };
     }
 
     public componentWillMount() {
-        this.props.dispatch(Cards.actions.get_cards());
-        this.props.dispatch(Tags.actions.get_tags()).then(res => {
-            this.setState({ loading: false });
+        this.setState({ loading: 'Karten', loading_step: 1 });
+        this.props.dispatch(Cards.actions.get_cards()).then(res => {
+            this.setState({ loading: 'finished', loading_step: 2 });
         });
     }
 
     public render() {
-        if (this.state.loading) {
-            return <LoadingPage />;
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage
+                    min={0}
+                    max={2}
+                    value={this.state.loading_step}
+                >
+                    {this.state.loading}
+                </UI.components.LoadingPage>
+            );
         }
         return (
-            <div>
-                <Paper>
-                    <TagFilterContainer />
-                    <FilterBar
-                        filter={this.state.search_text}
-                        set_filter={filter =>
-                            this.setState({ search_text: filter })
-                        }
-                    />
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexWrap: 'wrap'
-                        }}
-                    >
-                        {this.props.cards.map(card => (
-                            <Cards.components.Card card={card} />
-                        ))}
-                    </div>
-                </Paper>
+            <div
+                style={{
+                    minHeight: '100vh',
+                    background: 'linear-gradient(90deg, #8e44ad, #3498db)'
+                }}
+            >
+                {/* <TagFilterContainer /> */}
+                <FilterBar
+                    filter={this.state.search_text}
+                    set_filter={filter =>
+                        this.setState({ search_text: filter })
+                    }
+                />
+                <div
+                    style={{
+                        display: 'flex',
+                        flexWrap: 'wrap'
+                    }}
+                >
+                    {this.props.cards.map(card => (
+                        <Cards.components.Card card={card} />
+                    ))}
+                </div>
 
                 <FloatingActionButton
                     onClick={() => {
-                        this.props
-                            .dispatch(Cards.actions.create_card())
-                            .then(res => {
-                                log('create_card promise resolved');
-                                this.props.dispatch(
-                                    push('/admin/cards/' + res.payload._id)
-                                );
-                            });
+                        this.props.dispatch(
+                            UI.actions.toggle_create_card_dialog()
+                        );
                     }}
                     style={{
                         margin: '20px',
@@ -108,6 +118,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 >
                     <ContentAdd />
                 </FloatingActionButton>
+                <CreateCardDialog />
             </div>
         );
     }

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as debug from 'debug';
 
 // components
-import {AutoComplete} from 'material-ui';
+import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
 // modules
@@ -42,8 +42,8 @@ export class UsersChipInputContainer extends React.Component<IProps, {}> {
     public render() {
         return (
             <ChipInput
-                hintText="Users"
-                floatingLabelText="Users"
+                hintText="Schüler"
+                floatingLabelText="Schüler"
                 className="filter-bar"
                 fullWidth={true}
                 value={this.props.users}

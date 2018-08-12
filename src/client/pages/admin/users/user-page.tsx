@@ -73,7 +73,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                             )
                         }
                     />
-                    <Tab
+                    {/* <Tab
                         label="Grades"
                         value="grades"
                         onActive={() =>
@@ -85,7 +85,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                 )
                             )
                         }
-                    />
+                    /> */}
                     <Tab
                         label="Flow"
                         value="flow"
@@ -115,66 +115,66 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     </Users.UserContainer>
                                 </Paper>
                             );
-                        case 'grades':
-                            return (
-                                <div>
-                                    <Grades.CurrentGradeListContainer
-                                        user_id={this.props.user_id}
-                                    />
-                                    <Grades.GradeListContainer
-                                        user_id={this.props.user_id}
-                                        menuItems={[
-                                            (grade: Grades.IGrade) => (
-                                                <MenuItem
-                                                    key={grade._id + '-1'}
-                                                    leftIcon={<SVGEdit />}
-                                                    onClick={() =>
-                                                        this.props.dispatch(
-                                                            Grades.actions.show_create_grade_dialog(
-                                                                this.props
-                                                                    .user_id,
-                                                                grade._id
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    Edit
-                                                </MenuItem>
-                                            ),
-                                            (grade: Grades.IGrade) => (
-                                                <MenuItem
-                                                    key={grade._id + '-2'}
-                                                    leftIcon={<SVGDelete />}
-                                                    onClick={() =>
-                                                        this.props.dispatch(
-                                                            Grades.actions.delete_grade(
-                                                                grade._id
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    Delete
-                                                </MenuItem>
-                                            )
-                                        ]}
-                                    />
+                        // case 'grades':
+                        //     return (
+                        //         <div>
+                        //             <Grades.CurrentGradeListContainer
+                        //                 user_id={this.props.user_id}
+                        //             />
+                        //             <Grades.GradeListContainer
+                        //                 user_id={this.props.user_id}
+                        //                 menuItems={[
+                        //                     (grade: Grades.IGrade) => (
+                        //                         <MenuItem
+                        //                             key={grade._id + '-1'}
+                        //                             leftIcon={<SVGEdit />}
+                        //                             onClick={() =>
+                        //                                 this.props.dispatch(
+                        //                                     Grades.actions.show_create_grade_dialog(
+                        //                                         this.props
+                        //                                             .user_id,
+                        //                                         grade._id
+                        //                                     )
+                        //                                 )
+                        //                             }
+                        //                         >
+                        //                             Edit
+                        //                         </MenuItem>
+                        //                     ),
+                        //                     (grade: Grades.IGrade) => (
+                        //                         <MenuItem
+                        //                             key={grade._id + '-2'}
+                        //                             leftIcon={<SVGDelete />}
+                        //                             onClick={() =>
+                        //                                 this.props.dispatch(
+                        //                                     Grades.actions.delete_grade(
+                        //                                         grade._id
+                        //                                     )
+                        //                                 )
+                        //                             }
+                        //                         >
+                        //                             Delete
+                        //                         </MenuItem>
+                        //                     )
+                        //                 ]}
+                        //             />
 
-                                    <ActionBar>
-                                        <FloatingActionButton
-                                            onClick={() =>
-                                                this.props.dispatch(
-                                                    Grades.actions.show_create_grade_dialog(
-                                                        this.props.user_id
-                                                    )
-                                                )
-                                            }
-                                        >
-                                            <SVGGrade />
-                                        </FloatingActionButton>
-                                    </ActionBar>
-                                    <Grades.CreateGradeDialogContainer />
-                                </div>
-                            );
+                        //             <ActionBar>
+                        //                 <FloatingActionButton
+                        //                     onClick={() =>
+                        //                         this.props.dispatch(
+                        //                             Grades.actions.show_create_grade_dialog(
+                        //                                 this.props.user_id
+                        //                             )
+                        //                         )
+                        //                     }
+                        //                 >
+                        //                     <SVGGrade />
+                        //                 </FloatingActionButton>
+                        //             </ActionBar>
+                        //             <Grades.CreateGradeDialogContainer />
+                        //         </div>
+                        //     );
                         case 'flow':
                             return (
                                 <UserFlowTab

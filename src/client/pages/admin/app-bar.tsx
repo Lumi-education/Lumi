@@ -29,7 +29,7 @@ export class AdminAppBar extends React.Component<IProps, {}> {
         return (
             <AppBar
                 style={{
-                    background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+                    background: 'linear-gradient(90deg, #8e44ad, #3498db)'
                 }}
                 showMenuIconButton={true}
                 title="Lumi"

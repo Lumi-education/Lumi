@@ -92,14 +92,14 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                     >
                         <Subheader>Lumi</Subheader>
                         <ListItem
-                            primaryText="Schüler"
+                            primaryText="Benutzer"
                             leftIcon={<SVGPerson />}
                             onTouchTap={() => {
                                 this.props.push('/admin/users');
                             }}
                         />
                         <ListItem
-                            primaryText="Kurse"
+                            primaryText="Gruppen"
                             leftIcon={<SVGGroup />}
                             onTouchTap={() => {
                                 this.props.push('/admin/groups');

@@ -6,6 +6,7 @@ import { assign } from 'lodash';
 import db from '../../db';
 
 import { IUser } from 'lib/users/types';
+import { USERS_DELETE_USER_ERROR } from '../../../../node_modules/lib/users/actions';
 
 class UsersController {
     public list(req: IRequest, res: express.Response) {
@@ -26,7 +27,8 @@ class UsersController {
             online: false,
             location: '/',
             password: undefined,
-            flow: []
+            flow: {},
+            _deleted: false
         };
 
         assign(new_user, req.body, { password: undefined });
@@ -54,9 +56,48 @@ class UsersController {
     }
 
     public delete(req: IRequest, res: express.Response) {
-        db.delete(req.params.id, err => {
-            res.status(200).end();
+        const user_ids = req.body.user_ids;
+
+        const deleted_users = user_ids.map(user_id => {
+            return {
+                _id: user_id,
+                type: 'user',
+                deleted: true
+            };
         });
+
+        db.find(
+            { type: 'user', _id: { $in: user_ids } },
+            { limit: user_ids.length },
+            (find_users_error, users) => {
+                users.forEach(user => (user._deleted = true));
+                db.updateMany(users, {}, (delete_user_error, docs) => {
+                    db.find(
+                        { type: 'group', members: { $in: user_ids } },
+                        {},
+                        (find_groups_error, groups) => {
+                            groups.forEach(
+                                group =>
+                                    (group.members = group.members.filter(
+                                        user_id =>
+                                            user_ids.indexOf(user_id) === -1
+                                    ))
+                            );
+                            db.updateMany(
+                                groups,
+                                {},
+                                (update_groups_error, updated_groups) => {
+                                    res.status(200).json([
+                                        ...groups,
+                                        ...deleted_users
+                                    ]);
+                                }
+                            );
+                        }
+                    );
+                });
+            }
+        );
     }
 }
 

@@ -2,10 +2,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { uniq } from 'lodash';
-import { push } from 'lib/ui/actions';
 
 // types
-import { ActionBar } from 'lib/ui';
 import { IState } from 'client/state';
 
 import { Avatar, Divider, List, ListItem, Paper } from 'material-ui';
@@ -13,6 +11,7 @@ import { Avatar, Divider, List, ListItem, Paper } from 'material-ui';
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
+import * as UI from 'lib/ui';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
 // actions
@@ -48,10 +47,7 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(Groups.actions.get_groups());
-
         this.setState({ loading: 'lade Schüler' });
-
         this.props
             .dispatch(
                 Core.actions.find({
@@ -65,6 +61,14 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage>
+                    {this.state.loading}
+                </UI.components.LoadingPage>
+            );
+        }
+
         return (
             <div id="group-users-tab">
                 <Paper>
@@ -77,7 +81,9 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                                     <ListItem
                                         onClick={() =>
                                             this.props.dispatch(
-                                                push('/admin/users/' + user._id)
+                                                Users.actions.select_user(
+                                                    user._id
+                                                )
                                             )
                                         }
                                         primaryText={user.name}
@@ -102,9 +108,9 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                         )}
                     </List>
                 </Paper>
-                <ActionBar>
+                <UI.components.ActionBar>
                     <Create_or_add_user_dialog group_id={this.props.group_id} />
-                </ActionBar>
+                </UI.components.ActionBar>
             </div>
         );
     }

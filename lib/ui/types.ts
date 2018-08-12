@@ -9,6 +9,10 @@ export interface IUI {
     right_appbar_icon: JSX.Element;
     appbar_title: string;
     show_assign_material_dialog: boolean;
+    show_create_user_dialog: boolean;
+    show_assign_group_dialog: boolean;
+    show_delete_user_dialog: boolean;
+    show_create_card_dialog: boolean;
 }
 
 export interface IState {

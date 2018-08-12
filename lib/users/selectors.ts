@@ -16,6 +16,7 @@ export function user(state: IState, user_id): IUser {
     return (
         state.users.list.filter(u => u._id === user_id)[0] || {
             _id: undefined,
+            _deleted: false,
             type: 'user',
             name: 'user not found',
             level: 0,

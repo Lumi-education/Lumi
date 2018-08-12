@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 
 import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
@@ -16,7 +15,7 @@ import { groups_list } from 'lib/groups/selectors';
 // types
 import { IState } from 'client/state';
 import { IGroup } from 'lib/groups';
-
+import * as UI from 'lib/ui';
 // actions
 import { get_groups, create_group } from 'lib/groups/actions';
 
@@ -25,7 +24,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -33,6 +32,8 @@ interface IProps extends IStateProps, IDispatchProps {}
 interface IComponentState {
     show_create_group_dialog?: boolean;
     search_text?: string;
+    loading?: string;
+    loading_step?: number;
 }
 
 export class AdminGroups extends React.Component<IProps, IComponentState> {
@@ -41,15 +42,32 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 
         this.state = {
             search_text: '',
-            show_create_group_dialog: false
+            show_create_group_dialog: false,
+            loading: 'init',
+            loading_step: 0
         };
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_groups());
+        this.setState({ loading: 'Gruppen', loading_step: 1 });
+        this.props.dispatch(get_groups()).then(res => {
+            this.setState({ loading: 'finished', loading_step: 2 });
+        });
     }
 
     public render() {
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage
+                    max={2}
+                    min={0}
+                    value={this.state.loading_step}
+                >
+                    Lade Gruppe
+                </UI.components.LoadingPage>
+            );
+        }
+
         return (
             <div>
                 <FilterBar
@@ -81,7 +99,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                                         primaryText={group.name}
                                         onClick={() =>
                                             this.props.dispatch(
-                                                push(
+                                                UI.actions.push(
                                                     '/admin/groups/' + group._id
                                                 )
                                             )

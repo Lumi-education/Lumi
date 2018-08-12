@@ -1,16 +1,34 @@
 import * as express from 'express';
-import {IRequest} from '../../middleware/auth';
-
+import { IRequest } from '../../middleware/auth';
+import { assign } from 'lodash';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as unzip from 'unzip';
 import proxy from '../../core/proxy';
 
 import db from '../../db';
 
-import {ICard} from 'lib/cards/types';
+import { ICard } from 'lib/cards/types';
 
 class CardController {
     public create(req: IRequest, res: express.Response) {
-        const new_card: ICard = req.body;
-        db.insert(new_card);
+        const new_card: ICard = {
+            card_type: 'text',
+            _id: undefined,
+            type: 'card',
+            name: 'no name',
+            text: 'missing text',
+            description: '',
+            created_at: new Date(),
+            _attachments: {},
+            _rev: undefined
+        };
+
+        assign(new_card, req.body);
+
+        db.insert(new_card, (create_card_error, created_card) => {
+            res.status(200).json([created_card]);
+        });
     }
 
     public read(req: IRequest, res: express.Response) {
@@ -35,7 +53,7 @@ class CardController {
         db.view(
             'card',
             'list',
-            req.query._ids ? {keys: JSON.parse(req.query._ids)} : {},
+            req.query._ids ? { keys: JSON.parse(req.query._ids) } : {},
             (error, cards) => res.status(200).json(cards)
         );
     }
@@ -45,6 +63,37 @@ class CardController {
         proxy.web(req, res, {
             target: 'http://localhost:3001'
         });
+    }
+
+    public h5p_upload(req: any, res: express.Response) {
+        if (!req.files) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+        const uploaded_file = req.files.file;
+
+        // Use the mv() method to place the file somewhere on your server
+        uploaded_file.mv(
+            path.resolve('build/tmp') + '/' + uploaded_file.name,
+            err => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+
+                fs.createReadStream(
+                    path.resolve('build/tmp') + '/' + uploaded_file.name
+                ).pipe(
+                    unzip
+                        .Extract({
+                            path: 'h5p/' + uploaded_file.name
+                        })
+                        .on('finish', error => {
+                            res.send('File uploaded!');
+                        })
+                );
+            }
+        );
     }
 
     public attachment(req: express.Request, res: express.Response) {

@@ -15,6 +15,10 @@ export const UI_SET_RIGHT_APPBAR_ICON = 'UI_SET_RIGHT_APPBAR_ICON';
 export const UI_SET_APPBAR_TITLE = 'UI_SET_APPBAR_TITLE';
 export const UI_TOGGLE_ASSIGN_MATERIAL_DIALOG =
     'UI_TOGGLE_ASSIGN_MATERIAL_DIALOG';
+export const UI_TOGGLE_CREATE_USER_DIALOG = 'UI_TOGGLE_CREATE_USER_DIALOG';
+export const UI_ASSIGN_GROUP_DIALOG = 'UI_ASSIGN_GROUP_DIALOG';
+export const UI_DELETE_USER_DIALOG = 'UI_DELETE_USER_DIALOG';
+export const UI_TOGGLE_CREATE_CARD_DIALOG = 'UI_TOGGLE_CREATE_CARD_DIALOG';
 
 import * as Users from '../users';
 
@@ -104,5 +108,26 @@ export function right_drawer_close() {
 export function toggle_assign_material_dialog() {
     return {
         type: UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
+    };
+}
+
+export function toggle_create_user_dialog() {
+    return {
+        type: UI_TOGGLE_CREATE_USER_DIALOG
+    };
+}
+export function toggle_assign_group_dialog() {
+    return {
+        type: UI_ASSIGN_GROUP_DIALOG
+    };
+}
+export function toggle_delete_user_dialog() {
+    return {
+        type: UI_DELETE_USER_DIALOG
+    };
+}
+export function toggle_create_card_dialog() {
+    return {
+        type: UI_TOGGLE_CREATE_CARD_DIALOG
     };
 }

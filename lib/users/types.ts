@@ -3,6 +3,7 @@ type Group_id = string;
 
 export interface IUser {
     _id: User_id;
+    _deleted: boolean;
     type: 'user';
     name: string;
     level: number;

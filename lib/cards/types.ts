@@ -119,6 +119,7 @@ export interface IMultiplechoiceCardData extends ICardData {
 
 export interface ICardUI {
     selected_cards: string[];
+    card: any;
 }
 
 export interface IState {

@@ -30,6 +30,7 @@
         "compression": "^1.7.1",
         "debug": "2.3.3",
         "express": "^4.16.0",
+        "express-fileupload": "^0.4.0",
         "http-proxy": "^1.16.2",
         "immutable": "^3.8.2",
         "jwt-simple": "^0.5.1",

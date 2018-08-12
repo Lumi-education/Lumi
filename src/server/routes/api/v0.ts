@@ -67,6 +67,7 @@ export default function(): express.Router {
     router.delete('/cards/:id', cardsController.delete);
 
     router.get('/h5p/*', cardsController.h5p_proxy);
+    router.post('/h5p', cardsController.h5p_upload);
 
     // cards -> attachments
     router.all('/cards/:id/attachment/:attachment', cardsController.attachment);
@@ -74,6 +75,7 @@ export default function(): express.Router {
     // groups
     router.get('/groups', mw.auth, groupController.list);
     router.post('/groups', groupController.create);
+    router.put('/groups/assign', groupController.assign);
     router.get('/groups/user/:user_id', groupController.for_user);
     router.get('/groups/:id', groupController.read);
     router.put('/groups/:id', groupController.update);
@@ -102,7 +104,7 @@ export default function(): express.Router {
     router.post('/users', usersController.create);
     router.get('/users/:id', usersController.read);
     router.put('/users/:id', mw.auth, usersController.update);
-    router.delete('/users/:id', usersController.delete);
+    router.delete('/users', usersController.delete);
 
     router.get('/users/:user_id/grades', gradesController.user);
     router.post('/users/:user_id/grades', gradesController.create);

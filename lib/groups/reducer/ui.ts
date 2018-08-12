@@ -1,7 +1,7 @@
 import { assign, unionBy } from 'lodash';
 import { IGroupUI } from '../types';
 
-import { GROUPS_SELECT_GROUP } from '../actions';
+import { GROUPS_SELECT_GROUP, GROUPS_UI_SET_SELECTED_GROUPS } from '../actions';
 
 const initialState: IGroupUI = {
     selected_groups: []
@@ -22,6 +22,11 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
                     ...state.selected_groups,
                     action.payload.group_id
                 ]
+            });
+
+        case GROUPS_UI_SET_SELECTED_GROUPS:
+            return assign({}, state, {
+                selected_groups: action.group_ids
             });
 
         default:

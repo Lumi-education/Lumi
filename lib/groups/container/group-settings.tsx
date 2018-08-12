@@ -88,14 +88,14 @@ export class GroupSettingsContainer extends React.Component<
                             this.props.dispatch(push('/admin/groups'))
                         }
                     />
-                    <RaisedButtonComponent
+                    {/* <RaisedButtonComponent
                         dispatch={this.props.dispatch}
                         action={Groups.actions.update_group(
                             this.props.group._id,
                             this.updated_state()
                         )}
                         labels={['Save', 'Saving...', 'Saved', 'Not saved']}
-                    />
+                    /> */}
                     <RaisedButton
                         fullWidth={true}
                         secondary={true}

@@ -10,7 +10,8 @@ import {
     GROUPS_CREATE_SUCCESS,
     GROUPS_DELETE_SUCCESS,
     GROUPS_ADD_COLLECTION_SUCCESS,
-    GROUPS_REM_COLLECTION_SUCCESS
+    GROUPS_REM_COLLECTION_SUCCESS,
+    GROUPS_ASSIGN_GROUPS_SUCCESS
 } from '../actions';
 
 import {
@@ -34,6 +35,7 @@ export default function(
             return state.merge(Map<string, IGroup>(o));
 
         case 'DB_CHANGE':
+        case GROUPS_ASSIGN_GROUPS_SUCCESS:
         case USERS_GET_USERS_SUCCESS:
         case USERS_GET_USER_SUCCESS:
         case GROUPS_GET_GROUPS_SUCCESS:

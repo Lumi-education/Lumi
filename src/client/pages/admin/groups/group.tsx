@@ -6,13 +6,12 @@ import { push } from 'lib/ui/actions';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 // types
-import { ActionBar } from 'lib/ui';
+import * as UI from 'lib/ui';
 import { IState } from 'client/state';
 
 import GroupUsersTab from './group-users-tab';
 
 import * as Groups from 'lib/groups';
-
 import GroupFlowTab from './group-flow-tab';
 // actions
 import { get_group } from 'lib/groups/actions';
@@ -48,7 +47,11 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 
     public render() {
         if (!this.props.group._id) {
-            return <div>loading</div>;
+            return (
+                <UI.components.LoadingPage>
+                    Lade Gruppe
+                </UI.components.LoadingPage>
+            );
         }
 
         return (
@@ -119,7 +122,6 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                     <GroupUsersTab
                                         group_id={this.props.group_id}
                                     />
-                                    <ActionBar />
                                 </div>
                             );
                         case 'flow':

@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import { IState } from '../types';
 
 import * as Core from '../';
+import * as UI from 'lib/ui';
 
 interface IProps {
     dispatch: (action) => any;
 }
 
 interface IComponentState {
-    loading: boolean;
+    loading?: boolean;
+    loading_step?: number;
 }
 
 export class SystemSettingsContainer extends React.Component<
@@ -21,19 +23,27 @@ export class SystemSettingsContainer extends React.Component<
         super(props);
 
         this.state = {
-            loading: true
+            loading: true,
+            loading_step: 0
         };
     }
 
     public componentDidMount() {
+        this.setState({ loading_step: 1 });
         this.props.dispatch(Core.actions.get_settings()).then(res => {
-            this.setState({ loading: false });
+            this.setState({ loading: false, loading_step: 2 });
         });
     }
 
     public render() {
         return this.state.loading ? (
-            <div id="system"> Loading </div>
+            <UI.components.LoadingPage
+                min={0}
+                max={2}
+                value={this.state.loading_step}
+            >
+                Lumi
+            </UI.components.LoadingPage>
         ) : (
             <div id="system">{this.props.children}</div>
         );

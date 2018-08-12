@@ -40,7 +40,12 @@ export const GROUPS_UPDATE_GROUP_REQUEST = 'GROUPS_UPDATE_GROUP_REQUEST';
 export const GROUPS_UPDATE_GROUP_SUCCESS = 'GROUPS_UPDATE_GROUP_SUCCESS';
 export const GROUPS_UPDATE_GROUP_ERROR = 'GROUPS_UPDATE_GROUP_ERROR';
 
+export const GROUPS_ASSIGN_GROUPS_REQUEST = 'GROUPS_ASSIGN_GROUPS_REQUEST';
+export const GROUPS_ASSIGN_GROUPS_SUCCESS = 'GROUPS_ASSIGN_GROUPS_SUCCESS';
+export const GROUPS_ASSIGN_GROUPS_ERROR = 'GROUPS_ASSIGN_GROUPS_ERROR';
+
 export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP';
+export const GROUPS_UI_SET_SELECTED_GROUPS = 'GROUPS_UI_SET_SELECTED_GROUPS';
 
 import * as API from './api';
 
@@ -53,6 +58,18 @@ export function add_group(user_id: string, group_id: string) {
         ],
         api: API.add_group(user_id, group_id),
         payload: { payload: { user_id, group_id } }
+    };
+}
+
+export function assign_groups(user_ids: string[], group_ids: string[]) {
+    return {
+        types: [
+            GROUPS_ASSIGN_GROUPS_REQUEST,
+            GROUPS_ASSIGN_GROUPS_SUCCESS,
+            GROUPS_ASSIGN_GROUPS_ERROR
+        ],
+        api: API.assign_groups(user_ids, group_ids),
+        payload: { payload: { user_ids, group_ids } }
     };
 }
 
@@ -154,5 +171,13 @@ export function select_group(group_id: string) {
     return {
         type: GROUPS_SELECT_GROUP,
         payload: { group_id }
+    };
+}
+
+export function set_selected_groups(group_ids: string[]) {
+    return {
+        group_ids,
+        type: GROUPS_UI_SET_SELECTED_GROUPS,
+        payload: { group_ids }
     };
 }

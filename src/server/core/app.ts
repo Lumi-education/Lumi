@@ -2,6 +2,7 @@ import * as _debug from 'debug';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
+import * as fileUpload from 'express-fileupload';
 import * as raven from 'raven';
 import routes from '../routes';
 
@@ -18,6 +19,11 @@ export default function boot(): express.Application {
     app.use(
         bodyParser.urlencoded({
             extended: true
+        })
+    );
+    app.use(
+        fileUpload({
+            limits: { fileSize: 50 * 1024 * 1024 }
         })
     );
 

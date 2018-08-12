@@ -86,8 +86,9 @@ export default class MultiplechoiceComponent extends React.Component<
                         <div
                             dangerouslySetInnerHTML={{
                                 __html:
-                                    md.render(item.replace(/^x |^o /, '')) ||
-                                    '# No Markdown'
+                                    md.render(
+                                        item ? item.replace(/^x |^o /, '') : ''
+                                    ) || '# No Markdown'
                             }}
                         />
                     </Paper>

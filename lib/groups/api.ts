@@ -32,6 +32,16 @@ export function get_user_groups(user_id: string) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function assign_groups(user_ids: string[], group_ids: string[]) {
+    return request
+        .put('/api/v0/groups/assign')
+        .send({
+            user_ids,
+            group_ids
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function add_group(user_id: string, group_id: string) {
     return request
         .put('/api/v0/groups/' + group_id + '/action')

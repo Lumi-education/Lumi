@@ -1,10 +1,10 @@
 import * as express from 'express';
-import {assign} from 'lodash';
-import {IRequest} from '../../middleware/auth';
+import { assign } from 'lodash';
+import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
 
-import {IAssignment} from 'lib/flow/types';
+import { IAssignment } from 'lib/flow/types';
 
 class FlowController {
     public get_assignments(req: IRequest, res: express.Response) {
@@ -71,7 +71,9 @@ class FlowController {
         db.findById(
             req.params.assignment_id,
             (error, assignment: IAssignment) => {
-                res.status(200).json(assign(assignment.state, {success: true}));
+                res.status(200).json(
+                    assign(assignment.state, { success: true })
+                );
             }
         );
     }
@@ -80,7 +82,7 @@ class FlowController {
         // required params: user_id[] && card_id[] && group_id
 
         if (!req.body.group_id || !req.body.user_ids || !req.body.card_ids) {
-            return res.status(400).json({message: 'invalid body'});
+            return res.status(400).json({ message: 'invalid body' });
         }
 
         const group_id = req.body.group_id;
@@ -107,7 +109,7 @@ class FlowController {
 
         db.insertMany(_assignments, {}, (err, result) => {
             _assignments.map((a, i) => {
-                return assign(a, {_id: result[i].id});
+                return assign(a, { _id: result[i].id });
             });
 
             db.find(
@@ -119,7 +121,7 @@ class FlowController {
                 {
                     limit: 32
                 },
-                users => {
+                (find_error, users) => {
                     users.map(user => {
                         user.flow[group_id] = [
                             ...user.flow[group_id],

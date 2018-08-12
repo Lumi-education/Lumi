@@ -1,15 +1,23 @@
 // modules
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import { RaisedButton } from 'material-ui';
 
 import { state_color } from '../utils';
 
+import * as UI from '../';
+
 // actions
-interface IStateProps {
+interface IPassedProps {
     action: any;
     labels: string[];
+    onSuccess?: () => void;
+    disabled: boolean;
+    fullWidth: boolean;
 }
+
+interface IStateProps extends IPassedProps {}
 
 interface IDispatchProps {
     dispatch: (action) => any;
@@ -21,7 +29,7 @@ interface IComponentState {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export default class RaisedButtonComponent extends React.Component<
+export class RaisedButtonContainer extends React.Component<
     IProps,
     IComponentState
 > {
@@ -41,7 +49,8 @@ export default class RaisedButtonComponent extends React.Component<
             .dispatch(this.props.action)
             .then(res => {
                 this.setState({ request: 'success' });
-                setTimeout(() => this.setState({ request: 'init' }), 1500);
+                this.props.onSuccess();
+                setTimeout(() => this.setState({ request: 'init' }), 3000);
             })
             .catch(err => this.setState({ request: 'error' }));
 
@@ -64,7 +73,8 @@ export default class RaisedButtonComponent extends React.Component<
     public render() {
         return (
             <RaisedButton
-                fullWidth={true}
+                disabled={this.props.disabled}
+                fullWidth={this.props.fullWidth}
                 primary={true}
                 onClick={this._click}
                 label={this._label()}
@@ -75,3 +85,24 @@ export default class RaisedButtonComponent extends React.Component<
         );
     }
 }
+
+function mapStateToProps(state: UI.IState, ownProps): IStateProps {
+    return {
+        disabled: ownProps.disabled,
+        action: ownProps.action,
+        labels: ownProps.labels,
+        onSuccess: ownProps.onSuccess,
+        fullWidth: ownProps.fullWidth
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatch: action => dispatch(action)
+    };
+}
+
+export default connect<IStateProps, IDispatchProps, IPassedProps>(
+    mapStateToProps,
+    mapDispatchToProps
+)(RaisedButtonContainer);

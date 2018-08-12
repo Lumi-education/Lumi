@@ -63,15 +63,15 @@ export function get_user(user_id: string, id = shortid()) {
     };
 }
 
-export function delete_user(user_id: string, id = shortid()) {
+export function delete_user(user_ids: string[]) {
     return {
         types: [
             USERS_DELETE_USER_REQUEST,
             USERS_DELETE_USER_SUCCESS,
             USERS_DELETE_USER_ERROR
         ],
-        api: API.delete_user(user_id),
-        payload: { id, payload: { user_id } }
+        api: API.delete_user(user_ids),
+        payload: { payload: { user_ids } }
     };
 }
 

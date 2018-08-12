@@ -4,7 +4,18 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 
 // components
-import { Dialog, RaisedButton, FloatingActionButton } from 'material-ui';
+import {
+    Dialog,
+    RaisedButton,
+    FloatingActionButton,
+    List,
+    ListItem,
+    Card,
+    CardActions,
+    CardHeader,
+    CardText,
+    FlatButton
+} from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 // local
@@ -28,6 +39,9 @@ interface IStateProps extends IPassedProps {
     open: boolean;
     card_ids: string[];
     user_ids: string[];
+    cards: Cards.ICard[];
+    selected_card_ids: string[];
+    selected_cards: Cards.ICard[];
 }
 
 interface IDispatchProps {
@@ -54,89 +68,137 @@ export class AssignMaterialDialog extends React.Component<
         }
     }
 
+    public componentWillMount() {
+        this.props.dispatch(Cards.actions.get_cards());
+    }
+
     public render() {
         return (
-            <div>
-                <FloatingActionButton
-                    onClick={() =>
-                        this.props.dispatch(
-                            UI.actions.toggle_assign_material_dialog()
-                        )
-                    }
-                    style={{
-                        margin: '20px'
-                    }}
-                >
-                    <ContentAdd />
-                </FloatingActionButton>
-                <Dialog
-                    title="Material"
-                    autoScrollBodyContent={true}
-                    contentStyle={{
-                        width: '100%',
-                        maxWidth: 'none'
-                    }}
-                    actions={[
-                        <RaisedButton
-                            label="Cancel"
-                            onClick={() =>
-                                this.props.dispatch(
-                                    UI.actions.toggle_assign_material_dialog()
-                                )
-                            }
-                        />,
-                        <RaisedButton
-                            primary={true}
-                            label="OK"
-                            onClick={() => {
-                                this.props
-                                    .dispatch(
-                                        Flow.actions.assign(
-                                            this.props.group_id,
-                                            this.props.user_ids,
-                                            this.props.card_ids
-                                        )
+            <Dialog
+                title="Material"
+                autoScrollBodyContent={true}
+                contentStyle={{
+                    width: '100%',
+                    maxWidth: 'none'
+                }}
+                actions={[
+                    <RaisedButton
+                        label="Abbrechen"
+                        onClick={() =>
+                            this.props.dispatch(
+                                UI.actions.toggle_assign_material_dialog()
+                            )
+                        }
+                    />,
+                    <RaisedButton
+                        primary={true}
+                        label={
+                            this.props.selected_card_ids.length + ' zuweisen'
+                        }
+                        onClick={() => {
+                            this.props
+                                .dispatch(
+                                    Flow.actions.assign(
+                                        this.props.group_id,
+                                        this.props.user_ids,
+                                        this.props.card_ids
                                     )
-                                    .then(res => {
-                                        this.props.dispatch(
-                                            UI.actions.toggle_assign_material_dialog()
-                                        );
-                                    });
-                            }}
-                        />
-                    ]}
-                    open={this.props.open}
-                    onRequestClose={() =>
-                        this.props.dispatch(
-                            UI.actions.toggle_assign_material_dialog()
-                        )
-                    }
+                                )
+                                .then(res => {
+                                    this.props.dispatch(
+                                        UI.actions.toggle_assign_material_dialog()
+                                    );
+                                });
+                        }}
+                    />
+                ]}
+                open={this.props.open}
+                onRequestClose={() =>
+                    this.props.dispatch(
+                        UI.actions.toggle_assign_material_dialog()
+                    )
+                }
+            >
+                <Users.container.ChipInput />
+                <div
+                    style={{
+                        display: 'flex'
+                    }}
                 >
-                    <Users.container.ChipInput />
                     <div
                         style={{
-                            display: 'flex'
+                            width: '50%'
                         }}
                     >
-                        <div
-                            style={{
-                                flex: 1
-                            }}
-                        >
-                            <Tags.TagsFilterContainer />
-
-                            {/* <CardList
-                                card_ids={['all']}
-                                onClick={card_id =>
-                                    this.props.dispatch(
-                                        Cards.actions.select_card(card_id)
-                                    )
-                                }
-                            /> */}
-                        </div>
+                        Material suchen
+                        <Tags.TagsFilterContainer />
+                        {this.props.cards
+                            .filter(
+                                card =>
+                                    this.props.selected_card_ids.indexOf(
+                                        card._id
+                                    ) === -1
+                            )
+                            .map(card => (
+                                <Card key={card._id} style={{ margin: '10px' }}>
+                                    <CardHeader
+                                        title={card.name}
+                                        subtitle={card.description}
+                                        showExpandableButton={true}
+                                        actAsExpander={true}
+                                    />
+                                    <CardActions>
+                                        <FlatButton
+                                            backgroundColor="#1abc9c"
+                                            label="Hinzufügen"
+                                            onClick={() =>
+                                                this.props.dispatch(
+                                                    Cards.actions.select_card(
+                                                        card._id
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </CardActions>
+                                    <CardText expandable={true}>
+                                        {card.text}
+                                    </CardText>
+                                </Card>
+                            ))}
                     </div>
-                </Dialog>
-            </div>
+                    <div style={{ width: '50%' }}>
+                        Material zuweisen
+                        <List>
+                            {this.props.selected_cards.map(card => (
+                                <Card style={{ margin: '10px' }}>
+                                    <CardHeader
+                                        title={card.name}
+                                        subtitle={card.description}
+                                        showExpandableButton={true}
+                                        actAsExpander={true}
+                                    />
+                                    <CardActions>
+                                        <FlatButton
+                                            backgroundColor="#c0392b"
+                                            label="Entfernen"
+                                            onClick={() =>
+                                                this.props.dispatch(
+                                                    Cards.actions.select_card(
+                                                        card._id
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </CardActions>
+                                    <CardText expandable={true}>
+                                        {card.text}
+                                    </CardText>
+                                </Card>
+                            ))}
+                        </List>{' '}
+                    </div>
+                </div>
+            </Dialog>
         );
     }
 }
@@ -146,6 +208,12 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         open: state.ui.show_assign_material_dialog,
         user_ids: state.users.ui.selected_users,
         card_ids: state.cards.ui.selected_cards,
+        selected_card_ids: state.cards.ui.selected_cards,
+        selected_cards: Cards.selectors.select_cards_by_ids(
+            state,
+            state.cards.ui.selected_cards
+        ),
+        cards: state.cards.map.toArray(),
         group_id: ownProps.group_id
     };
 }

@@ -14,7 +14,9 @@ _book
 .vscode
 .env
 
+
 docker-compose.yml
 
 # Dependency directory
 node_modules
+h5p

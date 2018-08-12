@@ -7,6 +7,7 @@ import { ICard } from '../';
 import * as markdownit from 'markdown-it';
 import { TagsContainer } from 'lib/tags';
 import { convert_attachment_url } from '../utils';
+import H5PComponent from './h5p';
 
 const md = markdownit();
 
@@ -34,19 +35,25 @@ export default class CardComponent extends React.Component<IProps, {}> {
             >
                 <CardHeader
                     title={card.name}
-                    subtitle={<TagsContainer doc_id={card._id} />}
+                    subtitle={card.description}
                     style={{ paddingBottom: '2px' }}
                 />
                 <CardText style={{ paddingTop: '2px' }}>
                     {' '}
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: md.render(
-                                convert_attachment_url(card.text, card._id) ||
-                                    '# No markdown'
-                            )
-                        }}
-                    />
+                    {card.card_type === 'h5p' ? (
+                        <H5PComponent content_id={card.content_id} />
+                    ) : (
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: md.render(
+                                    convert_attachment_url(
+                                        card.text,
+                                        card._id
+                                    ) || '# No markdown'
+                                )
+                            }}
+                        />
+                    )}
                 </CardText>
             </Card>
         );

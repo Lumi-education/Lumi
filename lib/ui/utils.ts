@@ -32,7 +32,8 @@ export function get_grade_color(g: number) {
     if (g === null) {
         return 'grey';
     }
-    const grade = Math.ceil(g / 5) * 5;
+
+    const grade = Math.ceil((g * 100) / 5) * 5;
     return classnames({
         '#2ecc71': grade >= 85,
         '#27ae60': grade >= 70 && grade < 85,

@@ -7,9 +7,11 @@ import WebsocketContainer from './container/websocket';
 import reducer from './reducer';
 import AttachmentComponent from './components/attachment';
 import SystemContainer from './container/system';
+import FileUploadComponent from './components/file-upload';
 
 const components = {
-    attachment: AttachmentComponent
+    attachment: AttachmentComponent,
+    FileUpload: FileUploadComponent
 };
 
 const container = {
