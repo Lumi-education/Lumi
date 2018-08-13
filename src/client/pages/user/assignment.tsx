@@ -20,7 +20,6 @@ import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 
 interface IStateProps {
-    course_id: string;
     assignment_id: string;
     assignment: Flow.IAssignment;
     flow: string[];
@@ -94,9 +93,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                         onClick={() =>
                             this.props.dispatch(
                                 push(
-                                    '/user/course/' +
-                                        this.props.course_id +
-                                        '/flow/' +
+                                    '/user/assignment/' +
                                         this.props.flow[
                                             this.props.flow.indexOf(
                                                 this.props.assignment_id
@@ -123,9 +120,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                         onClick={() =>
                             this.props.dispatch(
                                 push(
-                                    '/user/course/' +
-                                        this.props.course_id +
-                                        '/flow/' +
+                                    '/user/assignment/' +
                                         this.props.flow[
                                             this.props.flow.indexOf(
                                                 this.props.assignment_id
@@ -150,15 +145,13 @@ export class UserFlow extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const course_id = ownProps.params.course_id;
     return {
-        course_id,
         assignment: Flow.selectors.assignment_by_id(
             state,
             ownProps.params.assignment_id
         ),
         assignment_id: ownProps.params.assignment_id,
-        flow: state.users.me.flow[course_id] || [],
+        flow: state.users.me.flow || [],
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         user_id: state.users.me._id
     };

@@ -3,7 +3,6 @@ export interface IAssignment {
     user_id: string;
     card_id: string; // h5p content_id ?
     type: 'assignment';
-    group_id: string;
     completed: boolean;
     data: any;
     state: any;

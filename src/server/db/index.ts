@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-import {assign, noop} from 'lodash';
+import { assign, noop } from 'lodash';
 import * as debug from 'debug';
 import * as nano from 'nano';
 
@@ -48,7 +48,7 @@ export class DB {
     public save(doc, cb?: (err, saved_doc) => void) {
         request
             .put(this.db + doc._id)
-            .send(assign(doc, {updated_at: new Date()}))
+            .send(assign(doc, { updated_at: new Date() }))
             .then(res => {
                 log('SAVED', doc._id);
                 if (cb) {
@@ -72,7 +72,7 @@ export class DB {
     public insert(doc, cb?: (err, doc) => void) {
         request
             .post(this.db)
-            .send(assign(doc, {created_at: new Date()}))
+            .send(assign(doc, { created_at: new Date() }))
             .then(res => {
                 log('CREATED: ', res.body.id);
 
@@ -97,7 +97,7 @@ export class DB {
     public insertMany(docs: any[], options, callback: (error, docs) => void) {
         request
             .post(this.db + '_bulk_docs')
-            .send({docs})
+            .send({ docs })
             .then(res => {
                 callback(undefined, res.body);
             })
@@ -129,13 +129,13 @@ export class DB {
                 cb(undefined, res.body.docs);
             })
             .catch(err => {
-                cb(err, undefined);
                 raven.captureException(err);
+                cb(err, undefined);
             });
     }
 
     public findOne(query, options, cb: (error, doc) => void) {
-        this.find(query, assign(options, {limit: 1}), (error, docs) => {
+        this.find(query, assign(options, { limit: 1 }), (error, docs) => {
             cb(error, docs[0]);
         });
     }
@@ -143,7 +143,7 @@ export class DB {
     public updateOne(id: string, update, cb?: (error, doc) => void) {
         request
             .get(this.db + id)
-            .then(({body}) => {
+            .then(({ body }) => {
                 const newDoc = assign({}, body, update, {
                     updated_at: new Date()
                 });
@@ -154,7 +154,7 @@ export class DB {
                         cb
                             ? cb(
                                   undefined,
-                                  assign({}, newDoc, {_rev: res.body.rev})
+                                  assign({}, newDoc, { _rev: res.body.rev })
                               )
                             : noop();
                     })
@@ -178,7 +178,7 @@ export class DB {
 
             request
                 .post(this.db + '_bulk_docs')
-                .send({docs: updated_docs})
+                .send({ docs: updated_docs })
                 .then(res => {
                     cb(undefined, res.body);
                 })
@@ -210,7 +210,7 @@ export class DB {
         options,
         cb: (error, docs) => void
     ) {
-        const _options = assign(options, {include_docs: true});
+        const _options = assign(options, { include_docs: true });
 
         this.nano.view(_design, index, _options, (err, body) => {
             if (err) {

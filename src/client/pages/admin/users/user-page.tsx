@@ -21,6 +21,7 @@ import { IState } from 'client/state';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Grades from 'lib/grades';
+import * as UI from 'lib/ui';
 
 interface IStateProps {
     user_id: string;
@@ -56,7 +57,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         width: '100%'
                     }}
                     tabItemContainerStyle={{
-                        background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+                        background: UI.config.default_bg
                     }}
                     value={this.props.tab}
                 >

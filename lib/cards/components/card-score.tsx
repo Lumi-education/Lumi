@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as debug from 'debug';
 
-import {Avatar} from 'material-ui';
+import { Avatar } from 'material-ui';
 
-import {get_grade_color, get_grade_string} from 'lib/ui/utils';
+import { get_grade_color, get_grade_string } from '../../ui/utils';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 

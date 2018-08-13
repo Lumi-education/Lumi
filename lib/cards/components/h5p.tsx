@@ -34,7 +34,7 @@ export default class H5PComponent extends React.Component<
         (window as any).H5PIntegration = assign(
             {
                 baseUrl: window.location.origin,
-                url: '/api/v0/h5p/tmp', // Relative to web root
+                url: '/api/v0/h5pcontent', // Relative to web root
                 postUserStatistics: true, // Only if user is logged in
                 ajaxPath: '/path/to/h5p-ajax', // Only used by older Content Types
                 saveFreq: false, // How often current content state should be saved. false to disable.
@@ -92,6 +92,9 @@ export default class H5PComponent extends React.Component<
     }
 
     public render() {
+        if (this.props.content_id === '') {
+            return <div>content_id not found</div>;
+        }
         return (
             <iframe
                 frameBorder={0}

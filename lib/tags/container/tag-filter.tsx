@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 // modules
-import * as Tags from '../';
+import * as Tags from '..';
 
 interface IPassedProps {}
 

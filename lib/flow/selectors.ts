@@ -18,7 +18,6 @@ export function assignment_by_id(
             card_id: null,
             user_id: null,
             type: 'assignment',
-            group_id: null,
             completed: false,
             data: null,
             state: null,

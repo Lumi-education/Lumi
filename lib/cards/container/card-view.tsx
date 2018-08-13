@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // components
 import H5PCardContainer from './h5p';
 
-import * as Cards from '../';
+import * as Cards from '..';
 
 interface IPassedProps {
     card_id: string;

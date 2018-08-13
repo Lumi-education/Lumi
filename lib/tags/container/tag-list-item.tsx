@@ -16,10 +16,10 @@ import MenuItem from 'material-ui/MenuItem';
 import { ITag, IState } from '../types';
 
 // selectors
-import { select_tag } from 'lib/tags/selectors';
+import { select_tag } from '../selectors';
 
 // actions
-import { delete_tag } from 'lib/tags/actions';
+import { delete_tag } from '../actions';
 
 interface IPassedProps {
     tag_id: string;

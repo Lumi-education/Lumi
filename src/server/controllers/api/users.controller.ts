@@ -6,7 +6,6 @@ import { assign } from 'lodash';
 import db from '../../db';
 
 import { IUser } from 'lib/users/types';
-import { USERS_DELETE_USER_ERROR } from '../../../../node_modules/lib/users/actions';
 
 class UsersController {
     public list(req: IRequest, res: express.Response) {
@@ -27,7 +26,7 @@ class UsersController {
             online: false,
             location: '/',
             password: undefined,
-            flow: {},
+            flow: [],
             _deleted: false
         };
 

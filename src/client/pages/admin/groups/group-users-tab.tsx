@@ -76,35 +76,37 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                         {this.props.users.length === 0 ? (
                             <ListItem primaryText="Keine Schüler" />
                         ) : (
-                            this.props.users.map(user => (
-                                <div key={user._id}>
-                                    <ListItem
-                                        onClick={() =>
-                                            this.props.dispatch(
-                                                Users.actions.select_user(
-                                                    user._id
+                            this.props.users
+                                .sort(Core.utils.alphabetically)
+                                .map(user => (
+                                    <div key={user._id}>
+                                        <ListItem
+                                            onClick={() =>
+                                                this.props.dispatch(
+                                                    Users.actions.select_user(
+                                                        user._id
+                                                    )
                                                 )
-                                            )
-                                        }
-                                        primaryText={user.name}
-                                        leftAvatar={
-                                            <Avatar
-                                                style={{
-                                                    background:
-                                                        this.props.selected_users.indexOf(
-                                                            user._id
-                                                        ) > -1
-                                                            ? 'linear-gradient(120deg, #8e44ad, #3498db)'
-                                                            : 'grey'
-                                                }}
-                                            >
-                                                {user.name.substring(0, 3)}
-                                            </Avatar>
-                                        }
-                                    />
-                                    <Divider inset={true} />
-                                </div>
-                            ))
+                                            }
+                                            primaryText={user.name}
+                                            leftAvatar={
+                                                <Avatar
+                                                    style={{
+                                                        background:
+                                                            this.props.selected_users.indexOf(
+                                                                user._id
+                                                            ) > -1
+                                                                ? 'linear-gradient(120deg, #8e44ad, #3498db)'
+                                                                : 'grey'
+                                                    }}
+                                                >
+                                                    {user.name.substring(0, 3)}
+                                                </Avatar>
+                                            }
+                                        />
+                                        <Divider inset={true} />
+                                    </div>
+                                ))
                         )}
                     </List>
                 </Paper>

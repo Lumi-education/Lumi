@@ -24,9 +24,9 @@ import SVGMonitor from 'material-ui/svg-icons/image/remove-red-eye';
 import { IState } from 'client/state';
 
 // modules
-import { actions as ui_actions } from 'lib/ui';
 import * as Auth from 'lib/auth';
 import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
 
 declare var process;
 
@@ -76,7 +76,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                 >
                     <AppBar
                         style={{
-                            backgroundColor: '#8e44ad'
+                            backgroundColor: UI.config.primary_color
                         }}
                         showMenuIconButton={true}
                         iconElementLeft={leftIcon}
@@ -163,12 +163,12 @@ function mapStateToProps(state: IState): IStateProps {
 
 function mapDispatchToProps(dispatch) {
     return {
-        left_drawer_open: () => dispatch(ui_actions.left_drawer_open()),
-        left_drawer_close: () => dispatch(ui_actions.left_drawer_close()),
+        left_drawer_open: () => dispatch(UI.actions.left_drawer_open()),
+        left_drawer_close: () => dispatch(UI.actions.left_drawer_close()),
         dispatch: action => dispatch(action),
         push: (url: string) => {
-            dispatch(ui_actions.left_drawer_close());
-            dispatch(ui_actions.push(url));
+            dispatch(UI.actions.left_drawer_close());
+            dispatch(UI.actions.push(url));
         }
     };
 }

@@ -10,7 +10,8 @@ export { default as ui_reducer } from './reducer';
 import * as actions from './actions';
 export { actions };
 import * as utils from './utils';
-export { utils };
+import * as config from './config';
+export { utils, config };
 const components = {
     ActionBar,
     LoadingPage,

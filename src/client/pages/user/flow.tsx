@@ -13,9 +13,7 @@ import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
 
-interface IPassedProps {
-    course_id: string;
-}
+interface IPassedProps {}
 interface IStateProps extends IPassedProps {
     assignment: (assignment_id: string) => Flow.IAssignment;
     flow: string[];
@@ -59,7 +57,6 @@ export class UserFlow extends React.Component<IProps, {}> {
         return (
             <Paper>
                 <List>
-                    <Subheader>Aufgaben</Subheader>
                     {this.props.flow.map((assignment_id: string) => {
                         const assignment = this.props.assignment(assignment_id);
                         const card = this.props.card(assignment.card_id);
@@ -79,10 +76,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 onClick={() =>
                                     this.props.dispatch(
                                         push(
-                                            '/user/course/' +
-                                                this.props.course_id +
-                                                '/flow/' +
-                                                assignment_id
+                                            '/user/assignment/' + assignment_id
                                         )
                                     )
                                 }
@@ -96,12 +90,10 @@ export class UserFlow extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const course_id = ownProps.location.query.course_id || [];
     return {
-        course_id,
         assignment: assignment_id =>
             Flow.selectors.assignment_by_id(state, assignment_id),
-        flow: state.users.me.flow[course_id] || [],
+        flow: state.users.me.flow || [],
         card: (card_id: string) => Cards.selectors.select_card(state, card_id)
     };
 }

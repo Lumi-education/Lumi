@@ -19,9 +19,11 @@ import SVGView from 'material-ui/svg-icons/image/remove-red-eye';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
 
 import SVGGroup from 'material-ui/svg-icons/social/group';
+import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 
 import CreateUserDialog from '../dialogs/create-user';
 import AssignGroupDialog from '../dialogs/assign-group';
+import AssignMaterialDialog from '../dialogs/assign_material';
 import DeleteUserDialog from '../dialogs/delete-user';
 
 // state
@@ -108,6 +110,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                                     user.name.indexOf(this.state.search_text) >
                                     -1
                             )
+                            .sort(Core.utils.alphabetically)
                             .map((user: Users.IUser) => (
                                 <div key={user._id}>
                                     <ListItem
@@ -233,6 +236,18 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                             <FloatingActionButton
                                 onClick={() => {
                                     this.props.dispatch(
+                                        UI.actions.toggle_assign_material_dialog()
+                                    );
+                                }}
+                                style={{
+                                    zIndex: 5000
+                                }}
+                            >
+                                <SVGCards />
+                            </FloatingActionButton>
+                            <FloatingActionButton
+                                onClick={() => {
+                                    this.props.dispatch(
                                         UI.actions.toggle_assign_group_dialog()
                                     );
                                 }}
@@ -252,6 +267,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                     </FloatingActionButton>
                 </ActionBar>
                 <CreateUserDialog />
+                <AssignMaterialDialog />
                 <AssignGroupDialog />
                 <DeleteUserDialog />
             </div>

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { IState } from '../types';
 
-import * as Core from '../';
-import * as UI from 'lib/ui';
+import * as Core from '..';
+import * as UI from '../../ui';
 
 interface IProps {
     dispatch: (action) => any;

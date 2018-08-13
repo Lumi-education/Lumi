@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
 // types
-import { ActionBar } from 'lib/ui';
 import { IState } from 'client/state';
+
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import {
     Badge,
@@ -17,12 +18,14 @@ import {
     TableRowColumn,
     SelectField,
     MenuItem,
-    Paper
+    Paper,
+    FloatingActionButton
 } from 'material-ui';
 
 import AssignMaterialDialog from '../dialogs/assign_material';
 
 import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
@@ -49,6 +52,7 @@ interface IDispatchProps {
 interface IComponentState {
     show_user_dialog?: boolean;
     loading?: string;
+    loading_step?: number;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -59,35 +63,26 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
 
         this.state = {
             show_user_dialog: false,
-            loading: 'Bitte Kurs auswählen'
+            loading: 'init',
+            loading_step: 0
         };
-
-        this.select_course = this.select_course.bind(this);
     }
 
     public componentWillMount() {
-        this.props.dispatch(Groups.actions.get_groups());
-    }
-
-    public select_course(e, i, v) {
-        this.props.dispatch(
-            push('/admin/users/' + this.props.user_id + '/flow?course_id=' + v)
-        );
-
-        this.setState({ loading: 'lade Schüler' });
+        this.setState({ loading: 'Benutzer', loading_step: 1 });
 
         this.props
             .dispatch(Users.actions.get_user(this.props.user_id))
             .then(user_response => {
                 const user: Users.IUser = user_response.payload[0];
 
-                this.setState({ loading: 'lade Aufgaben' });
+                this.setState({ loading: 'Aufgaben', loading_step: 2 });
                 this.props
                     .dispatch(
                         Core.actions.find(
                             {
                                 _id: {
-                                    $in: user.flow[this.props.course_id]
+                                    $in: user.flow
                                 }
                             },
                             {
@@ -96,7 +91,7 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                         )
                     )
                     .then(assignment_response => {
-                        this.setState({ loading: 'lade Karten' });
+                        this.setState({ loading: 'Karten', loading_step: 3 });
                         this.props
                             .dispatch(
                                 Cards.actions.get_cards(
@@ -106,7 +101,10 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                                 )
                             )
                             .then(card_response => {
-                                this.setState({ loading: 'finished' });
+                                this.setState({
+                                    loading: 'finished',
+                                    loading_step: 4
+                                });
                                 this.props.dispatch(
                                     Users.actions.set_selected_users([
                                         this.props.user_id
@@ -118,28 +116,20 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage
+                    min={1}
+                    max={4}
+                    value={this.state.loading_step}
+                >
+                    {this.state.loading}
+                </UI.components.LoadingPage>
+            );
+        }
+
         return (
             <div>
-                <Paper>
-                    <SelectField
-                        floatingLabelText="Kurs"
-                        fullWidth={true}
-                        onChange={this.select_course}
-                        value={
-                            this.props.course_id ||
-                            this.props.user.flow[
-                                Object.keys(this.props.user.flow)[0]
-                            ]
-                        }
-                    >
-                        {this.props.user.groups.map(group_id => (
-                            <MenuItem
-                                value={group_id}
-                                primaryText={this.props.group(group_id).name}
-                            />
-                        ))}
-                    </SelectField>
-                </Paper>
                 {this.state.loading !== 'finished' ? (
                     <Paper style={{ margin: '15px', padding: '20px' }}>
                         {this.state.loading}
@@ -155,70 +145,81 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {this.props.user.flow[this.props.course_id].map(
-                                    assignment_id => {
-                                        const assignment = this.props.assignment(
-                                            assignment_id
-                                        );
+                                {this.props.user.flow.map(assignment_id => {
+                                    const assignment = this.props.assignment(
+                                        assignment_id
+                                    );
 
-                                        return (
-                                            <TableRow key={assignment._id}>
-                                                <TableRowColumn>
-                                                    <Cards.components.CardType
-                                                        card_type={
-                                                            this.props.card(
-                                                                assignment.card_id
-                                                            ).card_type
-                                                        }
-                                                    />
-                                                </TableRowColumn>
-                                                <TableRowColumn>
-                                                    {this.props.card_name(
-                                                        assignment.card_id
-                                                    )}
-                                                </TableRowColumn>
-                                                <TableRowColumn
-                                                    style={{
-                                                        backgroundColor: get_grade_color(
-                                                            assignment.score
-                                                        )
-                                                    }}
-                                                >
-                                                    <Cards.components.CardScore
-                                                        score={
-                                                            assignment.data !==
-                                                            null
-                                                                ? assignment
-                                                                      .data[
-                                                                      assignment
-                                                                          .data
-                                                                          .length -
-                                                                          1
-                                                                  ].score /
+                                    return (
+                                        <TableRow key={assignment._id}>
+                                            <TableRowColumn>
+                                                <Cards.components.CardType
+                                                    card_type={
+                                                        this.props.card(
+                                                            assignment.card_id
+                                                        ).card_type
+                                                    }
+                                                />
+                                            </TableRowColumn>
+                                            <TableRowColumn>
+                                                {this.props.card_name(
+                                                    assignment.card_id
+                                                )}
+                                            </TableRowColumn>
+                                            <TableRowColumn
+                                                style={{
+                                                    backgroundColor: get_grade_color(
+                                                        assignment.score
+                                                    )
+                                                }}
+                                            >
+                                                <Cards.components.CardScore
+                                                    score={
+                                                        assignment.data !== null
+                                                            ? assignment.data[
                                                                   assignment
-                                                                      .data[
-                                                                      assignment
-                                                                          .data
-                                                                          .length -
-                                                                          1
-                                                                  ].maxScore
-                                                                : null
-                                                        }
-                                                    />
-                                                </TableRowColumn>
-                                            </TableRow>
-                                        );
-                                    }
-                                )}
+                                                                      .data
+                                                                      .length -
+                                                                      1
+                                                              ].score /
+                                                              assignment.data[
+                                                                  assignment
+                                                                      .data
+                                                                      .length -
+                                                                      1
+                                                              ].maxScore
+                                                            : null
+                                                    }
+                                                />
+                                            </TableRowColumn>
+                                        </TableRow>
+                                    );
+                                })}
                             </TableBody>
                         </Table>
                     </Paper>
                 )}
-                <ActionBar>
-                    {this.props.course_id ? (
-                        <AssignMaterialDialog group_id={this.props.course_id} />
-                    ) : null}
-                </ActionBar>
+                <UI.components.ActionBar>
+                    <FloatingActionButton
+                        onClick={() => {
+                            this.props.dispatch(
+                                Users.actions.set_selected_users([
+                                    this.props.user_id
+                                ])
+                            );
+                            this.props.dispatch(
+                                UI.actions.toggle_assign_material_dialog()
+                            );
+                        }}
+                        style={{
+                            margin: '20px',
+                            zIndex: 5000
+                        }}
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
+                </UI.components.ActionBar>
+                <AssignMaterialDialog />
             </div>
         );
     }

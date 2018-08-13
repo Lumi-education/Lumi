@@ -10,7 +10,7 @@ import { IGroup } from 'lib/groups/types';
 import {
     USERS_UPDATE_USER_ERROR,
     USERS_ADD_GROUP_ERROR
-} from '../../../../lib/users/actions';
+} from 'lib/users/actions';
 
 class GroupController {
     public list(req: IRequest, res: express.Response) {
@@ -92,11 +92,6 @@ class GroupController {
                         user.groups = [];
                     }
                     user.groups = uniq([...user.groups, ...group_ids]);
-
-                    if (!user.flow) {
-                        user.flow = {};
-                    }
-                    group_ids.forEach(group_id => (user.flow[group_id] = []));
                 });
                 db.updateMany(
                     users,
@@ -142,10 +137,10 @@ class GroupController {
                             user.groups = uniq([...user.groups, req.params.id]);
 
                             if (!user.flow) {
-                                user.flow = {};
+                                user.flow = [];
                             }
 
-                            user.flow[req.params.id] = [];
+                            user.flow = [];
 
                             db.updateOne(
                                 user._id,
@@ -177,8 +172,6 @@ class GroupController {
                                     group_id => group_id !== req.params.id
                                 )
                             );
-
-                            user.flow[req.params.id] = undefined;
 
                             db.updateOne(
                                 user._id,

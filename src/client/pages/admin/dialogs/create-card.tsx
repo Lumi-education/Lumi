@@ -54,14 +54,18 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <Dialog
-                title="Material erstellen"
+                title={
+                    this.props.card._id
+                        ? this.props.card.name + ' bearbeiten'
+                        : 'Material erstellen'
+                }
                 autoScrollBodyContent={true}
                 contentStyle={{
                     width: '100%',
                     maxWidth: 'none'
                 }}
                 bodyStyle={{
-                    background: 'linear-gradient(90deg, #8e44ad, #3498db)'
+                    background: UI.config.default_bg
                 }}
                 actions={[
                     <RaisedButton
@@ -72,14 +76,58 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                             )
                         }
                     />,
+                    this.props.card._id ? (
+                        <RaisedButton
+                            label="Duplizieren"
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Cards.actions.change_card({
+                                        _id: undefined
+                                    })
+                                )
+                            }
+                        />
+                    ) : null,
+                    // this.props.card._id ? (
+                    //     <RaisedButton
+                    //         label="Löschen"
+                    //         secondary={true}
+                    //         onClick={() => {
+                    //             this.props.dispatch(
+                    //                 Cards.actions.delete_card(
+                    //                     this.props.card._id
+                    //                 )
+                    //             );
+                    //             this.props.dispatch(
+                    //                 UI.actions.toggle_create_card_dialog()
+                    //             );
+                    //         }}
+                    //     />
+                    // ) : null,
                     <UI.components.RaisedButton
-                        action={Cards.actions.create_card(this.props.card)}
-                        labels={[
-                            'Erstellen',
-                            'erstelle...',
-                            'Erstellt',
-                            'Fehler'
-                        ]}
+                        action={
+                            this.props.card._id
+                                ? Cards.actions.update_card(
+                                      this.props.card._id,
+                                      this.props.card
+                                  )
+                                : Cards.actions.create_card(this.props.card)
+                        }
+                        labels={
+                            this.props.card._id
+                                ? [
+                                      'Speichern',
+                                      'Speichere...',
+                                      'Gespeichert',
+                                      'Fehler'
+                                  ]
+                                : [
+                                      'Erstellen',
+                                      'erstelle...',
+                                      'Erstellt',
+                                      'Fehler'
+                                  ]
+                        }
                         fullWidth={false}
                         disabled={false}
                         onSuccess={() => {

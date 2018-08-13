@@ -8,6 +8,7 @@ import { FloatingActionButton, Paper } from 'material-ui';
 
 // svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 
 import TagFilterContainer from 'lib/tags/container/tag-filter';
 import FilterBar from 'lib/ui/components/filter-bar';
@@ -16,18 +17,20 @@ import FilterBar from 'lib/ui/components/filter-bar';
 import { IState } from 'client/state';
 
 // selectors
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Tags from 'lib/tags';
 
 // components
-import LoadingPage from 'lib/ui/components/loading-page';
 import CreateCardDialog from '../dialogs/create-card';
+import AssignMaterialDialog from '../dialogs/assign_material';
 
 const log = debug('lumi:modules:admin:cards:cards-page');
 
 interface IStateProps {
     cards: Cards.ICard[];
+    selected_cards: string[];
 }
 
 interface IDispatchProps {
@@ -79,12 +82,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             );
         }
         return (
-            <div
-                style={{
-                    minHeight: '100vh',
-                    background: 'linear-gradient(90deg, #8e44ad, #3498db)'
-                }}
-            >
+            <div style={{}}>
                 {/* <TagFilterContainer /> */}
                 <FilterBar
                     filter={this.state.search_text}
@@ -98,27 +96,63 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         flexWrap: 'wrap'
                     }}
                 >
-                    {this.props.cards.map(card => (
-                        <Cards.components.Card card={card} />
-                    ))}
+                    {this.props.cards
+                        .sort(Core.utils.alphabetically)
+                        .map(card => (
+                            <Cards.components.Card
+                                key={card._id}
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Cards.actions.select_card(card._id)
+                                    )
+                                }
+                                selected={
+                                    this.props.selected_cards.indexOf(
+                                        card._id
+                                    ) > -1
+                                }
+                                card={card}
+                                edit={event => {
+                                    event.preventDefault();
+                                    this.props.dispatch(
+                                        Cards.actions.change_card(card)
+                                    );
+                                    this.props.dispatch(
+                                        UI.actions.toggle_create_card_dialog()
+                                    );
+                                }}
+                            />
+                        ))}
                 </div>
 
-                <FloatingActionButton
-                    onClick={() => {
-                        this.props.dispatch(
-                            UI.actions.toggle_create_card_dialog()
-                        );
-                    }}
-                    style={{
-                        margin: '20px',
-                        bottom: '0px',
-                        right: '20px',
-                        position: 'fixed'
-                    }}
-                >
-                    <ContentAdd />
-                </FloatingActionButton>
+                <UI.components.ActionBar>
+                    {this.props.selected_cards.length !== 0 ? (
+                        <FloatingActionButton
+                            onClick={() => {
+                                this.props.dispatch(
+                                    UI.actions.toggle_assign_material_dialog()
+                                );
+                            }}
+                            style={{
+                                zIndex: 5000
+                            }}
+                        >
+                            <SVGCards />
+                        </FloatingActionButton>
+                    ) : null}
+                    <FloatingActionButton
+                        onClick={() => {
+                            this.props.dispatch(Cards.actions.reset_card()); // this is neededd, because the _id is used to determine if a card should be edited or created.
+                            this.props.dispatch(
+                                UI.actions.toggle_create_card_dialog()
+                            );
+                        }}
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
+                </UI.components.ActionBar>
                 <CreateCardDialog />
+                <AssignMaterialDialog />
             </div>
         );
     }
@@ -135,7 +169,8 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
                           state.tags.ui.selected_tags
                       )
                   )
-                : Cards.selectors.select_all_cards(state)
+                : Cards.selectors.select_all_cards(state),
+        selected_cards: state.cards.ui.selected_cards
     };
 }
 

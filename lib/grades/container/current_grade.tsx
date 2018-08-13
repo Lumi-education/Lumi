@@ -6,8 +6,8 @@ import * as debug from 'debug';
 import { Avatar } from 'material-ui';
 
 // modules
-import * as Grades from '../';
-import { get_grade_color, get_grade_string } from 'lib/ui/utils';
+import * as Grades from '..';
+import { get_grade_color, get_grade_string } from '../../ui/utils';
 
 const log = debug('lumi:lib:grades:container:grade-list');
 

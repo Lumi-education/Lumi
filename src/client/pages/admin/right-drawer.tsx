@@ -19,6 +19,8 @@ import {
     set_right_appbar_icon
 } from 'lib/ui/actions';
 
+import * as UI from 'lib/ui';
+
 const log = debug('lumi:pages:cards:right-drawer');
 
 interface IStateProps {
@@ -74,7 +76,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                     }}
                 >
                     <AppBar
-                        style={{ backgroundColor: '#3498db' }}
+                        style={{ backgroundColor: UI.config.secondary_color }}
                         showMenuIconButton={true}
                         iconElementLeft={
                             <IconButton>

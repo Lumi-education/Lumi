@@ -12,7 +12,7 @@ import {
     USERS_UPDATE_USER_REQUEST
 } from '../actions';
 
-import * as Groups from 'lib/groups';
+import * as Groups from '../../groups';
 
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {

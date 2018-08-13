@@ -2,7 +2,7 @@ import { assign, unionBy } from 'lodash';
 
 import { TAGS_UI_SELECT_TAG_ID } from '../actions';
 
-import { ITagsUI } from '../';
+import { ITagsUI } from '..';
 
 const initialState: ITagsUI = {
     selected_tags: []

@@ -92,7 +92,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                 .then(user_response => {
                     const assignment_ids = uniq(
                         user_response.payload
-                            .map(user => user.flow[this.props.group_id])
+                            .map(user => user.flow)
                             .reduce((p, c) => p.concat(c), [])
                     );
 
@@ -167,7 +167,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                         display: 'flex',
                         flexDirection: 'row',
                         flexWrap: 'nowrap',
-                        background: 'linear-gradient(90deg, #8e44ad, #3498db)',
                         overflow: 'scroll',
                         zIndex: 200
                     }}
@@ -185,89 +184,78 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             >
                                 <CardHeader
                                     title={user.name}
-                                    subtitle={
-                                        user.flow[this.props.group_id].length +
-                                        ' Karten'
-                                    }
+                                    subtitle={user.flow.length + ' Karten'}
                                     avatar={<Avatar>P</Avatar>}
                                     showExpandableButton={false}
                                 />
                                 <CardText>
-                                    {user.flow[this.props.group_id].map(
-                                        assignment_id => {
-                                            const assignment = this.props.assignment(
-                                                assignment_id
-                                            );
+                                    {user.flow.map(assignment_id => {
+                                        const assignment = this.props.assignment(
+                                            assignment_id
+                                        );
 
-                                            const card = this.props.card(
-                                                assignment.card_id
-                                            );
+                                        const card = this.props.card(
+                                            assignment.card_id
+                                        );
 
-                                            return (
-                                                <Card
-                                                    key={assignment._id}
-                                                    style={{
-                                                        marginTop: '10px'
-                                                    }}
-                                                >
-                                                    <CardHeader
-                                                        title={card.name}
-                                                        subtitle={
-                                                            card.description
-                                                        }
-                                                        showExpandableButton={
-                                                            false
-                                                        }
-                                                        avatar={
-                                                            <Avatar
-                                                                backgroundColor={UI.utils.get_grade_color(
-                                                                    assignment.data !==
-                                                                    null
-                                                                        ? assignment
-                                                                              .data[
-                                                                              assignment
-                                                                                  .data
-                                                                                  .length -
-                                                                                  1
-                                                                          ]
-                                                                              .score /
-                                                                          assignment
-                                                                              .data[
-                                                                              assignment
-                                                                                  .data
-                                                                                  .length -
-                                                                                  1
-                                                                          ]
-                                                                              .maxScore
-                                                                        : null
-                                                                )}
-                                                            >
-                                                                {assignment.data !==
+                                        return (
+                                            <Card
+                                                key={assignment._id}
+                                                style={{
+                                                    marginTop: '10px'
+                                                }}
+                                            >
+                                                <CardHeader
+                                                    title={card.name}
+                                                    subtitle={card.description}
+                                                    showExpandableButton={false}
+                                                    avatar={
+                                                        <Avatar
+                                                            backgroundColor={UI.utils.get_grade_color(
+                                                                assignment.data !==
                                                                 null
-                                                                    ? (assignment
+                                                                    ? assignment
                                                                           .data[
                                                                           assignment
                                                                               .data
                                                                               .length -
                                                                               1
                                                                       ].score /
+                                                                      assignment
+                                                                          .data[
                                                                           assignment
-                                                                              .data[
-                                                                              assignment
-                                                                                  .data
-                                                                                  .length -
-                                                                                  1
-                                                                          ]
-                                                                              .maxScore) *
-                                                                      100
-                                                                    : null}
-                                                            </Avatar>
-                                                        }
-                                                    />
-                                                </Card>
-                                            );
-                                        }
-                                    )}
+                                                                              .data
+                                                                              .length -
+                                                                              1
+                                                                      ].maxScore
+                                                                    : null
+                                                            )}
+                                                        >
+                                                            {assignment.data !==
+                                                            null
+                                                                ? (assignment
+                                                                      .data[
+                                                                      assignment
+                                                                          .data
+                                                                          .length -
+                                                                          1
+                                                                  ].score /
+                                                                      assignment
+                                                                          .data[
+                                                                          assignment
+                                                                              .data
+                                                                              .length -
+                                                                              1
+                                                                      ]
+                                                                          .maxScore) *
+                                                                  100
+                                                                : null}
+                                                        </Avatar>
+                                                    }
+                                                />
+                                            </Card>
+                                        );
+                                    })}
                                     <RaisedButton
                                         style={{ marginTop: '15px' }}
                                         fullWidth={true}
@@ -312,7 +300,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             user_ids={this.props.users.map(user => user._id)}
                         /> */}
                     </UI.components.ActionBar>
-                    <AssignMaterialDialog group_id={this.props.group_id} />
+                    <AssignMaterialDialog />
                 </div>
             );
         } catch (error) {

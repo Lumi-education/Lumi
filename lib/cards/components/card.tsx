@@ -1,13 +1,19 @@
 import * as React from 'react';
 import * as debug from 'debug';
 
-import { Card, CardHeader, CardText } from 'material-ui';
-import { ICard } from '../';
+import {
+    Avatar,
+    Card,
+    CardHeader,
+    CardText,
+    CardActions,
+    Paper,
+    RaisedButton
+} from 'material-ui';
+import { ICard } from '..';
 
 import * as markdownit from 'markdown-it';
-import { TagsContainer } from 'lib/tags';
 import { convert_attachment_url } from '../utils';
-import H5PComponent from './h5p';
 
 const md = markdownit();
 
@@ -15,6 +21,9 @@ const log = debug('lumi:packages:cards:components:uploadcard');
 
 interface IProps {
     card: ICard;
+    edit: (event) => void;
+    selected?: boolean;
+    onClick?: () => void;
 }
 
 export default class CardComponent extends React.Component<IProps, {}> {
@@ -25,24 +34,34 @@ export default class CardComponent extends React.Component<IProps, {}> {
     public render() {
         const card = this.props.card;
         return (
-            <Card
-                style={{
-                    width: '200px',
-                    height: '300px',
-                    margin: '10px',
-                    overflow: 'hidden'
-                }}
+            <Paper
+                style={{ margin: '10px' }}
+                onClick={this.props.onClick}
+                zDepth={this.props.selected ? 5 : 1}
             >
-                <CardHeader
-                    title={card.name}
-                    subtitle={card.description}
-                    style={{ paddingBottom: '2px' }}
-                />
-                <CardText style={{ paddingTop: '2px' }}>
-                    {' '}
-                    {card.card_type === 'h5p' ? (
-                        <H5PComponent content_id={card.content_id} />
-                    ) : (
+                <Card
+                    style={{
+                        width: '200px',
+                        height: '300px',
+                        overflow: 'hidden',
+                        background: this.props.selected ? 'lightgrey' : 'white'
+                    }}
+                >
+                    <CardHeader
+                        title={card.name}
+                        subtitle={card.description}
+                        style={{ paddingBottom: '2px' }}
+                        avatar={
+                            <Avatar>
+                                {card.card_type
+                                    ? card.card_type
+                                          .substring(0, 3)
+                                          .toLocaleUpperCase()
+                                    : 'X'}
+                            </Avatar>
+                        }
+                    />
+                    <CardText style={{ paddingTop: '2px' }}>
                         <div
                             dangerouslySetInnerHTML={{
                                 __html: md.render(
@@ -53,9 +72,15 @@ export default class CardComponent extends React.Component<IProps, {}> {
                                 )
                             }}
                         />
-                    )}
-                </CardText>
-            </Card>
+                    </CardText>
+                    <CardActions>
+                        <RaisedButton
+                            onClick={this.props.edit}
+                            label="Bearbeiten"
+                        />
+                    </CardActions>
+                </Card>
+            </Paper>
         );
     }
 }

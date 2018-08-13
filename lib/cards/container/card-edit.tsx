@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { noop } from 'lodash';
-import { push } from 'lib/ui/actions';
+import { push } from '../../ui/actions';
 import * as debug from 'debug';
 import Dropzone from 'react-dropzone';
 import * as request from 'superagent';
@@ -16,7 +16,7 @@ import {
     Paper,
     RaisedButton
 } from 'material-ui';
-import ActionBar from 'lib/ui/components/action-bar';
+import ActionBar from '../../ui/components/action-bar';
 
 import MultiplechoiceComponent from '../components/multiplechoice';
 import TextComponent from '../components/text';
@@ -25,8 +25,8 @@ import VideoComponent from '../components/video';
 import UploadComponent from '../components/upload';
 import H5PComponent from '../components/h5p';
 // modules
-import * as Cards from 'lib/cards';
-import * as Core from 'lib/core';
+import * as Cards from '..';
+import * as Core from '../../core';
 
 const log = debug('lumi:container:cards:card-edit');
 
@@ -83,7 +83,10 @@ export class CardEditContainer extends React.Component<
                             <SelectField
                                 fullWidth={true}
                                 floatingLabelText="Type"
-                                value={card.card_type || 'multiplechoice'}
+                                value={
+                                    card.card_type ||
+                                    Core.config.default_card_type
+                                }
                                 onChange={(e, i, v) =>
                                     this.props.dispatch(
                                         Cards.actions.change_card({
@@ -92,18 +95,18 @@ export class CardEditContainer extends React.Component<
                                     )
                                 }
                             >
-                                <MenuItem
+                                {/* <MenuItem
                                     value="multiplechoice"
                                     primaryText="Multiplechoice"
                                 />
                                 <MenuItem
                                     value="freetext"
                                     primaryText="Freetext"
-                                />
+                                /> */}
                                 <MenuItem value="h5p" primaryText="H5P" />
                                 {/*<MenuItem value="text" primaryText="Text" /> */}
                                 {/* <MenuItem value="video" primaryText="Video" /> */}
-                                <MenuItem value="upload" primaryText="Upload" />
+                                {/* <MenuItem value="upload" primaryText="Upload" /> */}
                             </SelectField>
                             <TextField
                                 hintText="Description"

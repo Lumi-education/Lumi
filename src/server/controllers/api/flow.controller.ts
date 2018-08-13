@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { assign } from 'lodash';
 import { IRequest } from '../../middleware/auth';
+import * as raven from 'raven';
 
 import db from '../../db';
 
@@ -81,11 +82,9 @@ class FlowController {
     public assign(req: IRequest, res: express.Response) {
         // required params: user_id[] && card_id[] && group_id
 
-        if (!req.body.group_id || !req.body.user_ids || !req.body.card_ids) {
+        if (!req.body.user_ids || !req.body.card_ids) {
             return res.status(400).json({ message: 'invalid body' });
         }
-
-        const group_id = req.body.group_id;
 
         const _assignments: IAssignment[] = [];
 
@@ -95,7 +94,6 @@ class FlowController {
                     user_id,
                     card_id,
                     type: 'assignment',
-                    group_id: req.body.group_id,
                     completed: false,
                     data: null,
                     score: null,
@@ -108,6 +106,10 @@ class FlowController {
         });
 
         db.insertMany(_assignments, {}, (err, result) => {
+            if (err) {
+                raven.captureException(err);
+                return res.status(400).json(err);
+            }
             _assignments.map((a, i) => {
                 return assign(a, { _id: result[i].id });
             });
@@ -122,9 +124,13 @@ class FlowController {
                     limit: 32
                 },
                 (find_error, users) => {
+                    if (find_error) {
+                        raven.captureException(err);
+                        return res.status(400).json(err);
+                    }
                     users.map(user => {
-                        user.flow[group_id] = [
-                            ...user.flow[group_id],
+                        user.flow = [
+                            ...user.flow,
                             ..._assignments
                                 .filter(
                                     assignment =>

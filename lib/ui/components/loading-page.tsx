@@ -25,8 +25,7 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                     height: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    background: 'linear-gradient(90deg, #8e44ad, #3498db)'
+                    justifyContent: 'center'
                 }}
             >
                 <div>

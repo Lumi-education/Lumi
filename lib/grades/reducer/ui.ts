@@ -5,7 +5,7 @@ import {
     GRADES_HIDE_CREATE_GRADE_DIALOG
 } from '../actions';
 
-import { IGradesUI } from '../';
+import { IGradesUI } from '..';
 
 const initialState: IGradesUI = {
     show_create_grades_dialog: false,

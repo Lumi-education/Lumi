@@ -115,3 +115,13 @@ export function arrayToObject(array) {
         return a;
     }, {});
 }
+
+export function alphabetically(a, b) {
+    if (a.name < b.name) {
+        return -1;
+    }
+    if (a.name > b.name) {
+        return 1;
+    }
+    return 0;
+}

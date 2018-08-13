@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as debug from 'debug';
+import * as path from 'path';
 
 import mw from '../../middleware';
 
@@ -66,7 +67,18 @@ export default function(): express.Router {
     router.put('/cards/:id', cardsController.update);
     router.delete('/cards/:id', cardsController.delete);
 
-    router.get('/h5p/*', cardsController.h5p_proxy);
+    router.use('/h5pcontent/content/:h5pfile/*', (req, res) => {
+        const file = path.join(
+            path.resolve('build/h5p'),
+            req.params.h5pfile,
+            'content',
+            req.params[0]
+        );
+        res.sendfile(file);
+    });
+    router.get('/h5p/:content_id', cardsController.h5p);
+    router.use('/h5plib', express.static(path.resolve('build/h5p')));
+
     router.post('/h5p', cardsController.h5p_upload);
 
     // cards -> attachments

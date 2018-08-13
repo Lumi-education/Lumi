@@ -15,7 +15,7 @@ import {
 } from 'material-ui';
 
 // modules
-import * as Grades from '../';
+import * as Grades from '..';
 import * as Core from 'lib/core';
 
 const log = debug('lumi:lib:grades:container:creategradedialog');

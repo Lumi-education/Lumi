@@ -5,7 +5,7 @@ import * as debug from 'debug';
 import * as ReactDOM from 'react-dom';
 // components
 
-import * as Cards from '../';
+import * as Cards from '..';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 

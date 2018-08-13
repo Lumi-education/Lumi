@@ -9,6 +9,7 @@
         "allowJs": true,
         "outDir": "./build",
         "baseUrl": "./",
+        "jsx": "react",
         "sourceMap": true
     },
     "files": ["src/server/boot.ts"]

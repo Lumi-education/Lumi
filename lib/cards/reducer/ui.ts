@@ -4,7 +4,9 @@ import { CARD_SELECT, CARD_SELECTION_RESET } from '../constants';
 
 import { CARDS_UI_CHANGE_CARD, CARDS_UI_RESET_CARD } from '../actions';
 
-import { ICardUI } from '../';
+import { ICardUI } from '..';
+
+import * as Core from 'lib/core';
 
 const initialState: ICardUI = {
     selected_cards: [],
@@ -36,7 +38,9 @@ export default function(state: ICardUI = initialState, action): ICardUI {
             return assign({}, state, { card: new_card });
 
         case CARDS_UI_RESET_CARD:
-            return assign({}, state, { card: { card_type: 'multiplechoice' } });
+            return assign({}, state, {
+                card: { card_type: Core.config.default_card_type }
+            });
 
         default:
             return state;

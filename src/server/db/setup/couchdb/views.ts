@@ -1,6 +1,6 @@
-import {DB} from '../../';
+import { DB } from '../..';
 import * as debug from 'debug';
-import {isEqual} from 'lodash';
+import { isEqual } from 'lodash';
 
 const log = debug('db:setup:couchdb:views');
 

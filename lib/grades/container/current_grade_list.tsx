@@ -6,7 +6,7 @@ import * as debug from 'debug';
 import { Avatar, List, ListItem } from 'material-ui';
 
 // modules
-import * as Grades from '../';
+import * as Grades from '..';
 
 import { get_grade_color, get_grade_string } from 'lib/ui/utils';
 

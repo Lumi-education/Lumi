@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 import { ITagRef } from '../types';
 
-import { arrayToObject } from 'lib/core/utils';
+import { arrayToObject } from '../../core/utils';
 
 import {
     TAGS_ADD_TO_DOC_REQUEST,

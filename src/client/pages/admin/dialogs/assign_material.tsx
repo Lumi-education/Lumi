@@ -31,7 +31,6 @@ import * as Flow from 'lib/flow';
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
 interface IPassedProps {
-    group_id: string;
     user_ids?: string[];
 }
 
@@ -64,7 +63,7 @@ export class AssignMaterialDialog extends React.Component<
 
     public componentWillReceiveProps(nextProps: IProps) {
         if (!this.props.open && nextProps.open) {
-            this.props.dispatch(Cards.actions.reset_card_selection());
+            // this.props.dispatch(Cards.actions.reset_card_selection());
         }
     }
 
@@ -99,7 +98,6 @@ export class AssignMaterialDialog extends React.Component<
                             this.props
                                 .dispatch(
                                     Flow.actions.assign(
-                                        this.props.group_id,
                                         this.props.user_ids,
                                         this.props.card_ids
                                     )
@@ -107,6 +105,9 @@ export class AssignMaterialDialog extends React.Component<
                                 .then(res => {
                                     this.props.dispatch(
                                         UI.actions.toggle_assign_material_dialog()
+                                    );
+                                    this.props.dispatch(
+                                        Cards.actions.reset_card_selection()
                                     );
                                 });
                         }}
@@ -213,8 +214,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             state.cards.ui.selected_cards
         ),
-        cards: state.cards.map.toArray(),
-        group_id: ownProps.group_id
+        cards: state.cards.map.toArray()
     };
 }
 

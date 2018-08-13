@@ -7,13 +7,13 @@ import UserIndex from 'client/pages/user';
 import UserDashboard from 'client/pages/user/dashboard';
 import Grades from './grades';
 import Flow from './flow';
-import Card from './card';
+import Assignment from './assignment';
 
 export default (
     <Route path="user" component={UserIndex}>
-        <IndexRoute component={UserDashboard} />
+        <IndexRoute component={Flow} />
         <Route path="flow" component={Flow} />
-        <Route path="course/:course_id/flow/:assignment_id" component={Card} />
+        <Route path="assignment/:assignment_id" component={Assignment} />
         <Route path="grades" component={Grades} />
     </Route>
 );

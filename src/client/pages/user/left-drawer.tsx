@@ -79,33 +79,17 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     />
 
                     <List>
-                        <ListItem
+                        {/* <ListItem
                             primaryText="Dashboard"
                             onClick={() => this.props.dispatch(push('/user'))}
                             leftIcon={<SVGDashboard />}
-                        />
+                        /> */}
                         <ListItem
-                            primaryText="Kurse"
+                            primaryText="Flow"
                             leftIcon={<SVGAssignments />}
-                            primaryTogglesNestedList={true}
-                            nestedItems={this.props.user.groups.map(
-                                group_id => (
-                                    <ListItem
-                                        key={group_id}
-                                        primaryText={
-                                            this.props.group(group_id).name
-                                        }
-                                        onClick={() =>
-                                            this.props.dispatch(
-                                                push(
-                                                    '/user/flow?course_id=' +
-                                                        group_id
-                                                )
-                                            )
-                                        }
-                                    />
-                                )
-                            )}
+                            onClick={() =>
+                                this.props.dispatch(push('/user/flow'))
+                            }
                         />
                         <ListItem
                             primaryText="Logout"

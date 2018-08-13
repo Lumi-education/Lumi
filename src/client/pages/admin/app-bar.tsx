@@ -8,7 +8,7 @@ import { AppBar } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
-import { actions as ui_actions } from 'lib/ui';
+import * as UI from 'lib/ui';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;
@@ -29,15 +29,15 @@ export class AdminAppBar extends React.Component<IProps, {}> {
         return (
             <AppBar
                 style={{
-                    background: 'linear-gradient(90deg, #8e44ad, #3498db)'
+                    background: UI.config.default_bg
                 }}
                 showMenuIconButton={true}
                 title="Lumi"
                 onLeftIconButtonTouchTap={() =>
-                    this.props.dispatch(ui_actions.left_drawer_open())
+                    this.props.dispatch(UI.actions.left_drawer_open())
                 }
                 onRightIconButtonTouchTap={() =>
-                    this.props.dispatch(ui_actions.right_drawer_open())
+                    this.props.dispatch(UI.actions.right_drawer_open())
                 }
                 iconElementRight={this.props.right_appbar_icon}
             />

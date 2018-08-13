@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
-import * as Groups from '../';
+import * as Groups from '..';
 
 interface IPassedProps {
     hintText?: string;

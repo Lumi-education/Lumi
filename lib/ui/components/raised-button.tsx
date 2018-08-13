@@ -6,7 +6,7 @@ import { RaisedButton } from 'material-ui';
 
 import { state_color } from '../utils';
 
-import * as UI from '../';
+import * as UI from '..';
 
 // actions
 interface IPassedProps {

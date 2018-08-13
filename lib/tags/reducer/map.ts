@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 import { ITag } from '../types';
 
-import { arrayToObject } from 'lib/core/utils';
+import { arrayToObject } from '../../core/utils';
 
 import {
     TAGS_GET_TAGS_SUCCESS,

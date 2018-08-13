@@ -28,7 +28,7 @@ module.exports = Object.assign(sharedConfig, {
         // Extract all 3rd party modules into a separate 'vendor' chunk
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks: ({resource}) => /node_modules/.test(resource)
+            minChunks: ({ resource }) => /node_modules/.test(resource)
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/client/index.html')
@@ -41,8 +41,8 @@ module.exports = Object.assign(sharedConfig, {
         }),
         new CopyWebpackPlugin([
             {
-                from: 'lib/cards/h5p',
-                to: 'h5p',
+                from: 'src/client/static',
+                to: 'static',
                 toType: 'dir'
             }
         ])

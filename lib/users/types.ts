@@ -13,7 +13,7 @@ export interface IUser {
     online: boolean;
     location: string;
     password: string;
-    flow: {};
+    flow: string[];
 }
 
 export interface IState {

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 // components
-import { TagInputComponent } from '../';
+import { TagInputComponent } from '..';
 
 // types
 import { ITag, IState } from '../types';
 
 // selectors
-import { select_tag_ids_for_doc, select_tags_as_map } from 'lib/tags/selectors';
+import { select_tag_ids_for_doc, select_tags_as_map } from '../selectors';
 
 // actions
 import {
@@ -18,7 +18,7 @@ import {
     get_tags,
     add_tag_to_doc,
     rem_tag_from_doc
-} from 'lib/tags/actions';
+} from '../actions';
 
 interface IPassedProps {
     doc_id: string;
