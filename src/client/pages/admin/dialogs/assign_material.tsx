@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
+import { intersection } from 'lodash';
 
 // components
 import {
@@ -41,6 +42,7 @@ interface IStateProps extends IPassedProps {
     cards: Cards.ICard[];
     selected_card_ids: string[];
     selected_cards: Cards.ICard[];
+    selected_tags: string[];
 }
 
 interface IDispatchProps {
@@ -89,28 +91,27 @@ export class AssignMaterialDialog extends React.Component<
                             )
                         }
                     />,
-                    <RaisedButton
-                        primary={true}
-                        label={
-                            this.props.selected_card_ids.length + ' zuweisen'
-                        }
-                        onClick={() => {
-                            this.props
-                                .dispatch(
-                                    Flow.actions.assign(
-                                        this.props.user_ids,
-                                        this.props.card_ids
-                                    )
-                                )
-                                .then(res => {
-                                    this.props.dispatch(
-                                        UI.actions.toggle_assign_material_dialog()
-                                    );
-                                    this.props.dispatch(
-                                        Cards.actions.reset_card_selection()
-                                    );
-                                });
+                    <UI.components.RaisedButton
+                        labels={[
+                            this.props.selected_card_ids.length + ' zuweisen',
+                            'wird zugewiesen...',
+                            'erfolgreich zugewiesen',
+                            'Fehler'
+                        ]}
+                        action={Flow.actions.assign(
+                            this.props.user_ids,
+                            this.props.card_ids
+                        )}
+                        onSuccess={() => {
+                            this.props.dispatch(
+                                UI.actions.toggle_assign_material_dialog()
+                            );
+                            this.props.dispatch(
+                                Cards.actions.reset_card_selection()
+                            );
                         }}
+                        fullWidth={false}
+                        disabled={false}
                     />
                 ]}
                 open={this.props.open}
@@ -140,11 +141,22 @@ export class AssignMaterialDialog extends React.Component<
                                         card._id
                                     ) === -1
                             )
+                            .filter(
+                                card =>
+                                    intersection(
+                                        card.tags,
+                                        this.props.selected_tags
+                                    ).length === this.props.selected_tags.length
+                            )
                             .map(card => (
                                 <Card key={card._id} style={{ margin: '10px' }}>
                                     <CardHeader
                                         title={card.name}
-                                        subtitle={card.description}
+                                        subtitle={
+                                            <Tags.TagsContainer
+                                                tag_ids={card.tags}
+                                            />
+                                        }
                                         showExpandableButton={true}
                                         actAsExpander={true}
                                     />
@@ -174,7 +186,11 @@ export class AssignMaterialDialog extends React.Component<
                                 <Card style={{ margin: '10px' }}>
                                     <CardHeader
                                         title={card.name}
-                                        subtitle={card.description}
+                                        subtitle={
+                                            <Tags.TagsContainer
+                                                tag_ids={card.tags}
+                                            />
+                                        }
                                         showExpandableButton={true}
                                         actAsExpander={true}
                                     />
@@ -214,7 +230,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             state.cards.ui.selected_cards
         ),
-        cards: state.cards.map.toArray()
+        cards: state.cards.map.toArray(),
+        selected_tags: state.tags.ui.selected_tags
     };
 }
 

@@ -30,7 +30,7 @@ export default function(): express.Router {
 
     router.post('/flow/assign', flowController.assign);
     router.get('/flow/assignments', flowController.get_assignments);
-
+    router.delete('/flow/assignments', flowController.delete_assignments);
     router.get(
         '/flow/assignment/:assignment_id/state',
         flowController.get_state
@@ -44,6 +44,8 @@ export default function(): express.Router {
         '/flow/assignment/:assignment_id/data',
         flowController.save_data
     );
+
+    router.put('/flow/assignments', flowController.update_assignments);
 
     router.post('/core/find', mw.auth, coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
@@ -97,12 +99,10 @@ export default function(): express.Router {
     // tags
     router.get('/tags', tagsController.index);
     router.post('/tags', tagsController.create);
-    router.get('/tags/ref', tagsController.readRef);
-    router.get('/tags/refs', tagsController.indexRef);
+    router.post('/tags/add', tagsController.add_tags_to_docs);
     router.get('/tags/:id', tagsController.read);
     router.put('/tags/:id', tagsController.update);
     router.delete('/tags/:id', tagsController.delete);
-    router.put('/tags/:id/action', tagsController.action);
 
     // user -> carddata
     router.get('/user/card', mw.auth, cardsController.list);

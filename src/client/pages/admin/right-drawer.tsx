@@ -45,13 +45,13 @@ export class RightDrawer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(
-            set_right_appbar_icon(
-                <IconButton>
-                    <SVGGroup />
-                </IconButton>
-            )
-        );
+        // this.props.dispatch(
+        //     set_right_appbar_icon(
+        //         <IconButton>
+        //             <SVGGroup />
+        //         </IconButton>
+        //     )
+        // );
     }
 
     public componentWillUnmount() {

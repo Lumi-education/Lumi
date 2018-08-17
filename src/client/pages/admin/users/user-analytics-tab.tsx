@@ -3,19 +3,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
-import { intersection } from 'lodash';
 // types
 import { IState } from 'client/state';
 
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import { LineChart, ColumnChart } from 'react-chartkick';
 
 import {
-    Card,
-    CardHeader,
+    Badge,
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+    SelectField,
+    MenuItem,
     Paper,
-    FloatingActionButton,
-    Checkbox,
-    CardText
+    FloatingActionButton
 } from 'material-ui';
 
 import AssignMaterialDialog from '../dialogs/assign_material';
@@ -29,21 +33,21 @@ import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
 
 import { get_grade_color } from 'lib/core/utils';
-import { assign } from 'lib/flow/api';
+import { assign } from 'lib/flow/actions';
 
 interface IPassedProps {
     user_id: string;
-    course_id: string;
 }
 interface IStateProps extends IPassedProps {
     assignments: Flow.IAssignment[];
     assignment: (assignment_id: string) => Flow.IAssignment;
+    assignments_for_cards: (card_id: string[]) => Flow.IAssignment[];
     card_name: (card_id: string) => string;
     user: Users.IUser;
     card: (card_id: string) => Cards.ICard;
-    group: (group_id: string) => Groups.IGroup;
-    show_completed_assignments: boolean;
     selected_tags: string[];
+    tag: (tag_id: string) => Tags.ITag;
+    cards_with_tag: (tag_id: string) => Cards.ICard[];
 }
 
 interface IDispatchProps {
@@ -58,7 +62,7 @@ interface IComponentState {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class UserFlowTab extends React.Component<IProps, IComponentState> {
+export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
@@ -129,93 +133,58 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
             );
         }
 
+        const line_data = this.props.selected_tags.map(tag_id => {
+            const tag = this.props.tag(tag_id);
+            const cards = this.props.cards_with_tag(tag_id);
+            const assignments = this.props
+                .assignments_for_cards(cards.map(card => card._id))
+                .filter(assignment => assignment.data !== null)
+                .filter(assignment => assignment.user_id === this.props.user_id)
+                .map((assignment, index) => [
+                    assignment.data[assignment.data.length - 1].finished,
+                    assignment.data[assignment.data.length - 1].score /
+                        assignment.data[assignment.data.length - 1].maxScore
+                ]);
+
+            return { name: tag.name, color: tag.color, data: assignments };
+        });
+
+        const column_data = this.props.selected_tags.map(tag_id => {
+            const tag = this.props.tag(tag_id);
+            const cards = this.props.cards_with_tag(tag_id);
+            const assignments = this.props
+                .assignments_for_cards(cards.map(card => card._id))
+                .filter(assignment => assignment.data !== null)
+                .filter(
+                    assignment => assignment.user_id === this.props.user_id
+                );
+            const data = assignments
+                .map(
+                    (assignment, index) =>
+                        assignment.data[assignment.data.length - 1].score /
+                        assignment.data[assignment.data.length - 1].maxScore
+                )
+                .reduce(Core.utils.avg, 0);
+
+            const o = {};
+            o[tag.name] = data;
+            return { name: tag.name, color: tag.color, data: o };
+        });
+
         return (
-            <div
-                style={{
-                    minHeight: '100vh',
-                    background: UI.config.gradient_bg
-                }}
-            >
+            <div id="user-analytics-tab">
                 <Paper>
                     <Tags.TagsFilterContainer />
                 </Paper>
-                <Paper style={{ padding: '15px' }}>
-                    <Checkbox
-                        label="Zeige abgeschlossene Aufgaben"
-                        checked={this.props.show_completed_assignments}
-                        onCheck={() =>
-                            this.props.dispatch(
-                                UI.actions.toggle_show_completed_assignments()
-                            )
-                        }
-                    />
+
+                <Paper>
+                    <h1>Entwicklung vom ... bis ...</h1>
+                    <LineChart data={line_data} />
                 </Paper>
-                {this.props.user.flow.map(assignment_id => {
-                    const assignment = this.props.assignment(assignment_id);
-
-                    if (
-                        assignment.completed &&
-                        !this.props.show_completed_assignments
-                    ) {
-                        return null;
-                    }
-
-                    const card = this.props.card(assignment.card_id);
-
-                    if (
-                        intersection(card.tags, this.props.selected_tags)
-                            .length !== this.props.selected_tags.length
-                    ) {
-                        return null;
-                    }
-
-                    return (
-                        <Card style={{ margin: '20px' }}>
-                            <CardHeader
-                                title={card.name}
-                                subtitle={
-                                    <Tags.TagsContainer tag_ids={card.tags} />
-                                }
-                                avatar={
-                                    <Cards.components.CardScore
-                                        score={
-                                            assignment.data !== null
-                                                ? assignment.data[
-                                                      assignment.data.length - 1
-                                                  ].score /
-                                                  assignment.data[
-                                                      assignment.data.length - 1
-                                                  ].maxScore
-                                                : null
-                                        }
-                                    />
-                                }
-                            />
-                        </Card>
-                    );
-                })}
-
-                <UI.components.ActionBar>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                Users.actions.set_selected_users([
-                                    this.props.user_id
-                                ])
-                            );
-                            this.props.dispatch(
-                                UI.actions.toggle_assign_material_dialog()
-                            );
-                        }}
-                        style={{
-                            margin: '20px',
-                            zIndex: 5000
-                        }}
-                    >
-                        <ContentAdd />
-                    </FloatingActionButton>
-                </UI.components.ActionBar>
-                <AssignMaterialDialog />
+                <Paper style={{ marginTop: '20px' }}>
+                    <h1>Durchschnitt vom ... bis ...</h1>
+                    <ColumnChart data={column_data} />
+                </Paper>
             </div>
         );
     }
@@ -223,7 +192,6 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        course_id: ownProps.course_id,
         user_id: ownProps.user_id,
         user: Users.selectors.user(state, ownProps.user_id),
         assignments: Flow.selectors.assignment_for_user(
@@ -234,9 +202,10 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             Flow.selectors.assignment_by_id(state, assignment_id),
         card_name: (card_id: string) => Cards.selectors.name(state, card_id),
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
-        group: (group_id: string) =>
-            Groups.selectors.select_group(state, group_id),
-        show_completed_assignments: state.ui.show_completed_assignments,
+        cards_with_tag: tag_id => Cards.selectors.with_tags(state, [tag_id]),
+        assignments_for_cards: (card_ids: string[]) =>
+            Flow.selectors.assignments_for_cards(state, card_ids),
+        tag: (tag_id: string) => Tags.selectors.tag(state, tag_id),
         selected_tags: state.tags.ui.selected_tags
     };
 }
@@ -250,4 +219,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(UserFlowTab);
+)(UserAnalyticsTab);

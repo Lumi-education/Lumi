@@ -11,23 +11,15 @@ export interface ITag {
     created_at: Date;
 }
 
-export interface ITagRef {
-    _id?: string;
-    doc_id: string;
-    tags: Tag_id[];
-    type: 'tag_ref';
-    created_at?: Date;
-    updated_at?: Date;
-}
-
 export interface ITagsUI {
     selected_tags: string[];
+    show_dialog: boolean;
+    tag: ITag;
 }
 
 export interface IState {
     tags: {
         map: Map<string, ITag>;
-        refs: Map<string, ITagRef>;
         ui: ITagsUI;
     };
 }

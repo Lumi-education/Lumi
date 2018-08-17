@@ -19,7 +19,7 @@ import SVGGroup from 'material-ui/svg-icons/social/group';
 import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGMonitor from 'material-ui/svg-icons/image/remove-red-eye';
-
+import SVGTags from 'material-ui/svg-icons/action/label';
 // state
 import { IState } from 'client/state';
 
@@ -112,8 +112,15 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/cards');
                             }}
                         />
+                        <ListItem
+                            primaryText="Tags"
+                            leftIcon={<SVGTags />}
+                            onTouchTap={() => {
+                                this.props.push('/admin/tags');
+                            }}
+                        />
                         <Divider />
-                        <Subheader>Diagnostik</Subheader>
+                        {/* <Subheader>Diagnostik</Subheader>
                         <ListItem
                             primaryText="Monitor"
                             leftIcon={<SVGMonitor />}
@@ -121,7 +128,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/analytics/monitor');
                             }}
                         />
-                        <Divider />
+                        <Divider /> */}
                         <Subheader>Benutzer</Subheader>
                         <ListItem
                             primaryText="Abmelden"

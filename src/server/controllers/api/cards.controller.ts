@@ -22,6 +22,7 @@ class CardController {
             description: '',
             created_at: new Date(),
             _attachments: {},
+            tags: [],
             _rev: undefined
         };
 
@@ -307,9 +308,25 @@ class CardController {
                                 h5p.preloadedDependencies.filter(
                                     dep => dep.machineName === h5p.mainLibrary
                                 )[0].minorVersion, // + "H5P.MultiChoice 1.5", // Library name + major version.minor version
-                            jsonContent: JSON.stringify(jsonContent).replace(
-                                /#tmp/g,
-                                ''
+                            jsonContent: assign(
+                                JSON.stringify(jsonContent).replace(
+                                    /#tmp/g,
+                                    ''
+                                ),
+                                {
+                                    behaviour: {
+                                        // overwrite behaviour with default
+                                        enableRetry: false,
+                                        enableCheckButton: true,
+                                        showSolutionsRequiresInput: true,
+                                        singlePoint: false,
+                                        applyPenalties: true,
+                                        enableScoreExplanation: true,
+                                        autoAlignSpacing: 2,
+                                        enableFullScreen: true,
+                                        showScorePoints: true
+                                    }
+                                }
                             ),
                             fullScreen: false, // No fullscreen support
                             // "exportUrl": "/path/to/download.h5p",

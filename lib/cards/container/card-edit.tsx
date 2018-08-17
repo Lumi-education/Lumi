@@ -95,18 +95,18 @@ export class CardEditContainer extends React.Component<
                                     )
                                 }
                             >
-                                {/* <MenuItem
+                                <MenuItem
                                     value="multiplechoice"
                                     primaryText="Multiplechoice"
                                 />
-                                <MenuItem
+                                {/* <MenuItem
                                     value="freetext"
                                     primaryText="Freetext"
                                 /> */}
                                 <MenuItem value="h5p" primaryText="H5P" />
                                 {/*<MenuItem value="text" primaryText="Text" /> */}
                                 {/* <MenuItem value="video" primaryText="Video" /> */}
-                                {/* <MenuItem value="upload" primaryText="Upload" /> */}
+                                <MenuItem value="upload" primaryText="Upload" />
                             </SelectField>
                             <TextField
                                 hintText="Description"

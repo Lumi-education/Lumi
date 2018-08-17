@@ -7,11 +7,21 @@ export interface IAssignment {
     data: any;
     state: any;
     score: number;
+    updated_at?: Date;
+    completed_at: Date;
     time: number;
+    _deleted?: boolean;
+    _attachments: any;
+    _rev?: string;
+}
+
+export interface IFlowUI {
+    selected_assignments: string[];
 }
 
 export interface IState {
     flow: {
         assignments: IAssignment[];
+        ui: IFlowUI;
     };
 }

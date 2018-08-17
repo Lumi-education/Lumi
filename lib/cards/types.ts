@@ -33,6 +33,7 @@ export interface IBaseCard {
     name: string;
     card_type: string;
     text: Markdown;
+    tags: string[];
     description: string;
     created_at: Date;
     _attachments;

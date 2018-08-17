@@ -11,6 +11,7 @@ import SVGEdit from 'material-ui/svg-icons/content/create';
 import ActionBar from 'lib/ui/components/action-bar';
 
 import UserFlowTab from './user-flow-tab';
+import UserAnalyticsTab from './user-analytics-tab';
 
 import UserGroupsInput from 'client/container/user-groups';
 
@@ -22,6 +23,7 @@ import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Grades from 'lib/grades';
 import * as UI from 'lib/ui';
+import * as Tags from 'lib/tags';
 
 interface IStateProps {
     user_id: string;
@@ -57,7 +59,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         width: '100%'
                     }}
                     tabItemContainerStyle={{
-                        background: UI.config.default_bg
+                        background: UI.config.gradient_bg
                     }}
                     value={this.props.tab}
                 >
@@ -74,19 +76,19 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                             )
                         }
                     />
-                    {/* <Tab
-                        label="Grades"
-                        value="grades"
+                    <Tab
+                        label="Analyse"
+                        value="analytics"
                         onActive={() =>
                             this.props.dispatch(
                                 push(
                                     '/admin/users/' +
                                         this.props.user_id +
-                                        '/grades'
+                                        '/analytics'
                                 )
                             )
                         }
-                    /> */}
+                    />
                     <Tab
                         label="Flow"
                         value="flow"
@@ -116,66 +118,12 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     </Users.UserContainer>
                                 </Paper>
                             );
-                        // case 'grades':
-                        //     return (
-                        //         <div>
-                        //             <Grades.CurrentGradeListContainer
-                        //                 user_id={this.props.user_id}
-                        //             />
-                        //             <Grades.GradeListContainer
-                        //                 user_id={this.props.user_id}
-                        //                 menuItems={[
-                        //                     (grade: Grades.IGrade) => (
-                        //                         <MenuItem
-                        //                             key={grade._id + '-1'}
-                        //                             leftIcon={<SVGEdit />}
-                        //                             onClick={() =>
-                        //                                 this.props.dispatch(
-                        //                                     Grades.actions.show_create_grade_dialog(
-                        //                                         this.props
-                        //                                             .user_id,
-                        //                                         grade._id
-                        //                                     )
-                        //                                 )
-                        //                             }
-                        //                         >
-                        //                             Edit
-                        //                         </MenuItem>
-                        //                     ),
-                        //                     (grade: Grades.IGrade) => (
-                        //                         <MenuItem
-                        //                             key={grade._id + '-2'}
-                        //                             leftIcon={<SVGDelete />}
-                        //                             onClick={() =>
-                        //                                 this.props.dispatch(
-                        //                                     Grades.actions.delete_grade(
-                        //                                         grade._id
-                        //                                     )
-                        //                                 )
-                        //                             }
-                        //                         >
-                        //                             Delete
-                        //                         </MenuItem>
-                        //                     )
-                        //                 ]}
-                        //             />
-
-                        //             <ActionBar>
-                        //                 <FloatingActionButton
-                        //                     onClick={() =>
-                        //                         this.props.dispatch(
-                        //                             Grades.actions.show_create_grade_dialog(
-                        //                                 this.props.user_id
-                        //                             )
-                        //                         )
-                        //                     }
-                        //                 >
-                        //                     <SVGGrade />
-                        //                 </FloatingActionButton>
-                        //             </ActionBar>
-                        //             <Grades.CreateGradeDialogContainer />
-                        //         </div>
-                        //     );
+                        case 'analytics':
+                            return (
+                                <UserAnalyticsTab
+                                    user_id={this.props.user_id}
+                                />
+                            );
                         case 'flow':
                             return (
                                 <UserFlowTab

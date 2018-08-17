@@ -2,9 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
+import * as debug from 'debug';
 
 // modules
 import * as Tags from '..';
+
+const log = debug('lumi:lib:tags:container:tag-filter');
 
 interface IPassedProps {}
 
@@ -35,9 +38,12 @@ export class TagFilterContainer extends React.Component<IProps, {}> {
             <Tags.TagInputComponent
                 tags={this.props.tags}
                 tag_ids={this.props.tag_ids || []}
-                add={tag =>
-                    this.props.dispatch(Tags.actions.select_tag(tag._id))
-                }
+                add={tag => {
+                    log(tag);
+                    if (tag._id !== tag.name) {
+                        this.props.dispatch(Tags.actions.select_tag(tag._id));
+                    }
+                }}
                 delete={tag_id =>
                     this.props.dispatch(Tags.actions.select_tag(tag_id))
                 }

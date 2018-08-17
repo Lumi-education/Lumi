@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 // container
 import LeftDrawer from './left-drawer';
 import RightDrawer from './right-drawer';
+import Snackbar from './snackbar';
 import AppBar from './app-bar';
 
 // state
 import { IState } from 'client/state';
 
 // modules
-import { actions as ui_actions } from 'lib/ui';
+import * as UI from 'lib/ui';
+
+import CreateCardDialog from './dialogs/create-card';
 
 interface IStateProps {
     location;
@@ -31,7 +34,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         if (this.props.userlevel < 2) {
-            this.props.dispatch(ui_actions.push('/user'));
+            this.props.dispatch(UI.actions.push('/user'));
         }
     }
 
@@ -41,6 +44,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <AppBar />
                 <LeftDrawer />
                 <RightDrawer />
+                <CreateCardDialog />
+                <Snackbar />
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>

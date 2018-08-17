@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { LinearProgress } from 'material-ui';
 
+import * as UI from '../';
+
 interface IStateProps {
     min?: number;
     max?: number;
@@ -24,6 +26,7 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                     width: '100%',
                     height: '100vh',
                     display: 'flex',
+                    background: UI.config.gradient_bg,
                     flexDirection: 'column',
                     justifyContent: 'center'
                 }}

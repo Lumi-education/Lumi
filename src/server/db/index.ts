@@ -232,7 +232,10 @@ export class DB {
     }
 
     public delete(id: string, cb?: (err) => void) {
-        this.findById(id, doc => {
+        this.findById(id, (error, doc) => {
+            if (error) {
+                throw new Error(error);
+            }
             request
                 .delete(this.db + id + '?rev=' + doc._rev)
                 .then(() => {

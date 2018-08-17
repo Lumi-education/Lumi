@@ -19,6 +19,10 @@ export const UI_TOGGLE_CREATE_USER_DIALOG = 'UI_TOGGLE_CREATE_USER_DIALOG';
 export const UI_ASSIGN_GROUP_DIALOG = 'UI_ASSIGN_GROUP_DIALOG';
 export const UI_DELETE_USER_DIALOG = 'UI_DELETE_USER_DIALOG';
 export const UI_TOGGLE_CREATE_CARD_DIALOG = 'UI_TOGGLE_CREATE_CARD_DIALOG';
+export const UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS =
+    'UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS';
+
+export const UI_SHOW_SNACKBAR = 'UI_SHOW_SNACKBAR';
 
 import * as Users from '../users';
 
@@ -62,6 +66,12 @@ export function snackbar_open(text: string) {
     return {
         type: UI_SNACKBAR_OPEN,
         payload: { text }
+    };
+}
+
+export function snackbar_close() {
+    return {
+        type: UI_SNACKBAR_CLOSE
     };
 }
 
@@ -129,5 +139,10 @@ export function toggle_delete_user_dialog() {
 export function toggle_create_card_dialog() {
     return {
         type: UI_TOGGLE_CREATE_CARD_DIALOG
+    };
+}
+export function toggle_show_completed_assignments() {
+    return {
+        type: UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS
     };
 }

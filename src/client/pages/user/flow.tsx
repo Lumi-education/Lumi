@@ -38,7 +38,11 @@ export class UserFlow extends React.Component<IProps, {}> {
         this.props
             .dispatch(
                 Core.actions.find(
-                    { type: 'assignment', _id: { $in: this.props.flow } },
+                    {
+                        type: 'assignment',
+                        completed: false,
+                        _id: { $in: this.props.flow }
+                    },
                     { limit: 100 }
                 )
             )
@@ -59,6 +63,9 @@ export class UserFlow extends React.Component<IProps, {}> {
                 <List>
                     {this.props.flow.map((assignment_id: string) => {
                         const assignment = this.props.assignment(assignment_id);
+                        if (assignment.completed) {
+                            return null;
+                        }
                         const card = this.props.card(assignment.card_id);
 
                         return (

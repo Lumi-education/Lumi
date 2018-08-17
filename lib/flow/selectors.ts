@@ -22,7 +22,16 @@ export function assignment_by_id(
             data: null,
             state: null,
             score: 0,
-            time: 0
+            time: 0,
+            completed_at: new Date(),
+            _attachments: {}
         }
     );
+}
+
+export function assignments_for_cards(
+    state: IState,
+    card_ids: string[]
+): IAssignment[] {
+    return state.flow.assignments.filter(a => card_ids.indexOf(a.card_id) > -1);
 }

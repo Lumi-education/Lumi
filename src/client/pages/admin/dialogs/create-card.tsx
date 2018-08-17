@@ -26,6 +26,7 @@ import { IState } from 'client/state';
 // modules
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
+import * as Tags from 'lib/tags';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
@@ -143,7 +144,12 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                     this.props.dispatch(UI.actions.toggle_create_card_dialog())
                 }
             >
-                <Cards.CardEdit />
+                <Cards.CardEdit>
+                    <Tags.TagInputContainer
+                        tag_ids={this.props.card.tags}
+                        doc_id={this.props.card._id}
+                    />
+                </Cards.CardEdit>
             </Dialog>
         );
     }

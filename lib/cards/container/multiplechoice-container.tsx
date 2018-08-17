@@ -11,144 +11,112 @@ import MultiplechoiceComponent from 'lib/cards/components/multiplechoice';
 
 // modules
 import * as Cards from '../';
+import * as Flow from 'lib/flow';
+import { IState } from 'client/state';
+import { RaisedButton } from 'material-ui';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
 interface IPassedProps {
-    card_id: string;
     assignment_id: string;
-    user_id?: string;
+    card_id: string;
 }
 
 interface IStateProps extends IPassedProps {
     card: Cards.IMultiplechoiceCard;
-    data: Cards.IMultiplechoiceCardData;
+    assignment: Flow.IAssignment;
 }
 
 interface IDispatchProps {
     dispatch: (action) => any;
 }
 
+interface IComponentState {
+    score?: number;
+    opened?: number;
+}
 interface IProps extends IStateProps, IDispatchProps {}
 
 export class MultiplechoiceCardViewContainer extends React.Component<
     IProps,
-    {}
+    IComponentState
 > {
     constructor(props: IProps) {
         super(props);
 
         this.log = this.log.bind(this);
+
+        this.state = {
+            score: 0,
+            opened: new Date().getTime()
+        };
     }
 
     public log(msg: string) {
         log(msg);
-        this.setState({ status: msg });
-    }
-
-    public componentWillMount() {
-        this.log('checking for data');
-        if (!this.props.data._id) {
-            this.props
-                .dispatch(
-                    Cards.actions.get_card_data(
-                        this.props.user_id,
-                        this.props.assignment_id,
-                        this.props.card_id
-                    )
-                )
-                .then(res => {
-                    if (res.response.status === 404) {
-                        this.log('no data found. creating..');
-                        raven.captureMessage('data not found');
-                        this.props
-                            .dispatch(
-                                Cards.actions.create_data<
-                                    Cards.IMultiplechoiceCardData
-                                >({
-                                    _id:
-                                        this.props.user_id +
-                                        '-' +
-                                        this.props.assignment_id +
-                                        '-' +
-                                        this.props.card_id,
-                                    type: 'data',
-                                    user_id: this.props.user_id,
-                                    created_at: undefined,
-                                    updated_at: undefined,
-                                    score: 0,
-                                    card_type: 'multiplechoice',
-                                    items: [],
-                                    graded: true,
-                                    processed: true,
-                                    show_answer: false,
-                                    is_graded: true,
-                                    data_type: 'card',
-                                    card_id: this.props.card._id,
-                                    assignment_id: this.props.assignment_id
-                                })
-                            )
-                            .then(create_res => {
-                                this.log('data created.');
-                                this.setState({ loading: false });
-                            })
-                            .catch(err => raven.captureException(err));
-                    } else {
-                        this.log('data found.');
-                        this.setState({ loading: false });
-                    }
-                });
-        }
     }
 
     public render() {
-        const { card, data } = this.props;
+        const { card, assignment } = this.props;
 
-        if (card && data) {
-            return (
+        return (
+            <div>
                 <MultiplechoiceComponent
                     _id={card._id}
                     text={card.text}
                     items={card.items}
-                    selected_items={data.items || []}
-                    show_correct_values={this.props.data.show_answer}
+                    selected_items={assignment.state || []}
+                    show_correct_values={assignment.data !== null}
                     cb={(items, score) => {
-                        this.props.data.show_answer
+                        this.setState({ score });
+                        assignment.data !== null
                             ? noop()
                             : this.props.dispatch(
-                                  Cards.actions.update_data(
-                                      assign({}, this.props.data, {
-                                          items,
-                                          score
-                                      })
+                                  Flow.actions.update_assignments(
+                                      [assignment._id],
+                                      { state: items }
                                   )
                               );
                     }}
                 />
-            );
-        }
 
-        return <div>loading</div>;
+                <RaisedButton
+                    label="Check"
+                    primary={true}
+                    fullWidth={true}
+                    onClick={() =>
+                        this.props.dispatch(
+                            Flow.actions.update_assignments([assignment._id], {
+                                data: [
+                                    {
+                                        score: this.state.score,
+                                        maxScore: 1,
+                                        opened: this.state.opened,
+                                        finished: new Date().getTime()
+                                    }
+                                ]
+                            })
+                        )
+                    }
+                />
+            </div>
+        );
     }
 }
 
-function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
-    const user_id = ownProps.user_id || (state as any).auth.user_id;
-
+function mapStateToProps(state: IState, ownProps): IStateProps {
+    const assignment = Flow.selectors.assignment_by_id(
+        state,
+        ownProps.assignment_id
+    );
     return {
-        user_id: ownProps.user_id || (state as any).auth.user_id,
+        assignment,
         card_id: ownProps.card_id,
         assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(
             state,
-            ownProps.card_id
-        ) as Cards.IMultiplechoiceCard,
-        data: Cards.selectors.select_data(
-            state,
-            user_id,
-            ownProps.assignment_id,
-            ownProps.card_id
-        ) as Cards.IMultiplechoiceCardData
+            assignment.card_id
+        ) as Cards.IMultiplechoiceCard
     };
 }
 

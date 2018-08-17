@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 // components
 import H5PCardContainer from './h5p';
 
+import MultiplechoiceContainer from './multiplechoice-container';
+import UploadCardContainer from './upload-card';
+
 import * as Cards from '..';
 
 interface IPassedProps {
@@ -34,15 +37,14 @@ export class CardViewContainer extends React.Component<IProps, {}> {
 
         if (card) {
             switch (card.card_type) {
-                // case 'multiplechoice':
-                //     return (
-                //         <MultiplechoiceContainer
-                //             key={assignment_id}
-                //             card_id={this.props.card_id}
-                //             assignment_id={this.props.assignment_id}
-                //             user_id={this.props.user_id}
-                //         />
-                //     );
+                case 'multiplechoice':
+                    return (
+                        <MultiplechoiceContainer
+                            key={assignment_id}
+                            card_id={this.props.card_id}
+                            assignment_id={this.props.assignment_id}
+                        />
+                    );
                 // case 'freetext':
                 //     return (
                 //         <FreetextContainer
@@ -61,15 +63,15 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                 //             user_id={this.props.user_id}
                 //         />
                 //     );
-                // case 'upload':
-                //     return (
-                //         <UploadCardContainer
-                //             key={assignment_id}
-                //             card_id={this.props.card_id}
-                //             assignment_id={this.props.assignment_id}
-                //             user_id={this.props.user_id}
-                //         />
-                //     );
+                case 'upload':
+                    return (
+                        <UploadCardContainer
+                            key={assignment_id}
+                            card_id={this.props.card_id}
+                            assignment_id={this.props.assignment_id}
+                            user_id={this.props.user_id}
+                        />
+                    );
                 // case 'text':
                 //     return (
                 //         <TextCardContainer
@@ -91,7 +93,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
             }
         }
 
-        return <div>loading</div>;
+        return <div />;
     }
 }
 

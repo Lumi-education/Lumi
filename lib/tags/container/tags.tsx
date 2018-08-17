@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { IState, ITag } from '../types';
 
 // selectors
-import { select_tags_by_doc_id } from '../selectors';
+import * as Tags from '../';
 
 interface IPassedProps {
-    doc_id: string;
+    tag_ids: string[];
 }
 
 interface IStateProps extends IPassedProps {
@@ -95,8 +95,8 @@ export class TagsContainer extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        tags: select_tags_by_doc_id(state, ownProps.doc_id),
-        doc_id: ownProps.doc_id
+        tags: Tags.selectors.tags(state, ownProps.tag_ids),
+        tag_ids: ownProps.tag_ids
     };
 }
 

@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { filter } from 'lodash';
+import { filter, intersection } from 'lodash';
 import { ICard, IState, ICardData, IData, IFreetextCard } from './types';
 
 export function select_all_cards(state: IState): ICard[] {
@@ -29,6 +29,7 @@ export function select_card(state: IState, card_id: string): ICard {
         items: [],
         description: '',
         created_at: new Date(),
+        tags: [],
         _attachments: {}
     });
 }
@@ -39,4 +40,12 @@ export function data_query(state: IState, _query): ICardData[] {
 
 export function name(state: IState, _id: string): string {
     return select_card(state, _id).name;
+}
+
+export function with_tags(state: IState, tag_ids: string[]): ICard[] {
+    return state.cards.map
+        .toArray()
+        .filter(
+            card => intersection(card.tags, tag_ids).length === tag_ids.length
+        );
 }

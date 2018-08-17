@@ -15,6 +15,8 @@ import { ICard } from '..';
 import * as markdownit from 'markdown-it';
 import { convert_attachment_url } from '../utils';
 
+import * as Tags from 'lib/tags';
+
 const md = markdownit();
 
 const log = debug('lumi:packages:cards:components:uploadcard');
@@ -49,7 +51,7 @@ export default class CardComponent extends React.Component<IProps, {}> {
                 >
                     <CardHeader
                         title={card.name}
-                        subtitle={card.description}
+                        subtitle={<Tags.TagsContainer tag_ids={card.tags} />}
                         style={{ paddingBottom: '2px' }}
                         avatar={
                             <Avatar>

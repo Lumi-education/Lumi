@@ -136,12 +136,6 @@ class GroupController {
                         db.findById(req.body.payload.user_id, (error, user) => {
                             user.groups = uniq([...user.groups, req.params.id]);
 
-                            if (!user.flow) {
-                                user.flow = [];
-                            }
-
-                            user.flow = [];
-
                             db.updateOne(
                                 user._id,
                                 user,

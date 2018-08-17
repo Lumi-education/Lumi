@@ -48,9 +48,14 @@ export class RaisedButtonContainer extends React.Component<
         this.props
             .dispatch(this.props.action)
             .then(res => {
+                if (res.response.status !== 200) {
+                    throw new Error(res.response.message);
+                }
                 this.setState({ request: 'success' });
-                this.props.onSuccess();
-                setTimeout(() => this.setState({ request: 'init' }), 3000);
+                if (this.props.onSuccess) {
+                    this.props.onSuccess();
+                }
+                setTimeout(() => this.setState({ request: 'init' }), 2000);
             })
             .catch(err => this.setState({ request: 'error' }));
 

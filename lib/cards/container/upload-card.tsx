@@ -7,8 +7,11 @@ import * as raven from 'raven-js';
 // components
 import UploadCardComponent from '../components/upload';
 
+import { IState } from 'client/state';
+
 // modules
 import * as Cards from '../';
+import * as Flow from 'lib/flow';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -20,8 +23,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.IUploadCard;
-    data: Cards.IUploadCardData;
-    // collection_data;
+    assignment: Flow.IAssignment;
 }
 
 interface IDispatchProps {
@@ -55,75 +57,16 @@ export class UploadCardContainer extends React.Component<
         this.setState({ status: msg });
     }
 
-    public componentWillMount() {
-        this.log('checking for data');
-        this.props
-            .dispatch(
-                Cards.actions.get_card_data(
-                    this.props.user_id,
-                    this.props.assignment_id,
-                    this.props.card_id
-                )
-            )
-            .then(res => {
-                if (res.response.status === 404) {
-                    this.log('no data found. creating..');
-                    raven.captureMessage('data not found');
-
-                    this.props
-                        .dispatch(
-                            Cards.actions.create_data<Cards.IUploadCardData>({
-                                _id:
-                                    this.props.user_id +
-                                    '-' +
-                                    this.props.assignment_id +
-                                    '-' +
-                                    this.props.card_id,
-                                type: 'data',
-                                user_id: this.props.user_id,
-                                created_at: undefined,
-                                updated_at: undefined,
-                                card_type: 'upload',
-                                processed: true,
-                                data_type: 'card',
-                                is_graded: true,
-                                show_answer: false,
-                                card_id: this.props.card._id,
-                                score: 0,
-                                graded: false,
-                                assignment_id: this.props.assignment_id,
-                                _attachments: undefined
-                            })
-                        )
-                        .then(create_res => {
-                            this.log('data created.');
-                            this.setState({ loading: false });
-                        });
-                } else {
-                    this.log('data found.');
-                    this.setState({ loading: false });
-                }
-            });
-    }
-
-    public componentDidMount() {
-        this.props.dispatch(
-            Cards.actions.update_data(
-                assign({}, this.props.data, { processed: true })
-            )
-        );
-    }
-
     public render() {
-        const { card, data } = this.props;
+        const { card } = this.props;
 
-        if (card && data) {
+        if (card) {
             return (
                 <UploadCardComponent
                     text={this.props.card.text}
-                    doc_id={this.props.data._id}
-                    _rev={(this.props.data as any)._rev}
-                    attachments={this.props.data._attachments}
+                    doc_id={this.props.assignment._id}
+                    _rev={(this.props.assignment as any)._rev}
+                    attachments={this.props.assignment._attachments}
                     insert_cb={(link: string) => {
                         log(link);
                     }}
@@ -135,7 +78,7 @@ export class UploadCardContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
+function mapStateToProps(state: IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
 
     return {
@@ -146,12 +89,10 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
             state,
             ownProps.card_id
         ) as Cards.IUploadCard,
-        data: Cards.selectors.select_data(
+        assignment: Flow.selectors.assignment_by_id(
             state,
-            user_id,
-            ownProps.assignment_id,
-            ownProps.card_id
-        ) as Cards.IUploadCardData
+            ownProps.assignment_id
+        )
     };
 }
 

@@ -32,6 +32,11 @@ import theme from './style/theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import ReactChartkick from 'react-chartkick';
+import * as Chart from 'chart.js';
+
+ReactChartkick.addAdapter(Chart);
+
 import * as moment from 'moment';
 
 // Needed for onTouchTap

@@ -65,7 +65,10 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.setState({ loading: 'Karten', loading_step: 1 });
         this.props.dispatch(Cards.actions.get_cards()).then(res => {
-            this.setState({ loading: 'finished', loading_step: 2 });
+            this.setState({ loading: 'Tags', loading_step: 2 });
+            this.props.dispatch(Tags.actions.get_tags()).then(tags_res => {
+                this.setState({ loading: 'finished', loading_step: 3 });
+            });
         });
     }
 
@@ -74,7 +77,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             return (
                 <UI.components.LoadingPage
                     min={0}
-                    max={2}
+                    max={3}
                     value={this.state.loading_step}
                 >
                     {this.state.loading}
@@ -90,6 +93,9 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         this.setState({ search_text: filter })
                     }
                 />
+                <Paper>
+                    <Tags.TagsFilterContainer />
+                </Paper>
                 <div
                     style={{
                         display: 'flex',
@@ -151,7 +157,6 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         <ContentAdd />
                     </FloatingActionButton>
                 </UI.components.ActionBar>
-                <CreateCardDialog />
                 <AssignMaterialDialog />
             </div>
         );
@@ -160,16 +165,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        cards:
-            state.tags.ui.selected_tags.length !== 0
-                ? Cards.selectors.select_cards_by_ids(
-                      state,
-                      Tags.selectors.select_doc_ids_for_tags(
-                          state,
-                          state.tags.ui.selected_tags
-                      )
-                  )
-                : Cards.selectors.select_all_cards(state),
+        cards: Cards.selectors.with_tags(state, state.tags.ui.selected_tags),
         selected_cards: state.cards.ui.selected_cards
     };
 }

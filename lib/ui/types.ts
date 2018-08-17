@@ -13,6 +13,7 @@ export interface IUI {
     show_assign_group_dialog: boolean;
     show_delete_user_dialog: boolean;
     show_create_card_dialog: boolean;
+    show_completed_assignments: boolean;
 }
 
 export interface IState {

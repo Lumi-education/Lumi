@@ -9,7 +9,7 @@ import { arrayToObject } from '../../core/utils';
 import {
     TAGS_GET_TAGS_SUCCESS,
     TAGS_CREATE_TAG_SUCCESS,
-    TAGS_DELETE_TAG_REQUEST
+    TAGS_DELETE_TAG_SUCCESS
 } from '../actions';
 
 export default function(
@@ -30,7 +30,7 @@ export default function(
             o[action.payload._id] = action.payload;
             return state.merge(Map<string, ITag>(o));
 
-        case TAGS_DELETE_TAG_REQUEST:
+        case TAGS_DELETE_TAG_SUCCESS:
             return state.delete(action.tag_id);
 
         default:

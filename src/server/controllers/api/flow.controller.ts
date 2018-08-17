@@ -23,16 +23,59 @@ class FlowController {
         );
     }
 
-    public delete_assignment(req: IRequest, res: express.Response) {
+    public update_assignments(req: IRequest, res: express.Response) {
         db.find(
-            {
-                type: 'assignment',
-                assignment_id: req.body.assignment_id
-            },
-            {},
-            (error, assignments: IAssignment[]) => {
-                assignments.forEach(assignment => {
-                    db.delete(assignment._id);
+            { type: 'assignment', _id: { $in: req.body.assignment_ids } },
+            { limit: req.body.assignment_ids.length },
+            (find_assignments_error, assignments) => {
+                const updated_assignments = assignments.map(assignment =>
+                    assign({}, assignment, req.body.update)
+                );
+
+                db.updateMany(
+                    updated_assignments,
+                    {},
+                    (update_assignments_error, response) => {
+                        res.status(200).json(updated_assignments);
+                    }
+                );
+            }
+        );
+    }
+
+    public delete_assignments(req: IRequest, res: express.Response) {
+        db.find(
+            { type: 'assignment', _id: { $in: req.body.assignment_ids } },
+            { limit: req.body.assignment_ids.length },
+            (find_assignments_error, assignments) => {
+                assignments.forEach(assignment => (assignment._deleted = true));
+                db.updateMany(assignments, {}, (delete_error, docs) => {
+                    db.find(
+                        {
+                            type: 'user',
+                            flow: { $in: req.body.assignment_ids }
+                        },
+                        { limit: req.body.assignment_ids.length },
+                        (find_user_error, users) => {
+                            users.forEach(
+                                user =>
+                                    (user.flow = user.flow.filter(
+                                        assignment_id =>
+                                            req.body.assignment_ids.indexOf(
+                                                assignment_id
+                                            ) === -1
+                                    ))
+                            );
+
+                            db.updateMany(
+                                users,
+                                {},
+                                (update_user_error, update_user_doc) => {
+                                    res.status(200).json([assignments, users]);
+                                }
+                            );
+                        }
+                    );
                 });
             }
         );
@@ -59,7 +102,7 @@ class FlowController {
                     assignment.data = [];
                 }
                 assignment.data.push(req.body);
-                assignment.completed = true;
+                assignment.completed_at = new Date();
 
                 db.updateOne(req.params.assignment_id, assignment, (err, a) => {
                     res.status(200).end();
@@ -98,7 +141,8 @@ class FlowController {
                     data: null,
                     score: null,
                     state: null,
-                    time: null
+                    time: null,
+                    completed_at: null
                 };
 
                 _assignments.push(_assignment);
