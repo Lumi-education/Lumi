@@ -37,8 +37,9 @@ export default function(done: () => void) {
         .get(process.env.DB_HOST + '/' + process.env.DB)
         .then(res => {
             debug(process.env.DB + ': OK');
-            boot_views(() => done());
+            // boot_views(() => done());
             boot();
+            done();
         })
         .catch(err => {
             if (err.status === 404) {
@@ -51,6 +52,7 @@ export default function(done: () => void) {
                     .then(res => {
                         debug(process.env.DB + ': created');
                         boot();
+                        done();
                     })
                     .catch(error => {
                         debug('ERROR: ', error);

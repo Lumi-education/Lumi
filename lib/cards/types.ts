@@ -38,6 +38,7 @@ export interface IBaseCard {
     created_at: Date;
     _attachments;
     _rev: string;
+    files: string[];
 }
 
 export interface IBaseData {

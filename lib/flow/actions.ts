@@ -13,6 +13,10 @@ export const FLOW_UPDATE_ASSIGNMENT_ERROR = 'FLOW_UPDATE_ASSIGNMENT_ERROR';
 export const FLOW_UI_SELECT_ASSIGNMENT = 'FLOW_UI_SELECT_ASSIGNMENT';
 export const FLOW_UI_SET_SELECTED_ASSIGNMENTS =
     ' FLOW_UI_SET_SELECTED_ASSIGNMENTS:';
+export const FLOW_UI_CHANGE_ASSIGNMENT = 'FLOW_UI_CHANGE_ASSIGNMENT';
+export const FLOW_UI_TOGGLE_DIALOG = 'FLOW_UI_TOGGLE_DIALOG';
+
+export const FLOW_UI_RESET_ASSIGNMENT = 'FLOW_UI_RESET_ASSIGNMENT';
 
 import * as API from './api';
 
@@ -67,5 +71,24 @@ export function set_selected_assignments(assignments_ids: string[]) {
     return {
         type: FLOW_UI_SET_SELECTED_ASSIGNMENTS,
         payload: { assignments_ids }
+    };
+}
+
+export function toggle_dialog() {
+    return {
+        type: FLOW_UI_TOGGLE_DIALOG
+    };
+}
+
+export function change_assignment(payload: any) {
+    return {
+        payload,
+        type: FLOW_UI_CHANGE_ASSIGNMENT
+    };
+}
+
+export function reset_assignment() {
+    return {
+        type: FLOW_UI_RESET_ASSIGNMENT
     };
 }

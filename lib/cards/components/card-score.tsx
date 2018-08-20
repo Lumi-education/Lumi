@@ -21,8 +21,8 @@ export default class CardScoreComponent extends React.Component<IProps, {}> {
             return <Avatar>-</Avatar>;
         }
         return (
-            <Avatar backgroundColor={get_grade_color(this.props.score * 100)}>
-                {this.props.score * 100}
+            <Avatar backgroundColor={get_grade_color(this.props.score)}>
+                {this.props.score}
             </Avatar>
         );
     }

@@ -23,8 +23,7 @@ export class DB {
         this.find = this.find.bind(this);
         this.findOne = this.findOne.bind(this);
         this.updateOne = this.updateOne.bind(this);
-        this.checkView = this.checkView.bind(this);
-        this.view = this.view.bind(this);
+        // this.view = this.view.bind(this);
         this.delete = this.delete.bind(this);
     }
 
@@ -189,47 +188,32 @@ export class DB {
         });
     }
 
-    public checkView(name: string, cb: (doc) => void) {
-        log('checking for view', name);
-        request
-            .get(this.db + name)
-            .then(res => {
-                log('view ' + name + ' exists');
-                cb(res.body);
-            })
-            .catch(err => {
-                log('view ' + name + ' does not exist');
-                cb(undefined);
-                raven.captureException(err);
-            });
-    }
+    // public view(
+    //     _design: string,
+    //     index: string,
+    //     options,
+    //     cb: (error, docs) => void
+    // ) {
+    //     const _options = assign(options, { include_docs: true });
 
-    public view(
-        _design: string,
-        index: string,
-        options,
-        cb: (error, docs) => void
-    ) {
-        const _options = assign(options, { include_docs: true });
-
-        this.nano.view(_design, index, _options, (err, body) => {
-            if (err) {
-                cb(err, undefined);
-                raven.captureException(err);
-            } else {
-                if (body) {
-                    cb(
-                        undefined,
-                        body.rows
-                            .map(row => row.doc)
-                            .filter(doc => doc !== null)
-                    );
-                } else {
-                    cb(undefined, []);
-                }
-            }
-        });
-    }
+    //     this.nano.view(_design, index, _options, (err, body) => {
+    //         if (err) {
+    //             cb(err, undefined);
+    //             raven.captureException(err);
+    //         } else {
+    //             if (body) {
+    //                 cb(
+    //                     undefined,
+    //                     body.rows
+    //                         .map(row => row.doc)
+    //                         .filter(doc => doc !== null)
+    //                 );
+    //             } else {
+    //                 cb(undefined, []);
+    //             }
+    //         }
+    //     });
+    // }
 
     public delete(id: string, cb?: (err) => void) {
         this.findById(id, (error, doc) => {
@@ -250,13 +234,6 @@ export class DB {
                 });
         });
     }
-
-    // public checkDb(cb: (db) => void) {
-    //     request
-    //         .get(this.db)
-    //         .then(res => cb(res))
-    //         .catch(this.handle_error);
-    // }
 }
 
 export default new DB();

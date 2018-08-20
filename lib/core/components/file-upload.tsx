@@ -10,6 +10,7 @@ const log = debug('lumi:core:components:file-upload');
 
 interface IPassedProps {
     post_url: string;
+    path?: string;
     onSuccess?: (file) => void;
 }
 
@@ -34,12 +35,15 @@ export default class FileUploadComponent extends React.Component<IProps, {}> {
             data.append('filename', file.name);
 
             const req = request
-                .post(this.props.post_url)
+                .post(this.props.post_url + '?path=' + this.props.path)
                 .send(data)
                 .end(() => {
-                    this.props.onSuccess({
-                        name: file.name
-                    });
+                    if (this.props.onSuccess) {
+                        this.props.onSuccess({
+                            name: file.name,
+                            path: this.props.path + '/' + file.name
+                        });
+                    }
                     log('files attached', acceptedFiles);
                 });
         });

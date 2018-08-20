@@ -25,16 +25,15 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: Cards.IMultiplechoiceCard;
     assignment: Flow.IAssignment;
+    score: number;
+    opened: number;
 }
 
 interface IDispatchProps {
     dispatch: (action) => any;
 }
 
-interface IComponentState {
-    score?: number;
-    opened?: number;
-}
+interface IComponentState {}
 interface IProps extends IStateProps, IDispatchProps {}
 
 export class MultiplechoiceCardViewContainer extends React.Component<
@@ -46,14 +45,19 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 
         this.log = this.log.bind(this);
 
-        this.state = {
-            score: 0,
-            opened: new Date().getTime()
-        };
+        this.state = {};
     }
 
     public log(msg: string) {
         log(msg);
+    }
+
+    public componentWillMount() {
+        if (!this.props.opened) {
+            this.props.dispatch(
+                Flow.actions.change_assignment({ opened: new Date().getTime() })
+            );
+        }
     }
 
     public render() {
@@ -66,10 +70,12 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     text={card.text}
                     items={card.items}
                     selected_items={assignment.state || []}
-                    show_correct_values={assignment.data !== null}
+                    show_correct_values={assignment.score !== null}
                     cb={(items, score) => {
-                        this.setState({ score });
-                        assignment.data !== null
+                        this.props.dispatch(
+                            Flow.actions.change_assignment({ score })
+                        );
+                        assignment.score !== null
                             ? noop()
                             : this.props.dispatch(
                                   Flow.actions.update_assignments(
@@ -80,25 +86,31 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     }}
                 />
 
-                <RaisedButton
-                    label="Check"
-                    primary={true}
-                    fullWidth={true}
-                    onClick={() =>
-                        this.props.dispatch(
-                            Flow.actions.update_assignments([assignment._id], {
-                                data: [
+                {assignment.score !== null ? null : (
+                    <RaisedButton
+                        label="Check"
+                        primary={true}
+                        fullWidth={true}
+                        onClick={() =>
+                            this.props.dispatch(
+                                Flow.actions.update_assignments(
+                                    [assignment._id],
                                     {
-                                        score: this.state.score,
-                                        maxScore: 1,
-                                        opened: this.state.opened,
-                                        finished: new Date().getTime()
+                                        score: this.props.score * 100,
+                                        data: [
+                                            {
+                                                score: this.props.score,
+                                                maxScore: 1,
+                                                opened: this.props.opened,
+                                                finished: new Date().getTime()
+                                            }
+                                        ]
                                     }
-                                ]
-                            })
-                        )
-                    }
-                />
+                                )
+                            )
+                        }
+                    />
+                )}
             </div>
         );
     }
@@ -111,6 +123,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     );
     return {
         assignment,
+        score: state.flow.ui.assignment.score,
+        opened: state.flow.ui.assignment.opened,
         card_id: ownProps.card_id,
         assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(

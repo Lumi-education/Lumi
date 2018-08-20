@@ -99,13 +99,13 @@ export class CardEditContainer extends React.Component<
                                     value="multiplechoice"
                                     primaryText="Multiplechoice"
                                 />
-                                {/* <MenuItem
+                                <MenuItem
                                     value="freetext"
                                     primaryText="Freetext"
-                                /> */}
+                                />
                                 <MenuItem value="h5p" primaryText="H5P" />
                                 {/*<MenuItem value="text" primaryText="Text" /> */}
-                                {/* <MenuItem value="video" primaryText="Video" /> */}
+                                <MenuItem value="video" primaryText="Video" />
                                 <MenuItem value="upload" primaryText="Upload" />
                             </SelectField>
                             <TextField
@@ -136,6 +136,27 @@ export class CardEditContainer extends React.Component<
                             />
                             {(() => {
                                 switch (card.card_type) {
+                                    case 'video':
+                                        return (
+                                            <div>
+                                                {' '}
+                                                <TextField
+                                                    floatingLabelText="Video URL"
+                                                    value={card.video_url || ''}
+                                                    onChange={(e, v) =>
+                                                        this.props.dispatch(
+                                                            Cards.actions.change_card(
+                                                                {
+                                                                    video_url: v
+                                                                }
+                                                            )
+                                                        )
+                                                    }
+                                                    fullWidth={true}
+                                                    multiLine={true}
+                                                />
+                                            </div>
+                                        );
                                     case 'h5p':
                                         return (
                                             <div>
@@ -244,18 +265,33 @@ export class CardEditContainer extends React.Component<
                                         );
                                 }
                             })()}
-                            {/* <core.components.attachment
-                                doc_id={card._id}
-                                _rev={card._rev}
-                                attachments={card._attachments}
-                                insert_cb={link =>
+                            <Core.components.FileList
+                                files={this.props.card.files || []}
+                                onClick={file =>
                                     this.props.dispatch(
                                         Cards.actions.change_card({
-                                            text: card.text + link
+                                            text:
+                                                this.props.card.text +
+                                                ' ![test](/files/' +
+                                                file.replace(/\s/g, '%20') +
+                                                ')'
                                         })
                                     )
                                 }
-                            /> */}
+                            />
+                            <Core.components.FileUpload
+                                post_url="/api/v0/core/upload"
+                                path={this.props.card._id || 'no_id'}
+                                onSuccess={file => {
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({
+                                            files: [file.path]
+                                        })
+                                    );
+                                }}
+                            >
+                                Drop files here
+                            </Core.components.FileUpload>
                         </Paper>
                     </div>
                     <div
@@ -283,15 +319,12 @@ export class CardEditContainer extends React.Component<
                                         <FreetextComponent
                                             text={card.text || ''}
                                             answer={card.answer || ''}
-                                            error_text={null}
-                                            error_style={{ color: 'green' }}
                                         />
                                     );
                                 case 'video':
                                     return (
                                         <VideoComponent
-                                            video_url={''}
-                                            youtube={true}
+                                            video_url={card.video_url || ''}
                                         />
                                     );
                                 case 'upload':

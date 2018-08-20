@@ -5,7 +5,7 @@ import { push } from 'lib/ui/actions';
 
 import { intersection } from 'lodash';
 // types
-import { IState } from 'client/state';
+import { IState } from '../../../state';
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -36,8 +36,8 @@ interface IPassedProps {
     course_id: string;
 }
 interface IStateProps extends IPassedProps {
-    assignments: Flow.IAssignment[];
-    assignment: (assignment_id: string) => Flow.IAssignment;
+    assignments: Flow.models.Assignment[];
+    assignment: (assignment_id: string) => Flow.models.Assignment;
     card_name: (card_id: string) => string;
     user: Users.IUser;
     card: (card_id: string) => Cards.ICard;
@@ -170,28 +170,36 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                     }
 
                     return (
-                        <Card style={{ margin: '20px' }}>
-                            <CardHeader
-                                title={card.name}
-                                subtitle={
-                                    <Tags.TagsContainer tag_ids={card.tags} />
-                                }
-                                avatar={
-                                    <Cards.components.CardScore
-                                        score={
-                                            assignment.data !== null
-                                                ? assignment.data[
-                                                      assignment.data.length - 1
-                                                  ].score /
-                                                  assignment.data[
-                                                      assignment.data.length - 1
-                                                  ].maxScore
-                                                : null
-                                        }
-                                    />
-                                }
-                            />
-                        </Card>
+                        <div
+                            key={assignment._id}
+                            onClick={() => {
+                                this.props.dispatch(
+                                    Flow.actions.toggle_dialog()
+                                    // Flow.actions.select_assignment(
+                                    //     assignment._id
+                                    // )
+                                );
+                                this.props.dispatch(
+                                    Flow.actions.change_assignment(assignment)
+                                );
+                            }}
+                        >
+                            <Card style={{ margin: '20px' }}>
+                                <CardHeader
+                                    title={card.name}
+                                    subtitle={
+                                        <Tags.TagsContainer
+                                            tag_ids={card.tags}
+                                        />
+                                    }
+                                    avatar={
+                                        <Cards.components.CardScore
+                                            score={assignment.get_score()}
+                                        />
+                                    }
+                                />
+                            </Card>
+                        </div>
                     );
                 })}
 

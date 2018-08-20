@@ -51,6 +51,9 @@ export default function(): express.Router {
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
     router.get('/core/doc/:id', mw.auth, coreController.doc);
 
+    router.post('/core/upload', coreController.upload);
+    router.get('/core/upload', express.static(path.resolve('build/upload')));
+
     router.post('/system/shutdown', coreController.shutdown);
     router.get('/system/settings', coreController.settings);
 

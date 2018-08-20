@@ -27,6 +27,7 @@ export function select_card(state: IState, card_id: string): ICard {
         text: 'card not found',
         _rev: undefined,
         items: [],
+        files: [],
         description: '',
         created_at: new Date(),
         tags: [],

@@ -13,14 +13,9 @@ import {
 import ChipInput from 'material-ui-chip-input';
 
 // actions
-import {
-    get_user_groups,
-    create_and_add_group,
-    add_group,
-    rem_group
-} from '../../../lib/groups/actions';
+import { create_and_add_group, add_group, rem_group } from 'lib/groups/actions';
 
-import { IState } from 'client/state';
+import { IState } from '../state';
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
 

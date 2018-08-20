@@ -14,9 +14,16 @@ import {
 
 class GroupController {
     public list(req: IRequest, res: express.Response) {
-        db.view('group', 'list', {}, (error, docs) => {
-            res.status(200).json(docs);
-        });
+        db.find(
+            { type: 'group' },
+            { limit: 25 },
+            (find_groups_error, groups) => {
+                res.status(200).json(groups);
+            }
+        );
+        // db.view('group', 'list', {}, (error, docs) => {
+        //     res.status(200).json(docs);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {
@@ -48,14 +55,23 @@ class GroupController {
     }
 
     public for_user(req: IRequest, res: express.Response) {
-        db.view(
-            'group',
-            'for_user',
-            { key: req.params.user_id },
-            (error, docs) => {
-                res.status(200).json(docs);
-            }
-        );
+        db.findById(req.params.user_id, (find_user_error, user) => {
+            db.find(
+                { type: 'group', _id: { $in: user.groups } },
+                { limit: user.groups.length },
+                (find_groups_error, groups) => {
+                    res.status(200).json(groups);
+                }
+            );
+        });
+        // db.view(
+        //     'group',
+        //     'for_user',
+        //     { key: req.params.user_id },
+        //     (error, docs) => {
+        //         res.status(200).json(docs);
+        //     }
+        // );
     }
 
     public delete(req: IRequest, res: express.Response) {

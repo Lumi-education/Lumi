@@ -4,9 +4,7 @@ import * as raven from 'raven-js';
 
 raven
     .config(
-        process.env.NODE_ENV === 'production'
-            ? 'https://52d9ddab963746b6bb4a35653d4c44a1@sentry.io/277415'
-            : undefined,
+        process.env.NODE_ENV === 'production' ? process.env.SENTRY : undefined,
         {
             release: process.env.VERSION,
             environment: process.env.NODE_ENV,

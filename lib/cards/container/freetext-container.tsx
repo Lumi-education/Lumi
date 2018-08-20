@@ -9,8 +9,11 @@ import { convert_attachment_url } from '../utils';
 // components
 import FreetextComponent from '../components/freetext';
 
+import { IState } from 'client/state';
 // modules
 import * as Cards from '../';
+import * as Flow from 'lib/flow';
+import * as UI from 'lib/ui';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -22,7 +25,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.IFreetextCard;
-    data: Cards.IFreetextCardData;
+    assignment: Flow.models.Assignment;
 }
 
 interface IDispatchProps {
@@ -32,8 +35,7 @@ interface IDispatchProps {
 interface IComponentState {
     loading?: boolean;
     status?: string;
-    error_text?: string;
-    error_style?;
+    answer?: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -48,10 +50,7 @@ export class FreetextCardContainer extends React.Component<
         this.state = {
             loading: false,
             status: 'init',
-            error_text: null,
-            error_style: {
-                color: '#e67e22'
-            }
+            answer: ''
         };
 
         this.log = this.log.bind(this);
@@ -64,116 +63,71 @@ export class FreetextCardContainer extends React.Component<
     }
 
     public componentWillMount() {
-        this.log('checking for data');
-
-        if (!this.props.data._id) {
-            this.props
-                .dispatch(
-                    Cards.actions.get_card_data(
-                        this.props.user_id,
-                        this.props.assignment_id,
-                        this.props.card_id
-                    )
-                )
-                .then(res => {
-                    if (res.response.status === 404) {
-                        this.log('no data found. creating..');
-                        raven.captureMessage('data not found');
-                        this.props
-                            .dispatch(
-                                Cards.actions.create_data<
-                                    Cards.IFreetextCardData
-                                >({
-                                    _id:
-                                        this.props.user_id +
-                                        '-' +
-                                        this.props.assignment_id +
-                                        '-' +
-                                        this.props.card_id,
-                                    type: 'data',
-                                    user_id: this.props.user_id,
-                                    created_at: undefined,
-                                    updated_at: undefined,
-                                    score: 0,
-                                    show_answer: false,
-                                    processed: true,
-                                    card_type: 'freetext',
-                                    answer: '',
-                                    is_graded: true,
-                                    graded: false,
-                                    auto_grade: this.props.card.auto_grade,
-                                    data_type: 'card',
-                                    card_id: this.props.card._id,
-                                    assignment_id: this.props.assignment_id
-                                })
-                            )
-                            .then(create_res => {
-                                this.log('data created.');
-                                this.setState({ loading: false });
-                            });
-                    } else {
-                        this.log('data found.');
-                        this.setState({ loading: false });
-                    }
-                });
-        }
+        this.setState({ answer: this.props.assignment.state });
     }
 
     public handleInput(answer: string) {
-        const score = this.props.card.auto_grade
-            ? answer.replace(/\s/, '') ===
-              this.props.card.answer.replace(/\s/, '')
-                ? 1
-                : 0
-            : this.props.data.score;
+        this.setState({ answer });
+        // const score = this.props.card.auto_grade
+        //     ? answer.replace(/\s/, '') ===
+        //       this.props.card.answer.replace(/\s/, '')
+        //         ? 1
+        //         : 0
+        //     : this.props.data.score;
 
-        this.setState({
-            error_text: 'saving...',
-            error_style: { color: '#e67e22' }
-        });
+        // this.setState({
+        //     error_text: 'saving...',
+        //     error_style: { color: '#e67e22' }
+        // });
 
-        this.log('score: ' + score);
-        this.props
-            .dispatch(
-                Cards.actions.update_data(
-                    assign(
-                        {},
-                        this.props.data,
-                        { graded: this.props.data.auto_grade },
-                        { score, answer }
-                    )
-                )
-            )
-            .then(res => {
-                this.setState({
-                    error_text: 'saved',
-                    error_style: { color: '#27ae60' }
-                });
-                setTimeout(
-                    () =>
-                        this.setState({
-                            error_text: null,
-                            error_style: { color: '#e67e22' }
-                        }),
-                    1000
-                );
-            });
+        // this.log('score: ' + score);
+        // this.props
+        //     .dispatch(Flow.actions.change_assignment({ state: answer }))
+        //     .then(res => {
+        //         this.setState({
+        //             error_text: 'saved',
+        //             error_style: { color: '#27ae60' }
+        //         });
+        //         setTimeout(
+        //             () =>
+        //                 this.setState({
+        //                     error_text: null,
+        //                     error_style: { color: '#e67e22' }
+        //                 }),
+        //             1000
+        //         );
+        //     });
     }
 
     public render() {
-        const { card, data } = this.props;
+        const { card } = this.props;
 
-        if (card && data) {
-            const text = convert_attachment_url(card.text, card._id);
+        if (card) {
             return (
-                <FreetextComponent
-                    text={text}
-                    answer={data.answer}
-                    cb={this.handleInput}
-                    preview={card.preview}
-                    error_text={this.state.error_text}
-                    error_style={this.state.error_style}
-                />
+                <div>
+                    <FreetextComponent
+                        text={card.text}
+                        answer={this.state.answer}
+                        cb={this.handleInput}
+                        preview={card.preview}
+                    />
+                    <UI.components.RaisedButton
+                        action={Flow.actions.update_assignments(
+                            [this.props.assignment_id],
+                            { state: this.state.answer }
+                        )}
+                        labels={[
+                            'Speichern',
+                            'speichere...',
+                            'gespeichert',
+                            'Fehler'
+                        ]}
+                        disabled={
+                            this.state.answer === this.props.assignment.state
+                        }
+                        fullWidth={true}
+                    />
+                </div>
             );
         }
 
@@ -181,23 +135,19 @@ export class FreetextCardContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
+function mapStateToProps(state: IState, ownProps): IStateProps {
     const user_id = ownProps.user_id || (state as any).auth.user_id;
+    const assignment_id = ownProps.assignment_id;
 
     return {
         user_id,
+        assignment_id,
         card_id: ownProps.card_id,
-        assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(
             state,
             ownProps.card_id
         ) as Cards.IFreetextCard,
-        data: Cards.selectors.select_data(
-            state,
-            user_id,
-            ownProps.assignment_id,
-            ownProps.card_id
-        ) as Cards.IFreetextCardData
+        assignment: Flow.selectors.assignment_by_id(state, assignment_id)
     };
 }
 

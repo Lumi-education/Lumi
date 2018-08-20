@@ -20,7 +20,6 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.IVideoCard;
-    data: Cards.IVideoCardData;
 }
 
 interface IDispatchProps {
@@ -54,69 +53,10 @@ export class VideoCardContainer extends React.Component<
         this.setState({ status: msg });
     }
 
-    public componentWillMount() {
-        this.log('checking for data');
-        this.props
-            .dispatch(
-                Cards.actions.get_card_data(
-                    this.props.user_id,
-                    this.props.assignment_id,
-                    this.props.card_id
-                )
-            )
-            .then(res => {
-                if (res.response.status === 404) {
-                    raven.captureMessage('data not found');
-                    this.log('no data found. creating..');
-                    this.props
-                        .dispatch(
-                            Cards.actions.create_data<Cards.IVideoCardData>({
-                                _id:
-                                    this.props.user_id +
-                                    '-' +
-                                    this.props.assignment_id +
-                                    '-' +
-                                    this.props.card_id,
-                                type: 'data',
-                                user_id: this.props.user_id,
-                                created_at: undefined,
-                                updated_at: undefined,
-                                card_type: 'video',
-                                processed: true,
-                                show_answer: false,
-                                is_graded: false,
-                                data_type: 'card',
-                                graded: true,
-                                score: 0,
-                                card_id: this.props.card._id,
-                                assignment_id: this.props.assignment_id
-                            })
-                        )
-                        .then(create_res => {
-                            this.log('data created.');
-                            this.setState({ loading: false });
-                        });
-                } else {
-                    this.log('data found.');
-                    this.setState({ loading: false });
-                }
-            });
-    }
-
-    public componentDidMount() {
-        if (!this.props.data.processed) {
-            this.props.dispatch(
-                Cards.actions.update_data(
-                    assign({}, this.props.data, { processed: true })
-                )
-            );
-        }
-    }
-
     public render() {
-        const { card, data } = this.props;
+        const { card } = this.props;
 
-        if (card && data) {
+        if (card) {
             return <VideoCardComponent {...this.props.card} />;
         }
 
@@ -134,13 +74,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
         card: Cards.selectors.select_card(
             state,
             ownProps.card_id
-        ) as Cards.IVideoCard,
-        data: Cards.selectors.select_data(
-            state,
-            user_id,
-            ownProps.assignment_id,
-            ownProps.card_id
-        ) as Cards.IVideoCardData
+        ) as Cards.IVideoCard
     };
 }
 

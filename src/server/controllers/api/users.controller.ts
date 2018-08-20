@@ -9,9 +9,12 @@ import { IUser } from 'lib/users/types';
 
 class UsersController {
     public list(req: IRequest, res: express.Response) {
-        db.view('user', 'list', req.query, (error, docs) => {
-            res.status(200).json(docs);
+        db.find({ type: 'user' }, { limit: 100 }, (find_users_error, users) => {
+            res.status(200).json(users);
         });
+        // db.view('user', 'list', req.query, (error, docs) => {
+        //     res.status(200).json(docs);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {
@@ -38,14 +41,17 @@ class UsersController {
     }
 
     public read(req: IRequest, res: express.Response) {
-        db.view(
-            'user',
-            'with_groups',
-            { key: req.params.id },
-            (error, docs) => {
-                res.status(200).json(docs);
-            }
-        );
+        db.findById(req.params.id, (find_user_error, user) => {
+            res.status(200).json([user]);
+        });
+        // db.view(
+        //     'user',
+        //     'with_groups',
+        //     { key: req.params.id },
+        //     (error, docs) => {
+        //         res.status(200).json(docs);
+        //     }
+        // );
     }
 
     public update(req: IRequest, res: express.Response) {

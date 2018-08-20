@@ -51,7 +51,7 @@ interface IStateProps extends IPassedProps {
     selected_users: string[];
     selected_assignments: string[];
     user: (user_id: string) => Users.IUser;
-    assignment: (assignment_id: string) => Flow.IAssignment;
+    assignment: (assignment_id: string) => Flow.models.Assignment;
     card: (card_id: string) => Cards.ICard;
     selected_tags: string[];
 }
@@ -233,21 +233,26 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         marginTop: '10px'
                                                     }}
                                                     key={assignment._id}
-                                                    onClick={() =>
+                                                    onClick={() => {
                                                         this.props.dispatch(
-                                                            Flow.actions.select_assignment(
-                                                                assignment._id
+                                                            Flow.actions.toggle_dialog()
+                                                            // Flow.actions.select_assignment(
+                                                            //     assignment._id
+                                                            // )
+                                                        );
+                                                        this.props.dispatch(
+                                                            Flow.actions.change_assignment(
+                                                                assignment
                                                             )
-                                                        )
-                                                    }
+                                                        );
+                                                    }}
                                                 >
                                                     <Card
                                                         style={{
                                                             background:
-                                                                this.props.selected_assignments.indexOf(
-                                                                    assignment._id
-                                                                ) > -1
-                                                                    ? 'lightgrey'
+                                                                assignment.state &&
+                                                                !assignment.score
+                                                                    ? 'yellow'
                                                                     : 'white'
                                                         }}
                                                     >
@@ -266,47 +271,10 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                             avatar={
                                                                 <Avatar
                                                                     backgroundColor={UI.utils.get_grade_color(
-                                                                        assignment.data !==
-                                                                        null
-                                                                            ? assignment
-                                                                                  .data[
-                                                                                  assignment
-                                                                                      .data
-                                                                                      .length -
-                                                                                      1
-                                                                              ]
-                                                                                  .score /
-                                                                              assignment
-                                                                                  .data[
-                                                                                  assignment
-                                                                                      .data
-                                                                                      .length -
-                                                                                      1
-                                                                              ]
-                                                                                  .maxScore
-                                                                            : null
+                                                                        assignment.get_score()
                                                                     )}
                                                                 >
-                                                                    {assignment.data !==
-                                                                    null
-                                                                        ? (assignment
-                                                                              .data[
-                                                                              assignment
-                                                                                  .data
-                                                                                  .length -
-                                                                                  1
-                                                                          ]
-                                                                              .score /
-                                                                              assignment
-                                                                                  .data[
-                                                                                  assignment
-                                                                                      .data
-                                                                                      .length -
-                                                                                      1
-                                                                              ]
-                                                                                  .maxScore) *
-                                                                          100
-                                                                        : null}
+                                                                    {assignment.get_score()}
                                                                 </Avatar>
                                                             }
                                                         />

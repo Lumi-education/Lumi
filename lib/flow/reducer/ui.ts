@@ -3,11 +3,16 @@ import { assign } from 'lodash';
 import { IFlowUI } from '../types';
 import {
     FLOW_UI_SET_SELECTED_ASSIGNMENTS,
-    FLOW_UI_SELECT_ASSIGNMENT
+    FLOW_UI_SELECT_ASSIGNMENT,
+    FLOW_UI_TOGGLE_DIALOG,
+    FLOW_UI_CHANGE_ASSIGNMENT,
+    FLOW_UI_RESET_ASSIGNMENT
 } from '../actions';
 
 const initialState: IFlowUI = {
-    selected_assignments: []
+    selected_assignments: [],
+    show_dialog: false,
+    assignment: {}
 };
 
 export default function(state: IFlowUI = initialState, action): IFlowUI {
@@ -36,6 +41,15 @@ export default function(state: IFlowUI = initialState, action): IFlowUI {
                 selected_assignments: action.payload.assignment_ids
             });
 
+        case FLOW_UI_TOGGLE_DIALOG:
+            return assign({}, state, { show_dialog: !state.show_dialog });
+
+        case FLOW_UI_CHANGE_ASSIGNMENT:
+            const new_assignment = assign({}, state.assignment, action.payload);
+            return assign({}, state, { assignment: new_assignment });
+
+        case FLOW_UI_RESET_ASSIGNMENT:
+            return assign({}, state, { assignment: {} });
         default:
             return state;
     }

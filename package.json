@@ -40,6 +40,8 @@
         "material-ui": "0.16.7",
         "material-ui-chip-input": "0.16.0",
         "material-ui-color-picker": "^2.1.1",
+        "mkdir": "0.0.2",
+        "mkdirp": "^0.5.1",
         "moment": "^2.20.1",
         "moment-timezone": "^0.5.14",
         "nano": "^6.4.2",

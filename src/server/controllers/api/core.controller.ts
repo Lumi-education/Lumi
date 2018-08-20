@@ -1,7 +1,9 @@
 import * as express from 'express';
 import { assign } from 'lodash';
 import { IRequest } from '../../middleware/auth';
+import * as path from 'path';
 
+import * as mkdirp from 'mkdirp';
 import proxy from '../../core/proxy';
 import db from '../../db';
 
@@ -41,6 +43,34 @@ export class CoreController {
                 )
             );
         });
+    }
+
+    public upload(req: any, res: express.Response) {
+        if (!req.files) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+        const uploaded_file = req.files.file;
+
+        mkdirp(path.resolve('build/upload') + '/' + req.query.path, error => {
+            uploaded_file.mv(
+                path.resolve('build/upload') +
+                    '/' +
+                    req.query.path +
+                    '/' +
+                    uploaded_file.name,
+                err => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+
+                    res.send('File uploaded!');
+                }
+            );
+        });
+
+        // Use the mv() method to place the file somewhere on your server
     }
 }
 

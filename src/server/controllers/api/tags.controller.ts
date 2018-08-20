@@ -28,9 +28,12 @@ class TagsController {
     }
 
     public index(req: IRequest, res: express.Response) {
-        db.view('tag', 'index', { key: req.query.tag_id }, (error, docs) => {
-            res.status(200).json(docs);
+        db.find({ type: 'tag' }, { limit: 100 }, (find_tags_error, tags) => {
+            res.status(200).json(tags);
         });
+        // db.view('tag', 'index', { key: req.query.tag_id }, (error, docs) => {
+        //     res.status(200).json(docs);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {

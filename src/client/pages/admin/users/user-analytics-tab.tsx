@@ -39,9 +39,9 @@ interface IPassedProps {
     user_id: string;
 }
 interface IStateProps extends IPassedProps {
-    assignments: Flow.IAssignment[];
-    assignment: (assignment_id: string) => Flow.IAssignment;
-    assignments_for_cards: (card_id: string[]) => Flow.IAssignment[];
+    assignments: Flow.models.Assignment[];
+    assignment: (assignment_id: string) => Flow.models.Assignment;
+    assignments_for_cards: (card_id: string[]) => Flow.models.Assignment[];
     card_name: (card_id: string) => string;
     user: Users.IUser;
     card: (card_id: string) => Cards.ICard;
@@ -138,12 +138,11 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
             const cards = this.props.cards_with_tag(tag_id);
             const assignments = this.props
                 .assignments_for_cards(cards.map(card => card._id))
-                .filter(assignment => assignment.data !== null)
+                .filter(assignment => assignment.get_finished() !== null)
                 .filter(assignment => assignment.user_id === this.props.user_id)
                 .map((assignment, index) => [
-                    assignment.data[assignment.data.length - 1].finished,
-                    assignment.data[assignment.data.length - 1].score /
-                        assignment.data[assignment.data.length - 1].maxScore
+                    assignment.get_finished(),
+                    assignment.get_score()
                 ]);
 
             return { name: tag.name, color: tag.color, data: assignments };
@@ -154,16 +153,12 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
             const cards = this.props.cards_with_tag(tag_id);
             const assignments = this.props
                 .assignments_for_cards(cards.map(card => card._id))
-                .filter(assignment => assignment.data !== null)
+                .filter(assignment => assignment.get_finished() !== null)
                 .filter(
                     assignment => assignment.user_id === this.props.user_id
                 );
             const data = assignments
-                .map(
-                    (assignment, index) =>
-                        assignment.data[assignment.data.length - 1].score /
-                        assignment.data[assignment.data.length - 1].maxScore
-                )
+                .map((assignment, index) => assignment.get_score())
                 .reduce(Core.utils.avg, 0);
 
             const o = {};

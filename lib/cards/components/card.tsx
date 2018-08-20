@@ -50,7 +50,7 @@ export default class CardComponent extends React.Component<IProps, {}> {
                     }}
                 >
                     <CardHeader
-                        title={card.name}
+                        title={<div onClick={this.props.edit}>{card.name}</div>}
                         subtitle={<Tags.TagsContainer tag_ids={card.tags} />}
                         style={{ paddingBottom: '2px' }}
                         avatar={

@@ -22,6 +22,7 @@ class CardController {
             description: '',
             created_at: new Date(),
             _attachments: {},
+            files: [],
             tags: [],
             _rev: undefined
         };
@@ -52,12 +53,22 @@ class CardController {
     }
 
     public list(req: IRequest, res: express.Response) {
-        db.view(
-            'card',
-            'list',
-            req.query._ids ? { keys: JSON.parse(req.query._ids) } : {},
-            (error, cards) => res.status(200).json(cards)
-        );
+        const query = req.query._ids
+            ? { type: 'card', _id: { $in: JSON.parse(req.query._ids) } }
+            : { type: 'card' };
+
+        db.find(query, { limit: 200 }, (find_cards_error, cards) => {
+            if (find_cards_error) {
+                res.status(find_cards_error.status).json(find_cards_error);
+            }
+            res.status(200).json(cards);
+        });
+        // db.view(
+        //     'card',
+        //     'list',
+        //     req.query._ids ? { keys: JSON.parse(req.query._ids) } : {},
+        //     (error, cards) => res.status(200).json(cards)
+        // );
     }
 
     public h5p_proxy(req: express.Request, res: express.Response) {

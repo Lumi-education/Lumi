@@ -14,6 +14,7 @@ import { IState } from 'client/state';
 import * as UI from 'lib/ui';
 
 import CreateCardDialog from './dialogs/create-card';
+import AssignmentDialog from './dialogs/assignment-dialog';
 
 interface IStateProps {
     location;
@@ -45,6 +46,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <LeftDrawer />
                 <RightDrawer />
                 <CreateCardDialog />
+                <AssignmentDialog />
                 <Snackbar />
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}

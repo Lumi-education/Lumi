@@ -4,11 +4,16 @@ export interface IAssignment {
     card_id: string; // h5p content_id ?
     type: 'assignment';
     completed: boolean;
-    data: any;
-    state: any;
     score: number;
+    data: {
+        finished?: number;
+        opened?: number;
+        score?: number;
+        maxScore?: number;
+    };
+    state: any;
     updated_at?: Date;
-    completed_at: Date;
+    finished: number;
     time: number;
     _deleted?: boolean;
     _attachments: any;
@@ -17,6 +22,8 @@ export interface IAssignment {
 
 export interface IFlowUI {
     selected_assignments: string[];
+    show_dialog: boolean;
+    assignment: any;
 }
 
 export interface IState {

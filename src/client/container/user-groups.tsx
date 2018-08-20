@@ -12,9 +12,9 @@ import {
     create_and_add_group,
     add_group,
     rem_group
-} from '../../../lib/groups/actions';
+} from 'lib/groups/actions';
 
-import { IState } from 'client/state';
+import { IState } from '../state';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 

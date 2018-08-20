@@ -98,14 +98,24 @@ class FlowController {
         db.findById(
             req.params.assignment_id,
             (error, assignment: IAssignment) => {
-                if (!assignment.data) {
-                    assignment.data = [];
+                assignment.data = req.body;
+
+                if (req.body.score && req.body.maxScore) {
+                    assignment.score =
+                        (req.body.score / req.body.maxScore) * 100;
                 }
-                assignment.data.push(req.body);
-                assignment.completed_at = new Date();
+
+                if (req.body.finished) {
+                    let factor = 1;
+                    if (req.body.finished.toString().length < 13) {
+                        factor = 1000;
+                    }
+                    assignment.finished =
+                        parseInt(req.body.finished, 10) * factor;
+                }
 
                 db.updateOne(req.params.assignment_id, assignment, (err, a) => {
-                    res.status(200).end();
+                    res.status(200).json(assignment.data);
                 });
             }
         );
@@ -138,11 +148,12 @@ class FlowController {
                     card_id,
                     type: 'assignment',
                     completed: false,
-                    data: null,
                     score: null,
+                    data: {},
                     state: null,
+                    finished: null,
                     time: null,
-                    completed_at: null
+                    _attachments: {}
                 };
 
                 _assignments.push(_assignment);

@@ -1,14 +1,14 @@
 import * as express from 'express';
-import {assign} from 'lodash';
-import {IRequest} from '../../middleware/auth';
+import { assign } from 'lodash';
+import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
 
 class GradesController {
     public user(req: IRequest, res: express.Response) {
-        db.view('grade', 'user', {key: req.params.user_id}, (error, grades) => {
-            res.status(200).json(grades);
-        });
+        // db.view('grade', 'user', {key: req.params.user_id}, (error, grades) => {
+        //     res.status(200).json(grades);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {
