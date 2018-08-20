@@ -1,108 +1,99 @@
 import * as express from 'express';
-import { assign, noop } from 'lodash';
+import { assign, uniq } from 'lodash';
 import { IRequest } from '../../middleware/auth';
+import db from '../../db';
 
-import Tag from '../../models/Tag';
-import { DB } from '../../db';
+import { ITag } from 'lib/tags/types';
 
-import Controller from '../controller';
+class TagsController {
+    public add_tags_to_docs(req: IRequest, res: express.Response) {
+        const tag_ids = req.body.tag_ids;
+        const doc_ids = req.body.doc_ids;
 
-class TagsController extends Controller<Tag> {
-    constructor() {
-        super('tag');
-    }
-
-    public action(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        switch (req.body.type) {
-            case 'ADD_TO_DOC':
-                db._findById(
-                    req.body.payload.doc_id + '-tags',
-                    (err, tag_ref) => {
-                        if (err) {
-                            const _tag_ref = {
-                                _id: req.body.payload.doc_id + '-tags',
-                                doc_id: req.body.payload.doc_id,
-                                tags: [req.params.id],
-                                type: 'tag_ref'
-                            };
-                            db.insert(_tag_ref);
-                        } else {
-                            tag_ref.tags.push(req.params.id);
-                            db.save(tag_ref);
-                        }
+        db.find(
+            { _id: { $in: doc_ids } },
+            { limit: doc_ids.length },
+            (find_tags_error, docs) => {
+                docs.forEach(doc => {
+                    if (!doc.tags) {
+                        doc.tags = [];
                     }
-                );
-                break;
-            case 'REM_FROM_DOC':
-                db.findById(req.body.payload.doc_id + '-tags', tag_ref => {
-                    tag_ref.tags = tag_ref.tags.filter(
-                        tag_id => tag_id !== req.params.id
-                    );
-                    db.save(tag_ref);
+                    doc.tags = uniq([...doc.tags, ...tag_ids]);
                 });
-                break;
-            default:
-                break;
-        }
+                db.updateMany(docs, {}, (update_error, updated_docs) => {
+                    res.status(200).json(docs);
+                });
+            }
+        );
     }
 
     public index(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('tag', 'index', { key: req.query.tag_id }, docs => {
-            res.status(200).json(docs);
+        db.find({ type: 'tag' }, { limit: 100 }, (find_tags_error, tags) => {
+            res.status(200).json(tags);
         });
+        // db.view('tag', 'index', { key: req.query.tag_id }, (error, docs) => {
+        //     res.status(200).json(docs);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const new_tag: ITag = {
+            _id: undefined,
+            type: 'tag',
+            name: 'no name',
+            short_name: undefined,
+            description: '',
+            color: 'lightgrey',
+            created_at: new Date()
+        };
 
-        db.insert(new Tag(req.body));
+        assign(new_tag, req.body);
+
+        db.insert(new_tag, (error, tag) => {
+            res.status(200).json(tag);
+        });
     }
 
     public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.findById(req.params.id, tag => {
+        db.findById(req.params.id, (error, tag) => {
             res.status(200).json([tag]);
         });
     }
 
-    public readRef(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+    public update(req: IRequest, res: express.Response) {
+        const tag_id = req.params.id;
 
-        db.findById(req.query.doc_id + '-tags', tag_ref => {
-            res.status(200).json([tag_ref]);
-        });
-    }
+        db.findById(tag_id, (find_tag_error, tag) => {
+            assign(tag, req.body.update);
 
-    public indexRef(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('tag', 'indexRef', {}, tag_refs => {
-            res.status(200).json(tag_refs);
+            db.updateOne(tag_id, tag, (update_tag_error, tag_response) => {
+                res.status(200).json(tag);
+            });
         });
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        db.find(
+            { tags: { $in: [req.params.id] } },
+            { limit: 1000 },
+            (error, docs) => {
+                docs.forEach(
+                    doc =>
+                        (doc.tags = doc.tags.filter(
+                            tag_id => tag_id !== req.params.id
+                        ))
+                );
 
-        // db.find(
-        //     {
-        //         tag_id: req.params.id,
-        //         type: 'tag_ref'
-        //     },
-        //     {},
-        //     docs => {
-        //         docs.forEach(doc => {
-        //             db.delete(doc._id, noop);
-        //         });
-        //     }
-        // );
-
-        db.delete(req.params.id);
+                db.updateMany(docs, {}, (update_docs_error, response) => {
+                    db.delete(req.params.id, err => {
+                        if (err) {
+                            return res.status(err.status).json(err);
+                        }
+                        res.status(200).json(docs);
+                    });
+                });
+            }
+        );
     }
 }
 

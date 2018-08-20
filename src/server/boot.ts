@@ -19,7 +19,6 @@ import wait_for_db from './db/wait';
 import setup_db from './db/setup';
 
 import boot_core from './core/boot';
-import boot_modules from './modules/boot';
 
 declare var process;
 
@@ -27,7 +26,6 @@ if (process.env.NODE_ENV !== 'production') {
     wait_for_db(() => {
         setup_db(() => {
             boot_core();
-            boot_modules();
         });
     });
 } else {
@@ -45,6 +43,5 @@ if (process.env.NODE_ENV !== 'production') {
         });
     } else {
         boot_core();
-        boot_modules();
     }
 }

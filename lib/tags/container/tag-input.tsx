@@ -1,38 +1,34 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 import { Map } from 'immutable';
 
 // components
-import { TagInputComponent } from '../';
+import { TagInputComponent } from '..';
 
 // types
 import { ITag, IState } from '../types';
 
 // selectors
-import { select_tag_ids_for_doc, select_tags_as_map } from 'lib/tags/selectors';
+import { select_tags_as_map } from '../selectors';
 
 // actions
-import {
-    create_tag_and_add_to_doc,
-    get_tags,
-    delete_tag,
-    add_tag_to_doc,
-    rem_tag_from_doc
-} from 'lib/tags/actions';
+import { get_tags, add_tag_to_doc, rem_tag_from_doc } from '../actions';
+
+import * as Tags from '../';
+import * as Cards from 'lib/cards';
 
 interface IPassedProps {
     doc_id: string;
+    tag_ids: string[];
 }
 
 interface IStateProps extends IPassedProps {
     tags: Map<string, ITag>;
-    tag_ids: string[];
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -46,12 +42,6 @@ export class TagInputContainer extends React.Component<IProps, {}> {
         this.props.dispatch(get_tags());
     }
 
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (nextProps.doc_id !== this.props.doc_id) {
-            this.props.dispatch(get_tags(nextProps.doc_id));
-        }
-    }
-
     public render() {
         const tags = this.props.tags;
         return (
@@ -61,18 +51,34 @@ export class TagInputContainer extends React.Component<IProps, {}> {
                 add={tag => {
                     this.props.tags.get(tag._id)
                         ? this.props.dispatch(
-                              add_tag_to_doc(this.props.doc_id, tag._id)
+                              Cards.actions.change_card({
+                                  tags: this.props.tag_ids
+                                      ? [...this.props.tag_ids, tag._id]
+                                      : [tag._id]
+                              })
                           )
-                        : this.props.dispatch(
-                              create_tag_and_add_to_doc(
-                                  this.props.doc_id,
-                                  tag.name
-                              )
-                          );
+                        : this.props
+                              .dispatch(Tags.actions.create_tag(tag.name))
+                              .then(res => {
+                                  this.props.dispatch(
+                                      Cards.actions.change_card({
+                                          tags: this.props.tag_ids
+                                              ? [
+                                                    ...this.props.tag_ids,
+                                                    res.payload._id
+                                                ]
+                                              : [res.payload._id]
+                                      })
+                                  );
+                              });
                 }}
-                delete={(tag_id: string) =>
+                delete={tag_id =>
                     this.props.dispatch(
-                        rem_tag_from_doc(this.props.doc_id, tag_id)
+                        Cards.actions.change_card({
+                            tags: this.props.tag_ids.filter(
+                                _tag_id => _tag_id !== tag_id
+                            )
+                        })
                     )
                 }
             />
@@ -83,7 +89,7 @@ export class TagInputContainer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         tags: select_tags_as_map(state),
-        tag_ids: select_tag_ids_for_doc(state, ownProps.doc_id),
+        tag_ids: ownProps.tag_ids,
         doc_id: ownProps.doc_id
     };
 }

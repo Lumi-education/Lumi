@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push, goBack } from 'lib/ui/actions';
+import { push, goBack } from '../../ui/actions';
 
 // components
 import {
@@ -11,12 +11,12 @@ import {
     RaisedButton
 } from 'material-ui';
 
-import { RaisedButtonComponent } from 'lib/ui';
+import { RaisedButtonComponent } from '../../ui';
 
-import { state_color } from 'lib/ui/utils';
+import { state_color } from '../../ui/utils';
 
 // modules
-import * as Users from '../';
+import * as Users from '..';
 
 interface IPassedProps {
     user_id: string;
@@ -124,7 +124,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                             />
                         </div>
                         <div style={{ flex: 1 }}>
-                            <RaisedButtonComponent
+                            {/* <RaisedButtonComponent
                                 dispatch={this.props.dispatch}
                                 action={Users.actions.update_user(
                                     this.props.user._id,
@@ -136,7 +136,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                     'Saved',
                                     'Not saved'
                                 ]}
-                            />
+                            /> */}
                         </div>
                     </div>
 
@@ -159,9 +159,9 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                 onClick={() => {
                                     this.props
                                         .dispatch(
-                                            Users.actions.delete_user(
+                                            Users.actions.delete_user([
                                                 this.props.user_id
-                                            )
+                                            ])
                                         )
                                         .then(res =>
                                             this.props.dispatch(

@@ -4,15 +4,17 @@ import { connect } from 'react-redux';
 // container
 import LeftDrawer from './left-drawer';
 import RightDrawer from './right-drawer';
+import Snackbar from './snackbar';
 import AppBar from './app-bar';
 
 // state
 import { IState } from 'client/state';
 
 // modules
-import { ui_actions } from 'lib/ui';
-import { random_bg } from 'lib/ui/utils';
-import * as Grades from 'lib/grades';
+import * as UI from 'lib/ui';
+
+import CreateCardDialog from './dialogs/create-card';
+import AssignmentDialog from './dialogs/assignment-dialog';
 
 interface IStateProps {
     location;
@@ -33,7 +35,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         if (this.props.userlevel < 2) {
-            this.props.dispatch(ui_actions.push('/user'));
+            this.props.dispatch(UI.actions.push('/user'));
         }
     }
 
@@ -43,11 +45,12 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <AppBar />
                 <LeftDrawer />
                 <RightDrawer />
+                <CreateCardDialog />
+                <AssignmentDialog />
+                <Snackbar />
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
-
-                <Grades.CreateGradeDialogContainer />
             </div>
         );
     }
@@ -66,6 +69,7 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminRoot
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminRoot);

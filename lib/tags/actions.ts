@@ -1,5 +1,3 @@
-import * as shortid from 'shortid';
-
 export const TAGS_CREATE_TAG_REQUEST = 'TAGS_CREATE_TAG_REQUEST';
 export const TAGS_CREATE_TAG_SUCCESS = 'TAGS_CREATE_TAG_SUCCESS';
 export const TAGS_CREATE_TAG_ERROR = 'TAGS_CREATE_TAG_ERROR';
@@ -17,28 +15,36 @@ export const TAGS_REM_FROM_DOC_SUCCESS = 'TAGS_REM_FROM_DOC_SUCCESS';
 export const TAGS_REM_FROM_DOC_ERROR = 'TAGS_REM_FROM_DOC_ERROR';
 export const TAGS_UI_SELECT_TAG_ID = 'TAGS_UI_SELECT_TAG_ID';
 
+export const TAGS_UPDATE_TAG_REUQEST = 'TAGS_UPDATE_TAG_REQUEST';
+export const TAGS_UPDATE_TAG_SUCCESS = 'TAGS_UPDATE_TAG_SUCCESS';
+export const TAGS_UPDATE_TAG_ERROR = 'TAGS_UPDATE_TAG_ERROR';
+
+export const TAGS_UI_TOGGLE_DIALOG = 'TAGS_UI_TOGGLE_DIALOG';
+export const TAGS_UI_CHANGE_TAG = 'TAGS_UI_CHANGE_TAG';
+export const TAGS_UI_RESET_TAG = 'TAGS_UI_RESET_TAG';
+
 import * as API from './api';
 
-export function create_tag(name: string, description?: string) {
+export function create_tag(name: string, tag?: any) {
     return {
         types: [
             TAGS_CREATE_TAG_REQUEST,
             TAGS_CREATE_TAG_SUCCESS,
             TAGS_CREATE_TAG_ERROR
         ],
-        api: API.create_tag(name, description)
+        api: API.create_tag(name, tag)
     };
 }
 
-export function add_tag_to_doc(doc_id: string, tag_id: string) {
+export function add_tag_to_doc(doc_ids: string[], tag_ids: string[]) {
     return {
         types: [
             TAGS_ADD_TO_DOC_REQUEST,
             TAGS_ADD_TO_DOC_SUCCESS,
             TAGS_ADD_TO_DOC_ERROR
         ],
-        api: API.add_tag_to_doc(doc_id, tag_id),
-        payload: { doc_id, tag_id }
+        api: API.add_tags_to_docs(doc_ids, tag_ids),
+        payload: { doc_ids, tag_ids }
     };
 }
 
@@ -77,25 +83,41 @@ export function get_tags(doc_id?: string) {
     };
 }
 
-export function create_tag_and_add_to_doc(doc_id: string, tag_name: string) {
-    return dispatch => {
-        API.create_tag(tag_name)
-            .then(res => {
-                dispatch({
-                    type: TAGS_CREATE_TAG_SUCCESS,
-                    payload: res.body
-                });
-                dispatch(add_tag_to_doc(doc_id, res.body._id));
-            })
-            .catch();
-    };
-}
-
 export function select_tag(tag_id: string) {
     return {
         type: TAGS_UI_SELECT_TAG_ID,
         payload: {
             tag_id
         }
+    };
+}
+
+export function toggle_tags_dialog() {
+    return {
+        type: TAGS_UI_TOGGLE_DIALOG
+    };
+}
+
+export function change_tag(payload: any) {
+    return {
+        payload,
+        type: TAGS_UI_CHANGE_TAG
+    };
+}
+
+export function reset_tag() {
+    return {
+        type: TAGS_UI_RESET_TAG
+    };
+}
+
+export function update_tag(tag_id: string, update: any) {
+    return {
+        types: [
+            TAGS_UPDATE_TAG_REUQEST,
+            TAGS_UPDATE_TAG_SUCCESS,
+            TAGS_UPDATE_TAG_ERROR
+        ],
+        api: API.update_tag(tag_id, update)
     };
 }

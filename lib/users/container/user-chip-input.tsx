@@ -7,7 +7,7 @@ import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
 // modules
-import * as Users from '../';
+import * as Users from '..';
 
 const log = debug('lumi:lib:users:container:user-chip-input');
 
@@ -36,14 +36,14 @@ export class UsersChipInputContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillUnmount() {
-        this.props.dispatch(Users.actions.selection_reset());
+        // this     .props     .dispatch(Users.actions.selection_reset());
     }
 
     public render() {
         return (
             <ChipInput
-                hintText="Users"
-                floatingLabelText="Users"
+                hintText="Schüler"
+                floatingLabelText="Schüler"
                 className="filter-bar"
                 fullWidth={true}
                 value={this.props.users}

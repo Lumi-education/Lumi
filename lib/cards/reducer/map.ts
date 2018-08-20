@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { ICard } from '../types';
 
-import { arrayToObject } from 'lib/core/utils';
+import { arrayToObject } from '../../core/utils';
 
 import {
     CARDS_GET_CARDS_SUCCESS,
@@ -12,6 +12,8 @@ import {
     CARDS_GET_CARD_SUCCESS,
     CARDS_CREATE_CARD_SUCCESS
 } from '../constants';
+
+import * as Tags from 'lib/tags';
 
 export default function(
     state: Map<string, ICard> = Map<string, ICard>({}),
@@ -32,6 +34,7 @@ export default function(
         case 'DB_CHANGE':
         case CARDS_GET_CARDS_SUCCESS:
         case CARDS_GET_CARD_SUCCESS:
+        case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:
             return state.merge(
                 Map<string, ICard>(
                     arrayToObject(action.payload.filter(d => d.type === 'card'))

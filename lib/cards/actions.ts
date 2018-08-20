@@ -1,12 +1,12 @@
 import * as API from './api';
 
-import { ICard } from './types';
-
 import * as k from './constants';
 
 export const DATA_GET_CARD_DATA_REQUEST = 'DATA_GET_CARD_DATA_REQUEST';
 export const DATA_GET_CARD_DATA_SUCCESS = 'DATA_GET_CARD_DATA_SUCCESS';
 export const DATA_GET_CARD_DATA_ERROR = 'DATA_GET_CARD_DATA_ERROR';
+export const CARDS_UI_CHANGE_CARD = 'CARDS_UI_CHANGE_CARD';
+export const CARDS_UI_RESET_CARD = 'CARDS_UI_RESET_CARD';
 
 export function get_cards(ids?: string[]) {
     return {
@@ -126,5 +126,25 @@ export function update_data(data) {
         ],
         api: API.update_data(data),
         payload: { data }
+    };
+}
+
+export function get_h5p(content_id: string) {
+    return {
+        types: ['GET_H5P_REQUEST', 'GET_H5P_SUCCESS', 'GET_H5P_ERROR'],
+        api: API.get_h5p(content_id),
+        payload: { content_id }
+    };
+}
+
+export function change_card(payload: any) {
+    return {
+        payload,
+        type: CARDS_UI_CHANGE_CARD
+    };
+}
+export function reset_card() {
+    return {
+        type: CARDS_UI_RESET_CARD
     };
 }

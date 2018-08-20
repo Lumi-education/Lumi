@@ -63,3 +63,9 @@ export function get_user_collection_data(collection_id: string) {
         .get('/api/v0/user/data/collections/' + collection_id)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function get_h5p(content_id: string) {
+    return request
+        .get('/api/v0/cards/h5p/' + content_id)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

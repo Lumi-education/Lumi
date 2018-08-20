@@ -10,7 +10,11 @@ import {
     USERS_GET_USER_SUCCESS,
     USERS_DELETE_USER_REQUEST,
     USERS_UPDATE_USER_REQUEST
-} from '../constants';
+} from '../actions';
+
+import * as Flow from 'lib/flow';
+
+import * as Groups from '../../groups';
 
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {
@@ -46,12 +50,14 @@ export default function(state: IUser[] = [], action): IUser[] {
 
         case 'DB_CHANGE':
         case USERS_GET_USERS_SUCCESS:
+        case Groups.actions.GROUPS_ASSIGN_GROUPS_SUCCESS:
+        case Flow.actions.FLOW_DELETE_ASSIGNMENT_SUCCESS:
         case USERS_GET_USER_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'user'),
                 state,
                 '_id'
-            );
+            ).filter(user => !user._deleted);
 
         default:
             return state;

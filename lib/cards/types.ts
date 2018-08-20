@@ -8,7 +8,8 @@ export type Card_types =
     | 'text'
     | 'sort'
     | 'upload'
-    | 'video';
+    | 'video'
+    | 'h5p';
 type Markdown = string;
 
 export type ICard =
@@ -16,7 +17,8 @@ export type ICard =
     | IMultiplechoiceCard
     | IVideoCard
     | IUploadCard
-    | ITextCard;
+    | ITextCard
+    | IH5PCard;
 
 export type IData =
     | IFreetextCardData
@@ -31,10 +33,12 @@ export interface IBaseCard {
     name: string;
     card_type: string;
     text: Markdown;
+    tags: string[];
     description: string;
     created_at: Date;
     _attachments;
     _rev: string;
+    files: string[];
 }
 
 export interface IBaseData {
@@ -47,8 +51,9 @@ export interface IBaseData {
 
 export interface ICardData extends IBaseData {
     card_id: string;
-    collection_id: string;
+    assignment_id: string;
     data_type: 'card';
+    group_id?: string;
     card_type: string;
     score: number;
     is_graded: boolean;
@@ -59,6 +64,11 @@ export interface ICardData extends IBaseData {
 
 export interface ITextCard extends IBaseCard {
     card_type: 'text';
+}
+
+export interface IH5PCard extends IBaseCard {
+    content_id: string;
+    card_type: 'h5p';
 }
 
 export interface ITextCardData extends ICardData {
@@ -111,6 +121,7 @@ export interface IMultiplechoiceCardData extends ICardData {
 
 export interface ICardUI {
     selected_cards: string[];
+    card: any;
 }
 
 export interface IState {

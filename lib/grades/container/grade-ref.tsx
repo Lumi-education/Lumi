@@ -2,14 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import * as moment from 'moment';
-
 // components
 import { Avatar } from 'material-ui';
 
 // modules
-import * as Grades from '../';
-import { get_grade_color, get_grade_string } from 'lib/ui/utils';
+import * as Grades from '..';
+import { get_grade_color, get_grade_string } from '../../ui/utils';
 
 const log = debug('lumi:lib:grades:container:grade-ref');
 
@@ -35,8 +33,6 @@ export class GradeRefContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         log('componentWillMount');
-
-        // this.props.dispatch(Grades.actions.get_user_grades(this.props.user_id));
     }
 
     public render() {

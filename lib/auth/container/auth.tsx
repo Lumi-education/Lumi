@@ -2,22 +2,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as raven from 'raven-js';
 import * as debug from 'debug';
-import * as shortid from 'shortid';
 
 // actions
 import * as Auth from '../';
-import * as System from 'lib/system';
-
-declare var window;
-
-interface IState extends Auth.IState, System.IState {}
 
 const log = debug('lumi:auth');
 
 interface IStateProps {
     user_id: string;
-    enable_guest_accounts: boolean;
-    auto_guest_login: boolean;
     location: string;
 }
 
@@ -34,26 +26,23 @@ export class AuthContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(Auth.actions.get_session()).then(res => {
-            if (
-                res.response.status === 401 &&
-                this.props.enable_guest_accounts &&
-                this.props.auto_guest_login &&
-                this.props.location !== '/login'
-            ) {
-                const username = 'guest_' + shortid();
-                this.props
-                    .dispatch(Auth.actions.register(username, 'guest'))
-                    .then(r => {
-                        this.props
-                            .dispatch(Auth.actions.login(username, 'guest'))
-                            .then(re => {
-                                window.localStorage.jwt_token =
-                                    re.payload.jwt_token;
-
-                                this.props.dispatch(Auth.actions.get_session());
-                            });
-                    });
-            }
+            // if (
+            //     res.response.status === 401 &&
+            //     this.props.location !== '/login'
+            // ) {
+            //     const username = 'guest_' + shortid();
+            //     this.props
+            //         .dispatch(Auth.actions.register(username, 'guest'))
+            //         .then(r => {
+            //             this.props
+            //                 .dispatch(Auth.actions.login(username, 'guest'))
+            //                 .then(re => {
+            //                     window.localStorage.jwt_token =
+            //                         re.payload.jwt_token;
+            //                     this.props.dispatch(Auth.actions.get_session());
+            //                 });
+            //         });
+            // }
         });
     }
 
@@ -76,11 +65,9 @@ export class AuthContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Auth.IState, ownProps): IStateProps {
     return {
         user_id: state.auth.user_id,
-        enable_guest_accounts: state.system.enable_guest_accounts,
-        auto_guest_login: state.system.auto_guest_login,
         location: (state as any).routing.locationBeforeTransitions.pathname
     };
 }
@@ -91,6 +78,7 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AuthContainer
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AuthContainer);

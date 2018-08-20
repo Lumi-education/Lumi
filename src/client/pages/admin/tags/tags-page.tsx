@@ -2,16 +2,27 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Paper } from 'material-ui';
+import {
+    Avatar,
+    Paper,
+    List,
+    ListItem,
+    Divider,
+    FloatingActionButton
+} from 'material-ui';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import FilterBar from 'lib/ui/components/filter-bar';
-import TagListComponent from 'lib/tags/components/tag-list';
 
 // state
 import { IState } from 'client/state';
 
 // modules
 import * as Tags from 'lib/tags';
+import * as UI from 'lib/ui';
+import { push } from 'lib/ui/actions';
+
+import TagsDialog from '../dialogs/tags-dialog';
 
 interface IStateProps {
     tags: Tags.ITag[];
@@ -50,18 +61,45 @@ export class AdminTagsPage extends React.Component<IProps, IComponentState> {
                     }
                 />
                 <Paper>
-                    <Tags.TagListComponent
-                        tags={this.props.tags.filter(tag => {
-                            return this.state.search_text === ''
-                                ? true
-                                : (tag.name + tag.description)
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })}
-                    />
+                    <List>
+                        {this.props.tags.map(tag => (
+                            <div key={tag._id}>
+                                <ListItem
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            push('/admin/tags/' + tag._id)
+                                        )
+                                    }
+                                    primaryText={tag.name}
+                                    secondaryText={tag.description}
+                                    leftAvatar={
+                                        <Avatar backgroundColor={tag.color}>
+                                            {tag.short_name ||
+                                                tag.name.substr(0, 3)}
+                                        </Avatar>
+                                    }
+                                />
+                                <Divider inset={true} />
+                            </div>
+                        ))}
+                    </List>
                 </Paper>
+                <UI.components.ActionBar>
+                    <FloatingActionButton
+                        onClick={() => {
+                            this.props.dispatch(
+                                Tags.actions.toggle_tags_dialog()
+                            );
+                        }}
+                        style={{
+                            margin: '20px',
+                            zIndex: 5000
+                        }}
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
+                </UI.components.ActionBar>
+                <TagsDialog />
             </div>
         );
     }
@@ -79,6 +117,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminTagsPage
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminTagsPage);

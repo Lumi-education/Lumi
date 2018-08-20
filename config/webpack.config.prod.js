@@ -4,6 +4,7 @@ const version = require('../package.json').version;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const sharedConfig = require('./shared.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     devtool: 'source-map',
@@ -24,6 +25,13 @@ module.exports = Object.assign(sharedConfig, {
         }),
         new UglifyJSPlugin({
             sourceMap: true
-        })
+        }),
+        new CopyWebpackPlugin([
+            {
+                from: 'src/client/static',
+                to: 'static',
+                toType: 'dir'
+            }
+        ])
     ]
 });

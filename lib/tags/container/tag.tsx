@@ -1,13 +1,9 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-// import { push } from 'lib/ui/actions';
-import { Map } from 'immutable';
 
-// components
-
+// modules
 import * as Tags from '../';
-import * as Core from 'lib/core';
 
 interface IPassedProps {
     tag_id: string;
@@ -28,12 +24,6 @@ interface IProps extends IStateProps, IDispatchProps {}
 export class TagContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
-    }
-
-    public componentWillMount() {
-        if (!this.props.tag._id) {
-            this.props.dispatch(Core.actions.doc(this.props.tag_id));
-        }
     }
 
     public render() {

@@ -1,10 +1,8 @@
-import { assign, unionBy } from 'lodash';
-
 import { Map } from 'immutable';
 
 import { IGroup } from '../types';
 
-import { arrayToObject } from 'lib/core/utils';
+import { arrayToObject } from '../../core/utils';
 
 import {
     GROUPS_GET_GROUPS_SUCCESS,
@@ -12,13 +10,14 @@ import {
     GROUPS_CREATE_SUCCESS,
     GROUPS_DELETE_SUCCESS,
     GROUPS_ADD_COLLECTION_SUCCESS,
-    GROUPS_REM_COLLECTION_SUCCESS
-} from '../constants';
+    GROUPS_REM_COLLECTION_SUCCESS,
+    GROUPS_ASSIGN_GROUPS_SUCCESS
+} from '../actions';
 
 import {
     USERS_GET_USERS_SUCCESS,
     USERS_GET_USER_SUCCESS
-} from 'lib/users/constants';
+} from '../../users/actions';
 
 export default function(
     state: Map<string, IGroup> = Map<string, IGroup>({}),
@@ -36,6 +35,7 @@ export default function(
             return state.merge(Map<string, IGroup>(o));
 
         case 'DB_CHANGE':
+        case GROUPS_ASSIGN_GROUPS_SUCCESS:
         case USERS_GET_USERS_SUCCESS:
         case USERS_GET_USER_SUCCESS:
         case GROUPS_GET_GROUPS_SUCCESS:

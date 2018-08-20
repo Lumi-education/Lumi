@@ -4,6 +4,7 @@ const version = require('../package.json').version;
 const sharedConfig = require('./shared.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = Object.assign(sharedConfig, {
     devServer: {
@@ -12,6 +13,10 @@ module.exports = Object.assign(sharedConfig, {
         historyApiFallback: true,
         proxy: {
             '/api/*': {
+                target: process.env.SERVER || 'http://localhost:3000',
+                secure: false
+            },
+            '/files/*': {
                 target: process.env.SERVER || 'http://localhost:3000',
                 secure: false
             },
@@ -37,7 +42,15 @@ module.exports = Object.assign(sharedConfig, {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
                 VERSION: JSON.stringify(process.env.VERSION || version)
             }
-        }) //,
+        }),
+        new CopyWebpackPlugin([
+            {
+                from: 'src/client/static',
+                to: 'static',
+                toType: 'dir'
+            }
+        ])
+        //,
         // new UglifyJSPlugin({
         //     sourceMap: true
         // })

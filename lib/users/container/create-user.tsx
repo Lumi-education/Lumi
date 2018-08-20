@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push, goBack } from 'lib/ui/actions';
+import {connect} from 'react-redux';
+import {push, goBack} from '../../ui/actions';
 
 // components
-import { FloatingActionButton } from 'material-ui';
+import {FloatingActionButton} from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 // modules
-import * as Users from '../';
+import * as Users from '..';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {}

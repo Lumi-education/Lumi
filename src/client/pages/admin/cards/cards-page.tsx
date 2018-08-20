@@ -2,67 +2,35 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
-import * as markdownit from 'markdown-it';
 import * as debug from 'debug';
-import { Map } from 'immutable';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import Chip from 'material-ui/Chip';
 
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import { FloatingActionButton, Paper } from 'material-ui';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
-import {
-    pinkA200,
-    transparent,
-    grey400,
-    darkBlack,
-    lightBlack
-} from 'material-ui/styles/colors';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import IconButton from 'material-ui/IconButton';
-import SVGContentCreate from 'material-ui/svg-icons/content/create';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+// svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 
 import TagFilterContainer from 'lib/tags/container/tag-filter';
-
-import Tag from 'lib/tags/components/tag';
 import FilterBar from 'lib/ui/components/filter-bar';
-
-import CardListComponent from 'client/composites/card-list';
 
 // local
 import { IState } from 'client/state';
 
-// types
-import { ICard } from 'lib/cards/types';
-
 // selectors
-import { select_all_cards, select_cards_by_ids } from 'lib/cards/selectors';
-import {
-    select_tags_as_map,
-    select_doc_ids_for_tags
-} from 'lib/tags/selectors';
+import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
+import * as Cards from 'lib/cards';
+import * as Tags from 'lib/tags';
 
-// actions
-import { get_cards, create_card } from 'lib/cards/actions';
-import { get_tags } from 'lib/tags/actions';
+// components
+import CreateCardDialog from '../dialogs/create-card';
+import AssignMaterialDialog from '../dialogs/assign_material';
 
-import LoadingPage from 'lib/ui/components/loading-page';
-
-const md = markdownit();
 const log = debug('lumi:modules:admin:cards:cards-page');
 
 interface IStateProps {
-    cards: ICard[];
+    cards: Cards.ICard[];
+    selected_cards: string[];
 }
 
 interface IDispatchProps {
@@ -76,7 +44,8 @@ interface IComponentState {
     search_text?: string;
     new_tag_name?: string;
     new_tag_description?: string;
-    loading?: boolean;
+    loading?: string;
+    loading_step?: number;
 }
 
 export class AdminCards extends React.Component<IProps, IComponentState> {
@@ -88,66 +57,107 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             search_text: '',
             new_tag_name: '',
             new_tag_description: '',
-            loading: true
+            loading: 'init',
+            loading_step: 0
         };
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_cards());
-        this.props.dispatch(get_tags()).then(res => {
-            this.setState({ loading: false });
+        this.setState({ loading: 'Karten', loading_step: 1 });
+        this.props.dispatch(Cards.actions.get_cards()).then(res => {
+            this.setState({ loading: 'Tags', loading_step: 2 });
+            this.props.dispatch(Tags.actions.get_tags()).then(tags_res => {
+                this.setState({ loading: 'finished', loading_step: 3 });
+            });
         });
     }
 
     public render() {
-        if (this.state.loading) {
-            return <LoadingPage />;
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage
+                    min={0}
+                    max={3}
+                    value={this.state.loading_step}
+                >
+                    {this.state.loading}
+                </UI.components.LoadingPage>
+            );
         }
         return (
-            <div>
+            <div style={{}}>
+                {/* <TagFilterContainer /> */}
+                <FilterBar
+                    filter={this.state.search_text}
+                    set_filter={filter =>
+                        this.setState({ search_text: filter })
+                    }
+                />
                 <Paper>
-                    <TagFilterContainer />
-                    <FilterBar
-                        filter={this.state.search_text}
-                        set_filter={filter =>
-                            this.setState({ search_text: filter })
-                        }
-                    />
-                    <CardListComponent
-                        cards={this.props.cards.filter(card => {
-                            return this.state.search_text === ''
-                                ? true
-                                : (card.name + card.description)
-                                      .toLocaleLowerCase()
-                                      .indexOf(
-                                          this.state.search_text.toLocaleLowerCase()
-                                      ) > -1;
-                        })}
-                        selected_card_ids={[]}
-                        onClick={(id: string) =>
-                            this.props.dispatch(push('/admin/cards/' + id))
-                        }
-                    />
+                    <Tags.TagsFilterContainer />
                 </Paper>
-
-                <FloatingActionButton
-                    onClick={() => {
-                        this.props.dispatch(create_card()).then(res => {
-                            log('create_card promise resolved');
-                            this.props.dispatch(
-                                push('/admin/cards/' + res.payload._id)
-                            );
-                        });
-                    }}
+                <div
                     style={{
-                        margin: '20px',
-                        bottom: '0px',
-                        right: '20px',
-                        position: 'fixed'
+                        display: 'flex',
+                        flexWrap: 'wrap'
                     }}
                 >
-                    <ContentAdd />
-                </FloatingActionButton>
+                    {this.props.cards
+                        .sort(Core.utils.alphabetically)
+                        .map(card => (
+                            <Cards.components.Card
+                                key={card._id}
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Cards.actions.select_card(card._id)
+                                    )
+                                }
+                                selected={
+                                    this.props.selected_cards.indexOf(
+                                        card._id
+                                    ) > -1
+                                }
+                                card={card}
+                                edit={event => {
+                                    event.preventDefault();
+                                    this.props.dispatch(
+                                        Cards.actions.change_card(card)
+                                    );
+                                    this.props.dispatch(
+                                        UI.actions.toggle_create_card_dialog()
+                                    );
+                                }}
+                            />
+                        ))}
+                </div>
+
+                <UI.components.ActionBar>
+                    {this.props.selected_cards.length !== 0 ? (
+                        <FloatingActionButton
+                            onClick={() => {
+                                this.props.dispatch(
+                                    UI.actions.toggle_assign_material_dialog()
+                                );
+                            }}
+                            style={{
+                                zIndex: 5000
+                            }}
+                        >
+                            <SVGCards />
+                        </FloatingActionButton>
+                    ) : null}
+                    <FloatingActionButton
+                        onClick={() => {
+                            this.props.dispatch(Cards.actions.reset_card()); // this is neededd, because the _id is used to determine if a card should be edited or created.
+                            this.props.dispatch(
+                                UI.actions.toggle_create_card_dialog()
+                            );
+                        }}
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
+                </UI.components.ActionBar>
+                <AssignMaterialDialog />
             </div>
         );
     }
@@ -155,16 +165,8 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        cards:
-            state.tags.ui.selected_tags.length !== 0
-                ? select_cards_by_ids(
-                      state,
-                      select_doc_ids_for_tags(
-                          state,
-                          state.tags.ui.selected_tags
-                      )
-                  )
-                : select_all_cards(state)
+        cards: Cards.selectors.with_tags(state, state.tags.ui.selected_tags),
+        selected_cards: state.cards.ui.selected_cards
     };
 }
 
@@ -174,18 +176,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminCards
-);
-
-const iconButtonElement = (
-    <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
-        <MoreVertIcon color={grey400} />
-    </IconButton>
-);
-
-function rightIconMenu(menuItems) {
-    return (
-        <IconMenu iconButtonElement={iconButtonElement}>{menuItems}</IconMenu>
-    );
-}
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminCards);

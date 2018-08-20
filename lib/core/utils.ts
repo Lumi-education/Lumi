@@ -1,9 +1,4 @@
 import * as classnames from 'classnames';
-import * as fetch from 'isomorphic-fetch';
-
-import { assign, isEqual } from 'lodash';
-
-declare var window;
 
 export function get_grade_string(grade: number) {
     const grade_strings = {
@@ -119,4 +114,14 @@ export function arrayToObject(array) {
         a[c._id] = c;
         return a;
     }, {});
+}
+
+export function alphabetically(a, b) {
+    if (a.name < b.name) {
+        return -1;
+    }
+    if (a.name > b.name) {
+        return 1;
+    }
+    return 0;
 }

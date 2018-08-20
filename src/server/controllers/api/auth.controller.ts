@@ -4,27 +4,20 @@ import * as jwt from 'jwt-simple';
 import { assign, noop } from 'lodash';
 
 import { IRequest } from '../../middleware/auth';
-import { DB } from '../../db';
-import User from '../../models/User';
-import Controller from '../controller';
 
-import * as UserActions from '../../modules/users/actions';
+import db from '../../db';
 
-class AuthController extends Controller<{}> {
-    constructor() {
-        super('auth');
-    }
+import { IUser } from 'lib/users/types';
 
+class AuthController {
     public login(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         db.findOne(
             {
                 type: 'user',
                 name: req.body.username
             },
             {},
-            (user: User) => {
+            (error, user: IUser) => {
                 if (!user) {
                     return res.status(404).json({
                         message: 'user not found',
@@ -57,31 +50,47 @@ class AuthController extends Controller<{}> {
                         }
                     }
                 );
-            },
-            User
+            }
         );
     }
 
     public register(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         db.findOne(
             { name: req.body.username, type: 'user' },
-            {},
-            (user: User) => {
+            { limit: 1 },
+            (error, user: IUser) => {
                 if (user) {
                     res.status(409).end();
                 } else {
-                    UserActions.create_user(
-                        req.body.username,
-                        req.body.password,
-                        _user => {
-                            res.status(200).json(_user);
-                        }
-                    );
+                    bcrypt.hash(req.body.password, null, null, (err, pw) => {
+                        const new_user: IUser = {
+                            _id: undefined,
+                            type: 'user',
+                            name: 'no name',
+                            level: 0,
+                            groups: [],
+                            last_login: undefined,
+                            last_active: undefined,
+                            online: false,
+                            location: '/',
+                            password: pw,
+                            flow: [],
+                            _deleted: false
+                        };
+
+                        assign(new_user, req.body, { password: pw });
+
+                        db.insert(new_user, (insert_error, insert_response) => {
+                            db.findById(
+                                insert_response.body.id,
+                                (findById_error, _user) => {
+                                    res.status(200).json(_user);
+                                }
+                            );
+                        });
+                    });
                 }
-            },
-            User
+            }
         );
     }
 
@@ -90,29 +99,31 @@ class AuthController extends Controller<{}> {
     }
 
     public get_session(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-        db.update_one(req.user._id, { last_active: new Date() });
+        db.updateOne(req.user._id, { last_active: new Date() });
 
-        db.findById(req.user._id, user => {
+        db.findById(req.user._id, (error, user) => {
             res.status(200).json(user);
         });
     }
 
     public set_password(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        db.find(
+            { type: 'user', name: req.body.username },
+            { limit: 1 },
+            (find_user_error, users) => {
+                if (find_user_error) {
+                    res.status(404).end();
+                }
+                const _user = users[0];
 
-        db.view('auth', 'check_username', { key: req.body.username }, docs => {
-            if (docs.length === 1) {
-                const user = docs[0];
-
-                if (!user.password) {
+                if (!_user.password) {
                     bcrypt.hash(req.body.password, null, null, (err, hash) => {
-                        db.update_one(
-                            user._id,
+                        db.updateOne(
+                            _user._id,
                             {
                                 password: hash
                             },
-                            doc => {
+                            (updateOne_error, doc) => {
                                 res.status(200).end();
                             }
                         );
@@ -120,32 +131,74 @@ class AuthController extends Controller<{}> {
                 } else {
                     res.status(401).end();
                 }
-            } else {
-                res.status(404).end();
             }
-        });
+        );
+        // db.view(
+        //     'auth',
+        //     'check_username',
+        //     { key: req.body.username },
+        //     (error, docs) => {
+        //         if (docs.length === 1) {
+        //             const user = docs[0];
+
+        //             if (!user.password) {
+        //                 bcrypt.hash(
+        //                     req.body.password,
+        //                     null,
+        //                     null,
+        //                     (err, hash) => {
+        //                         db.updateOne(
+        //                             user._id,
+        //                             {
+        //                                 password: hash
+        //                             },
+        //                             (updateOne_error, doc) => {
+        //                                 res.status(200).end();
+        //                             }
+        //                         );
+        //                     }
+        //                 );
+        //             } else {
+        //                 res.status(401).end();
+        //             }
+        //         } else {
+        //             res.status(404).end();
+        //         }
+        //     }
+        // );
     }
 
     public username(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view(
-            'auth',
-            'check_username',
-            { key: req.params.username },
-            docs => {
-                if (docs.length === 1) {
-                    const user = docs[0];
-
-                    res.status(200).json({
-                        username: req.params.username,
-                        password: user.password ? true : false
-                    });
-                } else {
+        db.find(
+            { type: 'user', name: req.params.username },
+            { limit: 1 },
+            (find_user_error, user) => {
+                if (find_user_error) {
                     res.status(404).end();
                 }
+                res.status(200).json({
+                    username: user.name,
+                    password: user.password ? true : false
+                });
             }
         );
+        //     db.view(
+        //         'auth',
+        //         'check_username',
+        //         { key: req.params.username },
+        //         (err, docs) => {
+        //             if (docs.length === 1) {
+        //                 const user = docs[0];
+
+        // res.status(200).json({
+        //     username: req.params.username,
+        //     password: user.password ? true : false
+        // });
+        //             } else {
+        //                 res.status(404).end();
+        //             }
+        //         }
+        //     );
     }
 }
 

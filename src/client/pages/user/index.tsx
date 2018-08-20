@@ -3,17 +3,11 @@ import { connect } from 'react-redux';
 
 import { IState } from 'client/state';
 
-// container
 import AppBar from './app-bar';
-
-// components
 import LeftDrawer from './left-drawer';
 
-// actions
-import { get_user_collections } from 'lib/collections/actions';
-
 // modules
-import * as Core from 'lib/core';
+import * as Groups from 'lib/groups';
 
 interface IStateProps {
     location;
@@ -31,7 +25,7 @@ export class Root extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_user_collections());
+        this.props.dispatch(Groups.actions.get_groups());
     }
 
     public render() {
@@ -42,8 +36,6 @@ export class Root extends React.Component<IProps, {}> {
                 <div style={{ paddingBottom: '80px' }}>
                     {this.props.children}
                 </div>
-
-                <Core.container.attachmentList />
             </div>
         );
     }
@@ -60,4 +52,7 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(Root);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(Root);

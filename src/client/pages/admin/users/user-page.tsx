@@ -10,7 +10,10 @@ import SVGEdit from 'material-ui/svg-icons/content/create';
 
 import ActionBar from 'lib/ui/components/action-bar';
 
-import CollectionAssignments from 'client/composites/collection-assignments';
+import UserFlowTab from './user-flow-tab';
+import UserAnalyticsTab from './user-analytics-tab';
+
+import UserGroupsInput from 'client/container/user-groups';
 
 // state
 import { IState } from 'client/state';
@@ -19,11 +22,13 @@ import { IState } from 'client/state';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Grades from 'lib/grades';
-import * as Collections from 'lib/collections';
+import * as UI from 'lib/ui';
+import * as Tags from 'lib/tags';
 
 interface IStateProps {
     user_id: string;
     tab: string;
+    course_id: string;
 }
 
 interface IDispatchProps {
@@ -41,7 +46,6 @@ export class AdminUserPage extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(Users.actions.get_user(this.props.user_id));
-        this.props.dispatch(Users.actions.init(this.props.user_id));
         this.props.dispatch(Groups.actions.get_groups());
     }
 
@@ -55,7 +59,7 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         width: '100%'
                     }}
                     tabItemContainerStyle={{
-                        background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+                        background: UI.config.gradient_bg
                     }}
                     value={this.props.tab}
                 >
@@ -73,27 +77,27 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                         }
                     />
                     <Tab
-                        label="Grades"
-                        value="grades"
+                        label="Analyse"
+                        value="analytics"
                         onActive={() =>
                             this.props.dispatch(
                                 push(
                                     '/admin/users/' +
                                         this.props.user_id +
-                                        '/grades'
+                                        '/analytics'
                                 )
                             )
                         }
                     />
                     <Tab
-                        label="Assignments"
-                        value="assignments"
+                        label="Flow"
+                        value="flow"
                         onActive={() =>
                             this.props.dispatch(
                                 push(
                                     '/admin/users/' +
                                         this.props.user_id +
-                                        '/assignments'
+                                        '/flow'
                                 )
                             )
                         }
@@ -108,76 +112,23 @@ export class AdminUserPage extends React.Component<IProps, {}> {
                                     <Users.UserContainer
                                         user_id={this.props.user_id}
                                     >
-                                        <Groups.UserGroupsContainer
+                                        <UserGroupsInput
                                             user_id={this.props.user_id}
                                         />
                                     </Users.UserContainer>
                                 </Paper>
                             );
-                        case 'grades':
+                        case 'analytics':
                             return (
-                                <div>
-                                    <Grades.CurrentGradeListContainer
-                                        user_id={this.props.user_id}
-                                    />
-                                    <Grades.GradeListContainer
-                                        user_id={this.props.user_id}
-                                        menuItems={[
-                                            (grade: Grades.IGrade) => (
-                                                <MenuItem
-                                                    key={grade._id + '-1'}
-                                                    leftIcon={<SVGEdit />}
-                                                    onClick={() =>
-                                                        this.props.dispatch(
-                                                            Grades.actions.show_create_grade_dialog(
-                                                                this.props
-                                                                    .user_id,
-                                                                grade._id
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    Edit
-                                                </MenuItem>
-                                            ),
-                                            (grade: Grades.IGrade) => (
-                                                <MenuItem
-                                                    key={grade._id + '-2'}
-                                                    leftIcon={<SVGDelete />}
-                                                    onClick={() =>
-                                                        this.props.dispatch(
-                                                            Grades.actions.delete_grade(
-                                                                grade._id
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    Delete
-                                                </MenuItem>
-                                            )
-                                        ]}
-                                    />
-
-                                    <ActionBar>
-                                        <FloatingActionButton
-                                            onClick={() =>
-                                                this.props.dispatch(
-                                                    Grades.actions.show_create_grade_dialog(
-                                                        this.props.user_id
-                                                    )
-                                                )
-                                            }
-                                        >
-                                            <SVGGrade />
-                                        </FloatingActionButton>
-                                    </ActionBar>
-                                    <Grades.CreateGradeDialogContainer />
-                                </div>
-                            );
-                        case 'assignments':
-                            return (
-                                <CollectionAssignments
+                                <UserAnalyticsTab
                                     user_id={this.props.user_id}
+                                />
+                            );
+                        case 'flow':
+                            return (
+                                <UserFlowTab
+                                    user_id={this.props.user_id}
+                                    course_id={this.props.course_id}
                                 />
                             );
                     }
@@ -190,7 +141,8 @@ export class AdminUserPage extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id: ownProps.params.user_id,
-        tab: ownProps.params.tab
+        tab: ownProps.params.tab,
+        course_id: ownProps.location.query.course_id
     };
 }
 
@@ -200,6 +152,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminUserPage
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminUserPage);

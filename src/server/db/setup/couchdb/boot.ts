@@ -2,17 +2,33 @@ import * as _debug from 'debug';
 import * as superagent from 'superagent';
 import * as raven from 'raven';
 
-import { ISystemSettings } from 'lib/system/types';
+import { ISystemSettings } from '../../../../../lib/core/types';
+import { IUser } from '../../../../../lib/users/types';
 
 import boot_views from './views';
 
+import db from '../..';
+
 const debug = _debug('lumi:db:setup');
 
-const system: ISystemSettings = {
+const _system: ISystemSettings = {
     _id: 'system',
-    enable_guest_accounts: false,
-    auto_guest_login: false,
-    auto_assign_to_groups: []
+    changes_port: process.env.CHANGES_PORT
+};
+
+const _admin: IUser = {
+    _id: 'admin',
+    _deleted: false,
+    type: 'user',
+    name: 'admin',
+    level: 4,
+    groups: [],
+    last_active: new Date(),
+    last_login: new Date(),
+    online: false,
+    location: '',
+    password: undefined,
+    flow: []
 };
 
 export default function(done: () => void) {
@@ -21,7 +37,9 @@ export default function(done: () => void) {
         .get(process.env.DB_HOST + '/' + process.env.DB)
         .then(res => {
             debug(process.env.DB + ': OK');
-            boot_views(() => done());
+            // boot_views(() => done());
+            boot();
+            done();
         })
         .catch(err => {
             if (err.status === 404) {
@@ -33,32 +51,8 @@ export default function(done: () => void) {
                     .put(process.env.DB_HOST + '/' + process.env.DB)
                     .then(res => {
                         debug(process.env.DB + ': created');
-                        superagent
-                            .put(
-                                process.env.DB_HOST +
-                                    '/' +
-                                    process.env.DB +
-                                    '/admin'
-                            )
-                            .send({
-                                _id: 'admin',
-                                name: 'admin',
-                                level: 4,
-                                type: 'user'
-                            })
-                            .then(r => {
-                                superagent
-                                    .put(
-                                        process.env.DB_HOST +
-                                            '/' +
-                                            process.env.DB +
-                                            '/system'
-                                    )
-                                    .send(system)
-                                    .then(_r => {
-                                        boot_views(() => done());
-                                    });
-                            });
+                        boot();
+                        done();
                     })
                     .catch(error => {
                         debug('ERROR: ', error);
@@ -66,4 +60,18 @@ export default function(done: () => void) {
             }
             raven.captureException(err);
         });
+}
+
+function boot() {
+    db.findById('system', (find_system_error, system) => {
+        if (find_system_error || !system._id) {
+            db.insert(_system);
+        }
+    });
+
+    db.findById('admin', (find_admin_error, admin) => {
+        if (find_admin_error || !admin._id) {
+            db.insert(_admin);
+        }
+    });
 }

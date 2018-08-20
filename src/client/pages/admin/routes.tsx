@@ -3,50 +3,29 @@ import * as React from 'react';
 import { Redirect, Route } from 'react-router';
 
 import AdminIndex from 'client/pages/admin';
-import {
-    CollectionsPage,
-    AdminCollectionPage
-} from 'client/pages/admin/collections';
 
-import AssignmentsPage from './analytics/assignments';
-import Monitor from './analytics/monitor';
+import Group from 'client/pages/admin/groups/group';
+import Groups from 'client/pages/admin/groups/groups';
 
-import {
-    Group,
-    Groups,
-    CreateOrAddUserDialog
-} from 'client/pages/admin/groups';
-
-import { TagsPage } from 'client/pages/admin/tags';
+import TagsPage from 'client/pages/admin/tags/tags-page';
+import TagPage from 'client/pages/admin/tags/tag';
 import CardPage from 'client/pages/admin/cards/card-page';
 import CardsPage from 'client/pages/admin/cards/cards-page';
 
-import { User, Users } from 'client/pages/admin/users';
+import UserPage from 'client/pages/admin/users/user-page';
+import UsersPage from 'client/pages/admin/users/users-page';
 
 const routes = (
     <Route path="admin" component={AdminIndex}>
-        <Route path="collections" component={CollectionsPage} />
-        <Redirect
-            from="collections/:collection_id"
-            to="collections/:collection_id/settings"
-        />
-        <Route
-            path="collections/:collection_id/:tab"
-            component={AdminCollectionPage}
-        />
         <Route path="groups" component={Groups} />
         <Redirect from="groups/:group_id" to="groups/:group_id/users" />
         <Route path="groups/:group_id/:tab" component={Group} />
-        <Route
-            path="groups/:group_id/users/add"
-            component={CreateOrAddUserDialog}
-        />
-        <Route path="analytics/assignments" component={AssignmentsPage} />
-        <Route path="analytics/monitor" component={Monitor} />
-        <Route path="users" component={Users} />
-        <Route path="users/:user_id/:tab" component={User} />
+        <Route path="users" component={UsersPage} />
+        <Route path="users/:user_id/:tab" component={UserPage} />
         <Redirect from="users/:user_id" to="users/:user_id/settings" />
         <Route path="tags" component={TagsPage} />
+        <Route path="tags/:tag_id/:tab" component={TagPage} />
+        <Redirect from="tags/:tag_id" to="tags/:tag_id/settings" />
         <Route path="cards" component={CardsPage} />
         <Route path="cards/:card_id" component={CardPage} />
     </Route>

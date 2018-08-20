@@ -1,144 +1,145 @@
 import * as request from 'superagent';
 import { assign, noop } from 'lodash';
-import * as express from 'express';
 import * as debug from 'debug';
 import * as nano from 'nano';
 
 import * as raven from 'raven';
 
-// const db = process.env.DB_HOST + '/' + process.env.DB + '/';
 const _nano = nano(process.env.DB_HOST);
-// const nano_db = _nano.use(process.env.DB);
 
 const log = debug('lumi:db');
 
 export class DB {
-    private res: express.Response;
     private db: string;
     private nano: any;
 
-    constructor(res?: express.Response) {
-        this.res = res;
-
+    constructor() {
         this.db = process.env.DB_HOST + '/' + process.env.DB + '/';
         this.nano = _nano.use(process.env.DB);
 
-        this.handle_error = this.handle_error.bind(this);
         this.findById = this.findById.bind(this);
         this.save = this.save.bind(this);
         this.insert = this.insert.bind(this);
         this.find = this.find.bind(this);
         this.findOne = this.findOne.bind(this);
-        this.update_one = this.update_one.bind(this);
-        this.checkView = this.checkView.bind(this);
-        this.view = this.view.bind(this);
+        this.updateOne = this.updateOne.bind(this);
+        // this.view = this.view.bind(this);
         this.delete = this.delete.bind(this);
-        this.dbList = this.dbList.bind(this);
     }
 
-    public findById(id: string, cb: (doc) => void, type?) {
+    public findById(id: string, cb: (err, doc) => void) {
         request
             .get(this.db + id)
             .then(res => {
                 log('findById', id);
-                cb(type ? new type(res.body) : res.body);
+                cb(undefined, res.body);
             })
             .catch(err => {
-                this.handle_error(err);
+                cb(err, undefined);
+                raven.captureException(err);
             });
     }
 
     public _findById(id: string, cb: (err, doc) => void) {
-        request
-            .get(this.db + id)
-            .then(res => {
-                log('_findById', id);
-                cb(null, res.body);
-            })
-            .catch(err => {
-                cb(err, null);
-            });
+        this.findById(id, cb);
     }
 
-    public save(doc, cb?: (res) => void) {
+    public save(doc, cb?: (err, saved_doc) => void) {
         request
             .put(this.db + doc._id)
             .send(assign(doc, { updated_at: new Date() }))
             .then(res => {
                 log('SAVED', doc._id);
                 if (cb) {
-                    cb(res);
-                } else {
-                    if (this.res) {
-                        this.res.status(200).json(
-                            assign({}, doc, {
-                                _id: res.body.id,
-                                _rev: res.body.rev
-                            })
-                        );
-                    }
+                    cb(
+                        undefined,
+                        assign({}, doc, {
+                            _id: res.body.id,
+                            _rev: res.body.rev
+                        })
+                    );
                 }
             })
-            .catch(this.handle_error);
+            .catch(err => {
+                if (cb) {
+                    cb(err, undefined);
+                }
+                raven.captureException(err);
+            });
     }
 
-    public insert(doc, cb?: (res) => void) {
+    public insert(doc, cb?: (err, doc) => void) {
         request
             .post(this.db)
             .send(assign(doc, { created_at: new Date() }))
             .then(res => {
                 log('CREATED: ', res.body.id);
+
                 if (cb) {
-                    cb(res);
-                } else {
-                    if (this.res) {
-                        this.res.status(200).json(
-                            assign({}, doc, {
-                                _id: res.body.id,
-                                _rev: res.body.rev
-                            })
-                        );
-                    }
+                    cb(
+                        undefined,
+                        assign({}, doc, {
+                            _id: res.body.id,
+                            _rev: res.body.rev
+                        })
+                    );
                 }
             })
-            .catch(this.handle_error);
+            .catch(err => {
+                if (cb) {
+                    cb(err, undefined);
+                }
+                raven.captureException(err);
+            });
     }
 
-    public insertMany(docs: any[], options, callback: (error, result) => void) {
+    public insertMany(docs: any[], options, callback: (error, docs) => void) {
         request
             .post(this.db + '_bulk_docs')
             .send({ docs })
             .then(res => {
-                callback(null, res.body);
+                callback(undefined, res.body);
             })
-            .catch(this.handle_error);
+            .catch(err => {
+                callback(err, undefined);
+                raven.captureException(err);
+            });
     }
 
-    public find(query, options, cb: (doc) => void, type?) {
+    public updateMany(docs: any[], options, cb: (err, docs) => void) {
+        this.insertMany(docs, options, cb);
+    }
+
+    public find(query, options, cb: (error, doc) => void) {
         if (options.limit) {
             options.limit = parseInt(options.limit, 10);
         }
         request
             .post(this.db + '_find')
-            .send(assign({ selector: query }, options))
+            .send(
+                assign(
+                    {
+                        selector: query
+                    },
+                    options
+                )
+            )
             .then(res => {
-                cb(type ? res.body.docs.map(d => new type(d)) : res.body.docs);
+                cb(undefined, res.body.docs);
             })
-            .catch(this.handle_error);
+            .catch(err => {
+                raven.captureException(err);
+                cb(err, undefined);
+            });
     }
 
-    public findOne(query, options, cb: (doc) => void, type?) {
-        this.find(
-            query,
-            assign(options, { limit: 1 }),
-            docs => {
-                cb(docs[0]);
-            },
-            type
-        );
+    public findOne(query, options, cb: (error, doc) => void) {
+        this.find(query, assign(options, { limit: 1 }), (error, docs) => {
+            cb(error, docs[0]);
+        });
     }
 
-    public update_one(id: string, update, cb?: (doc) => void) {
+    public updateOne(id: string, update, cb?: (error, doc) => void) {
         request
             .get(this.db + id)
             .then(({ body }) => {
@@ -150,15 +151,27 @@ export class DB {
                     .send(newDoc)
                     .then(res => {
                         cb
-                            ? cb(assign({}, newDoc, { _rev: res.body.rev }))
+                            ? cb(
+                                  undefined,
+                                  assign({}, newDoc, { _rev: res.body.rev })
+                              )
                             : noop();
                     })
-                    .catch(this.handle_error);
+                    .catch(err => {
+                        if (cb) {
+                            cb(err, undefined);
+                        }
+                    });
             })
-            .catch(this.handle_error);
+            .catch(err => {
+                if (cb) {
+                    cb(err, undefined);
+                }
+                raven.captureException(err);
+            });
     }
 
-    public update(selector, update, options, cb: (docs) => void) {
+    public update(selector, update, options, cb: (error, docs) => void) {
         this.find(selector, options, docs => {
             const updated_docs = docs.map(doc => assign(doc, update));
 
@@ -166,98 +179,61 @@ export class DB {
                 .post(this.db + '_bulk_docs')
                 .send({ docs: updated_docs })
                 .then(res => {
-                    cb(res.body);
+                    cb(undefined, res.body);
                 })
-                .catch(this.handle_error);
+                .catch(err => {
+                    cb(err, undefined);
+                    raven.captureException(err);
+                });
         });
     }
 
-    public checkView(name: string, cb: (doc) => void) {
-        log('checking for view', name);
-        request
-            .get(this.db + name)
-            .then(res => {
-                log('view ' + name + ' exists');
-                cb(res.body);
-            })
-            .catch(err => {
-                log('view ' + name + ' does not exist');
-                cb(undefined);
-            });
-    }
+    // public view(
+    //     _design: string,
+    //     index: string,
+    //     options,
+    //     cb: (error, docs) => void
+    // ) {
+    //     const _options = assign(options, { include_docs: true });
 
-    public view(_design: string, index: string, options, cb: (docs) => void) {
-        const _options = assign(options, { include_docs: true });
+    //     this.nano.view(_design, index, _options, (err, body) => {
+    //         if (err) {
+    //             cb(err, undefined);
+    //             raven.captureException(err);
+    //         } else {
+    //             if (body) {
+    //                 cb(
+    //                     undefined,
+    //                     body.rows
+    //                         .map(row => row.doc)
+    //                         .filter(doc => doc !== null)
+    //                 );
+    //             } else {
+    //                 cb(undefined, []);
+    //             }
+    //         }
+    //     });
+    // }
 
-        this.nano.view(_design, index, _options, (err, body) => {
-            if (err) {
-                this.handle_error(err);
-            } else {
-                if (body) {
-                    cb(
-                        body.rows
-                            .map(row => row.doc)
-                            .filter(doc => doc !== null)
-                    );
-                } else {
-                    cb([]);
-                }
+    public delete(id: string, cb?: (err) => void) {
+        this.findById(id, (error, doc) => {
+            if (error) {
+                throw new Error(error);
             }
-        });
-    }
-
-    public delete(id: string, cb?: () => void) {
-        this.findById(id, doc => {
             request
                 .delete(this.db + id + '?rev=' + doc._rev)
                 .then(() => {
                     log('DELETED: ', id);
-                    if (!cb) {
-                        if (this.res) {
-                            this.res.status(200).end();
-                        }
-                    } else {
-                        cb();
+                    if (cb) {
+                        cb(undefined);
                     }
                 })
-                .catch(this.handle_error);
+                .catch(err => {
+                    cb(err);
+                    raven.captureException(err);
+                });
         });
-    }
-
-    public dbList(cb: (dbs: string[]) => void) {
-        _nano.db.list((err, body) => {
-            if (err) {
-                this.handle_error(err);
-            } else {
-                cb(body);
-            }
-        });
-    }
-
-    public checkDb(cb: (db) => void) {
-        request
-            .get(this.db)
-            .then(res => cb(res))
-            .catch(this.handle_error);
-    }
-
-    private handle_error(err) {
-        raven.captureException(err);
-
-        if (this.res) {
-            try {
-                this.res
-                    .status(
-                        err.status > 100 && err.status < 520 ? err.status : 500
-                    )
-                    .json(
-                        process.env.NODE_ENV === 'development'
-                            ? err
-                            : { message: err.message || err }
-                    );
-            } catch (err) {
-                raven.captureException(err);
-            }
-        }
     }
 }
+
+export default new DB();

@@ -1,8 +1,6 @@
 import * as express from 'express';
 import * as jwt from 'jwt-simple';
 import * as raven from 'raven';
-import { noop } from 'lodash';
-import { DB } from '../db';
 
 export function auth(
     req: IRequest,
@@ -14,7 +12,7 @@ export function auth(
     if (jwtToken) {
         try {
             req.user = jwt.decode(jwtToken, process.env.KEY || 'KEY');
-            raven.setContext({ user: req.user });
+            raven.setContext({user: req.user});
 
             next();
         } catch (err) {

@@ -29,6 +29,10 @@ export function random_bg(): string {
 }
 
 export function get_grade_color(g: number) {
+    if (g === null) {
+        return 'grey';
+    }
+
     const grade = Math.ceil(g / 5) * 5;
     return classnames({
         '#2ecc71': grade >= 85,

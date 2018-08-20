@@ -17,8 +17,6 @@ interface IProps {
     answer: string;
     cb?: (value: string) => void;
     preview?: boolean;
-    error_text: string;
-    error_style;
 }
 
 interface IState {
@@ -64,7 +62,7 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
     }
 
     public _onChange(event, value) {
-        this.setState({ value });
+        this.props.cb ? this.props.cb(value) : noop();
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
@@ -107,14 +105,7 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
                     <TextField
                         multiLine={true}
                         fullWidth={true}
-                        errorText={
-                            this.state.value !== this.props.answer
-                                ? 'state unsaved'
-                                : this.props.error_text
-                        }
-                        errorStyle={this.props.error_style}
                         onChange={this._onChange}
-                        onBlur={this._onBlur}
                         value={this.state.value || ''}
                         hintText="Antwort"
                     />

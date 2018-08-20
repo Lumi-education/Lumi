@@ -1,21 +1,34 @@
-import * as constants from './constants';
 import * as types from './types';
 import * as actions from './actions';
+import * as selectors from './selectors';
+
 export { IState } from './types';
+import FileListComponent from './components/file-list';
 import WebsocketContainer from './container/websocket';
 import reducer from './reducer';
 import AttachmentComponent from './components/attachment';
-import AttachmentListContainer from './container/attachment-list';
-import FetchContainer from './container/fetch';
-
+import SystemContainer from './container/system';
+import FileUploadComponent from './components/file-upload';
+import * as utils from './utils';
+import * as config from './config';
 const components = {
-    attachment: AttachmentComponent
+    attachment: AttachmentComponent,
+    FileUpload: FileUploadComponent,
+    FileList: FileListComponent
 };
 
 const container = {
     websocket: WebsocketContainer,
-    attachmentList: AttachmentListContainer,
-    Fetch: FetchContainer
+    System: SystemContainer
 };
 
-export { actions, constants, types, container, components, reducer };
+export {
+    actions,
+    selectors,
+    types,
+    container,
+    components,
+    reducer,
+    utils,
+    config
+};

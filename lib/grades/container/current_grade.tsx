@@ -2,14 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import * as moment from 'moment';
-
 // components
-import { Avatar, Divider, List, ListItem } from 'material-ui';
+import { Avatar } from 'material-ui';
 
 // modules
-import * as Grades from '../';
-import { get_grade_color, get_grade_string } from 'lib/ui/utils';
+import * as Grades from '..';
+import { get_grade_color, get_grade_string } from '../../ui/utils';
 
 const log = debug('lumi:lib:grades:container:grade-list');
 
@@ -41,8 +39,10 @@ export class CurrentGradeContainer extends React.Component<IProps, {}> {
     public render() {
         const grade = parseInt(
             (
-                this.props.grades.map(g => g.score).reduce((p, c) => p + c, 0) /
-                this.props.grades.length *
+                (this.props.grades
+                    .map(g => g.score)
+                    .reduce((p, c) => p + c, 0) /
+                    this.props.grades.length) *
                 100
             ).toFixed(0),
             10

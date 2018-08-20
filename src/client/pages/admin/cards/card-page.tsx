@@ -2,9 +2,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-// container
-import CardEditContainer from 'lib/cards/container/card-edit';
-
 // local
 import { IState } from 'client/state';
 
@@ -27,11 +24,7 @@ export class CardPage extends React.Component<IProps, {}> {
     }
 
     public render() {
-        return (
-            <CardEditContainer card_id={this.props.card_id}>
-                <Tags.TagInputContainer doc_id={this.props.card_id} />
-            </CardEditContainer>
-        );
+        return <div>card-edit</div>;
     }
 }
 
@@ -47,6 +40,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    CardPage
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(CardPage);

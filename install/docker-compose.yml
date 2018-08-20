@@ -1,55 +1,56 @@
-version: "3"
+version: '3'
 services:
-  lumi:
-    image: lumieducation/lumi:${BRANCH}
-    restart: always
-    networks:
-        - webnet
-    environment:
-        - PORT=80
-        - LUMI_ID=${ID}
-        - NODE_ENV=${NODE_ENV}
-        - KEY=${KEY}
-        - DB_HOST=${DB_HOST}
-        - DB=${DB}
-        - CHANGES_PORT=${CHANGES_PORT}
-    volumes:
-        - ./files:/srv/files
-    ports:
-        - ${PORT}:80
-    depends_on:
-        - "couchdb"
-  lumi-changes:
-    image: lumieducation/lumi-changes:v1.0.0
-    restart: always
-    networks:
-      - webnet
-    environment:
-      - KEY=${KEY}
-      - NODE_ENV=${NODE_ENV}
-      - DB_HOST=${DB_HOST}
-      - DB=${DB}
-      - BRANCH=${BRANCH}
-      - VERSION=v1.0.0
-    ports:
-      - ${CHANGES_PORT}:8081
-    depends_on:
-      - "couchdb"
-  apd:
-    image: lumieducation/apd:${BRANCH}
-    privileged: true
-    restart: always
-    ports:
-      - "53:53"
-    network_mode: "host"
-  couchdb:
-    image: ${COUCHDB_IMAGE}
-    restart: always
-    volumes:
-      - ./db:/opt/couchdb/data
-    networks:
-      - webnet
-    ports:
-      - "5984:5984"
+    lumi:
+        image: lumieducation/lumi:${BRANCH}
+        restart: always
+        networks:
+            - webnet
+        environment:
+            - PORT=80
+            - LUMI_ID=${ID}
+            - NODE_ENV=${NODE_ENV}
+            - KEY=${KEY}
+            - DB_HOST=${DB_HOST}
+            - DB=${DB}
+            - CHANGES_PORT=${CHANGES_PORT}
+        volumes:
+            - ./files:/srv/build/upload
+            - ./h5p:/srv/build/h5p
+        ports:
+            - ${PORT}:80
+        depends_on:
+            - 'couchdb'
+    lumi-changes:
+        image: lumieducation/lumi-changes:v1.0.0
+        restart: always
+        networks:
+            - webnet
+        environment:
+            - KEY=${KEY}
+            - NODE_ENV=${NODE_ENV}
+            - DB_HOST=${DB_HOST}
+            - DB=${DB}
+            - BRANCH=${BRANCH}
+            - VERSION=v1.0.0
+        ports:
+            - ${CHANGES_PORT}:8081
+        depends_on:
+            - 'couchdb'
+    apd:
+        image: lumieducation/apd:${BRANCH}
+        privileged: true
+        restart: always
+        ports:
+            - '53:53'
+        network_mode: 'host'
+    couchdb:
+        image: ${COUCHDB_IMAGE}
+        restart: always
+        volumes:
+            - ./db:/opt/couchdb/data
+        networks:
+            - webnet
+        ports:
+            - '5984:5984'
 networks:
-  webnet:
+    ? webnet

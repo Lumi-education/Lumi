@@ -1,22 +1,16 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
+import { push } from '../../ui/actions';
 
-import {
-    Dialog,
-    TextField,
-    SelectField,
-    MenuItem,
-    RaisedButton
-} from 'material-ui';
+import { Dialog, TextField, RaisedButton } from 'material-ui';
 
-import { RaisedButtonComponent } from 'lib/ui';
+import { RaisedButtonComponent } from '../../ui';
 
-import { state_color } from 'lib/ui/utils';
+import { state_color } from '../../ui/utils';
 
 // modules
-import * as Groups from '../';
+import * as Groups from '..';
 
 interface IPassedProps {
     group_id: string;
@@ -94,14 +88,14 @@ export class GroupSettingsContainer extends React.Component<
                             this.props.dispatch(push('/admin/groups'))
                         }
                     />
-                    <RaisedButtonComponent
+                    {/* <RaisedButtonComponent
                         dispatch={this.props.dispatch}
                         action={Groups.actions.update_group(
                             this.props.group._id,
                             this.updated_state()
                         )}
                         labels={['Save', 'Saving...', 'Saved', 'Not saved']}
-                    />
+                    /> */}
                     <RaisedButton
                         fullWidth={true}
                         secondary={true}

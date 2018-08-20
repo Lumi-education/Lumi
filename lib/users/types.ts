@@ -3,6 +3,7 @@ type Group_id = string;
 
 export interface IUser {
     _id: User_id;
+    _deleted: boolean;
     type: 'user';
     name: string;
     level: number;
@@ -12,12 +13,14 @@ export interface IUser {
     online: boolean;
     location: string;
     password: string;
+    flow: string[];
 }
 
 export interface IState {
     users: {
         list: IUser[];
         ui: IUsersUI;
+        me: IUser;
     };
 }
 

@@ -32,7 +32,7 @@ export default class FilterBar extends React.Component<IProps, {}> {
                     id="search"
                     fullWidth={true}
                     value={this.props.filter}
-                    hintText="Search"
+                    hintText="Suche..."
                     onChange={(e, v) => this.props.set_filter(v)}
                 />
             </Paper>

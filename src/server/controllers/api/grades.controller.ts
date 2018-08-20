@@ -1,27 +1,17 @@
 import * as express from 'express';
-import { assign, noop } from 'lodash';
+import { assign } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import { DB } from '../../db';
+import db from '../../db';
 
-import Controller from '../controller';
-
-class GradesController extends Controller<{}> {
-    constructor() {
-        super('grade');
-    }
-
+class GradesController {
     public user(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('grade', 'user', { key: req.params.user_id }, grades => {
-            res.status(200).json(grades);
-        });
+        // db.view('grade', 'user', {key: req.params.user_id}, (error, grades) => {
+        //     res.status(200).json(grades);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
         const default_grade = {
             _id: undefined,
             created_at: new Date(),
@@ -35,13 +25,21 @@ class GradesController extends Controller<{}> {
             grade_type: 'no'
         };
 
-        db.insert(assign({}, default_grade, req.body));
+        db.insert(assign({}, default_grade, req.body), (error, doc) => {
+            res.status(200).json([doc]);
+        });
+    }
+
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
     }
 
     public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.delete(req.params.id);
+        db.delete(req.params.id, error => {
+            res.status(200).end();
+        });
     }
 }
 

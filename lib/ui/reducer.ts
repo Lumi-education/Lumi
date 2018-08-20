@@ -13,8 +13,15 @@ import {
     UI_TOGGLE_CARDS_DIALOG,
     UI_SELECT_CARD,
     UI_SET_RIGHT_APPBAR_ICON,
-    UI_SET_APPBAR_TITLE
-} from './constants';
+    UI_SET_APPBAR_TITLE,
+    UI_TOGGLE_ASSIGN_MATERIAL_DIALOG,
+    UI_TOGGLE_CREATE_USER_DIALOG,
+    UI_ASSIGN_GROUP_DIALOG,
+    UI_DELETE_USER_DIALOG,
+    UI_TOGGLE_CREATE_CARD_DIALOG,
+    UI_SNACKBAR_CLOSE,
+    UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS
+} from './actions';
 
 const initialState: IUI = {
     left_drawer_show: false,
@@ -25,7 +32,13 @@ const initialState: IUI = {
     show_cards_dialog: false,
     selected_card_ids: [],
     right_appbar_icon: null,
-    appbar_title: ''
+    appbar_title: '',
+    show_assign_material_dialog: false,
+    show_create_user_dialog: false,
+    show_assign_group_dialog: false,
+    show_delete_user_dialog: false,
+    show_create_card_dialog: false,
+    show_completed_assignments: false
 };
 
 export default function(state: IUI = initialState, action): IUI {
@@ -37,6 +50,12 @@ export default function(state: IUI = initialState, action): IUI {
             return assign({}, state, {
                 snackbar_open: true,
                 snackbar_text: action.payload.text
+            });
+
+        case UI_SNACKBAR_CLOSE:
+            return assign({}, state, {
+                snackbar_open: false,
+                snackbar_text: ''
             });
 
         case UI_SELECT_CARD:
@@ -52,6 +71,31 @@ export default function(state: IUI = initialState, action): IUI {
         case UI_TOGGLE_CARDS_DIALOG:
             return assign({}, state, {
                 show_cards_dialog: !state.show_cards_dialog
+            });
+
+        case UI_TOGGLE_ASSIGN_MATERIAL_DIALOG:
+            return assign({}, state, {
+                show_assign_material_dialog: !state.show_assign_material_dialog
+            });
+
+        case UI_TOGGLE_CREATE_USER_DIALOG:
+            return assign({}, state, {
+                show_create_user_dialog: !state.show_create_user_dialog
+            });
+
+        case UI_ASSIGN_GROUP_DIALOG:
+            return assign({}, state, {
+                show_assign_group_dialog: !state.show_assign_group_dialog
+            });
+
+        case UI_DELETE_USER_DIALOG:
+            return assign({}, state, {
+                show_delete_user_dialog: !state.show_delete_user_dialog
+            });
+
+        case UI_TOGGLE_CREATE_CARD_DIALOG:
+            return assign({}, state, {
+                show_create_card_dialog: !state.show_create_card_dialog
             });
 
         case UI_OPEN_LEFT_DRAWER:
@@ -75,7 +119,19 @@ export default function(state: IUI = initialState, action): IUI {
         case UI_SET_RIGHT_APPBAR_ICON:
             return assign({}, state, { right_appbar_icon: action.payload });
 
+        case UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS:
+            return assign({}, state, {
+                show_completed_assignments: !state.show_completed_assignments
+            });
+
         default:
+            if (action.type.indexOf('_ERROR') > -1) {
+                console.log(action);
+                return assign({}, state, {
+                    snackbar_text: action.response.message,
+                    snackbar_open: true
+                });
+            }
             return state;
     }
 }

@@ -2,8 +2,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { noop } from 'lodash';
-import { push } from 'lib/ui/actions';
+import { push } from '../../ui/actions';
 import * as debug from 'debug';
+import Dropzone from 'react-dropzone';
+import * as request from 'superagent';
 
 // components
 import {
@@ -14,23 +16,21 @@ import {
     Paper,
     RaisedButton
 } from 'material-ui';
-import ActionBar from 'lib/ui/components/action-bar';
+import ActionBar from '../../ui/components/action-bar';
 
 import MultiplechoiceComponent from '../components/multiplechoice';
 import TextComponent from '../components/text';
 import FreetextComponent from '../components/freetext';
 import VideoComponent from '../components/video';
 import UploadComponent from '../components/upload';
-
+import H5PComponent from '../components/h5p';
 // modules
-import * as Cards from 'lib/cards';
-import * as core from 'lib/core';
+import * as Cards from '..';
+import * as Core from '../../core';
 
 const log = debug('lumi:container:cards:card-edit');
 
-interface IPassedProps {
-    card_id: string;
-}
+interface IPassedProps {}
 
 interface IStateProps extends IPassedProps {
     card: Cards.ICard;
@@ -42,16 +42,7 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    description?: string;
-    name?: string;
-    text?: string;
-    items?: string[];
-    answer?: string;
-    auto_grade?: boolean;
-
-    card_type?;
-}
+interface IComponentState {}
 
 export class CardEditContainer extends React.Component<
     IProps,
@@ -60,51 +51,48 @@ export class CardEditContainer extends React.Component<
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            description: '',
-            name: '',
-            card_type: 'text',
-            text: '',
-            items: [],
-            answer: ''
-        };
+        this.state = {};
     }
 
     public componentWillMount() {
-        this.props.dispatch(Cards.actions.get_card(this.props.card_id));
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        this.setState({
-            description: nextProps.card.description,
-            name: nextProps.card.name,
-            card_type: nextProps.card.card_type,
-            text: nextProps.card.text,
-            items: (nextProps.card as any).items,
-            answer: (nextProps.card as any).answer,
-            auto_grade: (nextProps.card as any).auto_grade
-        });
+        // this.props.dispatch(Cards.actions.get_card(this.props.card_id));
     }
 
     public render() {
+        const card = this.props.card;
         if (this.props.card) {
             return (
-                <div style={{ display: 'flex' }}>
+                <div
+                    style={{
+                        display: 'flex'
+                    }}
+                >
                     <div style={{ flex: 6 }}>
-                        <Paper>
+                        <Paper style={{ margin: '15px', padding: '20px' }}>
                             <TextField
                                 hintText="Name"
                                 floatingLabelText="Name"
-                                value={this.state.name}
+                                value={card.name || ''}
                                 fullWidth={true}
-                                onChange={(e, v) => this.setState({ name: v })}
+                                onChange={(e, v) =>
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({ name: v })
+                                    )
+                                }
                             />
                             <SelectField
                                 fullWidth={true}
                                 floatingLabelText="Type"
-                                value={this.state.card_type || 'multiplechoice'}
+                                value={
+                                    card.card_type ||
+                                    Core.config.default_card_type
+                                }
                                 onChange={(e, i, v) =>
-                                    this.setState({ card_type: v })
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({
+                                            card_type: v
+                                        })
+                                    )
                                 }
                             >
                                 <MenuItem
@@ -115,55 +103,138 @@ export class CardEditContainer extends React.Component<
                                     value="freetext"
                                     primaryText="Freetext"
                                 />
+                                <MenuItem value="h5p" primaryText="H5P" />
                                 {/*<MenuItem value="text" primaryText="Text" /> */}
-                                {/* <MenuItem value="video" primaryText="Video" /> */}
+                                <MenuItem value="video" primaryText="Video" />
                                 <MenuItem value="upload" primaryText="Upload" />
                             </SelectField>
                             <TextField
                                 hintText="Description"
                                 floatingLabelText="Description"
-                                value={this.state.description}
+                                value={card.description || ''}
                                 fullWidth={true}
                                 onChange={(e, v) =>
-                                    this.setState({ description: v })
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({
+                                            description: v
+                                        })
+                                    )
                                 }
                             />
                             {this.props.children}
                             <TextField
                                 floatingLabelText="Text"
-                                value={this.state.text}
-                                onChange={(e, v) => this.setState({ text: v })}
+                                value={card.text || ''}
+                                onChange={(e, v) =>
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({ text: v })
+                                    )
+                                }
                                 fullWidth={true}
                                 multiLine={true}
                                 rows={3}
                             />
                             {(() => {
-                                switch (this.state.card_type) {
+                                switch (card.card_type) {
+                                    case 'video':
+                                        return (
+                                            <div>
+                                                {' '}
+                                                <TextField
+                                                    floatingLabelText="Video URL"
+                                                    value={card.video_url || ''}
+                                                    onChange={(e, v) =>
+                                                        this.props.dispatch(
+                                                            Cards.actions.change_card(
+                                                                {
+                                                                    video_url: v
+                                                                }
+                                                            )
+                                                        )
+                                                    }
+                                                    fullWidth={true}
+                                                    multiLine={true}
+                                                />
+                                            </div>
+                                        );
+                                    case 'h5p':
+                                        return (
+                                            <div>
+                                                <TextField
+                                                    floatingLabelText="Content ID"
+                                                    value={
+                                                        card.content_id || ''
+                                                    }
+                                                    onChange={(e, v) =>
+                                                        this.props.dispatch(
+                                                            Cards.actions.change_card(
+                                                                {
+                                                                    content_id: v
+                                                                }
+                                                            )
+                                                        )
+                                                    }
+                                                    fullWidth={true}
+                                                    multiLine={true}
+                                                    errorText={
+                                                        card.content_id
+                                                            ? null
+                                                            : 'Content ID benötigt'
+                                                    }
+                                                />
+                                                <Core.components.FileUpload
+                                                    post_url="/api/v0/h5p"
+                                                    onSuccess={file => {
+                                                        this.props.dispatch(
+                                                            Cards.actions.change_card(
+                                                                {
+                                                                    content_id:
+                                                                        file.name
+                                                                }
+                                                            )
+                                                        );
+                                                    }}
+                                                >
+                                                    Drop .h5p files here
+                                                </Core.components.FileUpload>
+                                                {/* <form
+                                                    id="uploadForm"
+                                                    action="/api/v0/h5p"
+                                                    method="post"
+                                                    target="_blank"
+                                                    encType="multipart/form-data"
+                                                >
+                                                    <input
+                                                        type="file"
+                                                        name="uploaded_file"
+                                                    />
+                                                    <input
+                                                        type="submit"
+                                                        value="Upload!"
+                                                    />
+                                                </form> */}
+                                            </div>
+                                        );
                                     case 'freetext':
                                         return (
                                             <div>
                                                 <TextField
                                                     floatingLabelText="Answer"
-                                                    value={this.state.answer}
+                                                    value={card.answer || ''}
                                                     onChange={(e, v) =>
-                                                        this.setState({
-                                                            answer: v
-                                                        })
+                                                        this.props.dispatch(
+                                                            Cards.actions.change_card(
+                                                                {
+                                                                    answer: v
+                                                                }
+                                                            )
+                                                        )
                                                     }
                                                     fullWidth={true}
                                                     multiLine={true}
                                                 />
                                                 <Checkbox
-                                                    checked={
-                                                        this.state.auto_grade
-                                                    }
-                                                    onCheck={() =>
-                                                        this.setState({
-                                                            auto_grade: !this
-                                                                .state
-                                                                .auto_grade
-                                                        })
-                                                    }
+                                                    checked={card.auto_grade}
                                                     label="Autograde"
                                                 />
                                             </div>
@@ -172,13 +243,21 @@ export class CardEditContainer extends React.Component<
                                         return (
                                             <TextField
                                                 floatingLabelText="Items"
-                                                value={this.state.items.join(
-                                                    '\n'
-                                                )}
+                                                value={
+                                                    card.items
+                                                        ? card.items.join('\n')
+                                                        : ''
+                                                }
                                                 onChange={(e, v) =>
-                                                    this.setState({
-                                                        items: v.split('\n')
-                                                    })
+                                                    this.props.dispatch(
+                                                        Cards.actions.change_card(
+                                                            {
+                                                                items: v.split(
+                                                                    '\n'
+                                                                )
+                                                            }
+                                                        )
+                                                    )
                                                 }
                                                 fullWidth={true}
                                                 multiLine={true}
@@ -186,104 +265,87 @@ export class CardEditContainer extends React.Component<
                                         );
                                 }
                             })()}
-                            <core.components.attachment
-                                doc_id={this.props.card._id}
-                                _rev={this.props.card._rev}
-                                attachments={this.props.card._attachments}
-                                insert_cb={link =>
-                                    this.setState({
-                                        text: this.state.text + link
-                                    })
+                            <Core.components.FileList
+                                files={this.props.card.files || []}
+                                onClick={file =>
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({
+                                            text:
+                                                this.props.card.text +
+                                                ' ![test](/files/' +
+                                                file.replace(/\s/g, '%20') +
+                                                ')'
+                                        })
+                                    )
                                 }
                             />
+                            <Core.components.FileUpload
+                                post_url="/api/v0/core/upload"
+                                path={this.props.card._id || 'no_id'}
+                                onSuccess={file => {
+                                    this.props.dispatch(
+                                        Cards.actions.change_card({
+                                            files: [file.path]
+                                        })
+                                    );
+                                }}
+                            >
+                                Drop files here
+                            </Core.components.FileUpload>
                         </Paper>
-                        <ActionBar>
-                            <RaisedButton
-                                label="Cancel"
-                                style={{ margin: '10px' }}
-                                onClick={() =>
-                                    this.props.dispatch(push('/admin/cards'))
-                                }
-                            />
-                            <RaisedButton
-                                label="Delete"
-                                secondary={true}
-                                style={{ margin: '10px' }}
-                                onClick={() => {
-                                    this.props
-                                        .dispatch(
-                                            Cards.actions.delete_card(
-                                                this.props.card._id
-                                            )
-                                        )
-                                        .then(res =>
-                                            this.props.dispatch(
-                                                push('/admin/cards')
-                                            )
-                                        );
-                                }}
-                            />
-                            <RaisedButton
-                                label="Save"
-                                primary={true}
-                                style={{ margin: '10px' }}
-                                onClick={() => {
-                                    this.props
-                                        .dispatch(
-                                            Cards.actions.update_card(
-                                                this.props.card._id,
-                                                this.state
-                                            )
-                                        )
-                                        .then(() => {
-                                            this.props.dispatch(
-                                                push('/admin/cards')
-                                            );
-                                        });
-                                }}
-                            />
-                        </ActionBar>
                     </div>
-                    <div style={{ flex: 6, padding: '20px' }}>
+                    <div
+                        style={{
+                            flex: 6,
+                            padding: '20px'
+                        }}
+                    >
                         {(() => {
-                            switch (this.state.card_type) {
+                            switch (card.card_type) {
                                 case 'multiplechoice':
                                     return (
                                         <MultiplechoiceComponent
-                                            _id={this.props.card_id}
-                                            text={this.state.text}
-                                            items={this.state.items}
+                                            _id={'new'}
+                                            text={card.text || ''}
+                                            items={card.items || ['']}
                                         />
                                     );
                                 case 'text':
                                     return (
-                                        <TextComponent text={this.state.text} />
+                                        <TextComponent text={card.text || ''} />
                                     );
                                 case 'freetext':
                                     return (
                                         <FreetextComponent
-                                            text={this.state.text}
-                                            answer={this.state.answer}
-                                            error_text={null}
-                                            error_style={{ color: 'green' }}
+                                            text={card.text || ''}
+                                            answer={card.answer || ''}
                                         />
                                     );
                                 case 'video':
                                     return (
                                         <VideoComponent
-                                            video_url={''}
-                                            youtube={true}
+                                            video_url={card.video_url || ''}
                                         />
                                     );
                                 case 'upload':
                                     return (
                                         <UploadComponent
-                                            text={this.state.text}
+                                            text={card.text || ''}
                                             doc_id={null}
                                             _rev={null}
                                             attachments={{}}
                                             insert_cb={noop}
                                         />
+                                    );
+                                case 'h5p':
+                                    return (
+                                        <Paper>
+                                            <H5PComponent
+                                                content_id={
+                                                    card.content_id || ''
+                                                }
+                                            />
+                                        </Paper>
                                     );
                             }
                         })()}
@@ -291,15 +353,12 @@ export class CardEditContainer extends React.Component<
                 </div>
             );
         }
-
-        return <div>loading</div>;
     }
 }
 
 function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
     return {
-        card: Cards.selectors.select_card(state, ownProps.card_id),
-        card_id: ownProps.card_id
+        card: state.cards.ui.card
     };
 }
 

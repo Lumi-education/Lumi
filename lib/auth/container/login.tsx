@@ -12,13 +12,12 @@ import { TextField, Paper, RaisedButton } from 'material-ui';
 
 // modules
 import * as Auth from '../';
-import * as System from 'lib/system';
 
 declare var window;
 
 const log = debug('lumi:auth:container:login');
 
-interface IState extends Auth.IState, System.IState {}
+interface IComponentState {}
 
 interface IStateProps {
     enable_guest_accounts: boolean;
@@ -234,9 +233,9 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Auth.IState, ownProps: {}): IStateProps {
     return {
-        enable_guest_accounts: state.system.enable_guest_accounts
+        enable_guest_accounts: false
     };
 }
 

@@ -2,7 +2,7 @@ import { assign, unionBy } from 'lodash';
 
 import { IAuth } from '../types';
 
-import * as k from '../constants';
+import * as k from '../actions';
 
 const initialState: IAuth = {
     userlevel: 0,

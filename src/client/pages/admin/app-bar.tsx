@@ -4,17 +4,11 @@ import { connect } from 'react-redux';
 // components
 import { AppBar } from 'material-ui';
 
-// container
-import LeftDrawer from './left-drawer';
-import RightDrawer from './right-drawer';
-
 // state
 import { IState } from 'client/state';
 
 // modules
-import { ui_actions } from 'lib/ui';
-import { random_bg } from 'lib/ui/utils';
-import * as Grades from 'lib/grades';
+import * as UI from 'lib/ui';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;
@@ -35,24 +29,23 @@ export class AdminAppBar extends React.Component<IProps, {}> {
         return (
             <AppBar
                 style={{
-                    background: 'linear-gradient(120deg, #8e44ad, #3498db)'
+                    background: UI.config.gradient_bg
                 }}
                 showMenuIconButton={true}
+                title="Lumi"
                 onLeftIconButtonTouchTap={() =>
-                    this.props.dispatch(ui_actions.left_drawer_open())
+                    this.props.dispatch(UI.actions.left_drawer_open())
+                }
+                onRightIconButtonTouchTap={() =>
+                    this.props.dispatch(UI.actions.right_drawer_open())
                 }
                 iconElementRight={this.props.right_appbar_icon}
-                onRightIconButtonTouchTap={() =>
-                    this.props.dispatch(ui_actions.right_drawer_open())
-                }
             />
         );
     }
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    return {
-        right_appbar_icon: state.ui.right_appbar_icon
-    };
+    return { right_appbar_icon: state.ui.right_appbar_icon };
 }
 
 function mapDispatchToProps(dispatch): IDispatchProps {
@@ -61,6 +54,7 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminAppBar
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminAppBar);

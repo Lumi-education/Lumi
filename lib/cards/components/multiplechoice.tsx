@@ -53,11 +53,13 @@ export default class MultiplechoiceComponent extends React.Component<
     }
 
     public render() {
-        const text = convert_attachment_url(this.props.text, this.props._id);
+        // const text = convert_attachment_url(this.props.text, this.props._id);
+        const text = this.props.text;
+        const items = this.props.items;
 
-        const items = this.props.items.map(item =>
-            convert_attachment_url(item, this.props._id)
-        );
+        // const items = this.props.items.map(item =>
+        //     convert_attachment_url(item, this.props._id)
+        // );
 
         return (
             <div>
@@ -86,8 +88,9 @@ export default class MultiplechoiceComponent extends React.Component<
                         <div
                             dangerouslySetInnerHTML={{
                                 __html:
-                                    md.render(item.replace(/^x |^o /, '')) ||
-                                    '# No Markdown'
+                                    md.render(
+                                        item ? item.replace(/^x |^o /, '') : ''
+                                    ) || '# No Markdown'
                             }}
                         />
                     </Paper>

@@ -1,4 +1,4 @@
-import { DB } from '../../';
+import db from '../..';
 import * as debug from 'debug';
 import { isEqual } from 'lodash';
 
@@ -8,7 +8,6 @@ export default function boot(cb: () => void) {
     check_view('auth', auth_view);
     check_view('card', card_view);
     check_view('collection', collection_view);
-    check_view('data', data_view);
     check_view('grade', grade_view);
     check_view('group', group_view);
     check_view('tag', tag_view);
@@ -17,25 +16,25 @@ export default function boot(cb: () => void) {
 }
 
 function check_view(type: string, _view) {
-    const _db = new DB();
-    _db.checkView('_design/' + type, view => {
-        if (!view) {
-            log(type + '-view not found -> creating view');
-            _db.insert(_view, () => {
-                log(type + '-view created');
-            });
-        }
-        if (view) {
-            if (isEqual(view.views, _view.views)) {
-                log(type + '-view is up to date');
-            } else {
-                log(type + '-view is not up to date -> updating');
-                _db.update_one('_design/' + type, _view, doc => {
-                    log(type + '-view updated');
-                });
-            }
-        }
-    });
+    // db.findById('_design/' + type, ())
+    // _db.checkView('_design/' + type, view => {
+    //     if (!view) {
+    //         log(type + '-view not found -> creating view');
+    //         _db.insert(_view, () => {
+    //             log(type + '-view created');
+    //         });
+    //     }
+    //     if (view) {
+    //         if (isEqual(view.views, _view.views)) {
+    //             log(type + '-view is up to date');
+    //         } else {
+    //             log(type + '-view is not up to date -> updating');
+    //             _db.updateOne('_design/' + type, _view, (err, doc) => {
+    //                 log(type + '-view updated');
+    //             });
+    //         }
+    //     }
+    // });
 }
 
 const auth_view = {
@@ -78,25 +77,6 @@ const collection_view = {
         list: {
             map:
                 "function (doc) {\n  if (doc.type === 'collection') { emit(doc._id, 1); }\n}"
-        }
-    },
-    language: 'javascript'
-};
-
-const data_view = {
-    _id: '_design/data',
-    views: {
-        for_user: {
-            map:
-                "function (doc) {\n  if (doc.type === 'data') { \n  emit(doc.user_id, 1);\n  }\n}"
-        },
-        for_user_and_collection: {
-            map:
-                "function (doc) {\n  if (doc.type === 'data') { \n  emit(doc.user_id+doc.collection_id, 1);\n  }\n}"
-        },
-        for_user_and_collection_and_card: {
-            map:
-                "function (doc) {\n  if (doc.type === 'data') { \n  emit(doc.user_id+doc.collection_id+doc.card_id, 1);\n  }\n}"
         }
     },
     language: 'javascript'

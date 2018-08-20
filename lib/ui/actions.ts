@@ -1,27 +1,30 @@
 import { push as _push, goBack } from 'react-router-redux';
-import * as qs from 'query-string';
-import * as url_parse from 'url-parse';
-import * as debug from 'debug';
 
-declare var window;
+export const UI_OPEN_LEFT_DRAWER = 'UI_OPEN_LEFT_DRAWER';
+export const UI_LEFT_DRAWER_CLOSE = 'UI_LEFT_DRAWER_CLOSE';
+export const UI_CLOSE_LEFT_DRAWER = 'UI_CLOSE_LEFT_DRAWER';
+export const UI_RIGHT_DRAWER_OPEN = 'UI_RIGHT_DRAWER_OPEN';
+export const UI_RIGHT_DRAWER_CLOSE = 'UI_RIGHT_DRAWER_CLOSE';
+export const UI_DIALOG_OPEN = 'UI_DIALOG_OPEN';
+export const UI_DIALOG_CLOSE = 'UI_DIALOG_CLOSE';
+export const UI_SNACKBAR_OPEN = 'UI_SNACKBAR_OPEN';
+export const UI_SNACKBAR_CLOSE = 'UI_SNACBKBAR_CLOSE';
+export const UI_TOGGLE_CARDS_DIALOG = 'UI_TOGGLE_CARDS_DIALOG';
+export const UI_SELECT_CARD = 'UI_SELECT_CARD';
+export const UI_SET_RIGHT_APPBAR_ICON = 'UI_SET_RIGHT_APPBAR_ICON';
+export const UI_SET_APPBAR_TITLE = 'UI_SET_APPBAR_TITLE';
+export const UI_TOGGLE_ASSIGN_MATERIAL_DIALOG =
+    'UI_TOGGLE_ASSIGN_MATERIAL_DIALOG';
+export const UI_TOGGLE_CREATE_USER_DIALOG = 'UI_TOGGLE_CREATE_USER_DIALOG';
+export const UI_ASSIGN_GROUP_DIALOG = 'UI_ASSIGN_GROUP_DIALOG';
+export const UI_DELETE_USER_DIALOG = 'UI_DELETE_USER_DIALOG';
+export const UI_TOGGLE_CREATE_CARD_DIALOG = 'UI_TOGGLE_CREATE_CARD_DIALOG';
+export const UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS =
+    'UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS';
 
-import {
-    UI_DIALOG_CLOSE,
-    UI_DIALOG_OPEN,
-    UI_LEFT_DRAWER_CLOSE,
-    UI_OPEN_LEFT_DRAWER,
-    UI_RIGHT_DRAWER_CLOSE,
-    UI_RIGHT_DRAWER_OPEN,
-    UI_SNACKBAR_OPEN,
-    UI_SNACKBAR_CLOSE,
-    UI_TOGGLE_CARDS_DIALOG,
-    UI_SELECT_CARD,
-    UI_SET_RIGHT_APPBAR_ICON,
-    UI_SET_APPBAR_TITLE
-} from './constants';
-import { disable_collection } from 'lib/groups/api';
+export const UI_SHOW_SNACKBAR = 'UI_SHOW_SNACKBAR';
 
-import * as Users from 'lib/users';
+import * as Users from '../users';
 
 export function push(url: string) {
     return dispatch => {
@@ -66,6 +69,12 @@ export function snackbar_open(text: string) {
     };
 }
 
+export function snackbar_close() {
+    return {
+        type: UI_SNACKBAR_CLOSE
+    };
+}
+
 export function toggle_cards_dialog() {
     return {
         type: UI_TOGGLE_CARDS_DIALOG
@@ -103,5 +112,37 @@ export function right_drawer_open() {
 export function right_drawer_close() {
     return {
         type: UI_RIGHT_DRAWER_CLOSE
+    };
+}
+
+export function toggle_assign_material_dialog() {
+    return {
+        type: UI_TOGGLE_ASSIGN_MATERIAL_DIALOG
+    };
+}
+
+export function toggle_create_user_dialog() {
+    return {
+        type: UI_TOGGLE_CREATE_USER_DIALOG
+    };
+}
+export function toggle_assign_group_dialog() {
+    return {
+        type: UI_ASSIGN_GROUP_DIALOG
+    };
+}
+export function toggle_delete_user_dialog() {
+    return {
+        type: UI_DELETE_USER_DIALOG
+    };
+}
+export function toggle_create_card_dialog() {
+    return {
+        type: UI_TOGGLE_CREATE_CARD_DIALOG
+    };
+}
+export function toggle_show_completed_assignments() {
+    return {
+        type: UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS
     };
 }

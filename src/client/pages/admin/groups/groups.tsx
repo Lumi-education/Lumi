@@ -1,18 +1,11 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
-import { Map } from 'immutable';
 
-import Avatar from 'material-ui/Avatar';
-import Paper from 'material-ui/Paper';
-import { List, ListItem } from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import SVGClose from 'material-ui/svg-icons/navigation/close';
+import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import Divider from 'material-ui/Divider';
 
 import CreateGroupDialog from './create_group_dialog';
 
@@ -22,16 +15,16 @@ import { groups_list } from 'lib/groups/selectors';
 // types
 import { IState } from 'client/state';
 import { IGroup } from 'lib/groups';
-
+import * as UI from 'lib/ui';
 // actions
-import { get_groups, delete_group, create_group } from 'lib/groups/actions';
+import { get_groups, create_group } from 'lib/groups/actions';
 
 interface IStateProps {
     groups: IGroup[];
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -39,6 +32,8 @@ interface IProps extends IStateProps, IDispatchProps {}
 interface IComponentState {
     show_create_group_dialog?: boolean;
     search_text?: string;
+    loading?: string;
+    loading_step?: number;
 }
 
 export class AdminGroups extends React.Component<IProps, IComponentState> {
@@ -47,15 +42,32 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 
         this.state = {
             search_text: '',
-            show_create_group_dialog: false
+            show_create_group_dialog: false,
+            loading: 'init',
+            loading_step: 0
         };
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_groups());
+        this.setState({ loading: 'Gruppen', loading_step: 1 });
+        this.props.dispatch(get_groups()).then(res => {
+            this.setState({ loading: 'finished', loading_step: 2 });
+        });
     }
 
     public render() {
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage
+                    max={2}
+                    min={0}
+                    value={this.state.loading_step}
+                >
+                    Lade Gruppe
+                </UI.components.LoadingPage>
+            );
+        }
+
         return (
             <div>
                 <FilterBar
@@ -67,10 +79,10 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 <Paper>
                     <List>
                         {this.props.groups
-                            .filter(user => {
+                            .filter(group => {
                                 return this.state.search_text === ''
                                     ? true
-                                    : user.name
+                                    : group.name
                                           .toLocaleLowerCase()
                                           .indexOf(
                                               this.state.search_text.toLocaleLowerCase()
@@ -87,7 +99,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                                         primaryText={group.name}
                                         onClick={() =>
                                             this.props.dispatch(
-                                                push(
+                                                UI.actions.push(
                                                     '/admin/groups/' + group._id
                                                 )
                                             )
@@ -138,6 +150,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(mapStateToProps, mapDispatchToProps)(
-    AdminGroups
-);
+export default connect<{}, {}, {}>(
+    mapStateToProps,
+    mapDispatchToProps
+)(AdminGroups);

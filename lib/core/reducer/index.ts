@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import attachments from './attachments';
+import system from './system';
 
 const reducer = combineReducers({
-    attachments
+    system
 });
 
 export default reducer;

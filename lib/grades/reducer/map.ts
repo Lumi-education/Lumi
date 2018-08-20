@@ -1,10 +1,8 @@
-import { assign, unionBy } from 'lodash';
-
 import { Map } from 'immutable';
 
 import { IGrade } from '../types';
 
-import { arrayToObject } from 'lib/core/utils';
+import { arrayToObject } from '../../core/utils';
 
 import {
     GRADES_GET_USER_GRADES_SUCCESS,

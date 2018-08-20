@@ -1,161 +1,214 @@
 import * as express from 'express';
 import * as raven from 'raven';
-import { noop } from 'lodash';
+import { uniq, assign } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
-import Group from '../../models/Group';
-import User from '../../models/User';
-import Collection from '../../models/Collection';
+import db from '../../db';
 
-import { DB } from '../../db';
+import { IUser } from 'lib/users/types';
+import { IGroup } from 'lib/groups/types';
+import {
+    USERS_UPDATE_USER_ERROR,
+    USERS_ADD_GROUP_ERROR
+} from 'lib/users/actions';
 
-import Controller from '../controller';
-import { assign_collection } from '../../modules/collections/actions';
-
-class GroupController extends Controller<Group> {
-    constructor() {
-        super('group');
-    }
+class GroupController {
     public list(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('group', 'list', {}, docs => {
-            res.status(200).json(docs);
-        });
+        db.find(
+            { type: 'group' },
+            { limit: 25 },
+            (find_groups_error, groups) => {
+                res.status(200).json(groups);
+            }
+        );
+        // db.view('group', 'list', {}, (error, docs) => {
+        //     res.status(200).json(docs);
+        // });
     }
 
     public create(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+        const new_group: IGroup = {
+            _id: undefined,
+            type: 'group',
+            name: 'no name',
+            created_at: new Date(),
+            members: []
+        };
 
-        db.insert(new Group(req.body));
-    }
+        assign(new_group, req.body);
 
-    public read(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view(
-            'group',
-            'with_collections_and_users',
-            { key: req.params.id },
-            docs => {
-                res.status(200).json(docs);
-            }
-        );
-    }
-
-    public for_user(req: IRequest, res: express.Response) {
-        const db = new DB(res);
-
-        db.view('group', 'for_user', { key: req.params.user_id }, docs => {
-            res.status(200).json(docs);
+        db.insert(new_group, (error, group) => {
+            res.status(200).json(group);
         });
     }
 
-    public delete(req: IRequest, res: express.Response) {
-        const db = new DB(res);
+    public read(req: IRequest, res: express.Response) {
+        db.findById(req.params.id, (error, group) => {
+            res.status(200).json([group]);
+        });
+    }
 
+    public update(req: IRequest, res: express.Response) {
+        db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
+    }
+
+    public for_user(req: IRequest, res: express.Response) {
+        db.findById(req.params.user_id, (find_user_error, user) => {
+            db.find(
+                { type: 'group', _id: { $in: user.groups } },
+                { limit: user.groups.length },
+                (find_groups_error, groups) => {
+                    res.status(200).json(groups);
+                }
+            );
+        });
+        // db.view(
+        //     'group',
+        //     'for_user',
+        //     { key: req.params.user_id },
+        //     (error, docs) => {
+        //         res.status(200).json(docs);
+        //     }
+        // );
+    }
+
+    public delete(req: IRequest, res: express.Response) {
         db.find(
             {
                 groups: { $in: [req.params.id] },
                 type: 'user'
             },
             { limit: 1000 },
-            (users: User[]) => {
-                users.forEach(user => {
-                    user.rem_group(req.params.id);
-                    db.save(user, noop);
-                });
-            },
-            User
-        );
+            (error, users: IUser[]) => {
+                users.map(user =>
+                    user.groups.filter(group_id => group_id !== req.params.id)
+                );
 
-        db.delete(req.params.id);
+                db.insertMany(users, {}, () => {
+                    db.delete(req.params.id, err => {
+                        res.status(200).end();
+                    });
+                });
+            }
+        );
+    }
+
+    public assign(req: IRequest, res: express.Response) {
+        const user_ids = req.body.user_ids;
+        const group_ids = req.body.group_ids;
+
+        db.find(
+            { type: 'user', _id: { $in: user_ids } },
+            { limit: user_ids.length },
+            (find_user_error, users: IUser[]) => {
+                users.forEach(user => {
+                    if (!user.groups) {
+                        user.groups = [];
+                    }
+                    user.groups = uniq([...user.groups, ...group_ids]);
+                });
+                db.updateMany(
+                    users,
+                    {},
+                    (update_users_error, updated_users) => {
+                        db.find(
+                            { type: 'group', _id: { $in: group_ids } },
+                            { limit: group_ids.length },
+                            (find_group_error, groups) => {
+                                groups.forEach(
+                                    group =>
+                                        (group.members = uniq([
+                                            ...group.members,
+                                            ...user_ids
+                                        ]))
+                                );
+
+                                db.updateMany(
+                                    groups,
+                                    {},
+                                    (update_group_error, updated_groups) => {
+                                        res.status(200).json([
+                                            ...groups,
+                                            ...users
+                                        ]);
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        );
     }
 
     public action(req: IRequest, res: express.Response) {
         try {
-            const db = new DB(res);
+            db.findById(req.params.id, (find_group_error, group) => {
+                switch (req.body.type) {
+                    case 'ADD_USER_TO_GROUP':
+                        // store group_id in user-entry
+                        db.findById(req.body.payload.user_id, (error, user) => {
+                            user.groups = uniq([...user.groups, req.params.id]);
 
-            db.findById(
-                req.params.id,
-                (group: Group) => {
-                    switch (req.body.type) {
-                        case 'ADD_USER_TO_GROUP':
-                            db._findById(
-                                req.body.payload.user_id + '-groups',
-                                (err, group_ref) => {
-                                    if (err) {
-                                        const _group_ref = {
-                                            _id:
-                                                req.body.payload.user_id +
-                                                '-groups',
-                                            user_id: req.body.payload.user_id,
-                                            groups: [req.params.id],
-                                            type: 'group_ref'
-                                        };
-                                        db.insert(_group_ref);
-                                    } else {
-                                        group_ref.groups.push(req.params.id);
-                                        db.save(group_ref);
-                                    }
-                                }
-                            );
-                            break;
-                        case 'REM_USER_FROM_GROUP':
-                            db.findById(
-                                req.body.payload.user_id + '-groups',
-                                group_ref => {
-                                    group_ref.groups = group_ref.groups.filter(
-                                        group_id => group_id !== req.params.id
+                            db.updateOne(
+                                user._id,
+                                user,
+                                (update_error, updated_user) => {
+                                    // add user to group-members (see group-types, why members field is used)
+
+                                    group.members.push(user._id);
+
+                                    db.updateOne(
+                                        group._id,
+                                        group,
+                                        (group_update_error, updated_group) => {
+                                            res.status(200).json({
+                                                group: updated_group,
+                                                user: updated_user
+                                            });
+                                        }
                                     );
-                                    db.save(group_ref);
                                 }
                             );
-                            break;
-                        case 'ADD_COLLECTION':
-                            throw new Error(
-                                'GROUPS/ACTIONS/ADD_COLLECTION is deprecated. -> Use USERS/ACTIONS/ASSIGN_COLLECTION'
+                        });
+
+                        break;
+                    case 'REM_USER_FROM_GROUP':
+                        db.findById(req.body.payload.user_id, (error, user) => {
+                            user.groups = uniq(
+                                user.groups.filter(
+                                    group_id => group_id !== req.params.id
+                                )
                             );
 
-                        // group.add_collection(req.body.payload.collection_id);
-
-                        // group.get_users(db, (users: IUser[]) => {
-                        //     users.forEach(user =>
-                        //         assign_collection(
-                        //             db,
-                        //             user._id,
-                        //             req.body.payload.collection_id,
-                        //             req.body.payload.is_graded,
-                        //             noop
-                        //         )
-                        //     );
-                        // });
-
-                        // db.save(group);
-                        case 'REM_COLLECTION':
-                            group.rem_collections(
-                                req.body.payload.collection_ids
+                            db.updateOne(
+                                user._id,
+                                user,
+                                (user_updated_error, updated_user) => {
+                                    group.members = group.members.filter(
+                                        user_id =>
+                                            user_id !== req.body.payload.user_id
+                                    );
+                                    db.updateOne(
+                                        req.params.id,
+                                        group,
+                                        (update_group_error, updated_group) => {
+                                            res.status(200).json({
+                                                group: updated_group,
+                                                user: updated_user
+                                            });
+                                        }
+                                    );
+                                }
                             );
-                            db.save(group);
-                            break;
-                        case 'ENABLE_COLLECTION':
-                            group.enable_collection(
-                                req.body.payload.collection_id
-                            );
-                            db.save(group);
-                            break;
-                        case 'DISABLE_COLLECTION':
-                            group.disable_collection(
-                                req.body.payload.collection_id
-                            );
-                            db.save(group);
-                            break;
-                        default:
-                            break;
-                    }
-                },
-                Group
-            );
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            });
         } catch (err) {
             raven.captureException(err);
             res.status(500).json(err);
