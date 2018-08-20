@@ -18,19 +18,13 @@ import {
 } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import CreateUserContainer from '../../../container/create-user';
-
 // local
 import { IState } from 'client/state';
 
 // modules
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
-import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
-import * as Tags from 'lib/tags';
-import { stat } from 'fs';
-import assignment from '../../../../../node_modules/client/pages/user/assignment';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
