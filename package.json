@@ -1,6 +1,6 @@
 {
     "name": "lumi",
-    "version": "v0.1.1",
+    "version": "v0.2.0",
     "description": "",
     "repository": {
         "type": "git",
@@ -13,14 +13,13 @@
         "clean": "rm -rf build && rm -rf dist",
         "uninstall": "npm run clean && rm -rf node_modules",
         "dev": "NODE_ENV=development VERSION=$(git describe --tags) ./node_modules/.bin/webpack-dev-server --config './config/webpack.config.dev.js' --progress --colors --hot --inline",
-        "build": "npm run clean && npm run build:client && npm run build:server",
+        "build": "npm run build:client && npm run build:server",
         "build:server": "npm run lint:server  && ./node_modules/.bin/tsc --project tsconfig.server.json &&  cp -r ./src/server/views ./build/src/server",
-        "build:client": "NODE_ENV=production VERSION=$(git describe --tags) ./node_modules/.bin/webpack --config './config/webpack.config.prod.js' --progress --colors",
+        "build:client": "NODE_ENV=production VERSION=$(echo ${VERSION}) ./node_modules/.bin/webpack --config './config/webpack.config.prod.js' --progress --colors",
         "lint:client": "./node_modules/.bin/tslint --project tsconfig.json --config tslint.json",
         "lint:server": "./node_modules/.bin/tslint --project tsconfig.server.json --config tslint.json"
     },
     "author": "Jan Philip Schellenberg",
-    "license": "",
     "dependencies": {
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "^1.18.2",
