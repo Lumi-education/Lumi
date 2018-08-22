@@ -1,6 +1,6 @@
 ### Allgemein
 
-* [Kontakt](CONTACT.md)
+-   [Kontakt](CONTACT.md)
 
 <!-- ### Erste Schritte -->
 
@@ -13,13 +13,13 @@
 
 ### Lumi
 
-* [Erste Schritte](lumi/FIRST-STEPS.md)
-* [Konzept](lumi/CONCEPT.md)
-* [Terminologie](lumi/TERMINOLOGY.md)
-* [Featues](lumi/FEATURES.md)
+-   [Konzept](lumi/CONCEPT.md)
+-   [Terminologie](lumi/TERMINOLOGY.md)
+-   [Erste Schritte](lumi/FIRST-STEPS.md)
+-   [Features](lumi/FEATURES.md)
 
 ### Raspberry Pi
 
-* [Installation](install/README.md)
-    * [Bekannte Fehler](install/TROUBLE.md)
-* [Update](install/UPDATE.md)
+-   [Installation](install/README.md)
+    -   [Bekannte Fehler](install/TROUBLE.md)
+-   [Update](install/UPDATE.md)
