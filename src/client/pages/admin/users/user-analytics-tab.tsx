@@ -174,11 +174,11 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
 
                 <Paper>
                     <h1>Entwicklung vom ... bis ...</h1>
-                    <LineChart data={line_data} />
+                    <LineChart min={0} max={100} data={line_data} />
                 </Paper>
                 <Paper style={{ marginTop: '20px' }}>
                     <h1>Durchschnitt vom ... bis ...</h1>
-                    <ColumnChart data={column_data} />
+                    <ColumnChart min={0} max={100} data={column_data} />
                 </Paper>
             </div>
         );
