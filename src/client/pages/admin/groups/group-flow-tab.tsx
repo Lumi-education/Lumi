@@ -251,7 +251,8 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         style={{
                                                             background:
                                                                 assignment.state &&
-                                                                !assignment.score
+                                                                assignment.score ===
+                                                                    null
                                                                     ? 'yellow'
                                                                     : 'white'
                                                         }}
