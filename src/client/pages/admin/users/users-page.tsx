@@ -114,42 +114,12 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                             .map((user: Users.IUser) => (
                                 <div key={user._id}>
                                     <ListItem
-                                        style={{
-                                            backgroundColor:
-                                                this.props.selected_users.indexOf(
-                                                    user._id
-                                                ) > -1
-                                                    ? 'lightgrey'
-                                                    : 'white'
-                                        }}
                                         onClick={() =>
                                             this.props.dispatch(
-                                                Users.actions.select_user(
-                                                    user._id
-                                                )
+                                                push('/admin/users/' + user._id)
                                             )
                                         }
                                         primaryText={user.name}
-                                        rightIconButton={
-                                            <IconButton
-                                                onClick={() =>
-                                                    this.props.dispatch(
-                                                        push(
-                                                            '/admin/users/' +
-                                                                user._id
-                                                        )
-                                                    )
-                                                }
-                                            >
-                                                {this.props.selected_users.indexOf(
-                                                    user._id
-                                                ) > -1 ? (
-                                                    <SVGCheck />
-                                                ) : (
-                                                    <SVGView />
-                                                )}
-                                            </IconButton>
-                                        }
                                         leftAvatar={
                                             <Avatar>
                                                 {user.name.substring(0, 3)}

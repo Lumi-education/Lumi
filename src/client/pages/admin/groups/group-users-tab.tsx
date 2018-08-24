@@ -14,6 +14,7 @@ import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
+import { push } from 'lib/ui/actions';
 // actions
 
 interface IPassedProps {
@@ -83,8 +84,10 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                                         <ListItem
                                             onClick={() =>
                                                 this.props.dispatch(
-                                                    Users.actions.select_user(
-                                                        user._id
+                                                    push(
+                                                        '/admin/users/' +
+                                                            user._id +
+                                                            '/analytics'
                                                     )
                                                 )
                                             }

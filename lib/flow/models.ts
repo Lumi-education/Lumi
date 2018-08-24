@@ -16,6 +16,7 @@ export class Assignment implements IAssignment {
     public updated_at?: Date;
     public score: number;
     public time: number;
+    public archived: boolean;
     public _deleted?: boolean;
     public _attachments: any;
     public finished: number;
@@ -32,6 +33,7 @@ export class Assignment implements IAssignment {
                 type: 'assignment',
                 completed: false,
                 data: null,
+                archived: false,
                 score: null,
                 state: null,
                 time: 0,

@@ -46,6 +46,10 @@ export default function(): express.Router {
     );
 
     router.put('/flow/assignments', flowController.update_assignments);
+    router.post(
+        '/flow/assignments/archive',
+        flowController.archive_assignments
+    );
 
     router.post('/core/find', mw.auth, coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);

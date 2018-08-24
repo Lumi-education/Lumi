@@ -15,6 +15,7 @@ export interface IAssignment {
     updated_at?: Date;
     finished: number;
     time: number;
+    archived: boolean;
     _deleted?: boolean;
     _attachments: any;
     _rev?: string;

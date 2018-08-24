@@ -27,6 +27,7 @@ import {
 } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGCheck from 'material-ui/svg-icons/navigation/check';
+import SVGArchive from 'material-ui/svg-icons/content/archive';
 
 import AssignMaterialDialog from '../dialogs/assign_material';
 import * as UI from 'lib/ui';
@@ -234,11 +235,23 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                     }}
                                                     key={assignment._id}
                                                     onClick={() => {
+                                                        log(
+                                                            'clicked on ',
+                                                            assignment
+                                                        );
+                                                        this.props.dispatch(
+                                                            Flow.actions.select_assignment(
+                                                                assignment._id
+                                                            )
+                                                        );
+                                                    }}
+                                                    onDoubleClick={() => {
+                                                        log(
+                                                            'double-clicked on ',
+                                                            assignment
+                                                        );
                                                         this.props.dispatch(
                                                             Flow.actions.toggle_dialog()
-                                                            // Flow.actions.select_assignment(
-                                                            //     assignment._id
-                                                            // )
                                                         );
                                                         this.props.dispatch(
                                                             Flow.actions.change_assignment(
@@ -251,9 +264,18 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         style={{
                                                             background:
                                                                 assignment.state &&
-                                                                !assignment.score
+                                                                assignment.score ===
+                                                                    null
                                                                     ? 'yellow'
-                                                                    : 'white'
+                                                                    : 'white',
+                                                            border:
+                                                                this.props.selected_assignments.indexOf(
+                                                                    assignment._id
+                                                                ) > -1
+                                                                    ? '3px solid ' +
+                                                                      UI.config
+                                                                          .primary_color
+                                                                    : null
                                                         }}
                                                     >
                                                         <CardHeader
@@ -308,10 +330,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                     <FloatingActionButton
                                         onClick={() => {
                                             this.props.dispatch(
-                                                Flow.actions.update_assignments(
+                                                Flow.actions.archive_assignments(
                                                     this.props
-                                                        .selected_assignments,
-                                                    { completed: true }
+                                                        .selected_assignments
                                                 )
                                             );
                                         }}
@@ -320,7 +341,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                             zIndex: 5000
                                         }}
                                     >
-                                        <SVGCheck />
+                                        <SVGArchive />
                                     </FloatingActionButton>
                                     <FloatingActionButton
                                         onClick={() => {

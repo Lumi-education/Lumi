@@ -16,6 +16,7 @@ export default class ActionBarComponent extends React.Component<{}, {}> {
                     right: '0px',
                     position: 'fixed',
                     display: 'flex',
+                    zIndex: 5001,
                     flexDirection: 'row'
                 }}
             >
