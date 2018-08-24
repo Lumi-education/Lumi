@@ -188,142 +188,152 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             zIndex: 200
                         }}
                     >
-                        {this.props.group.members.map(user_id => {
-                            const user = this.props.user(user_id);
-                            return (
-                                <Card
-                                    key={user_id}
-                                    style={{
-                                        minWidth: '260px',
-                                        margin: '10px',
-                                        backgroundColor: '#FAFAFA'
-                                    }}
-                                >
-                                    <CardHeader
-                                        title={user.name}
-                                        avatar={<Avatar>P</Avatar>}
-                                        showExpandableButton={false}
-                                    />
-                                    <CardText>
-                                        {user.flow.map(assignment_id => {
-                                            const assignment = this.props.assignment(
-                                                assignment_id
-                                            );
+                        {this.props.users
+                            .sort((a, b) => {
+                                if (a.flow.length > b.flow.length) {
+                                    return 1;
+                                }
+                                if (a.flow.length < b.flow.length) {
+                                    return -1;
+                                }
+                                // a muss gleich b sein
+                                return 0;
+                            })
+                            .map(user => {
+                                return (
+                                    <Card
+                                        key={user._id}
+                                        style={{
+                                            minWidth: '260px',
+                                            margin: '10px',
+                                            backgroundColor: '#FAFAFA'
+                                        }}
+                                    >
+                                        <CardHeader
+                                            title={user.name}
+                                            avatar={<Avatar>P</Avatar>}
+                                            showExpandableButton={false}
+                                        />
+                                        <CardText>
+                                            {user.flow.map(assignment_id => {
+                                                const assignment = this.props.assignment(
+                                                    assignment_id
+                                                );
 
-                                            if (assignment.completed) {
-                                                return null;
-                                            }
+                                                const card = this.props.card(
+                                                    assignment.card_id
+                                                );
 
-                                            const card = this.props.card(
-                                                assignment.card_id
-                                            );
-
-                                            if (
-                                                intersection(
-                                                    card.tags,
+                                                if (
+                                                    intersection(
+                                                        card.tags,
+                                                        this.props.selected_tags
+                                                    ).length !==
                                                     this.props.selected_tags
-                                                ).length !==
-                                                this.props.selected_tags.length
-                                            ) {
-                                                return null;
-                                            }
+                                                        .length
+                                                ) {
+                                                    return null;
+                                                }
 
-                                            return (
-                                                <div
-                                                    style={{
-                                                        marginTop: '10px'
-                                                    }}
-                                                    key={assignment._id}
-                                                    onClick={() => {
-                                                        log(
-                                                            'clicked on ',
-                                                            assignment
-                                                        );
-                                                        this.props.dispatch(
-                                                            Flow.actions.select_assignment(
-                                                                assignment._id
-                                                            )
-                                                        );
-                                                    }}
-                                                    onDoubleClick={() => {
-                                                        log(
-                                                            'double-clicked on ',
-                                                            assignment
-                                                        );
-                                                        this.props.dispatch(
-                                                            Flow.actions.toggle_dialog()
-                                                        );
-                                                        this.props.dispatch(
-                                                            Flow.actions.change_assignment(
-                                                                assignment
-                                                            )
-                                                        );
-                                                    }}
-                                                >
-                                                    <Card
+                                                return (
+                                                    <div
                                                         style={{
-                                                            background:
-                                                                assignment.state &&
-                                                                assignment.score ===
-                                                                    null
-                                                                    ? 'yellow'
-                                                                    : 'white',
-                                                            border:
-                                                                this.props.selected_assignments.indexOf(
+                                                            marginTop: '10px'
+                                                        }}
+                                                        key={assignment._id}
+                                                        onClick={() => {
+                                                            log(
+                                                                'clicked on ',
+                                                                assignment
+                                                            );
+                                                            this.props.dispatch(
+                                                                Flow.actions.select_assignment(
                                                                     assignment._id
-                                                                ) > -1
-                                                                    ? '3px solid ' +
-                                                                      UI.config
-                                                                          .primary_color
-                                                                    : null
+                                                                )
+                                                            );
+                                                        }}
+                                                        onDoubleClick={() => {
+                                                            log(
+                                                                'double-clicked on ',
+                                                                assignment
+                                                            );
+                                                            this.props.dispatch(
+                                                                Flow.actions.toggle_dialog()
+                                                            );
+                                                            this.props.dispatch(
+                                                                Flow.actions.change_assignment(
+                                                                    assignment
+                                                                )
+                                                            );
                                                         }}
                                                     >
-                                                        <CardHeader
-                                                            title={card.name}
-                                                            subtitle={
-                                                                <Tags.TagsContainer
-                                                                    tag_ids={
-                                                                        card.tags
-                                                                    }
-                                                                />
-                                                            }
-                                                            showExpandableButton={
-                                                                false
-                                                            }
-                                                            avatar={
-                                                                <Avatar
-                                                                    backgroundColor={UI.utils.get_grade_color(
-                                                                        assignment.get_score()
-                                                                    )}
-                                                                >
-                                                                    {assignment.get_score()}
-                                                                </Avatar>
-                                                            }
-                                                        />
-                                                    </Card>
-                                                </div>
-                                            );
-                                        })}
-                                        <RaisedButton
-                                            style={{ marginTop: '15px' }}
-                                            fullWidth={true}
-                                            primary={true}
-                                            icon={<ContentAdd />}
-                                            onClick={() => {
-                                                this.props.dispatch(
-                                                    Users.actions.set_selected_users(
-                                                        [user._id]
-                                                    )
+                                                        <Card
+                                                            style={{
+                                                                background:
+                                                                    assignment.state &&
+                                                                    assignment.score ===
+                                                                        null
+                                                                        ? 'yellow'
+                                                                        : 'white',
+                                                                border:
+                                                                    this.props.selected_assignments.indexOf(
+                                                                        assignment._id
+                                                                    ) > -1
+                                                                        ? '3px solid ' +
+                                                                          UI
+                                                                              .config
+                                                                              .primary_color
+                                                                        : null
+                                                            }}
+                                                        >
+                                                            <CardHeader
+                                                                title={
+                                                                    card.name
+                                                                }
+                                                                subtitle={
+                                                                    <Tags.TagsContainer
+                                                                        tag_ids={
+                                                                            card.tags
+                                                                        }
+                                                                    />
+                                                                }
+                                                                showExpandableButton={
+                                                                    false
+                                                                }
+                                                                avatar={
+                                                                    <Avatar
+                                                                        backgroundColor={UI.utils.get_grade_color(
+                                                                            assignment.get_score()
+                                                                        )}
+                                                                    >
+                                                                        {assignment.get_score()}
+                                                                    </Avatar>
+                                                                }
+                                                            />
+                                                        </Card>
+                                                    </div>
                                                 );
-                                                this.props.dispatch(
-                                                    UI.actions.toggle_assign_material_dialog()
-                                                );
-                                            }}
-                                        />
-                                    </CardText>
-                                </Card>
-                            );
-                        })}
+                                            })}
+                                            <RaisedButton
+                                                style={{ marginTop: '15px' }}
+                                                fullWidth={true}
+                                                primary={true}
+                                                icon={<ContentAdd />}
+                                                onClick={() => {
+                                                    this.props.dispatch(
+                                                        Users.actions.set_selected_users(
+                                                            [user._id]
+                                                        )
+                                                    );
+                                                    this.props.dispatch(
+                                                        UI.actions.toggle_assign_material_dialog()
+                                                    );
+                                                }}
+                                            />
+                                        </CardText>
+                                    </Card>
+                                );
+                            })}
                         <UI.components.ActionBar>
                             {this.props.selected_assignments.length !== 0 ? (
                                 <div>
