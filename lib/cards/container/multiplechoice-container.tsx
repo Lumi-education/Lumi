@@ -97,14 +97,13 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                                     [assignment._id],
                                     {
                                         score: this.props.score * 100,
-                                        data: [
-                                            {
-                                                score: this.props.score,
-                                                maxScore: 1,
-                                                opened: this.props.opened,
-                                                finished: new Date().getTime()
-                                            }
-                                        ]
+                                        finished: new Date().getTime(),
+                                        data: {
+                                            score: this.props.score,
+                                            maxScore: 1,
+                                            opened: this.props.opened,
+                                            finished: new Date().getTime()
+                                        }
                                     }
                                 )
                             )
