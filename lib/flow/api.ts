@@ -20,3 +20,9 @@ export function update_assignments(assignment_ids: string[], update: any) {
         .send({ assignment_ids, update })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+export function archive_assignments(assignment_ids: string[]) {
+    return request
+        .post('/api/v0/flow/assignments/archive')
+        .send({ assignment_ids })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

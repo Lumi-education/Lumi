@@ -6,6 +6,7 @@ import * as raven from 'raven';
 import db from '../../db';
 
 import { IAssignment } from 'lib/flow/types';
+import { IUser } from 'lib/users/types';
 
 class FlowController {
     public get_assignments(req: IRequest, res: express.Response) {
@@ -151,6 +152,7 @@ class FlowController {
                     score: null,
                     data: {},
                     state: null,
+                    archived: false,
                     finished: null,
                     time: null,
                     _attachments: {}
@@ -176,7 +178,7 @@ class FlowController {
                     }
                 },
                 {
-                    limit: 32
+                    limit: 40
                 },
                 (find_error, users) => {
                     if (find_error) {
@@ -202,6 +204,61 @@ class FlowController {
                 }
             );
         });
+    }
+
+    public archive_assignments(req: IRequest, res: express.Response) {
+        if (!req.body.assignment_ids) {
+            return res.status(400).json({ message: 'invalid body' });
+        }
+
+        const assignment_ids = req.body.assignment_ids;
+
+        db.find(
+            {
+                _id: { $in: assignment_ids },
+                type: 'assignment'
+            },
+            { limit: assignment_ids.length },
+            (find_assignments_error, assignments: IAssignment[]) => {
+                assignments.forEach(assignment => (assignment.archived = true));
+
+                db.updateMany(
+                    assignments,
+                    {},
+                    (update_assignments_error, updated_assignments) => {
+                        db.find(
+                            {
+                                type: 'user',
+                                flow: { $in: assignment_ids }
+                            },
+                            { limit: assignment_ids.length },
+                            (find_users_error, users: IUser[]) => {
+                                users.forEach(
+                                    user =>
+                                        (user.flow = user.flow.filter(
+                                            assignment_id =>
+                                                assignment_ids.indexOf(
+                                                    assignment_id
+                                                ) === -1
+                                        ))
+                                );
+
+                                db.updateMany(
+                                    users,
+                                    {},
+                                    (update_users_error, updated_users) => {
+                                        res.status(200).json([
+                                            ...assignments,
+                                            ...users
+                                        ]);
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        );
     }
 }
 

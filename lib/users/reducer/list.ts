@@ -49,6 +49,7 @@ export default function(state: IUser[] = [], action): IUser[] {
             return state.filter(u => u._id !== action.payload.user_id);
 
         case 'DB_CHANGE':
+        case Flow.actions.FLOW_ARCHIVE_ASSIGNMENT_SUCCESS:
         case USERS_GET_USERS_SUCCESS:
         case Groups.actions.GROUPS_ASSIGN_GROUPS_SUCCESS:
         case Flow.actions.FLOW_DELETE_ASSIGNMENT_SUCCESS:
