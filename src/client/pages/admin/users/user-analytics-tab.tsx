@@ -86,12 +86,11 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                     .dispatch(
                         Core.actions.find(
                             {
-                                _id: {
-                                    $in: user.flow
-                                }
+                                user_id: this.props.user_id,
+                                type: 'assignment'
                             },
                             {
-                                limit: 25
+                                limit: 500
                             }
                         )
                     )
