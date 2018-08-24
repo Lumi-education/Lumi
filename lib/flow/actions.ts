@@ -10,6 +10,12 @@ export const FLOW_UPDATE_ASSIGNMENT_REQUEST = 'FLOW_UPDATE_ASSIGNMENT_REQUEST';
 export const FLOW_UPDATE_ASSIGNMENT_SUCCESS = 'FLOW_UPDATE_ASSIGNMENT_SUCCESS';
 export const FLOW_UPDATE_ASSIGNMENT_ERROR = 'FLOW_UPDATE_ASSIGNMENT_ERROR';
 
+export const FLOW_ARCHIVE_ASSIGNMENT_REQUEST =
+    'FLOW_ARCHIVE_ASSIGNMENT_REQUEST';
+export const FLOW_ARCHIVE_ASSIGNMENT_SUCCESS =
+    'FLOW_ARCHIVE_ASSIGNMENT_SUCCESS';
+export const FLOW_ARCHIVE_ASSIGNMENT_ERROR = 'FLOW_ARCHIVE_ASSIGNMENT_ERROR';
+
 export const FLOW_UI_SELECT_ASSIGNMENT = 'FLOW_UI_SELECT_ASSIGNMENT';
 export const FLOW_UI_SET_SELECTED_ASSIGNMENTS =
     ' FLOW_UI_SET_SELECTED_ASSIGNMENTS:';
@@ -34,9 +40,9 @@ export function assign(user_ids: string[], card_ids: string[]) {
 export function update_assignments(assignment_ids: string[], update: any) {
     return {
         types: [
-            FLOW_DELETE_ASSIGNMENT_REQUEST,
-            FLOW_DELETE_ASSIGNMENT_SUCCESS,
-            FLOW_DELETE_ASSIGNMENT_ERROR
+            FLOW_UPDATE_ASSIGNMENT_REQUEST,
+            FLOW_UPDATE_ASSIGNMENT_SUCCESS,
+            FLOW_UPDATE_ASSIGNMENT_ERROR
         ],
         api: API.update_assignments(assignment_ids, update),
         payload: {
@@ -71,6 +77,18 @@ export function set_selected_assignments(assignments_ids: string[]) {
     return {
         type: FLOW_UI_SET_SELECTED_ASSIGNMENTS,
         payload: { assignments_ids }
+    };
+}
+
+export function archive_assignments(assignment_ids: string[]) {
+    return {
+        types: [
+            FLOW_ARCHIVE_ASSIGNMENT_REQUEST,
+            FLOW_ARCHIVE_ASSIGNMENT_SUCCESS,
+            FLOW_ARCHIVE_ASSIGNMENT_ERROR
+        ],
+        api: API.archive_assignments(assignment_ids),
+        payload: { assignment_ids }
     };
 }
 
