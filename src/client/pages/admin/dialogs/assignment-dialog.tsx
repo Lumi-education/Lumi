@@ -67,14 +67,13 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                         }
                     />,
                     <UI.components.RaisedButton
-                        action={Flow.actions.update_assignments(
-                            [this.props.assignment._id],
-                            { completed: true }
-                        )}
+                        action={Flow.actions.archive_assignments([
+                            this.props.assignment._id
+                        ])}
                         labels={[
-                            'Abschließen',
-                            'wird abgeschlossen...',
-                            'abgeschlossen',
+                            'Archivieren',
+                            'Wird archiviert...',
+                            'Archiviert',
                             'Fehler'
                         ]}
                         fullWidth={false}
