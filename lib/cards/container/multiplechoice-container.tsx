@@ -33,7 +33,9 @@ interface IDispatchProps {
     dispatch: (action) => any;
 }
 
-interface IComponentState {}
+interface IComponentState {
+    items: string[];
+}
 interface IProps extends IStateProps, IDispatchProps {}
 
 export class MultiplechoiceCardViewContainer extends React.Component<
@@ -45,7 +47,9 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 
         this.log = this.log.bind(this);
 
-        this.state = {};
+        this.state = {
+            items: []
+        };
     }
 
     public log(msg: string) {
@@ -69,7 +73,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     _id={card._id}
                     text={card.text}
                     items={card.items}
-                    selected_items={assignment.state || []}
+                    selected_items={this.state.items || assignment.state || []}
                     show_correct_values={assignment.score !== null}
                     cb={(items, score) => {
                         this.props.dispatch(
@@ -77,12 +81,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                         );
                         assignment.score !== null
                             ? noop()
-                            : this.props.dispatch(
-                                  Flow.actions.update_assignments(
-                                      [assignment._id],
-                                      { state: items }
-                                  )
-                              );
+                            : this.setState({ items });
                     }}
                 />
 
@@ -91,23 +90,22 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                         label="Check"
                         primary={true}
                         fullWidth={true}
-                        onClick={() =>
+                        onClick={() => {
                             this.props.dispatch(
-                                Flow.actions.update_assignments(
-                                    [assignment._id],
-                                    {
-                                        score: this.props.score * 100,
-                                        finished: new Date().getTime(),
-                                        data: {
-                                            score: this.props.score,
-                                            maxScore: 1,
-                                            opened: this.props.opened,
-                                            finished: new Date().getTime()
-                                        }
-                                    }
+                                Flow.actions.save_state(
+                                    assignment._id,
+                                    this.state.items
                                 )
-                            )
-                        }
+                            );
+                            this.props.dispatch(
+                                Flow.actions.save_data(assignment._id, {
+                                    score: this.props.score * 100,
+                                    maxScore: 1,
+                                    opened: this.props.opened,
+                                    finished: new Date().getTime()
+                                })
+                            );
+                        }}
                     />
                 )}
             </div>

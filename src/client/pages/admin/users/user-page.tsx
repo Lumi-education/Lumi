@@ -32,24 +32,50 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export class AdminUserPage extends React.Component<IProps, {}> {
+interface IComponentState {
+    loading?: string;
+    loading_step?: number;
+}
+
+export class AdminUserPage extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            loading: 'init',
+            loading_step: 0
+        };
     }
 
     public componentWillMount() {
-        this.props.dispatch(Users.actions.get_user(this.props.user_id));
-        this.props.dispatch(Groups.actions.get_groups());
+        this.setState({ loading: 'Benutzer', loading_step: 1 });
+
+        this.props
+            .dispatch(Users.actions.get_user(this.props.user_id))
+            .then(res => {
+                this.setState({ loading: 'finished', loading_step: 2 });
+            });
+        // this.props.dispatch(Groups.actions.get_groups());
     }
 
     public render() {
+        if (this.state.loading !== 'finished') {
+            return (
+                <UI.components.LoadingPage
+                    min={0}
+                    max={2}
+                    value={this.state.loading_step}
+                >
+                    {this.state.loading}
+                </UI.components.LoadingPage>
+            );
+        }
+
         return (
             <div>
                 <Tabs

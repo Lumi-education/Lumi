@@ -112,9 +112,9 @@ export class FreetextCardContainer extends React.Component<
                         preview={card.preview}
                     />
                     <UI.components.RaisedButton
-                        action={Flow.actions.update_assignments(
-                            [this.props.assignment_id],
-                            { state: this.state.answer }
+                        action={Flow.actions.save_state(
+                            this.props.assignment_id,
+                            this.state.answer
                         )}
                         labels={[
                             'Speichern',

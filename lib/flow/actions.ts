@@ -16,6 +16,14 @@ export const FLOW_ARCHIVE_ASSIGNMENT_SUCCESS =
     'FLOW_ARCHIVE_ASSIGNMENT_SUCCESS';
 export const FLOW_ARCHIVE_ASSIGNMENT_ERROR = 'FLOW_ARCHIVE_ASSIGNMENT_ERROR';
 
+export const FLOW_SAVE_STATE_REQUEST = 'FLOW_SAVE_STATE_REQUEST';
+export const FLOW_SAVE_STATE_SUCCESS = 'FLOW_SAVE_STATE_SUCCESS';
+export const FLOW_SAVE_STATE_ERROR = 'FLOW_SAVE_STATE_ERROR';
+
+export const FLOW_SAVE_DATA_REQUEST = 'FLOW_SAVE_DATA_REQUEST';
+export const FLOW_SAVE_DATA_SUCCESS = 'FLOW_SAVE_DATA_SUCCESS';
+export const FLOW_SAVE_DATA_ERROR = 'FLOW_SAVE_DATA_ERROR';
+
 export const FLOW_UI_SELECT_ASSIGNMENT = 'FLOW_UI_SELECT_ASSIGNMENT';
 export const FLOW_UI_SET_SELECTED_ASSIGNMENTS =
     ' FLOW_UI_SET_SELECTED_ASSIGNMENTS:';
@@ -25,6 +33,7 @@ export const FLOW_UI_TOGGLE_DIALOG = 'FLOW_UI_TOGGLE_DIALOG';
 export const FLOW_UI_RESET_ASSIGNMENT = 'FLOW_UI_RESET_ASSIGNMENT';
 
 import * as API from './api';
+import { IAssignment } from './types';
 
 export function assign(user_ids: string[], card_ids: string[]) {
     return {
@@ -34,6 +43,30 @@ export function assign(user_ids: string[], card_ids: string[]) {
             user_ids,
             card_ids
         }
+    };
+}
+
+export function save_state(assignment_id: string, state: any) {
+    return {
+        types: [
+            FLOW_SAVE_STATE_REQUEST,
+            FLOW_SAVE_STATE_SUCCESS,
+            FLOW_SAVE_STATE_ERROR
+        ],
+        api: API.save_state(assignment_id, state),
+        payload: { assignment_id, state }
+    };
+}
+
+export function save_data(assignment_id: string, data: IAssignment['data']) {
+    return {
+        types: [
+            FLOW_SAVE_DATA_REQUEST,
+            FLOW_SAVE_DATA_SUCCESS,
+            FLOW_SAVE_DATA_ERROR
+        ],
+        api: API.save_data(assignment_id, data),
+        payload: { assignment_id, data }
     };
 }
 
