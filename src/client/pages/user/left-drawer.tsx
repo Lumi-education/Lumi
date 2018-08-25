@@ -79,11 +79,6 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                     />
 
                     <List>
-                        {/* <ListItem
-                            primaryText="Dashboard"
-                            onClick={() => this.props.dispatch(push('/user'))}
-                            leftIcon={<SVGDashboard />}
-                        /> */}
                         <ListItem
                             primaryText="Flow"
                             leftIcon={<SVGAssignments />}
@@ -94,7 +89,10 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                         <ListItem
                             primaryText="Logout"
                             leftIcon={<SVGPower />}
-                            onClick={() => this.props.dispatch(logout())}
+                            onClick={() => {
+                                this.props.dispatch(push('/'));
+                                this.props.dispatch(logout());
+                            }}
                         />
                         <Divider />
                         <Subheader>{process.env.VERSION}</Subheader>
