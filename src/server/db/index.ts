@@ -188,32 +188,32 @@ export class DB {
         });
     }
 
-    // public view(
-    //     _design: string,
-    //     index: string,
-    //     options,
-    //     cb: (error, docs) => void
-    // ) {
-    //     const _options = assign(options, { include_docs: true });
+    public view(
+        _design: string,
+        index: string,
+        options,
+        cb: (error, docs) => void
+    ) {
+        const _options = assign(options, { include_docs: true });
 
-    //     this.nano.view(_design, index, _options, (err, body) => {
-    //         if (err) {
-    //             cb(err, undefined);
-    //             raven.captureException(err);
-    //         } else {
-    //             if (body) {
-    //                 cb(
-    //                     undefined,
-    //                     body.rows
-    //                         .map(row => row.doc)
-    //                         .filter(doc => doc !== null)
-    //                 );
-    //             } else {
-    //                 cb(undefined, []);
-    //             }
-    //         }
-    //     });
-    // }
+        this.nano.view(_design, index, _options, (err, body) => {
+            if (err) {
+                raven.captureException(err);
+                cb(err, undefined);
+            } else {
+                if (body) {
+                    cb(
+                        undefined,
+                        body.rows
+                            .map(row => row.doc)
+                            .filter(doc => doc !== null)
+                    );
+                } else {
+                    cb(undefined, []);
+                }
+            }
+        });
+    }
 
     public delete(id: string, cb?: (err) => void) {
         this.findById(id, (error, doc) => {
