@@ -1,5 +1,6 @@
 import { IAssignment, IState } from './types';
 import { Assignment } from './models';
+import { flatten } from 'lodash';
 
 export function assignment_for_user(
     state: IState,
@@ -9,6 +10,16 @@ export function assignment_for_user(
         .filter(assignment => assignment.user_id === user_id)
         .map(assignment => new Assignment(assignment));
 }
+
+export function assignments_for_users(
+    state: IState,
+    user_ids: string[]
+): Assignment[] {
+    return flatten(
+        user_ids.map(user_id => assignment_for_user(state, user_id))
+    );
+}
+
 export function assignment_by_id(
     state: IState,
     assignment_id: string

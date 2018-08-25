@@ -73,10 +73,10 @@ export function select_assignment(assignment_id: string) {
     };
 }
 
-export function set_selected_assignments(assignments_ids: string[]) {
+export function set_selected_assignments(assignment_ids: string[]) {
     return {
         type: FLOW_UI_SET_SELECTED_ASSIGNMENTS,
-        payload: { assignments_ids }
+        payload: { assignment_ids }
     };
 }
 

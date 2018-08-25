@@ -9,24 +9,18 @@ import { uniq, intersection } from 'lodash';
 import { IState } from 'client/state';
 
 import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
     Avatar,
-    TableRow,
-    TableRowColumn,
     Paper,
+    IconMenu,
+    MenuItem,
     Card,
-    CardActions,
     CardHeader,
     CardText,
-    FlatButton,
     RaisedButton,
     FloatingActionButton
 } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import SVGCheck from 'material-ui/svg-icons/navigation/check';
+import SVGAction from 'material-ui/svg-icons/action/build';
 import SVGArchive from 'material-ui/svg-icons/content/archive';
 
 import AssignMaterialDialog from '../dialogs/assign_material';
@@ -47,6 +41,7 @@ interface IPassedProps {
     group_id: string;
 }
 interface IStateProps extends IPassedProps {
+    assignments: Flow.models.Assignment[];
     users: Users.IUser[];
     group: Groups.IGroup;
     selected_users: string[];
@@ -94,7 +89,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             type: 'user',
                             groups: { $in: [this.props.group_id] }
                         },
-                        { limit: 30 }
+                        { limit: 40 }
                     )
                 )
                 .then(user_response => {
@@ -155,44 +150,53 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        try {
-            if (this.state.loading !== 'finished') {
-                return (
-                    <UI.components.LoadingPage
-                        min={1}
-                        max={4}
-                        value={this.state.loading_step}
-                    >
-                        {this.state.loading}
-                    </UI.components.LoadingPage>
-                );
-            }
-
+        if (this.state.loading !== 'finished') {
             return (
+                <UI.components.LoadingPage
+                    min={1}
+                    max={4}
+                    value={this.state.loading_step}
+                >
+                    {this.state.loading}
+                </UI.components.LoadingPage>
+            );
+        }
+
+        return (
+            <div
+                id="group-flow-tab"
+                style={{
+                    background: UI.config.gradient_bg,
+                    minHeight: '100vh'
+                }}
+            >
+                <Paper style={{ margin: '0px 20px 20px 20px' }} zDepth={5}>
+                    <Tags.TagsFilterContainer />
+                </Paper>
                 <div
-                    id="group-flow-tab"
                     style={{
-                        background: UI.config.gradient_bg,
-                        minHeight: '100vh'
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'nowrap',
+                        overflow: 'scroll',
+                        zIndex: 200
                     }}
                 >
-                    <Paper style={{ margin: '0px 20px 20px 20px' }} zDepth={5}>
-                        <Tags.TagsFilterContainer />
-                    </Paper>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            flexWrap: 'nowrap',
-                            overflow: 'scroll',
-                            zIndex: 200
-                        }}
-                    >
-                        {this.props.group.members.map(user_id => {
-                            const user = this.props.user(user_id);
+                    {this.props.users
+                        .sort((a, b) => {
+                            if (a.flow.length > b.flow.length) {
+                                return 1;
+                            }
+                            if (a.flow.length < b.flow.length) {
+                                return -1;
+                            }
+                            // a muss gleich b sein
+                            return 0;
+                        })
+                        .map(user => {
                             return (
                                 <Card
-                                    key={user_id}
+                                    key={user._id}
                                     style={{
                                         minWidth: '260px',
                                         margin: '10px',
@@ -209,10 +213,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                             const assignment = this.props.assignment(
                                                 assignment_id
                                             );
-
-                                            if (assignment.completed) {
-                                                return null;
-                                            }
 
                                             const card = this.props.card(
                                                 assignment.card_id
@@ -324,49 +324,24 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                 </Card>
                             );
                         })}
-                        <UI.components.ActionBar>
-                            {this.props.selected_assignments.length !== 0 ? (
-                                <div>
-                                    <FloatingActionButton
-                                        onClick={() => {
-                                            this.props.dispatch(
-                                                Flow.actions.archive_assignments(
-                                                    this.props
-                                                        .selected_assignments
-                                                )
-                                            );
-                                        }}
-                                        style={{
-                                            margin: '20px',
-                                            zIndex: 5000
-                                        }}
-                                    >
-                                        <SVGArchive />
-                                    </FloatingActionButton>
-                                    <FloatingActionButton
-                                        onClick={() => {
-                                            this.props.dispatch(
-                                                Flow.actions.delete_assignments(
-                                                    this.props
-                                                        .selected_assignments
-                                                )
-                                            );
-                                            this.props.dispatch(
-                                                Flow.actions.set_selected_assignments(
-                                                    []
-                                                )
-                                            );
-                                        }}
-                                        style={{
-                                            margin: '20px',
-                                            zIndex: 5000
-                                        }}
-                                    >
-                                        <ContentRemove />
-                                    </FloatingActionButton>
-                                </div>
-                            ) : null}
-                            <FloatingActionButton
+                    <UI.components.ActionBar>
+                        <IconMenu
+                            iconButtonElement={
+                                <FloatingActionButton>
+                                    <SVGAction />
+                                </FloatingActionButton>
+                            }
+                            anchorOrigin={{
+                                horizontal: 'right',
+                                vertical: 'bottom'
+                            }}
+                            targetOrigin={{
+                                horizontal: 'left',
+                                vertical: 'top'
+                            }}
+                        >
+                            <MenuItem
+                                primaryText="Material zuweisen"
                                 onClick={() => {
                                     this.props.dispatch(
                                         Users.actions.set_selected_users(
@@ -379,41 +354,71 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                         UI.actions.toggle_assign_material_dialog()
                                     );
                                 }}
-                                style={{
-                                    margin: '20px',
-                                    zIndex: 5000
-                                }}
-                            >
-                                <ContentAdd />
-                            </FloatingActionButton>
-                            {/* <AssignMaterialDialog
+                            />
+                            <MenuItem
+                                primaryText="Alle abgeschlossen Aufgaben auswählen"
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Flow.actions.set_selected_assignments(
+                                            this.props.assignments
+                                                .filter(
+                                                    assignment =>
+                                                        assignment.state &&
+                                                        assignment.score !==
+                                                            null
+                                                )
+                                                .map(
+                                                    assignment => assignment._id
+                                                )
+                                        )
+                                    )
+                                }
+                            />
+                            {this.props.selected_assignments.length !== 0 ? (
+                                <div>
+                                    <MenuItem
+                                        primaryText="Archivieren"
+                                        onClick={() => {
+                                            this.props.dispatch(
+                                                Flow.actions.archive_assignments(
+                                                    this.props
+                                                        .selected_assignments
+                                                )
+                                            );
+                                            this.props.dispatch(
+                                                Flow.actions.set_selected_assignments(
+                                                    []
+                                                )
+                                            );
+                                        }}
+                                    />
+                                </div>
+                            ) : null}
+                        </IconMenu>
+
+                        {/* <AssignMaterialDialog
                             group_id={this.props.group_id}
                             user_ids={this.props.users.map(user => user._id)}
                         /> */}
-                        </UI.components.ActionBar>
-                        <AssignMaterialDialog />
-                    </div>
+                    </UI.components.ActionBar>
+                    <AssignMaterialDialog />
                 </div>
-            );
-        } catch (error) {
-            log(error);
-            raven.captureException(error);
-
-            return (
-                <UI.components.ErrorPage>
-                    {JSON.stringify(error)}
-                </UI.components.ErrorPage>
-            );
-        }
+            </div>
+        );
     }
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const users = Users.selectors.get_users_by_group(state, ownProps.group_id);
     return {
+        users,
         group_id: ownProps.group_id,
         assignment: assignment_id =>
             Flow.selectors.assignment_by_id(state, assignment_id),
-        users: Users.selectors.get_users_by_group(state, ownProps.group_id),
+        assignments: Flow.selectors.assignments_for_users(
+            state,
+            users.map(user => user._id)
+        ),
         user: user_id => Users.selectors.user(state, user_id),
         group: Groups.selectors.select_group(state, ownProps.group_id),
         selected_users: state.users.ui.selected_users,
