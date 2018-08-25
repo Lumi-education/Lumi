@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt-nodejs';
 import * as jwt from 'jwt-simple';
+import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 
 import { IRequest } from '../../middleware/auth';
@@ -9,21 +10,21 @@ import db from '../../db';
 
 import { IUser } from 'lib/users/types';
 
+const log = debug('lumi:controller:auth');
+
 class AuthController {
     public login(req: IRequest, res: express.Response) {
-        db.findOne(
-            {
-                type: 'user',
-                name: req.body.username
-            },
-            {},
-            (error, user: IUser) => {
-                if (!user) {
-                    return res.status(404).json({
-                        message: 'user not found',
-                        username: req.body.username
-                    });
+        db.view(
+            'auth',
+            'login',
+            { key: req.body.username },
+            (view_user_error, users) => {
+                if (users.length !== 1 || view_user_error) {
+                    return res.status(404).json({ message: 'user not found' });
                 }
+
+                const user = users[0];
+
                 if (!user.password) {
                     return res.status(200).json({
                         jwt_token: jwt_token(user._id, user.level),
@@ -39,9 +40,6 @@ class AuthController {
                         if (err || !hash) {
                             res.status(401).end();
                         } else {
-                            user.last_login = new Date();
-                            db.save(user, noop);
-
                             return res.status(200).json({
                                 jwt_token: jwt_token(user._id, user.level),
                                 _id: user._id,
@@ -52,6 +50,48 @@ class AuthController {
                 );
             }
         );
+
+        // db.findOne(
+        //     {
+        //         type: 'user',
+        //         name: req.body.username
+        //     },
+        //     {},
+        //     (error, user: IUser) => {
+        //         if (!user) {
+        //             return res.status(404).json({
+        //                 message: 'user not found',
+        //                 username: req.body.username
+        //             });
+        //         }
+        //         if (!user.password) {
+        //             return res.status(200).json({
+        //                 jwt_token: jwt_token(user._id, user.level),
+        //                 _id: user._id,
+        //                 level: user.level
+        //             });
+        //         }
+
+        //         bcrypt.compare(
+        //             req.body.password,
+        //             user.password,
+        //             (err, hash) => {
+        //                 if (err || !hash) {
+        //                     res.status(401).end();
+        //                 } else {
+        //                     user.last_login = new Date();
+        //                     db.save(user, noop);
+
+        //                     return res.status(200).json({
+        //                         jwt_token: jwt_token(user._id, user.level),
+        //                         _id: user._id,
+        //                         level: user.level
+        //                     });
+        //                 }
+        //             }
+        //         );
+        //     }
+        // );
     }
 
     public register(req: IRequest, res: express.Response) {
