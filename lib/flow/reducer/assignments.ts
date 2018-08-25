@@ -5,8 +5,12 @@ import { IAssignment } from '../types';
 import {
     FLOW_DELETE_ASSIGNMENT_REQUEST,
     FLOW_ARCHIVE_ASSIGNMENT_REQUEST,
-    FLOW_UPDATE_ASSIGNMENT_REQUEST
+    FLOW_UPDATE_ASSIGNMENT_REQUEST,
+    FLOW_SAVE_STATE_REQUEST,
+    FLOW_SAVE_DATA_REQUEST
 } from '../actions';
+
+import { USERS_GET_USER_SUCCESS } from 'lib/users/actions';
 
 const initialState: IAssignment[] = [];
 
@@ -16,6 +20,7 @@ export default function(
 ): IAssignment[] {
     switch (action.type) {
         case 'DB_CHANGE':
+        case USERS_GET_USER_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'assignment'),
                 state,
@@ -41,6 +46,22 @@ export default function(
                 assignment =>
                     action.assignment_ids.indexOf(assignment._id) > -1
                         ? assign({}, assignment, { archived: true })
+                        : assignment
+            );
+
+        case FLOW_SAVE_STATE_REQUEST:
+            return state.map(
+                assignment =>
+                    assignment._id === action.assignment_id
+                        ? assign({}, assignment, { state: action.state })
+                        : assignment
+            );
+
+        case FLOW_SAVE_DATA_REQUEST:
+            return state.map(
+                assignment =>
+                    assignment._id === action.assignment_id
+                        ? assign({}, assignment, { data: action.data })
                         : assignment
             );
 

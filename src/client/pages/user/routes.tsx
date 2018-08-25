@@ -4,7 +4,6 @@ import { Route, IndexRoute } from 'react-router';
 
 import UserIndex from 'client/pages/user';
 
-import UserDashboard from 'client/pages/user/dashboard';
 import Grades from './grades';
 import Flow from './flow';
 import Assignment from './assignment';

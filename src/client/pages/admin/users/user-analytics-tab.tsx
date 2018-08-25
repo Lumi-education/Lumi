@@ -74,63 +74,61 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Benutzer', loading_step: 1 });
-
-        this.props
-            .dispatch(Users.actions.get_user(this.props.user_id))
-            .then(user_response => {
-                const user: Users.IUser = user_response.payload[0];
-
-                this.setState({ loading: 'Aufgaben', loading_step: 2 });
-                this.props
-                    .dispatch(
-                        Core.actions.find(
-                            {
-                                user_id: this.props.user_id,
-                                type: 'assignment'
-                            },
-                            {
-                                limit: 500
-                            }
-                        )
-                    )
-                    .then(assignment_response => {
-                        this.setState({ loading: 'Karten', loading_step: 3 });
-                        this.props
-                            .dispatch(
-                                Cards.actions.get_cards(
-                                    assignment_response.payload.map(
-                                        assignment => assignment.card_id
-                                    )
-                                )
-                            )
-                            .then(card_response => {
-                                this.setState({
-                                    loading: 'finished',
-                                    loading_step: 4
-                                });
-                                this.props.dispatch(
-                                    Users.actions.set_selected_users([
-                                        this.props.user_id
-                                    ])
-                                );
-                            });
-                    });
-            });
+        // this.setState({ loading: 'Benutzer', loading_step: 1 });
+        // this.props
+        //     .dispatch(Users.actions.get_user(this.props.user_id))
+        //     .then(user_response => {
+        //         const user: Users.IUser = user_response.payload[0];
+        //         this.setState({ loading: 'Aufgaben', loading_step: 2 });
+        //         this.props
+        //             .dispatch(
+        //                 Core.actions.find(
+        //                     {
+        //                         user_id: this.props.user_id,
+        //                         type: 'assignment'
+        //                     },
+        //                     {
+        //                         limit: 500
+        //                     }
+        //                 )
+        //             )
+        //             .then(assignment_response => {
+        //                 this.setState({ loading: 'Karten', loading_step: 3 });
+        //                 this.props
+        //                     .dispatch(
+        //                         Cards.actions.get_cards(
+        //                             assignment_response.payload.map(
+        //                                 assignment => assignment.card_id
+        //                             )
+        //                         )
+        //                     )
+        //                     .then(card_response => {
+        //                         this.setState({
+        //                             loading: 'finished',
+        //                             loading_step: 4
+        //                         });
+        //                         this.props.dispatch(
+        //                             Users.actions.set_selected_users([
+        //                                 this.props.user_id
+        //                             ])
+        //                         );
+        //                     });
+        //             });
+        //     });
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={1}
-                    max={4}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
+        // if (this.state.loading !== 'finished') {
+        //     return (
+        //         <UI.components.LoadingPage
+        //             min={1}
+        //             max={4}
+        //             value={this.state.loading_step}
+        //         >
+        //             {this.state.loading}
+        //         </UI.components.LoadingPage>
+        //     );
+        // }
 
         const line_data = this.props.selected_tags.map(tag_id => {
             const tag = this.props.tag(tag_id);

@@ -11,7 +11,6 @@ import { push } from 'lib/ui/actions';
 import { IState } from 'client/state';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
-import * as Core from 'lib/core';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {
@@ -32,29 +31,6 @@ export class UserFlow extends React.Component<IProps, {}> {
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        this.props
-            .dispatch(
-                Core.actions.find(
-                    {
-                        type: 'assignment',
-                        completed: false,
-                        _id: { $in: this.props.flow }
-                    },
-                    { limit: 100 }
-                )
-            )
-            .then(assignment_response => {
-                const assignments = assignment_response.payload;
-
-                this.props.dispatch(
-                    Cards.actions.get_cards(
-                        assignments.map(assignment => assignment.card_id)
-                    )
-                );
-            });
     }
 
     public render() {

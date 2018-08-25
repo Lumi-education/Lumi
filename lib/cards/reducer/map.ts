@@ -14,6 +14,7 @@ import {
 } from '../constants';
 
 import * as Tags from 'lib/tags';
+import { USERS_GET_USER_SUCCESS } from 'lib/users/actions';
 
 export default function(
     state: Map<string, ICard> = Map<string, ICard>({}),
@@ -32,6 +33,7 @@ export default function(
             return state.delete(action.card_id);
 
         case 'DB_CHANGE':
+        case USERS_GET_USER_SUCCESS:
         case CARDS_GET_CARDS_SUCCESS:
         case CARDS_GET_CARD_SUCCESS:
         case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:

@@ -16,8 +16,6 @@ import { push } from 'lib/ui/actions';
 import { IState } from 'client/state';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
-import * as UI from 'lib/ui';
-import * as Core from 'lib/core';
 
 interface IStateProps {
     assignment_id: string;
@@ -39,35 +37,6 @@ export class UserFlow extends React.Component<IProps, {}> {
         super(props);
 
         this.state = {};
-
-        this.init = this.init.bind(this);
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (nextProps.assignment_id !== this.props.assignment_id) {
-            this.init(nextProps.assignment_id);
-        }
-    }
-
-    public componentWillMount() {
-        this.init(this.props.assignment_id);
-    }
-
-    public init(assignment_id: string) {
-        this.props
-            .dispatch(Core.actions.get(assignment_id))
-            .then(assignment_response => {
-                const assignment = assignment_response.payload[0];
-                this.props
-                    .dispatch(Cards.actions.get_card(assignment.card_id))
-                    .then(card_response => {
-                        this.props.dispatch(
-                            UI.actions.set_appbar_title(
-                                card_response.payload[0].name
-                            )
-                        );
-                    });
-            });
     }
 
     public render() {
