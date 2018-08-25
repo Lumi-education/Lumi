@@ -41,17 +41,12 @@ class UsersController {
     }
 
     public read(req: IRequest, res: express.Response) {
-        db.findById(req.params.id, (find_user_error, user) => {
-            res.status(200).json([user]);
+        // db.findById(req.params.id, (find_user_error, user) => {
+        //     res.status(200).json([user]);
+        // });
+        db.view('users', 'user', { key: req.params.id }, (error, docs) => {
+            res.status(200).json(docs);
         });
-        // db.view(
-        //     'user',
-        //     'with_groups',
-        //     { key: req.params.id },
-        //     (error, docs) => {
-        //         res.status(200).json(docs);
-        //     }
-        // );
     }
 
     public update(req: IRequest, res: express.Response) {
