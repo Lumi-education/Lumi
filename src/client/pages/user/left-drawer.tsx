@@ -28,6 +28,8 @@ import { IState } from 'client/state';
 // modules
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
+import * as Flow from 'lib/flow';
+import * as Cards from 'lib/cards';
 
 declare var process;
 
@@ -36,6 +38,9 @@ interface IStateProps {
     user_id: string;
     user: Users.IUser;
     username: string;
+    assignment: (assignment_id: string) => Flow.IAssignment;
+    flow: string[];
+    card: (card_id: string) => Cards.ICard;
     group: (group_id: string) => Groups.IGroup;
 }
 
@@ -80,8 +85,38 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
 
                     <List>
                         <ListItem
-                            primaryText="Flow"
+                            primaryText="Aufgaben"
                             leftIcon={<SVGAssignments />}
+                            initiallyOpen={true}
+                            nestedItems={this.props.flow.map(
+                                (assignment_id: string) => {
+                                    const assignment = this.props.assignment(
+                                        assignment_id
+                                    );
+                                    if (assignment.completed) {
+                                        return null;
+                                    }
+                                    const card = this.props.card(
+                                        assignment.card_id
+                                    );
+
+                                    return (
+                                        <ListItem
+                                            key={assignment._id}
+                                            primaryText={card.name}
+                                            secondaryText={card.description}
+                                            onClick={() =>
+                                                this.props.dispatch(
+                                                    push(
+                                                        '/user/assignment/' +
+                                                            assignment_id
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    );
+                                }
+                            )}
                             onClick={() =>
                                 this.props.dispatch(push('/user/flow'))
                             }
@@ -109,6 +144,11 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
         user: state.users.me,
         user_id: state.auth.user_id,
         username: state.auth.username,
+        flow: state.users.me.flow || [],
+        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        assignment: assignment_id =>
+            Flow.selectors.assignment_by_id(state, assignment_id),
+
         group: group_id => Groups.selectors.select_group(state, group_id)
     };
 }
