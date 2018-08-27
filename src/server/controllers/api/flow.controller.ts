@@ -107,10 +107,8 @@ class FlowController {
                 let factor = 1;
                 if (req.body.finished.toString().length < 13) {
                     factor = 1000;
-
-                    assignment.finished =
-                        parseInt(req.body.finished, 10) * factor;
                 }
+                assignment.finished = parseInt(req.body.finished, 10) * factor;
 
                 db.updateOne(req.params.assignment_id, assignment, (err, a) => {
                     res.status(200).json(assignment.data);

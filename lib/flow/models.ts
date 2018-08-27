@@ -49,6 +49,11 @@ export class Assignment implements IAssignment {
     }
 
     public get_finished(): string {
+        if (this.data) {
+            if (this.data.finished) {
+                return moment(this.data.finished).format('llll');
+            }
+        }
         return this.finished === null
             ? null
             : moment(this.finished).format('llll');
