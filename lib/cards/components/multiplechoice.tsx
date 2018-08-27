@@ -14,8 +14,8 @@ declare var window;
 interface IProps {
     text: Markdown;
     items: Markdown[];
-    show_correct_values?: boolean;
-    selected_items?: Markdown[];
+    show_correct_values: boolean;
+    selected_items: Markdown[];
     cb?: (selected_items: Markdown[], score: number) => void;
 }
 
