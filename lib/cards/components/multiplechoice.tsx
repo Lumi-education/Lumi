@@ -12,7 +12,6 @@ type Markdown = string;
 declare var window;
 
 interface IProps {
-    _id: string;
     text: Markdown;
     items: Markdown[];
     show_correct_values?: boolean;
@@ -53,13 +52,8 @@ export default class MultiplechoiceComponent extends React.Component<
     }
 
     public render() {
-        // const text = convert_attachment_url(this.props.text, this.props._id);
         const text = this.props.text;
         const items = this.props.items;
-
-        // const items = this.props.items.map(item =>
-        //     convert_attachment_url(item, this.props._id)
-        // );
 
         return (
             <div>
@@ -77,11 +71,16 @@ export default class MultiplechoiceComponent extends React.Component<
                         style={{
                             padding: '2px',
                             margin: '10px',
-                            backgroundColor: backgroundColor(
-                                this.props.show_correct_values || false,
-                                item,
-                                this.props.selected_items || []
-                            )
+                            backgroundColor:
+                                this.props.selected_items.indexOf(item) > -1
+                                    ? '#3498db'
+                                    : '#ffffff',
+
+                            border: this.props.show_correct_values
+                                ? item.charAt(0) === 'x'
+                                    ? '3px solid #1abc9c'
+                                    : '3px solid #c0392b'
+                                : null
                         }}
                         onClick={() => this.handleClick(item)}
                     >
@@ -98,23 +97,4 @@ export default class MultiplechoiceComponent extends React.Component<
             </div>
         );
     }
-}
-
-function backgroundColor(
-    show_correct_values: boolean,
-    item: string,
-    selected_items: string[]
-): string {
-    if (show_correct_values) {
-        if (item.charAt(0) === 'x') {
-            return '#1abc9c';
-        }
-        if (item.charAt(0) === 'o') {
-            return '#c0392b';
-        }
-    }
-    if (selected_items.indexOf(item) > -1) {
-        return '#3498db';
-    }
-    return '#FFFFFF';
 }

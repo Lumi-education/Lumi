@@ -34,7 +34,9 @@ interface IDispatchProps {
 }
 
 interface IComponentState {
-    items: string[];
+    items?: string[];
+    score?: number;
+    opened?: number;
 }
 interface IProps extends IStateProps, IDispatchProps {}
 
@@ -48,7 +50,9 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         this.log = this.log.bind(this);
 
         this.state = {
-            items: []
+            items: [],
+            score: 0,
+            opened: new Date().getTime()
         };
     }
 
@@ -58,9 +62,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 
     public componentWillMount() {
         if (!this.props.opened) {
-            this.props.dispatch(
-                Flow.actions.change_assignment({ opened: new Date().getTime() })
-            );
+            this.setState({ opened: new Date().getTime() });
         }
     }
 
@@ -70,18 +72,12 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         return (
             <div>
                 <MultiplechoiceComponent
-                    _id={card._id}
                     text={card.text}
                     items={card.items}
-                    selected_items={this.state.items || assignment.state || []}
+                    selected_items={assignment.state || this.state.items || []}
                     show_correct_values={assignment.score !== null}
                     cb={(items, score) => {
-                        this.props.dispatch(
-                            Flow.actions.change_assignment({ score })
-                        );
-                        assignment.score !== null
-                            ? noop()
-                            : this.setState({ items });
+                        this.setState({ items, score });
                     }}
                 />
 
@@ -92,17 +88,12 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                         fullWidth={true}
                         onClick={() => {
                             this.props.dispatch(
-                                Flow.actions.save_state(
-                                    assignment._id,
-                                    this.state.items
-                                )
-                            );
-                            this.props.dispatch(
                                 Flow.actions.save_data(assignment._id, {
-                                    score: this.props.score * 100,
+                                    score: this.state.score,
                                     maxScore: 1,
-                                    opened: this.props.opened,
-                                    finished: new Date().getTime()
+                                    opened: this.state.opened,
+                                    finished: new Date().getTime(),
+                                    state: this.state.items
                                 })
                             );
                         }}

@@ -61,7 +61,12 @@ export default function(
             return state.map(
                 assignment =>
                     assignment._id === action.assignment_id
-                        ? assign({}, assignment, { data: action.data })
+                        ? assign({}, assignment, {
+                              data: action.data,
+                              score: action.data.score,
+                              finished: action.data.finished,
+                              state: action.data.state
+                          })
                         : assignment
             );
 

@@ -100,17 +100,14 @@ class FlowController {
             req.params.assignment_id,
             (error, assignment: IAssignment) => {
                 assignment.data = req.body;
+                assignment.state = req.body.state;
 
-                if (req.body.score && req.body.maxScore) {
-                    assignment.score =
-                        (req.body.score / req.body.maxScore) * 100;
-                }
+                assignment.score = (req.body.score / req.body.maxScore) * 100;
 
-                if (req.body.finished) {
-                    let factor = 1;
-                    if (req.body.finished.toString().length < 13) {
-                        factor = 1000;
-                    }
+                let factor = 1;
+                if (req.body.finished.toString().length < 13) {
+                    factor = 1000;
+
                     assignment.finished =
                         parseInt(req.body.finished, 10) * factor;
                 }
