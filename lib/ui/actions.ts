@@ -24,13 +24,10 @@ export const UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS =
 
 export const UI_SHOW_SNACKBAR = 'UI_SHOW_SNACKBAR';
 
-import * as Users from '../users';
-
 export function push(url: string) {
     return dispatch => {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
-        dispatch(Users.actions.update_user('myself', { location: url }));
         dispatch(_push(url));
     };
 }

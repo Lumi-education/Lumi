@@ -23,6 +23,16 @@ export default function migrate(done: () => void) {
                     assignment.data = assignment.data[0];
                     i++;
                 }
+                if (assignment.data) {
+                    if (
+                        assignment.finished === null &&
+                        assignment.data.finsihed !== null
+                    ) {
+                        log('updating assignment finished field', assignment);
+                        assignment.finished = assignment.data.finished;
+                        i++;
+                    }
+                }
             });
 
             db.updateMany(assignments, {}, (update_assignment_error, docs) => {

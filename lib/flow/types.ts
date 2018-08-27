@@ -10,6 +10,7 @@ export interface IAssignment {
         opened?: number;
         score?: number;
         maxScore?: number;
+        state?: any;
     };
     state: any;
     updated_at?: Date;

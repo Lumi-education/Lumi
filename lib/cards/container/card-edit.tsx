@@ -305,9 +305,10 @@ export class CardEditContainer extends React.Component<
                                 case 'multiplechoice':
                                     return (
                                         <MultiplechoiceComponent
-                                            _id={'new'}
                                             text={card.text || ''}
                                             items={card.items || ['']}
+                                            selected_items={[]}
+                                            show_correct_values={true}
                                         />
                                     );
                                 case 'text':

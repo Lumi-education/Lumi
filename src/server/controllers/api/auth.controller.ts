@@ -139,27 +139,48 @@ class AuthController {
     }
 
     public get_session(req: IRequest, res: express.Response) {
-        db.updateOne(req.user._id, { last_active: new Date() });
-
         db.findById(req.user._id, (error, user) => {
             res.status(200).json(user);
         });
     }
 
     public set_password(req: IRequest, res: express.Response) {
-        db.find(
-            { type: 'user', name: req.body.username },
-            { limit: 1 },
-            (find_user_error, users) => {
-                if (find_user_error) {
-                    res.status(404).end();
-                }
-                const _user = users[0];
+        // db.find(
+        //     { type: 'user', name: req.body.username },
+        //     { limit: 1 },
+        //     (find_user_error, users) => {
+        //         if (find_user_error) {
+        //             res.status(404).end();
+        //         }
+        //         const _user = users[0];
 
-                if (!_user.password) {
+        //         if (!_user.password) {
+        //             bcrypt.hash(req.body.password, null, null, (err, hash) => {
+        //                 db.updateOne(
+        //                     _user._id,
+        //                     {
+        //                         password: hash
+        //                     },
+        //                     (updateOne_error, doc) => {
+        //                         res.status(200).end();
+        //                     }
+        //                 );
+        //             });
+        //         } else {
+        //             res.status(401).end();
+        //         }
+        //     }
+        // );
+        db.view('auth', 'login', { key: req.body.username }, (error, docs) => {
+            if (error) {
+                res.status(404).end();
+            }
+            if (docs.length === 1) {
+                const user = docs[0];
+                if (!user.password) {
                     bcrypt.hash(req.body.password, null, null, (err, hash) => {
                         db.updateOne(
-                            _user._id,
+                            user._id,
                             {
                                 password: hash
                             },
@@ -171,41 +192,10 @@ class AuthController {
                 } else {
                     res.status(401).end();
                 }
+            } else {
+                res.status(404).end();
             }
-        );
-        // db.view(
-        //     'auth',
-        //     'check_username',
-        //     { key: req.body.username },
-        //     (error, docs) => {
-        //         if (docs.length === 1) {
-        //             const user = docs[0];
-
-        //             if (!user.password) {
-        //                 bcrypt.hash(
-        //                     req.body.password,
-        //                     null,
-        //                     null,
-        //                     (err, hash) => {
-        //                         db.updateOne(
-        //                             user._id,
-        //                             {
-        //                                 password: hash
-        //                             },
-        //                             (updateOne_error, doc) => {
-        //                                 res.status(200).end();
-        //                             }
-        //                         );
-        //                     }
-        //                 );
-        //             } else {
-        //                 res.status(401).end();
-        //             }
-        //         } else {
-        //             res.status(404).end();
-        //         }
-        //     }
-        // );
+        });
     }
 
     public username(req: IRequest, res: express.Response) {
