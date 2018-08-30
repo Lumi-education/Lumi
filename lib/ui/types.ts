@@ -14,6 +14,8 @@ export interface IUI {
     show_delete_user_dialog: boolean;
     show_create_card_dialog: boolean;
     show_completed_assignments: boolean;
+    show_alarm_dialog: boolean;
+    alarm_dialog_message: string;
 }
 
 export interface IState {

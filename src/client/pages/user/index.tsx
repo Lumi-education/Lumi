@@ -61,6 +61,7 @@ export class Root extends React.Component<IProps, IComponentState> {
         return (
             <div id="root">
                 <AppBar />
+                <UI.container.AlarmDialog />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '80px' }}>
                     {this.props.children}

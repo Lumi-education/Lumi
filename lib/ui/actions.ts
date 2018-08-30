@@ -21,7 +21,8 @@ export const UI_DELETE_USER_DIALOG = 'UI_DELETE_USER_DIALOG';
 export const UI_TOGGLE_CREATE_CARD_DIALOG = 'UI_TOGGLE_CREATE_CARD_DIALOG';
 export const UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS =
     'UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS';
-
+export const UI_SHOW_ALARM_DIALOG = 'UI_TSHOW_ALARM_DIALOG';
+export const UI_HIDE_ALARM_DIALOG = 'UI_HIDE_ALARM_DIALOG';
 export const UI_SHOW_SNACKBAR = 'UI_SHOW_SNACKBAR';
 
 export function push(url: string) {
@@ -141,5 +142,17 @@ export function toggle_create_card_dialog() {
 export function toggle_show_completed_assignments() {
     return {
         type: UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS
+    };
+}
+export function show_alarm_dialog(message: string) {
+    return {
+        message,
+        type: UI_SHOW_ALARM_DIALOG
+    };
+}
+
+export function hide_alarm_dialog() {
+    return {
+        type: UI_HIDE_ALARM_DIALOG
     };
 }
