@@ -136,7 +136,6 @@ class FlowController {
                     card_id,
                     type: 'assignment',
                     completed: false,
-                    score: null,
                     data: {},
                     state: null,
                     archived: false,
