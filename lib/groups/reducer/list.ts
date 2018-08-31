@@ -1,8 +1,5 @@
-import { Map } from 'immutable';
-
 import { IGroup } from '../types';
-
-import { arrayToObject } from '../../core/utils';
+import { unionBy } from 'lodash';
 
 import {
     GROUPS_GET_GROUPS_SUCCESS,
@@ -14,34 +11,27 @@ import {
     GROUPS_ASSIGN_GROUPS_SUCCESS
 } from '../actions';
 
-import { USERS_GET_USER_SUCCESS } from 'lib/users/actions';
+import { USERS_GET_USER_SUCCESS } from '../../users/actions';
 
-export default function(
-    state: Map<string, IGroup> = Map<string, IGroup>({}),
-    action
-): Map<string, IGroup> {
+export default function(state: IGroup[] = [], action): IGroup[] {
     switch (action.type) {
         case GROUPS_DELETE_SUCCESS:
-            return state.delete(action.group_id);
+            return state.filter(group => group._id !== action.group_id);
 
         case GROUPS_CREATE_SUCCESS:
         case GROUPS_ADD_COLLECTION_SUCCESS:
         case GROUPS_REM_COLLECTION_SUCCESS:
-            const o = {};
-            o[action.payload._id] = action.payload;
-            return state.merge(Map<string, IGroup>(o));
+            return [...state, action.payload];
 
         case 'DB_CHANGE':
         case USERS_GET_USER_SUCCESS:
         case GROUPS_ASSIGN_GROUPS_SUCCESS:
         case GROUPS_GET_GROUPS_SUCCESS:
         case GROUPS_GET_GROUP_SUCCESS:
-            return state.merge(
-                Map<string, IGroup>(
-                    arrayToObject(
-                        action.payload.filter(d => d.type === 'group')
-                    )
-                )
+            return unionBy(
+                action.payload.filter(d => d.type === 'group'),
+                state,
+                '_id'
             );
 
         default:

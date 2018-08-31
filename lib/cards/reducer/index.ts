@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import map from './map';
+import list from './list';
 import ui from './ui';
 
 const reducer = combineReducers({
-    map,
+    list,
     ui
 });
 

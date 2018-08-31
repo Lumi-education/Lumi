@@ -40,3 +40,9 @@ export function get_settings() {
         .get('/api/v0/system/settings')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function ping() {
+    return request
+        .get('/api/v0/core/ping')
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

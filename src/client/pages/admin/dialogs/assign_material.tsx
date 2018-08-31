@@ -230,7 +230,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state,
             state.cards.ui.selected_cards
         ),
-        cards: state.cards.map.toArray(),
+        cards: state.cards.list,
         selected_tags: state.tags.ui.selected_tags
     };
 }

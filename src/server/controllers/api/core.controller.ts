@@ -72,6 +72,10 @@ export class CoreController {
 
         // Use the mv() method to place the file somewhere on your server
     }
+
+    public ping(req: express.Request, res: express.Response) {
+        res.status(200).end('pong');
+    }
 }
 
 export default CoreController;

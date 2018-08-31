@@ -10,14 +10,17 @@ import RaisedButton from 'material-ui/RaisedButton';
 import CardList from 'lib/cards/container/card-list';
 
 // actions
-import { toggle_cards_dialog, select_card } from 'lib/ui/actions';
+import {
+    toggle_cards_dialog,
+    select_card
+} from '../../../../../lib/ui/actions';
 
 // local
-import { IState } from 'client/state';
+import { IState } from '../../../state';
 
 // modules
-import * as Cards from 'lib/cards';
-import * as Tags from 'lib/tags';
+import * as Cards from '../../../../../lib/cards';
+import * as Tags from '../../../../../lib/tags';
 
 interface IPassedProps {
     collection_id: string;

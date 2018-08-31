@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 type Tag_id = string;
 
 export interface ITag {
@@ -19,7 +18,7 @@ export interface ITagsUI {
 
 export interface IState {
     tags: {
-        map: Map<string, ITag>;
+        list: ITag[];
         ui: ITagsUI;
     };
 }

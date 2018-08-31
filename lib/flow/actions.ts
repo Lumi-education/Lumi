@@ -24,6 +24,10 @@ export const FLOW_SAVE_DATA_REQUEST = 'FLOW_SAVE_DATA_REQUEST';
 export const FLOW_SAVE_DATA_SUCCESS = 'FLOW_SAVE_DATA_SUCCESS';
 export const FLOW_SAVE_DATA_ERROR = 'FLOW_SAVE_DATA_ERROR';
 
+export const FLOW_SYNC_ASSIGNMENTS_REQUEST = 'FLOW_SYNC_ASSIGNMENTS_REQUEST';
+export const FLOW_SYNC_ASSIGNMENTS_SUCCESS = 'FLOW_SYNC_ASSIGNMENTS_SUCCESS';
+export const FLOW_SYNC_ASSIGNMENTS_ERROR = 'FLOW_SYNC_ASSIGNMENTS_ERROR';
+
 export const FLOW_UI_SELECT_ASSIGNMENT = 'FLOW_UI_SELECT_ASSIGNMENT';
 export const FLOW_UI_SET_SELECTED_ASSIGNMENTS =
     ' FLOW_UI_SET_SELECTED_ASSIGNMENTS:';
@@ -141,5 +145,17 @@ export function change_assignment(payload: any) {
 export function reset_assignment() {
     return {
         type: FLOW_UI_RESET_ASSIGNMENT
+    };
+}
+
+export function sync_assignments(assignments: IAssignment[]) {
+    return {
+        types: [
+            FLOW_SYNC_ASSIGNMENTS_REQUEST,
+            FLOW_SYNC_ASSIGNMENTS_SUCCESS,
+            FLOW_SYNC_ASSIGNMENTS_ERROR
+        ],
+        api: API.sync_assignments(assignments),
+        payload: { assignments }
     };
 }

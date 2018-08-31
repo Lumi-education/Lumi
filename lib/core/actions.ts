@@ -15,6 +15,10 @@ export const CORE_ACTION_ERROR = 'CORE_ACTION_ERROR';
 export const CORE_DOC_REQUEST = 'CORE_DOC_REQUEST';
 export const CORE_DOC_ERROR = 'CORE_DOC_ERROR';
 
+export const CORE_PING_REQUEST = 'CORE_PING_REQUEST';
+export const CORE_PING_SUCCESS = 'CORE_PING_SUCCESS';
+export const CORE_PING_ERROR = 'CORE_PING_ERROR';
+
 import * as API from './api';
 
 export function find(query, options?) {
@@ -52,7 +56,7 @@ export function update(ids: string[], _update) {
 export function shutdown() {
     return dispatch => {
         API.shutdown().then(res => {
-            dispatch({type: SYSTEM_SHUTDOWN});
+            dispatch({ type: SYSTEM_SHUTDOWN });
         });
     };
 }
@@ -66,5 +70,12 @@ export function get_settings() {
         ],
         api: API.get_settings(),
         payload: {}
+    };
+}
+
+export function ping() {
+    return {
+        types: [CORE_PING_REQUEST, CORE_PING_SUCCESS, CORE_PING_ERROR],
+        api: API.ping()
     };
 }

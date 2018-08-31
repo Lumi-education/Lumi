@@ -18,9 +18,8 @@ import {
 } from 'material-ui';
 import ActionBar from '../../ui/components/action-bar';
 
-import * as Cards from '..';
-import * as Core from 'lib/core';
-import * as Flow from 'lib/flow';
+import * as Core from '../../core';
+import * as Flow from '..';
 
 const log = debug('lumi:container:cards:card-edit');
 
@@ -58,7 +57,7 @@ export class AssignmentEditContainer extends React.Component<
                 <Paper
                     style={{
                         backgroundColor: Core.utils.get_grade_color(
-                            this.props.assignment.score
+                            this.props.assignment.get_score()
                         ),
                         margin: '15px',
                         padding: '20px'
@@ -66,7 +65,7 @@ export class AssignmentEditContainer extends React.Component<
                 >
                     <Slider
                         name="Bewertung"
-                        value={this.props.assignment.score}
+                        value={this.props.assignment.get_score()}
                         max={100}
                         min={0}
                         step={1}
@@ -81,7 +80,7 @@ export class AssignmentEditContainer extends React.Component<
                             )
                         }
                     />
-                    {this.props.assignment.score} %
+                    {this.props.assignment.get_score()} %
                 </Paper>
             </div>
         );

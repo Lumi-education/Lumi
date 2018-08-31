@@ -7,12 +7,12 @@ import * as raven from 'raven-js';
 import { convert_attachment_url } from '../utils';
 
 // components
-import MultiplechoiceComponent from 'lib/cards/components/multiplechoice';
+import MultiplechoiceComponent from '../components/multiplechoice';
 
 // modules
-import * as Cards from '../';
-import * as Flow from 'lib/flow';
-import { IState } from 'client/state';
+import * as Cards from '..';
+import * as Flow from '../../flow';
+import { IState } from '../../../src/client/state';
 import { RaisedButton } from 'material-ui';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
@@ -24,7 +24,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.IMultiplechoiceCard;
-    assignment: Flow.IAssignment;
+    assignment: Flow.models.Assignment;
     score: number;
     opened: number;
 }
@@ -75,13 +75,13 @@ export class MultiplechoiceCardViewContainer extends React.Component<
                     text={card.text}
                     items={card.items}
                     selected_items={assignment.state || this.state.items || []}
-                    show_correct_values={assignment.score !== null}
+                    show_correct_values={assignment.get_score() !== null}
                     cb={(items, score) => {
                         this.setState({ items, score });
                     }}
                 />
 
-                {assignment.score !== null ? null : (
+                {assignment.get_score() !== null ? null : (
                     <RaisedButton
                         label="Check"
                         primary={true}

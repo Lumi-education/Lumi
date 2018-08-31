@@ -42,6 +42,30 @@ export class UserFlow extends React.Component<IProps, {}> {
     public render() {
         return (
             <div>
+                {this.props.assignment.sync === 'error' ? (
+                    <div
+                        style={{
+                            color: '#ffffff',
+                            padding: '10px',
+                            background:
+                                'linear-gradient(90deg, #e74c3c, #f39c12)'
+                        }}
+                    >
+                        ACHTUNG: Daten nicht synchronisiert
+                    </div>
+                ) : null}
+                {this.props.assignment.sync === 'pending' ? (
+                    <div
+                        style={{
+                            color: '#ffffff',
+                            padding: '10px',
+                            background:
+                                'linear-gradient(90deg, #f1c40f, #e67e22)'
+                        }}
+                    >
+                        Synchronisiere...
+                    </div>
+                ) : null}
                 <Paper>
                     <Cards.CardViewContainer
                         user_id={this.props.user_id}
@@ -49,6 +73,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                         assignment_id={this.props.assignment_id}
                     />
                 </Paper>
+
                 <BottomNavigation
                     style={{
                         position: 'fixed',

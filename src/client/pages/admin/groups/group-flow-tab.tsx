@@ -264,7 +264,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         style={{
                                                             background:
                                                                 assignment.state &&
-                                                                assignment.score ===
+                                                                assignment.get_score() ===
                                                                     null
                                                                     ? 'yellow'
                                                                     : 'white',
@@ -364,7 +364,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                 .filter(
                                                     assignment =>
                                                         assignment.state &&
-                                                        assignment.score !==
+                                                        assignment.get_score() !==
                                                             null
                                                 )
                                                 .map(

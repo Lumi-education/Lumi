@@ -6,6 +6,7 @@ import { IState } from 'client/state';
 import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
+import Sync from './sync';
 // modules
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
@@ -60,6 +61,7 @@ export class Root extends React.Component<IProps, IComponentState> {
 
         return (
             <div id="root">
+                <Sync />
                 <AppBar />
                 <UI.container.AlarmDialog />
                 <LeftDrawer />

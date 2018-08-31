@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 type Group_id = string;
 
 export interface IGroup {
@@ -15,7 +14,7 @@ export interface IGroupUI {
 
 export interface IState {
     groups: {
-        map: Map<string, IGroup>;
+        list: IGroup[];
         ui: IGroupUI;
     };
 }
