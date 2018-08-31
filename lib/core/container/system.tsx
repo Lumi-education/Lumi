@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import * as debug from 'debug';
+
 import { IState } from '../types';
 
 import * as Core from '..';
 import * as UI from '../../ui';
+
+const log = debug('lumi:lib:core:system-container');
 
 interface IProps {
     dispatch: (action) => any;
@@ -32,6 +36,10 @@ export class SystemSettingsContainer extends React.Component<
         this.setState({ loading_step: 1 });
         this.props.dispatch(Core.actions.get_settings()).then(res => {
             this.setState({ loading: false, loading_step: 2 });
+
+            setInterval(() => {
+                this.props.dispatch(Core.actions.ping());
+            }, 5000);
         });
     }
 

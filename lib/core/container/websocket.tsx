@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as socketio from 'socket.io-client';
 
 import * as Core from '..';
+import * as UI from '../../ui';
 
 declare var window;
 
@@ -41,6 +42,21 @@ export class WebsocketContainer extends React.Component<
             const action = JSON.parse(msg);
             this.props.dispatch(action);
         });
+
+        socket.on('error', () =>
+            this.props.dispatch(
+                UI.actions.show_alarm_dialog(
+                    'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung.'
+                )
+            )
+        );
+        socket.on('disconnect', () =>
+            this.props.dispatch(
+                UI.actions.show_alarm_dialog(
+                    'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung.'
+                )
+            )
+        );
     }
 
     public render() {

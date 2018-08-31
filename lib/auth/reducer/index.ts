@@ -4,6 +4,8 @@ import { IAuth } from '../types';
 
 import * as k from '../actions';
 
+declare var window;
+
 const initialState: IAuth = {
     userlevel: 0,
     user_id: undefined,
@@ -25,6 +27,7 @@ export default function(state: IAuth = initialState, action): IAuth {
             return assign({}, state, { password: true });
 
         case k.AUTH_LOGOUT_SUCCESS:
+            window.logout = true;
             window.localStorage.clear();
             return initialState;
 

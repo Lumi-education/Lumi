@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 import * as debug from 'debug';
 
 // modules
@@ -12,7 +11,7 @@ const log = debug('lumi:lib:tags:container:tag-filter');
 interface IPassedProps {}
 
 interface IStateProps extends IPassedProps {
-    tags: Map<string, Tags.ITag>;
+    tags: Tags.ITag[];
     tag_ids: string[];
     add: (tag: Tags.ITag) => void;
     delete: (tag_id: string) => void;
@@ -54,7 +53,7 @@ export class TagFilterContainer extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: Tags.IState, ownProps): IStateProps {
     return {
-        tags: Tags.selectors.select_tags_as_map(state),
+        tags: state.tags.list,
         tag_ids: state.tags.ui.selected_tags,
         add: ownProps.add,
         delete: ownProps.delete

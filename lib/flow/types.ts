@@ -4,7 +4,6 @@ export interface IAssignment {
     card_id: string; // h5p content_id ?
     type: 'assignment';
     completed: boolean;
-    score: number;
     data: {
         finished?: number;
         opened?: number;
@@ -14,12 +13,14 @@ export interface IAssignment {
     };
     state: any;
     updated_at?: Date;
+
     finished: number;
     time: number;
     archived: boolean;
     _deleted?: boolean;
     _attachments: any;
     _rev?: string;
+    sync: 'pending' | 'error' | 'success';
 }
 
 export interface IFlowUI {

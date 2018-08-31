@@ -12,7 +12,7 @@ import {
     USERS_UPDATE_USER_REQUEST
 } from '../actions';
 
-import * as Flow from 'lib/flow';
+import * as Flow from '../../flow';
 
 import * as Groups from '../../groups';
 

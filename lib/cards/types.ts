@@ -126,7 +126,7 @@ export interface ICardUI {
 
 export interface IState {
     cards: {
-        map: Map<string, ICard>;
+        list: ICard[];
         ui: ICardUI;
         data: Map<string, IData>;
     };

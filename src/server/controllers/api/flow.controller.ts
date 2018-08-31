@@ -5,8 +5,8 @@ import * as raven from 'raven';
 
 import db from '../../db';
 
-import { IAssignment } from 'lib/flow/types';
-import { IUser } from 'lib/users/types';
+import { IAssignment } from '../../../../lib/flow/types';
+import { IUser } from '../../../../lib/users/types';
 
 class FlowController {
     public get_assignments(req: IRequest, res: express.Response) {
@@ -102,14 +102,6 @@ class FlowController {
                 assignment.data = req.body;
                 assignment.state = req.body.state;
 
-                assignment.score = (req.body.score / req.body.maxScore) * 100;
-
-                let factor = 1;
-                if (req.body.finished.toString().length < 13) {
-                    factor = 1000;
-                }
-                assignment.finished = parseInt(req.body.finished, 10) * factor;
-
                 db.updateOne(req.params.assignment_id, assignment, (err, a) => {
                     res.status(200).json(assignment.data);
                 });
@@ -144,12 +136,12 @@ class FlowController {
                     card_id,
                     type: 'assignment',
                     completed: false,
-                    score: null,
                     data: {},
                     state: null,
                     archived: false,
                     finished: null,
                     time: null,
+                    sync: 'success',
                     _attachments: {}
                 };
 
@@ -198,6 +190,16 @@ class FlowController {
                     });
                 }
             );
+        });
+    }
+
+    public sync_assignments(req: IRequest, res: express.Response) {
+        const assignments = req.body.assignments;
+
+        assignments.forEach(assignment => (assignment.sync = 'success'));
+
+        db.updateMany(assignments, {}, (update_assignments_error, docs) => {
+            res.status(200).json(assignments);
         });
     }
 

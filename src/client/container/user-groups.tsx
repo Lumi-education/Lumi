@@ -23,7 +23,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    groups: Map<string, Groups.IGroup>;
+    groups: Groups.IGroup[];
     user_groups: Groups.IGroup[];
 }
 
@@ -53,7 +53,7 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
                 fullWidth={true}
                 value={this.props.user_groups}
                 allowDuplicates={false}
-                dataSource={this.props.groups.toArray()}
+                dataSource={this.props.groups}
                 dataSourceConfig={{
                     text: 'name',
                     value: '_id'
@@ -61,7 +61,9 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
                 openOnFocus={true}
                 filter={AutoComplete.fuzzyFilter}
                 onRequestAdd={group => {
-                    this.props.groups.get(group._id)
+                    this.props.groups.filter(
+                        _group => _group._id === group._id
+                    )[0]
                         ? this.props.dispatch(
                               add_group(this.props.user_id, group._id)
                           )
@@ -88,7 +90,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             .groups.map(group_id =>
                 Groups.selectors.select_group(state, group_id)
             ),
-        groups: state.groups.map
+        groups: state.groups.list
     };
 }
 

@@ -37,3 +37,9 @@ export function assignments_for_cards(
         .filter(a => card_ids.indexOf(a.card_id) > -1)
         .map(assignment => new Assignment(assignment));
 }
+
+export function unsynced_assignment(state: IState): Assignment[] {
+    return state.flow.assignments
+        .filter(assignment => assignment.sync === 'error')
+        .map(assignment => new Assignment(assignment));
+}

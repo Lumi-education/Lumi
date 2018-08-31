@@ -5,6 +5,7 @@ import ActionBar from './components/action-bar';
 import LoadingPage from './components/loading-page';
 import ErrorPage from './components/error-page';
 import RaisedButton from './components/raised-button';
+import AlarmDialog from './container/alarm-dialog';
 export { IUI, IState } from './types';
 export { default as ui_reducer } from './reducer';
 import * as actions from './actions';
@@ -12,6 +13,10 @@ export { actions };
 import * as utils from './utils';
 import * as config from './config';
 export { utils, config };
+
+const container = {
+    AlarmDialog
+};
 const components = {
     ActionBar,
     LoadingPage,
@@ -19,4 +24,4 @@ const components = {
     RaisedButton
 };
 
-export { components };
+export { components, container };

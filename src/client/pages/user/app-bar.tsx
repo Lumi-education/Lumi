@@ -13,6 +13,7 @@ import { right_drawer_open, left_drawer_open } from 'lib/ui/actions';
 interface IStateProps {
     right_appbar_icon: JSX.Element;
     appbar_title: string;
+    connected: boolean;
 }
 
 interface IDispatchProps {
@@ -30,7 +31,9 @@ export class UserAppBar extends React.Component<IProps, {}> {
         return (
             <AppBar
                 style={{
-                    background: 'linear-gradient(120deg, #3498db, #1abc9c)'
+                    background: this.props.connected
+                        ? 'linear-gradient(90deg, #3498db, #1abc9c)'
+                        : 'linear-gradient(90deg, #e74c3c, #f39c12)'
                 }}
                 showMenuIconButton={true}
                 title={this.props.appbar_title}
@@ -49,7 +52,8 @@ export class UserAppBar extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         right_appbar_icon: state.ui.right_appbar_icon,
-        appbar_title: state.ui.appbar_title
+        appbar_title: state.ui.appbar_title,
+        connected: state.core.status.connected
     };
 }
 

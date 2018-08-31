@@ -51,9 +51,12 @@ export default function(): express.Router {
         flowController.archive_assignments
     );
 
+    router.post('/flow/assignments/sync', flowController.sync_assignments);
+
     router.post('/core/find', mw.auth, coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
     router.get('/core/doc/:id', mw.auth, coreController.doc);
+    router.get('/core/ping', coreController.ping);
 
     router.post('/core/upload', coreController.upload);
     router.get('/core/upload', express.static(path.resolve('build/upload')));

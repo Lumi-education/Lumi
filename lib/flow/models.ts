@@ -14,13 +14,13 @@ export class Assignment implements IAssignment {
     };
     public state: any;
     public updated_at?: Date;
-    public score: number;
     public time: number;
     public archived: boolean;
     public _deleted?: boolean;
     public _attachments: any;
     public finished: number;
     public _rev?: string;
+    public sync: 'pending' | 'error' | 'success';
     public type: 'assignment';
 
     constructor(assignment?: IAssignment) {
@@ -37,6 +37,7 @@ export class Assignment implements IAssignment {
                 score: null,
                 state: null,
                 time: 0,
+                sync: 'success',
                 finished: null,
                 _attachments: {}
             },
@@ -45,7 +46,13 @@ export class Assignment implements IAssignment {
     }
 
     public get_score(): number {
-        return this.score; // this.data.score / this.data.maxScore;
+        const score = (this.data.score / this.data.maxScore) * 100;
+
+        if (isNaN(score)) {
+            return null;
+        }
+
+        return score;
     }
 
     public get_finished(): string {

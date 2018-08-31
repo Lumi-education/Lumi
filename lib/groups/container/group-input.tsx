@@ -14,7 +14,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    groups: Map<string, Groups.IGroup>;
+    groups: Groups.IGroup[];
     selected_groups: Groups.IGroup[];
 }
 
@@ -43,7 +43,7 @@ export class GroupInputContainer extends React.Component<IProps, {}> {
                 fullWidth={true}
                 value={this.props.selected_groups}
                 allowDuplicates={false}
-                dataSource={this.props.groups.toArray()}
+                dataSource={this.props.groups}
                 dataSourceConfig={{
                     text: 'name',
                     value: '_id'
@@ -71,7 +71,7 @@ export class GroupInputContainer extends React.Component<IProps, {}> {
 function mapStateToProps(state: Groups.IState, ownProps): IStateProps {
     return {
         selected_groups: Groups.selectors.selected_groups(state),
-        groups: state.groups.map,
+        groups: state.groups.list,
         hintText: ownProps.hintText || 'Groups',
         onAddGroup: ownProps.onAddGroup
     };

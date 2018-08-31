@@ -20,7 +20,9 @@ import {
     UI_DELETE_USER_DIALOG,
     UI_TOGGLE_CREATE_CARD_DIALOG,
     UI_SNACKBAR_CLOSE,
-    UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS
+    UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS,
+    UI_SHOW_ALARM_DIALOG,
+    UI_HIDE_ALARM_DIALOG
 } from './actions';
 
 const initialState: IUI = {
@@ -38,13 +40,27 @@ const initialState: IUI = {
     show_assign_group_dialog: false,
     show_delete_user_dialog: false,
     show_create_card_dialog: false,
-    show_completed_assignments: false
+    show_completed_assignments: false,
+    show_alarm_dialog: false,
+    alarm_dialog_message: ''
 };
 
 export default function(state: IUI = initialState, action): IUI {
     switch (action.type) {
         case UI_SET_APPBAR_TITLE:
             return assign({}, state, { appbar_title: action.payload.title });
+
+        case UI_SHOW_ALARM_DIALOG:
+            return assign({}, state, {
+                show_alarm_dialog: true,
+                alarm_dialog_message: action.message
+            });
+
+        case UI_HIDE_ALARM_DIALOG:
+            return assign({}, state, {
+                show_alarm_dialog: false,
+                alarm_dialog_message: ''
+            });
 
         case UI_SNACKBAR_OPEN:
             return assign({}, state, {

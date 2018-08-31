@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 // components
 import { TagInputComponent } from '..';
@@ -10,12 +9,10 @@ import { TagInputComponent } from '..';
 import { ITag, IState } from '../types';
 
 // selectors
-import { select_tags_as_map } from '../selectors';
-
 // actions
 import { get_tags, add_tag_to_doc, rem_tag_from_doc } from '../actions';
 
-import * as Tags from '../';
+import * as Tags from 'lib/tags';
 import * as Cards from 'lib/cards';
 
 interface IPassedProps {
@@ -24,7 +21,7 @@ interface IPassedProps {
 }
 
 interface IStateProps extends IPassedProps {
-    tags: Map<string, ITag>;
+    tags: ITag[];
 }
 
 interface IDispatchProps {
@@ -49,7 +46,7 @@ export class TagInputContainer extends React.Component<IProps, {}> {
                 tags={this.props.tags}
                 tag_ids={this.props.tag_ids || []}
                 add={tag => {
-                    this.props.tags.get(tag._id)
+                    this.props.tags.filter(_tag => _tag._id === tag._id)[0]
                         ? this.props.dispatch(
                               Cards.actions.change_card({
                                   tags: this.props.tag_ids
@@ -88,7 +85,7 @@ export class TagInputContainer extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        tags: select_tags_as_map(state),
+        tags: state.tags.list,
         tag_ids: ownProps.tag_ids,
         doc_id: ownProps.doc_id
     };
