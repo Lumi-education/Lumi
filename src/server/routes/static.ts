@@ -6,7 +6,8 @@ const router = express.Router();
 router.use(express.static(path.resolve('build/client')));
 
 router.get('*', (req, res) => {
-    res.sendFile(path.resolve('build/client/index.html'));
+    res.render('index');
+    // res.sendFile(path.resolve('build/client/index.html'));
 });
 
 export default router;
