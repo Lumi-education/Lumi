@@ -18,9 +18,9 @@ const entries = {
 module.exports = {
     entry: entries,
     output: {
-        filename: '[name].[hash].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, '../build/client'),
-        sourceMapFilename: '[name].[hash].js.map',
+        sourceMapFilename: '[name].js.map',
         publicPath: '/'
     },
 
