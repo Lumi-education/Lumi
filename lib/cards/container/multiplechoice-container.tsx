@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
-import * as raven from 'raven-js';
+import raven from 'lib/core/raven';
 import { convert_attachment_url } from '../utils';
 
 // components

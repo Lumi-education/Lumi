@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import * as raven from 'raven-js';
+import raven from 'lib/core/raven';
 
 import { uniq, intersection } from 'lodash';
 // types

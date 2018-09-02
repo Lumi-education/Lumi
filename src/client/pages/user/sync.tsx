@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
+import raven from 'lib/core/raven';
 declare var window;
 
 import { IState } from 'client/state';
@@ -30,6 +31,8 @@ export class SyncContainer extends React.Component<IProps, IDispatchProps> {
                 return;
             }
 
+            const num_assignments = this.props.unsynced_assignments.length;
+
             log(
                 'trying to sync ' +
                     this.props.unsynced_assignments.length +
@@ -37,9 +40,22 @@ export class SyncContainer extends React.Component<IProps, IDispatchProps> {
                 this.props.unsynced_assignments
             );
 
-            this.props.dispatch(
-                Flow.actions.sync_assignments(this.props.unsynced_assignments)
-            );
+            this.props
+                .dispatch(
+                    Flow.actions.sync_assignments(
+                        this.props.unsynced_assignments
+                    )
+                )
+                .then(res => {
+                    if (res.response.status === 200) {
+                        raven.captureMessage(
+                            num_assignments + ' assignments synced to server.',
+                            {
+                                level: 'info'
+                            }
+                        );
+                    }
+                });
         }, 3000);
     }
 

@@ -1,7 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import * as createRavenMiddleware from 'raven-for-redux';
-import * as raven from 'raven-js';
+import raven from 'lib/core/raven';
 
 import { browserHistory } from 'react-router';
 import apiMiddleware from './middleware/redux-api-middleware';

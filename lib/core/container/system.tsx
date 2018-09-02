@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-
+import raven from 'lib/core/raven';
 import * as debug from 'debug';
 
 import { IState } from '../types';
@@ -10,9 +10,14 @@ import * as UI from '../../ui';
 
 const log = debug('lumi:lib:core:system-container');
 
-interface IProps {
+interface IStateProps {
+    connected: boolean;
+}
+
+interface IDispatchProps {
     dispatch: (action) => any;
 }
+interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
     loading?: boolean;
@@ -43,6 +48,12 @@ export class SystemSettingsContainer extends React.Component<
         });
     }
 
+    public componentWillReceiveProps(nextProps: IProps) {
+        if (!this.props.connected && nextProps.connected) {
+            raven.captureMessage('Connection was lost.', { level: 'info' });
+        }
+    }
+
     public render() {
         return this.state.loading ? (
             <UI.components.LoadingPage
@@ -58,11 +69,13 @@ export class SystemSettingsContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}) {
-    return {};
+function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+    return {
+        connected: state.core.status.connected
+    };
 }
 
-function mapDispatchToProps(dispatch): IProps {
+function mapDispatchToProps(dispatch): IDispatchProps {
     return {
         dispatch: action => dispatch(action)
     };
