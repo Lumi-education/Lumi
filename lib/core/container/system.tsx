@@ -38,14 +38,15 @@ export class SystemSettingsContainer extends React.Component<
     }
 
     public componentDidMount() {
-        this.setState({ loading_step: 1 });
-        this.props.dispatch(Core.actions.get_settings()).then(res => {
-            this.setState({ loading: false, loading_step: 2 });
+        this.setState({ loading: false, loading_step: 2 });
 
-            setInterval(() => {
-                this.props.dispatch(Core.actions.ping());
-            }, 5000);
-        });
+        setInterval(() => {
+            this.props.dispatch(Core.actions.ping());
+        }, 10000);
+        // this.setState({ loading_step: 1 });
+        // this.props.dispatch(Core.actions.get_settings()).then(res => {
+
+        // });
     }
 
     public componentWillReceiveProps(nextProps: IProps) {

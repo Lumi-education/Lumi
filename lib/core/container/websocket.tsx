@@ -29,10 +29,7 @@ export class WebsocketContainer extends React.Component<
     public componentDidMount() {
         let socket;
         socket = socketio.connect(
-            'http://' +
-                window.location.hostname +
-                ':' +
-                this.props.changes_port,
+            window.location.origin,
             {
                 query: { jwt_token: window.localStorage.jwt_token }
             }
