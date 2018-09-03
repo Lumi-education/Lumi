@@ -17,6 +17,7 @@ import { state_color } from '../../ui/utils';
 
 // modules
 import * as Users from '..';
+import { user } from '../selectors';
 
 interface IPassedProps {
     user_id: string;
@@ -105,6 +106,17 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                         <MenuItem value={4} primaryText="Admin" />
                     </SelectField>
                     {this.props.children}
+                    <RaisedButton
+                        fullWidth={true}
+                        label="Reset Password"
+                        onClick={() =>
+                            this.props.dispatch(
+                                Users.actions.update_user(this.props.user._id, {
+                                    password: null
+                                })
+                            )
+                        }
+                    />
                     <div style={{ display: 'flex' }}>
                         <div style={{ flex: 1 }}>
                             <RaisedButton
