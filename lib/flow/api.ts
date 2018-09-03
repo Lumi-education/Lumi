@@ -30,7 +30,7 @@ export function archive_assignments(assignment_ids: string[]) {
 export function save_state(assignment_id: string, state: any) {
     return request
         .post('/api/v0/flow/assignment/' + assignment_id + '/state')
-        .send(state)
+        .send({ state })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 export function save_data(assignment_id: string, data: IAssignment['data']) {
