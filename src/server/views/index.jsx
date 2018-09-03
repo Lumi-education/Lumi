@@ -11,6 +11,8 @@ export default class Index extends React.Component {
                         name="viewport"
                         content="width=device-width, initial-scale=1"
                     />
+                    <link rel="stylesheet" href="/static/lumi.css" />
+
                     <script type="text/javascript" src="/static/raven.min.js" />
                     <script
                         dangerouslySetInnerHTML={{
