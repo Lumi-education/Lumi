@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import * as raven from 'raven-js';
+import raven from 'lib/core/raven';
 
 import { uniq, intersection } from 'lodash';
 // types
@@ -200,14 +200,29 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                     style={{
                                         minWidth: '260px',
                                         margin: '10px',
-                                        backgroundColor: '#FAFAFA'
+                                        backgroundColor:
+                                            this.props.selected_users.indexOf(
+                                                user._id
+                                            ) > -1
+                                                ? '#3a99d9'
+                                                : '#FAFAFA'
                                     }}
                                 >
-                                    <CardHeader
-                                        title={user.name}
-                                        avatar={<Avatar>P</Avatar>}
-                                        showExpandableButton={false}
-                                    />
+                                    <div
+                                        onClick={() => {
+                                            this.props.dispatch(
+                                                Users.actions.select_user(
+                                                    user._id
+                                                )
+                                            );
+                                        }}
+                                    >
+                                        <CardHeader
+                                            title={user.name}
+                                            avatar={<Avatar>P</Avatar>}
+                                            showExpandableButton={false}
+                                        />
+                                    </div>
                                     <CardText>
                                         {user.flow.map(assignment_id => {
                                             const assignment = this.props.assignment(
@@ -344,13 +359,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                 primaryText="Material zuweisen"
                                 onClick={() => {
                                     this.props.dispatch(
-                                        Users.actions.set_selected_users(
-                                            this.props.users.map(
-                                                user => user._id
-                                            )
-                                        )
-                                    );
-                                    this.props.dispatch(
                                         UI.actions.toggle_assign_material_dialog()
                                     );
                                 }}
@@ -373,6 +381,26 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                         )
                                     )
                                 }
+                            />
+                            <MenuItem
+                                primaryText="Alle Benutzer auswählen"
+                                onClick={() => {
+                                    this.props.dispatch(
+                                        Users.actions.set_selected_users(
+                                            this.props.users.map(
+                                                user => user._id
+                                            )
+                                        )
+                                    );
+                                }}
+                            />
+                            <MenuItem
+                                primaryText="Benutzerauswahl zurücksetzen"
+                                onClick={() => {
+                                    this.props.dispatch(
+                                        Users.actions.set_selected_users([])
+                                    );
+                                }}
                             />
                             {this.props.selected_assignments.length !== 0 ? (
                                 <div>

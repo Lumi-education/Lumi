@@ -1,27 +1,32 @@
 version: '3'
 services:
+    nginx:
+        image: lumieducation/nginx:latest
+        restart: always
+        ports:
+            - ${PORT}:80
+        networks:
+            - webnet
+        volumes:
+            - ./files:/usr/share/nginx/html/files
     lumi:
-        image: lumieducation/lumi:${BRANCH}
+        image: lumieducation/lumi:latest
         restart: always
         networks:
             - webnet
         environment:
-            - PORT=80
             - LUMI_ID=${ID}
             - NODE_ENV=${NODE_ENV}
             - KEY=${KEY}
             - DB_HOST=${DB_HOST}
             - DB=${DB}
-            - CHANGES_PORT=${CHANGES_PORT}
         volumes:
             - ./files:/srv/build/upload
             - ./h5p:/srv/build/h5p
-        ports:
-            - ${PORT}:80
         depends_on:
             - 'couchdb'
-    lumi-changes:
-        image: lumieducation/lumi-changes:v1.0.0
+    changes:
+        image: lumieducation/lumi-changes:latest
         restart: always
         networks:
             - webnet
@@ -30,21 +35,17 @@ services:
             - NODE_ENV=${NODE_ENV}
             - DB_HOST=${DB_HOST}
             - DB=${DB}
-            - BRANCH=${BRANCH}
-            - VERSION=v1.0.0
-        ports:
-            - ${CHANGES_PORT}:8081
         depends_on:
             - 'couchdb'
     apd:
-        image: lumieducation/apd:${BRANCH}
+        image: lumieducation/apd:latest
         privileged: true
         restart: always
         ports:
             - '53:53'
         network_mode: 'host'
     couchdb:
-        image: ${COUCHDB_IMAGE}
+        image: matthiasg/rpi-couchdb:2.0.0
         restart: always
         volumes:
             - ./db:/opt/couchdb/data

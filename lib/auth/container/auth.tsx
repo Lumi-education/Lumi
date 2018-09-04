@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as raven from 'raven-js';
+import raven from 'lib/core/raven';
 import * as debug from 'debug';
 
 // actions

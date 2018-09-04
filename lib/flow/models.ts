@@ -46,6 +46,9 @@ export class Assignment implements IAssignment {
     }
 
     public get_score(): number {
+        if (this.data === null) {
+            return null;
+        }
         const score = (this.data.score / this.data.maxScore) * 100;
 
         if (isNaN(score)) {

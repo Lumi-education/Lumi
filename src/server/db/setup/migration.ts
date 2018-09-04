@@ -33,6 +33,16 @@ export default function migrate(done: () => void) {
                         i++;
                     }
                 }
+
+                if (assignment.state !== null) {
+                    if (typeof assignment.state !== 'string') {
+                        if (!Array.isArray(assignment.state)) {
+                            const new_state = Object.keys(assignment.state)[0];
+                            assignment.state = new_state;
+                            log(assignment);
+                        }
+                    }
+                }
             });
 
             db.updateMany(assignments, {}, (update_assignment_error, docs) => {
