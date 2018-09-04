@@ -26,7 +26,7 @@ services:
         depends_on:
             - 'couchdb'
     changes:
-        image: lumieducation/lumi-changes:latest
+        image: lumieducation/lumi-changes:v1.0.0
         restart: always
         networks:
             - webnet
@@ -38,7 +38,7 @@ services:
         depends_on:
             - 'couchdb'
     apd:
-        image: lumieducation/apd:latest
+        image: lumieducation/apd:master
         privileged: true
         restart: always
         ports:
