@@ -2,13 +2,8 @@
 sudo curl -sSL https://get.docker.com | sh
 curl --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
 sudo pip install docker-compose
-sudo mkdir -p /lumi/db
+sudo mkdir -p /lumi/db && sudo mkdir -p /lumi/files && sudo mkdir -p /lumi/h5p
 sudo curl http://get.lumi.education/${BRANCH}/docker-compose.yml -o /lumi/docker-compose.yml
 sudo curl http://get.lumi.education/${BRANCH}/env -o /lumi/.env
-sudo apt-get -y install nodejs
-sudo curl http://get.lumi.education/${BRANCH}/lumisysd -o /lumi/lumisysd
-sudo curl http://get.lumi.education/${BRANCH}/lumisysd.service -o /etc/systemd/system/lumisysd.service
-sudo systemctl enable lumisysd.service
-sudo systemctl daemon-reload 
 cd /lumi; sudo docker-compose up -d
 sudo reboot

@@ -1,11 +1,7 @@
 ID=${ID}
-BRANCH=${BRANCH}
-COUCHDB_IMAGE=matthiasg/rpi-couchdb:2.0.0
 KEY=${KEY}
 NODE_ENV=production
 DB_HOST=http://couchdb:5984
 DB=lumi
 DEBUG=no
 PORT=80
-CHANGES_PORT=8081
-SYSTEM_PORT=8090
