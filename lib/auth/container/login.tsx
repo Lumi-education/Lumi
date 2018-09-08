@@ -61,7 +61,10 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
 
         this.props
             .dispatch(
-                Auth.actions.login(this.state.username, this.state.password)
+                Auth.actions.login(
+                    this.state.username.toLowerCase(),
+                    this.state.password
+                )
             )
             .then(res => {
                 log(res);
@@ -139,9 +142,10 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 value={this.state.username}
                                 onChange={(event, value) =>
                                     this.setState({
-                                        username: value
-                                            .replace(/\W+/g, '')
-                                            .toLowerCase(),
+                                        username: value.replace(
+                                            /[^a-z0-9]/gi,
+                                            ''
+                                        ),
                                         login_button_color: 'white',
                                         username_error: ''
                                     })
