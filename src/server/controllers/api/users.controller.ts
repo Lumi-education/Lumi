@@ -22,7 +22,7 @@ class UsersController {
             _id: undefined,
             type: 'user',
             name: 'no name',
-            level: 0,
+            level: 2,
             groups: [],
             last_login: undefined,
             last_active: undefined,

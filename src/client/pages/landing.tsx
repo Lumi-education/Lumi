@@ -25,7 +25,7 @@ export class Landing extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         this.props.dispatch(
-            this.props.userlevel > 1 ? push('/admin') : push('/user')
+            this.props.userlevel > 2 ? push('/admin') : push('/user')
         );
     }
 
