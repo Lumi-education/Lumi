@@ -9,6 +9,7 @@ makefile
 build
 dist
 _book
+book.json
 
 # vscode
 .vscode
