@@ -9,6 +9,7 @@ import raven from 'lib/core/raven';
 import VideoCardComponent from '../components/video';
 
 import * as Cards from '../';
+import * as Flow from 'lib/flow';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -51,6 +52,16 @@ export class VideoCardContainer extends React.Component<
     public log(msg: string) {
         log(msg);
         this.setState({ status: msg });
+    }
+
+    public componentWillMount() {
+        this.props.dispatch(
+            Flow.actions.save_data(this.props.assignment_id, {
+                state: 'viewed',
+                score: 1,
+                maxScore: 1
+            })
+        );
     }
 
     public render() {

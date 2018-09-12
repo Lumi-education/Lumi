@@ -332,10 +332,6 @@ export class CardEditContainer extends React.Component<
                                     return (
                                         <UploadComponent
                                             text={card.text || ''}
-                                            doc_id={null}
-                                            _rev={null}
-                                            attachments={{}}
-                                            insert_cb={noop}
                                         />
                                     );
                                 case 'h5p':
