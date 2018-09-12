@@ -53,9 +53,9 @@ export class CoreController {
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
         const uploaded_file = req.files.file;
 
-        mkdirp(path.resolve('build/upload') + '/' + req.query.path, error => {
+        mkdirp(path.resolve('build/files') + '/' + req.query.path, error => {
             uploaded_file.mv(
-                path.resolve('build/upload') +
+                path.resolve('build/files') +
                     '/' +
                     req.query.path +
                     '/' +

@@ -10,8 +10,11 @@ import UploadCardComponent from '../components/upload';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
+import { RaisedButton } from 'material-ui';
+import * as UI from 'lib/ui';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -23,7 +26,8 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.IUploadCard;
-    assignment: Flow.IAssignment;
+    assignment: Flow.models.Assignment;
+    UI: UI.IUI;
 }
 
 interface IDispatchProps {
@@ -33,6 +37,7 @@ interface IDispatchProps {
 interface IComponentState {
     loading?: boolean;
     status?: string;
+    color?: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -46,7 +51,8 @@ export class UploadCardContainer extends React.Component<
 
         this.state = {
             loading: false,
-            status: 'init'
+            status: 'init',
+            color: this.props.UI.colors.primary
         };
 
         this.log = this.log.bind(this);
@@ -59,18 +65,65 @@ export class UploadCardContainer extends React.Component<
 
     public render() {
         const { card } = this.props;
-
         if (card) {
             return (
-                <UploadCardComponent
-                    text={this.props.card.text}
-                    doc_id={this.props.assignment._id}
-                    _rev={(this.props.assignment as any)._rev}
-                    attachments={this.props.assignment._attachments}
-                    insert_cb={(link: string) => {
-                        log(link);
-                    }}
-                />
+                <div>
+                    <UploadCardComponent text={this.props.card.text}>
+                        {this.props.assignment.state !== null ? (
+                            <img
+                                src={'/files/' + this.props.assignment.state[0]}
+                            />
+                        ) : null}
+                        {this.state.color === this.props.UI.colors.error ? (
+                            <div
+                                style={{
+                                    background: this.props.UI.colors.error
+                                }}
+                            >
+                                Upload fehlgeschlagen
+                            </div>
+                        ) : null}
+                        {/* <Core.components.FileList
+                        files={this.props.assignment.state || []}
+                        onClick={file => log(file)}
+                    /> */}
+                        <Core.components.FileUpload
+                            post_url="/api/v0/core/upload"
+                            path={
+                                'users/' +
+                                this.props.assignment.user_id +
+                                '/assignments/' +
+                                this.props.assignment._id
+                            }
+                            onSuccess={file => {
+                                log(file);
+
+                                this.setState({
+                                    color: this.props.UI.colors.success
+                                });
+                                this.props.dispatch(
+                                    Flow.actions.save_state(
+                                        this.props.assignment._id,
+                                        [file.path]
+                                    )
+                                );
+                            }}
+                            onError={error => {
+                                this.setState({
+                                    color: this.props.UI.colors.error
+                                });
+                            }}
+                        >
+                            <RaisedButton
+                                buttonStyle={{
+                                    backgroundColor: this.state.color
+                                }}
+                                fullWidth={true}
+                                label="Hochladen"
+                            />
+                        </Core.components.FileUpload>
+                    </UploadCardComponent>
+                </div>
             );
         }
 
@@ -84,6 +137,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id,
         card_id: ownProps.card_id,
+        UI: state.ui,
         assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(
             state,

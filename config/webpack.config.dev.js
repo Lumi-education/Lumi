@@ -17,7 +17,7 @@ module.exports = Object.assign(sharedConfig, {
                 secure: false
             },
             '/files/*': {
-                target: process.env.SERVER || 'http://localhost:3000',
+                target: 'http://localhost:8082',
                 secure: false
             },
             '/socket.io': {
