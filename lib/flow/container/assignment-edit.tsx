@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { noop } from 'lodash';
+import { assign } from 'lodash';
 import { push } from '../../ui/actions';
 import * as debug from 'debug';
 import Dropzone from 'react-dropzone';
@@ -65,17 +65,17 @@ export class AssignmentEditContainer extends React.Component<
                 >
                     <Slider
                         name="Bewertung"
-                        value={this.props.assignment.get_score()}
+                        value={this.props.assignment.get_score() || 0}
                         max={100}
                         min={0}
                         step={1}
                         onChange={(e, v) =>
                             this.props.dispatch(
                                 Flow.actions.change_assignment({
-                                    score: v,
-                                    finished:
-                                        this.props.assignment.finished ||
-                                        new Date().getTime()
+                                    data: assign(this.props.assignment.data, {
+                                        score: v,
+                                        maxScore: 100
+                                    })
                                 })
                             )
                         }
