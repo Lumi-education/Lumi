@@ -139,13 +139,6 @@ export class CreateGradeDialogContainer extends React.Component<
                     fullWidth={true}
                     rows={2}
                 />
-                {this.props.grade ? (
-                    <Core.components.attachment
-                        doc_id={this.props.grade_id}
-                        _rev={this.props.grade._rev}
-                        attachments={this.props.grade._attachments}
-                    />
-                ) : null}
                 <Slider
                     value={this.state.score}
                     step={0.05}

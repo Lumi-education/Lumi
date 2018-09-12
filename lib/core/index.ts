@@ -6,13 +6,11 @@ export { IState } from './types';
 import FileListComponent from './components/file-list';
 import WebsocketContainer from './container/websocket';
 import reducer from './reducer';
-import AttachmentComponent from './components/attachment';
 import SystemContainer from './container/system';
 import FileUploadComponent from './components/file-upload';
 import * as utils from './utils';
 import * as config from './config';
 const components = {
-    attachment: AttachmentComponent,
     FileUpload: FileUploadComponent,
     FileList: FileListComponent
 };
