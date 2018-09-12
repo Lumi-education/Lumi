@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // material-ui
 import {
+    Avatar,
     AppBar,
     Drawer,
     IconButton,
@@ -17,7 +18,8 @@ import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGDashboard from 'material-ui/svg-icons/action/dashboard';
 import SVGAssignments from 'material-ui/svg-icons/action/assignment';
-
+import SVGCheckbox from 'material-ui/svg-icons/navigation/check';
+import SVGCheckboxIndeterminate from 'material-ui/svg-icons/toggle/radio-button-unchecked';
 // actions
 import { push, left_drawer_close } from 'lib/ui/actions';
 import { logout } from 'lib/auth/actions';
@@ -38,7 +40,7 @@ interface IStateProps {
     user_id: string;
     user: Users.IUser;
     username: string;
-    assignment: (assignment_id: string) => Flow.IAssignment;
+    assignment: (assignment_id: string) => Flow.models.Assignment;
     flow: string[];
     card: (card_id: string) => Cards.ICard;
     group: (group_id: string) => Groups.IGroup;
@@ -102,6 +104,34 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
 
                                     return (
                                         <ListItem
+                                            leftAvatar={
+                                                <Avatar>
+                                                    <Cards.components.CardType
+                                                        card_type={
+                                                            card.card_type
+                                                        }
+                                                    />
+                                                </Avatar>
+                                            }
+                                            rightIcon={(() => {
+                                                if (
+                                                    assignment.state !== null &&
+                                                    assignment.get_score() !==
+                                                        null
+                                                ) {
+                                                    return <SVGCheckbox />;
+                                                }
+
+                                                if (
+                                                    assignment.state !== null &&
+                                                    assignment.get_score() ===
+                                                        null
+                                                ) {
+                                                    return (
+                                                        <SVGCheckboxIndeterminate />
+                                                    );
+                                                }
+                                            })()}
                                             key={assignment._id}
                                             primaryText={card.name}
                                             secondaryText={card.description}

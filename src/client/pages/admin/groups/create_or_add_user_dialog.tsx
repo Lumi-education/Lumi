@@ -128,8 +128,16 @@ export class AdminCreateOrAddUserDialog extends React.Component<
                         dataSourceConfig={{ text: 'name', value: '_id' }}
                         maxSearchResults={5}
                         fullWidth={true}
-                        onNewRequest={name => this.setState({ name })}
-                        onUpdateInput={name => this.setState({ name })}
+                        onNewRequest={name =>
+                            this.setState({
+                                name: name.replace(/[^a-z0-9]/gi, '')
+                            })
+                        }
+                        onUpdateInput={name =>
+                            this.setState({
+                                name: name.replace(/[^a-z0-9]/gi, '')
+                            })
+                        }
                     />
                 </Dialog>
             </div>

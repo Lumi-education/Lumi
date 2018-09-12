@@ -22,6 +22,7 @@ export class Assignment implements IAssignment {
     public _rev?: string;
     public sync: 'pending' | 'error' | 'success';
     public type: 'assignment';
+    public files: string[];
 
     constructor(assignment?: IAssignment) {
         return assign(
@@ -39,7 +40,8 @@ export class Assignment implements IAssignment {
                 time: 0,
                 sync: 'success',
                 finished: null,
-                _attachments: {}
+                _attachments: {},
+                files: []
             },
             assignment
         );
@@ -67,5 +69,9 @@ export class Assignment implements IAssignment {
         return this.finished === null
             ? null
             : moment(this.finished).format('llll');
+    }
+
+    public add_file(path: string): string[] {
+        return [...this.files, path];
     }
 }

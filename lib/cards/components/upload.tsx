@@ -11,10 +11,6 @@ const log = debug('lumi:packages:cards:components:uploadcard');
 
 interface IProps {
     text: string;
-    doc_id: string;
-    _rev: string;
-    attachments;
-    insert_cb: (link: string) => void;
 }
 
 export default class UploadCardComponent extends React.Component<IProps, {}> {
@@ -30,7 +26,7 @@ export default class UploadCardComponent extends React.Component<IProps, {}> {
                         __html: md.render(this.props.text || '# No markdown')
                     }}
                 />
-                <Core.components.attachment {...this.props} />
+                {this.props.children}
             </Paper>
         );
     }

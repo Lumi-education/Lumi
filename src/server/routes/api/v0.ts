@@ -9,7 +9,6 @@ import CardsController from '../../controllers/api/cards.controller';
 import GroupController from '../../controllers/api/groups.controller';
 import UsersController from '../../controllers/api/users.controller';
 import TagsController from '../../controllers/api/tags.controller';
-import GradesController from '../../controllers/api/grades.controller';
 import CoreController from '../../controllers/api/core.controller';
 import FlowController from '../../controllers/api/flow.controller';
 
@@ -24,13 +23,22 @@ export default function(): express.Router {
     const groupController = new GroupController();
     const usersController = new UsersController();
     const tagsController = new TagsController();
-    const gradesController = new GradesController();
     const coreController = new CoreController();
     const flowController = new FlowController();
 
-    router.post('/flow/assign', flowController.assign);
-    router.get('/flow/assignments', flowController.get_assignments);
-    router.delete('/flow/assignments', flowController.delete_assignments);
+    router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
+    router.get(
+        '/flow/assignments',
+        mw.auth,
+        mw.level(1),
+        flowController.get_assignments
+    );
+    router.delete(
+        '/flow/assignments',
+        mw.auth,
+        mw.level(3),
+        flowController.delete_assignments
+    );
     router.get(
         '/flow/assignment/:assignment_id/state',
         flowController.get_state
@@ -45,23 +53,39 @@ export default function(): express.Router {
         flowController.save_data
     );
 
-    router.put('/flow/assignments', flowController.update_assignments);
+    router.put('/flow/assignments', mw.auth, flowController.update_assignments);
     router.post(
         '/flow/assignments/archive',
+        mw.auth,
+        mw.level(0),
         flowController.archive_assignments
     );
 
-    router.post('/flow/assignments/sync', flowController.sync_assignments);
+    router.post(
+        '/flow/assignments/sync',
+        mw.auth,
+        mw.level(0),
+        flowController.sync_assignments
+    );
 
-    router.post('/core/find', mw.auth, coreController.find);
+    router.post('/core/find', mw.auth, mw.level(3), coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
-    router.get('/core/doc/:id', mw.auth, coreController.doc);
     router.get('/core/ping', coreController.ping);
 
-    router.post('/core/upload', coreController.upload);
-    router.get('/core/upload', express.static(path.resolve('build/upload')));
+    router.post('/core/upload', mw.auth, mw.level(0), coreController.upload);
+    router.get(
+        '/core/upload',
+        mw.auth,
+        mw.level(0),
+        express.static(path.resolve('build/upload'))
+    );
 
-    router.post('/system/shutdown', coreController.shutdown);
+    router.post(
+        '/system/shutdown',
+        mw.auth,
+        mw.level(3),
+        coreController.shutdown
+    );
     router.get('/system/settings', coreController.settings);
 
     // mw.auth
@@ -73,11 +97,11 @@ export default function(): express.Router {
     router.post('/auth/password', authController.set_password);
 
     // cards
-    router.get('/cards', cardsController.list);
-    router.post('/cards', cardsController.create);
-    router.get('/cards/:id', cardsController.read);
-    router.put('/cards/:id', cardsController.update);
-    router.delete('/cards/:id', cardsController.delete);
+    router.get('/cards', mw.auth, mw.level(1), cardsController.list);
+    router.post('/cards', mw.auth, mw.level(1), cardsController.create);
+    router.get('/cards/:id', mw.auth, mw.level(1), cardsController.read);
+    router.put('/cards/:id', mw.auth, mw.level(3), cardsController.update);
+    router.delete('/cards/:id', mw.auth, mw.level(3), cardsController.delete);
 
     router.use('/h5pcontent/content/:h5pfile/*', (req, res) => {
         const file = path.join(
@@ -91,10 +115,15 @@ export default function(): express.Router {
     router.get('/h5p/:content_id', cardsController.h5p);
     router.use('/h5plib', express.static(path.resolve('build/h5p')));
 
-    router.post('/h5p', cardsController.h5p_upload);
+    router.post('/h5p', mw.auth, mw.level(1), cardsController.h5p_upload);
 
     // cards -> attachments
-    router.all('/cards/:id/attachment/:attachment', cardsController.attachment);
+    router.all(
+        '/cards/:id/attachment/:attachment',
+        mw.auth,
+        mw.level(2),
+        cardsController.attachment
+    );
 
     // groups
     router.get('/groups', mw.auth, groupController.list);
@@ -122,21 +151,18 @@ export default function(): express.Router {
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
 
     // users
-    router.get('/users', usersController.list);
-    router.post('/users', usersController.create);
-    router.get('/users/:id', usersController.read);
-    router.put('/users/:id', mw.auth, usersController.update);
-    router.delete('/users', usersController.delete);
+    router.get('/users', mw.auth, mw.level(3), usersController.list);
+    router.post('/users', mw.auth, mw.level(3), usersController.create);
+    router.get('/users/:id', mw.auth, mw.level(0), usersController.read); // use level 1 for now. user-client uses this for init.
+    router.put('/users/:id', mw.auth, mw.level(3), usersController.update);
+    router.delete('/users', mw.auth, mw.level(3), usersController.delete);
 
-    router.get('/users/:user_id/grades', gradesController.user);
-    router.post('/users/:user_id/grades', gradesController.create);
-    router.delete('/grades/:id', gradesController.delete);
-    router.put('/grades/:id', gradesController.update);
-
-    router.get('/users/:user_id/groups', mw.auth, groupController.for_user);
-    router.post('/users/:user_id/groups', mw.auth);
-    router.put('/users/:user_id/groups', mw.auth);
-    router.delete('/users/:user_id/groups/:group_id', mw.auth);
+    router.get(
+        '/users/:user_id/groups',
+        mw.auth,
+        mw.level(3),
+        groupController.for_user
+    );
 
     return router;
 }

@@ -62,7 +62,9 @@ export class CreateUserContainer extends React.Component<
                     value={this.state.name}
                     fullWidth={true}
                     onChange={(e, name) => {
-                        this.setState({ name: name.replace(/\W/g, '') });
+                        this.setState({
+                            name: name.replace(/[^a-z0-9]/gi, '')
+                        });
                     }}
                     errorText={
                         this.props.users

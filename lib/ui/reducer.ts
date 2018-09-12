@@ -42,7 +42,14 @@ const initialState: IUI = {
     show_create_card_dialog: false,
     show_completed_assignments: false,
     show_alarm_dialog: false,
-    alarm_dialog_message: ''
+    alarm_dialog_message: '',
+    colors: {
+        primary: '#3498db',
+        secondary: '#1abc9c',
+        pending: '#f39c12',
+        error: '#c0392c',
+        success: '#27ae60'
+    }
 };
 
 export default function(state: IUI = initialState, action): IUI {

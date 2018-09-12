@@ -20,13 +20,16 @@ services:
             - KEY=${KEY}
             - DB_HOST=${DB_HOST}
             - DB=${DB}
+            - SENTRY=${SENTRY}
+            - SENTRY_PUBLIC=${SENTRY_PUBLIC}
+            - DEBUG=*
         volumes:
-            - ./files:/srv/build/upload
+            - ./files:/srv/build/files
             - ./h5p:/srv/build/h5p
         depends_on:
             - 'couchdb'
     changes:
-        image: lumieducation/lumi-changes:v1.0.0
+        image: lumieducation/changes:latest
         restart: always
         networks:
             - webnet
@@ -35,10 +38,12 @@ services:
             - NODE_ENV=${NODE_ENV}
             - DB_HOST=${DB_HOST}
             - DB=${DB}
+            - SENTRY=${SENTRY}
+            - DEBUG=*
         depends_on:
             - 'couchdb'
     apd:
-        image: lumieducation/apd:master
+        image: lumieducation/apd:latest
         privileged: true
         restart: always
         ports:

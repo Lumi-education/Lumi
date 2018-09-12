@@ -20,6 +20,7 @@ export interface IAssignment {
     _deleted?: boolean;
     _attachments: any;
     _rev?: string;
+    files: string[];
     sync: 'pending' | 'error' | 'success';
 }
 

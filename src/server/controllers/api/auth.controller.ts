@@ -17,7 +17,7 @@ class AuthController {
         db.view(
             'auth',
             'login',
-            { key: req.body.username },
+            { key: req.body.username.toLowerCase() },
             (view_user_error, users) => {
                 if (users.length !== 1 || view_user_error) {
                     return res.status(404).json({ message: 'user not found' });
@@ -171,7 +171,7 @@ class AuthController {
         //         }
         //     }
         // );
-        db.view('auth', 'login', { key: req.body.username }, (error, docs) => {
+        db.view('auth', 'login', { key: req.body.username.toLowerCase() }, (error, docs) => {
             if (error) {
                 res.status(404).end();
             }

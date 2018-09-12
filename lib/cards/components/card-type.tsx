@@ -4,6 +4,7 @@ import * as debug from 'debug';
 import { Avatar } from 'material-ui';
 
 import SVGMultiplechoice from 'material-ui/svg-icons/action/view-agenda';
+import SVGVideo from 'material-ui/svg-icons/av/play-arrow';
 import { get_grade_color, get_grade_string } from '../../ui/utils';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
@@ -23,6 +24,9 @@ export default class CardTypeComponent extends React.Component<IProps, {}> {
         switch (this.props.card_type) {
             case 'multiplechoice':
                 card_type = <SVGMultiplechoice />;
+                break;
+            case 'video':
+                card_type = <SVGVideo />;
                 break;
             default:
                 card_type = 'U';

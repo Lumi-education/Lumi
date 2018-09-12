@@ -143,7 +143,8 @@ class FlowController {
                     finished: null,
                     time: null,
                     sync: 'success',
-                    _attachments: {}
+                    _attachments: {},
+                    files: []
                 };
 
                 _assignments.push(_assignment);
