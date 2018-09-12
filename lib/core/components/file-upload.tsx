@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as debug from 'debug';
 
 import Dropzone from 'react-dropzone';
+import { LinearProgress } from 'material-ui';
 
 import * as request from 'superagent';
 
@@ -21,15 +22,24 @@ interface IPassedProps {
 
 interface IDispatchProps {}
 
-interface IComponentState {}
+interface IComponentState {
+    upload?: string;
+}
 
 interface IProps extends IPassedProps, IDispatchProps {}
 
-export default class FileUploadComponent extends React.Component<IProps, {}> {
+export default class FileUploadComponent extends React.Component<
+    IProps,
+    IComponentState
+> {
     constructor(props: IProps) {
         super(props);
 
         this.onDrop = this.onDrop.bind(this);
+
+        this.state = {
+            upload: 'init'
+        };
     }
 
     public onDrop(acceptedFiles) {
@@ -38,6 +48,8 @@ export default class FileUploadComponent extends React.Component<IProps, {}> {
 
             data.append('file', file);
             data.append('filename', file.name);
+
+            this.setState({ upload: 'pending' });
 
             const req = request
                 .post(this.props.post_url + '?path=' + this.props.path)
@@ -53,9 +65,11 @@ export default class FileUploadComponent extends React.Component<IProps, {}> {
                             path: this.props.path + '/' + file.name
                         });
                     }
+                    this.setState({ upload: 'success' });
                     log('files attached', acceptedFiles);
                 })
                 .catch(err => {
+                    this.setState({ upload: 'error' });
                     raven.captureException(err);
                     if (this.props.onError) {
                         this.props.onError(err);
@@ -67,7 +81,11 @@ export default class FileUploadComponent extends React.Component<IProps, {}> {
     public render() {
         return (
             <Dropzone style={{ width: '100%' }} onDrop={this.onDrop}>
-                {this.props.children}
+                {this.state.upload === 'pending' ? (
+                    <LinearProgress mode="indeterminate" color={'#f39c12'} />
+                ) : (
+                    this.props.children
+                )}
             </Dropzone>
         );
     }
