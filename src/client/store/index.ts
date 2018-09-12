@@ -33,7 +33,7 @@ export function saveState(state) {
     }
 }
 
-const persistentState = loadState();
+const persistentState = undefined; // loadState();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -50,12 +50,12 @@ const store = createStore<{}>(
     )
 );
 
-store.subscribe(
-    throttle(() => {
-        if (!window.logout) {
-            saveState(store.getState());
-        }
-    }, 2000)
-);
+// store.subscribe(
+//     throttle(() => {
+//         if (!window.logout) {
+//             saveState(store.getState());
+//         }
+//     }, 2000)
+// );
 
 export default store;
