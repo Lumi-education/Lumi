@@ -16,6 +16,15 @@ export interface IUI {
     show_completed_assignments: boolean;
     show_alarm_dialog: boolean;
     alarm_dialog_message: string;
+    colors: IUIColors;
+}
+
+export interface IUIColors {
+    primary: string;
+    secondary: string;
+    pending: string;
+    success: string;
+    error: string;
 }
 
 export interface IState {
