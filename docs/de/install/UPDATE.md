@@ -1,25 +1,16 @@
 # Update
 
-### Automatische Updates
+<!-- ### Automatische Updates
 
-Lumi wird [demnächst](https://github.com/Lumi-education/Lumi/issues/120) mit einer Auto-Update-Funktion ausgestattet, die automatisch alle 10 Minuten nach Updates sucht, solange die Lumi mit dem Internet verbunden ist.
+Lumi wird [demnächst](https://github.com/Lumi-education/Lumi/issues/120) mit einer Auto-Update-Funktion ausgestattet, die automatisch alle 10 Minuten nach Updates sucht, solange die Lumi mit dem Internet verbunden ist. -->
 
 ### Manuelles Update
 
 1. Per ssh mit dem Raspberry Pi verbinden.
-2. In den Lumi-Ordner wechseln. Meist ist dieser `/lumi` oder `/home/pi/lumi`. (`$ cd /home/pi/lumi`)
-3. Aktuelle Docker-images herunterladen:
+2. Update-Script ausführen
 
 ```bash
-$ sudo docker-compose pull
+$ sudo curl update.lumi.education | sh
 ```
 
-4. Lumi über Docker neustarten:
-
-```bash
-$ sudo docker-compose up -d
-```
-
-5. Am besten startet man den Raspberry Pi mit `$ sudo reboot` noch einmal neu.
-
-![update](./img/lumi_update.gif)
+3. Am besten startet man den Raspberry Pi mit `$ sudo reboot` noch einmal neu.
