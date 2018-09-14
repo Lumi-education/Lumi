@@ -86,8 +86,7 @@ class FlowController {
         db.findById(
             req.params.assignment_id,
             (error, assignment: IAssignment) => {
-                // assignment.state = req.body;
-                assign(assignment, req.body);
+                assignment.state = req.body.state ? req.body.state : req.body;
 
                 db.updateOne(req.params.assignment_id, assignment, a => {
                     res.status(200).end();

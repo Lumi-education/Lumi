@@ -11,6 +11,7 @@ import TextCardComponent from '../components/text';
 
 // modules
 import * as Cards from '../';
+import * as Flow from 'lib/flow';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 
@@ -22,7 +23,6 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.ITextCard;
-    data: Cards.ITextCardData;
 }
 
 interface IDispatchProps {
@@ -44,61 +44,19 @@ export class TextCardContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.log('checking for data');
-        this.props
-            .dispatch(
-                Cards.actions.get_card_data(
-                    this.props.user_id,
-                    this.props.assignment_id,
-                    this.props.card_id
-                )
-            )
-            .then(res => {
-                if (res.response.status === 404) {
-                    this.log('no data found. creating..');
-                    raven.captureMessage('data not found');
-
-                    this.props
-                        .dispatch(
-                            Cards.actions.create_data<Cards.ITextCardData>({
-                                _id:
-                                    this.props.user_id +
-                                    '-' +
-                                    this.props.assignment_id +
-                                    '-' +
-                                    this.props.card_id,
-                                type: 'data',
-                                user_id: undefined,
-                                created_at: undefined,
-                                show_answer: false,
-                                updated_at: undefined,
-                                score: 0,
-                                card_type: 'text',
-                                data_type: 'card',
-                                processed: true,
-                                graded: true,
-                                is_graded: false,
-                                card_id: this.props.card._id,
-                                assignment_id: this.props.assignment_id
-                            })
-                        )
-                        .then(create_res => {
-                            this.log('data created.');
-                            this.setState({ loading: false });
-                        });
-                } else {
-                    this.log('data found.');
-                    this.setState({ loading: false });
-                }
-            });
+        this.props.dispatch(
+            Flow.actions.save_data(this.props.assignment_id, {
+                state: 'viewed',
+                score: 1,
+                maxScore: 1
+            })
+        );
     }
 
     public render() {
-        const { card, data } = this.props;
+        const { card } = this.props;
 
-        if (card && data) {
-            const text = convert_attachment_url(card.text, card._id);
-
+        if (card) {
             return <TextCardComponent text={this.props.card.text} />;
         }
 
@@ -116,13 +74,7 @@ function mapStateToProps(state: Cards.IState, ownProps): IStateProps {
         card: Cards.selectors.select_card(
             state,
             ownProps.card_id
-        ) as Cards.ITextCard,
-        data: Cards.selectors.select_data(
-            state,
-            user_id,
-            ownProps.assignment_id,
-            ownProps.card_id
-        ) as Cards.ITextCardData
+        ) as Cards.ITextCard
     };
 }
 
