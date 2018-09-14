@@ -89,12 +89,7 @@ export class UploadCardContainer extends React.Component<
                     /> */}
                         <Core.components.FileUpload
                             post_url="/api/v0/core/upload"
-                            path={
-                                'users/' +
-                                this.props.assignment.user_id +
-                                '/assignments/' +
-                                this.props.assignment._id
-                            }
+                            path={this.props.assignment._id}
                             onSuccess={file => {
                                 log(file);
 
