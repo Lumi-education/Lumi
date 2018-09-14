@@ -9,6 +9,7 @@ import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import FreetextContainer from './freetext-container';
 import VideoCardContainer from './video-card';
+import TextCardContainer from './text-card-container';
 
 import * as Cards from '..';
 
@@ -74,15 +75,15 @@ export class CardViewContainer extends React.Component<IProps, {}> {
                             user_id={this.props.user_id}
                         />
                     );
-                // case 'text':
-                //     return (
-                //         <TextCardContainer
-                //             key={assignment_id}
-                //             card_id={this.props.card_id}
-                //             assignment_id={this.props.assignment_id}
-                //             user_id={this.props.user_id}
-                //         />
-                //     );
+                case 'text':
+                    return (
+                        <TextCardContainer
+                            key={assignment_id}
+                            card_id={this.props.card_id}
+                            assignment_id={this.props.assignment_id}
+                            user_id={this.props.user_id}
+                        />
+                    );
                 case 'h5p':
                     return (
                         <H5PCardContainer
