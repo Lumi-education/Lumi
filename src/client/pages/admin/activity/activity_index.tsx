@@ -8,10 +8,6 @@ import {
     Card,
     CardHeader,
     Avatar,
-    List,
-    ListItem,
-    FloatingActionButton,
-    Paper
 } from 'material-ui';
 
 import * as moment from 'moment-timezone';
@@ -20,9 +16,6 @@ import * as moment from 'moment-timezone';
 import SVGAssignmentTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 import SVGLogin from 'material-ui/svg-icons/action/input';
 import SVGDefault from 'material-ui/svg-icons/action/info';
-
-import TagFilterContainer from 'lib/tags/container/tag-filter';
-import FilterBar from 'lib/ui/components/filter-bar';
 
 // local
 import { IState } from 'client/state';
@@ -33,7 +26,6 @@ import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
-import assignment from '../../../../../node_modules/client/pages/user/assignment';
 
 const log = debug('lumi:modules:admin:cards:cards-page');
 
