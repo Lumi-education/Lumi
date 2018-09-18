@@ -69,7 +69,12 @@ export class VideoCardContainer extends React.Component<
         const { card } = this.props;
 
         if (card) {
-            return <VideoCardComponent {...this.props.card} />;
+            return (
+                <VideoCardComponent
+                    card_id={this.props.card_id}
+                    {...this.props.card}
+                />
+            );
         }
 
         return <div>{this.state.status}</div>;

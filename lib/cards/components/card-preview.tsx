@@ -78,6 +78,7 @@ export default class CardPreviewComponent extends React.Component<IProps, {}> {
                                         case 'video':
                                             return (
                                                 <VideoComponent
+                                                    card_id={card._id || 'tmp'}
                                                     video_url={
                                                         card.video_url || ''
                                                     }
