@@ -16,6 +16,8 @@
 -   [Konzept](lumi/CONCEPT.md)
 -   [Terminologie](lumi/TERMINOLOGY.md)
 -   [Erste Schritte](lumi/FIRST-STEPS.md)
+-   [Tipps & Hinweise](lumi/tipps/README.md)
+-   [Funktionen](lumi/funktionen/README.md)
 -   [Features](lumi/features/README.md)
 
 ### Raspberry Pi
