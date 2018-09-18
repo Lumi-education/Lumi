@@ -6,6 +6,7 @@ import { push } from '../../ui/actions';
 import * as debug from 'debug';
 import Dropzone from 'react-dropzone';
 import * as request from 'superagent';
+import * as path from 'path';
 
 // components
 import {
@@ -24,9 +25,13 @@ import FreetextComponent from '../components/freetext';
 import VideoComponent from '../components/video';
 import UploadComponent from '../components/upload';
 import H5PComponent from '../components/h5p';
+
+import CardPreview from '../components/card-preview';
+
 // modules
 import * as Cards from '..';
 import * as Core from '../../core';
+import * as UI from 'lib/ui';
 
 const log = debug('lumi:container:cards:card-edit');
 
@@ -218,7 +223,7 @@ export class CardEditContainer extends React.Component<
                                     case 'freetext':
                                         return (
                                             <div>
-                                                <TextField
+                                                {/* <TextField
                                                     floatingLabelText="Answer"
                                                     value={card.answer || ''}
                                                     onChange={(e, v) =>
@@ -236,7 +241,7 @@ export class CardEditContainer extends React.Component<
                                                 <Checkbox
                                                     checked={card.auto_grade}
                                                     label="Autograde"
-                                                />
+                                                /> */}
                                             </div>
                                         );
                                     case 'multiplechoice':
@@ -272,7 +277,9 @@ export class CardEditContainer extends React.Component<
                                         Cards.actions.change_card({
                                             text:
                                                 this.props.card.text +
-                                                ' ![test](/files/' +
+                                                ' ![' +
+                                                path.basename(file) +
+                                                '](./' +
                                                 file.replace(/\s/g, '%20') +
                                                 ')'
                                         })
@@ -281,11 +288,14 @@ export class CardEditContainer extends React.Component<
                             />
                             <Core.components.FileUpload
                                 post_url="/api/v0/core/upload"
-                                path={this.props.card._id || 'no_id'}
+                                path={this.props.card._id || 'tmp'}
                                 onSuccess={file => {
                                     this.props.dispatch(
                                         Cards.actions.change_card({
-                                            files: [file.path]
+                                            files: [
+                                                ...this.props.card.files,
+                                                path.basename(file.path)
+                                            ]
                                         })
                                     );
                                 }}
@@ -294,58 +304,8 @@ export class CardEditContainer extends React.Component<
                             </Core.components.FileUpload>
                         </Paper>
                     </div>
-                    <div
-                        style={{
-                            flex: 6,
-                            padding: '20px'
-                        }}
-                    >
-                        {(() => {
-                            switch (card.card_type) {
-                                case 'multiplechoice':
-                                    return (
-                                        <MultiplechoiceComponent
-                                            text={card.text || ''}
-                                            items={card.items || ['']}
-                                            selected_items={[]}
-                                            show_correct_values={true}
-                                        />
-                                    );
-                                case 'text':
-                                    return (
-                                        <TextComponent text={card.text || ''} />
-                                    );
-                                case 'freetext':
-                                    return (
-                                        <FreetextComponent
-                                            text={card.text || ''}
-                                            answer={card.answer || ''}
-                                        />
-                                    );
-                                case 'video':
-                                    return (
-                                        <VideoComponent
-                                            video_url={card.video_url || ''}
-                                        />
-                                    );
-                                case 'upload':
-                                    return (
-                                        <UploadComponent
-                                            text={card.text || ''}
-                                        />
-                                    );
-                                case 'h5p':
-                                    return (
-                                        <Paper>
-                                            <H5PComponent
-                                                content_id={
-                                                    card.content_id || ''
-                                                }
-                                            />
-                                        </Paper>
-                                    );
-                            }
-                        })()}
+                    <div style={{ flex: 4, maxWidth: '350px' }}>
+                        <CardPreview card={this.props.card} />
                     </div>
                 </div>
             );

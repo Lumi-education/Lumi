@@ -1,22 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { isEqual, pull, noop } from 'lodash';
-import { convert_attachment_url } from '../utils';
 
-import * as markdownit from 'markdown-it';
-const md = markdownit();
-
+import Markdown from './markdown';
 import Paper from 'material-ui/Paper';
-type Markdown = string;
 
 declare var window;
 
 interface IProps {
-    text: Markdown;
-    items: Markdown[];
+    card_id: string;
+    text: string;
+    items: string[];
     show_correct_values: boolean;
-    selected_items: Markdown[];
-    cb?: (selected_items: Markdown[], score: number) => void;
+    selected_items: string[];
+    cb?: (selected_items: string[], score: number) => void;
 }
 
 export default class MultiplechoiceComponent extends React.Component<
@@ -58,11 +55,7 @@ export default class MultiplechoiceComponent extends React.Component<
         return (
             <div>
                 <Paper style={{ padding: '10px' }}>
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: md.render(text || '# No markdown')
-                        }}
-                    />
+                    <Markdown card_id={this.props.card_id} markdown={text} />
                 </Paper>
 
                 {items.map((item, index) => (
@@ -84,13 +77,13 @@ export default class MultiplechoiceComponent extends React.Component<
                         }}
                         onClick={() => this.handleClick(item)}
                     >
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html:
-                                    md.render(
-                                        item ? item.replace(/^x |^o /, '') : ''
-                                    ) || '# No Markdown'
-                            }}
+                        <Markdown
+                            card_id={this.props.card_id}
+                            markdown={
+                                item
+                                    ? item.replace(/^x |^o /, '')
+                                    : '' || '# No Markdown'
+                            }
                         />
                     </Paper>
                 ))}

@@ -62,7 +62,8 @@ export default class FileUploadComponent extends React.Component<
                     if (this.props.onSuccess) {
                         this.props.onSuccess({
                             name: file.name,
-                            path: this.props.path + '/' + file.name
+                            path: this.props.path + '/' + file.name,
+                            type: file.type
                         });
                     }
                     this.setState({ upload: 'success' });

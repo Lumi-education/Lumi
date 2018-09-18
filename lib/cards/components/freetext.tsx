@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { isEqual, pull, noop } from 'lodash';
 
-import * as markdownit from 'markdown-it';
-const md = markdownit();
+import Markdown from './markdown';
 
 import { Paper, TextField } from 'material-ui';
 const log = debug('lumi:packages:cards:components:freetext');
-type Markdown = string;
 
 declare var window;
 
 interface IProps {
-    text: Markdown;
+    card_id: string;
+    text: string;
     answer: string;
     cb?: (value: string) => void;
     preview?: boolean;
@@ -35,25 +34,11 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
 
         this._onBlur = this._onBlur.bind(this);
         this._onChange = this._onChange.bind(this);
-        this.typeset = this.typeset.bind(this);
-        this._typeset_locked = false;
     }
 
     public componentDidMount() {
         log('componentDidMount');
         this.setState({ value: this.props.answer });
-    }
-
-    public typeset() {
-        log('typeset');
-        // if (!this._typeset_locked) {
-        //     window.MathJax.Hub.Typeset(() => {
-        //         log('typed!');
-        //         this._typeset_locked = false;
-        //     });
-        // }
-
-        // this._typeset_locked = true;
     }
 
     public _onBlur() {
@@ -71,41 +56,32 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
 
     public componentDidUpdate() {
         log('componentDidUpdate');
-        this.typeset();
     }
 
     public render() {
         return (
             <div>
                 <Paper style={{ padding: '5px', margin: '5px' }}>
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: md.render(
-                                this.props.text || '# No markdown'
-                            )
-                        }}
+                    <Markdown
+                        card_id={this.props.card_id}
+                        markdown={this.props.text}
                     />
                 </Paper>
 
-                {this.props.preview ? (
-                    <Paper style={{ margin: '5px', padding: '5px' }}>
-                        <h3>Preview</h3>
-                        <div
-                            id="preview"
-                            dangerouslySetInnerHTML={{
-                                __html: md.render(
-                                    this.state.value || '# No markdown'
-                                )
-                            }}
-                        />
-                    </Paper>
-                ) : null}
+                <Paper style={{ margin: '5px', padding: '5px' }}>
+                    <h3>Preview</h3>
+                    <Markdown
+                        card_id={this.props.card_id}
+                        markdown={this.state.value}
+                    />
+                </Paper>
 
                 <Paper style={{ margin: '5px', padding: '5px' }}>
                     <TextField
                         multiLine={true}
                         fullWidth={true}
                         onChange={this._onChange}
+                        onBlur={this._onBlur}
                         value={this.state.value || ''}
                         hintText="Antwort"
                     />

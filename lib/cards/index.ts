@@ -23,6 +23,7 @@ export {
 import reducer from './reducer';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import * as utils from './utils';
 
 const components = {
     CardType: CardTypeComponent,
@@ -30,4 +31,4 @@ const components = {
     Card: CardComponent
 };
 
-export { actions, reducer, selectors, components };
+export { actions, reducer, selectors, components, utils };

@@ -8,6 +8,10 @@ export const DATA_GET_CARD_DATA_ERROR = 'DATA_GET_CARD_DATA_ERROR';
 export const CARDS_UI_CHANGE_CARD = 'CARDS_UI_CHANGE_CARD';
 export const CARDS_UI_RESET_CARD = 'CARDS_UI_RESET_CARD';
 
+export const CARDS_DUPLICATE_REQUEST = 'CARDS_DUPLICATE_REQUEST';
+export const CARDS_DUPLICATE_SUCCESS = 'CARDS_DUPLICATE_SUCCESS';
+export const CARDS_DUPLICATE_ERROR = 'CARDS_DUPLICATE_ERROR';
+
 export function get_cards(ids?: string[]) {
     return {
         types: [
@@ -146,5 +150,17 @@ export function change_card(payload: any) {
 export function reset_card() {
     return {
         type: CARDS_UI_RESET_CARD
+    };
+}
+
+export function duplicate(card_id: string) {
+    return {
+        types: [
+            CARDS_DUPLICATE_REQUEST,
+            CARDS_DUPLICATE_SUCCESS,
+            CARDS_DUPLICATE_ERROR
+        ],
+        api: API.duplicate(card_id),
+        payload: { card_id }
     };
 }

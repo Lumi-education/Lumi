@@ -102,6 +102,12 @@ export default function(): express.Router {
     router.get('/cards/:id', mw.auth, mw.level(1), cardsController.read);
     router.put('/cards/:id', mw.auth, mw.level(3), cardsController.update);
     router.delete('/cards/:id', mw.auth, mw.level(3), cardsController.delete);
+    router.post(
+        '/cards/:id/duplicate',
+        mw.auth,
+        mw.level(3),
+        cardsController.duplicate
+    );
 
     router.use('/h5pcontent/content/:h5pfile/*', (req, res) => {
         const file = path.join(

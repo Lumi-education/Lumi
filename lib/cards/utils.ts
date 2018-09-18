@@ -1,12 +1,6 @@
-export function convert_attachment_url(
-    markdown: string,
-    card_id: string
-): string {
+export function convert_files_url(markdown: string, card_id: string): string {
     if (markdown) {
-        return markdown.replace(
-            /\/attachment\//g,
-            '/api/v0/cards/' + card_id + '/attachment/'
-        );
+        return markdown.replace(/.\//g, '/files/' + card_id + '/');
     }
     return undefined;
 }

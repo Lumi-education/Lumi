@@ -13,7 +13,7 @@ import {
 import { ICard } from '..';
 
 import * as markdownit from 'markdown-it';
-import { convert_attachment_url } from '../utils';
+import { convert_files_url } from '../utils';
 
 import * as Tags from 'lib/tags';
 
@@ -67,10 +67,8 @@ export default class CardComponent extends React.Component<IProps, {}> {
                         <div
                             dangerouslySetInnerHTML={{
                                 __html: md.render(
-                                    convert_attachment_url(
-                                        card.text,
-                                        card._id
-                                    ) || '# No markdown'
+                                    convert_files_url(card.text, card._id) ||
+                                        '# No markdown'
                                 )
                             }}
                         />

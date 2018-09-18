@@ -44,3 +44,14 @@ export default class CardTypeComponent extends React.Component<IProps, {}> {
         );
     }
 }
+
+export function _card_type(__card_type): JSX.Element {
+    switch (__card_type) {
+        case 'multiplechoice':
+            return <SVGMultiplechoice />;
+        case 'video':
+            return <SVGVideo />;
+        default:
+            return <div>U</div>;
+    }
+}

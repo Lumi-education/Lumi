@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 import raven from 'lib/core/raven';
-import { convert_attachment_url } from '../utils';
 
 // components
 import TextCardComponent from '../components/text';
@@ -57,7 +56,12 @@ export class TextCardContainer extends React.Component<IProps, {}> {
         const { card } = this.props;
 
         if (card) {
-            return <TextCardComponent text={this.props.card.text} />;
+            return (
+                <TextCardComponent
+                    card_id={this.props.card._id}
+                    text={this.props.card.text}
+                />
+            );
         }
 
         return <div>loading</div>;
