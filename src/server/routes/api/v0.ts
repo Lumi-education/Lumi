@@ -11,6 +11,7 @@ import UsersController from '../../controllers/api/users.controller';
 import TagsController from '../../controllers/api/tags.controller';
 import CoreController from '../../controllers/api/core.controller';
 import FlowController from '../../controllers/api/flow.controller';
+import ActivityController from '../../controllers/api/activity.controller';
 
 const log = debug('lumi:routes:api');
 
@@ -25,6 +26,7 @@ export default function(): express.Router {
     const tagsController = new TagsController();
     const coreController = new CoreController();
     const flowController = new FlowController();
+    const activityController = new ActivityController();
 
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
     router.get(
@@ -169,6 +171,8 @@ export default function(): express.Router {
         mw.level(3),
         groupController.for_user
     );
+
+    router.get('/activites', mw.auth, mw.level(3), activityController.index);
 
     return router;
 }

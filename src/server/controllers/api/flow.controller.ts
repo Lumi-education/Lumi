@@ -5,6 +5,8 @@ import * as raven from 'raven';
 
 import db from '../../db';
 
+import { add_activity } from '../../modules/activity';
+
 import { IAssignment } from '../../../../lib/flow/types';
 import { IUser } from '../../../../lib/users/types';
 
@@ -103,6 +105,13 @@ class FlowController {
                 assignment.state = req.body.state;
 
                 db.updateOne(req.params.assignment_id, assignment, (err, a) => {
+                    add_activity(
+                        assignment.user_id,
+                        'assignment_completed',
+                        new Date(assignment.data.finished) || new Date(),
+                        assignment._id
+                    );
+
                     res.status(200).json(assignment.data);
                 });
             }

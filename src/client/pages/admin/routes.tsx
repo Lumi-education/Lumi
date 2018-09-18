@@ -15,6 +15,8 @@ import CardsPage from 'client/pages/admin/cards/cards-page';
 import UserPage from 'client/pages/admin/users/user-page';
 import UsersPage from 'client/pages/admin/users/users-page';
 
+import ActivityIndex from 'client/pages/admin/activity/activity_index';
+
 const routes = (
     <Route path="admin" component={AdminIndex}>
         <Route path="groups" component={Groups} />
@@ -28,6 +30,7 @@ const routes = (
         <Redirect from="tags/:tag_id" to="tags/:tag_id/settings" />
         <Route path="cards" component={CardsPage} />
         <Route path="cards/:card_id" component={CardPage} />
+        <Route path="activity" component={ActivityIndex} />
     </Route>
 );
 

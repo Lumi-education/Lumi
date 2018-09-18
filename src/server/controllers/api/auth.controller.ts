@@ -10,6 +10,8 @@ import db from '../../db';
 
 import { IUser } from 'lib/users/types';
 
+import { add_activity } from '../../modules/activity';
+
 const log = debug('lumi:controller:auth');
 
 class AuthController {
@@ -26,6 +28,8 @@ class AuthController {
                 const user = users[0];
 
                 if (!user.password) {
+                    add_activity(user._id, 'login', new Date());
+
                     return res.status(200).json({
                         jwt_token: jwt_token(user._id, user.level),
                         _id: user._id,
@@ -40,6 +44,8 @@ class AuthController {
                         if (err || !hash) {
                             res.status(401).end();
                         } else {
+                            add_activity(user._id, 'login', new Date());
+
                             return res.status(200).json({
                                 jwt_token: jwt_token(user._id, user.level),
                                 _id: user._id,
@@ -171,31 +177,41 @@ class AuthController {
         //         }
         //     }
         // );
-        db.view('auth', 'login', { key: req.body.username.toLowerCase() }, (error, docs) => {
-            if (error) {
-                res.status(404).end();
-            }
-            if (docs.length === 1) {
-                const user = docs[0];
-                if (!user.password) {
-                    bcrypt.hash(req.body.password, null, null, (err, hash) => {
-                        db.updateOne(
-                            user._id,
-                            {
-                                password: hash
-                            },
-                            (updateOne_error, doc) => {
-                                res.status(200).end();
+        db.view(
+            'auth',
+            'login',
+            { key: req.body.username.toLowerCase() },
+            (error, docs) => {
+                if (error) {
+                    res.status(404).end();
+                }
+                if (docs.length === 1) {
+                    const user = docs[0];
+                    if (!user.password) {
+                        bcrypt.hash(
+                            req.body.password,
+                            null,
+                            null,
+                            (err, hash) => {
+                                db.updateOne(
+                                    user._id,
+                                    {
+                                        password: hash
+                                    },
+                                    (updateOne_error, doc) => {
+                                        res.status(200).end();
+                                    }
+                                );
                             }
                         );
-                    });
+                    } else {
+                        res.status(401).end();
+                    }
                 } else {
-                    res.status(401).end();
+                    res.status(404).end();
                 }
-            } else {
-                res.status(404).end();
             }
-        });
+        );
     }
 
     public username(req: IRequest, res: express.Response) {
