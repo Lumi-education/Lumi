@@ -68,7 +68,10 @@ export class UploadCardContainer extends React.Component<
         if (card) {
             return (
                 <div>
-                    <UploadCardComponent text={this.props.card.text}>
+                    <UploadCardComponent
+                        card_id={this.props.card._id}
+                        text={this.props.card.text}
+                    >
                         {this.props.assignment.state !== null ? (
                             <img
                                 src={'/files/' + this.props.assignment.state[0]}

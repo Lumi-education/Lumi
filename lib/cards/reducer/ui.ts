@@ -2,7 +2,11 @@ import { assign, unionBy } from 'lodash';
 
 import { CARD_SELECT, CARD_SELECTION_RESET } from '../constants';
 
-import { CARDS_UI_CHANGE_CARD, CARDS_UI_RESET_CARD } from '../actions';
+import {
+    CARDS_UI_CHANGE_CARD,
+    CARDS_UI_RESET_CARD,
+    CARDS_DUPLICATE_SUCCESS
+} from '../actions';
 
 import { ICardUI } from '..';
 
@@ -10,7 +14,7 @@ import * as Core from 'lib/core';
 
 const initialState: ICardUI = {
     selected_cards: [],
-    card: { card_type: 'multiplechoice' }
+    card: { card_type: Core.config.default_card_type, files: [] }
 };
 
 export default function(state: ICardUI = initialState, action): ICardUI {
@@ -39,7 +43,7 @@ export default function(state: ICardUI = initialState, action): ICardUI {
 
         case CARDS_UI_RESET_CARD:
             return assign({}, state, {
-                card: { card_type: Core.config.default_card_type }
+                card: initialState.card
             });
 
         default:

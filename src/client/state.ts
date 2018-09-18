@@ -10,6 +10,7 @@ import { IState as IUI, ui_reducer as ui } from '../../lib/ui';
 import { IState as IUsers, users_reducer as users } from '../../lib/users';
 import { IState as IGrades, reducer as grades } from '../../lib/grades';
 import { IState as IFlow, reducer as flow } from '../../lib/flow';
+import * as Activity from 'lib/activity';
 
 const root_reducer = combineReducers({
     core,
@@ -19,8 +20,8 @@ const root_reducer = combineReducers({
     ui,
     users,
     tags,
-    // grades,
     flow,
+    activity: Activity.reducer,
     routing: routerReducer
 });
 export default root_reducer;
@@ -30,6 +31,7 @@ export interface IState
         ITags,
         ICore,
         IAuth,
+        Activity.types.IState,
         IUsers,
         IGroups,
         IUI,

@@ -18,7 +18,7 @@ import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 import SVGGroup from 'material-ui/svg-icons/social/group';
 import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
-import SVGMonitor from 'material-ui/svg-icons/image/remove-red-eye';
+import SVGActivity from 'material-ui/svg-icons/social/notifications';
 import SVGTags from 'material-ui/svg-icons/action/label';
 // state
 import { IState } from 'client/state';
@@ -120,6 +120,14 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }}
                         />
                         <Divider />
+
+                        <ListItem
+                            primaryText="Aktivität"
+                            leftIcon={<SVGActivity />}
+                            onTouchTap={() =>
+                                this.props.push('/admin/activity')
+                            }
+                        />
                         {/* <Subheader>Diagnostik</Subheader>
                         <ListItem
                             primaryText="Monitor"

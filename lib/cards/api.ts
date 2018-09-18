@@ -69,3 +69,9 @@ export function get_h5p(content_id: string) {
         .get('/api/v0/cards/h5p/' + content_id)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function duplicate(card_id: string) {
+    return request
+        .post('/api/v0/cards/' + card_id + '/duplicate')
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

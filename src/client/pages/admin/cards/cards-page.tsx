@@ -4,7 +4,13 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
 
-import { FloatingActionButton, Paper } from 'material-ui';
+import {
+    Avatar,
+    List,
+    ListItem,
+    FloatingActionButton,
+    Paper
+} from 'material-ui';
 
 // svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -21,16 +27,19 @@ import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Tags from 'lib/tags';
+import { _card_type } from 'lib/cards/components/card-type';
 
 // components
 import CreateCardDialog from '../dialogs/create-card';
 import AssignMaterialDialog from '../dialogs/assign_material';
+import CardPreview from 'lib/cards/components/card-preview';
 
 const log = debug('lumi:modules:admin:cards:cards-page');
 
 interface IStateProps {
     cards: Cards.ICard[];
     selected_cards: string[];
+    card: Cards.ICard;
 }
 
 interface IDispatchProps {
@@ -98,11 +107,92 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 </Paper>
                 <div
                     style={{
-                        display: 'flex',
-                        flexWrap: 'wrap'
+                        display: 'flex'
                     }}
                 >
-                    {this.props.cards
+                    <Paper style={{ flex: 6 }}>
+                        <List>
+                            {this.props.cards
+                                .filter(card => {
+                                    return this.state.search_text === ''
+                                        ? true
+                                        : (card.name + card.description)
+                                              .toLocaleLowerCase()
+                                              .indexOf(
+                                                  this.state.search_text.toLocaleLowerCase()
+                                              ) > -1;
+                                })
+                                .sort(Core.utils.alphabetically)
+                                .map(card => (
+                                    <ListItem
+                                        style={{
+                                            backgroundColor:
+                                                this.props.selected_cards.indexOf(
+                                                    card._id
+                                                ) > -1
+                                                    ? UI.config.primary_color
+                                                    : 'white'
+                                        }}
+                                        leftAvatar={
+                                            <Avatar>
+                                                {_card_type(card.card_type)}
+                                            </Avatar>
+                                        }
+                                        primaryText={card.name}
+                                        secondaryText={
+                                            <Tags.TagsContainer
+                                                tag_ids={card.tags}
+                                            />
+                                        }
+                                        onMouseOver={() =>
+                                            this.props.dispatch(
+                                                Cards.actions.change_card(card)
+                                            )
+                                        }
+                                        onClick={() =>
+                                            this.props.dispatch(
+                                                Cards.actions.select_card(
+                                                    card._id
+                                                )
+                                            )
+                                        }
+                                        onDoubleClick={() => {
+                                            this.props.dispatch(
+                                                Cards.actions.change_card(card)
+                                            );
+                                            this.props.dispatch(
+                                                UI.actions.push(
+                                                    '/admin/cards/' + card._id
+                                                )
+                                            );
+                                        }}
+                                    />
+                                ))}
+                        </List>
+                    </Paper>
+                    <div style={{ flex: 4 }} />
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: '70px',
+                            right: '0px',
+                            maxWidth: '350px',
+                            minWidth: '350px',
+                            minHeight: '680px'
+                        }}
+                    >
+                        <CardPreview card={this.props.card} />
+                    </div>
+                    {/* {this.props.cards
+                        .filter(card => {
+                            return this.state.search_text === ''
+                                ? true
+                                : (card.name + card.description)
+                                      .toLocaleLowerCase()
+                                      .indexOf(
+                                          this.state.search_text.toLocaleLowerCase()
+                                      ) > -1;
+                        })
                         .sort(Core.utils.alphabetically)
                         .map(card => (
                             <Cards.components.Card
@@ -124,11 +214,13 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                         Cards.actions.change_card(card)
                                     );
                                     this.props.dispatch(
-                                        UI.actions.toggle_create_card_dialog()
+                                        UI.actions.push(
+                                            '/admin/cards/' + card._id
+                                        )
                                     );
                                 }}
                             />
-                        ))}
+                        ))} */}
                 </div>
 
                 <UI.components.ActionBar>
@@ -148,10 +240,15 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     ) : null}
                     <FloatingActionButton
                         onClick={() => {
-                            this.props.dispatch(Cards.actions.reset_card()); // this is neededd, because the _id is used to determine if a card should be edited or created.
-                            this.props.dispatch(
-                                UI.actions.toggle_create_card_dialog()
-                            );
+                            this.props
+                                .dispatch(Cards.actions.create_card())
+                                .then(res => {
+                                    this.props.dispatch(
+                                        UI.actions.push(
+                                            '/admin/cards/' + res.payload._id
+                                        )
+                                    );
+                                });
                         }}
                     >
                         <ContentAdd />
@@ -166,6 +263,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         cards: Cards.selectors.with_tags(state, state.tags.ui.selected_tags),
+        card: state.cards.ui.card,
         selected_cards: state.cards.ui.selected_cards
     };
 }

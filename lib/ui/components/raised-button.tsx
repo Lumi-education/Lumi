@@ -12,7 +12,7 @@ import * as UI from '..';
 interface IPassedProps {
     action: any;
     labels: string[];
-    onSuccess?: () => void;
+    onSuccess?: (res?: any) => void;
     disabled: boolean;
     fullWidth: boolean;
 }
@@ -53,7 +53,7 @@ export class RaisedButtonContainer extends React.Component<
                 }
                 this.setState({ request: 'success' });
                 if (this.props.onSuccess) {
-                    this.props.onSuccess();
+                    this.props.onSuccess(res);
                 }
                 setTimeout(() => this.setState({ request: 'init' }), 2000);
             })

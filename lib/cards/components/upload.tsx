@@ -2,15 +2,15 @@ import * as React from 'react';
 import * as debug from 'debug';
 
 import { Paper } from 'material-ui';
-import * as Core from 'lib/core';
+import * as Cards from '../';
 
-import * as markdownit from 'markdown-it';
-const md = markdownit();
+import Markdown from './markdown';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 
 interface IProps {
     text: string;
+    card_id: string;
 }
 
 export default class UploadCardComponent extends React.Component<IProps, {}> {
@@ -19,12 +19,16 @@ export default class UploadCardComponent extends React.Component<IProps, {}> {
     }
 
     public render() {
+        const text = Cards.utils.convert_files_url(
+            this.props.text,
+            this.props.card_id
+        );
+
         return (
             <Paper style={{ padding: '5px', margin: '5px' }}>
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: md.render(this.props.text || '# No markdown')
-                    }}
+                <Markdown
+                    card_id={this.props.card_id}
+                    markdown={this.props.text}
                 />
                 {this.props.children}
             </Paper>

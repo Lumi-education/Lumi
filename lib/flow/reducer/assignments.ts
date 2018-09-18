@@ -19,6 +19,8 @@ import {
 
 import { USERS_GET_USER_SUCCESS } from '../../users/actions';
 
+import * as Activity from 'lib/activity';
+
 const initialState: IAssignment[] = [];
 
 export default function(
@@ -27,6 +29,7 @@ export default function(
 ): IAssignment[] {
     switch (action.type) {
         case 'DB_CHANGE':
+        case Activity.actions.ACTIVITY_GET_SUCCESS:
         case USERS_GET_USER_SUCCESS:
             const no_sync_ids = state
                 .filter(assignment => assignment.sync === 'error')

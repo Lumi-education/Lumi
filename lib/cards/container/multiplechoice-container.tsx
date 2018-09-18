@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 import raven from 'lib/core/raven';
-import { convert_attachment_url } from '../utils';
 
 // components
 import MultiplechoiceComponent from '../components/multiplechoice';
@@ -72,6 +71,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
         return (
             <div>
                 <MultiplechoiceComponent
+                    card_id={this.props.card_id}
                     text={card.text}
                     items={card.items}
                     selected_items={assignment.state || this.state.items || []}

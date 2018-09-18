@@ -42,11 +42,11 @@ export default class FileListComponent extends React.Component<IProps, {}> {
                             onClick={() => this.props.onClick(file)}
                             key={file}
                             primaryText={path.basename(file)}
-                            rightIconButton={
-                                <IconButton>
-                                    <SVGClose />
-                                </IconButton>
-                            }
+                            // rightIconButton={
+                            //     <IconButton>
+                            //         <SVGClose />
+                            //     </IconButton>
+                            // }
                         />
                     ))}
                 </List>

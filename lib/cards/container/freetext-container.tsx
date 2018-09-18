@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import { assign, noop } from 'lodash';
 import raven from 'lib/core/raven';
-import { convert_attachment_url } from '../utils';
 
 // components
 import FreetextComponent from '../components/freetext';
@@ -106,27 +105,29 @@ export class FreetextCardContainer extends React.Component<
             return (
                 <div>
                     <FreetextComponent
+                        card_id={card._id}
                         text={card.text}
                         answer={this.state.answer}
                         cb={this.handleInput}
                         preview={card.preview}
                     />
-                    <UI.components.RaisedButton
-                        action={Flow.actions.save_state(
-                            this.props.assignment_id,
-                            this.state.answer
-                        )}
-                        labels={[
-                            'Speichern',
-                            'speichere...',
-                            'gespeichert',
-                            'Fehler'
-                        ]}
-                        disabled={
-                            this.state.answer === this.props.assignment.state
-                        }
-                        fullWidth={true}
-                    />
+                    {this.state.answer ===
+                    this.props.assignment.state ? null : (
+                        <UI.components.RaisedButton
+                            action={Flow.actions.save_state(
+                                this.props.assignment_id,
+                                this.state.answer
+                            )}
+                            labels={[
+                                'Speichern',
+                                'speichere...',
+                                'gespeichert',
+                                'Fehler'
+                            ]}
+                            disabled={false}
+                            fullWidth={true}
+                        />
+                    )}
                 </div>
             );
         }
