@@ -47,7 +47,8 @@ export class TextCardContainer extends React.Component<IProps, {}> {
             Flow.actions.save_data(this.props.assignment_id, {
                 state: 'viewed',
                 score: 1,
-                maxScore: 1
+                maxScore: 1,
+                finished: new Date().getTime()
             })
         );
     }

@@ -74,7 +74,8 @@ export class AssignmentEditContainer extends React.Component<
                                 Flow.actions.change_assignment({
                                     data: assign(this.props.assignment.data, {
                                         score: v,
-                                        maxScore: 100
+                                        maxScore: 100,
+                                        finished: new Date().getTime()
                                     })
                                 })
                             )
