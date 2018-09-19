@@ -1,5 +1,6 @@
 import { assign } from 'lodash';
 
+import * as moment from 'moment';
 import { IActivity, Activity_id, Activity_types } from './types';
 import { User_id } from '../users/types';
 
@@ -21,7 +22,7 @@ export class Activity implements IActivity {
         );
     }
 
-    public get_date(): Date {
-        return new Date(this.date);
+    public get_date(): moment.Moment {
+        return moment(this.date); // use moment see https://stackoverflow.com/questions/16892525/javascript-sort-function-nor-working-in-safari-iphone
     }
 }

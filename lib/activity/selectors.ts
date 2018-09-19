@@ -9,7 +9,7 @@ export function last_30_activies(
 ): Activity[] {
     return state.activity.list
         .map(a => new Activity(a))
-        .sort((a, b) => b.get_date().getTime() - a.get_date().getTime())
+        .sort((a, b) => (a.get_date() < b.get_date() ? 1 : -1))
         .slice(0, num_elements);
 }
 
