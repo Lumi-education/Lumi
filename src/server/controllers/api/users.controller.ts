@@ -9,12 +9,21 @@ import { IUser } from 'lib/users/types';
 
 class UsersController {
     public list(req: IRequest, res: express.Response) {
-        db.find({ type: 'user' }, { limit: 100 }, (find_users_error, users) => {
-            res.status(200).json(users);
-        });
-        // db.view('user', 'list', req.query, (error, docs) => {
-        //     res.status(200).json(docs);
+        // db.find({ type: 'user' }, { limit: 100 }, (find_users_error, users) => {
+        //     res.status(200).json(users);
         // });
+        db.view(
+            'users',
+            'user',
+            req.query.user_ids ? { keys: JSON.parse(req.query.user_ids) } : {},
+            (error, docs) => {
+                if (error) {
+                    raven.captureException(error);
+                    return res.status(400).json(error);
+                }
+                res.status(200).json(docs);
+            }
+        );
     }
 
     public create(req: IRequest, res: express.Response) {

@@ -58,7 +58,7 @@ const users_view = {
     views: {
         user: {
             map:
-                "function (doc) {\n  if (doc.user_id) { \n    emit(doc.user_id, 1); \n    if (doc.type === 'assignment') { emit(doc.user_id, { _id: doc.card_id }) }\n  }\n  if (doc.type === 'user') {\n    emit(doc._id, 1);\n    doc.groups.forEach(function(group_id)  { emit(doc._id, {_id: group_id })} );\n  }\n}"
+                "function (doc) {\n  if (doc.user_id) { \n    emit(doc.user_id, 1); \n    if (doc.type === 'assignment') { emit(doc.user_id, { _id: doc.card_id }) }\n  }\n  if (doc.type === 'user') {\n    emit(doc._id, 1);\n    doc.groups.forEach(function(group_id)  { emit(doc._id, {_id: group_id })} );\n  }\n  if (doc.type === 'comment') {\n    emit(doc.from,1);\n     emit(doc.to, 1);\n  }\n}"
         }
     },
     language: 'javascript'
