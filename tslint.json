@@ -21,6 +21,7 @@
         "no-empty-interface": false,
         "no-eval": false,
         "prefer-for-of": false,
+        "forin": false,
         "variable-name": [
             true,
             "ban-keywords",
