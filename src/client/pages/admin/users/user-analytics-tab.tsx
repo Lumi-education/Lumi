@@ -2,11 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
-
+import * as debug from 'debug';
+import { groupBy } from 'lodash';
 // types
 import { IState } from 'client/state';
 
-import { LineChart, ColumnChart } from 'react-chartkick';
+import { LineChart, ColumnChart, BarChart } from 'react-chartkick';
 
 import {
     Badge,
@@ -19,6 +20,7 @@ import {
     SelectField,
     MenuItem,
     Paper,
+    DatePicker,
     FloatingActionButton
 } from 'material-ui';
 
@@ -32,8 +34,12 @@ import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
 
-import { get_grade_color } from 'lib/core/utils';
+import { get_grade_color, avg } from 'lib/core/utils';
 import { assign } from 'lib/flow/actions';
+
+import * as moment from 'moment';
+
+const log = debug('lumi:admin:users:user-analytics-tab');
 
 interface IPassedProps {
     user_id: string;
@@ -58,6 +64,9 @@ interface IComponentState {
     show_user_dialog?: boolean;
     loading?: string;
     loading_step?: number;
+    group_by?: 'minute' | 'hour' | 'day' | 'month';
+    from_date?: moment.Moment;
+    to_date?: moment.Moment;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -69,8 +78,26 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
         this.state = {
             show_user_dialog: false,
             loading: 'init',
-            loading_step: 0
+            loading_step: 0,
+            group_by: 'day',
+            from_date: moment(new Date()).subtract(3, 'months'),
+            to_date: moment(new Date())
         };
+
+        this.group_by = this.group_by.bind(this);
+    }
+
+    public group_by(): string {
+        switch (this.state.group_by) {
+            case 'minute':
+                return 'YYYY MM DD HH:mm';
+            case 'hour':
+                return 'YYYY MM DD HH:[00]';
+            case 'day':
+                return 'YYYY MM DD';
+            case 'month':
+                return 'YYYY MM';
+        }
     }
 
     public componentWillMount() {
@@ -130,6 +157,8 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
         //     );
         // }
 
+        const bar_data = [];
+
         const line_data = this.props.selected_tags.map(tag_id => {
             const tag = this.props.tag(tag_id);
             const cards = this.props.cards_with_tag(tag_id);
@@ -142,7 +171,28 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                     assignment.get_score()
                 ]);
 
-            return { name: tag.name, color: tag.color, data: assignments };
+            const grouped_data = groupBy(assignments, v =>
+                moment(v[0]).format(this.group_by())
+            );
+
+            const data = [];
+
+            for (const date in grouped_data) {
+                data.push([
+                    date,
+                    grouped_data[date]
+                        .map(e => e[1])
+                        .reduce(Core.utils.sum, 0) / grouped_data[date].length
+                ]);
+                // bar_data.push([key, test[key].length]);
+            }
+
+            const filtered_data = data.filter(
+                d =>
+                    moment(d[0]) >= this.state.from_date &&
+                    moment(d[0]) <= this.state.to_date
+            );
+            return { data: filtered_data, name: tag.name, color: tag.color };
         });
 
         const column_data = this.props.selected_tags.map(tag_id => {
@@ -152,11 +202,18 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                 .assignments_for_cards(cards.map(card => card._id))
                 .filter(assignment => assignment.get_finished() !== null)
                 .filter(
+                    assignment =>
+                        moment(assignment.get_finished()) >=
+                            this.state.from_date &&
+                        moment(assignment.get_finished()) <= this.state.to_date
+                )
+                .filter(
                     assignment => assignment.user_id === this.props.user_id
                 );
-            const data = assignments
-                .map((assignment, index) => assignment.get_score())
-                .reduce(Core.utils.avg, 0);
+            const data =
+                assignments
+                    .map((assignment, index) => assignment.get_score())
+                    .reduce(Core.utils.sum, 0) / assignments.length;
 
             const o = {};
             o[tag.name] = data;
@@ -169,12 +226,55 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                     <Tags.TagsFilterContainer />
                 </Paper>
 
+                <Paper style={{ display: 'flex' }}>
+                    <DatePicker
+                        style={{ flex: 1 }}
+                        hintText="Von"
+                        floatingLabelText="Von"
+                        value={this.state.from_date.toDate()}
+                        onChange={(n, date) =>
+                            this.setState({ from_date: moment(date) })
+                        }
+                        mode="landscape"
+                    />
+                    <DatePicker
+                        style={{ flex: 1 }}
+                        hintText="Bis"
+                        floatingLabelText="Bis"
+                        value={this.state.to_date.toDate()}
+                        onChange={(n, date) =>
+                            this.setState({ to_date: moment(date) })
+                        }
+                        mode="landscape"
+                    />
+                    <SelectField
+                        style={{ flex: 1 }}
+                        floatingLabelText="Gruppieren"
+                        value={this.state.group_by}
+                        onChange={(e, v, i) => this.setState({ group_by: i })}
+                    >
+                        <MenuItem value={'minute'} primaryText="Minuten" />
+                        <MenuItem value={'hour'} primaryText="Stunde" />
+                        <MenuItem value={'day'} primaryText="Tag" />
+                        <MenuItem value={'month'} primaryText="Monat" />
+                    </SelectField>
+                </Paper>
+
                 <Paper>
-                    <h1>Entwicklung vom ... bis ...</h1>
-                    <LineChart min={0} max={100} data={line_data} />
+                    <h1>Entwicklung über Zeit</h1>
+                    <LineChart
+                        xTitle="Zeit"
+                        yTitle="Prozent"
+                        curve={false}
+                        min={0}
+                        max={100}
+                        data={line_data}
+                    />
+                    {/* <h3>Anzahl der Aufgaben</h3>
+                    <BarChart data={bar_data} /> */}
                 </Paper>
                 <Paper style={{ marginTop: '20px' }}>
-                    <h1>Durchschnitt vom ... bis ...</h1>
+                    <h1>Durchschnitt</h1>
                     <ColumnChart min={0} max={100} data={column_data} />
                 </Paper>
             </div>
