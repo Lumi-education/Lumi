@@ -12,6 +12,7 @@ import { IState } from 'client/state';
 
 // modules
 import * as UI from 'lib/ui';
+import * as Users from 'lib/users';
 
 import CreateCardDialog from './dialogs/create-card';
 import AssignmentDialog from './dialogs/assignment-dialog';
@@ -20,6 +21,7 @@ interface IStateProps {
     location;
     userlevel: number;
     right_appbar_icon: JSX.Element;
+    user_id: string;
 }
 
 interface IDispatchProps {
@@ -37,6 +39,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
         if (this.props.userlevel < 2) {
             this.props.dispatch(UI.actions.push('/user'));
         }
+
+        this.props.dispatch(Users.actions.get_user(this.props.user_id));
     }
 
     public render() {
@@ -59,7 +63,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         location: ownProps.location,
         userlevel: state.auth.userlevel,
-        right_appbar_icon: state.ui.right_appbar_icon
+        right_appbar_icon: state.ui.right_appbar_icon,
+        user_id: state.users.me._id
     };
 }
 

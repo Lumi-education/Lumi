@@ -10,7 +10,9 @@ export default function boot(done: () => void) {
             check_view('cards', cards_view, () => {
                 check_view('tags', tags_view, () => {
                     check_view('activity', activity_view, () => {
-                        done();
+                        check_view('comments', comments_view, () => {
+                            done();
+                        });
                     });
                 });
             });
@@ -92,6 +94,17 @@ const activity_view = {
         index: {
             map:
                 "function (doc) {\n  if (doc.type === 'activity') { \n    emit(doc._id, 1); \n    emit(doc._id, { _id: doc.user_id });\n    if (doc.assignment_id) { emit(doc._id, { _id: doc.assignment_id }); }\n  }\n}"
+        }
+    },
+    language: 'javascript'
+};
+
+const comments_view = {
+    _id: '_design/comments',
+    views: {
+        all: {
+            map:
+                "function (doc) {\n  if (doc.type === 'comment') { emit(doc._id, 1); }\n}"
         }
     },
     language: 'javascript'

@@ -30,6 +30,12 @@ export function create_comment(
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
+export function get_comments() {
+    return request
+        .get('/api/v0/comments')
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
 export function comment_seen(comment_ids, user_id) {
     return request
         .put('/api/v0/comments/seen')

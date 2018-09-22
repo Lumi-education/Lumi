@@ -23,13 +23,14 @@ import { IState } from 'client/state';
 import * as Comments from 'lib/comments';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
+import * as Flow from 'lib/flow';
 import * as UI from 'lib/ui';
 import { push } from 'lib/ui/actions';
 
 interface IStateProps {
-    ref_id: string;
     comments: Comments.models.Comment[];
     me: Users.IUser;
+    assignment: (assignment_id: string) => Flow.models.Assignment;
 }
 
 interface IDispatchProps {
@@ -52,6 +53,10 @@ export class UserComments extends React.Component<IProps, IComponentState> {
         };
     }
 
+    public componentWillMount() {
+        this.props.dispatch(Comments.actions.get_comments());
+    }
+
     public componentWillUnmount() {
         this.props.dispatch(
             Comments.actions.comments_seen(
@@ -65,29 +70,28 @@ export class UserComments extends React.Component<IProps, IComponentState> {
 
     public render() {
         return (
-            <div id="comments">
-                <AppBar
-                    style={{
-                        position: 'fixed',
-                        top: '0px',
-                        zIndex: 9000,
-                        background: 'linear-gradient(90deg, #3498db, #1abc9c)'
-                    }}
-                    showMenuIconButton={true}
-                    title="Kommentare"
-                    onLeftIconButtonTouchTap={() =>
-                        this.props.dispatch(UI.actions.goBack())
-                    }
-                    iconElementLeft={
-                        <IconButton>
-                            <SVGBack />
-                        </IconButton>
-                    }
-                />
+            <div>
+                {this.props.comments.length === 0 ? (
+                    <Paper>
+                        <h1>Keine neuen Kommentare</h1>
+                    </Paper>
+                ) : null}
                 {this.props.comments.map(comment => {
                     // const user = this.props.user(comment.from);
                     return (
-                        <div key={comment._id}>
+                        <div
+                            key={comment._id}
+                            onClick={() => {
+                                this.props.dispatch(
+                                    Flow.actions.toggle_dialog()
+                                );
+                                this.props.dispatch(
+                                    Flow.actions.change_assignment(
+                                        this.props.assignment(comment.ref_id)
+                                    )
+                                );
+                            }}
+                        >
                             <Card style={{ margin: '10px' }}>
                                 <CardHeader
                                     avatar={
@@ -111,7 +115,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                                 <CardText>
                                     <Cards.components.Markdown
                                         markdown={comment.text}
-                                        card_id={this.props.ref_id}
+                                        card_id={comment.ref_id}
                                     />
                                 </CardText>
                                 <div style={{ bottom: '0px' }}>
@@ -123,73 +127,16 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                         </div>
                     );
                 })}
-
-                <Paper
-                    style={{
-                        position: 'fixed',
-                        bottom: '0px',
-                        left: '0px',
-                        right: '0px'
-                    }}
-                >
-                    {this.state.comment !== '' ? (
-                        <RaisedButton
-                            label="Senden"
-                            onClick={() => {
-                                this.props
-                                    .dispatch(
-                                        Comments.actions.create_comment(
-                                            this.props.me._id,
-                                            'admin',
-                                            this.state.comment,
-                                            this.props.ref_id,
-                                            this.props.me.name
-                                        )
-                                    )
-                                    .then(res => {
-                                        this.setState({ comment: '' });
-                                    });
-                            }}
-                            fullWidth={true}
-                            primary={true}
-                        />
-                    ) : null}
-                    {this.state.comment_field_focused ? (
-                        <Cards.components.Markdown
-                            markdown={this.state.comment}
-                            card_id={this.props.ref_id}
-                        />
-                    ) : null}
-                    <Divider />
-                    <TextField
-                        fullWidth={true}
-                        multiLine={true}
-                        onFocus={() =>
-                            this.setState({
-                                comment_field_focused: true
-                            })
-                        }
-                        onBlur={() =>
-                            this.setState({
-                                comment_field_focused: false
-                            })
-                        }
-                        hintText="Kommentar"
-                        value={this.state.comment}
-                        onChange={(e, v) => this.setState({ comment: v })}
-                    />
-                </Paper>
             </div>
         );
     }
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const ref_id = ownProps.params.ref_id;
-
     return {
-        ref_id,
-        comments: Comments.selectors.ref_id(state, ref_id),
-        me: state.users.me
+        comments: Comments.selectors.unread(state, '*', state.users.me._id),
+        me: state.users.me,
+        assignment: (assignment_id: string) =>
+            Flow.selectors.assignment_by_id(state, assignment_id)
     };
 }
 

@@ -4,6 +4,10 @@ export const COMMENTS_CREATE_COMMENT_SUCCESS =
     'COMMENTS_CREATE_COMMENT_SUCCESS';
 export const COMMENTS_CREATE_COMMENT_ERROR = 'COMMENTS_CREATE_COMMENT_ERROR';
 
+export const COMMENTS_GET_COMMENTS_REQUEST = 'COMMENTS_GET_COMMENTS_REQUEST';
+export const COMMENTS_GET_COMMENTS_SUCCESS = 'COMMENTS_GET_COMMENTS_SUCCESS';
+export const COMMENTS_GET_COMMENTS_ERROR = 'COMMENTS_GET_COMMENTS_ERROR';
+
 export const COMMENTS_COMMENT_SEEN_REQUEST = 'COMMENTS_COMMENT_SEEN_REQUEST';
 export const COMMENTS_COMMENT_SEEN_SUCCESS = 'COMMENTS_COMMENT_SEEN_SUCCESS';
 export const COMMENTS_COMMENT_SEEN_ERROR = 'COMMENTS_COMMENT_SEEN_ERROR';
@@ -25,6 +29,18 @@ export function create_comment(
         ],
         api: API.create_comment(from, to, ref_id, text, from_name),
         payload: { payload: { from, to, ref_id, text, from_name } }
+    };
+}
+
+export function get_comments() {
+    return {
+        types: [
+            COMMENTS_GET_COMMENTS_REQUEST,
+            COMMENTS_GET_COMMENTS_SUCCESS,
+            COMMENTS_GET_COMMENTS_ERROR
+        ],
+        api: API.get_comments(),
+        payload: {}
     };
 }
 

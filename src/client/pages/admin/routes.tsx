@@ -16,6 +16,7 @@ import UserPage from 'client/pages/admin/users/user-page';
 import UsersPage from 'client/pages/admin/users/users-page';
 
 import ActivityIndex from 'client/pages/admin/activity/activity_index';
+import CommentsIndex from 'client/pages/admin/comments/comments_index';
 
 const routes = (
     <Route path="admin" component={AdminIndex}>
@@ -31,6 +32,7 @@ const routes = (
         <Route path="cards" component={CardsPage} />
         <Route path="cards/:card_id" component={CardPage} />
         <Route path="activity" component={ActivityIndex} />
+        <Route path="comments" component={CommentsIndex} />
     </Route>
 );
 
