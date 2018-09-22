@@ -17,7 +17,10 @@ import {
     FLOW_SYNC_ASSIGNMENTS_ERROR
 } from '../actions';
 
-import { USERS_GET_USER_SUCCESS } from '../../users/actions';
+import {
+    USERS_GET_USER_SUCCESS,
+    USERS_GET_USERS_SUCCESS
+} from '../../users/actions';
 
 import * as Activity from 'lib/activity';
 
@@ -30,6 +33,7 @@ export default function(
     switch (action.type) {
         case 'DB_CHANGE':
         case Activity.actions.ACTIVITY_GET_SUCCESS:
+        case USERS_GET_USERS_SUCCESS:
         case USERS_GET_USER_SUCCESS:
             const no_sync_ids = state
                 .filter(assignment => assignment.sync === 'error')

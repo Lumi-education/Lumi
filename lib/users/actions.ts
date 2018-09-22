@@ -39,15 +39,15 @@ export function create_user(name: string, options?) {
     };
 }
 
-export function get_users(id = shortid()) {
+export function get_users(user_ids?: string[]) {
     return {
         types: [
             USERS_GET_USERS_REQUEST,
             USERS_GET_USERS_SUCCESS,
             USERS_GET_USERS_ERROR
         ],
-        api: API.get_users(),
-        payload: { id }
+        api: API.get_users(user_ids),
+        payload: { user_ids }
     };
 }
 

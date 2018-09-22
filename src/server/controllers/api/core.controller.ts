@@ -4,7 +4,7 @@ import { IRequest } from '../../middleware/auth';
 import * as path from 'path';
 
 import * as mkdirp from 'mkdirp';
-import proxy from '../../core/proxy';
+import { exec } from 'child_process';
 import db from '../../db';
 
 export class CoreController {
@@ -27,9 +27,32 @@ export class CoreController {
     }
 
     public shutdown(req: express.Request, res: express.Response) {
-        proxy.web(req, res, {
-            target: 'http://localhost:' + process.env.SYSTEM_PORT + '/api/v0/'
-        });
+        exec(
+            "/sbin/ip route|awk '/default/ { print $3 }'",
+            (error, stdout, stderr) => {
+                if (error || stderr !== '') {
+                    return res.status(400).json(error || stderr);
+                }
+                const host_ip_address = stdout.replace(/\n/g, '');
+
+                exec(
+                    '/usr/bin/sshpass -p ' +
+                        process.env.HOST_PW +
+                        " ssh -o 'StrictHostKeyChecking no' " +
+                        process.env.HOST_USER +
+                        '@' +
+                        host_ip_address +
+                        " 'sudo shutdown -h 0'",
+                    (shutdown_error, shutdown_stdout, shutdown_stderr) => {
+                        if (shutdown_error) {
+                            return res.status(400).json(shutdown_error);
+                        }
+
+                        res.status(200).json(shutdown_stderr);
+                    }
+                );
+            }
+        );
     }
 
     public settings(req: express.Request, res: express.Response) {

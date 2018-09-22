@@ -12,6 +12,7 @@ import TagsController from '../../controllers/api/tags.controller';
 import CoreController from '../../controllers/api/core.controller';
 import FlowController from '../../controllers/api/flow.controller';
 import ActivityController from '../../controllers/api/activity.controller';
+import CommentsController from '../../controllers/api/comments.controller';
 
 const log = debug('lumi:routes:api');
 
@@ -27,6 +28,7 @@ export default function(): express.Router {
     const coreController = new CoreController();
     const flowController = new FlowController();
     const activityController = new ActivityController();
+    const commentsController = new CommentsController();
 
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
     router.get(
@@ -83,7 +85,7 @@ export default function(): express.Router {
     );
 
     router.post(
-        '/system/shutdown',
+        '/core/shutdown',
         mw.auth,
         mw.level(3),
         coreController.shutdown
@@ -173,6 +175,14 @@ export default function(): express.Router {
     );
 
     router.get('/activites', mw.auth, mw.level(3), activityController.index);
+
+    router.post('/comments', mw.auth, mw.level(0), commentsController.create);
+    router.put(
+        '/comments/seen',
+        mw.auth,
+        mw.level(0),
+        commentsController.comment_seen
+    );
 
     return router;
 }

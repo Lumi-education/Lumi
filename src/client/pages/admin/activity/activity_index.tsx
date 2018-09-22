@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
 
-import {
-    Card,
-    CardHeader,
-    Avatar,
-} from 'material-ui';
+import { Card, CardHeader, Avatar } from 'material-ui';
 
 import * as moment from 'moment-timezone';
 
@@ -16,6 +12,7 @@ import * as moment from 'moment-timezone';
 import SVGAssignmentTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
 import SVGLogin from 'material-ui/svg-icons/action/input';
 import SVGDefault from 'material-ui/svg-icons/action/info';
+import SVGComment from 'material-ui/svg-icons/communication/comment';
 
 // local
 import { IState } from 'client/state';
@@ -93,54 +90,89 @@ export class AdminActivityIndex extends React.Component<
         return (
             <div style={{}}>
                 {this.props.activities.map(activity => (
-                    <Card style={{ margin: '20px' }}>
-                        <CardHeader
-                            avatar={
-                                <Avatar>
-                                    {(() => {
+                    <div
+                        key={activity._id}
+                        onClick={() => {
+                            if (
+                                activity.activity_type === 'comment' ||
+                                activity.activity_type ===
+                                    'assignment_completed'
+                            ) {
+                                this.props.dispatch(
+                                    Flow.actions.toggle_dialog()
+                                );
+                                this.props.dispatch(
+                                    Flow.actions.change_assignment(
+                                        this.props.assignment(
+                                            activity.assignment_id
+                                        )
+                                    )
+                                );
+                            }
+                        }}
+                    >
+                        <Card style={{ margin: '20px' }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar>
+                                        {(() => {
+                                            switch (activity.activity_type) {
+                                                case 'assignment_completed':
+                                                    return (
+                                                        <SVGAssignmentTurnedIn />
+                                                    );
+                                                case 'login':
+                                                    return <SVGLogin />;
+                                                case 'comment':
+                                                    return <SVGComment />;
+                                                default:
+                                                    return <SVGDefault />;
+                                            }
+                                        })()}
+                                    </Avatar>
+                                }
+                                title={
+                                    this.props.user(activity.user_id).name +
+                                    ' ' +
+                                    (() => {
                                         switch (activity.activity_type) {
                                             case 'assignment_completed':
+                                                let _assignment = this.props.assignment(
+                                                    activity.assignment_id
+                                                );
                                                 return (
-                                                    <SVGAssignmentTurnedIn />
+                                                    'hat die Lernkarte ' +
+                                                    this.props.card(
+                                                        _assignment.card_id
+                                                    ).name +
+                                                    ' mit ' +
+                                                    _assignment.get_score() +
+                                                    '%  beendet.'
                                                 );
                                             case 'login':
-                                                return <SVGLogin />;
+                                                return 'hat sich angemeldet.';
+                                            case 'comment':
+                                                _assignment = this.props.assignment(
+                                                    activity.assignment_id
+                                                );
+                                                return (
+                                                    'hat in der Aufgabe ' +
+                                                    this.props.card(
+                                                        _assignment.card_id
+                                                    ).name +
+                                                    ' kommentiert.'
+                                                );
                                             default:
-                                                return <SVGDefault />;
+                                                return ' ein Fehler ist aufgetreten';
                                         }
-                                    })()}
-                                </Avatar>
-                            }
-                            title={
-                                this.props.user(activity.user_id).name +
-                                ' ' +
-                                (() => {
-                                    switch (activity.activity_type) {
-                                        case 'assignment_completed':
-                                            const _assignment = this.props.assignment(
-                                                activity.assignment_id
-                                            );
-                                            return (
-                                                'hat die Lernkarte ' +
-                                                this.props.card(
-                                                    _assignment.card_id
-                                                ).name +
-                                                ' mit ' +
-                                                _assignment.get_score() +
-                                                '%  beendet.'
-                                            );
-                                        case 'login':
-                                            return 'hat sich angemeldet.';
-                                        default:
-                                            return ' ein Fehler ist aufgetreten';
-                                    }
-                                })()
-                            }
-                            subtitle={moment(activity.get_date())
-                                .tz('Europe/Berlin')
-                                .calendar()}
-                        />
-                    </Card>
+                                    })()
+                                }
+                                subtitle={moment(activity.get_date())
+                                    .tz('Europe/Berlin')
+                                    .calendar()}
+                            />
+                        </Card>
+                    </div>
                 ))}
             </div>
         );
@@ -149,25 +181,7 @@ export class AdminActivityIndex extends React.Component<
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        activities: Activity.selectors.last_30_activies(state, 30), // [
-        //     {
-        //         _id: 'test',
-        //         user_id: 'adfjbuser_id',
-        //         date: 'd',
-        //         activity_type: 'login',
-        //         type: 'activity',
-        //         get_date: () => new Date()
-        //     },
-        //     {
-        //         _id: 'test',
-        //         user_id: '6926b39f6448a31a229852a5ce027be8',
-        //         date: 'd',
-        //         activity_type: 'assignment_completed',
-        //         assignment_id: 'f477addad9c808b947ef1d968803537e',
-        //         type: 'activity',
-        //         get_date: () => new Date()
-        //     }
-        // ],
+        activities: Activity.selectors.last_30_activies(state, 30),
         user: (user_id: string) => Users.selectors.user(state, user_id),
         assignment: (assignment_id: string) =>
             Flow.selectors.assignment_by_id(state, assignment_id),

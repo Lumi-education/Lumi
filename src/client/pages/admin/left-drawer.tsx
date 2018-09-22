@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // material-ui
 import {
+    Avatar,
     AppBar,
     Drawer,
     IconButton,
@@ -20,6 +21,8 @@ import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGActivity from 'material-ui/svg-icons/social/notifications';
 import SVGTags from 'material-ui/svg-icons/action/label';
+import SVGComments from 'material-ui/svg-icons/communication/comment';
+
 // state
 import { IState } from 'client/state';
 
@@ -27,11 +30,13 @@ import { IState } from 'client/state';
 import * as Auth from 'lib/auth';
 import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
+import * as Comments from 'lib/comments';
 
 declare var process;
 
 interface IStateProps {
     left_drawer_show: boolean;
+    unread_comments: Comments.models.Comment[];
 }
 
 interface IDispatchProps {
@@ -120,12 +125,31 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }}
                         />
                         <Divider />
+                        <Subheader>Aktivität</Subheader>
 
                         <ListItem
                             primaryText="Aktivität"
                             leftIcon={<SVGActivity />}
                             onTouchTap={() =>
                                 this.props.push('/admin/activity')
+                            }
+                        />
+                        <ListItem
+                            primaryText="Kommentare"
+                            leftIcon={<SVGComments />}
+                            rightAvatar={
+                                this.props.unread_comments.length !== 0 ? (
+                                    <Avatar
+                                        backgroundColor={
+                                            UI.config.primary_color
+                                        }
+                                    >
+                                        {this.props.unread_comments.length}
+                                    </Avatar>
+                                ) : null
+                            }
+                            onTouchTap={() =>
+                                this.props.push('/admin/comments')
                             }
                         />
                         {/* <Subheader>Diagnostik</Subheader>
@@ -145,7 +169,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.dispatch(Auth.actions.logout())
                             }
                         />
-                        {/* <Subheader>System</Subheader>
+                        <Subheader>System</Subheader>
 
                         <ListItem
                             primaryText="Ausschalten"
@@ -153,7 +177,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() =>
                                 this.props.dispatch(Core.actions.shutdown())
                             }
-                        /> */}
+                        />
                         <Divider />
                         <Subheader>
                             <a
@@ -173,7 +197,14 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState): IStateProps {
-    return { left_drawer_show: state.ui.left_drawer_show };
+    return {
+        left_drawer_show: state.ui.left_drawer_show,
+        unread_comments: Comments.selectors.unread(
+            state,
+            '*',
+            state.users.me._id
+        )
+    };
 }
 
 function mapDispatchToProps(dispatch) {

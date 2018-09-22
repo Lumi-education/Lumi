@@ -14,7 +14,10 @@ import {
 } from '../constants';
 
 import * as Tags from '../../tags';
-import { USERS_GET_USER_SUCCESS } from '../../users/actions';
+import {
+    USERS_GET_USER_SUCCESS,
+    USERS_GET_USERS_SUCCESS
+} from '../../users/actions';
 
 export default function(state: ICard[] = [], action): ICard[] {
     switch (action.type) {
@@ -29,6 +32,7 @@ export default function(state: ICard[] = [], action): ICard[] {
 
         case 'DB_CHANGE':
         case USERS_GET_USER_SUCCESS:
+        case USERS_GET_USERS_SUCCESS:
         case CARDS_GET_CARDS_SUCCESS:
         case CARDS_GET_CARD_SUCCESS:
         case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:

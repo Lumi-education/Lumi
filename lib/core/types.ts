@@ -1,3 +1,5 @@
+export type Markdown = string;
+
 export interface IState {
     core: {
         system: ISystemSettings;

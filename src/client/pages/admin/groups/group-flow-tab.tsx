@@ -93,56 +93,69 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                     )
                 )
                 .then(user_response => {
-                    const assignment_ids = uniq(
-                        user_response.payload
-                            .map(user => user.flow)
-                            .reduce((p, c) => p.concat(c), [])
+                    // const assignment_ids = uniq(
+                    //     user_response.payload
+                    //         .map(user => user.flow)
+                    //         .reduce((p, c) => p.concat(c), [])
+                    // );
+
+                    const user_ids = user_response.payload.map(
+                        user => user._id
                     );
 
                     this.setState({
-                        loading: 'Aufträge...',
+                        loading: 'Daten...',
                         loading_step: 2
                     });
 
                     this.props
-                        .dispatch(
-                            Core.actions.find(
-                                {
-                                    type: 'assignment',
-                                    _id: { $in: assignment_ids }
-                                },
-                                { limit: assignment_ids.length }
-                            )
-                        )
-                        .then(assignment_response => {
-                            const card_ids = uniq(
-                                assignment_response.payload
-                                    .map(assignment => assignment.card_id)
-                                    .reduce((p, c) => p.concat(c), [])
-                            );
-
+                        .dispatch(Users.actions.get_users(user_ids))
+                        .then(users_view_res => {
                             this.setState({
-                                loading: 'Karten...',
+                                loading: 'finished',
                                 loading_step: 3
                             });
-
-                            this.props
-                                .dispatch(
-                                    Core.actions.find(
-                                        {
-                                            type: 'card',
-                                            _id: { $in: card_ids }
-                                        },
-                                        { limit: card_ids.length }
-                                    )
-                                )
-                                .then(card_response => {
-                                    this.setState({
-                                        loading: 'finished',
-                                        loading_step: 4
-                                    });
-                                });
                         });
+
+                    // this.props
+                    //     .dispatch(
+                    //         Core.actions.find(
+                    //             {
+                    //                 type: 'assignment',
+                    //                 _id: { $in: assignment_ids }
+                    //             },
+                    //             { limit: assignment_ids.length }
+                    //         )
+                    //     )
+                    //     .then(assignment_response => {
+                    //         const card_ids = uniq(
+                    //             assignment_response.payload
+                    //                 .map(assignment => assignment.card_id)
+                    //                 .reduce((p, c) => p.concat(c), [])
+                    //         );
+
+                    //         this.setState({
+                    //             loading: 'Karten...',
+                    //             loading_step: 3
+                    //         });
+
+                    //         this.props
+                    //             .dispatch(
+                    //                 Core.actions.find(
+                    //                     {
+                    //                         type: 'card',
+                    //                         _id: { $in: card_ids }
+                    //                     },
+                    //                     { limit: card_ids.length }
+                    //                 )
+                    //             )
+                    //             .then(card_response => {
+                    //                 this.setState({
+                    //                     loading: 'finished',
+                    //                     loading_step: 4
+                    //                 });
+                    //             });
+                    //     });
                 });
         } catch (error) {
             this.setState({ loading: 'error', error: JSON.stringify(error) });
@@ -154,7 +167,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
             return (
                 <UI.components.LoadingPage
                     min={1}
-                    max={4}
+                    max={3}
                     value={this.state.loading_step}
                 >
                     {this.state.loading}
@@ -170,6 +183,16 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                     minHeight: '100vh'
                 }}
             >
+                {/* {this.state.loading !== 'finished' ? (
+                    <UI.components.LoadingIndicator
+                        min={1}
+                        max={3}
+                        value={this.state.loading_step}
+                    >
+                        {' '}
+                        {this.state.loading}
+                    </UI.components.LoadingIndicator>
+                ) : null} */}
                 <Paper style={{ margin: '0px 20px 20px 20px' }} zDepth={5}>
                     <Tags.TagsFilterContainer />
                 </Paper>

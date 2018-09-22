@@ -3,18 +3,25 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
+import * as moment from 'moment';
+
 // components
 import {
+    Avatar,
     Dialog,
     RaisedButton,
     FloatingActionButton,
     List,
     ListItem,
+    Divider,
     Card,
     CardActions,
     CardHeader,
     CardText,
-    FlatButton
+    FlatButton,
+    TextField,
+    Paper,
+    LinearProgress
 } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -25,6 +32,8 @@ import { IState } from 'client/state';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Flow from 'lib/flow';
+import * as Users from 'lib/users';
+import * as Comments from 'lib/comments';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
@@ -34,6 +43,9 @@ interface IStateProps extends IPassedProps {
     open: boolean;
     card: (card_id: string) => Cards.ICard;
     assignment: Flow.IAssignment;
+    comments: Comments.models.Comment[];
+    user: (user_id: string) => Users.IUser;
+    me: Users.IUser;
 }
 
 interface IDispatchProps {
@@ -42,13 +54,19 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
+interface IComponentState {
+    comment?: string;
+    comment_field_focused?: boolean;
+}
 
 export class AssignmentDialog extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            comment: '',
+            comment_field_focused: false
+        };
     }
 
     public render() {
@@ -56,6 +74,10 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
             <Dialog
                 title="Aufgabe"
                 autoScrollBodyContent={true}
+                contentStyle={{
+                    width: '100%',
+                    maxWidth: 'none'
+                }}
                 bodyStyle={{
                     background: UI.config.default_bg
                 }}
@@ -119,11 +141,118 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                     this.props.dispatch(Flow.actions.toggle_dialog())
                 }
             >
-                <Cards.CardViewContainer
-                    card_id={this.props.assignment.card_id}
-                    assignment_id={this.props.assignment._id}
-                />
-                <Flow.container.AssignmentEdit />
+                <div style={{ display: 'flex' }}>
+                    <div style={{ flex: 2 }}>
+                        <Cards.CardViewContainer
+                            card_id={this.props.assignment.card_id}
+                            assignment_id={this.props.assignment._id}
+                        />
+                        <Flow.container.AssignmentEdit />
+                    </div>
+                    <div
+                        id="comments"
+                        style={{
+                            overflow: 'scroll',
+                            flex: 1,
+                            maxHeight: '450px',
+                            background: UI.config.gradient_bg,
+                            color: 'white',
+                            padding: '15px 0px 15px 0px'
+                        }}
+                    >
+                        <h1>Kommentare</h1>
+
+                        {this.props.comments.map(comment => {
+                            // const user = this.props.user(comment.from);
+                            return (
+                                <div key={comment._id}>
+                                    <Card style={{ margin: '5px' }}>
+                                        <CardHeader
+                                            avatar={
+                                                <Avatar>
+                                                    {comment.from_name.substr(
+                                                        0,
+                                                        2
+                                                    )}
+                                                </Avatar>
+                                            }
+                                            title={comment.from_name}
+                                            subtitle={moment(
+                                                comment.date
+                                            ).calendar()}
+                                        >
+                                            <Divider />
+                                        </CardHeader>
+                                        <CardText>
+                                            <Cards.components.Markdown
+                                                markdown={comment.text}
+                                                card_id={
+                                                    this.props.assignment._id
+                                                }
+                                            />
+                                        </CardText>
+                                        <div style={{ bottom: '0px' }}>
+                                            {comment._id ? null : (
+                                                <LinearProgress color="#9b59b6" />
+                                            )}
+                                        </div>
+                                    </Card>
+                                </div>
+                            );
+                        })}
+                        <Paper style={{}}>
+                            {this.state.comment_field_focused ? (
+                                <Cards.components.Markdown
+                                    markdown={this.state.comment}
+                                    card_id={this.props.assignment._id}
+                                />
+                            ) : null}
+                            <TextField
+                                fullWidth={true}
+                                multiLine={true}
+                                onFocus={() =>
+                                    this.setState({
+                                        comment_field_focused: true
+                                    })
+                                }
+                                onBlur={() =>
+                                    this.setState({
+                                        comment_field_focused: false
+                                    })
+                                }
+                                hintText="Kommentar"
+                                value={this.state.comment}
+                                onChange={(e, v) =>
+                                    this.setState({ comment: v })
+                                }
+                            />
+                            {this.state.comment !== '' ? (
+                                <RaisedButton
+                                    label="Senden"
+                                    onClick={() => {
+                                        log('test');
+                                        this.props
+                                            .dispatch(
+                                                Comments.actions.create_comment(
+                                                    this.props.me._id,
+                                                    this.props.assignment
+                                                        .user_id,
+                                                    this.state.comment,
+                                                    this.props.assignment._id,
+                                                    this.props.me.name
+                                                )
+                                            )
+                                            .then(res => {
+                                                this.setState({ comment: '' });
+                                            });
+                                    }}
+                                    fullWidth={true}
+                                    primary={true}
+                                />
+                            ) : null}
+                        </Paper>
+                    </div>
+                </div>
             </Dialog>
         );
     }
@@ -133,7 +262,13 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         open: state.flow.ui.show_dialog,
         assignment: state.flow.ui.assignment,
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id)
+        comments: Comments.selectors.ref_id(
+            state,
+            state.flow.ui.assignment._id
+        ),
+        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        user: (user_id: string) => Users.selectors.user(state, user_id),
+        me: state.users.me
     };
 }
 

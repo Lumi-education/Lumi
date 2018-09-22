@@ -19,12 +19,14 @@ import { push } from 'lib/ui/actions';
 import SVGCheckboxoutline from 'material-ui/svg-icons/toggle/check-box-outline-blank';
 import SVGCheckbox from 'material-ui/svg-icons/navigation/check';
 import SVGCheckboxIndeterminate from 'material-ui/svg-icons/toggle/radio-button-unchecked';
+import SVGComment from 'material-ui/svg-icons/communication/comment';
 // types
 import { IState } from 'client/state';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import { assign } from 'lib/flow/actions';
 import * as UI from 'lib/ui';
+import * as Comments from 'lib/comments';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {
@@ -32,6 +34,7 @@ interface IStateProps extends IPassedProps {
     flow: string[];
     card: (card_id: string) => Cards.ICard;
     ui: UI.IUI;
+    unread_comments: (assignment_id: string) => Comments.models.Comment[];
 }
 
 interface IDispatchProps {
@@ -70,6 +73,28 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 }
                                 key={assignment._id}
                                 rightIconButton={(() => {
+                                    if (
+                                        this.props.unread_comments(
+                                            assignment._id
+                                        ).length !== 0
+                                    ) {
+                                        return (
+                                            <IconButton
+                                                onClick={e => {
+                                                    this.props.dispatch(
+                                                        push(
+                                                            '/user/assignment/' +
+                                                                assignment._id +
+                                                                '/comments'
+                                                        )
+                                                    );
+                                                    e.preventDefault();
+                                                }}
+                                            >
+                                                <SVGComment color="#f1c40f" />
+                                            </IconButton>
+                                        );
+                                    }
                                     if (
                                         assignment.state !== null &&
                                         assignment.get_score() !== null
@@ -117,7 +142,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 })()}
                                 primaryText={card.name}
                                 secondaryText={card.description}
-                                onClick={() =>
+                                onTouchTap={() =>
                                     this.props.dispatch(
                                         push(
                                             '/user/assignment/' + assignment_id
@@ -139,7 +164,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             Flow.selectors.assignment_by_id(state, assignment_id),
         flow: state.users.me.flow || [],
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
-        ui: state.ui
+        ui: state.ui,
+        unread_comments: (assignment_id: string) =>
+            Comments.selectors.unread(state, assignment_id, state.users.me._id)
     };
 }
 

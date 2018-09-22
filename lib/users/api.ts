@@ -9,9 +9,12 @@ export function create_user(name: string, options?) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function get_users() {
+export function get_users(user_ids?: string[]) {
     return request
-        .get('/api/v0/users?limit=100')
+        .get(
+            '/api/v0/users' +
+                (user_ids ? '?user_ids=' + JSON.stringify(user_ids) : '')
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 

@@ -2,12 +2,22 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // material-ui
-import { Paper, BottomNavigation, BottomNavigationItem } from 'material-ui';
+import {
+    Paper,
+    BottomNavigation,
+    BottomNavigationItem,
+    IconButton,
+    IconMenu,
+    MenuItem,
+    Badge
+} from 'material-ui';
 
 // material-ui -> icons
 
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import SVGMore from 'material-ui/svg-icons/navigation/more-vert';
+import SVGComment from 'material-ui/svg-icons/communication/comment';
 
 // actions
 import { push } from 'lib/ui/actions';
@@ -16,6 +26,7 @@ import { push } from 'lib/ui/actions';
 import { IState } from 'client/state';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
+import * as Comments from 'lib/comments';
 
 interface IStateProps {
     assignment_id: string;
@@ -23,6 +34,7 @@ interface IStateProps {
     flow: string[];
     card: (card_id: string) => Cards.ICard;
     user_id: string;
+    unread_comments: Comments.models.Comment[];
 }
 
 interface IDispatchProps {
@@ -105,10 +117,56 @@ export class UserFlow extends React.Component<IProps, {}> {
                         icon={<SVGLeft />}
                     />
 
-                    {/* <BottomNavigationItem
-                        icon={<SVGAssignment />}
-                        label={'test'}
-                    /> */}
+                    <BottomNavigationItem
+                        icon={
+                            <IconMenu
+                                iconButtonElement={
+                                    <IconButton>
+                                        <SVGMore
+                                            color={
+                                                this.props.unread_comments
+                                                    .length !== 0
+                                                    ? '#e67e22'
+                                                    : 'black'
+                                            }
+                                        />
+                                    </IconButton>
+                                }
+                                anchorOrigin={{
+                                    horizontal: 'middle',
+                                    vertical: 'bottom'
+                                }}
+                                targetOrigin={{
+                                    horizontal: 'middle',
+                                    vertical: 'top'
+                                }}
+                            >
+                                <MenuItem
+                                    primaryText="Kommentare"
+                                    leftIcon={<SVGComment />}
+                                    rightIcon={
+                                        <b
+                                            style={{
+                                                textAlign: 'center',
+                                                lineHeight: '24px'
+                                            }}
+                                        >
+                                            {this.props.unread_comments.length}
+                                        </b>
+                                    }
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            push(
+                                                '/user/assignment/' +
+                                                    this.props.assignment_id +
+                                                    '/comments'
+                                            )
+                                        )
+                                    }
+                                />
+                            </IconMenu>
+                        }
+                    />
 
                     <BottomNavigationItem
                         onClick={() =>
@@ -147,7 +205,12 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         assignment_id: ownProps.params.assignment_id,
         flow: state.users.me.flow || [],
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
-        user_id: state.users.me._id
+        user_id: state.users.me._id,
+        unread_comments: Comments.selectors.unread(
+            state,
+            ownProps.params.assignment_id,
+            state.users.me._id
+        )
     };
 }
 
