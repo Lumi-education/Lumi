@@ -85,7 +85,7 @@ export default function(): express.Router {
     );
 
     router.post(
-        '/system/shutdown',
+        '/core/shutdown',
         mw.auth,
         mw.level(3),
         coreController.shutdown

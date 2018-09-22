@@ -169,7 +169,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.dispatch(Auth.actions.logout())
                             }
                         />
-                        {/* <Subheader>System</Subheader>
+                        <Subheader>System</Subheader>
 
                         <ListItem
                             primaryText="Ausschalten"
@@ -177,7 +177,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() =>
                                 this.props.dispatch(Core.actions.shutdown())
                             }
-                        /> */}
+                        />
                         <Divider />
                         <Subheader>
                             <a

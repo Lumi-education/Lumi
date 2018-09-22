@@ -31,7 +31,7 @@ export function action(_action: string, ids: string[], payload) {
 
 export function shutdown() {
     return request
-        .post('/api/v0/system/shutdown')
+        .post('/api/v0/core/shutdown')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
