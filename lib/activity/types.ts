@@ -1,5 +1,5 @@
 export type Activity_id = string;
-export type Activity_types = 'login' | 'assignment_completed';
+export type Activity_types = 'login' | 'assignment_completed' | 'comment';
 
 import { User_id } from 'lib/users/types';
 
