@@ -28,6 +28,7 @@ services:
         volumes:
             - ./files:/srv/build/files
             - ./h5p:/srv/build/h5p
+            - ./.env:/srv/.env
         depends_on:
             - 'couchdb'
     changes:

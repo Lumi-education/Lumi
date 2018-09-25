@@ -74,6 +74,18 @@ export default function(): express.Router {
 
     router.post('/core/find', mw.auth, mw.level(3), coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
+    router.get(
+        '/core/check_update',
+        mw.auth,
+        mw.level(3),
+        coreController.check_update
+    );
+    router.post(
+        '/core/update_system',
+        mw.auth,
+        mw.level(3),
+        coreController.update_system
+    );
     router.get('/core/ping', coreController.ping);
 
     router.post('/core/upload', mw.auth, mw.level(0), coreController.upload);
@@ -90,6 +102,8 @@ export default function(): express.Router {
         mw.level(3),
         coreController.shutdown
     );
+    router.get('/core/env', mw.auth, mw.level(3), coreController.env);
+    router.put('/core/env', mw.auth, mw.level(3), coreController.update_env);
     router.get('/system/settings', coreController.settings);
 
     // mw.auth

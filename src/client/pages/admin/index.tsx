@@ -13,15 +13,19 @@ import { IState } from 'client/state';
 // modules
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
+import * as Core from 'lib/core';
 
 import CreateCardDialog from './dialogs/create-card';
 import AssignmentDialog from './dialogs/assignment-dialog';
+import { CORE_ACTION_ERROR } from 'lib/core/actions';
 
 interface IStateProps {
     location;
     userlevel: number;
     right_appbar_icon: JSX.Element;
     user_id: string;
+    status_page: boolean;
+    status_page_text: string;
 }
 
 interface IDispatchProps {
@@ -40,7 +44,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
             this.props.dispatch(UI.actions.push('/user'));
         }
 
-        this.props.dispatch(Users.actions.get_user(this.props.user_id));
+        this.props.dispatch(Users.actions.init_user());
+        this.props.dispatch(Core.actions.check_update());
     }
 
     public render() {
@@ -52,6 +57,11 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <CreateCardDialog />
                 <AssignmentDialog />
                 <Snackbar />
+                {this.props.status_page ? (
+                    <UI.components.StatusPage
+                        text={this.props.status_page_text}
+                    />
+                ) : null}
                 <div style={{ paddingBottom: '40px' }}>
                     {this.props.children}
                 </div>
@@ -64,7 +74,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         location: ownProps.location,
         userlevel: state.auth.userlevel,
         right_appbar_icon: state.ui.right_appbar_icon,
-        user_id: state.users.me._id
+        user_id: state.users.me._id,
+        status_page: state.core.status.status_page,
+        status_page_text: state.core.status.status_page_text
     };
 }
 
