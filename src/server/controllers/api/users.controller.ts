@@ -26,6 +26,16 @@ class UsersController {
         );
     }
 
+    public init(req: IRequest, res: express.Response) {
+        db.view('users', 'init', { key: req.user._id }, (error, docs) => {
+            if (error) {
+                raven.captureException(error);
+                return res.status(400).json(error);
+            }
+            res.status(200).json(docs);
+        });
+    }
+
     public create(req: IRequest, res: express.Response) {
         const new_user: IUser = {
             _id: undefined,

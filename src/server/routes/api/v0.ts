@@ -31,12 +31,7 @@ export default function(): express.Router {
     const commentsController = new CommentsController();
 
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
-    router.get(
-        '/flow/assignments',
-        mw.auth,
-        mw.level(1),
-        flowController.get_assignments
-    );
+    router.get('/flow/assignments', mw.auth, mw.level(0), flowController.index);
     router.delete(
         '/flow/assignments',
         mw.auth,
@@ -173,6 +168,8 @@ export default function(): express.Router {
     router.get('/user/card/:id', mw.auth, cardsController.read);
     router.put('/user/card/:id', mw.auth, cardsController.update);
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
+
+    router.get('/user', mw.auth, mw.level(0), usersController.init);
 
     // users
     router.get('/users', mw.auth, mw.level(3), usersController.list);

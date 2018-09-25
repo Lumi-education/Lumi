@@ -5,12 +5,14 @@ import * as selectors from './selectors';
 export { IState } from './types';
 import FileListComponent from './components/file-list';
 import WebsocketContainer from './container/websocket';
+import Markdown from './components/markdown';
 import reducer from './reducer';
 import SystemContainer from './container/system';
 import FileUploadComponent from './components/file-upload';
 import * as utils from './utils';
 import * as config from './config';
 const components = {
+    Markdown,
     FileUpload: FileUploadComponent,
     FileList: FileListComponent
 };

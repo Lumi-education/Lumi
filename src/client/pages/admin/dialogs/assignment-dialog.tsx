@@ -165,39 +165,11 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                         {this.props.comments.map(comment => {
                             // const user = this.props.user(comment.from);
                             return (
-                                <div key={comment._id}>
-                                    <Card style={{ margin: '5px' }}>
-                                        <CardHeader
-                                            avatar={
-                                                <Avatar>
-                                                    {comment.from_name.substr(
-                                                        0,
-                                                        2
-                                                    )}
-                                                </Avatar>
-                                            }
-                                            title={comment.from_name}
-                                            subtitle={moment(
-                                                comment.date
-                                            ).calendar()}
-                                        >
-                                            <Divider />
-                                        </CardHeader>
-                                        <CardText>
-                                            <Cards.components.Markdown
-                                                markdown={comment.text}
-                                                card_id={
-                                                    this.props.assignment._id
-                                                }
-                                            />
-                                        </CardText>
-                                        <div style={{ bottom: '0px' }}>
-                                            {comment._id ? null : (
-                                                <LinearProgress color="#9b59b6" />
-                                            )}
-                                        </div>
-                                    </Card>
-                                </div>
+                                <Comments.components.Comment
+                                    key={comment._id}
+                                    comment={comment}
+                                    ref_id={this.props.assignment._id}
+                                />
                             );
                         })}
                         <Paper style={{}}>

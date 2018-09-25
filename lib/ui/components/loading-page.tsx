@@ -42,7 +42,9 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                     >
                         <LinearProgress
                             color="white"
-                            mode="determinate"
+                            mode={
+                                this.props.max ? 'determinate' : 'indeterminate'
+                            }
                             value={this.props.value}
                             min={this.props.min}
                             max={this.props.max}

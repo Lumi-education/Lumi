@@ -26,6 +26,9 @@ export const USERS_UPDATE_USER_ERROR = 'USERS_UPDATE_USER_ERROR';
 export const USERS_UI_SELECT = 'USERS_UI_SELECT';
 export const USERS_UI_SELECTION_RESET = 'USERS_UI_SELECTION_RESET';
 export const USERS_UI_SET_SELECTED_USERS = 'USERS_UI_SET_SELECTED_USERS';
+export const USERS_INIT_USER_REQUEST = 'USERS_INIT_USER_REQUEST';
+export const USERS_INIT_USER_SUCCESS = 'USERS_INIT_USER_SUCCESS';
+export const USERS_INIT_USER_ERROR = 'USERS_INIT_USER_ERROR';
 
 export function create_user(name: string, options?) {
     return {
@@ -104,5 +107,17 @@ export function set_selected_users(user_ids: string[]) {
     return {
         type: USERS_UI_SET_SELECTED_USERS,
         payload: { user_ids }
+    };
+}
+
+export function init_user() {
+    return {
+        types: [
+            USERS_INIT_USER_REQUEST,
+            USERS_INIT_USER_SUCCESS,
+            USERS_INIT_USER_ERROR
+        ],
+        api: API.init_user(),
+        payload: {}
     };
 }

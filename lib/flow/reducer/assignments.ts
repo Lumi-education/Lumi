@@ -14,12 +14,14 @@ import {
     FLOW_SAVE_DATA_ERROR,
     FLOW_SYNC_ASSIGNMENTS_SUCCESS,
     FLOW_SYNC_ASSIGNMENTS_REQUEST,
-    FLOW_SYNC_ASSIGNMENTS_ERROR
+    FLOW_SYNC_ASSIGNMENTS_ERROR,
+    FLOW_GET_ASSIGNMENTS_SUCCESS
 } from '../actions';
 
 import {
     USERS_GET_USER_SUCCESS,
-    USERS_GET_USERS_SUCCESS
+    USERS_GET_USERS_SUCCESS,
+    USERS_INIT_USER_SUCCESS
 } from '../../users/actions';
 
 import * as Activity from 'lib/activity';
@@ -35,6 +37,8 @@ export default function(
         case Activity.actions.ACTIVITY_GET_SUCCESS:
         case USERS_GET_USERS_SUCCESS:
         case USERS_GET_USER_SUCCESS:
+        case USERS_INIT_USER_SUCCESS:
+        case FLOW_GET_ASSIGNMENTS_SUCCESS:
             const no_sync_ids = state
                 .filter(assignment => assignment.sync === 'error')
                 .map(assignment => assignment._id);

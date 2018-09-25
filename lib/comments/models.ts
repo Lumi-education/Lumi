@@ -22,7 +22,9 @@ export class Comment implements IComment {
         return assign(
             this,
             {
-                type: 'comment'
+                _id: undefined,
+                type: 'comment',
+                seen_by: []
             },
             c
         );

@@ -11,7 +11,9 @@ export default function boot(done: () => void) {
                 check_view('tags', tags_view, () => {
                     check_view('activity', activity_view, () => {
                         check_view('comments', comments_view, () => {
-                            done();
+                            check_view('flow', flow_view, () => {
+                                done();
+                            });
                         });
                     });
                 });
@@ -58,9 +60,13 @@ const auth_view = {
 const users_view = {
     _id: '_design/users',
     views: {
-        user: {
+        init: {
             map:
                 "function (doc) {\n  if (doc.user_id) { \n    emit(doc.user_id, 1); \n    if (doc.type === 'assignment') { emit(doc.user_id, { _id: doc.card_id }) }\n  }\n  if (doc.type === 'user') {\n    emit(doc._id, 1);\n    doc.groups.forEach(function(group_id)  { emit(doc._id, {_id: group_id })} );\n  }\n  if (doc.type === 'comment') {\n    emit(doc.from,1);\n     emit(doc.to, 1);\n  }\n}"
+        },
+        user: {
+            map:
+                "function (doc) {\n  if (doc.type === 'user') { emit(doc._id, 1); }\n}"
         }
     },
     language: 'javascript'
@@ -105,6 +111,17 @@ const comments_view = {
         all: {
             map:
                 "function (doc) {\n  if (doc.type === 'comment') { emit(doc._id, 1); }\n}"
+        }
+    },
+    language: 'javascript'
+};
+
+const flow_view = {
+    _id: '_design/flow',
+    views: {
+        assignments: {
+            map:
+                "function (doc) {\n  if (doc.type === 'assignment') { \n    emit(doc._id, 1); \n    emit(doc._id, { _id: doc.card_id });\n  }\n}"
         }
     },
     language: 'javascript'

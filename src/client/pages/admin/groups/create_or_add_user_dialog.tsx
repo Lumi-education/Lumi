@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as debug from 'debug';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -13,6 +14,8 @@ import * as Groups from 'lib/groups';
 import { create_user } from 'lib/users/api';
 
 // actions
+
+const log = debug('lumi:admin:groups:add_user_dialog');
 
 interface IPassedProps {
     group_id: string;
@@ -29,8 +32,8 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    name?: string;
-
+    user?: Users.IUser;
+    error?: string;
     open?: boolean;
 }
 
@@ -42,11 +45,11 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         super(props);
 
         this.state = {
-            name: '',
+            user: undefined,
             open: false
         };
 
-        this.create_or_add_user = this.create_or_add_user.bind(this);
+        this.add_user = this.add_user.bind(this);
         this.close = this.close.bind(this);
     }
 
@@ -54,31 +57,10 @@ export class AdminCreateOrAddUserDialog extends React.Component<
         this.props.dispatch(Users.actions.get_users());
     }
 
-    public create_or_add_user(user) {
-        const user_names = this.props.users.map(_user => _user.name);
-
-        if (user_names.indexOf(user.name) > -1) {
-            const existing_user = this.props.users.filter(
-                _user => _user.name === user.name
-            )[0];
-
-            this.props.dispatch(
-                Groups.actions.add_group(existing_user._id, this.props.group_id)
-            );
-        } else {
-            this.props
-                .dispatch(Users.actions.create_user(user))
-                .then(create_user_response => {
-                    const created_user = create_user_response.payload;
-                    this.props.dispatch(
-                        Groups.actions.add_group(
-                            created_user._id,
-                            this.props.group_id
-                        )
-                    );
-                });
+    public add_user(user) {
+        if (!user) {
+            return this.setState({ error: 'Dieser Benutzer existiert nicht.' });
         }
-
         if (user._id) {
             this.props.dispatch(
                 Groups.actions.add_group(user._id, this.props.group_id)
@@ -98,7 +80,7 @@ export class AdminCreateOrAddUserDialog extends React.Component<
             <FlatButton
                 label="Add"
                 primary={true}
-                onClick={() => this.create_or_add_user(this.state.name)}
+                onClick={() => this.add_user(this.state.user)}
             />
         ];
 
@@ -115,29 +97,32 @@ export class AdminCreateOrAddUserDialog extends React.Component<
                     <ContentAdd />
                 </FloatingActionButton>
                 <Dialog
-                    title="Add or create User"
+                    title="Add User"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                     onRequestClose={this.close}
                 >
                     <AutoComplete
-                        floatingLabelText="Add or create user"
+                        floatingLabelText="Add user"
                         filter={AutoComplete.fuzzyFilter}
                         dataSource={this.props.users}
                         dataSourceConfig={{ text: 'name', value: '_id' }}
+                        errorText={this.state.error || null}
                         maxSearchResults={5}
                         fullWidth={true}
-                        onNewRequest={name =>
+                        onNewRequest={user => {
+                            log('onNewRequest', user);
                             this.setState({
-                                name: name.replace(/[^a-z0-9]/gi, '')
-                            })
-                        }
-                        onUpdateInput={name =>
-                            this.setState({
-                                name: name.replace(/[^a-z0-9]/gi, '')
-                            })
-                        }
+                                user
+                            });
+                        }}
+                        onUpdateInput={name => {
+                            log('onUpdateInput', name);
+                            // this.setState({
+                            //     name: name.replace(/[^a-z0-9]/gi, '')
+                            // });
+                        }}
                     />
                 </Dialog>
             </div>

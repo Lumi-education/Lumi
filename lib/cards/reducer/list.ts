@@ -19,6 +19,10 @@ import {
     USERS_GET_USERS_SUCCESS
 } from '../../users/actions';
 
+import { FLOW_GET_ASSIGNMENTS_SUCCESS } from 'lib/flow/actions';
+
+import * as Users from 'lib/users';
+
 export default function(state: ICard[] = [], action): ICard[] {
     switch (action.type) {
         case CARDS_REM_TAG_SUCCESS:
@@ -33,9 +37,12 @@ export default function(state: ICard[] = [], action): ICard[] {
         case 'DB_CHANGE':
         case USERS_GET_USER_SUCCESS:
         case USERS_GET_USERS_SUCCESS:
+        case Users.actions.USERS_INIT_USER_SUCCESS:
+
         case CARDS_GET_CARDS_SUCCESS:
         case CARDS_GET_CARD_SUCCESS:
         case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:
+        case FLOW_GET_ASSIGNMENTS_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'card'),
                 state,
