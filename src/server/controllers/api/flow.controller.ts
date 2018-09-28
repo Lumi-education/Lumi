@@ -30,9 +30,7 @@ class FlowController {
         db.view(
             'flow',
             'assignments',
-            req.query.assignment_ids
-                ? { keys: JSON.parse(req.query.assignment_ids) }
-                : {},
+            req.body.assignment_ids ? { keys: req.body.assignment_ids } : {},
             (error, docs) => {
                 if (error) {
                     raven.captureException(error);

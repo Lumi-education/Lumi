@@ -31,7 +31,12 @@ export default function(): express.Router {
     const commentsController = new CommentsController();
 
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
-    router.get('/flow/assignments', mw.auth, mw.level(0), flowController.index);
+    router.post(
+        '/flow/assignments/list',
+        mw.auth,
+        mw.level(0),
+        flowController.index
+    );
     router.delete(
         '/flow/assignments',
         mw.auth,
@@ -174,7 +179,7 @@ export default function(): express.Router {
     // users
     router.get('/users', mw.auth, mw.level(3), usersController.list);
     router.post('/users', mw.auth, mw.level(3), usersController.create);
-    router.get('/users/:id', mw.auth, mw.level(0), usersController.read); // use level 1 for now. user-client uses this for init.
+    router.get('/users/:id', mw.auth, mw.level(3), usersController.read);
     router.put('/users/:id', mw.auth, mw.level(3), usersController.update);
     router.delete('/users', mw.auth, mw.level(3), usersController.delete);
 
