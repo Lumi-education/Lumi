@@ -63,7 +63,11 @@ class UsersController {
         // db.findById(req.params.id, (find_user_error, user) => {
         //     res.status(200).json([user]);
         // });
-        db.view('users', 'user', { key: req.params.id }, (error, docs) => {
+        db.view('users', 'init', { key: req.params.id }, (error, docs) => {
+            if (error) {
+                raven.captureException(error);
+                return res.status(400).json(error);
+            }
             res.status(200).json(docs);
         });
     }
