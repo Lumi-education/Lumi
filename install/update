@@ -1,6 +1,12 @@
 #!/bin/sh
 sudo mkdir -p /lumi/files
 sudo curl http://update.lumi.education/docker-compose.yml -o /lumi/docker-compose.yml
+echo -e 'n' | sudo ssh-keygen -t rsa -f /lumi/lumi_sshkey -q -P ""
+KEY=$(cat /lumi/lumi_sshkey.pub) 
+if [ -z \"\$(grep \"$KEY\" ~/.ssh/authorized_keys )\" ]; 
+    then echo $KEY >> ~/.ssh/authorized_keys; 
+    echo key added.; 
+fi;
 cd /lumi; sudo docker-compose pull;
 cd /lumi; sudo docker-compose down --remove-orhphans;
 cd /lumi; sudo docker-compose up -d;

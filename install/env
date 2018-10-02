@@ -5,5 +5,3 @@ DB_HOST=http://couchdb:5984
 DB=lumi
 DEBUG=*
 PORT=80
-HOST_USER=pi
-HOST_PW=raspberry

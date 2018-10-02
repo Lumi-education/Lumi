@@ -23,12 +23,11 @@ services:
             - SENTRY=${SENTRY}
             - SENTRY_PUBLIC=${SENTRY_PUBLIC}
             - DEBUG=*
-            - HOST_USER=${HOST_USER}
-            - HOST_PW=${HOST_PW}
         volumes:
             - ./files:/srv/build/files
             - ./h5p:/srv/build/h5p
             - ./.env:/srv/.env
+            - ./lumi_sshkey:/srv/lumi_sshkey
         depends_on:
             - 'couchdb'
     changes:
