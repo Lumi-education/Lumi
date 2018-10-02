@@ -7,9 +7,6 @@ sudo curl http://get.lumi.education/${BRANCH}/docker-compose.yml -o /lumi/docker
 sudo curl http://get.lumi.education/${BRANCH}/env -o /lumi/.env
 echo -e 'n' | sudo ssh-keygen -t rsa -f /lumi/lumi_sshkey -q -P ""
 KEY=$(cat /lumi/lumi_sshkey.pub) 
-if [ -z \"\$(grep \"$KEY\" ~/.ssh/authorized_keys )\" ]; 
-    then echo $KEY >> ~/.ssh/authorized_keys; 
-    echo key added.; 
-fi;
+grep -q \"$KEY\" ~/.ssh/authorized_keys || echo $KEY >> ~/.ssh/authorized_keys
 cd /lumi; sudo docker-compose up -d
 sudo reboot
