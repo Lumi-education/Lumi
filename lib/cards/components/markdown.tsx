@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import markdown from '../markdown';
+import markdown from 'lib/core/markdown';
 
 import * as Cards from '../';
 

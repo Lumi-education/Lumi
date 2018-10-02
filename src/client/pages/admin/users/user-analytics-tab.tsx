@@ -157,19 +157,32 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
         //     );
         // }
 
-        const bar_data = [];
+        let num_assignments = 0;
 
         const line_data = this.props.selected_tags.map(tag_id => {
             const tag = this.props.tag(tag_id);
-            const cards = this.props.cards_with_tag(tag_id);
+            const cards = this.props
+                .cards_with_tag(tag_id)
+                .filter(
+                    card =>
+                        card.card_type !== 'text' && card.card_type !== 'video'
+                );
             const assignments = this.props
                 .assignments_for_cards(cards.map(card => card._id))
                 .filter(assignment => assignment.get_finished() !== null)
+                .filter(
+                    assignment =>
+                        moment(assignment.get_finished()) >=
+                            this.state.from_date &&
+                        moment(assignment.get_finished()) <= this.state.to_date
+                )
                 .filter(assignment => assignment.user_id === this.props.user_id)
                 .map((assignment, index) => [
                     assignment.get_finished(),
                     assignment.get_score()
                 ]);
+
+            num_assignments += assignments.length;
 
             const grouped_data = groupBy(assignments, v =>
                 moment(v[0]).format(this.group_by())
@@ -187,26 +200,21 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                 // bar_data.push([key, test[key].length]);
             }
 
-            const filtered_data = data.filter(
-                d =>
-                    moment(d[0]) >= this.state.from_date &&
-                    moment(d[0]) <= this.state.to_date
-            );
-            return { data: filtered_data, name: tag.name, color: tag.color };
+            return { data, name: tag.name, color: tag.color };
         });
 
         const column_data = this.props.selected_tags.map(tag_id => {
             const tag = this.props.tag(tag_id);
-            const cards = this.props.cards_with_tag(tag_id);
+            const cards = this.props
+                .cards_with_tag(tag_id)
+                .filter(
+                    card =>
+                        card.card_type !== 'text' && card.card_type !== 'video'
+                );
             const assignments = this.props
                 .assignments_for_cards(cards.map(card => card._id))
                 .filter(assignment => assignment.get_finished() !== null)
-                .filter(
-                    assignment =>
-                        moment(assignment.get_finished()) >=
-                            this.state.from_date &&
-                        moment(assignment.get_finished()) <= this.state.to_date
-                )
+
                 .filter(
                     assignment => assignment.user_id === this.props.user_id
                 );
@@ -258,6 +266,10 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                         <MenuItem value={'day'} primaryText="Tag" />
                         <MenuItem value={'month'} primaryText="Monat" />
                     </SelectField>
+                </Paper>
+
+                <Paper>
+                    <h1>{num_assignments} Datensätze</h1>
                 </Paper>
 
                 <Paper>

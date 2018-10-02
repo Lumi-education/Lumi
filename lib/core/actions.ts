@@ -19,6 +19,22 @@ export const CORE_PING_REQUEST = 'CORE_PING_REQUEST';
 export const CORE_PING_SUCCESS = 'CORE_PING_SUCCESS';
 export const CORE_PING_ERROR = 'CORE_PING_ERROR';
 
+export const CORE_GET_ENV_REQUEST = 'CORE_GET_ENV_REQUEST';
+export const CORE_GET_ENV_SUCCESS = 'CORE_GET_ENV_SUCCESS';
+export const CORE_GET_ENV_ERROR = 'CORE_GET_ENV_ERROR';
+
+export const CORE_UPDATE_ENV_REQUEST = 'CORE_UPDATE_ENV_REQUEST';
+export const CORE_UPDATE_ENV_SUCCESS = 'CORE_UPDATE_ENV_SUCCESS';
+export const CORE_UPDATE_ENV_ERROR = 'CORE_UPDATE_ENV_ERROR';
+
+export const CORE_CHECK_UPDATE_REQUEST = 'CORE_CHECK_UPDATE_REQUEST';
+export const CORE_CHECK_UPDATE_SUCCESS = 'CORE_CHECK_UPDATE_SUCCESS';
+export const CORE_CHECK_UPDATE_ERROR = 'CORE_CHECK_UPDATE_ERROR';
+
+export const CORE_UPDATE_SYSTEM_REQUEST = 'CORE_UPDATE_SYSTEM_REQUEST';
+export const CORE_UPDATE_SYSTEM_SUCCESS = 'CORE_UPDATE_SYSTEM_SUCCESS';
+export const CORE_UPDATE_SYSTEM_ERROR = 'CORE_UPDATE_SYSTEM_ERROR';
+
 import * as API from './api';
 
 export function find(query, options?) {
@@ -77,5 +93,45 @@ export function ping() {
     return {
         types: [CORE_PING_REQUEST, CORE_PING_SUCCESS, CORE_PING_ERROR],
         api: API.ping()
+    };
+}
+
+export function get_env() {
+    return {
+        types: [CORE_GET_ENV_REQUEST, CORE_GET_ENV_SUCCESS, CORE_GET_ENV_ERROR],
+        api: API.env()
+    };
+}
+
+export function update_env(env) {
+    return {
+        types: [
+            CORE_UPDATE_ENV_REQUEST,
+            CORE_UPDATE_ENV_SUCCESS,
+            CORE_UPDATE_ENV_ERROR
+        ],
+        api: API.update_env(env)
+    };
+}
+
+export function check_update() {
+    return {
+        types: [
+            CORE_CHECK_UPDATE_REQUEST,
+            CORE_CHECK_UPDATE_SUCCESS,
+            CORE_CHECK_UPDATE_ERROR
+        ],
+        api: API.check_update()
+    };
+}
+
+export function update_system() {
+    return {
+        types: [
+            CORE_UPDATE_SYSTEM_REQUEST,
+            CORE_UPDATE_SYSTEM_SUCCESS,
+            CORE_UPDATE_SYSTEM_ERROR
+        ],
+        api: API.update_system()
     };
 }

@@ -31,11 +31,11 @@ export default function(): express.Router {
     const commentsController = new CommentsController();
 
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
-    router.get(
-        '/flow/assignments',
+    router.post(
+        '/flow/assignments/list',
         mw.auth,
-        mw.level(1),
-        flowController.get_assignments
+        mw.level(0),
+        flowController.index
     );
     router.delete(
         '/flow/assignments',
@@ -74,6 +74,18 @@ export default function(): express.Router {
 
     router.post('/core/find', mw.auth, mw.level(3), coreController.find);
     router.post('/core/update', mw.auth, mw.level(3), coreController.update);
+    router.get(
+        '/core/check_update',
+        mw.auth,
+        mw.level(3),
+        coreController.check_update
+    );
+    router.post(
+        '/core/update_system',
+        mw.auth,
+        mw.level(3),
+        coreController.update_system
+    );
     router.get('/core/ping', coreController.ping);
 
     router.post('/core/upload', mw.auth, mw.level(0), coreController.upload);
@@ -90,6 +102,8 @@ export default function(): express.Router {
         mw.level(3),
         coreController.shutdown
     );
+    router.get('/core/env', mw.auth, mw.level(3), coreController.env);
+    router.put('/core/env', mw.auth, mw.level(3), coreController.update_env);
     router.get('/system/settings', coreController.settings);
 
     // mw.auth
@@ -160,10 +174,12 @@ export default function(): express.Router {
     router.put('/user/card/:id', mw.auth, cardsController.update);
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
 
+    router.get('/user', mw.auth, mw.level(0), usersController.init);
+
     // users
     router.get('/users', mw.auth, mw.level(3), usersController.list);
     router.post('/users', mw.auth, mw.level(3), usersController.create);
-    router.get('/users/:id', mw.auth, mw.level(0), usersController.read); // use level 1 for now. user-client uses this for init.
+    router.get('/users/:id', mw.auth, mw.level(3), usersController.read);
     router.put('/users/:id', mw.auth, mw.level(3), usersController.update);
     router.delete('/users', mw.auth, mw.level(3), usersController.delete);
 

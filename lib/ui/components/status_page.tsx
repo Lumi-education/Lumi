@@ -2,12 +2,14 @@ import * as React from 'react';
 
 import { LinearProgress } from 'material-ui';
 
-import * as UI from '../';
+import * as UI from '..';
 
 interface IStateProps {
     min?: number;
     max?: number;
     value?: number;
+    determinate?: boolean;
+    text?: string;
 }
 
 interface IDispatchProps {}
@@ -25,7 +27,7 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                 style={{
                     width: '100%',
                     height: '100vh',
-                    display: 'flex',
+                    display: 'fixed',
                     background: UI.config.gradient_bg,
                     flexDirection: 'column',
                     justifyContent: 'center'
@@ -43,7 +45,9 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                         <LinearProgress
                             color="white"
                             mode={
-                                this.props.max ? 'determinate' : 'indeterminate'
+                                this.props.determinate
+                                    ? 'determinate'
+                                    : 'indeterminate'
                             }
                             value={this.props.value}
                             min={this.props.min}
@@ -57,7 +61,7 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                                 fontSize: 50
                             }}
                         >
-                            {this.props.children}
+                            {this.props.text}
                         </div>
                     </div>
                 </div>

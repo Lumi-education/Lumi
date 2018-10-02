@@ -26,6 +26,22 @@ class FlowController {
         );
     }
 
+    public index(req: IRequest, res: express.Response) {
+        db.view(
+            'flow',
+            'assignments',
+            req.body.assignment_ids ? { keys: req.body.assignment_ids } : {},
+            (error, docs) => {
+                if (error) {
+                    raven.captureException(error);
+                    return res.status(400).json(error);
+                }
+
+                res.status(200).json(docs);
+            }
+        );
+    }
+
     public update_assignments(req: IRequest, res: express.Response) {
         db.find(
             { type: 'assignment', _id: { $in: req.body.assignment_ids } },

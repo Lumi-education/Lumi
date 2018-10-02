@@ -2,6 +2,10 @@ export const FLOW_ASSIGN_REQUEST = 'FLOW_ASSIGN_REQUEST';
 export const FLOW_ASSIGN_SUCCESS = 'FLOW_ASSIGN_SUCCESS';
 export const FLOW_ASSIGN_ERROR = 'FLOW_ASSIGN_ERROR';
 
+export const FLOW_GET_ASSIGNMENTS_REQUEST = 'FLOW_GET_ASSIGNMENTS_REQUEST';
+export const FLOW_GET_ASSIGNMENTS_SUCCESS = 'FLOW_GET_ASSIGNMENTS_SUCCESS';
+export const FLOW_GET_ASSIGNMENTS_ERROR = 'FLOW_GET_ASSIGNMENTS_ERROR';
+
 export const FLOW_DELETE_ASSIGNMENT_REQUEST = 'FLOW_DELETE_ASSIGNMENT_REQUEST';
 export const FLOW_DELETE_ASSIGNMENT_SUCCESS = 'FLOW_DELETE_ASSIGNMENT_SUCCESS';
 export const FLOW_DELETE_ASSIGNMENT_ERROR = 'FLOW_DELETE_ASSIGNMENT_ERROR';
@@ -157,5 +161,17 @@ export function sync_assignments(assignments: IAssignment[]) {
         ],
         api: API.sync_assignments(assignments),
         payload: { assignments }
+    };
+}
+
+export function get_assignments(assignment_ids?: string[]) {
+    return {
+        types: [
+            FLOW_GET_ASSIGNMENTS_REQUEST,
+            FLOW_GET_ASSIGNMENTS_SUCCESS,
+            FLOW_GET_ASSIGNMENTS_ERROR
+        ],
+        api: API.get_assignments(assignment_ids),
+        payload: { assignment_ids }
     };
 }

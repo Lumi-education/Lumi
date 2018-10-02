@@ -22,6 +22,8 @@ import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGActivity from 'material-ui/svg-icons/social/notifications';
 import SVGTags from 'material-ui/svg-icons/action/label';
 import SVGComments from 'material-ui/svg-icons/communication/comment';
+import SVGSystem from 'material-ui/svg-icons/action/settings';
+import SVGUpdate from 'material-ui/svg-icons/action/update';
 
 // state
 import { IState } from 'client/state';
@@ -36,6 +38,7 @@ declare var process;
 
 interface IStateProps {
     left_drawer_show: boolean;
+    update_available: boolean;
     unread_comments: Comments.models.Comment[];
 }
 
@@ -95,7 +98,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             backgroundColor: '#FFFFFF'
                         }}
                     >
-                        <Subheader>Lumi</Subheader>
+                        <Subheader>Benutzer</Subheader>
                         <ListItem
                             primaryText="Benutzer"
                             leftIcon={<SVGPerson />}
@@ -110,8 +113,12 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/groups');
                             }}
                         />
+                        <Divider />
+
+                        <Subheader>Material</Subheader>
+
                         <ListItem
-                            primaryText="Material"
+                            primaryText="Lernkarten"
                             leftIcon={<SVGCards />}
                             onTouchTap={() => {
                                 this.props.push('/admin/cards');
@@ -125,7 +132,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }}
                         />
                         <Divider />
-                        <Subheader>Aktivität</Subheader>
+                        <Subheader>Monitor</Subheader>
 
                         <ListItem
                             primaryText="Aktivität"
@@ -161,6 +168,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }}
                         />
                         <Divider /> */}
+                        <Divider />
                         <Subheader>Benutzer</Subheader>
                         <ListItem
                             primaryText="Abmelden"
@@ -169,8 +177,18 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.dispatch(Auth.actions.logout())
                             }
                         />
+                        <Divider />
                         <Subheader>System</Subheader>
-
+                        <ListItem
+                            primaryText="System"
+                            leftIcon={<SVGSystem />}
+                            rightIcon={
+                                this.props.update_available ? (
+                                    <SVGUpdate color={UI.config.new_color} />
+                                ) : null
+                            }
+                            onTouchTap={() => this.props.push('/admin/system')}
+                        />
                         <ListItem
                             primaryText="Ausschalten"
                             leftIcon={<SVGPower />}
@@ -199,6 +217,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState): IStateProps {
     return {
         left_drawer_show: state.ui.left_drawer_show,
+        update_available: Core.selectors.update_available(state),
         unread_comments: Comments.selectors.unread(
             state,
             '*',

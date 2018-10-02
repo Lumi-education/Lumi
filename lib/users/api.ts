@@ -37,3 +37,9 @@ export function update_user(user_id: string, update) {
         .send(update)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function init_user() {
+    return request
+        .get('/api/v0/user')
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

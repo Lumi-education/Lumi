@@ -39,21 +39,15 @@ export class Root extends React.Component<IProps, IComponentState> {
 
     public componentWillMount() {
         this.setState({ loading: 'Benutzer', loading_step: 1 });
-        this.props
-            .dispatch(Users.actions.get_user(this.props.user_id))
-            .then(res => {
-                this.setState({ loading: 'finished', loading_step: 2 });
-            });
+        this.props.dispatch(Users.actions.init_user()).then(res => {
+            this.setState({ loading: 'finished', loading_step: 2 });
+        });
     }
 
     public render() {
         if (this.state.loading !== 'finished') {
             return (
-                <UI.components.LoadingPage
-                    min={0}
-                    max={2}
-                    value={this.state.loading_step}
-                >
+                <UI.components.LoadingPage value={this.state.loading_step}>
                     {this.state.loading}
                 </UI.components.LoadingPage>
             );

@@ -87,40 +87,11 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                 {this.props.comments.map(comment => {
                     // const user = this.props.user(comment.from);
                     return (
-                        <div key={comment._id}>
-                            <Card style={{ margin: '10px' }}>
-                                <CardHeader
-                                    avatar={
-                                        <Avatar
-                                            backgroundColor={
-                                                comment.seen_by.indexOf(
-                                                    this.props.me._id
-                                                ) === -1
-                                                    ? '#f1c40f'
-                                                    : null
-                                            }
-                                        >
-                                            {comment.from_name.substr(0, 2)}
-                                        </Avatar>
-                                    }
-                                    title={comment.from_name}
-                                    subtitle={moment(comment.date).calendar()}
-                                >
-                                    <Divider />
-                                </CardHeader>
-                                <CardText>
-                                    <Cards.components.Markdown
-                                        markdown={comment.text}
-                                        card_id={this.props.ref_id}
-                                    />
-                                </CardText>
-                                <div style={{ bottom: '0px' }}>
-                                    {comment._id ? null : (
-                                        <LinearProgress color="#9b59b6" />
-                                    )}
-                                </div>
-                            </Card>
-                        </div>
+                        <Comments.components.Comment
+                            key={comment._id}
+                            comment={comment}
+                            ref_id={this.props.ref_id}
+                        />
                     );
                 })}
 

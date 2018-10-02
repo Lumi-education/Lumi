@@ -13,7 +13,14 @@ const debug = _debug('lumi:db:setup');
 
 const _system: ISystemSettings = {
     _id: 'system',
-    changes_port: process.env.CHANGES_PORT
+    changes_port: process.env.CHANGES_PORT,
+    env: {},
+    update: {
+        tag_name: '',
+        name: '',
+        body: '',
+        request_status: 'init'
+    }
 };
 
 const _admin: IUser = {

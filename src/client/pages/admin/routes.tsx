@@ -17,6 +17,7 @@ import UsersPage from 'client/pages/admin/users/users-page';
 
 import ActivityIndex from 'client/pages/admin/activity/activity_index';
 import CommentsIndex from 'client/pages/admin/comments/comments_index';
+import SystemIndex from 'client/pages/admin/system/system_index';
 
 const routes = (
     <Route path="admin" component={AdminIndex}>
@@ -33,6 +34,8 @@ const routes = (
         <Route path="cards/:card_id" component={CardPage} />
         <Route path="activity" component={ActivityIndex} />
         <Route path="comments" component={CommentsIndex} />
+        <Route path="system/:tab" component={SystemIndex} />
+        <Redirect from="system" to="system/update" />
     </Route>
 );
 
