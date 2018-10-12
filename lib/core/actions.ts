@@ -58,12 +58,12 @@ export function get(id: string) {
     };
 }
 
-export function update(ids: string[], _update) {
+export function update(id: string, _update) {
     return {
         types: [CORE_DB_UPDATE_REQUEST, CORE_DB_CHANGE, CORE_DB_UPDATE_ERROR],
-        api: API.update(ids, _update),
+        api: API.update(id, _update),
         payload: {
-            ids,
+            id,
             update: _update
         }
     };
