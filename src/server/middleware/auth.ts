@@ -12,7 +12,7 @@ export function auth(
     if (jwtToken) {
         try {
             req.user = jwt.decode(jwtToken, process.env.KEY || 'KEY');
-            raven.setContext({user: req.user});
+            raven.setContext({ user: req.user });
 
             next();
         } catch (err) {
@@ -20,7 +20,8 @@ export function auth(
             res.status(401).end();
         }
     } else {
-        res.status(401).end();
+        req.user = undefined;
+        next();
     }
 }
 
