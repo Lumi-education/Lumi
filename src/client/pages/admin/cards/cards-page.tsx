@@ -9,13 +9,14 @@ import {
     List,
     ListItem,
     FloatingActionButton,
-    Paper
+    Paper,
+    IconButton
 } from 'material-ui';
 
 // svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
-
+import SVGSettings from 'material-ui/svg-icons/action/settings';
 import TagFilterContainer from 'lib/tags/container/tag-filter';
 import FilterBar from 'lib/ui/components/filter-bar';
 
@@ -166,6 +167,24 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                                 )
                                             );
                                         }}
+                                        rightIconButton={
+                                            <IconButton
+                                                onClick={() =>
+                                                    this.props.dispatch(
+                                                        Core.actions.update(
+                                                            'system',
+                                                            {
+                                                                controlled_location:
+                                                                    '/user/cards/' +
+                                                                    card._id
+                                                            }
+                                                        )
+                                                    )
+                                                }
+                                            >
+                                                <SVGSettings />{' '}
+                                            </IconButton>
+                                        }
                                     />
                                 ))}
                         </List>

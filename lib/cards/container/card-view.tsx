@@ -96,7 +96,11 @@ export class CardViewContainer extends React.Component<IProps, {}> {
             }
         }
 
-        return <div>card_type {this.props.card.card_type} not found</div>;
+        return (
+            <div id="card_view">
+                card_type {this.props.card.card_type} not found
+            </div>
+        );
     }
 }
 
