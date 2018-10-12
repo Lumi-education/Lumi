@@ -52,6 +52,10 @@ const auth_view = {
         login: {
             map:
                 'function (doc) {\n  if (doc.type === "user") { emit(doc.name.toLowerCase(), {\n    username: doc.name.toLowerCase(),\n    password: doc.password\n  }); }\n}'
+        },
+        username: {
+            map:
+                'function (doc) {\n  if (doc.type === "user") { emit(doc.name, 1) }\n}'
         }
     },
     language: 'javascript'

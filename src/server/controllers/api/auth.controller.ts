@@ -102,7 +102,7 @@ class AuthController {
 
     public register(req: IRequest, res: express.Response) {
         db.findOne(
-            { name: req.body.username, type: 'user' },
+            { name: req.body.name, type: 'user' },
             { limit: 1 },
             (error, user: IUser) => {
                 if (user) {
@@ -126,14 +126,12 @@ class AuthController {
 
                         assign(new_user, req.body, { password: pw });
 
-                        db.insert(new_user, (insert_error, insert_response) => {
-                            db.findById(
-                                insert_response.body.id,
-                                (findById_error, _user) => {
-                                    res.status(200).json(_user);
-                                }
-                            );
-                        });
+                        db.insert(
+                            new_user,
+                            (insert_user_error, inserted_user) => {
+                                res.status(200).json(inserted_user);
+                            }
+                        );
                     });
                 }
             }
@@ -145,6 +143,9 @@ class AuthController {
     }
 
     public get_session(req: IRequest, res: express.Response) {
+        if (!req.user) {
+            return res.status(401).end();
+        }
         db.findById(req.user._id, (error, user) => {
             res.status(200).json(user);
         });
@@ -215,36 +216,36 @@ class AuthController {
     }
 
     public username(req: IRequest, res: express.Response) {
-        db.find(
-            { type: 'user', name: req.params.username },
-            { limit: 1 },
-            (find_user_error, user) => {
-                if (find_user_error) {
+        // db.find(
+        //     { type: 'user', name: req.params.username },
+        //     { limit: 1 },
+        //     (find_user_error, user) => {
+        //         if (find_user_error) {
+        //             res.status(404).end();
+        //         }
+        //         res.status(200).json({
+        //             username: user.name,
+        //             password: user.password ? true : false
+        //         });
+        //     }
+        // );
+        db.view(
+            'auth',
+            'username',
+            { key: req.params.username },
+            (err, docs) => {
+                if (docs.length === 1) {
+                    const user = docs[0];
+
+                    res.status(200).json({
+                        username: req.params.username,
+                        password: user.password ? true : false
+                    });
+                } else {
                     res.status(404).end();
                 }
-                res.status(200).json({
-                    username: user.name,
-                    password: user.password ? true : false
-                });
             }
         );
-        //     db.view(
-        //         'auth',
-        //         'check_username',
-        //         { key: req.params.username },
-        //         (err, docs) => {
-        //             if (docs.length === 1) {
-        //                 const user = docs[0];
-
-        // res.status(200).json({
-        //     username: req.params.username,
-        //     password: user.password ? true : false
-        // });
-        //             } else {
-        //                 res.status(404).end();
-        //             }
-        //         }
-        //     );
     }
 }
 
