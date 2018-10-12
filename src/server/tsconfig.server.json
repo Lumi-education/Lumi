@@ -7,10 +7,10 @@
         "removeComments": false,
         "noImplicitAny": false,
         "allowJs": true,
-        "outDir": "./build",
+        "outDir": "../../build",
         "baseUrl": "./",
         "jsx": "react",
         "sourceMap": true
     },
-    "files": ["src/server/boot.ts"]
+    "files": ["boot.ts"]
 }
