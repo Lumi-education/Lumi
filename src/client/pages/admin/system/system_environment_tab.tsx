@@ -171,7 +171,7 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        env: state.core.system.env
+        env: state.core.status.env
         //
     };
 }

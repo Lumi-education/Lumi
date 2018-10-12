@@ -9,7 +9,16 @@ export interface IState {
 
 export interface ISystemSettings {
     _id: 'system';
-    changes_port: number;
+    mode: 'free' | 'controlled';
+    controlled_location: string;
+    allow_user_registration: boolean;
+    provide_password: boolean;
+}
+
+export interface IStatus {
+    connected: boolean;
+    status_page: boolean;
+    status_page_text: string;
     env: any;
     update: {
         tag_name: string;
@@ -17,10 +26,4 @@ export interface ISystemSettings {
         body: string;
         request_status: 'init' | 'pending' | 'success' | 'error';
     };
-}
-
-export interface IStatus {
-    connected: boolean;
-    status_page: boolean;
-    status_page_text: string;
 }

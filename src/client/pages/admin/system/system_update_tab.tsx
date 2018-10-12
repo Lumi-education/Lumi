@@ -130,7 +130,7 @@ export class SystemUpdateTab extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        update: state.core.system.update
+        update: state.core.status.update
         //
     };
 }

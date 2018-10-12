@@ -37,9 +37,14 @@ export class SystemSettingsContainer extends React.Component<
         };
     }
 
-    public componentDidMount() {
-        this.setState({ loading: false, loading_step: 2 });
+    public componentWillMount() {
+        this.setState({ loading: true, loading_step: 1 });
+        this.props.dispatch(Core.actions.get_settings()).then(res => {
+            this.setState({ loading: false, loading_step: 2 });
+        });
+    }
 
+    public componentDidMount() {
         setInterval(() => {
             this.props.dispatch(Core.actions.ping());
         }, 10000);

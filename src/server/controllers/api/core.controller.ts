@@ -24,10 +24,8 @@ export class CoreController {
     }
 
     public update(req: IRequest, res: express.Response) {
-        JSON.parse(req.params.ids).forEach(id => {
-            db.updateOne(id, req.body, (error, doc) => {
-                res.status(200).json(doc);
-            });
+        db.updateOne(req.query.id, req.body, (error, doc) => {
+            res.status(200).json([doc]);
         });
     }
 
