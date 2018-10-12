@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';

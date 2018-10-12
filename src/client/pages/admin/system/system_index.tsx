@@ -21,7 +21,6 @@ import { IState } from 'client/state';
 // modules
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
-import * as Grades from 'lib/grades';
 import * as UI from 'lib/ui';
 import * as Tags from 'lib/tags';
 

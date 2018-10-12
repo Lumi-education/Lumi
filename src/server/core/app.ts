@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as fileUpload from 'express-fileupload';
 import * as raven from 'raven';
 import routes from '../routes';
-import H5PView from '../views/h5p';
+import * as mw from '../middleware/auth';
 
 const log = _debug('lumi:core:app');
 
@@ -20,7 +20,6 @@ export default function boot(): express.Application {
     app.set('views', path.join(__dirname, '..', 'views'));
     app.set('view engine', 'jsx');
     app.engine('jsx', require('express-react-views').createEngine());
-    const test = H5PView;
 
     app.use(bodyParser.json());
     app.use(
@@ -36,6 +35,7 @@ export default function boot(): express.Application {
 
     app.use(compression());
 
+    app.use(mw.auth);
     app.use(routes());
 
     log('end boot-sequence');

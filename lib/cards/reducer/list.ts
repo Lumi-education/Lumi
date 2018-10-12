@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import { ICard } from '../types';
 import { unionBy } from 'lodash';
 import { arrayToObject } from '../../core/utils';

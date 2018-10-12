@@ -1,5 +1,3 @@
-import * as shortid from 'shortid';
-
 import * as API from './api';
 
 export const USERS_ADD_GROUP_REQUEST = 'USERS_ADD_GROUP_REQUEST';
@@ -54,7 +52,7 @@ export function get_users(user_ids?: string[]) {
     };
 }
 
-export function get_user(user_id: string, id = shortid()) {
+export function get_user(user_id: string) {
     return {
         types: [
             USERS_GET_USER_REQUEST,
@@ -62,7 +60,7 @@ export function get_user(user_id: string, id = shortid()) {
             USERS_GET_USER_ERROR
         ],
         api: API.get_user(user_id),
-        payload: { id, payload: { user_id } }
+        payload: { payload: { user_id } }
     };
 }
 

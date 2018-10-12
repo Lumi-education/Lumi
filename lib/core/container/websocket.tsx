@@ -8,9 +8,7 @@ import * as UI from '../../ui';
 
 declare var window;
 
-interface IStateProps {
-    changes_port: number;
-}
+interface IStateProps {}
 
 interface IDispatchProps {
     dispatch: (action) => any;
@@ -62,9 +60,7 @@ export class WebsocketContainer extends React.Component<
 }
 
 function mapStateToProps(state: Core.IState, ownProps: {}): IStateProps {
-    return {
-        changes_port: Core.selectors.system_settings(state).changes_port
-    };
+    return {};
 }
 
 function mapDispatchToProps(dispatch): IDispatchProps {

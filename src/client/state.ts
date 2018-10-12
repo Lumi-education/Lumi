@@ -8,7 +8,6 @@ import { IState as IGroups, reducer as groups } from '../../lib/groups';
 import { IState as ITags, tags_reducer as tags } from '../../lib/tags';
 import { IState as IUI, ui_reducer as ui } from '../../lib/ui';
 import { IState as IUsers, users_reducer as users } from '../../lib/users';
-import { IState as IGrades, reducer as grades } from '../../lib/grades';
 import { IState as IFlow, reducer as flow } from '../../lib/flow';
 import * as Activity from 'lib/activity';
 import * as Comments from 'lib/comments';

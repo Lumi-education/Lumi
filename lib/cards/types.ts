@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-
 type Card_id = string;
 type Data_id = string;
 export type Card_types =

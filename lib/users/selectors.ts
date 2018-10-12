@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import { filter } from 'lodash';
 import { IUser, IState } from './types';
 
