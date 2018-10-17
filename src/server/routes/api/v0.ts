@@ -13,6 +13,8 @@ import CoreController from '../../controllers/api/core.controller';
 import FlowController from '../../controllers/api/flow.controller';
 import ActivityController from '../../controllers/api/activity.controller';
 import CommentsController from '../../controllers/api/comments.controller';
+import FoldersController from '../../controllers/api/folders.controller';
+import { Folder } from '../../../../node_modules/lib/folders/models';
 
 const log = debug('lumi:routes:api');
 
@@ -29,6 +31,7 @@ export default function(): express.Router {
     const flowController = new FlowController();
     const activityController = new ActivityController();
     const commentsController = new CommentsController();
+    const foldersController = new FoldersController();
 
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
     router.post(
@@ -198,6 +201,15 @@ export default function(): express.Router {
         mw.auth,
         mw.level(0),
         commentsController.comment_seen
+    );
+
+    router.get('/folders', mw.auth, mw.level(0), foldersController.all);
+    router.post('/folders', mw.auth, mw.level(0), foldersController.create);
+    router.post(
+        '/folders/:folder_id',
+        mw.auth,
+        mw.level(0),
+        foldersController.add_material
     );
 
     return router;

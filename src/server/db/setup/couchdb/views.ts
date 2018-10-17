@@ -12,7 +12,9 @@ export default function boot(done: () => void) {
                     check_view('activity', activity_view, () => {
                         check_view('comments', comments_view, () => {
                             check_view('flow', flow_view, () => {
-                                done();
+                                check_view('folders', folders_view, () => {
+                                    done();
+                                });
                             });
                         });
                     });
@@ -126,6 +128,17 @@ const flow_view = {
         assignments: {
             map:
                 "function (doc) {\n  if (doc.type === 'assignment') { \n    emit(doc._id, 1); \n    emit(doc._id, { _id: doc.card_id });\n  }\n}"
+        }
+    },
+    language: 'javascript'
+};
+
+const folders_view = {
+    _id: '_design/folders',
+    views: {
+        all: {
+            map:
+                "function (doc) {\n  if (doc.type === 'folder') { \n    emit(doc._id, 1); \n    doc.content.forEach(function(content) { if (content.type !== 'folder') { emit(doc._id, { _id: content._id })} })\n  }\n}"
         }
     },
     language: 'javascript'
