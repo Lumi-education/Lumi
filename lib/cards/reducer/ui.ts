@@ -5,6 +5,7 @@ import { CARD_SELECT, CARD_SELECTION_RESET } from '../constants';
 import {
     CARDS_UI_CHANGE_CARD,
     CARDS_UI_RESET_CARD,
+    CARDS_UI_SET_SELECTED_CARDS,
     CARDS_DUPLICATE_SUCCESS
 } from '../actions';
 
@@ -36,6 +37,9 @@ export default function(state: ICardUI = initialState, action): ICardUI {
 
         case CARD_SELECTION_RESET:
             return assign({}, state, { selected_cards: [] });
+
+        case CARDS_UI_SET_SELECTED_CARDS:
+            return assign({}, state, { selected_cards: action.card_ids });
 
         case CARDS_UI_CHANGE_CARD:
             const new_card = assign({}, state.card, action.payload);

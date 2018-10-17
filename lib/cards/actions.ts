@@ -7,6 +7,7 @@ export const DATA_GET_CARD_DATA_SUCCESS = 'DATA_GET_CARD_DATA_SUCCESS';
 export const DATA_GET_CARD_DATA_ERROR = 'DATA_GET_CARD_DATA_ERROR';
 export const CARDS_UI_CHANGE_CARD = 'CARDS_UI_CHANGE_CARD';
 export const CARDS_UI_RESET_CARD = 'CARDS_UI_RESET_CARD';
+export const CARDS_UI_SET_SELECTED_CARDS = 'CARDS_UI_SET_SELECTED_CARDS';
 
 export const CARDS_DUPLICATE_REQUEST = 'CARDS_DUPLICATE_REQUEST';
 export const CARDS_DUPLICATE_SUCCESS = 'CARDS_DUPLICATE_SUCCESS';
@@ -77,6 +78,13 @@ export function select_card(card_id: string) {
         payload: {
             card_id
         }
+    };
+}
+
+export function set_selected_cards(card_ids: string[]) {
+    return {
+        card_ids,
+        type: CARDS_UI_SET_SELECTED_CARDS
     };
 }
 

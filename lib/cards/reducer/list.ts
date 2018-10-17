@@ -18,9 +18,12 @@ import {
     USERS_GET_USERS_SUCCESS
 } from '../../users/actions';
 
-import { FLOW_GET_ASSIGNMENTS_SUCCESS } from 'lib/flow/actions';
+import { FLOW_GET_ASSIGNMENTS_SUCCESS } from '../../flow/actions';
 
-import * as Users from 'lib/users';
+import { COLLECTIONS_GET_COLLECTIONS_SUCCESS } from 'lib/collections/actions';
+import { FOLDERS_GET_FOLDERS_SUCCESS } from 'lib/folders/actions';
+
+import * as Users from '../../users';
 
 export default function(state: ICard[] = [], action): ICard[] {
     switch (action.type) {
@@ -42,6 +45,8 @@ export default function(state: ICard[] = [], action): ICard[] {
         case CARDS_GET_CARD_SUCCESS:
         case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:
         case FLOW_GET_ASSIGNMENTS_SUCCESS:
+        case COLLECTIONS_GET_COLLECTIONS_SUCCESS:
+        case FOLDERS_GET_FOLDERS_SUCCESS:
             return unionBy(
                 action.payload.filter(d => d.type === 'card'),
                 state,

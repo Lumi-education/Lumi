@@ -1,4 +1,4 @@
-type Card_id = string;
+export type Card_id = string;
 type Data_id = string;
 export type Card_types =
     | 'multiplechoice'
