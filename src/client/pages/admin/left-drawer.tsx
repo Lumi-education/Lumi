@@ -24,6 +24,7 @@ import SVGTags from 'material-ui/svg-icons/action/label';
 import SVGComments from 'material-ui/svg-icons/communication/comment';
 import SVGSystem from 'material-ui/svg-icons/action/settings';
 import SVGUpdate from 'material-ui/svg-icons/action/update';
+import SVGFolder from 'material-ui/svg-icons/file/folder';
 
 // state
 import { IState } from 'client/state';
@@ -122,6 +123,13 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             leftIcon={<SVGCards />}
                             onTouchTap={() => {
                                 this.props.push('/admin/cards');
+                            }}
+                        />
+                        <ListItem
+                            primaryText="Ordner"
+                            leftIcon={<SVGFolder />}
+                            onTouchTap={() => {
+                                this.props.push('/admin/folders/root_folder');
                             }}
                         />
                         <ListItem
