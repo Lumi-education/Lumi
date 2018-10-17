@@ -70,9 +70,7 @@ export class CardPage extends React.Component<IProps, IComponentState> {
                 <UI.components.ActionBar>
                     <RaisedButton
                         label="Abbrechen"
-                        onClick={() =>
-                            this.props.dispatch(UI.actions.push('/admin/cards'))
-                        }
+                        onClick={() => this.props.dispatch(UI.actions.goBack())}
                     />
                     <UI.components.RaisedButton
                         action={Cards.actions.delete_card(this.props.card_id)}
