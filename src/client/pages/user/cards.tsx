@@ -12,21 +12,9 @@ import {
     Badge
 } from 'material-ui';
 
-// material-ui -> icons
-
-import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import SVGMore from 'material-ui/svg-icons/navigation/more-vert';
-import SVGComment from 'material-ui/svg-icons/communication/comment';
-
-// actions
-import { push } from 'lib/ui/actions';
-
 // types
 import { IState } from 'client/state';
-import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
-import * as Comments from 'lib/comments';
 
 interface IStateProps {
     user_id: string;
@@ -49,12 +37,12 @@ export class UserCards extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(Cards.actions.get_card(this.props.card_id));
+        this.props.dispatch(Cards.actions.get_cards([this.props.card_id]));
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
         if (this.props.card_id !== nextProps.card_id) {
-            this.props.dispatch(Cards.actions.get_card(nextProps.card_id));
+            this.props.dispatch(Cards.actions.get_cards([nextProps.card_id]));
         }
     }
 
@@ -78,11 +66,6 @@ export class UserCards extends React.Component<IProps, {}> {
                             return <div>moo</div>;
                     }
                 })()}
-                {/* <Cards.CardViewContainer
-                        user_id={this.props.user_id}
-                        card_id={this.props.card_id}
-                        assignment_id={'card'}
-                    /> */}
             </div>
         );
     }

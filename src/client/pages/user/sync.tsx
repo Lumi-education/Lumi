@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 import raven from 'lib/core/raven';
-declare var window;
 
 import { IState } from 'client/state';
 

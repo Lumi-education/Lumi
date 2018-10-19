@@ -5,13 +5,10 @@ import { assign } from 'lodash';
 
 import db from '../../db';
 
-import { IUser } from 'lib/users/types';
+import { IUser } from '../../../../lib/users/types';
 
 class UsersController {
     public list(req: IRequest, res: express.Response) {
-        // db.find({ type: 'user' }, { limit: 100 }, (find_users_error, users) => {
-        //     res.status(200).json(users);
-        // });
         db.view(
             'users',
             'user',
@@ -60,9 +57,6 @@ class UsersController {
     }
 
     public read(req: IRequest, res: express.Response) {
-        // db.findById(req.params.id, (find_user_error, user) => {
-        //     res.status(200).json([user]);
-        // });
         db.view('users', 'init', { key: req.params.id }, (error, docs) => {
             if (error) {
                 raven.captureException(error);

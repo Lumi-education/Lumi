@@ -4,28 +4,21 @@ import { connect } from 'react-redux';
 import * as moment from 'moment';
 
 import {
-    AppBar,
     Avatar,
-    RaisedButton,
     Divider,
     Card,
     CardHeader,
     CardText,
-    TextField,
     Paper,
-    IconButton,
     LinearProgress
 } from 'material-ui';
 
-import SVGBack from 'material-ui/svg-icons/navigation/arrow-back';
 import { IState } from 'client/state';
 
+import * as Core from 'lib/core';
 import * as Comments from 'lib/comments';
-import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
 import * as Flow from 'lib/flow';
-import * as UI from 'lib/ui';
-import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     comments: Comments.models.Comment[];
@@ -77,7 +70,6 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                     </Paper>
                 ) : null}
                 {this.props.comments.map(comment => {
-                    // const user = this.props.user(comment.from);
                     return (
                         <div
                             key={comment._id}
@@ -113,9 +105,9 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                                     <Divider />
                                 </CardHeader>
                                 <CardText>
-                                    <Cards.components.Markdown
+                                    <Core.components.Markdown
                                         markdown={comment.text}
-                                        card_id={comment.ref_id}
+                                        ref_id={comment.ref_id}
                                     />
                                 </CardText>
                                 <div style={{ bottom: '0px' }}>

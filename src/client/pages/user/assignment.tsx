@@ -8,12 +8,10 @@ import {
     BottomNavigationItem,
     IconButton,
     IconMenu,
-    MenuItem,
-    Badge
+    MenuItem
 } from 'material-ui';
 
 // material-ui -> icons
-
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import SVGRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import SVGMore from 'material-ui/svg-icons/navigation/more-vert';

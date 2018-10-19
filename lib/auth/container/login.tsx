@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 import raven from 'lib/core/raven';
 
-// utils
-import { state_color, random_bg } from 'lib/ui/utils';
-
 // components
 import { TextField, Paper, RaisedButton, LinearProgress } from 'material-ui';
 

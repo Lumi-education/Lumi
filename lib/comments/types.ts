@@ -1,7 +1,5 @@
-import { User_id } from '../users/types';
-import { Markdown } from '../core/types';
-
-import * as moment from 'moment';
+import { User_id } from 'lib/users/types';
+import { Markdown } from 'lib/core/types';
 
 export type Comment_id = string;
 

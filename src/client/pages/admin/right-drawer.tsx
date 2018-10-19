@@ -15,7 +15,6 @@ import {
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-import SVGGroup from 'material-ui/svg-icons/social/group';
 
 // types
 import { IState } from 'client/state';
@@ -52,16 +51,6 @@ export class RightDrawer extends React.Component<IProps, {}> {
         this.handleClose = this.handleClose.bind(this);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        // this.props.dispatch(
-        //     set_right_appbar_icon(
-        //         <IconButton>
-        //             <SVGGroup />
-        //         </IconButton>
-        //     )
-        // );
     }
 
     public componentWillUnmount() {

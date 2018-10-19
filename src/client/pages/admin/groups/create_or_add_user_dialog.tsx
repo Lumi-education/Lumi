@@ -11,7 +11,6 @@ import { IState } from 'client/state';
 
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
-import { create_user } from 'lib/users/api';
 
 // actions
 
@@ -119,9 +118,6 @@ export class AdminCreateOrAddUserDialog extends React.Component<
                         }}
                         onUpdateInput={name => {
                             log('onUpdateInput', name);
-                            // this.setState({
-                            //     name: name.replace(/[^a-z0-9]/gi, '')
-                            // });
                         }}
                     />
                 </Dialog>

@@ -9,12 +9,6 @@ export function find(query, options?) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function doc(id: string) {
-    return request
-        .get('/api/v0/core/doc/' + id)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
 export function update(id: string, _update) {
     return request
         .post('/api/v0/core/update?id=' + id)

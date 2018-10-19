@@ -2,17 +2,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-// components
-import { TagInputComponent } from '..';
-
 // types
 import { ITag, IState } from '../types';
 
-// selectors
-// actions
-import { get_tags, add_tag_to_doc, rem_tag_from_doc } from '../actions';
-
-import * as Tags from 'lib/tags';
+import * as Tags from '..';
 import * as Cards from 'lib/cards';
 
 interface IPassedProps {
@@ -36,13 +29,13 @@ export class TagInputContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_tags());
+        this.props.dispatch(Tags.actions.get_tags());
     }
 
     public render() {
         const tags = this.props.tags;
         return (
-            <TagInputComponent
+            <Tags.TagInputComponent
                 tags={this.props.tags}
                 tag_ids={this.props.tag_ids || []}
                 add={tag => {

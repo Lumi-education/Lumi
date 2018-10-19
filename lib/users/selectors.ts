@@ -1,11 +1,4 @@
-import { filter } from 'lodash';
 import { IUser, IState } from './types';
-
-export function get_users_by_group(state: IState, group_id: string): IUser[] {
-    return state.users.list.filter(
-        _user => (_user.groups ? _user.groups.indexOf(group_id) > -1 : false)
-    );
-}
 
 export function users(state: IState, user_ids: string[]): IUser[] {
     return user_ids.map(id => user(state, id));

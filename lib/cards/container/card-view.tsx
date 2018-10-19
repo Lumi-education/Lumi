@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 // components
 import H5PCardContainer from './h5p';
-
 import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import FreetextContainer from './freetext-container';

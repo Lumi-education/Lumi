@@ -3,12 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
-import { Paper, Tabs, Tab, FloatingActionButton, MenuItem } from 'material-ui';
-import SVGGrade from 'material-ui/svg-icons/action/grade';
-import SVGDelete from 'material-ui/svg-icons/content/remove';
-import SVGEdit from 'material-ui/svg-icons/content/create';
-
-import ActionBar from 'lib/ui/components/action-bar';
+import { Paper, Tabs, Tab } from 'material-ui';
 
 import UserFlowTab from './user-flow-tab';
 import UserAnalyticsTab from './user-analytics-tab';
@@ -20,9 +15,7 @@ import { IState } from 'client/state';
 
 // modules
 import * as Users from 'lib/users';
-import * as Groups from 'lib/groups';
 import * as UI from 'lib/ui';
-import * as Tags from 'lib/tags';
 
 interface IStateProps {
     user_id: string;
@@ -59,7 +52,6 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
             .then(res => {
                 this.setState({ loading: 'finished', loading_step: 2 });
             });
-        // this.props.dispatch(Groups.actions.get_groups());
     }
 
     public render() {

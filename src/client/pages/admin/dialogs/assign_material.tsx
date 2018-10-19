@@ -2,27 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { intersection } from 'lodash';
 
 // components
-import {
-    AutoComplete,
-    Dialog,
-    RaisedButton,
-    FloatingActionButton,
-    List,
-    ListItem,
-    Card,
-    CardActions,
-    CardHeader,
-    CardText,
-    FlatButton
-} from 'material-ui';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-
+import { AutoComplete, Dialog, RaisedButton } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
-
 import CardsContainer from '../../../container/cards';
+
 // local
 import { IState } from 'client/state';
 
@@ -30,9 +15,9 @@ import { IState } from 'client/state';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
-import * as Tags from 'lib/tags';
 import * as Flow from 'lib/flow';
 import * as Groups from 'lib/groups';
+
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
 interface IPassedProps {
@@ -68,12 +53,6 @@ export class AssignMaterialDialog extends React.Component<
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (!this.props.open && nextProps.open) {
-            // this.props.dispatch(Cards.actions.reset_card_selection());
-        }
     }
 
     public componentWillMount() {

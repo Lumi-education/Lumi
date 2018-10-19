@@ -1,30 +1,22 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import * as moment from 'moment';
-
 import {
     AppBar,
-    Avatar,
     RaisedButton,
     Divider,
-    Card,
-    CardHeader,
-    CardText,
     TextField,
     Paper,
-    IconButton,
-    LinearProgress
+    IconButton
 } from 'material-ui';
 
 import SVGBack from 'material-ui/svg-icons/navigation/arrow-back';
 import { IState } from 'client/state';
 
+import * as Core from 'lib/core';
 import * as Comments from 'lib/comments';
-import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
-import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     ref_id: string;
@@ -85,7 +77,6 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                     }
                 />
                 {this.props.comments.map(comment => {
-                    // const user = this.props.user(comment.from);
                     return (
                         <Comments.components.Comment
                             key={comment._id}
@@ -126,9 +117,9 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                         />
                     ) : null}
                     {this.state.comment_field_focused ? (
-                        <Cards.components.Markdown
+                        <Core.components.Markdown
                             markdown={this.state.comment}
-                            card_id={this.props.ref_id}
+                            ref_id={this.props.ref_id}
                         />
                     ) : null}
                     <Divider />

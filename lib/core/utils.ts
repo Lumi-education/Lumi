@@ -125,3 +125,9 @@ export function alphabetically(a, b) {
     }
     return 0;
 }
+
+export function convert_files_url(markdown: string, ref_id: string): string {
+    return markdown
+        ? markdown.replace(/\.\//g, '/files/' + ref_id + '/')
+        : undefined;
+}

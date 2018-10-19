@@ -17,7 +17,6 @@ import * as Core from 'lib/core';
 
 import CreateCardDialog from './dialogs/create-card';
 import AssignmentDialog from './dialogs/assignment-dialog';
-import { CORE_ACTION_ERROR } from 'lib/core/actions';
 
 interface IStateProps {
     location;

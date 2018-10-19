@@ -5,7 +5,6 @@ import * as actions from '../actions';
 
 export default function(state: IFolder[] = [], action): IFolder[] {
     switch (action.type) {
-        // return unionBy([action.payload], state, '_id');
         case actions.FOLDERS_CREATE_FOLDER_SUCCESS:
         case actions.FOLDERS_GET_FOLDERS_SUCCESS:
         case actions.FOLDERS_ADD_MATERIAL_SUCCESS:

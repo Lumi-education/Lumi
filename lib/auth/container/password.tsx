@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import raven from 'lib/core/raven';
+import raven from '../../core/raven';
 
-// material-ui
+// components
 import { Dialog, TextField, RaisedButton } from 'material-ui';
 
-import { state_color } from 'lib/ui/utils';
+import { state_color } from '../../ui/utils';
 
-import * as Auth from '../';
+import * as Auth from '..';
 
 interface IStateProps {
     username: string;

@@ -3,7 +3,7 @@ import { assign, uniq } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 import db from '../../db';
 
-import { ITag } from 'lib/tags/types';
+import { ITag } from '../../../../lib/tags/types';
 
 class TagsController {
     public add_tags_to_docs(req: IRequest, res: express.Response) {
@@ -28,9 +28,6 @@ class TagsController {
     }
 
     public index(req: IRequest, res: express.Response) {
-        // db.find({ type: 'tag' }, { limit: 100 }, (find_tags_error, tags) => {
-        //     res.status(200).json(tags);
-        // });
         db.view('tags', 'index', { key: req.query.tag_id }, (error, docs) => {
             if (error) {
                 return res.status(400).json(error);

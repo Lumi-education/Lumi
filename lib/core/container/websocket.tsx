@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as socketio from 'socket.io-client';
 
 import * as Core from '..';
-import * as UI from '../../ui';
+import * as UI from 'lib/ui';
 
 declare var window;
 
@@ -59,7 +59,7 @@ export class WebsocketContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Core.IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Core.types.IState, ownProps: {}): IStateProps {
     return {};
 }
 

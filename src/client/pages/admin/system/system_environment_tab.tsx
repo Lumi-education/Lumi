@@ -1,37 +1,16 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 import { assign } from 'lodash';
 import * as debug from 'debug';
 
-import {
-    Card,
-    CardHeader,
-    Avatar,
-    Dialog,
-    Paper,
-    TextField,
-    RaisedButton
-} from 'material-ui';
-
-import * as moment from 'moment-timezone';
-
-// svg
-import SVGAssignmentTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
-import SVGLogin from 'material-ui/svg-icons/action/input';
-import SVGDefault from 'material-ui/svg-icons/action/info';
-import SVGComment from 'material-ui/svg-icons/communication/comment';
+import { Dialog, Paper, TextField, RaisedButton } from 'material-ui';
 
 // local
 import { IState } from 'client/state';
 
-// selectors
-import * as Activity from 'lib/activity';
-import * as Users from 'lib/users';
+// modules
 import * as UI from 'lib/ui';
-import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as Core from 'lib/core';
 
 const log = debug('lumi:modules:admin:cards:cards-page');
@@ -47,10 +26,6 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    // filter?: string[];
-    // search_text?: string;
-    // new_tag_name?: string;
-    // new_tag_description?: string;
     loading?: string;
     loading_step?: number;
     env?: any;
@@ -172,7 +147,6 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         env: state.core.status.env
-        //
     };
 }
 

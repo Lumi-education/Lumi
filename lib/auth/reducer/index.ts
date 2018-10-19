@@ -1,4 +1,4 @@
-import { assign, unionBy } from 'lodash';
+import { assign } from 'lodash';
 
 import { IAuth } from '../types';
 

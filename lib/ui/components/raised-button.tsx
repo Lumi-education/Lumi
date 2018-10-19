@@ -3,9 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { RaisedButton } from 'material-ui';
-
 import { state_color } from '../utils';
-
 import * as UI from '..';
 
 // actions

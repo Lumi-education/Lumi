@@ -2,11 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import * as ReactDOM from 'react-dom';
-// components
 
-import * as Cards from '..';
+// components
 import H5PComponent from '../components/h5p';
+
+// modules
+import * as Cards from '..';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 
@@ -45,20 +46,17 @@ export class H5PCardContainer extends React.Component<IProps, IComponentState> {
                 content_id={this.props.card.content_id}
                 integration={{
                     ajax: {
-                        // Where to post user results
                         setFinished:
                             '/api/v0/flow/assignment/' +
                             this.props.assignment_id +
                             '/data',
-                        // Words beginning with : are placeholders
                         contentUserData:
                             '/api/v0/flow/assignment/' +
                             this.props.assignment_id +
                             '/state?data_type=:dataType&subContentId=:subContentId'
                     },
-                    saveFreq: 10, // How often current content state should be saved. false to disable.
+                    saveFreq: 10,
                     user: {
-                        // Only if logged in !
                         name: this.props.user_id,
                         mail: this.props.user_id + '@Lumi.education'
                     }

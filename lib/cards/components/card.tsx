@@ -12,12 +12,8 @@ import {
 } from 'material-ui';
 import { ICard } from '..';
 
-import * as markdownit from 'markdown-it';
-import { convert_files_url } from '../utils';
-
 import * as Tags from 'lib/tags';
-
-const md = markdownit();
+import * as Core from 'lib/core';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 
@@ -64,13 +60,9 @@ export default class CardComponent extends React.Component<IProps, {}> {
                         }
                     />
                     <CardText style={{ paddingTop: '2px' }}>
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: md.render(
-                                    convert_files_url(card.text, card._id) ||
-                                        '# No markdown'
-                                )
-                            }}
+                        <Core.components.Markdown
+                            ref_id={this.props.card._id}
+                            markdown={this.props.card.text}
                         />
                     </CardText>
                     <CardActions>

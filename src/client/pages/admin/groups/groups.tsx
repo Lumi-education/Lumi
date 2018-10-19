@@ -3,24 +3,21 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
+
 import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-
 import CreateGroupDialog from './create_group_dialog';
-
-// selectors
-import { groups_list } from 'lib/groups/selectors';
 
 // types
 import { IState } from 'client/state';
-import { IGroup } from 'lib/groups';
+
+// modules
+import * as Groups from 'lib/groups';
 import * as UI from 'lib/ui';
-// actions
-import { get_groups, create_group } from 'lib/groups/actions';
 
 interface IStateProps {
-    groups: IGroup[];
+    groups: Groups.IGroup[];
 }
 
 interface IDispatchProps {
@@ -50,7 +47,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 
     public componentWillMount() {
         this.setState({ loading: 'Gruppen', loading_step: 1 });
-        this.props.dispatch(get_groups()).then(res => {
+        this.props.dispatch(Groups.actions.get_groups()).then(res => {
             this.setState({ loading: 'finished', loading_step: 2 });
         });
     }
@@ -126,7 +123,9 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 {this.state.show_create_group_dialog ? (
                     <CreateGroupDialog
                         create_group={(name: string) =>
-                            this.props.dispatch(create_group(name))
+                            this.props.dispatch(
+                                Groups.actions.create_group(name)
+                            )
                         }
                         close={() =>
                             this.setState({ show_create_group_dialog: false })
@@ -140,7 +139,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        groups: groups_list(state)
+        groups: Groups.selectors.groups_list(state)
     };
 }
 

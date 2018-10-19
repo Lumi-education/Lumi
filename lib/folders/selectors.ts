@@ -1,4 +1,4 @@
-import raven from '../core/raven';
+import raven from 'lib/core/raven';
 
 import { IState } from './types';
 

@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { isEqual, pull, noop } from 'lodash';
+import { noop } from 'lodash';
 
-import Markdown from './markdown';
+import Markdown from 'lib/core/markdown';
 
 import { Paper, TextField } from 'material-ui';
-const log = debug('lumi:packages:cards:components:freetext');
 
-declare var window;
+const log = debug('lumi:packages:cards:components:freetext');
 
 interface IProps {
     card_id: string;
@@ -23,8 +21,6 @@ interface IState {
 }
 
 export default class FreetextComponent extends React.Component<IProps, IState> {
-    private _typeset_locked: boolean;
-
     constructor(props: IProps) {
         super(props);
 

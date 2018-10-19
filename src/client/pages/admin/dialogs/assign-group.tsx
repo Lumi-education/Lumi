@@ -5,7 +5,6 @@ import * as debug from 'debug';
 
 // components
 import { Dialog, RaisedButton } from 'material-ui';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 
 // local
 import { IState } from 'client/state';

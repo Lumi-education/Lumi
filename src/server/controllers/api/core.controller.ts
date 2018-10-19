@@ -8,7 +8,6 @@ import * as mkdirp from 'mkdirp';
 import db from '../../db';
 import Host from '../../core/host';
 import * as raven from 'raven';
-import proxy from '../../core/proxy';
 import * as envfile from 'envfile';
 import * as fs from 'fs';
 
@@ -37,33 +36,6 @@ export class CoreController {
 
             res.status(200).json(msg);
         });
-
-        // exec(
-        //     "/sbin/ip route|awk '/default/ { print $3 }'",
-        //     (error, stdout, stderr) => {
-        //         if (error || stderr !== '') {
-        //             return res.status(400).json(error || stderr);
-        //         }
-        //         const host_ip_address = stdout.replace(/\n/g, '');
-
-        //         exec(
-        //             '/usr/bin/sshpass -p ' +
-        //                 process.env.HOST_PW +
-        //                 " ssh -o 'StrictHostKeyChecking no' " +
-        //                 process.env.HOST_USER +
-        //                 '@' +
-        //                 host_ip_address +
-        //                 " 'sudo shutdown -h 0'",
-        //             (shutdown_error, shutdown_stdout, shutdown_stderr) => {
-        //                 if (shutdown_error) {
-        //                     return res.status(400).json(shutdown_error);
-        //                 }
-
-        //                 res.status(200).json(shutdown_stderr);
-        //             }
-        //         );
-        //     }
-        // );
     }
 
     public settings(req: express.Request, res: express.Response) {
@@ -170,32 +142,6 @@ export class CoreController {
 
             res.status(200).json(msg);
         });
-        // exec(
-        //     "/sbin/ip route|awk '/default/ { print $3 }'",
-        //     (error, stdout, stderr) => {
-        //         if (error || stderr !== '') {
-        //             return res.status(400).json(error || stderr);
-        //         }
-        //         const host_ip_address = stdout.replace(/\n/g, '');
-
-        //         exec(
-        //             '/usr/bin/sshpass -p ' +
-        //                 process.env.HOST_PW +
-        //                 " ssh -o 'StrictHostKeyChecking no' " +
-        //                 process.env.HOST_USER +
-        //                 '@' +
-        //                 host_ip_address +
-        //                 " 'sudo curl update.lumi.education | sh'",
-        //             (shutdown_error, shutdown_stdout, shutdown_stderr) => {
-        //                 if (shutdown_error) {
-        //                     return res.status(400).json(shutdown_error);
-        //                 }
-
-        //                 res.status(200).json(shutdown_stderr);
-        //             }
-        //         );
-        //     }
-        // );
     }
 }
 

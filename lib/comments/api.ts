@@ -1,5 +1,4 @@
 import * as request from 'superagent';
-
 import { Comment } from './models';
 
 declare var window;

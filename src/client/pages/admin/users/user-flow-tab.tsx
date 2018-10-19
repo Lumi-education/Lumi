@@ -1,11 +1,10 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 
 import { intersection } from 'lodash';
 // types
-import { IState } from '../../../state';
+import { IState } from 'client/state';
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -14,22 +13,17 @@ import {
     CardHeader,
     Paper,
     FloatingActionButton,
-    Checkbox,
-    CardText
+    Checkbox
 } from 'material-ui';
 
 import AssignMaterialDialog from '../dialogs/assign_material';
 
-import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
-
-import { get_grade_color } from 'lib/core/utils';
-import { assign } from 'lib/flow/api';
 
 interface IPassedProps {
     user_id: string;
@@ -69,64 +63,7 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
         };
     }
 
-    public componentWillMount() {
-        // this.setState({ loading: 'Benutzer', loading_step: 1 });
-        // this.props
-        //     .dispatch(Users.actions.get_user(this.props.user_id))
-        //     .then(user_response => {
-        //         const user: Users.IUser = user_response.payload[0];
-        //         this.setState({ loading: 'Aufgaben', loading_step: 2 });
-        //         this.props
-        //             .dispatch(
-        //                 Core.actions.find(
-        //                     {
-        //                         _id: {
-        //                             $in: user.flow
-        //                         }
-        //                     },
-        //                     {
-        //                         limit: 25
-        //                     }
-        //                 )
-        //             )
-        //             .then(assignment_response => {
-        //                 this.setState({ loading: 'Karten', loading_step: 3 });
-        //                 this.props
-        //                     .dispatch(
-        //                         Cards.actions.get_cards(
-        //                             assignment_response.payload.map(
-        //                                 assignment => assignment.card_id
-        //                             )
-        //                         )
-        //                     )
-        //                     .then(card_response => {
-        //                         this.setState({
-        //                             loading: 'finished',
-        //                             loading_step: 4
-        //                         });
-        //                         this.props.dispatch(
-        //                             Users.actions.set_selected_users([
-        //                                 this.props.user_id
-        //                             ])
-        //                         );
-        //                     });
-        //             });
-        //     });
-    }
-
     public render() {
-        // if (this.state.loading !== 'finished') {
-        //     return (
-        //         <UI.components.LoadingPage
-        //             min={1}
-        //             max={4}
-        //             value={this.state.loading_step}
-        //         >
-        //             {this.state.loading}
-        //         </UI.components.LoadingPage>
-        //     );
-        // }
-
         return (
             <div
                 style={{

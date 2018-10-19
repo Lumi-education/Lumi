@@ -1,4 +1,4 @@
-import { unionBy, unionWith, assign } from 'lodash';
+import { unionBy, assign } from 'lodash';
 
 import { IAssignment } from '../types';
 
@@ -22,7 +22,7 @@ import {
     USERS_GET_USER_SUCCESS,
     USERS_GET_USERS_SUCCESS,
     USERS_INIT_USER_SUCCESS
-} from '../../users/actions';
+} from 'lib/users/actions';
 
 import * as Activity from 'lib/activity';
 

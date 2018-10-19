@@ -39,7 +39,7 @@ export class CardPage extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.setState({ loading: 'Karte', loading_step: 1 });
         this.props
-            .dispatch(Cards.actions.get_card(this.props.card_id))
+            .dispatch(Cards.actions.get_cards([this.props.card_id]))
             .then(res => {
                 this.props.dispatch(Cards.actions.change_card(res.payload[0]));
                 this.setState({ loading: 'finished', loading_step: 2 });

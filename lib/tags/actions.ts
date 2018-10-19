@@ -14,11 +14,9 @@ export const TAGS_REM_FROM_DOC_REQUEST = 'TAGS_REM_FROM_DOC_REQUEST';
 export const TAGS_REM_FROM_DOC_SUCCESS = 'TAGS_REM_FROM_DOC_SUCCESS';
 export const TAGS_REM_FROM_DOC_ERROR = 'TAGS_REM_FROM_DOC_ERROR';
 export const TAGS_UI_SELECT_TAG_ID = 'TAGS_UI_SELECT_TAG_ID';
-
 export const TAGS_UPDATE_TAG_REUQEST = 'TAGS_UPDATE_TAG_REQUEST';
 export const TAGS_UPDATE_TAG_SUCCESS = 'TAGS_UPDATE_TAG_SUCCESS';
 export const TAGS_UPDATE_TAG_ERROR = 'TAGS_UPDATE_TAG_ERROR';
-
 export const TAGS_UI_TOGGLE_DIALOG = 'TAGS_UI_TOGGLE_DIALOG';
 export const TAGS_UI_CHANGE_TAG = 'TAGS_UI_CHANGE_TAG';
 export const TAGS_UI_RESET_TAG = 'TAGS_UI_RESET_TAG';
@@ -33,30 +31,6 @@ export function create_tag(name: string, tag?: any) {
             TAGS_CREATE_TAG_ERROR
         ],
         api: API.create_tag(name, tag)
-    };
-}
-
-export function add_tag_to_doc(doc_ids: string[], tag_ids: string[]) {
-    return {
-        types: [
-            TAGS_ADD_TO_DOC_REQUEST,
-            TAGS_ADD_TO_DOC_SUCCESS,
-            TAGS_ADD_TO_DOC_ERROR
-        ],
-        api: API.add_tags_to_docs(doc_ids, tag_ids),
-        payload: { doc_ids, tag_ids }
-    };
-}
-
-export function rem_tag_from_doc(doc_id: string, tag_id: string) {
-    return {
-        types: [
-            TAGS_REM_FROM_DOC_REQUEST,
-            TAGS_REM_FROM_DOC_SUCCESS,
-            TAGS_REM_FROM_DOC_ERROR
-        ],
-        api: API.rem_tag_from_doc(doc_id, tag_id),
-        payload: { doc_id, tag_id }
     };
 }
 

@@ -1,13 +1,12 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import raven from 'lib/core/raven';
-
 import { uniq, intersection } from 'lodash';
+
 // types
 import { IState } from 'client/state';
 
+// components
 import {
     Avatar,
     Paper,
@@ -19,11 +18,14 @@ import {
     RaisedButton,
     FloatingActionButton
 } from 'material-ui';
+
+// svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGAction from 'material-ui/svg-icons/action/build';
-import SVGArchive from 'material-ui/svg-icons/content/archive';
 
 import AssignMaterialDialog from '../dialogs/assign_material';
+
+// modules
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
@@ -31,8 +33,6 @@ import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
-import ContentRemove from 'material-ui/svg-icons/content/remove';
-import { assign } from 'lib/flow/api';
 
 const log = debug('lumi:admin:groups:group-flow-tab');
 
@@ -100,10 +100,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             .reduce((p, c) => p.concat(c), [])
                     ) as string[];
 
-                    // const user_ids = user_response.payload.map(
-                    //     user => user._id
-                    // );
-
                     this.setState({
                         loading: 'Aufträge...',
                         loading_step: 2
@@ -144,16 +140,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                     minHeight: '100vh'
                 }}
             >
-                {/* {this.state.loading !== 'finished' ? (
-                    <UI.components.LoadingIndicator
-                        min={1}
-                        max={3}
-                        value={this.state.loading_step}
-                    >
-                        {' '}
-                        {this.state.loading}
-                    </UI.components.LoadingIndicator>
-                ) : null} */}
                 <Paper style={{ margin: '0px 20px 20px 20px' }} zDepth={5}>
                     <Tags.TagsFilterContainer />
                 </Paper>
@@ -174,7 +160,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             if (a.flow.length < b.flow.length) {
                                 return -1;
                             }
-                            // a muss gleich b sein
                             return 0;
                         })
                         .map(user => {
@@ -407,11 +392,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                 </div>
                             ) : null}
                         </IconMenu>
-
-                        {/* <AssignMaterialDialog
-                            group_id={this.props.group_id}
-                            user_ids={this.props.users.map(user => user._id)}
-                        /> */}
                     </UI.components.ActionBar>
                     <AssignMaterialDialog />
                 </div>
@@ -421,7 +401,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const users = Users.selectors.get_users_by_group(state, ownProps.group_id);
+    const users = Users.selectors.users_in_group(state, ownProps.group_id);
     return {
         users,
         group_id: ownProps.group_id,

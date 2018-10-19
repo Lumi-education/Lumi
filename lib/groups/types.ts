@@ -5,7 +5,7 @@ export interface IGroup {
     type: 'group';
     name: string;
     created_at: Date;
-    members: string[]; // members field is used to maintain a constant order in admin -> groups -> group-flow-tab; without members the order of users changes due to array.map()
+    members: string[]; // no longer needed -> deprecate issue #234
 }
 
 export interface IGroupUI {

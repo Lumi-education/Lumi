@@ -14,7 +14,6 @@ import FlowController from '../../controllers/api/flow.controller';
 import ActivityController from '../../controllers/api/activity.controller';
 import CommentsController from '../../controllers/api/comments.controller';
 import FoldersController from '../../controllers/api/folders.controller';
-import { Folder } from '../../../../node_modules/lib/folders/models';
 
 const log = debug('lumi:routes:api');
 

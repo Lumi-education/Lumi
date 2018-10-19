@@ -2,21 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import {
-    TextField,
-    SelectField,
-    MenuItem,
-    RaisedButton,
-    Divider
-} from 'material-ui';
-import ChipInput from 'material-ui-chip-input';
+import { TextField, Divider } from 'material-ui';
 
 // actions
-import { create_and_add_group, add_group, rem_group } from 'lib/groups/actions';
-
 import { IState } from '../state';
-import * as UI from 'lib/ui';
-import * as Users from 'lib/users';
+import * as UI from '../../../lib/ui';
+import * as Users from '../../../lib/users';
 
 interface IPassedProps {}
 
@@ -74,23 +65,6 @@ export class CreateUserContainer extends React.Component<
                     }
                     errorStyle={{ color: UI.utils.state_color('error') }}
                 />
-                {/* <SelectField
-                    floatingLabelText="Level"
-                    fullWidth={true}
-                    value={this.state.level}
-                    onChange={(e, i, v) => this.setState({ level: v })}
-                    errorText={
-                        this.props.user.level !== this.state.level
-                            ? 'Previous: ' + this.props.user.level
-                            : null
-                    }
-                    errorStyle={{ color: state_color('pending') }}
-                >
-                    <MenuItem value={1} primaryText="Gast" />
-                    <MenuItem value={2} primaryText="Benutzer" />
-                    <MenuItem value={3} primaryText="Betrachter" />
-                    <MenuItem value={4} primaryText="Admin" />
-                </SelectField> */}
                 {this.props.children}
 
                 <Divider />

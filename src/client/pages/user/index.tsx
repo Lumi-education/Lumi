@@ -7,11 +7,11 @@ import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
 import Sync from './sync';
+
 // modules
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
-import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     location;
@@ -59,7 +59,7 @@ export class Root extends React.Component<IProps, IComponentState> {
         if (this.props.system.mode === 'controlled') {
             if (this.props.location !== this.props.system.controlled_location) {
                 this.props.dispatch(
-                    push(this.props.system.controlled_location)
+                    UI.actions.push(this.props.system.controlled_location)
                 );
             }
         }

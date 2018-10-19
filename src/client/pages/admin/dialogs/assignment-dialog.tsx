@@ -3,32 +3,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import * as moment from 'moment';
-
 // components
-import {
-    Avatar,
-    Dialog,
-    RaisedButton,
-    FloatingActionButton,
-    List,
-    ListItem,
-    Divider,
-    Card,
-    CardActions,
-    CardHeader,
-    CardText,
-    FlatButton,
-    TextField,
-    Paper,
-    LinearProgress
-} from 'material-ui';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import { Dialog, RaisedButton, TextField, Paper } from 'material-ui';
 
 // local
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Flow from 'lib/flow';
@@ -163,7 +145,6 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                         <h1>Kommentare</h1>
 
                         {this.props.comments.map(comment => {
-                            // const user = this.props.user(comment.from);
                             return (
                                 <Comments.components.Comment
                                     key={comment._id}
@@ -174,9 +155,9 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                         })}
                         <Paper style={{}}>
                             {this.state.comment_field_focused ? (
-                                <Cards.components.Markdown
+                                <Core.components.Markdown
                                     markdown={this.state.comment}
-                                    card_id={this.props.assignment._id}
+                                    ref_id={this.props.assignment._id}
                                 />
                             ) : null}
                             <TextField

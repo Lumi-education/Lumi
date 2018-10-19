@@ -1,7 +1,5 @@
-import raven from 'lib/core/raven';
-
+import raven from '../core/raven';
 import { IState } from './types';
-
 import { Comment } from './models';
 
 export function ref_id(state: IState, _ref_id: string): Comment[] {

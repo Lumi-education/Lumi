@@ -5,7 +5,7 @@ import { Avatar } from 'material-ui';
 
 import SVGMultiplechoice from 'material-ui/svg-icons/action/view-agenda';
 import SVGVideo from 'material-ui/svg-icons/av/play-arrow';
-import { get_grade_color, get_grade_string } from '../../ui/utils';
+import { get_grade_color } from '../../ui/utils';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 

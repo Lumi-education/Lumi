@@ -2,12 +2,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { assign, noop } from 'lodash';
-import raven from 'lib/core/raven';
 
 // components
 import VideoCardComponent from '../components/video';
 
+// modules
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
 

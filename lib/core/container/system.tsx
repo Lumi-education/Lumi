@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import raven from 'lib/core/raven';
+import raven from '../raven';
 import * as debug from 'debug';
 
 import { IState } from '../types';
 
 import * as Core from '..';
-import * as UI from '../../ui';
+import * as UI from 'lib/ui';
 
 const log = debug('lumi:lib:core:system-container');
 
@@ -48,10 +48,6 @@ export class SystemSettingsContainer extends React.Component<
         setInterval(() => {
             this.props.dispatch(Core.actions.ping());
         }, 10000);
-        // this.setState({ loading_step: 1 });
-        // this.props.dispatch(Core.actions.get_settings()).then(res => {
-
-        // });
     }
 
     public componentWillReceiveProps(nextProps: IProps) {

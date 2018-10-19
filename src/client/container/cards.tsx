@@ -5,20 +5,7 @@ import * as debug from 'debug';
 import { intersection } from 'lodash';
 
 // components
-import {
-    Avatar,
-    Dialog,
-    RaisedButton,
-    FloatingActionButton,
-    List,
-    ListItem,
-    Card,
-    CardActions,
-    CardHeader,
-    CardText,
-    FlatButton,
-    IconButton
-} from 'material-ui';
+import { Avatar, List, ListItem, IconButton } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 
 import SVGRightArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
@@ -28,11 +15,9 @@ import SVGRemove from 'material-ui/svg-icons/navigation/close';
 import { IState } from 'client/state';
 
 // modules
-import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
-import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
-import * as Flow from 'lib/flow';
+
 import { _card_type } from 'lib/cards/components/card-type';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
@@ -143,34 +128,6 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                                         </IconButton>
                                     }
                                 />
-                                // <Card key={card._id} style={{ margin: '10px' }}>
-                                //     <CardHeader
-                                //         title={card.name}
-                                //         subtitle={
-                                //             <Tags.TagsContainer
-                                //                 tag_ids={card.tags}
-                                //             />
-                                //         }
-                                //         showExpandableButton={true}
-                                //         actAsExpander={true}
-                                //     />
-                                //     <CardActions>
-                                //         <FlatButton
-                                //             backgroundColor="#1abc9c"
-                                //             label="Hinzufügen"
-                                //             onClick={() =>
-                                //                 this.props.dispatch(
-                                //                     Cards.actions.select_card(
-                                //                         card._id
-                                //                     )
-                                //                 )
-                                //             }
-                                //         />
-                                //     </CardActions>
-                                //     <CardText expandable={true}>
-                                //         {card.text}
-                                //     </CardText>
-                                // </Card>
                             ))}
                     </List>
                 </div>
@@ -208,34 +165,6 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                                     </IconButton>
                                 }
                             />
-                            // <Card style={{ margin: '10px' }}>
-                            //     <CardHeader
-                            //         title={card.name}
-                            //         subtitle={
-                            //             <Tags.TagsContainer
-                            //                 tag_ids={card.tags}
-                            //             />
-                            //         }
-                            //         showExpandableButton={true}
-                            //         actAsExpander={true}
-                            //     />
-                            //     <CardActions>
-                            //         <FlatButton
-                            //             backgroundColor="#c0392b"
-                            //             label="Entfernen"
-                            //             onClick={() =>
-                            //                 this.props.dispatch(
-                            //                     Cards.actions.select_card(
-                            //                         card._id
-                            //                     )
-                            //                 )
-                            //             }
-                            //         />
-                            //     </CardActions>
-                            //     <CardText expandable={true}>
-                            //         {card.text}
-                            //     </CardText>
-                            // </Card>
                         ))}
                     </List>
                 </div>

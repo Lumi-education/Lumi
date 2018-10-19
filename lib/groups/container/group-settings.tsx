@@ -1,13 +1,11 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from '../../ui/actions';
+import { push } from 'lib/ui/actions';
 
 import { Dialog, TextField, RaisedButton } from 'material-ui';
 
-import { RaisedButtonComponent } from '../../ui';
-
-import { state_color } from '../../ui/utils';
+import { state_color } from 'lib/ui/utils';
 
 // modules
 import * as Groups from '..';
@@ -88,14 +86,6 @@ export class GroupSettingsContainer extends React.Component<
                             this.props.dispatch(push('/admin/groups'))
                         }
                     />
-                    {/* <RaisedButtonComponent
-                        dispatch={this.props.dispatch}
-                        action={Groups.actions.update_group(
-                            this.props.group._id,
-                            this.updated_state()
-                        )}
-                        labels={['Save', 'Saving...', 'Saved', 'Not saved']}
-                    /> */}
                     <RaisedButton
                         fullWidth={true}
                         secondary={true}

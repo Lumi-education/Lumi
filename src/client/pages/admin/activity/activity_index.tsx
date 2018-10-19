@@ -1,7 +1,6 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
 
 import { Card, CardHeader, Avatar } from 'material-ui';
@@ -17,7 +16,7 @@ import SVGComment from 'material-ui/svg-icons/communication/comment';
 // local
 import { IState } from 'client/state';
 
-// selectors
+// modules
 import * as Activity from 'lib/activity';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
@@ -40,10 +39,6 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    // filter?: string[];
-    // search_text?: string;
-    // new_tag_name?: string;
-    // new_tag_description?: string;
     loading?: string;
     loading_step?: number;
 }
@@ -56,10 +51,6 @@ export class AdminActivityIndex extends React.Component<
         super(props);
 
         this.state = {
-            // filter: [],
-            // search_text: '',
-            // new_tag_name: '',
-            // new_tag_description: '',
             loading: 'init',
             loading_step: 0
         };
@@ -186,7 +177,6 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
         assignment: (assignment_id: string) =>
             Flow.selectors.assignment_by_id(state, assignment_id),
         card: (card_id: string) => Cards.selectors.select_card(state, card_id)
-        //
     };
 }
 

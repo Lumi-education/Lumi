@@ -1,37 +1,17 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { noop } from 'lodash';
-import { push } from '../../ui/actions';
 import * as debug from 'debug';
-import Dropzone from 'react-dropzone';
-import * as request from 'superagent';
 import * as path from 'path';
 
 // components
-import {
-    Checkbox,
-    TextField,
-    SelectField,
-    MenuItem,
-    Paper,
-    RaisedButton
-} from 'material-ui';
-import ActionBar from '../../ui/components/action-bar';
-
-import MultiplechoiceComponent from '../components/multiplechoice';
-import TextComponent from '../components/text';
-import FreetextComponent from '../components/freetext';
-import VideoComponent from '../components/video';
-import UploadComponent from '../components/upload';
-import H5PComponent from '../components/h5p';
+import { TextField, SelectField, MenuItem, Paper } from 'material-ui';
 
 import CardPreview from '../components/card-preview';
 
 // modules
-import * as Cards from '..';
-import * as Core from '../../core';
-import * as UI from 'lib/ui';
+import * as Cards from '../';
+import * as Core from 'lib/core';
 
 const log = debug('lumi:container:cards:card-edit');
 
@@ -57,10 +37,6 @@ export class CardEditContainer extends React.Component<
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        // this.props.dispatch(Cards.actions.get_card(this.props.card_id));
     }
 
     public render() {
@@ -202,46 +178,6 @@ export class CardEditContainer extends React.Component<
                                                 >
                                                     Drop .h5p files here
                                                 </Core.components.FileUpload>
-                                                {/* <form
-                                                    id="uploadForm"
-                                                    action="/api/v0/h5p"
-                                                    method="post"
-                                                    target="_blank"
-                                                    encType="multipart/form-data"
-                                                >
-                                                    <input
-                                                        type="file"
-                                                        name="uploaded_file"
-                                                    />
-                                                    <input
-                                                        type="submit"
-                                                        value="Upload!"
-                                                    />
-                                                </form> */}
-                                            </div>
-                                        );
-                                    case 'freetext':
-                                        return (
-                                            <div>
-                                                {/* <TextField
-                                                    floatingLabelText="Answer"
-                                                    value={card.answer || ''}
-                                                    onChange={(e, v) =>
-                                                        this.props.dispatch(
-                                                            Cards.actions.change_card(
-                                                                {
-                                                                    answer: v
-                                                                }
-                                                            )
-                                                        )
-                                                    }
-                                                    fullWidth={true}
-                                                    multiLine={true}
-                                                />
-                                                <Checkbox
-                                                    checked={card.auto_grade}
-                                                    label="Autograde"
-                                                /> */}
                                             </div>
                                         );
                                     case 'multiplechoice':

@@ -2,13 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { assign, noop } from 'lodash';
-import raven from 'lib/core/raven';
 
 // components
 import FreetextComponent from '../components/freetext';
 
 import { IState } from 'client/state';
+
 // modules
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
@@ -67,35 +66,6 @@ export class FreetextCardContainer extends React.Component<
 
     public handleInput(answer: string) {
         this.setState({ answer });
-        // const score = this.props.card.auto_grade
-        //     ? answer.replace(/\s/, '') ===
-        //       this.props.card.answer.replace(/\s/, '')
-        //         ? 1
-        //         : 0
-        //     : this.props.data.score;
-
-        // this.setState({
-        //     error_text: 'saving...',
-        //     error_style: { color: '#e67e22' }
-        // });
-
-        // this.log('score: ' + score);
-        // this.props
-        //     .dispatch(Flow.actions.change_assignment({ state: answer }))
-        //     .then(res => {
-        //         this.setState({
-        //             error_text: 'saved',
-        //             error_style: { color: '#27ae60' }
-        //         });
-        //         setTimeout(
-        //             () =>
-        //                 this.setState({
-        //                     error_text: null,
-        //                     error_style: { color: '#e67e22' }
-        //                 }),
-        //             1000
-        //         );
-        //     });
     }
 
     public render() {

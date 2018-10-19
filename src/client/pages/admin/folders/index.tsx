@@ -2,20 +2,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { intersection, uniq } from 'lodash';
+import { uniq } from 'lodash';
 
 import {
     Avatar,
     Paper,
-    Card,
     Dialog,
-    CardHeader,
-    CardText,
     List,
     Divider,
     MenuItem,
     TextField,
-    Toggle,
     IconMenu,
     ListItem,
     FloatingActionButton,
@@ -29,8 +25,6 @@ import SVGCheckbox from 'material-ui/svg-icons/toggle/check-box';
 import SVGContentAdd from 'material-ui/svg-icons/content/add';
 import SVGBack from 'material-ui/svg-icons/navigation/arrow-back';
 import SVGAssignment from 'material-ui/svg-icons/action/assignment';
-import CreateUserDialog from '../dialogs/create-user';
-import AssignGroupDialog from '../dialogs/assign-group';
 
 import { _card_type } from 'lib/cards/components/card-type';
 

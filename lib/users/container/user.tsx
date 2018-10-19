@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push, goBack } from '../../ui/actions';
 
 // components
 import {
@@ -11,13 +10,10 @@ import {
     RaisedButton
 } from 'material-ui';
 
-import { RaisedButtonComponent } from '../../ui';
-
-import { state_color } from '../../ui/utils';
+import * as UI from 'lib/ui';
 
 // modules
 import * as Users from '..';
-import { user } from '../selectors';
 
 interface IPassedProps {
     user_id: string;
@@ -86,7 +82,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                 ? 'Previous: ' + this.props.user.name
                                 : null
                         }
-                        errorStyle={{ color: state_color('pending') }}
+                        errorStyle={{ color: UI.utils.state_color('pending') }}
                     />
                     <SelectField
                         floatingLabelText="Level"
@@ -98,7 +94,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                 ? 'Previous: ' + this.props.user.level
                                 : null
                         }
-                        errorStyle={{ color: state_color('pending') }}
+                        errorStyle={{ color: UI.utils.state_color('pending') }}
                     >
                         <MenuItem value={1} primaryText="Gast" />
                         <MenuItem value={2} primaryText="Benutzer" />
@@ -122,7 +118,9 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                             <RaisedButton
                                 fullWidth={true}
                                 label="Back"
-                                onClick={() => this.props.dispatch(goBack())}
+                                onClick={() =>
+                                    this.props.dispatch(UI.actions.goBack())
+                                }
                             />
                         </div>
                         <div style={{ flex: 1 }}>
@@ -135,21 +133,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                 label="Delete"
                             />
                         </div>
-                        <div style={{ flex: 1 }}>
-                            {/* <RaisedButtonComponent
-                                dispatch={this.props.dispatch}
-                                action={Users.actions.update_user(
-                                    this.props.user._id,
-                                    this.updated_state()
-                                )}
-                                labels={[
-                                    'Save',
-                                    'Saving...',
-                                    'Saved',
-                                    'Not saved'
-                                ]}
-                            /> */}
-                        </div>
+                        <div style={{ flex: 1 }} />
                     </div>
 
                     <Dialog
@@ -177,7 +161,7 @@ export class UserContainer extends React.Component<IProps, IComponentState> {
                                         )
                                         .then(res =>
                                             this.props.dispatch(
-                                                push('/admin/users')
+                                                UI.actions.push('/admin/users')
                                             )
                                         );
                                 }}

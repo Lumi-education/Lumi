@@ -167,15 +167,6 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/comments')
                             }
                         />
-                        {/* <Subheader>Diagnostik</Subheader>
-                        <ListItem
-                            primaryText="Monitor"
-                            leftIcon={<SVGMonitor />}
-                            onTouchTap={() => {
-                                this.props.push('/admin/analytics/monitor');
-                            }}
-                        />
-                        <Divider /> */}
                         <Divider />
                         <Subheader>Benutzer</Subheader>
                         <ListItem

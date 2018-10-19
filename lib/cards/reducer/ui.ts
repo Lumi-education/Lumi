@@ -1,12 +1,11 @@
-import { assign, unionBy } from 'lodash';
-
-import { CARD_SELECT, CARD_SELECTION_RESET } from '../constants';
+import { assign } from 'lodash';
 
 import {
     CARDS_UI_CHANGE_CARD,
     CARDS_UI_RESET_CARD,
     CARDS_UI_SET_SELECTED_CARDS,
-    CARDS_DUPLICATE_SUCCESS
+    CARD_SELECT,
+    CARD_SELECTION_RESET
 } from '../actions';
 
 import { ICardUI } from '..';

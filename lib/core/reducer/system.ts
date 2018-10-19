@@ -1,5 +1,3 @@
-import { assign, unionBy } from 'lodash';
-
 import { ISystemSettings } from '../types';
 
 import { SYSTEM_GET_SETTINGS_SUCCESS } from '../actions';
