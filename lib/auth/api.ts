@@ -16,7 +16,9 @@ export function logout() {
 }
 
 export function register(username: string, password: string) {
-    return request.post('/api/v0/auth/register').send({ username, password });
+    return request
+        .post('/api/v0/auth/register')
+        .send({ password, name: username });
 }
 
 export function get_session() {
@@ -33,4 +35,8 @@ export function set_password(username: string, password: string) {
             password
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
+
+export function check_username(username: string) {
+    return request.get('/api/v0/auth/username/' + username);
 }

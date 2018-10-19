@@ -3,11 +3,18 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import { AppBar, Drawer, List, Subheader, IconButton } from 'material-ui';
+import {
+    AppBar,
+    Drawer,
+    List,
+    Subheader,
+    IconButton,
+    ListItem,
+    Toggle
+} from 'material-ui';
 
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
-import SVGGroup from 'material-ui/svg-icons/social/group';
 
 // types
 import { IState } from 'client/state';
@@ -20,11 +27,13 @@ import {
 } from 'lib/ui/actions';
 
 import * as UI from 'lib/ui';
+import * as Core from 'lib/core';
 
 const log = debug('lumi:pages:cards:right-drawer');
 
 interface IStateProps {
     show: boolean;
+    system: Core.types.ISystemSettings;
 }
 
 interface IDispatchProps {
@@ -42,16 +51,6 @@ export class RightDrawer extends React.Component<IProps, {}> {
         this.handleClose = this.handleClose.bind(this);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        // this.props.dispatch(
-        //     set_right_appbar_icon(
-        //         <IconButton>
-        //             <SVGGroup />
-        //         </IconButton>
-        //     )
-        // );
     }
 
     public componentWillUnmount() {
@@ -86,7 +85,31 @@ export class RightDrawer extends React.Component<IProps, {}> {
                         onLeftIconButtonTouchTap={() => this.props.close()}
                     />
                     <List>
-                        <Subheader>-</Subheader>
+                        <Subheader>Einstellungen</Subheader>
+                        <ListItem
+                            rightToggle={
+                                <Toggle
+                                    toggled={
+                                        this.props.system.mode === 'controlled'
+                                    }
+                                    onToggle={() => {
+                                        this.props.dispatch(
+                                            Core.actions.update('system', {
+                                                mode:
+                                                    this.props.system.mode ===
+                                                    'free'
+                                                        ? 'controlled'
+                                                        : 'free'
+                                            })
+                                        );
+                                    }}
+                                />
+                            }
+                            primaryText="Kontrollierter Modus"
+                            secondaryText={
+                                this.props.system.controlled_location
+                            }
+                        />
                     </List>
                 </Drawer>
             </div>
@@ -96,7 +119,8 @@ export class RightDrawer extends React.Component<IProps, {}> {
 
 function mapStateToProps(state: IState): IStateProps {
     return {
-        show: state.ui.right_drawer_show
+        show: state.ui.right_drawer_show,
+        system: state.core.system
     };
 }
 

@@ -2,17 +2,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { assign, noop } from 'lodash';
-import raven from 'lib/core/raven';
 
 // components
+import { RaisedButton } from 'material-ui';
 import MultiplechoiceComponent from '../components/multiplechoice';
 
 // modules
-import * as Cards from '..';
-import * as Flow from '../../flow';
-import { IState } from '../../../src/client/state';
-import { RaisedButton } from 'material-ui';
+import * as Cards from '../';
+import * as Flow from 'lib/flow';
+import { IState } from 'client/state';
 
 const log = debug('lumi:packages:cards:container:multiplechoice-card');
 

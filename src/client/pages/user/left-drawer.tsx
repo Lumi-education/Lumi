@@ -16,10 +16,10 @@ import {
 // material-ui -> icons
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
-import SVGDashboard from 'material-ui/svg-icons/action/dashboard';
 import SVGAssignments from 'material-ui/svg-icons/action/assignment';
 import SVGCheckbox from 'material-ui/svg-icons/navigation/check';
 import SVGCheckboxIndeterminate from 'material-ui/svg-icons/toggle/radio-button-unchecked';
+
 // actions
 import { push, left_drawer_close } from 'lib/ui/actions';
 import { logout } from 'lib/auth/actions';

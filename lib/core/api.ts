@@ -9,15 +9,9 @@ export function find(query, options?) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function doc(id: string) {
+export function update(id: string, _update) {
     return request
-        .get('/api/v0/core/doc/' + id)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function update(ids: string[], _update) {
-    return request
-        .post('/api/v0/core/update?ids=' + JSON.stringify(ids))
+        .post('/api/v0/core/update?id=' + id)
         .send(_update)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

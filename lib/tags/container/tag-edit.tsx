@@ -1,25 +1,12 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { noop } from 'lodash';
-import { push } from '../../ui/actions';
 import * as debug from 'debug';
-import Dropzone from 'react-dropzone';
-import * as request from 'superagent';
-
-import ColorPicker from 'material-ui-color-picker';
 
 // components
-import {
-    Checkbox,
-    TextField,
-    SelectField,
-    MenuItem,
-    Paper,
-    RaisedButton
-} from 'material-ui';
+import { TextField, Paper } from 'material-ui';
 
-import * as Tags from 'lib/tags';
+import * as Tags from '..';
 
 const log = debug('lumi:container:cards:card-edit');
 

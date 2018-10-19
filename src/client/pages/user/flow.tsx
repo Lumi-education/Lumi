@@ -6,25 +6,23 @@ import {
     Avatar,
     List,
     ListItem,
-    Subheader,
-    Divider,
     Paper,
     IconMenu,
     IconButton,
     MenuItem
 } from 'material-ui';
 
-// actions
-import { push } from 'lib/ui/actions';
-import SVGCheckboxoutline from 'material-ui/svg-icons/toggle/check-box-outline-blank';
+// svg
 import SVGCheckbox from 'material-ui/svg-icons/navigation/check';
 import SVGCheckboxIndeterminate from 'material-ui/svg-icons/toggle/radio-button-unchecked';
 import SVGComment from 'material-ui/svg-icons/communication/comment';
+
 // types
 import { IState } from 'client/state';
+
+// modules
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
-import { assign } from 'lib/flow/actions';
 import * as UI from 'lib/ui';
 import * as Comments from 'lib/comments';
 
@@ -82,7 +80,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                             <IconButton
                                                 onClick={e => {
                                                     this.props.dispatch(
-                                                        push(
+                                                        UI.actions.push(
                                                             '/user/assignment/' +
                                                                 assignment._id +
                                                                 '/comments'
@@ -144,7 +142,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 secondaryText={card.description}
                                 onTouchTap={() =>
                                     this.props.dispatch(
-                                        push(
+                                        UI.actions.push(
                                             '/user/assignment/' + assignment_id
                                         )
                                     )

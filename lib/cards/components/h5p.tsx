@@ -2,10 +2,6 @@ import * as React from 'react';
 import * as debug from 'debug';
 import * as ReactDOM from 'react-dom';
 import { assign } from 'lodash';
-import { Paper } from 'material-ui';
-
-import * as markdownit from 'markdown-it';
-const md = markdownit();
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 

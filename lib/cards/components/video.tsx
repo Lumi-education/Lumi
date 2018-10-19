@@ -4,7 +4,7 @@ import * as debug from 'debug';
 import { Paper } from 'material-ui';
 const log = debug('lumi:packages:cards:components:videocard');
 
-import { convert_files_url } from '../utils';
+import * as Core from 'lib/core';
 
 interface IProps {
     video_url: string;
@@ -21,7 +21,7 @@ export default class VideoCardComponent extends React.Component<IProps, {}> {
             <Paper style={{ padding: '5px', margin: '5px' }}>
                 <video width="100%" controls={true}>
                     <source
-                        src={convert_files_url(
+                        src={Core.utils.convert_files_url(
                             this.props.video_url,
                             this.props.card_id
                         )}

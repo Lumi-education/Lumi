@@ -23,7 +23,6 @@ export class DB {
         this.find = this.find.bind(this);
         this.findOne = this.findOne.bind(this);
         this.updateOne = this.updateOne.bind(this);
-        // this.view = this.view.bind(this);
         this.delete = this.delete.bind(this);
     }
 
@@ -40,9 +39,9 @@ export class DB {
             });
     }
 
-    public _findById(id: string, cb: (err, doc) => void) {
-        this.findById(id, cb);
-    }
+    // public _findById(id: string, cb: (err, doc) => void) {
+    //     this.findById(id, cb);
+    // }
 
     public save(doc, cb?: (err, saved_doc) => void) {
         request

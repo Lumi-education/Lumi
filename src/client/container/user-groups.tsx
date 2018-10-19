@@ -1,22 +1,14 @@
-// modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
 
 import { AutoComplete } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
 
-// actions
-import {
-    get_user_groups,
-    create_and_add_group,
-    add_group,
-    rem_group
-} from 'lib/groups/actions';
-
-import { IState } from '../state';
+// modules
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
+
+import { IState } from 'client/state';
 
 interface IPassedProps {
     user_id: string;
@@ -41,7 +33,7 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_user_groups(this.props.user_id));
+        this.props.dispatch(Groups.actions.get_user_groups(this.props.user_id));
     }
 
     public render() {
@@ -65,17 +57,22 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
                         _group => _group._id === group._id
                     )[0]
                         ? this.props.dispatch(
-                              add_group(this.props.user_id, group._id)
+                              Groups.actions.add_group(
+                                  this.props.user_id,
+                                  group._id
+                              )
                           )
                         : this.props.dispatch(
-                              create_and_add_group(
+                              Groups.actions.create_and_add_group(
                                   this.props.user_id,
                                   group.name
                               )
                           );
                 }}
                 onRequestDelete={group_id =>
-                    this.props.dispatch(rem_group(this.props.user_id, group_id))
+                    this.props.dispatch(
+                        Groups.actions.rem_group(this.props.user_id, group_id)
+                    )
                 }
             />
         );

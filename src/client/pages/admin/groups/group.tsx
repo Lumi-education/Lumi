@@ -6,15 +6,14 @@ import { push } from 'lib/ui/actions';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 // types
-import * as UI from 'lib/ui';
 import { IState } from 'client/state';
 
 import GroupUsersTab from './group-users-tab';
-
-import * as Groups from 'lib/groups';
 import GroupFlowTab from './group-flow-tab';
-// actions
-import { get_group } from 'lib/groups/actions';
+
+// modules
+import * as Groups from 'lib/groups';
+import * as UI from 'lib/ui';
 
 interface IStateProps {
     group_id: string;
@@ -42,7 +41,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(get_group(this.props.group_id));
+        this.props.dispatch(Groups.actions.get_group(this.props.group_id));
     }
 
     public render() {

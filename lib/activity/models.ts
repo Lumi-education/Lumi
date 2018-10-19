@@ -1,8 +1,12 @@
+// node_modules
 import { assign } from 'lodash';
-
 import * as moment from 'moment';
+
+// local
 import { IActivity, Activity_id, Activity_types } from './types';
-import { User_id } from '../users/types';
+
+// types
+import { User_id } from 'lib/users/types';
 
 export class Activity implements IActivity {
     public _id: Activity_id;

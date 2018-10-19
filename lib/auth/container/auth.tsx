@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import raven from 'lib/core/raven';
 import * as debug from 'debug';
 
-// actions
+// local
 import * as Auth from '../';
 
 const log = debug('lumi:auth');
@@ -25,25 +25,7 @@ export class AuthContainer extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(Auth.actions.get_session()).then(res => {
-            // if (
-            //     res.response.status === 401 &&
-            //     this.props.location !== '/login'
-            // ) {
-            //     const username = 'guest_' + shortid();
-            //     this.props
-            //         .dispatch(Auth.actions.register(username, 'guest'))
-            //         .then(r => {
-            //             this.props
-            //                 .dispatch(Auth.actions.login(username, 'guest'))
-            //                 .then(re => {
-            //                     window.localStorage.jwt_token =
-            //                         re.payload.jwt_token;
-            //                     this.props.dispatch(Auth.actions.get_session());
-            //                 });
-            //         });
-            // }
-        });
+        this.props.dispatch(Auth.actions.get_session());
     }
 
     public render() {

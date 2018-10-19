@@ -7,8 +7,8 @@ import db from '../../db';
 
 import { add_activity } from '../../modules/activity';
 
-import { IAssignment } from '../../../../lib/flow/types';
-import { IUser } from '../../../../lib/users/types';
+import { IAssignment } from 'lib/flow/types';
+import { IUser } from 'lib/users/types';
 
 class FlowController {
     public get_assignments(req: IRequest, res: express.Response) {

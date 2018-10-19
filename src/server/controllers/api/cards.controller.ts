@@ -25,7 +25,6 @@ class CardController {
             text: 'missing text',
             description: '',
             created_at: new Date(),
-            _attachments: {},
             files: [],
             tags: [],
             _rev: undefined

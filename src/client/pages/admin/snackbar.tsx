@@ -9,8 +9,6 @@ import { IState } from 'client/state';
 // modules
 import * as UI from 'lib/ui';
 
-declare var process;
-
 interface IStateProps {
     text: string;
     open: boolean;

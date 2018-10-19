@@ -2,23 +2,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { assign } from 'lodash';
-import { push } from '../../ui/actions';
 import * as debug from 'debug';
-import Dropzone from 'react-dropzone';
-import * as request from 'superagent';
 
 // components
-import {
-    Checkbox,
-    TextField,
-    SelectField,
-    MenuItem,
-    Paper,
-    Slider
-} from 'material-ui';
-import ActionBar from '../../ui/components/action-bar';
+import { Paper, Slider } from 'material-ui';
 
-import * as Core from '../../core';
+import * as Core from 'lib/core';
 import * as Flow from '..';
 
 const log = debug('lumi:container:cards:card-edit');
@@ -45,10 +34,6 @@ export class AssignmentEditContainer extends React.Component<
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        // this.props.dispatch(Cards.actions.get_card(this.props.card_id));
     }
 
     public render() {

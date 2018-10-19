@@ -3,27 +3,16 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
 
-import { Paper, Tabs, Tab, FloatingActionButton, MenuItem } from 'material-ui';
-import SVGGrade from 'material-ui/svg-icons/action/grade';
-import SVGDelete from 'material-ui/svg-icons/content/remove';
-import SVGEdit from 'material-ui/svg-icons/content/create';
-
-import ActionBar from 'lib/ui/components/action-bar';
+import { Tabs, Tab } from 'material-ui';
 
 import System_environment_tab from './system_environment_tab';
 import System_update_tab from './system_update_tab';
-
-import UserGroupsInput from 'client/container/user-groups';
 
 // state
 import { IState } from 'client/state';
 
 // modules
-import * as Users from 'lib/users';
-import * as Groups from 'lib/groups';
-import * as Grades from 'lib/grades';
 import * as UI from 'lib/ui';
-import * as Tags from 'lib/tags';
 
 interface IStateProps {
     tab: string;

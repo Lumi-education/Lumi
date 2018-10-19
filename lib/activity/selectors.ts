@@ -1,7 +1,6 @@
+// local
 import { Activity } from './models';
 import { IState, Activity_id } from './types';
-
-import { sortBy } from 'lodash';
 
 export function last_30_activies(
     state: IState,

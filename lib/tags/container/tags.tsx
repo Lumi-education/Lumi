@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { IState, ITag } from '../types';
 
 // selectors
-import * as Tags from '../';
+import * as Tags from '..';
 
 interface IPassedProps {
     tag_ids: string[];

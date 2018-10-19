@@ -4,18 +4,7 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 
 // components
-import {
-    Dialog,
-    RaisedButton,
-    FloatingActionButton,
-    List,
-    ListItem,
-    Card,
-    CardActions,
-    CardHeader,
-    CardText,
-    FlatButton
-} from 'material-ui';
+import { Dialog, RaisedButton } from 'material-ui';
 
 // local
 import { IState } from 'client/state';

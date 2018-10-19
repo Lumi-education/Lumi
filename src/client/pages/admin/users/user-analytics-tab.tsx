@@ -1,43 +1,22 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'lib/ui/actions';
 import * as debug from 'debug';
 import { groupBy } from 'lodash';
+import * as moment from 'moment';
+
 // types
 import { IState } from 'client/state';
 
-import { LineChart, ColumnChart, BarChart } from 'react-chartkick';
+import { LineChart, ColumnChart } from 'react-chartkick';
 
-import {
-    Badge,
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-    SelectField,
-    MenuItem,
-    Paper,
-    DatePicker,
-    FloatingActionButton
-} from 'material-ui';
-
-import AssignMaterialDialog from '../dialogs/assign_material';
+import { SelectField, MenuItem, Paper, DatePicker } from 'material-ui';
 
 import * as Core from 'lib/core';
-import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
-import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
-
-import { get_grade_color, avg } from 'lib/core/utils';
-import { assign } from 'lib/flow/actions';
-
-import * as moment from 'moment';
 
 const log = debug('lumi:admin:users:user-analytics-tab');
 
@@ -100,63 +79,7 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
         }
     }
 
-    public componentWillMount() {
-        // this.setState({ loading: 'Benutzer', loading_step: 1 });
-        // this.props
-        //     .dispatch(Users.actions.get_user(this.props.user_id))
-        //     .then(user_response => {
-        //         const user: Users.IUser = user_response.payload[0];
-        //         this.setState({ loading: 'Aufgaben', loading_step: 2 });
-        //         this.props
-        //             .dispatch(
-        //                 Core.actions.find(
-        //                     {
-        //                         user_id: this.props.user_id,
-        //                         type: 'assignment'
-        //                     },
-        //                     {
-        //                         limit: 500
-        //                     }
-        //                 )
-        //             )
-        //             .then(assignment_response => {
-        //                 this.setState({ loading: 'Karten', loading_step: 3 });
-        //                 this.props
-        //                     .dispatch(
-        //                         Cards.actions.get_cards(
-        //                             assignment_response.payload.map(
-        //                                 assignment => assignment.card_id
-        //                             )
-        //                         )
-        //                     )
-        //                     .then(card_response => {
-        //                         this.setState({
-        //                             loading: 'finished',
-        //                             loading_step: 4
-        //                         });
-        //                         this.props.dispatch(
-        //                             Users.actions.set_selected_users([
-        //                                 this.props.user_id
-        //                             ])
-        //                         );
-        //                     });
-        //             });
-        //     });
-    }
-
     public render() {
-        // if (this.state.loading !== 'finished') {
-        //     return (
-        //         <UI.components.LoadingPage
-        //             min={1}
-        //             max={4}
-        //             value={this.state.loading_step}
-        //         >
-        //             {this.state.loading}
-        //         </UI.components.LoadingPage>
-        //     );
-        // }
-
         let num_assignments = 0;
 
         const line_data = this.props.selected_tags.map(tag_id => {
@@ -197,7 +120,6 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                         .map(e => e[1])
                         .reduce(Core.utils.sum, 0) / grouped_data[date].length
                 ]);
-                // bar_data.push([key, test[key].length]);
             }
 
             return { data, name: tag.name, color: tag.color };
@@ -282,8 +204,6 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                         max={100}
                         data={line_data}
                     />
-                    {/* <h3>Anzahl der Aufgaben</h3>
-                    <BarChart data={bar_data} /> */}
                 </Paper>
                 <Paper style={{ marginTop: '20px' }}>
                     <h1>Durchschnitt</h1>

@@ -4,21 +4,7 @@ import { connect } from 'react-redux';
 import * as debug from 'debug';
 
 // components
-import {
-    Dialog,
-    RaisedButton,
-    FloatingActionButton,
-    List,
-    ListItem,
-    Card,
-    CardActions,
-    CardHeader,
-    CardText,
-    FlatButton
-} from 'material-ui';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-
-import CreateUserContainer from '../../../container/create-user';
+import { Dialog, RaisedButton } from 'material-ui';
 
 // local
 import { IState } from 'client/state';
@@ -89,22 +75,6 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                             }
                         />
                     ) : null,
-                    // this.props.card._id ? (
-                    //     <RaisedButton
-                    //         label="Löschen"
-                    //         secondary={true}
-                    //         onClick={() => {
-                    //             this.props.dispatch(
-                    //                 Cards.actions.delete_card(
-                    //                     this.props.card._id
-                    //                 )
-                    //             );
-                    //             this.props.dispatch(
-                    //                 UI.actions.toggle_create_card_dialog()
-                    //             );
-                    //         }}
-                    //     />
-                    // ) : null,
                     <UI.components.RaisedButton
                         action={
                             this.props.card._id

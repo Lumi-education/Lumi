@@ -1,11 +1,11 @@
-import { assign, unionBy } from 'lodash';
-
-import { CARD_SELECT, CARD_SELECTION_RESET } from '../constants';
+import { assign } from 'lodash';
 
 import {
     CARDS_UI_CHANGE_CARD,
     CARDS_UI_RESET_CARD,
-    CARDS_DUPLICATE_SUCCESS
+    CARDS_UI_SET_SELECTED_CARDS,
+    CARD_SELECT,
+    CARD_SELECTION_RESET
 } from '../actions';
 
 import { ICardUI } from '..';
@@ -36,6 +36,9 @@ export default function(state: ICardUI = initialState, action): ICardUI {
 
         case CARD_SELECTION_RESET:
             return assign({}, state, { selected_cards: [] });
+
+        case CARDS_UI_SET_SELECTED_CARDS:
+            return assign({}, state, { selected_cards: action.card_ids });
 
         case CARDS_UI_CHANGE_CARD:
             const new_card = assign({}, state.card, action.payload);

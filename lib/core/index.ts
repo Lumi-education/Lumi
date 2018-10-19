@@ -2,7 +2,6 @@ import * as types from './types';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
-export { IState } from './types';
 import FileListComponent from './components/file-list';
 import WebsocketContainer from './container/websocket';
 import Markdown from './components/markdown';

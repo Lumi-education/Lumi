@@ -1,4 +1,4 @@
-import { assign, unionBy } from 'lodash';
+import { assign } from 'lodash';
 import { IGroupUI } from '../types';
 
 import { GROUPS_SELECT_GROUP, GROUPS_UI_SET_SELECTED_GROUPS } from '../actions';

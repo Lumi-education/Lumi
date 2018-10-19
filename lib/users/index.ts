@@ -1,6 +1,5 @@
 export { IState, IUser, IUsersUI } from './types';
 export { default as UserContainer } from './container/user';
-export { default as CreateUserContainer } from './container/create-user';
 export { default as users_reducer } from './reducer';
 import UserChipInputContainer from './container/user-chip-input';
 import * as selectors from './selectors';

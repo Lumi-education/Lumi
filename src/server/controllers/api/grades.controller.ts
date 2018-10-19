@@ -5,12 +5,6 @@ import { IRequest } from '../../middleware/auth';
 import db from '../../db';
 
 class GradesController {
-    public user(req: IRequest, res: express.Response) {
-        // db.view('grade', 'user', {key: req.params.user_id}, (error, grades) => {
-        //     res.status(200).json(grades);
-        // });
-    }
-
     public create(req: IRequest, res: express.Response) {
         const default_grade = {
             _id: undefined,

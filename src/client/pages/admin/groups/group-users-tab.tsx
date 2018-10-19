@@ -1,13 +1,14 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { uniq } from 'lodash';
 
 // types
 import { IState } from 'client/state';
 
+// components
 import { Avatar, Divider, List, ListItem, Paper } from 'material-ui';
 
+// modules
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
@@ -15,7 +16,6 @@ import * as UI from 'lib/ui';
 
 import Create_or_add_user_dialog from './create_or_add_user_dialog';
 import { push } from 'lib/ui/actions';
-// actions
 
 interface IPassedProps {
     group_id: string;
@@ -124,7 +124,7 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         group_id: ownProps.group_id,
-        users: Users.selectors.get_users_by_group(state, ownProps.group_id),
+        users: Users.selectors.users_in_group(state, ownProps.group_id),
         group: (group_id: string) =>
             Groups.selectors.select_group(state, group_id),
         selected_users: state.users.ui.selected_users

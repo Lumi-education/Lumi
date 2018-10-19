@@ -1,13 +1,28 @@
 import * as API from './api';
 
-import * as k from './constants';
-
-export const DATA_GET_CARD_DATA_REQUEST = 'DATA_GET_CARD_DATA_REQUEST';
-export const DATA_GET_CARD_DATA_SUCCESS = 'DATA_GET_CARD_DATA_SUCCESS';
-export const DATA_GET_CARD_DATA_ERROR = 'DATA_GET_CARD_DATA_ERROR';
+export const CARDS_GET_CARDS_REQUEST = 'CARDS_GET_CARDS_REQUEST';
+export const CARDS_GET_CARDS_SUCCESS = 'CARDS_GET_CARDS_SUCCESS';
+export const CARDS_GET_CARDS_ERROR = 'CARDS_GET_CARDS_ERROR';
+export const CARDS_CREATE_CARD_REQUEST = 'CARDS_CREATE_CARD_REQUEST';
+export const CARDS_CREATE_CARD_SUCCESS = 'CARDS_CREATE_CARD_SUCCESS';
+export const CARDS_CREATE_CARD_ERROR = 'CARDS_CREATE_CARD_ERROR';
+export const CARDS_UPDATE_CARD_REQUEST = 'CARDS_UPDATE_CARD_REQUEST';
+export const CARDS_UPDATE_CARD_SUCCESS = 'CARDS_UPDATE_CARD_SUCCESS';
+export const CARDS_UPDATE_CARD_ERROR = 'CARDS_UPDATE_CARD_ERROR';
+export const CARDS_DELETE_CARD_REQUEST = 'CARDS_DELETECARD_REQUEST';
+export const CARDS_DELETE_CARD_SUCCESS = 'CARDS_DELETE_CARD_SUCCESS';
+export const CARDS_DELETE_CARD_ERROR = 'CARDS_DELETE_CARD_ERROR';
+export const CARDS_REM_TAG_REQUEST = 'CARDS_REM_TAG_REQUEST';
+export const CARDS_REM_TAG_SUCCESS = 'CARDS_REM_TAG_SUCCESS';
+export const CARDS_REM_TAG_ERROR = 'CARDS_REM_TAG_ERROR';
+export const CARDS_ADD_TAG_REQUEST = 'CARDS_ADD_TAG_REQUEST';
+export const CARDS_ADD_TAG_SUCCESS = 'CARDS_ADD_TAG_SUCCESS';
+export const CARDS_ADD_TAG_ERROR = 'CARDS_ADD_TAG_ERROR';
+export const CARD_SELECT = 'CARD_SELECT';
+export const CARD_SELECTION_RESET = 'CARD_SELECTION_RESET';
 export const CARDS_UI_CHANGE_CARD = 'CARDS_UI_CHANGE_CARD';
 export const CARDS_UI_RESET_CARD = 'CARDS_UI_RESET_CARD';
-
+export const CARDS_UI_SET_SELECTED_CARDS = 'CARDS_UI_SET_SELECTED_CARDS';
 export const CARDS_DUPLICATE_REQUEST = 'CARDS_DUPLICATE_REQUEST';
 export const CARDS_DUPLICATE_SUCCESS = 'CARDS_DUPLICATE_SUCCESS';
 export const CARDS_DUPLICATE_ERROR = 'CARDS_DUPLICATE_ERROR';
@@ -15,32 +30,20 @@ export const CARDS_DUPLICATE_ERROR = 'CARDS_DUPLICATE_ERROR';
 export function get_cards(ids?: string[]) {
     return {
         types: [
-            k.CARDS_GET_CARDS_REQUEST,
-            k.CARDS_GET_CARDS_SUCCESS,
-            k.CARDS_GET_CARDS_ERROR
+            CARDS_GET_CARDS_REQUEST,
+            CARDS_GET_CARDS_SUCCESS,
+            CARDS_GET_CARDS_ERROR
         ],
         api: API.get_cards(ids)
-    };
-}
-
-export function get_card(card_id: string) {
-    return {
-        types: [
-            k.CARDS_GET_CARD_REQUEST,
-            k.CARDS_GET_CARD_SUCCESS,
-            k.CARDS_GET_CARD_ERROR
-        ],
-        api: API.get_card(card_id),
-        payload: { card_id }
     };
 }
 
 export function update_card(card_id: string, update) {
     return {
         types: [
-            k.CARDS_UPDATE_CARD_REQUEST,
-            k.CARDS_UPDATE_CARD_SUCCESS,
-            k.CARDS_UPDATE_CARD_ERROR
+            CARDS_UPDATE_CARD_REQUEST,
+            CARDS_UPDATE_CARD_SUCCESS,
+            CARDS_UPDATE_CARD_ERROR
         ],
         api: API.update_card(card_id, update),
         payload: { card_id, update }
@@ -50,9 +53,9 @@ export function update_card(card_id: string, update) {
 export function create_card(card?) {
     return {
         types: [
-            k.CARDS_CREATE_CARD_REQUEST,
-            k.CARDS_CREATE_CARD_SUCCESS,
-            k.CARDS_CREATE_CARD_ERROR
+            CARDS_CREATE_CARD_REQUEST,
+            CARDS_CREATE_CARD_SUCCESS,
+            CARDS_CREATE_CARD_ERROR
         ],
         api: API.create_card(card),
         payload: { card }
@@ -62,9 +65,9 @@ export function create_card(card?) {
 export function delete_card(card_id: string) {
     return {
         types: [
-            k.CARDS_DELETE_CARD_REQUEST,
-            k.CARDS_DELETE_CARD_SUCCESS,
-            k.CARDS_DELETE_CARD_ERROR
+            CARDS_DELETE_CARD_REQUEST,
+            CARDS_DELETE_CARD_SUCCESS,
+            CARDS_DELETE_CARD_ERROR
         ],
         api: API.delete_card(card_id),
         payload: { card_id }
@@ -73,71 +76,23 @@ export function delete_card(card_id: string) {
 
 export function select_card(card_id: string) {
     return {
-        type: k.CARD_SELECT,
+        type: CARD_SELECT,
         payload: {
             card_id
         }
     };
 }
 
+export function set_selected_cards(card_ids: string[]) {
+    return {
+        card_ids,
+        type: CARDS_UI_SET_SELECTED_CARDS
+    };
+}
+
 export function reset_card_selection() {
     return {
-        type: k.CARD_SELECTION_RESET
-    };
-}
-
-export function create_data<T>(data: T) {
-    return {
-        types: [
-            k.DATA_CREATE_REQUEST,
-            k.DATA_CREATE_SUCCESS,
-            k.DATA_CREATE_ERROR
-        ],
-        api: API.create_data(data),
-        payload: { data }
-    };
-}
-
-export function get_user_collection_data(collection_id: string) {
-    return {
-        types: [k.DATA_GET_REQUEST, k.DATA_GET_SUCCESS, k.DATA_GET_ERROR],
-        api: API.get_user_collection_data(collection_id),
-        payload: { collection_id }
-    };
-}
-export function get_card_data(
-    user_id: string,
-    collection_id: string,
-    card_id: string
-) {
-    return {
-        types: [
-            DATA_GET_CARD_DATA_REQUEST,
-            DATA_GET_CARD_DATA_SUCCESS,
-            DATA_GET_CARD_DATA_ERROR
-        ],
-        api: API.get_card_data(user_id, collection_id, card_id),
-        payload: { user_id, collection_id, card_id }
-    };
-}
-
-export function update_data(data) {
-    return {
-        types: [
-            k.DATA_UPDATE_REQUEST,
-            k.DATA_UPDATE_SUCCESS,
-            k.DATA_UPDATE_ERROR
-        ],
-        api: API.update_data(data),
-        payload: { data }
-    };
-}
-
-export function get_h5p(content_id: string) {
-    return {
-        types: ['GET_H5P_REQUEST', 'GET_H5P_SUCCESS', 'GET_H5P_ERROR'],
-        api: API.get_h5p(content_id),
-        payload: { content_id }
+        type: CARD_SELECTION_RESET
     };
 }
 

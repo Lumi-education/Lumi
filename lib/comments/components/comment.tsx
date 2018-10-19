@@ -1,7 +1,5 @@
 // modules
 import * as React from 'react';
-import * as debug from 'debug';
-
 import * as moment from 'moment';
 
 import {
@@ -12,9 +10,9 @@ import {
     Divider,
     LinearProgress
 } from 'material-ui';
-// types
 
-import * as Comments from '../';
+// modules
+import * as Comments from '..';
 import * as Core from 'lib/core';
 
 interface IPassedProps {

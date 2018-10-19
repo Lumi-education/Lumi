@@ -7,13 +7,16 @@ import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
 import Sync from './sync';
+
 // modules
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
+import * as Core from 'lib/core';
 
 interface IStateProps {
     location;
     user_id: string;
+    system: Core.types.ISystemSettings;
 }
 
 interface IDispatchProps {
@@ -53,6 +56,14 @@ export class Root extends React.Component<IProps, IComponentState> {
             );
         }
 
+        if (this.props.system.mode === 'controlled') {
+            if (this.props.location !== this.props.system.controlled_location) {
+                this.props.dispatch(
+                    UI.actions.push(this.props.system.controlled_location)
+                );
+            }
+        }
+
         return (
             <div id="root">
                 <Sync />
@@ -68,8 +79,9 @@ export class Root extends React.Component<IProps, IComponentState> {
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        location: ownProps.location,
-        user_id: state.users.me._id
+        location: ownProps.location.pathname,
+        user_id: state.users.me._id,
+        system: state.core.system
     };
 }
 

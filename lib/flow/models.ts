@@ -1,6 +1,7 @@
 import { IAssignment } from './types';
 import { assign } from 'lodash';
 import * as moment from 'moment';
+
 export class Assignment implements IAssignment {
     public _id: string;
     public user_id: string;

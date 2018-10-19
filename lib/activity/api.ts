@@ -1,5 +1,4 @@
 import * as request from 'superagent';
-import { assign } from 'lodash';
 declare var window;
 
 export function get_activites() {

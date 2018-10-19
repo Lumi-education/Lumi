@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 // components
 import H5PCardContainer from './h5p';
-
 import MultiplechoiceContainer from './multiplechoice-container';
 import UploadCardContainer from './upload-card';
 import FreetextContainer from './freetext-container';
@@ -96,7 +95,11 @@ export class CardViewContainer extends React.Component<IProps, {}> {
             }
         }
 
-        return <div>card_type {this.props.card.card_type} not found</div>;
+        return (
+            <div id="card_view">
+                card_type {this.props.card.card_type} not found
+            </div>
+        );
     }
 }
 

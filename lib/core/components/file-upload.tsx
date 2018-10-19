@@ -1,13 +1,11 @@
-// modules
 import * as React from 'react';
 import * as debug from 'debug';
-
 import Dropzone from 'react-dropzone';
-import { LinearProgress } from 'material-ui';
-
 import * as request from 'superagent';
 
-import raven from 'lib/core/raven';
+import { LinearProgress } from 'material-ui';
+
+import raven from '../raven';
 
 declare var window;
 

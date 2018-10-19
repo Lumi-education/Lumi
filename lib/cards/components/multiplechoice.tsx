@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { isEqual, pull, noop } from 'lodash';
 
-import Markdown from './markdown';
 import Paper from 'material-ui/Paper';
 
-declare var window;
+import * as Core from 'lib/core';
 
 interface IProps {
     card_id: string;
@@ -44,10 +42,6 @@ export default class MultiplechoiceComponent extends React.Component<
         this.props.cb ? this.props.cb(newArray, score) : noop();
     }
 
-    public componentDidMount() {
-        // window.MathJax.Hub.Typeset();
-    }
-
     public render() {
         const text = this.props.text;
         const items = this.props.items;
@@ -55,7 +49,10 @@ export default class MultiplechoiceComponent extends React.Component<
         return (
             <div>
                 <Paper style={{ padding: '10px' }}>
-                    <Markdown card_id={this.props.card_id} markdown={text} />
+                    <Core.components.Markdown
+                        ref_id={this.props.card_id}
+                        markdown={text}
+                    />
                 </Paper>
 
                 {items.map((item, index) => (
@@ -77,8 +74,8 @@ export default class MultiplechoiceComponent extends React.Component<
                         }}
                         onClick={() => this.handleClick(item)}
                     >
-                        <Markdown
-                            card_id={this.props.card_id}
+                        <Core.components.Markdown
+                            ref_id={this.props.card_id}
                             markdown={
                                 item
                                     ? item.replace(/^x |^o /, '')

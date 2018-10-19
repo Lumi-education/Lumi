@@ -21,9 +21,6 @@ class GroupController {
                 res.status(200).json(groups);
             }
         );
-        // db.view('group', 'list', {}, (error, docs) => {
-        //     res.status(200).json(docs);
-        // });
     }
 
     public create(req: IRequest, res: express.Response) {
@@ -64,14 +61,6 @@ class GroupController {
                 }
             );
         });
-        // db.view(
-        //     'group',
-        //     'for_user',
-        //     { key: req.params.user_id },
-        //     (error, docs) => {
-        //         res.status(200).json(docs);
-        //     }
-        // );
     }
 
     public delete(req: IRequest, res: express.Response) {
@@ -158,7 +147,7 @@ class GroupController {
                                 (update_error, updated_user) => {
                                     // add user to group-members (see group-types, why members field is used)
 
-                                    group.members.push(user._id);
+                                    group.members.push(user._id); // deprecte issue #234
 
                                     db.updateOne(
                                         group._id,
@@ -190,7 +179,7 @@ class GroupController {
                                     group.members = group.members.filter(
                                         user_id =>
                                             user_id !== req.body.payload.user_id
-                                    );
+                                    ); // deprecate issue #234
                                     db.updateOne(
                                         req.params.id,
                                         group,

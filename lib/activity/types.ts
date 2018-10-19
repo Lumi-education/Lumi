@@ -1,6 +1,7 @@
 export type Activity_id = string;
 export type Activity_types = 'login' | 'assignment_completed' | 'comment';
 
+// types
 import { User_id } from 'lib/users/types';
 
 export interface IActivity {

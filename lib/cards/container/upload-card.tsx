@@ -2,18 +2,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { assign, noop } from 'lodash';
-import raven from 'lib/core/raven';
+
 // components
 import UploadCardComponent from '../components/upload';
+import { RaisedButton } from 'material-ui';
 
+// types
 import { IState } from 'client/state';
 
 // modules
 import * as Core from 'lib/core';
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
-import { RaisedButton } from 'material-ui';
 import * as UI from 'lib/ui';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
@@ -86,10 +86,7 @@ export class UploadCardContainer extends React.Component<
                                 Upload fehlgeschlagen
                             </div>
                         ) : null}
-                        {/* <Core.components.FileList
-                        files={this.props.assignment.state || []}
-                        onClick={file => log(file)}
-                    /> */}
+
                         <Core.components.FileUpload
                             post_url="/api/v0/core/upload"
                             path={this.props.assignment._id}

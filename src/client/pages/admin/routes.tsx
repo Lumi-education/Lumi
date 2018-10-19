@@ -18,6 +18,8 @@ import UsersPage from 'client/pages/admin/users/users-page';
 import ActivityIndex from 'client/pages/admin/activity/activity_index';
 import CommentsIndex from 'client/pages/admin/comments/comments_index';
 import SystemIndex from 'client/pages/admin/system/system_index';
+import Lesson from 'client/pages/admin/lessons/lesson';
+import Folder from 'client/pages/admin/folders';
 
 const routes = (
     <Route path="admin" component={AdminIndex}>
@@ -36,6 +38,8 @@ const routes = (
         <Route path="comments" component={CommentsIndex} />
         <Route path="system/:tab" component={SystemIndex} />
         <Redirect from="system" to="system/update" />
+        <Route path="analytics/lesson/:lesson_id" component={Lesson} />
+        <Route path="folders/:folder_id" component={Folder} />
     </Route>
 );
 

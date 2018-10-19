@@ -1,15 +1,7 @@
 import * as React from 'react';
 import * as debug from 'debug';
 
-import {
-    Avatar,
-    Card,
-    CardHeader,
-    CardText,
-    CardActions,
-    Paper,
-    RaisedButton
-} from 'material-ui';
+import { Paper } from 'material-ui';
 
 import * as Cards from '../';
 import * as UI from 'lib/ui';

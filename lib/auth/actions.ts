@@ -1,5 +1,3 @@
-import * as API from './api';
-
 export const AUTH_GET_SESSION_REQUEST = 'AUTH_GET_SESSION_REQUEST';
 export const AUTH_GET_SESSION_SUCCESS = 'AUTH_GET_SESSION_SUCCESS';
 export const AUTH_GET_SESSION_ERROR = 'AUTH_GET_SESSION_ERROR';
@@ -23,6 +21,11 @@ export const AUTH_LOGIN_SET_PASSWORD_REQUEST =
 export const AUTH_LOGIN_SET_PASSWORD_SUCCESS =
     'AUTH_LOGIN_SET_PASSWORD_SUCCESS';
 export const AUTH_LOGIN_SET_PASSWORD_ERROR = 'AUTH_LOGIN_SET_PASSWORD_ERROR';
+export const AUTH_CHECK_USERNAME_REQUEST = 'AUTH_CHECK_USERNAME_REQUEST';
+export const AUTH_CHECK_USERNAME_SUCCESS = 'AUTH_CHECK_USERNAME_SUCCESS';
+export const AUTH_CHECK_USERNAME_ERROR = 'AUTH_CHECK_USERNAME_ERROR';
+
+import * as API from './api';
 
 export function login(username: string, password: string) {
     return {
@@ -40,7 +43,7 @@ export function logout() {
     };
 }
 
-export function register(username: string, password: string) {
+export function register(username: string, password?: string) {
     return {
         types: [
             AUTH_REGISTER_REQUEST,
@@ -72,6 +75,18 @@ export function set_password(username: string, password: string) {
             AUTH_LOGIN_SET_PASSWORD_ERROR
         ],
         api: API.set_password(username, password),
+        payload: { username }
+    };
+}
+
+export function check_username(username: string) {
+    return {
+        types: [
+            AUTH_CHECK_USERNAME_REQUEST,
+            AUTH_CHECK_USERNAME_SUCCESS,
+            AUTH_CHECK_USERNAME_ERROR
+        ],
+        api: API.check_username(username),
         payload: { username }
     };
 }

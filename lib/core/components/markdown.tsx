@@ -2,7 +2,7 @@ import * as React from 'react';
 import raven from 'lib/core/raven';
 
 import markdown from '../markdown';
-
+import { convert_files_url } from '../utils';
 import 'markdown-it-latex/dist/index.css';
 
 interface IProps {
@@ -17,20 +17,15 @@ export default class MarkdownComponent extends React.Component<IProps, {}> {
 
     public render() {
         try {
-            let text;
-            if (this.props.markdown) {
-                text = this.props.markdown.replace(
-                    /\.\//g,
-                    '/files/' + this.props.ref_id + '/'
-                );
-            } else {
-                text = undefined;
-            }
-
             return (
                 <div
                     dangerouslySetInnerHTML={{
-                        __html: markdown.render(text || '# No markdown')
+                        __html: markdown.render(
+                            convert_files_url(
+                                this.props.markdown,
+                                this.props.ref_id
+                            ) || '# No markdown'
+                        )
                     }}
                 />
             );

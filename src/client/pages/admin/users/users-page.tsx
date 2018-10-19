@@ -2,21 +2,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import {
-    Avatar,
-    Paper,
-    List,
-    ListItem,
-    Divider,
-    IconButton
-} from 'material-ui';
+import { Avatar, Paper, List, ListItem, Divider } from 'material-ui';
+
 import FilterBar from 'lib/ui/components/filter-bar';
 import ActionBar from 'lib/ui/components/action-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
-import SVGView from 'material-ui/svg-icons/image/remove-red-eye';
-import SVGCheck from 'material-ui/svg-icons/navigation/check';
 
 import SVGGroup from 'material-ui/svg-icons/social/group';
 import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
@@ -34,7 +26,6 @@ import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
-import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     users: Users.IUser[];
@@ -116,7 +107,9 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                                     <ListItem
                                         onClick={() =>
                                             this.props.dispatch(
-                                                push('/admin/users/' + user._id)
+                                                UI.actions.push(
+                                                    '/admin/users/' + user._id
+                                                )
                                             )
                                         }
                                         primaryText={user.name}

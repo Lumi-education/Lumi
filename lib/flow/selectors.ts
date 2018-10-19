@@ -1,4 +1,4 @@
-import { IAssignment, IState } from './types';
+import { IState } from './types';
 import { Assignment } from './models';
 import { flatten } from 'lodash';
 

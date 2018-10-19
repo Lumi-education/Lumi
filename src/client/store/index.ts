@@ -6,7 +6,6 @@ import raven from 'lib/core/raven';
 import { browserHistory } from 'react-router';
 import apiMiddleware from './middleware/redux-api-middleware';
 import thunk from 'redux-thunk';
-import { throttle } from 'lodash';
 
 declare var window;
 
@@ -33,7 +32,7 @@ export function saveState(state) {
     }
 }
 
-const persistentState = undefined; // loadState();
+const persistentState = undefined;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -49,13 +48,5 @@ const store = createStore<{}>(
         )
     )
 );
-
-// store.subscribe(
-//     throttle(() => {
-//         if (!window.logout) {
-//             saveState(store.getState());
-//         }
-//     }, 2000)
-// );
 
 export default store;

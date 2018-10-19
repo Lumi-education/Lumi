@@ -3,12 +3,11 @@ export { default as RaisedButtonComponent } from './components/raised-button';
 export { default as ActionBar } from './components/action-bar';
 import ActionBar from './components/action-bar';
 import LoadingPage from './components/loading-page';
-import LoadingIndicator from './components/loading_indicator';
 import ErrorPage from './components/error-page';
 import RaisedButton from './components/raised-button';
 import AlarmDialog from './container/alarm-dialog';
 import StatusPage from './components/status_page';
-export { IUI, IState } from './types';
+export { IUI, IState, IUIColors } from './types';
 export { default as ui_reducer } from './reducer';
 import * as actions from './actions';
 export { actions };
@@ -22,7 +21,6 @@ const container = {
 const components = {
     ActionBar,
     LoadingPage,
-    LoadingIndicator,
     ErrorPage,
     RaisedButton,
     StatusPage
