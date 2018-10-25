@@ -50,11 +50,11 @@ export class UserAppBar extends React.Component<IProps, {}> {
                 }}
                 showMenuIconButton={this.props.mode === 'free'}
                 title={this.props.appbar_title}
-                onLeftIconButtonTouchTap={() =>
+                onLeftIconButtonClick={() =>
                     this.props.dispatch(left_drawer_open())
                 }
                 iconElementRight={this.props.right_appbar_icon}
-                onRightIconButtonTouchTap={() =>
+                onRightIconButtonClick={() =>
                     this.props.dispatch(right_drawer_open())
                 }
             />

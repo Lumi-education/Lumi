@@ -67,7 +67,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                     }}
                     showMenuIconButton={true}
                     title="Kommentare"
-                    onLeftIconButtonTouchTap={() =>
+                    onLeftIconButtonClick={() =>
                         this.props.dispatch(UI.actions.goBack())
                     }
                     iconElementLeft={

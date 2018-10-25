@@ -128,7 +128,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                             }
                             rightIconButton={
                                 <IconButton
-                                    onTouchTap={() => {
+                                    onClick={() => {
                                         all_selected
                                             ? this.props.dispatch(
                                                   Cards.actions.reset_card_selection()
@@ -179,7 +179,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                                             }
                                             rightIconButton={
                                                 <IconButton
-                                                    onTouchTap={() =>
+                                                    onClick={() =>
                                                         this.props.dispatch(
                                                             Cards.actions.select_card(
                                                                 card._id

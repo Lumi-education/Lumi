@@ -76,7 +76,6 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                 </Paper>
                 <Paper style={{ padding: '15px' }}>
                     <Checkbox
-                        label="Zeige abgeschlossene Aufgaben"
                         checked={this.props.show_completed_assignments}
                         onCheck={() =>
                             this.props.dispatch(

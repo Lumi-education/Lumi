@@ -80,7 +80,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                                 <SVGClose />
                             </IconButton>
                         }
-                        onLeftIconButtonTouchTap={() =>
+                        onLeftIconButtonClick={() =>
                             this.props.dispatch(left_drawer_close())
                         }
                     />

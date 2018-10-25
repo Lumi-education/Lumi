@@ -50,10 +50,10 @@ export class AdminAppBar extends React.Component<IProps, {}> {
                 }}
                 showMenuIconButton={true}
                 title="Lumi"
-                onLeftIconButtonTouchTap={() =>
+                onLeftIconButtonClick={() =>
                     this.props.dispatch(UI.actions.left_drawer_open())
                 }
-                onRightIconButtonTouchTap={() =>
+                onRightIconButtonClick={() =>
                     this.props.dispatch(UI.actions.right_drawer_open())
                 }
                 iconElementRight={

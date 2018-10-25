@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
 
+import * as debug from 'debug';
 // container
 import LeftDrawer from './left-drawer';
 import RightDrawer from './right-drawer';
@@ -10,6 +12,11 @@ import AppBar from './app-bar';
 // state
 import { IState } from 'client/state';
 
+// pages
+import Group from 'client/pages/admin/groups/group';
+import Groups from 'client/pages/admin/groups/groups';
+import Lessons from 'client/pages/admin/lessons/lesson';
+
 // modules
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
@@ -18,8 +25,9 @@ import * as Core from 'lib/core';
 import CreateCardDialog from './dialogs/create-card';
 import AssignmentDialog from './dialogs/assignment-dialog';
 
+const log = debug('lumi:client:pages:admin:index');
+
 interface IStateProps {
-    location;
     userlevel: number;
     right_appbar_icon: JSX.Element;
     user_id: string;
@@ -39,6 +47,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
     }
 
     public componentWillMount() {
+        log('componentWillMount');
         if (this.props.userlevel < 2) {
             this.props.dispatch(UI.actions.push('/user'));
         }
@@ -56,6 +65,8 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <CreateCardDialog />
                 <AssignmentDialog />
                 <Snackbar />
+                <Route path="/admin/groups" component={Groups} />
+                <Route path="/admin/lessons" component={Lessons} />
                 {this.props.status_page ? (
                     <UI.components.StatusPage
                         text={this.props.status_page_text}
@@ -70,7 +81,6 @@ export class AdminRoot extends React.Component<IProps, {}> {
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        location: ownProps.location,
         userlevel: state.auth.userlevel,
         right_appbar_icon: state.ui.right_appbar_icon,
         user_id: state.users.me._id,
@@ -85,7 +95,9 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminRoot);
+export default withRouter(
+    connect<{}, {}, {}>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(AdminRoot)
+);

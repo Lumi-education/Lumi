@@ -67,12 +67,14 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 
         return (
             <div>
-                <FilterBar
-                    filter={this.state.search_text}
-                    set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
-                />
+                <Paper>
+                    <FilterBar
+                        filter={this.state.search_text}
+                        set_filter={filter =>
+                            this.setState({ search_text: filter })
+                        }
+                    />
+                </Paper>
                 <Paper>
                     <List>
                         {this.props.groups

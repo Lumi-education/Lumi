@@ -116,7 +116,7 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                                     }
                                     rightIconButton={
                                         <IconButton
-                                            onTouchTap={() =>
+                                            onClick={() =>
                                                 this.props.dispatch(
                                                     Cards.actions.select_card(
                                                         card._id
@@ -153,7 +153,7 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                                 }
                                 rightIconButton={
                                     <IconButton
-                                        onTouchTap={() =>
+                                        onClick={() =>
                                             this.props.dispatch(
                                                 Cards.actions.select_card(
                                                     card._id

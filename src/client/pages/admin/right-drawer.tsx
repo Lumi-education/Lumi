@@ -82,7 +82,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                                 <SVGClose />
                             </IconButton>
                         }
-                        onLeftIconButtonTouchTap={() => this.props.close()}
+                        onLeftIconButtonClick={() => this.props.close()}
                     />
                     <List>
                         <Subheader>Einstellungen</Subheader>

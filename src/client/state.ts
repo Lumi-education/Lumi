@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
 import { IState as IAuth, auth_reducer as auth } from 'lib/auth';
 import { IState as ICards, reducer as cards } from 'lib/cards';
@@ -25,8 +24,7 @@ const root_reducer = combineReducers({
     core: Core.reducer,
     activity: Activity.reducer,
     comments: Comments.reducer,
-    folders: Folders.reducer,
-    routing: routerReducer
+    folders: Folders.reducer
 });
 export default root_reducer;
 

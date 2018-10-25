@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Redirect, Route } from 'react-router';
+import { Redirect, Route } from 'react-router-dom';
 
 import AdminIndex from 'client/pages/admin';
 

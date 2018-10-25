@@ -1,4 +1,5 @@
-import { push as _push, goBack } from 'react-router-redux';
+import * as debug from 'debug';
+import { push as _push, goBack as _goBack } from 'connected-react-router';
 
 export const UI_OPEN_LEFT_DRAWER = 'UI_OPEN_LEFT_DRAWER';
 export const UI_LEFT_DRAWER_CLOSE = 'UI_LEFT_DRAWER_CLOSE';
@@ -25,7 +26,10 @@ export const UI_SHOW_ALARM_DIALOG = 'UI_TSHOW_ALARM_DIALOG';
 export const UI_HIDE_ALARM_DIALOG = 'UI_HIDE_ALARM_DIALOG';
 export const UI_SHOW_SNACKBAR = 'UI_SHOW_SNACKBAR';
 
+const log = debug('lumi:lib:ui:actions');
+
 export function push(url: string) {
+    log('push', url);
     return dispatch => {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
@@ -35,7 +39,7 @@ export function push(url: string) {
 
 export function goBack() {
     return dispatch => {
-        dispatch(goBack());
+        dispatch(_goBack());
     };
 }
 

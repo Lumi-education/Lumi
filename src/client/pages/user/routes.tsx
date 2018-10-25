@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute } from 'react-router-dom';
 
 import UserIndex from 'client/pages/user';
 
