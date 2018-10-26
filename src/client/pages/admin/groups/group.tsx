@@ -135,10 +135,11 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const group_id = ownProps.match.params.group_id;
     return {
-        group: Groups.selectors.select_group(state, ownProps.params.group_id),
-        tab: ownProps.params.tab,
-        group_id: ownProps.params.group_id
+        group_id,
+        group: Groups.selectors.select_group(state, group_id),
+        tab: ownProps.match.params.tab || 'settings'
     };
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
 import * as debug from 'debug';
 // container
@@ -13,9 +13,19 @@ import AppBar from './app-bar';
 import { IState } from 'client/state';
 
 // pages
-import Group from 'client/pages/admin/groups/group';
-import Groups from 'client/pages/admin/groups/groups';
+import ActivityPage from './activity/activity_index';
+import GroupPage from 'client/pages/admin/groups/group';
+import GroupsPage from 'client/pages/admin/groups/groups';
 import Lessons from 'client/pages/admin/lessons/lesson';
+import UsersPage from './users/users-page';
+import UserPage from './users/user-page';
+import CardsPage from './cards/cards-page';
+import CardPage from './cards/card-page';
+import FoldersPage from './folders/index';
+import TagsPage from './tags/tags-page';
+import TagPage from './tags/tag';
+import CommentsPage from './comments/comments_index';
+import SystemPage from './system/system_index';
 
 // modules
 import * as UI from 'lib/ui';
@@ -65,15 +75,79 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <CreateCardDialog />
                 <AssignmentDialog />
                 <Snackbar />
-                <Route path="/admin/groups" component={Groups} />
-                <Route path="/admin/lessons" component={Lessons} />
+
                 {this.props.status_page ? (
                     <UI.components.StatusPage
                         text={this.props.status_page_text}
                     />
                 ) : null}
                 <div style={{ paddingBottom: '40px' }}>
-                    {this.props.children}
+                    <Switch>
+                        <Route
+                            exact={true}
+                            path="/admin/groups"
+                            component={GroupsPage}
+                        />
+                        <Route
+                            path="/admin/groups/:group_id/:tab"
+                            component={GroupPage}
+                        />
+                        <Route
+                            path="/admin/groups/:group_id"
+                            component={GroupPage}
+                        />
+                        <Route
+                            exact={true}
+                            path="/admin/users"
+                            component={UsersPage}
+                        />
+                        <Route
+                            path="/admin/users/:user_id/:tab"
+                            component={UserPage}
+                        />
+                        <Route
+                            path="/admin/users/:user_id"
+                            component={UserPage}
+                        />
+                        <Route path="/admin/lessons" component={Lessons} />
+                        <Route
+                            path="/admin/cards/:card_id"
+                            component={CardPage}
+                        />
+                        <Route
+                            exact={true}
+                            path="/admin/cards"
+                            component={CardsPage}
+                        />
+                        <Route
+                            path="/admin/folders/:folder_id"
+                            component={FoldersPage}
+                        />
+                        <Route
+                            path="/admin/tags/:tag_id/:tab"
+                            component={TagPage}
+                        />
+                        <Route path="/admin/tags/:tag_id" component={TagPage} />
+                        <Route
+                            exact={true}
+                            path="/admin/tags"
+                            component={TagsPage}
+                        />
+                        <Route
+                            exact={true}
+                            path="/admin/activity"
+                            component={ActivityPage}
+                        />
+                        <Route
+                            path="/admin/comments"
+                            component={CommentsPage}
+                        />
+                        <Route
+                            path="/admin/system/:tab"
+                            component={SystemPage}
+                        />
+                        <Route path="/admin/system" component={SystemPage} />
+                    </Switch>
                 </div>
             </div>
         );

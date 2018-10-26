@@ -357,7 +357,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const folder_id = ownProps.params.folder_id;
+    const folder_id = ownProps.match.params.folder_id;
 
     return {
         folder_id,

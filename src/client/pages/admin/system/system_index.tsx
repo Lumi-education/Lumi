@@ -102,7 +102,7 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        tab: ownProps.params.tab
+        tab: ownProps.match.params.tab
     };
 }
 

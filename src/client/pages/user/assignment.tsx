@@ -198,15 +198,15 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         assignment: Flow.selectors.assignment_by_id(
             state,
-            ownProps.params.assignment_id
+            ownProps.match.params.assignment_id
         ),
-        assignment_id: ownProps.params.assignment_id,
+        assignment_id: ownProps.match.params.assignment_id,
         flow: state.users.me.flow || [],
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         user_id: state.users.me._id,
         unread_comments: Comments.selectors.unread(
             state,
-            ownProps.params.assignment_id,
+            ownProps.match.params.assignment_id,
             state.users.me._id
         )
     };

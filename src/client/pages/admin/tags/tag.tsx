@@ -199,12 +199,12 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const tag_id = ownProps.params.tag_id;
+    const tag_id = ownProps.match.params.tag_id;
     return {
         tag_id,
         tag: Tags.selectors.tag(state, tag_id),
         updated_tag: state.tags.ui.tag,
-        tab: ownProps.params.tab,
+        tab: ownProps.match.params.tab,
         cards: Cards.selectors.with_tags(state, [tag_id])
     };
 }

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'lib/ui/actions';
+import * as debug from 'debug';
 
 import { Paper, Tabs, Tab } from 'material-ui';
 
@@ -20,7 +21,6 @@ import * as UI from 'lib/ui';
 interface IStateProps {
     user_id: string;
     tab: string;
-    course_id: string;
 }
 
 interface IDispatchProps {
@@ -142,12 +142,7 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
                                 />
                             );
                         case 'flow':
-                            return (
-                                <UserFlowTab
-                                    user_id={this.props.user_id}
-                                    course_id={this.props.course_id}
-                                />
-                            );
+                            return <UserFlowTab user_id={this.props.user_id} />;
                     }
                 })()}
             </div>
@@ -157,9 +152,8 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        user_id: ownProps.params.user_id,
-        tab: ownProps.params.tab,
-        course_id: ownProps.location.query.course_id
+        user_id: ownProps.match.params.user_id,
+        tab: ownProps.match.params.tab || 'settings'
     };
 }
 

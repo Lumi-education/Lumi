@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
 import { IState } from 'client/state';
 
@@ -7,6 +8,12 @@ import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
 import Sync from './sync';
+
+// pages
+import FlowPage from './flow';
+import AssignmentPage from './assignment';
+import CommentsPage from './comments';
+import CardsPage from './cards';
 
 // modules
 import * as Users from 'lib/users';
@@ -71,7 +78,27 @@ export class Root extends React.Component<IProps, IComponentState> {
                 <UI.container.AlarmDialog />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '80px' }}>
-                    {this.props.children}
+                    <Switch>
+                        <Route path="/user/flow" component={FlowPage} />
+                        <Route
+                            exact={true}
+                            path="/user/assignment/:assignment_id"
+                            component={AssignmentPage}
+                        />
+                        <Route
+                            exact={true}
+                            path="/user/assignment/:ref_id/comments"
+                            component={CommentsPage}
+                        />
+                        <Route
+                            path="/user/comments/:ref_id"
+                            component={CommentsPage}
+                        />
+                        <Route
+                            path="/user/cards/:card_id"
+                            component={CardsPage}
+                        />
+                    </Switch>
                 </div>
             </div>
         );
@@ -91,7 +118,9 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
-export default connect<{}, {}, {}>(
-    mapStateToProps,
-    mapDispatchToProps
-)(Root);
+export default withRouter(
+    connect<{}, {}, {}>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(Root)
+);
