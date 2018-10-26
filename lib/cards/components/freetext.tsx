@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as debug from 'debug';
 import { noop } from 'lodash';
 
-import Markdown from 'lib/core/markdown';
+import * as Core from 'lib/core';
 
 import { Paper, TextField } from 'material-ui';
 
@@ -58,16 +58,16 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
         return (
             <div>
                 <Paper style={{ padding: '5px', margin: '5px' }}>
-                    <Markdown
-                        card_id={this.props.card_id}
+                    <Core.components.Markdown
+                        ref_id={this.props.card_id}
                         markdown={this.props.text}
                     />
                 </Paper>
 
                 <Paper style={{ margin: '5px', padding: '5px' }}>
                     <h3>Preview</h3>
-                    <Markdown
-                        card_id={this.props.card_id}
+                    <Core.components.Markdown
+                        ref_id={this.props.card_id}
                         markdown={this.state.value}
                     />
                 </Paper>
