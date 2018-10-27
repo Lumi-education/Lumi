@@ -37,6 +37,7 @@ const theme_v1 = createMuiTheme({
 });
 
 moment.locale('de');
+import 'typeface-roboto';
 
 // const history = syncHistoryWithStore(browserHistory, store);
 // const history = createHashHistory();
