@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as UI from 'lib/ui';
 
 interface IStateProps {}
 
@@ -6,7 +7,7 @@ interface IDispatchProps {}
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export default class LoadingPage extends React.Component<IProps, {}> {
+export default class ErrorPage extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
     }
@@ -18,9 +19,9 @@ export default class LoadingPage extends React.Component<IProps, {}> {
                     width: '100%',
                     height: '100vh',
                     display: 'flex',
+                    background: UI.config.error_bg,
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    background: 'linear-gradient(90deg, #c0392b, #f39c12)'
+                    justifyContent: 'center'
                 }}
             >
                 <div>

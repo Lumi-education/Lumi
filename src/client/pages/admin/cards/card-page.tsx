@@ -3,6 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { RaisedButton } from 'material-ui';
+import ErrorBoundary from 'client/pages/error-boundary';
+
 // local
 import { IState } from 'client/state';
 
@@ -61,12 +63,14 @@ export class CardPage extends React.Component<IProps, IComponentState> {
 
         return (
             <div>
-                <Cards.CardEdit>
-                    <Tags.TagInputContainer
-                        tag_ids={this.props.card.tags}
-                        doc_id={this.props.card._id}
-                    />
-                </Cards.CardEdit>
+                <ErrorBoundary>
+                    <Cards.CardEdit>
+                        <Tags.TagInputContainer
+                            tag_ids={this.props.card.tags}
+                            doc_id={this.props.card._id}
+                        />
+                    </Cards.CardEdit>
+                </ErrorBoundary>
                 <UI.components.ActionBar>
                     <RaisedButton
                         label="Abbrechen"

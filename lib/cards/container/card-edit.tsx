@@ -5,6 +5,7 @@ import * as debug from 'debug';
 import * as path from 'path';
 
 // components
+import ErrorBoundary from 'client/pages/error-boundary';
 import { TextField, SelectField, MenuItem, Paper } from 'material-ui';
 
 import CardPreview from '../components/card-preview';
@@ -241,7 +242,9 @@ export class CardEditContainer extends React.Component<
                         </Paper>
                     </div>
                     <div style={{ flex: 4, maxWidth: '350px' }}>
-                        <CardPreview card={this.props.card} />
+                        <ErrorBoundary>
+                            <CardPreview card={this.props.card} />
+                        </ErrorBoundary>
                     </div>
                 </div>
             );
