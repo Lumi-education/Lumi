@@ -3,7 +3,7 @@ import { assign, uniq } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 import db from '../../db';
 
-import { ITag } from '../../../../lib/tags/types';
+import { ITag } from 'lib/tags/types';
 
 class TagsController {
     public add_tags_to_docs(req: IRequest, res: express.Response) {

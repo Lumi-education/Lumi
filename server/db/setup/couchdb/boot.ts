@@ -2,8 +2,8 @@ import * as _debug from 'debug';
 import * as superagent from 'superagent';
 import * as raven from 'raven';
 
-import { ISystemSettings } from '../../../../../lib/core/types';
-import { IUser } from '../../../../../lib/users/types';
+import { ISystemSettings } from 'lib/core/types';
+import { IUser } from 'lib/users/types';
 
 import boot_views from './views';
 

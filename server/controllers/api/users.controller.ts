@@ -5,7 +5,7 @@ import { assign } from 'lodash';
 
 import db from '../../db';
 
-import { IUser } from '../../../../lib/users/types';
+import { IUser } from 'lib/users/types';
 
 class UsersController {
     public list(req: IRequest, res: express.Response) {
