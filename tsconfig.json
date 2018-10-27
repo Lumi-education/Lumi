@@ -11,5 +11,5 @@
         "sourceMap": true,
         "baseUrl": "./"
     },
-    "files": ["src/client/boot.tsx"]
+    "files": ["client/boot.tsx"]
 }

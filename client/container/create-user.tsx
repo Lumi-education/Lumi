@@ -6,8 +6,8 @@ import { TextField, Divider } from 'material-ui';
 
 // actions
 import { IState } from '../state';
-import * as UI from '../../../lib/ui';
-import * as Users from '../../../lib/users';
+import * as UI from 'lib/ui';
+import * as Users from 'lib/users';
 
 interface IPassedProps {}
 
