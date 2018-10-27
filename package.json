@@ -35,7 +35,7 @@
         "connected-react-router": "^4.5.0",
         "copy-dir": "^0.4.0",
         "cp-file": "^6.0.0",
-        "debug": "4.1.0",
+        "debug": "2.3.3",
         "envfile": "^2.3.0",
         "express": "^4.16.0",
         "express-fileupload": "^0.4.0",
