@@ -1,15 +1,17 @@
 import { applyMiddleware, compose, createStore } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
 import * as createRavenMiddleware from 'raven-for-redux';
 import raven from 'lib/core/raven';
 
-import { browserHistory } from 'react-router';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import apiMiddleware from './middleware/redux-api-middleware';
 import thunk from 'redux-thunk';
 
 declare var window;
 
 import root_reducer from '../state';
+
+const history = createBrowserHistory();
 
 export function loadState() {
     try {
@@ -36,13 +38,13 @@ const persistentState = undefined;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore<{}>(
-    root_reducer,
+const store = createStore(
+    connectRouter(history)(root_reducer),
     persistentState,
     composeEnhancers(
         applyMiddleware(
             thunk,
-            routerMiddleware(browserHistory),
+            routerMiddleware(history),
             apiMiddleware,
             createRavenMiddleware(raven)
         )
@@ -50,3 +52,5 @@ const store = createStore<{}>(
 );
 
 export default store;
+
+export { history };

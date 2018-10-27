@@ -27,7 +27,6 @@ import * as Tags from 'lib/tags';
 
 interface IPassedProps {
     user_id: string;
-    course_id: string;
 }
 interface IStateProps extends IPassedProps {
     assignments: Flow.models.Assignment[];
@@ -76,7 +75,6 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                 </Paper>
                 <Paper style={{ padding: '15px' }}>
                     <Checkbox
-                        label="Zeige abgeschlossene Aufgaben"
                         checked={this.props.show_completed_assignments}
                         onCheck={() =>
                             this.props.dispatch(
@@ -166,7 +164,6 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        course_id: ownProps.course_id,
         user_id: ownProps.user_id,
         user: Users.selectors.user(state, ownProps.user_id),
         assignments: Flow.selectors.assignment_for_user(

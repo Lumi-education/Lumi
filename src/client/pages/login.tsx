@@ -7,7 +7,7 @@ import raven from 'lib/core/raven';
 import { TextField, Paper, RaisedButton, LinearProgress } from 'material-ui';
 
 // modules
-import * as Auth from '../';
+import * as Auth from 'lib/auth';
 import * as UI from 'lib/ui';
 
 import { IState } from 'client/state';

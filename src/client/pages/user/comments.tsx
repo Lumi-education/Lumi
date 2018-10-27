@@ -67,7 +67,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                     }}
                     showMenuIconButton={true}
                     title="Kommentare"
-                    onLeftIconButtonTouchTap={() =>
+                    onLeftIconButtonClick={() =>
                         this.props.dispatch(UI.actions.goBack())
                     }
                     iconElementLeft={
@@ -146,7 +146,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
     }
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const ref_id = ownProps.params.ref_id;
+    const ref_id = ownProps.match.params.ref_id;
 
     return {
         ref_id,

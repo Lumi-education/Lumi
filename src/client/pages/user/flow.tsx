@@ -140,7 +140,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 })()}
                                 primaryText={card.name}
                                 secondaryText={card.description}
-                                onTouchTap={() =>
+                                onClick={() =>
                                     this.props.dispatch(
                                         UI.actions.push(
                                             '/user/assignment/' + assignment_id

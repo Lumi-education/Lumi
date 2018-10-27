@@ -143,8 +143,9 @@ export class CardPage extends React.Component<IProps, IComponentState> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const card_id = ownProps.match.params.card_id;
     return {
-        card_id: ownProps.params.card_id,
+        card_id,
         card: state.cards.ui.card
     };
 }

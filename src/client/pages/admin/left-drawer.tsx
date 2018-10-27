@@ -89,7 +89,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         }}
                         showMenuIconButton={true}
                         iconElementLeft={leftIcon}
-                        onLeftIconButtonTouchTap={() =>
+                        onLeftIconButtonClick={() =>
                             this.props.left_drawer_close()
                         }
                     />
@@ -103,14 +103,14 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         <ListItem
                             primaryText="Benutzer"
                             leftIcon={<SVGPerson />}
-                            onTouchTap={() => {
+                            onClick={() => {
                                 this.props.push('/admin/users');
                             }}
                         />
                         <ListItem
                             primaryText="Gruppen"
                             leftIcon={<SVGGroup />}
-                            onTouchTap={() => {
+                            onClick={() => {
                                 this.props.push('/admin/groups');
                             }}
                         />
@@ -121,21 +121,21 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         <ListItem
                             primaryText="Lernkarten"
                             leftIcon={<SVGCards />}
-                            onTouchTap={() => {
+                            onClick={() => {
                                 this.props.push('/admin/cards');
                             }}
                         />
                         <ListItem
                             primaryText="Ordner"
                             leftIcon={<SVGFolder />}
-                            onTouchTap={() => {
+                            onClick={() => {
                                 this.props.push('/admin/folders/root_folder');
                             }}
                         />
                         <ListItem
                             primaryText="Tags"
                             leftIcon={<SVGTags />}
-                            onTouchTap={() => {
+                            onClick={() => {
                                 this.props.push('/admin/tags');
                             }}
                         />
@@ -145,7 +145,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         <ListItem
                             primaryText="Aktivität"
                             leftIcon={<SVGActivity />}
-                            onTouchTap={() =>
+                            onClick={() =>
                                 this.props.push('/admin/activity')
                             }
                         />
@@ -163,7 +163,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                     </Avatar>
                                 ) : null
                             }
-                            onTouchTap={() =>
+                            onClick={() =>
                                 this.props.push('/admin/comments')
                             }
                         />
@@ -186,7 +186,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                     <SVGUpdate color={UI.config.new_color} />
                                 ) : null
                             }
-                            onTouchTap={() => this.props.push('/admin/system')}
+                            onClick={() => this.props.push('/admin/system')}
                         />
                         <ListItem
                             primaryText="Ausschalten"

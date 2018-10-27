@@ -72,7 +72,7 @@ export class UserCards extends React.Component<IProps, {}> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
-    const card_id = ownProps.params.card_id;
+    const card_id = ownProps.match.params.card_id;
     return {
         card_id,
         card: Cards.selectors.select_card(state, card_id),
