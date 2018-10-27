@@ -13,6 +13,8 @@ import AppBar from './app-bar';
 import { IState } from 'client/state';
 
 // pages
+import ErrorBoundary from 'client/pages/error-boundary';
+
 import ActivityPage from './activity/activity_index';
 import GroupPage from 'client/pages/admin/groups/group';
 import GroupsPage from 'client/pages/admin/groups/groups';
@@ -69,11 +71,21 @@ export class AdminRoot extends React.Component<IProps, {}> {
     public render() {
         return (
             <div id="AdminRoot">
-                <AppBar />
-                <LeftDrawer />
-                <RightDrawer />
-                <CreateCardDialog />
-                <AssignmentDialog />
+                <ErrorBoundary>
+                    <AppBar />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <LeftDrawer />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <RightDrawer />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <CreateCardDialog />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <AssignmentDialog />
+                </ErrorBoundary>
                 <Snackbar />
 
                 {this.props.status_page ? (
@@ -82,72 +94,80 @@ export class AdminRoot extends React.Component<IProps, {}> {
                     />
                 ) : null}
                 <div style={{ paddingBottom: '40px' }}>
-                    <Switch>
-                        <Route
-                            exact={true}
-                            path="/admin/groups"
-                            component={GroupsPage}
-                        />
-                        <Route
-                            path="/admin/groups/:group_id/:tab"
-                            component={GroupPage}
-                        />
-                        <Route
-                            path="/admin/groups/:group_id"
-                            component={GroupPage}
-                        />
-                        <Route
-                            exact={true}
-                            path="/admin/users"
-                            component={UsersPage}
-                        />
-                        <Route
-                            path="/admin/users/:user_id/:tab"
-                            component={UserPage}
-                        />
-                        <Route
-                            path="/admin/users/:user_id"
-                            component={UserPage}
-                        />
-                        <Route path="/admin/lessons" component={Lessons} />
-                        <Route
-                            path="/admin/cards/:card_id"
-                            component={CardPage}
-                        />
-                        <Route
-                            exact={true}
-                            path="/admin/cards"
-                            component={CardsPage}
-                        />
-                        <Route
-                            path="/admin/folders/:folder_id"
-                            component={FoldersPage}
-                        />
-                        <Route
-                            path="/admin/tags/:tag_id/:tab"
-                            component={TagPage}
-                        />
-                        <Route path="/admin/tags/:tag_id" component={TagPage} />
-                        <Route
-                            exact={true}
-                            path="/admin/tags"
-                            component={TagsPage}
-                        />
-                        <Route
-                            exact={true}
-                            path="/admin/activity"
-                            component={ActivityPage}
-                        />
-                        <Route
-                            path="/admin/comments"
-                            component={CommentsPage}
-                        />
-                        <Route
-                            path="/admin/system/:tab"
-                            component={SystemPage}
-                        />
-                        <Route path="/admin/system" component={SystemPage} />
-                    </Switch>
+                    <ErrorBoundary>
+                        <Switch>
+                            <Route
+                                exact={true}
+                                path="/admin/groups"
+                                component={GroupsPage}
+                            />
+                            <Route
+                                path="/admin/groups/:group_id/:tab"
+                                component={GroupPage}
+                            />
+                            <Route
+                                path="/admin/groups/:group_id"
+                                component={GroupPage}
+                            />
+                            <Route
+                                exact={true}
+                                path="/admin/users"
+                                component={UsersPage}
+                            />
+                            <Route
+                                path="/admin/users/:user_id/:tab"
+                                component={UserPage}
+                            />
+                            <Route
+                                path="/admin/users/:user_id"
+                                component={UserPage}
+                            />
+                            <Route path="/admin/lessons" component={Lessons} />
+                            <Route
+                                path="/admin/cards/:card_id"
+                                component={CardPage}
+                            />
+                            <Route
+                                exact={true}
+                                path="/admin/cards"
+                                component={CardsPage}
+                            />
+                            <Route
+                                path="/admin/folders/:folder_id"
+                                component={FoldersPage}
+                            />
+                            <Route
+                                path="/admin/tags/:tag_id/:tab"
+                                component={TagPage}
+                            />
+                            <Route
+                                path="/admin/tags/:tag_id"
+                                component={TagPage}
+                            />
+                            <Route
+                                exact={true}
+                                path="/admin/tags"
+                                component={TagsPage}
+                            />
+                            <Route
+                                exact={true}
+                                path="/admin/activity"
+                                component={ActivityPage}
+                            />
+                            <Route
+                                path="/admin/comments"
+                                component={CommentsPage}
+                            />
+                            <Route
+                                path="/admin/system/:tab"
+                                component={SystemPage}
+                            />
+                            <Route
+                                path="/admin/system"
+                                component={SystemPage}
+                            />
+                        </Switch>
+                    </ErrorBoundary>
                 </div>
             </div>
         );
