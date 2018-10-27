@@ -8,7 +8,7 @@ import * as debug from 'debug';
 import * as Auth from 'lib/auth';
 
 import Password from './password';
-import Login from './Login';
+import Login from './login';
 import Landing from './landing';
 
 import Admin from './admin';
