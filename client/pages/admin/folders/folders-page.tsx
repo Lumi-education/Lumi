@@ -28,9 +28,9 @@ import SVGAssignment from 'material-ui/svg-icons/action/assignment';
 
 import { _card_type } from 'lib/cards/components/card-type';
 
-import CardsContainer from '../../../container/cards';
+import CardsContainer from '../../../container/cards-container';
 
-import AssignMaterialDialog from '../dialogs/assign_material';
+import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 
 // state
 import { IState } from 'client/state';

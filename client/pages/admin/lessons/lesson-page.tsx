@@ -5,26 +5,13 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import * as classNames from 'classnames';
 import { PieChart } from 'react-chartkick';
 
-import * as moment from 'moment-timezone';
-
 import {
     Card,
     CardHeader,
     CardText,
     CardActions,
-    Badge,
-    Table,
     RaisedButton,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-    SelectField,
-    MenuItem,
-    Paper,
-    DatePicker,
-    FloatingActionButton
+    Paper
 } from 'material-ui';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';

@@ -7,7 +7,7 @@ import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import CreateGroupDialog from './create_group_dialog';
+import CreateGroupDialog from 'client/dialogs/group-create-dialog';
 
 // types
 import { IState } from 'client/state';

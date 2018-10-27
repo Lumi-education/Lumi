@@ -5,8 +5,8 @@ import { push } from 'lib/ui/actions';
 
 import { Tabs, Tab } from 'material-ui';
 
-import System_environment_tab from './system_environment_tab';
-import System_update_tab from './system_update_tab';
+import System_environment_tab from './system-environment-tab';
+import System_update_tab from './system-update-tab';
 
 // state
 import { IState } from 'client/state';

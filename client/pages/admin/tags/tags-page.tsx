@@ -22,7 +22,7 @@ import * as Tags from 'lib/tags';
 import * as UI from 'lib/ui';
 import { push } from 'lib/ui/actions';
 
-import TagsDialog from '../dialogs/tags-dialog';
+import TagsDialog from 'client/dialogs/tags-view-dialog';
 
 interface IStateProps {
     tags: Tags.ITag[];

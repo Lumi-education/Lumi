@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 
 import * as debug from 'debug';
+
 // container
 import LeftDrawer from './left-drawer';
 import RightDrawer from './right-drawer';
-import Snackbar from './snackbar';
 import AppBar from './app-bar';
 
 // state
@@ -16,26 +16,26 @@ import { IState } from 'client/state';
 import ErrorBoundary from 'client/pages/error-boundary';
 
 import ActivityPage from './activity/activity_index';
-import GroupPage from 'client/pages/admin/groups/group';
-import GroupsPage from 'client/pages/admin/groups/groups';
-import Lessons from 'client/pages/admin/lessons/lesson';
+import GroupPage from 'client/pages/admin/groups/group-page';
+import GroupsPage from 'client/pages/admin/groups/groups-page';
+import Lessons from 'client/pages/admin/lessons/lesson-page';
 import UsersPage from './users/users-page';
 import UserPage from './users/user-page';
 import CardsPage from './cards/cards-page';
 import CardPage from './cards/card-page';
-import FoldersPage from './folders/index';
+import FoldersPage from './folders/folders-page';
 import TagsPage from './tags/tags-page';
-import TagPage from './tags/tag';
+import TagPage from './tags/tag-page';
 import CommentsPage from './comments/comments_index';
-import SystemPage from './system/system_index';
+import SystemPage from './system/system-page';
 
 // modules
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
 import * as Core from 'lib/core';
 
-import CreateCardDialog from './dialogs/create-card';
-import AssignmentDialog from './dialogs/assignment-dialog';
+import CreateCardDialog from 'client/dialogs/card-create-dialog';
+import AssignmentDialog from 'client/dialogs/assignment-view-dialog';
 
 const log = debug('lumi:client:pages:admin:index');
 
@@ -86,14 +86,17 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <ErrorBoundary>
                     <AssignmentDialog />
                 </ErrorBoundary>
-                <Snackbar />
 
                 {this.props.status_page ? (
                     <UI.components.StatusPage
                         text={this.props.status_page_text}
                     />
                 ) : null}
-                <div style={{ paddingBottom: '40px' }}>
+                <div
+                    style={{
+                        paddingBottom: '40px'
+                    }}
+                >
                     <ErrorBoundary>
                         <Switch>
                             <Route

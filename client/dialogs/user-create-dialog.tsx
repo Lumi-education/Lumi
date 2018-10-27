@@ -6,7 +6,7 @@ import * as debug from 'debug';
 // components
 import { Dialog, RaisedButton } from 'material-ui';
 
-import CreateUserContainer from '../../../container/create-user';
+import CreateUserContainer from 'client/container/user-create-container';
 
 // local
 import { IState } from 'client/state';

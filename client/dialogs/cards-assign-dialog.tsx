@@ -6,7 +6,7 @@ import * as debug from 'debug';
 // components
 import { AutoComplete, Dialog, RaisedButton } from 'material-ui';
 import ChipInput from 'material-ui-chip-input';
-import CardsContainer from '../../../container/cards';
+import CardsContainer from 'client/container/cards-container';
 
 // local
 import { IState } from 'client/state';

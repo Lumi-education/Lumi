@@ -13,10 +13,10 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 import SVGGroup from 'material-ui/svg-icons/social/group';
 import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 
-import CreateUserDialog from '../dialogs/create-user';
-import AssignGroupDialog from '../dialogs/assign-group';
-import AssignMaterialDialog from '../dialogs/assign_material';
-import DeleteUserDialog from '../dialogs/delete-user';
+import CreateUserDialog from 'client/dialogs/user-create-dialog';
+import AssignGroupDialog from 'client/dialogs/groups-assign-dialog';
+import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
+import DeleteUserDialog from 'client/dialogs/user-delete-dialog';
 
 // state
 import { IState } from 'client/state';

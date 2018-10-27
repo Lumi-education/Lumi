@@ -9,7 +9,7 @@ import { Paper, Tabs, Tab } from 'material-ui';
 import UserFlowTab from './user-flow-tab';
 import UserAnalyticsTab from './user-analytics-tab';
 
-import UserGroupsInput from 'client/container/user-groups';
+import UserGroupsInput from 'client/container/user-groups-container';
 
 // state
 import { IState } from 'client/state';

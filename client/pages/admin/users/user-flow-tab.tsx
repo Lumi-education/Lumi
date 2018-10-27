@@ -16,7 +16,7 @@ import {
     Checkbox
 } from 'material-ui';
 
-import AssignMaterialDialog from '../dialogs/assign_material';
+import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';

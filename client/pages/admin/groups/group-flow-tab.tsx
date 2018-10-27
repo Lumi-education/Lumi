@@ -23,7 +23,7 @@ import {
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGAction from 'material-ui/svg-icons/action/build';
 
-import AssignMaterialDialog from '../dialogs/assign_material';
+import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 
 // modules
 import * as UI from 'lib/ui';

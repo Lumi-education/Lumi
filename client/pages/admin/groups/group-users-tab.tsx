@@ -14,7 +14,7 @@ import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 
-import Create_or_add_user_dialog from './create_or_add_user_dialog';
+import GroupsAssignDialog from 'client/dialogs/groups-assign-dialog';
 import { push } from 'lib/ui/actions';
 
 interface IPassedProps {
@@ -114,7 +114,7 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                     </List>
                 </Paper>
                 <UI.components.ActionBar>
-                    <Create_or_add_user_dialog group_id={this.props.group_id} />
+                    <GroupsAssignDialog />
                 </UI.components.ActionBar>
             </div>
         );

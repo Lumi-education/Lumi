@@ -10,7 +10,7 @@ import {
     FloatingActionButton,
     Paper
 } from 'material-ui';
-import AssignMaterialDialog from '../dialogs/assign_material';
+import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 
 // svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
