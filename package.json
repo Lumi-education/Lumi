@@ -18,7 +18,7 @@
         "build:client": "NODE_ENV=production VERSION=$(echo ${VERSION}) TAG=$(echo ${TAG}) ./node_modules/.bin/webpack --config './config/webpack.config.prod.js' --progress --colors",
         "lint:client": "./node_modules/.bin/tslint --project tsconfig.json --config tslint.json",
         "lint:server": "./node_modules/.bin/tslint --project server/tsconfig.server.json --config tslint.json",
-        "postinstall": "ln -s ../lib node_modules/lib && ln -s ../src/client node_modules/client"
+        "postinstall": "ln -s ../lib node_modules/lib && ln -s ../src/client node_modules/client && ln -s ../server node_modules/server"
     },
     "author": "Jan Philip Schellenberg",
     "dependencies": {
