@@ -1,3 +1,5 @@
+// deprecate issue #238
+
 import * as Colors from 'material-ui/styles/colors';
 import * as ColorManipulator from 'material-ui/utils/colorManipulator';
 import Spacing from 'material-ui/styles/spacing';
