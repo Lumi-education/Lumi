@@ -5,6 +5,8 @@ import * as debug from 'debug';
 import { groupBy } from 'lodash';
 import * as moment from 'moment';
 
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+
 // types
 import { IState } from 'client/state';
 import { TagsChipInputContainer } from 'client/container';
@@ -25,6 +27,7 @@ interface IPassedProps {
     user_id: string;
 }
 interface IStateProps extends IPassedProps {
+    classes: any;
     assignments: Flow.models.Assignment[];
     assignment: (assignment_id: string) => Flow.models.Assignment;
     assignments_for_cards: (card_id: string[]) => Flow.models.Assignment[];
@@ -81,6 +84,7 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
+        const { classes } = this.props;
         let num_assignments = 0;
 
         const line_data = this.props.selected_tags.map(tag_id => {
@@ -152,7 +156,7 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
         });
 
         return (
-            <div id="user-analytics-tab">
+            <div id="user-analytics-tab" className={classes.contentContainer}>
                 <Paper>
                     <TagsChipInputContainer
                         tag_ids={this.props.selected_tags}
@@ -224,6 +228,7 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
+        classes: ownProps.classes,
         user_id: ownProps.user_id,
         user: Users.selectors.user(state, ownProps.user_id),
         assignments: Flow.selectors.assignment_for_user(
@@ -248,7 +253,16 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<IStateProps, IDispatchProps, IPassedProps>(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserAnalyticsTab);
+const styles: StyleRulesCallback = theme => ({
+    contentContainer: {
+        maxWidth: '680px',
+        margin: 'auto'
+    }
+});
+
+export default withStyles(styles)(
+    connect<IStateProps, IDispatchProps, IPassedProps>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(UserAnalyticsTab)
+);

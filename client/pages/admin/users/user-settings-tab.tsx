@@ -40,13 +40,7 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
     public render() {
         const { classes, user } = this.props;
         return (
-            <div
-                id="user-settings-tab"
-                style={{
-                    maxWidth: '680px',
-                    margin: 'auto'
-                }}
-            >
+            <div id="user-settings-tab" className={classes.contentContainer}>
                 <Paper className={classes.paper}>
                     {' '}
                     <form
@@ -134,9 +128,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 const styles: StyleRulesCallback = theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap'
+    contentContainer: {
+        maxWidth: '680px',
+        margin: 'auto'
     },
     textField: {
         marginLeft: theme.spacing.unit,

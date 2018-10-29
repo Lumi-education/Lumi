@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 import * as debug from 'debug';
 
@@ -192,9 +193,18 @@ function mapDispatchToProps(dispatch): IDispatchProps {
     };
 }
 
+const styles: StyleRulesCallback = theme => ({
+    contentContainer: {
+        maxWidth: '680px',
+        margin: 'auto'
+    }
+});
+
 export default withRouter(
-    connect<{}, {}, {}>(
-        mapStateToProps,
-        mapDispatchToProps
-    )(AdminRoot)
+    withStyles(styles)(
+        connect<{}, {}, {}>(
+            mapStateToProps,
+            mapDispatchToProps
+        )(AdminRoot)
+    )
 );

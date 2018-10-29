@@ -80,7 +80,7 @@ function mapDispatchToProps(dispatch) {
 
 const styles: StyleRulesCallback = theme => ({
     chipInput: {
-        zIndex: 9000
+        zIndex: 999
     }
 });
 
