@@ -42,26 +42,18 @@ export function assign_groups(user_ids: string[], group_ids: string[]) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function add_group(user_id: string, group_id: string) {
+export function remove_users_from_groups(
+    user_ids: string[],
+    group_ids: string[]
+) {
     return request
-        .put('/api/v0/groups/' + group_id + '/action')
+        .put('/api/v0/groups/remove_users_from_groups')
         .send({
-            type: 'ADD_USER_TO_GROUP',
-            payload: { group_id, user_id }
+            user_ids,
+            group_ids
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
-
-export function rem_group(user_id: string, group_id: string) {
-    return request
-        .put('/api/v0/groups/' + group_id + '/action')
-        .send({
-            type: 'REM_USER_FROM_GROUP',
-            payload: { group_id, user_id }
-        })
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
 export function update_group(group_id: string, update) {
     return request
         .put('/api/v0/groups/' + group_id)

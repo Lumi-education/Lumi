@@ -15,5 +15,4 @@ RUN npm run build:server
 EXPOSE 80
 
 # Run Node.js
-# ENTRYPOINT ["/srv/bin/entrypoint.sh"]
-CMD ["node", "build/src/server/boot.js"]
+CMD ["node", "build/server/boot.js"]

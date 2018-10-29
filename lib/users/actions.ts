@@ -27,6 +27,7 @@ export const USERS_UI_SET_SELECTED_USERS = 'USERS_UI_SET_SELECTED_USERS';
 export const USERS_INIT_USER_REQUEST = 'USERS_INIT_USER_REQUEST';
 export const USERS_INIT_USER_SUCCESS = 'USERS_INIT_USER_SUCCESS';
 export const USERS_INIT_USER_ERROR = 'USERS_INIT_USER_ERROR';
+export const USERS_UI_CHANGE_USER = 'USERS_UI_CHANGE_USER';
 
 export function create_user(name: string, options?) {
     return {
@@ -117,5 +118,12 @@ export function init_user() {
         ],
         api: API.init_user(),
         payload: {}
+    };
+}
+
+export function change_user(payload: any) {
+    return {
+        payload,
+        type: USERS_UI_CHANGE_USER
     };
 }

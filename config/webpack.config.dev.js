@@ -35,7 +35,7 @@ module.exports = Object.assign(sharedConfig, {
             minChunks: ({ resource }) => /node_modules/.test(resource)
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/client/index.html')
+            template: path.resolve(__dirname, '../client/index.html')
         }),
         new webpack.DefinePlugin({
             'process.env': {
@@ -45,7 +45,7 @@ module.exports = Object.assign(sharedConfig, {
         }),
         new CopyWebpackPlugin([
             {
-                from: 'src/client/static',
+                from: 'client/static',
                 to: 'static',
                 toType: 'dir'
             }

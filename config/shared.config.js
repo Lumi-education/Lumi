@@ -12,7 +12,7 @@ const tslintOptions = {
 };
 
 const entries = {
-    client: './src/client/boot'
+    client: './client/boot'
 };
 
 module.exports = {
@@ -65,6 +65,15 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {}
+                    }
+                ]
             }
         ]
     },
@@ -72,7 +81,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
             lib: path.resolve(__dirname, '../lib'),
-            client: path.resolve(__dirname, '../src/client')
+            client: path.resolve(__dirname, '../client')
         }
     }
 };

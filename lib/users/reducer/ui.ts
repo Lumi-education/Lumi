@@ -3,13 +3,28 @@ import { assign } from 'lodash';
 import {
     USERS_UI_SELECT,
     USERS_UI_SELECTION_RESET,
-    USERS_UI_SET_SELECTED_USERS
+    USERS_UI_SET_SELECTED_USERS,
+    USERS_UI_CHANGE_USER
 } from '../actions';
 
 import { IUsersUI } from '..';
 
 const initialState: IUsersUI = {
-    selected_users: []
+    selected_users: [],
+    user: {
+        _id: undefined,
+        _deleted: false,
+        type: 'user',
+        name: 'no user',
+        level: 0,
+        groups: [],
+        last_active: new Date(),
+        last_login: new Date(),
+        online: false,
+        location: '',
+        password: '',
+        flow: []
+    }
 };
 
 export default function(state: IUsersUI = initialState, action): IUsersUI {
@@ -36,6 +51,10 @@ export default function(state: IUsersUI = initialState, action): IUsersUI {
             return assign({}, state, {
                 selected_users: action.payload.user_ids
             });
+
+        case USERS_UI_CHANGE_USER:
+            const new_user = assign({}, state.user, action.payload);
+            return assign({}, state, { user: new_user });
 
         default:
             return state;

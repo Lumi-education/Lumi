@@ -4,7 +4,8 @@ import {
     TAGS_UI_SELECT_TAG_ID,
     TAGS_UI_TOGGLE_DIALOG,
     TAGS_UI_CHANGE_TAG,
-    TAGS_UI_RESET_TAG
+    TAGS_UI_RESET_TAG,
+    TAGS_UI_SET_SELECTED_TAGS
 } from '../actions';
 
 import { ITagsUI } from '..';
@@ -36,6 +37,9 @@ export default function(state: ITagsUI = initialState, action): ITagsUI {
             return assign({}, state, {
                 selected_tags: [...state.selected_tags, action.payload.tag_id]
             });
+
+        case TAGS_UI_SET_SELECTED_TAGS:
+            return assign({}, state, { selected_tags: action.payload.tag_ids });
 
         case TAGS_UI_TOGGLE_DIALOG:
             return assign({}, state, {

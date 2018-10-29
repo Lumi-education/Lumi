@@ -21,14 +21,14 @@ module.exports = Object.assign(sharedConfig, {
             }
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/client/index.html')
+            template: path.resolve(__dirname, '../client/index.html')
         }),
         new UglifyJSPlugin({
             sourceMap: true
         }),
         new CopyWebpackPlugin([
             {
-                from: 'src/client/static',
+                from: 'client/static',
                 to: 'static',
                 toType: 'dir'
             }
