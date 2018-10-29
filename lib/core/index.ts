@@ -8,6 +8,7 @@ import Markdown from './components/markdown';
 import reducer from './reducer';
 import SystemContainer from './container/system';
 import FileUploadComponent from './components/file-upload';
+import i18n from './i18n';
 import * as utils from './utils';
 import * as config from './config';
 const components = {
@@ -29,5 +30,6 @@ export {
     components,
     reducer,
     utils,
-    config
+    config,
+    i18n
 };

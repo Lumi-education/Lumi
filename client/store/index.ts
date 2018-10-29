@@ -7,9 +7,16 @@ import { createBrowserHistory } from 'history';
 import apiMiddleware from './middleware/redux-api-middleware';
 import thunk from 'redux-thunk';
 
+import {
+    loadTranslations,
+    setLocale,
+    syncTranslationWithStore
+} from 'react-redux-i18n';
+
 declare var window;
 
 import root_reducer from '../state';
+import i18n from '../i18n';
 
 const history = createBrowserHistory();
 
@@ -50,6 +57,10 @@ const store = createStore(
         )
     )
 );
+
+syncTranslationWithStore(store);
+store.dispatch(loadTranslations(i18n));
+store.dispatch(setLocale('de'));
 
 export default store;
 
