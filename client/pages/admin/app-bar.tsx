@@ -29,6 +29,7 @@ import { IState } from 'client/state';
 
 // modules
 import * as UI from 'lib/ui';
+import * as Core from 'lib/core';
 
 interface IStateProps {
     right_appbar_icon: JSX.Element;
@@ -36,6 +37,7 @@ interface IStateProps {
     mode: 'free' | 'controlled';
     search_filter_text: string;
 
+    locale: Core.types.Locales;
     classes: any;
 }
 
@@ -95,7 +97,7 @@ export class AdminAppBar extends React.Component<IProps, {}> {
                                 <SearchIcon />
                             </div>
                             <InputBase
-                                placeholder="Search…"
+                                placeholder={Core.i18n.t('search') + '...'}
                                 onChange={e =>
                                     this.props.dispatch(
                                         UI.actions.set_search_filter(
@@ -154,7 +156,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         connected: state.core.status.connected,
         mode: state.core.system.mode,
         classes: ownProps.classes,
-        search_filter_text: state.ui.search_filter_text
+        search_filter_text: state.ui.search_filter_text,
+        locale: state.i18n.locale
     };
 }
 
