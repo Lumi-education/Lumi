@@ -8,10 +8,10 @@ import { IState } from 'client/state';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import { GroupsChipInputContainer } from 'client/container';
 
 import * as Users from 'lib/users';
+import * as UI from 'lib/ui';
 
 interface IPassedProps {
     user_id: string;
@@ -83,23 +83,35 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
                             }
                         />
                     </div>
-                    <Button
-                        type="submit"
+                    <UI.components.RaisedButton
                         fullWidth={true}
-                        variant="contained"
-                        color="primary"
+                        labels={[
+                            'Reset Password',
+                            'resetting password',
+                            'Password reset',
+                            'Fehler'
+                        ]}
+                        action={Users.actions.update_user(this.props.user._id, {
+                            password: null
+                        })}
+                        disabled={false}
                         className={classes.submit}
-                        onClick={() =>
-                            this.props.dispatch(
-                                Users.actions.update_user(
-                                    this.props.user_id,
-                                    this.props.user
-                                )
-                            )
-                        }
-                    >
-                        Speichern
-                    </Button>
+                    />
+                    <UI.components.RaisedButton
+                        action={Users.actions.update_user(
+                            this.props.user_id,
+                            this.props.user
+                        )}
+                        labels={[
+                            'Speichern',
+                            'speichere...',
+                            'gespeichert',
+                            'Fehler'
+                        ]}
+                        disabled={false}
+                        fullWidth={true}
+                        className={classes.submit}
+                    />
                 </Paper>
             </div>
         );
