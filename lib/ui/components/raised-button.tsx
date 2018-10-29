@@ -13,6 +13,7 @@ interface IPassedProps {
     onSuccess?: (res?: any) => void;
     disabled: boolean;
     fullWidth: boolean;
+    className?: string;
 }
 
 interface IStateProps extends IPassedProps {}
@@ -77,6 +78,7 @@ export class RaisedButtonContainer extends React.Component<
         return (
             <RaisedButton
                 disabled={this.props.disabled}
+                className={this.props.className}
                 fullWidth={this.props.fullWidth}
                 primary={true}
                 onClick={this._click}
@@ -95,7 +97,8 @@ function mapStateToProps(state: UI.IState, ownProps): IStateProps {
         action: ownProps.action,
         labels: ownProps.labels,
         onSuccess: ownProps.onSuccess,
-        fullWidth: ownProps.fullWidth
+        fullWidth: ownProps.fullWidth,
+        className: ownProps.className
     };
 }
 
