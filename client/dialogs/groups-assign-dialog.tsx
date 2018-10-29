@@ -98,10 +98,7 @@ export class AssignMaterialDialog extends React.Component<
                 onRequestClose={() =>
                     this.props.dispatch(UI.actions.toggle_assign_group_dialog())
                 }
-            >
-                <Users.container.ChipInput />
-                <Groups.GroupsInput />
-            </Dialog>
+            />
         );
     }
 }

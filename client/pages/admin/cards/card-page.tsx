@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { RaisedButton } from 'material-ui';
 import ErrorBoundary from 'client/pages/error-boundary';
 
+// container
+import { TagsChipInputContainer } from 'client/container';
+
 // local
 import { IState } from 'client/state';
 
@@ -65,9 +68,13 @@ export class CardPage extends React.Component<IProps, IComponentState> {
             <div>
                 <ErrorBoundary>
                     <Cards.CardEdit>
-                        <Tags.TagInputContainer
+                        <TagsChipInputContainer
                             tag_ids={this.props.card.tags}
-                            doc_id={this.props.card._id}
+                            onChange={tag_ids =>
+                                this.props.dispatch(
+                                    Cards.actions.change_card({ tags: tag_ids })
+                                )
+                            }
                         />
                     </Cards.CardEdit>
                 </ErrorBoundary>

@@ -8,8 +8,7 @@ import { Paper, Tabs, Tab } from 'material-ui';
 
 import UserFlowTab from './user-flow-tab';
 import UserAnalyticsTab from './user-analytics-tab';
-
-import UserGroupsInput from 'client/container/user-groups-container';
+import UserSettingsTab from './user-settings-tab';
 
 // state
 import { IState } from 'client/state';
@@ -17,9 +16,12 @@ import { IState } from 'client/state';
 // modules
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
+import * as Groups from 'lib/groups';
 
 interface IStateProps {
     user_id: string;
+    user: Users.IUser;
+    select_user: (user_id: string) => Users.IUser;
     tab: string;
 }
 
@@ -50,6 +52,12 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
         this.props
             .dispatch(Users.actions.get_user(this.props.user_id))
             .then(res => {
+                this.props.dispatch(
+                    Users.actions.change_user(
+                        this.props.select_user(this.props.user_id)
+                    )
+                );
+
                 this.setState({ loading: 'finished', loading_step: 2 });
             });
     }
@@ -125,15 +133,7 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
                         case 'settings':
                         default:
                             return (
-                                <Paper>
-                                    <Users.UserContainer
-                                        user_id={this.props.user_id}
-                                    >
-                                        <UserGroupsInput
-                                            user_id={this.props.user_id}
-                                        />
-                                    </Users.UserContainer>
-                                </Paper>
+                                <UserSettingsTab user_id={this.props.user_id} />
                             );
                         case 'analytics':
                             return (
@@ -151,8 +151,12 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const user_id = ownProps.match.params.user_id;
     return {
-        user_id: ownProps.match.params.user_id,
+        user_id,
+        user: state.users.ui.user,
+        select_user: (_user_id: string) =>
+            Users.selectors.user(state, _user_id),
         tab: ownProps.match.params.tab || 'settings'
     };
 }

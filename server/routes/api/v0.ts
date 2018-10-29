@@ -154,12 +154,15 @@ export default function(): express.Router {
     // groups
     router.get('/groups', mw.auth, groupController.list);
     router.post('/groups', groupController.create);
-    router.put('/groups/assign', groupController.assign);
+    router.put('/groups/assign', groupController.assign_users_to_groups);
+    router.put(
+        '/groups/remove_users_from_groups',
+        groupController.remove_users_from_groups
+    );
     router.get('/groups/user/:user_id', groupController.for_user);
     router.get('/groups/:id', groupController.read);
     router.put('/groups/:id', groupController.update);
     router.delete('/groups/:id', groupController.delete);
-    router.put('/groups/:id/action', groupController.action);
 
     // tags
     router.get('/tags', tagsController.index);

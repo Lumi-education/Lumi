@@ -39,9 +39,9 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
     public render() {
         return (
             <ChipInput
-                hintText="Groups"
-                floatingLabelText="Groups"
-                className="filter-bar"
+                // hintText="Groups"
+                // floatingLabelText="Groups"
+                // className="filter-bar"
                 fullWidth={true}
                 value={this.props.user_groups}
                 allowDuplicates={false}
@@ -50,30 +50,30 @@ export class UserGroupsContainer extends React.Component<IProps, {}> {
                     text: 'name',
                     value: '_id'
                 }}
-                openOnFocus={true}
-                filter={AutoComplete.fuzzyFilter}
-                onRequestAdd={group => {
-                    this.props.groups.filter(
-                        _group => _group._id === group._id
-                    )[0]
-                        ? this.props.dispatch(
-                              Groups.actions.add_group(
-                                  this.props.user_id,
-                                  group._id
-                              )
-                          )
-                        : this.props.dispatch(
-                              Groups.actions.create_and_add_group(
-                                  this.props.user_id,
-                                  group.name
-                              )
-                          );
-                }}
-                onRequestDelete={group_id =>
-                    this.props.dispatch(
-                        Groups.actions.rem_group(this.props.user_id, group_id)
-                    )
-                }
+                // openOnFocus={true}
+                // filter={AutoComplete.fuzzyFilter}
+                // onRequestAdd={group => {
+                //     this.props.groups.filter(
+                //         _group => _group._id === group._id
+                //     )[0]
+                //         ? this.props.dispatch(
+                //               Groups.actions.add_group(
+                //                   this.props.user_id,
+                //                   group._id
+                //               )
+                //           )
+                //         : this.props.dispatch(
+                //               Groups.actions.create_and_add_group(
+                //                   this.props.user_id,
+                //                   group.name
+                //               )
+                //           );
+                // }}
+                // onRequestDelete={group_id =>
+                //     this.props.dispatch(
+                //         Groups.actions.rem_group(this.props.user_id, group_id)
+                //     )
+                // }
             />
         );
     }

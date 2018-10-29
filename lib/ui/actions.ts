@@ -25,6 +25,7 @@ export const UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS =
 export const UI_SHOW_ALARM_DIALOG = 'UI_TSHOW_ALARM_DIALOG';
 export const UI_HIDE_ALARM_DIALOG = 'UI_HIDE_ALARM_DIALOG';
 export const UI_SHOW_SNACKBAR = 'UI_SHOW_SNACKBAR';
+export const UI_SET_SEARCH_FILTER = 'UI_SET_SEARCH_FILTER';
 
 const log = debug('lumi:lib:ui:actions');
 
@@ -40,6 +41,13 @@ export function push(url: string) {
 export function goBack() {
     return dispatch => {
         dispatch(_goBack());
+    };
+}
+
+export function set_search_filter(text: string) {
+    return {
+        text,
+        type: UI_SET_SEARCH_FILTER
     };
 }
 

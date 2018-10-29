@@ -19,6 +19,8 @@ import {
     FloatingActionButton
 } from 'material-ui';
 
+import { TagsChipInputContainer } from 'client/container';
+
 // svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGAction from 'material-ui/svg-icons/action/build';
@@ -62,6 +64,7 @@ interface IComponentState {
     loading?: string;
     loading_step?: number;
     error?: string;
+    tags: string[];
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -73,7 +76,8 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
         this.state = {
             show_user_dialog: false,
             loading: 'init',
-            loading_step: 0
+            loading_step: 0,
+            tags: []
         };
     }
 
@@ -140,16 +144,22 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                     minHeight: '100vh'
                 }}
             >
-                <Paper style={{ margin: '0px 20px 20px 20px' }} zDepth={5}>
-                    <Tags.TagsFilterContainer />
+                <Paper>
+                    <TagsChipInputContainer
+                        tag_ids={this.props.selected_tags}
+                        onChange={tag_ids =>
+                            this.props.dispatch(
+                                Tags.actions.set_selected_tags(tag_ids)
+                            )
+                        }
+                    />
                 </Paper>
                 <div
                     style={{
                         display: 'flex',
                         flexDirection: 'row',
                         flexWrap: 'nowrap',
-                        overflow: 'scroll',
-                        zIndex: 200
+                        overflow: 'scroll'
                     }}
                 >
                     {this.props.users

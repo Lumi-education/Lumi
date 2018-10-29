@@ -71,9 +71,7 @@ export class DeleteUserDialog extends React.Component<IProps, IComponentState> {
                 onRequestClose={() =>
                     this.props.dispatch(UI.actions.toggle_delete_user_dialog())
                 }
-            >
-                <Users.container.ChipInput />
-            </Dialog>
+            />
         );
     }
 }

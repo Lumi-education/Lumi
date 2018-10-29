@@ -93,10 +93,6 @@ export class LessonContainer extends React.Component<IProps, {}> {
 
         return (
             <div id="lesson">
-                <Paper style={{ display: 'flex' }}>
-                    <Groups.GroupsInput />
-                </Paper>
-
                 {this.props.cards.map(card => (
                     <Card key={card._id} style={{ margin: '20px' }}>
                         <CardHeader

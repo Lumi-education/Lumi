@@ -74,7 +74,6 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                             this.setState({ search_text: filter })
                         }
                     />
-                    <Tags.TagsFilterContainer />
                     <List>
                         {this.props.cards
                             .filter(

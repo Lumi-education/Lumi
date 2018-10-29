@@ -96,9 +96,6 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         }
                     />
                 </Paper>
-                <Paper>
-                    <Tags.TagsFilterContainer />
-                </Paper>
                 <Paper
                     zDepth={5}
                     style={{ maxWidth: '820px', margin: '20px auto' }}

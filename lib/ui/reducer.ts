@@ -22,7 +22,8 @@ import {
     UI_SNACKBAR_CLOSE,
     UI_TOGGLE_SHOW_COMPLETED_ASSIGNMENTS,
     UI_SHOW_ALARM_DIALOG,
-    UI_HIDE_ALARM_DIALOG
+    UI_HIDE_ALARM_DIALOG,
+    UI_SET_SEARCH_FILTER
 } from './actions';
 
 const initialState: IUI = {
@@ -43,6 +44,7 @@ const initialState: IUI = {
     show_completed_assignments: false,
     show_alarm_dialog: false,
     alarm_dialog_message: '',
+    search_filter_text: '',
     colors: {
         primary: '#3498db',
         secondary: '#1abc9c',
@@ -62,6 +64,9 @@ export default function(state: IUI = initialState, action): IUI {
                 show_alarm_dialog: true,
                 alarm_dialog_message: action.message
             });
+
+        case UI_SET_SEARCH_FILTER:
+            return assign({}, state, { search_filter_text: action.text });
 
         case UI_HIDE_ALARM_DIALOG:
             return assign({}, state, {

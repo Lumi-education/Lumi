@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Avatar, Paper, List, ListItem, Divider } from 'material-ui';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 import FilterBar from 'lib/ui/components/filter-bar';
 import ActionBar from 'lib/ui/components/action-bar';
@@ -21,16 +22,22 @@ import DeleteUserDialog from 'client/dialogs/user-delete-dialog';
 // state
 import { IState } from 'client/state';
 
+// components
+import { UserList } from 'client/components';
+
 // modules
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
+import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     users: Users.IUser[];
     group: (group_id) => Groups.IGroup;
     selected_users: string[];
+
+    search_text: string;
 }
 
 interface IDispatchProps {
@@ -40,7 +47,6 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    search_text?: string;
     loading?: string;
     loading_step?: number;
 }
@@ -50,7 +56,6 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
-            search_text: '',
             loading: 'init',
             loading_step: 0
         };
@@ -59,12 +64,12 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.setState({ loading: 'Benutzer', loading_step: 1 });
         this.props.dispatch(Users.actions.get_users()).then(users_response => {
-            this.setState({ loading: 'Gruppen', loading_step: 2 });
-            this.props
-                .dispatch(Groups.actions.get_groups())
-                .then(groups_response => {
-                    this.setState({ loading: 'finished', loading_step: 3 });
-                });
+            // this.setState({ loading: 'Gruppen', loading_step: 2 });
+            // this.props
+            //     .dispatch(Groups.actions.get_groups())
+            //     .then(groups_response => {
+            this.setState({ loading: 'finished', loading_step: 3 });
+            // });
         });
     }
 
@@ -85,103 +90,28 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
             );
         }
 
+        const users = this.props.users
+            .filter(user => user.name.indexOf(this.props.search_text) > -1)
+            .sort(Core.utils.alphabetically);
+
         return (
-            <div>
-                <FilterBar
-                    filter={this.state.search_text}
-                    set_filter={filter =>
-                        this.setState({ search_text: filter })
-                    }
-                />
+            <div
+                style={{
+                    paddingTop: '40px',
+                    maxWidth: '680px',
+                    margin: 'auto'
+                }}
+            >
+                <Typography variant="h5" component="h3">
+                    Benutzer
+                </Typography>
                 <Paper>
-                    <List>
-                        {this.props.users
-                            .filter(
-                                user =>
-                                    user.name.indexOf(this.state.search_text) >
-                                    -1
-                            )
-                            .sort(Core.utils.alphabetically)
-                            .map((user: Users.IUser) => (
-                                <div key={user._id}>
-                                    <ListItem
-                                        onClick={() =>
-                                            this.props.dispatch(
-                                                UI.actions.push(
-                                                    '/admin/users/' + user._id
-                                                )
-                                            )
-                                        }
-                                        primaryText={user.name}
-                                        leftAvatar={
-                                            <Avatar>
-                                                {user.name.substring(0, 3)}
-                                            </Avatar>
-                                        }
-                                        secondaryText={
-                                            <div
-                                                style={{
-                                                    overflow: 'hidden',
-                                                    margin: '4px 0px 0px',
-                                                    color: 'black',
-                                                    lineHeight: '16px',
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap',
-                                                    fontSize: '14px',
-                                                    height: '16px'
-                                                }}
-                                            >
-                                                {user.groups
-                                                    ? user.groups.map(
-                                                          group_id => (
-                                                              <span
-                                                                  key={
-                                                                      user._id +
-                                                                      group_id
-                                                                  }
-                                                                  style={{
-                                                                      background:
-                                                                          'lightgrey',
-                                                                      display:
-                                                                          'inline',
-                                                                      padding:
-                                                                          '.2em .6em .3em',
-                                                                      fontSize:
-                                                                          '75%',
-                                                                      fontWeight:
-                                                                          'bold',
-                                                                      lineHeight: 1,
-                                                                      textAlign:
-                                                                          'center',
-                                                                      whiteSpace:
-                                                                          'nowrap',
-                                                                      verticalAlign:
-                                                                          'baseline',
-                                                                      borderRadius:
-                                                                          '.25em'
-                                                                  }}
-                                                              >
-                                                                  {
-                                                                      this.props.group(
-                                                                          group_id
-                                                                      ).name
-                                                                  }
-                                                              </span>
-                                                          )
-                                                      )
-                                                    : null}
-                                            </div>
-                                        }
-                                    />
-                                    <Divider inset={true} />
-                                </div>
-                            ))}
-                    </List>
-                    {this.props.users.filter(
-                        user => user.name.indexOf(this.state.search_text) > -1
-                    ).length === 0
-                        ? 'Keine Benutzer gefunden.'
-                        : null}
+                    <UserList
+                        users={users}
+                        onListItemClick={(user_id: string) =>
+                            this.props.dispatch(push('/admin/users/' + user_id))
+                        }
+                    />
                 </Paper>
                 <ActionBar>
                     {this.props.selected_users.length > 0 ? (
@@ -242,7 +172,8 @@ function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
         users: state.users.list,
         group: group_id => Groups.selectors.select_group(state, group_id),
-        selected_users: state.users.ui.selected_users
+        selected_users: state.users.ui.selected_users,
+        search_text: state.ui.search_filter_text
     };
 }
 

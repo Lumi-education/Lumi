@@ -8,6 +8,7 @@ import { IState } from 'client/state';
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
+import { TagsChipInputContainer } from 'client/container';
 import {
     Card,
     CardHeader,
@@ -24,6 +25,7 @@ import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
+import { runInThisContext } from 'vm';
 
 interface IPassedProps {
     user_id: string;
@@ -47,6 +49,8 @@ interface IComponentState {
     show_user_dialog?: boolean;
     loading?: string;
     loading_step?: number;
+
+    tags: string[];
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -58,7 +62,8 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
         this.state = {
             show_user_dialog: false,
             loading: 'init',
-            loading_step: 0
+            loading_step: 0,
+            tags: []
         };
     }
 
@@ -71,7 +76,10 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                 }}
             >
                 <Paper>
-                    <Tags.TagsFilterContainer />
+                    <TagsChipInputContainer
+                        tag_ids={this.state.tags}
+                        onChange={tag_ids => this.setState({ tags: tag_ids })}
+                    />
                 </Paper>
                 <Paper style={{ padding: '15px' }}>
                     <Checkbox

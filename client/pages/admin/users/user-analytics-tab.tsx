@@ -7,6 +7,7 @@ import * as moment from 'moment';
 
 // types
 import { IState } from 'client/state';
+import { TagsChipInputContainer } from 'client/container';
 
 import { LineChart, ColumnChart } from 'react-chartkick';
 
@@ -153,7 +154,14 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
         return (
             <div id="user-analytics-tab">
                 <Paper>
-                    <Tags.TagsFilterContainer />
+                    <TagsChipInputContainer
+                        tag_ids={this.props.selected_tags}
+                        onChange={tag_ids =>
+                            this.props.dispatch(
+                                Tags.actions.set_selected_tags(tag_ids)
+                            )
+                        }
+                    />
                 </Paper>
 
                 <Paper style={{ display: 'flex' }}>

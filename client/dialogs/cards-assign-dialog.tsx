@@ -3,10 +3,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
+// container
+import {
+    CardsContainer,
+    GroupsChipInputContainer,
+    UsersChipInputContainer
+} from 'client/container';
+
 // components
-import { AutoComplete, Dialog, RaisedButton } from 'material-ui';
-import ChipInput from 'material-ui-chip-input';
-import CardsContainer from 'client/container/cards-container';
+import { Dialog, RaisedButton } from 'material-ui';
 
 // local
 import { IState } from 'client/state';
@@ -28,13 +33,17 @@ interface IStateProps extends IPassedProps {
     open: boolean;
     card_ids: string[];
     groups: Groups.IGroup[];
-    selected_groups: Groups.IGroup[];
+    selected_group_ids: string[];
 
     user_ids: string[];
     cards: Cards.ICard[];
     selected_card_ids: string[];
     selected_cards: Cards.ICard[];
     selected_tags: string[];
+
+    users_in_group: (group_id: string) => Users.IUser[];
+
+    selected_user_ids: string[];
 }
 
 interface IDispatchProps {
@@ -64,10 +73,10 @@ export class AssignMaterialDialog extends React.Component<
         return (
             <Dialog
                 title="Material"
-                autoScrollBodyContent={true}
                 contentStyle={{
                     width: '100%',
-                    maxWidth: 'none'
+                    maxWidth: 'none',
+                    minHeight: '500px'
                 }}
                 actions={[
                     <RaisedButton
@@ -108,38 +117,24 @@ export class AssignMaterialDialog extends React.Component<
                     )
                 }
             >
-                <ChipInput
-                    hintText={'Gruppen'}
-                    floatingLabelText="Gruppen"
-                    fullWidth={true}
-                    value={this.props.selected_groups}
-                    allowDuplicates={false}
-                    dataSource={this.props.groups}
-                    dataSourceConfig={{
-                        text: 'name',
-                        value: '_id'
-                    }}
-                    openOnFocus={true}
-                    filter={AutoComplete.fuzzyFilter}
-                    onRequestAdd={group => {
-                        if (group._id) {
-                            this.props.dispatch(
-                                Groups.actions.set_selected_groups([group._id])
-                            );
-
-                            this.props.dispatch(
-                                Users.actions.set_selected_users(group.members)
-                            );
-                        }
-                    }}
-                    onRequestDelete={group_id => {
+                Gruppen
+                <GroupsChipInputContainer
+                    group_ids={this.props.selected_group_ids}
+                    onChange={(group_ids: string[]) => {
                         this.props.dispatch(
-                            Groups.actions.select_group(group_id)
+                            Groups.actions.set_selected_groups(group_ids)
                         );
                     }}
                 />
-                <Users.container.ChipInput />
-                <CardsContainer />
+                Benutzer
+                <UsersChipInputContainer
+                    user_ids={this.props.selected_user_ids}
+                    onChange={(user_ids: string[]) =>
+                        this.props.dispatch(
+                            Users.actions.set_selected_users(user_ids)
+                        )
+                    }
+                />
             </Dialog>
         );
     }
@@ -149,7 +144,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         open: state.ui.show_assign_material_dialog,
         groups: state.groups.list,
-        selected_groups: Groups.selectors.selected_groups(state),
+        selected_group_ids: Groups.selectors.selected_group_ids(state),
+        users_in_group: (group_id: string) =>
+            Users.selectors.users_in_group(state, group_id),
         user_ids: state.users.ui.selected_users,
         card_ids: state.cards.ui.selected_cards,
         selected_card_ids: state.cards.ui.selected_cards,
@@ -158,7 +155,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state.cards.ui.selected_cards
         ),
         cards: state.cards.list,
-        selected_tags: state.tags.ui.selected_tags
+        selected_tags: state.tags.ui.selected_tags,
+        selected_user_ids: state.users.ui.selected_users
     };
 }
 

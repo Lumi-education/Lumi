@@ -115,10 +115,10 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                 }
             >
                 <Cards.CardEdit>
-                    <Tags.TagInputContainer
+                    {/* <Tags.TagInputContainer
                         tag_ids={this.props.card.tags}
                         doc_id={this.props.card._id}
-                    />
+                    /> */}
                 </Cards.CardEdit>
             </Dialog>
         );

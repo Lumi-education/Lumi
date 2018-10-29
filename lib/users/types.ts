@@ -26,4 +26,5 @@ export interface IState {
 
 export interface IUsersUI {
     selected_users: string[];
+    user: IUser;
 }

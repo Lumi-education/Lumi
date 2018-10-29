@@ -17,6 +17,7 @@ export interface IUI {
     show_alarm_dialog: boolean;
     alarm_dialog_message: string;
     colors: IUIColors;
+    search_filter_text: string;
 }
 
 export interface IUIColors {

@@ -53,6 +53,7 @@ export default function(state: IUser[] = [], action): IUser[] {
         case Flow.actions.FLOW_ARCHIVE_ASSIGNMENT_SUCCESS:
         case USERS_GET_USERS_SUCCESS:
         case Groups.actions.GROUPS_ASSIGN_GROUPS_SUCCESS:
+        case Groups.actions.GROUPS_REMOVE_USERS_FROM_GROUPS_SUCCESS:
         case Flow.actions.FLOW_DELETE_ASSIGNMENT_SUCCESS:
         case USERS_GET_USER_SUCCESS:
             return unionBy(

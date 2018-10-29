@@ -7,6 +7,9 @@ import { IState } from 'client/state';
 
 // components
 import { Avatar, Divider, List, ListItem, Paper } from 'material-ui';
+import Typography from '@material-ui/core/Typography';
+
+import { UserList } from 'client/components';
 
 // modules
 import * as Core from 'lib/core';
@@ -71,47 +74,25 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
         }
 
         return (
-            <div id="group-users-tab">
+            <div
+                style={{
+                    paddingTop: '40px',
+                    maxWidth: '680px',
+                    margin: 'auto'
+                }}
+            >
+                <Typography variant="h5" component="h3">
+                    Benutzer
+                </Typography>
                 <Paper>
-                    <List>
-                        {this.props.users.length === 0 ? (
-                            <ListItem primaryText="Keine Schüler" />
-                        ) : (
-                            this.props.users
-                                .sort(Core.utils.alphabetically)
-                                .map(user => (
-                                    <div key={user._id}>
-                                        <ListItem
-                                            onClick={() =>
-                                                this.props.dispatch(
-                                                    push(
-                                                        '/admin/users/' +
-                                                            user._id +
-                                                            '/analytics'
-                                                    )
-                                                )
-                                            }
-                                            primaryText={user.name}
-                                            leftAvatar={
-                                                <Avatar
-                                                    style={{
-                                                        background:
-                                                            this.props.selected_users.indexOf(
-                                                                user._id
-                                                            ) > -1
-                                                                ? 'linear-gradient(120deg, #8e44ad, #3498db)'
-                                                                : 'grey'
-                                                    }}
-                                                >
-                                                    {user.name.substring(0, 3)}
-                                                </Avatar>
-                                            }
-                                        />
-                                        <Divider inset={true} />
-                                    </div>
-                                ))
-                        )}
-                    </List>
+                    <UserList
+                        users={this.props.users}
+                        onListItemClick={(user_id: string) =>
+                            this.props.dispatch(
+                                push('/admin/users/' + user_id + '/analytics')
+                            )
+                        }
+                    />
                 </Paper>
                 <UI.components.ActionBar>
                     <GroupsAssignDialog />

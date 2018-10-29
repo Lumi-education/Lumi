@@ -20,6 +20,7 @@ export const TAGS_UPDATE_TAG_ERROR = 'TAGS_UPDATE_TAG_ERROR';
 export const TAGS_UI_TOGGLE_DIALOG = 'TAGS_UI_TOGGLE_DIALOG';
 export const TAGS_UI_CHANGE_TAG = 'TAGS_UI_CHANGE_TAG';
 export const TAGS_UI_RESET_TAG = 'TAGS_UI_RESET_TAG';
+export const TAGS_UI_SET_SELECTED_TAGS = 'TAGS_UI_SET_SELECTED_TAGS';
 
 import * as API from './api';
 
@@ -93,5 +94,14 @@ export function update_tag(tag_id: string, update: any) {
             TAGS_UPDATE_TAG_ERROR
         ],
         api: API.update_tag(tag_id, update)
+    };
+}
+
+export function set_selected_tags(tag_ids: string[]) {
+    return {
+        type: TAGS_UI_SET_SELECTED_TAGS,
+        payload: {
+            tag_ids
+        }
     };
 }
