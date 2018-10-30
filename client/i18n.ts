@@ -2,6 +2,9 @@ const i18n = {
     en: {
         activity: 'Activity',
         activities: 'Activities',
+        assign: {
+            cards: 'Assign cards'
+        },
         card: 'Card',
         cards: 'Cards',
         comment: 'Comment',
@@ -16,7 +19,14 @@ const i18n = {
         tag: 'Tag',
         tags: 'Tags',
         monitor: 'Monitor',
+        not_found: {
+            users: 'No users found',
+            user: '%{name} not found'
+        },
         search: 'Search',
+        search_for: {
+            cards: 'Search cards'
+        },
         settings: 'Settings',
         shutdown: 'Shutdown',
         system: 'System'
@@ -24,6 +34,9 @@ const i18n = {
     de: {
         activity: 'Aktivittät',
         activities: 'Aktivitäten',
+        assign: {
+            cards: 'Karten zuweisen'
+        },
         card: 'Karte',
         cards: 'Karten',
         comment: 'Kommentar',
@@ -38,7 +51,14 @@ const i18n = {
         tag: 'Tag',
         tags: 'Tags',
         monitor: 'Monitor',
+        not_found: {
+            users: 'Keine Benutzer gefunden',
+            user: '%{name} nicht gefunden'
+        },
         search: 'Suche',
+        search_for: {
+            cards: 'Karten suchen'
+        },
         settings: 'Einstellungen',
         shutdown: 'Ausschalten',
         system: 'System'
