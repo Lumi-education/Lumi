@@ -4,7 +4,11 @@ import * as raven from 'raven';
 
 const debug = _debug('lumi:db:wait');
 
-export default function wait_for_couchdb(boot: () => void) {
+export default function wait_for_db(boot: () => void) {
+    if (process.env.DB_DRIVER === 'pouchdb') {
+        debug('booting with pouchdb - no need to wait for couchdb to be up.');
+        return boot();
+    }
     debug('start polling for db');
     const couchdb_polling = setInterval(() => {
         debug('polling ' + process.env.DB_HOST);

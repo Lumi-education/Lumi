@@ -47,6 +47,8 @@
         "mkdirp": "^0.5.1",
         "mv": "^2.1.1",
         "nano": "^6.4.2",
+        "pouchdb": "^7.0.0",
+        "pouchdb-find": "^7.0.0",
         "query-string": "^5.0.1",
         "raven": "^2.4.0",
         "react": "16.4.1",

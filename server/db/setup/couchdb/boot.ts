@@ -35,6 +35,12 @@ const _admin: IUser = {
 };
 
 export default function(done: () => void) {
+    if (process.env.DB_DRIVER === 'pouchdb') {
+        boot();
+        return boot_views(() => {
+            done();
+        });
+    }
     debug('check for db: ' + process.env.DB);
     superagent
         .get(process.env.DB_HOST + '/' + process.env.DB)
@@ -70,13 +76,17 @@ export default function(done: () => void) {
 function boot() {
     db.findById('system', (find_system_error, system) => {
         if (find_system_error || !system._id) {
-            db.insert(_system);
+            db.insert(_system, (error, docs) => {
+                debug('system created');
+            });
         }
     });
 
     db.findById('admin', (find_admin_error, admin) => {
         if (find_admin_error || !admin._id) {
-            db.insert(_admin);
+            db.insert(_admin, (error, doc) => {
+                debug('admin created');
+            });
         }
     });
 }
