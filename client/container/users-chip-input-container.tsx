@@ -56,7 +56,7 @@ export class UsersChipInputContainer extends React.Component<
                 options={this.props.users.map(user => {
                     return { value: user._id, label: user.name };
                 })}
-                className="basic-multi-select"
+                className={classes.userChipInput}
                 classNamePrefix="select"
             />
         );

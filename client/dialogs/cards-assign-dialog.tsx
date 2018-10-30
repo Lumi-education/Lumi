@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-
+import { flatten, uniq } from 'lodash';
 // container
 import {
     CardsContainer,
@@ -79,6 +79,7 @@ export class AssignMaterialDialog extends React.Component<
                     maxWidth: 'none',
                     minHeight: '500px'
                 }}
+
                 actions={[
                     <RaisedButton
                         label={Core.i18n.t('cancel')}
@@ -120,24 +121,38 @@ export class AssignMaterialDialog extends React.Component<
                     )
                 }
             >
-                {Core.i18n.t('groups')}
-                <GroupsChipInputContainer
-                    group_ids={this.props.selected_group_ids}
-                    onChange={(group_ids: string[]) => {
-                        this.props.dispatch(
-                            Groups.actions.set_selected_groups(group_ids)
-                        );
-                    }}
-                />
-                {Core.i18n.t('users')}
-                <UsersChipInputContainer
-                    user_ids={this.props.selected_user_ids}
-                    onChange={(user_ids: string[]) =>
-                        this.props.dispatch(
-                            Users.actions.set_selected_users(user_ids)
-                        )
-                    }
-                />
+                <div style={{ height: '350px' }}>
+                    {Core.i18n.t('groups')}
+                    <GroupsChipInputContainer
+                        group_ids={this.props.selected_group_ids}
+                        onChange={(group_ids: string[]) => {
+                            this.props.dispatch(
+                                Groups.actions.set_selected_groups(group_ids)
+                            );
+                            const user_ids = uniq(
+                                flatten(
+                                    group_ids.map(group_id =>
+                                        this.props
+                                            .users_in_group(group_id)
+                                            .map(user => user._id)
+                                    )
+                                )
+                            );
+                            this.props.dispatch(
+                                Users.actions.set_selected_users(user_ids)
+                            );
+                        }}
+                    />
+                    {Core.i18n.t('users')}
+                    <UsersChipInputContainer
+                        user_ids={this.props.selected_user_ids}
+                        onChange={(user_ids: string[]) =>
+                            this.props.dispatch(
+                                Users.actions.set_selected_users(user_ids)
+                            )
+                        }
+                    />
+                </div>
             </Dialog>
         );
     }
