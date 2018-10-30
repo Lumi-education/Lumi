@@ -46,6 +46,7 @@ interface IStateProps {
     user_id: string;
     status_page: boolean;
     status_page_text: string;
+    locale: Core.types.Locales;
 }
 
 interface IDispatchProps {
@@ -71,7 +72,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
 
     public render() {
         return (
-            <div id="AdminRoot">
+            <div id="AdminRoot" key={this.props.locale}>
                 <ErrorBoundary>
                     <AppBar />
                 </ErrorBoundary>
@@ -183,7 +184,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         right_appbar_icon: state.ui.right_appbar_icon,
         user_id: state.users.me._id,
         status_page: state.core.status.status_page,
-        status_page_text: state.core.status.status_page_text
+        status_page_text: state.core.status.status_page_text,
+        locale: state.i18n.locale
     };
 }
 

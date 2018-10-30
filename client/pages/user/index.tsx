@@ -24,6 +24,7 @@ interface IStateProps {
     location;
     user_id: string;
     system: Core.types.ISystemSettings;
+    locale: Core.types.Locales;
 }
 
 interface IDispatchProps {
@@ -48,7 +49,7 @@ export class Root extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Benutzer', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('user'), loading_step: 1 });
         this.props.dispatch(Users.actions.init_user()).then(res => {
             this.setState({ loading: 'finished', loading_step: 2 });
         });
@@ -72,7 +73,7 @@ export class Root extends React.Component<IProps, IComponentState> {
         }
 
         return (
-            <div id="root">
+            <div id="root" key={this.props.locale}>
                 <Sync />
                 <AppBar />
                 <UI.container.AlarmDialog />
@@ -108,7 +109,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         location: ownProps.location.pathname,
         user_id: state.users.me._id,
-        system: state.core.system
+        system: state.core.system,
+        locale: state.i18n.locale
     };
 }
 
