@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { history, default as store } from 'client/store';
 import { ConnectedRouter } from 'connected-react-router';
+import { setLocale } from 'react-redux-i18n';
 
 import ReactChartkick from 'react-chartkick';
 import * as Chart from 'chart.js';
@@ -21,7 +22,13 @@ if (localStorage.getItem('lumi_version') !== process.env.VERSION) {
 
 localStorage.setItem('lumi_version', process.env.VERSION);
 
-moment.locale('de');
+// language
+declare var navigator: any;
+const userLang = navigator.language || navigator.userLanguage;
+const locale = userLang.substring(0, 2);
+
+moment.locale(locale);
+store.dispatch(setLocale(locale));
 
 // themes
 import 'typeface-roboto';
