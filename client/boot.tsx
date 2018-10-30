@@ -25,7 +25,11 @@ localStorage.setItem('lumi_version', process.env.VERSION);
 // language
 declare var navigator: any;
 const userLang = navigator.language || navigator.userLanguage;
-const locale = userLang.substring(0, 2);
+let locale = userLang.substring(0, 2);
+
+if ((locale !== 'en' && locale !== 'de') || !locale) {
+    locale = 'en';
+} // default to en
 
 moment.locale(locale);
 store.dispatch(setLocale(locale));
