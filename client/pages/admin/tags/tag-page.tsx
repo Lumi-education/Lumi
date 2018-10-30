@@ -56,7 +56,9 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
     public render() {
         if (!this.props.tag._id) {
             return (
-                <UI.components.LoadingPage>Lade Tag</UI.components.LoadingPage>
+                <UI.components.LoadingPage>
+                    {Core.i18n.t('tag')}
+                </UI.components.LoadingPage>
             );
         }
 
@@ -74,7 +76,7 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
                     value={this.props.tab}
                 >
                     <Tab
-                        label="Settings"
+                        label={Core.i18n.t('settings')}
                         value="settings"
                         onActive={() =>
                             this.props.dispatch(
@@ -87,7 +89,7 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
                         }
                     />
                     <Tab
-                        label="Karten"
+                        label={Core.i18n.t('cards')}
                         value="cards"
                         onActive={() =>
                             this.props.dispatch(
@@ -110,7 +112,7 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
                                     <Tags.TagEditContainer />
                                     <UI.components.ActionBar>
                                         <RaisedButton
-                                            label="Zurück"
+                                            label={Core.i18n.t('back')}
                                             onClick={() =>
                                                 this.props.dispatch(
                                                     push('/admin/tags')
@@ -122,10 +124,10 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
                                                 this.props.tag_id
                                             )}
                                             labels={[
-                                                'Löschen',
-                                                'lösche...',
-                                                'gelöscht',
-                                                'Fehler'
+                                                Core.i18n.t('delete'),
+                                                Core.i18n.t('deleting'),
+                                                Core.i18n.t('deleted'),
+                                                Core.i18n.t('error')
                                             ]}
                                             disabled={false}
                                             fullWidth={false}
@@ -143,10 +145,10 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
                                                 this.props.updated_tag
                                             )}
                                             labels={[
-                                                'Speichern',
-                                                'speichere...',
-                                                'gepspeichert',
-                                                'Fehler'
+                                                Core.i18n.t('save'),
+                                                Core.i18n.t('saving'),
+                                                Core.i18n.t('saved'),
+                                                Core.i18n.t('error')
                                             ]}
                                             disabled={false}
                                             fullWidth={false}

@@ -8,6 +8,7 @@ import { RaisedButton } from 'material-ui';
 import MultiplechoiceComponent from '../components/multiplechoice';
 
 // modules
+import * as Core from 'lib/core';
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
 import { IState } from 'client/state';
@@ -81,7 +82,7 @@ export class MultiplechoiceCardViewContainer extends React.Component<
 
                 {assignment.get_score() !== null ? null : (
                     <RaisedButton
-                        label="Check"
+                        label={Core.i18n.t('check')}
                         primary={true}
                         fullWidth={true}
                         onClick={() => {

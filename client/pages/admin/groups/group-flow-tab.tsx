@@ -82,7 +82,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Schüler...', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('users'), loading_step: 1 });
 
         try {
             this.props.dispatch(Tags.actions.get_tags());
@@ -105,7 +105,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                     ) as string[];
 
                     this.setState({
-                        loading: 'Aufträge...',
+                        loading: Core.i18n.t('assignments'),
                         loading_step: 2
                     });
 
@@ -335,7 +335,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             }}
                         >
                             <MenuItem
-                                primaryText="Material zuweisen"
+                                primaryText={Core.i18n.t('cards_assign')}
                                 onClick={() => {
                                     this.props.dispatch(
                                         UI.actions.toggle_assign_material_dialog()
@@ -343,7 +343,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                 }}
                             />
                             <MenuItem
-                                primaryText="Alle abgeschlossen Aufgaben auswählen"
+                                primaryText={Core.i18n.t(
+                                    'select_all_finished_cards'
+                                )}
                                 onClick={() =>
                                     this.props.dispatch(
                                         Flow.actions.set_selected_assignments(
@@ -362,7 +364,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                 }
                             />
                             <MenuItem
-                                primaryText="Alle Benutzer auswählen"
+                                primaryText={Core.i18n.t('select_all_users')}
                                 onClick={() => {
                                     this.props.dispatch(
                                         Users.actions.set_selected_users(
@@ -374,7 +376,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                 }}
                             />
                             <MenuItem
-                                primaryText="Benutzerauswahl zurücksetzen"
+                                primaryText={Core.i18n.t(
+                                    'reset_user_selection'
+                                )}
                                 onClick={() => {
                                     this.props.dispatch(
                                         Users.actions.set_selected_users([])
@@ -384,7 +388,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             {this.props.selected_assignments.length !== 0 ? (
                                 <div>
                                     <MenuItem
-                                        primaryText="Archivieren"
+                                        primaryText={Core.i18n.t('archive')}
                                         onClick={() => {
                                             this.props.dispatch(
                                                 Flow.actions.archive_assignments(

@@ -36,6 +36,7 @@ import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Folders from 'lib/folders';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
@@ -76,7 +77,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Ordner', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('folders'), loading_step: 1 });
         this.props
             .dispatch(Folders.actions.get_folders())
             .then(folders_response => {
@@ -252,7 +253,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                         }}
                     >
                         <MenuItem
-                            primaryText="Neuen Ordner erstellen"
+                            primaryText={Core.i18n.t('folder_create')}
                             onClick={() => {
                                 this.setState({
                                     show_create_folder_dialog: true
@@ -260,7 +261,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                             }}
                         />
                         <MenuItem
-                            primaryText="Lernkarten hinzufügen"
+                            primaryText={Core.i18n.t('card_add')}
                             onClick={() => {
                                 this.setState({
                                     show_add_material_dialog: true
@@ -271,7 +272,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                 </UI.components.ActionBar>
                 <Dialog
                     open={this.state.show_add_material_dialog}
-                    title="Lernkarten hinzufügen"
+                    title={Core.i18n.t('card_add')}
                     autoScrollBodyContent={true}
                     contentStyle={{
                         width: '100%',
@@ -282,7 +283,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                     }
                     actions={[
                         <RaisedButton
-                            label="Abbrechen"
+                            label={Core.i18n.t('cancel')}
                             onClick={() =>
                                 this.setState({
                                     show_add_material_dialog: false
@@ -291,7 +292,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                             secondary={true}
                         />,
                         <RaisedButton
-                            label="Hinzufügen"
+                            label={Core.i18n.t('add')}
                             onClick={() => {
                                 this.props.dispatch(
                                     Folders.actions.add_material(
@@ -314,10 +315,10 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                 </Dialog>
                 <Dialog
                     open={this.state.show_create_folder_dialog}
-                    title="Neuen Ordner erstellen"
+                    title={Core.i18n.t('folder_create')}
                     actions={[
                         <RaisedButton
-                            label="Abbrechen"
+                            label={Core.i18n.t('cancel')}
                             onClick={() =>
                                 this.setState({
                                     show_create_folder_dialog: false
@@ -326,7 +327,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                             secondary={true}
                         />,
                         <RaisedButton
-                            label="Erstellen"
+                            label={Core.i18n.t('create')}
                             onClick={() => {
                                 this.props.dispatch(
                                     Folders.actions.create_folder(
@@ -344,10 +345,10 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                 >
                     <TextField
                         fullWidth={true}
-                        hintText="Ordner Name"
+                        hintText={Core.i18n.t('name')}
                         value={this.state.folder_name}
                         onChange={(e, v) => this.setState({ folder_name: v })}
-                        floatingLabelText="Ordner Name"
+                        floatingLabelText={Core.i18n.t('name')}
                     />
                 </Dialog>
                 <AssignMaterialDialog />

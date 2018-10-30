@@ -10,8 +10,10 @@ import { Dialog, RaisedButton } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Tags from 'lib/tags';
+import { CORE_ACTION_ERROR } from 'lib/core/actions';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
@@ -44,10 +46,10 @@ export class TagsDialog extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <Dialog
-                title="Tag erstellen"
+                title={Core.i18n.t('tag_create')}
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(
                                 Tags.actions.toggle_tags_dialog()
@@ -60,10 +62,10 @@ export class TagsDialog extends React.Component<IProps, IComponentState> {
                             this.props.tag
                         )}
                         labels={[
-                            'Erstellen',
-                            'erstelle...',
-                            'erstellt',
-                            'Fehler'
+                            Core.i18n.t('create'),
+                            Core.i18n.t('creating'),
+                            Core.i18n.t('created'),
+                            Core.i18n.t('error')
                         ]}
                         fullWidth={false}
                         disabled={false}

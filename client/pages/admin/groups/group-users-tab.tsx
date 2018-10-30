@@ -51,7 +51,7 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'lade Schüler' });
+        this.setState({ loading: Core.i18n.t('users') });
         this.props
             .dispatch(
                 Core.actions.find({
@@ -82,7 +82,7 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                 }}
             >
                 <Typography variant="h5" component="h3">
-                    Benutzer
+                    {Core.i18n.t('users')}
                 </Typography>
                 <Paper>
                     <UserList

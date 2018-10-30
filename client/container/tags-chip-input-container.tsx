@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
+import * as Core from 'lib/core';
 import * as Tags from 'lib/tags';
 
 interface IPassedProps {
@@ -50,7 +51,7 @@ export class TagsChipInputContainer extends React.Component<
                     return { value: tag._id, label: tag.name };
                 })}
                 isMulti={true}
-                name="Tags"
+                name={Core.i18n.t('tags')}
                 onChange={e => this.props.onChange(e.map(v => v.value))}
                 options={this.props.tags.map(tag => {
                     return { value: tag._id, label: tag.name };

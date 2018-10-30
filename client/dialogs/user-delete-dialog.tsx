@@ -10,6 +10,7 @@ import { Dialog, RaisedButton } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
 
@@ -40,10 +41,10 @@ export class DeleteUserDialog extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <Dialog
-                title="Benutzer löschen"
+                title={Core.i18n.t('user_delete')}
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(
                                 UI.actions.toggle_delete_user_dialog()
@@ -54,7 +55,12 @@ export class DeleteUserDialog extends React.Component<IProps, IComponentState> {
                         action={Users.actions.delete_user(
                             this.props.selected_users
                         )}
-                        labels={['Löschen', 'lösche...', 'gelöscht', 'Fehler']}
+                        labels={[
+                            Core.i18n.t('delete'),
+                            Core.i18n.t('deleting'),
+                            Core.i18n.t('deleted'),
+                            Core.i18n.t('error')
+                        ]}
                         disabled={false}
                         fullWidth={false}
                         onSuccess={() => {

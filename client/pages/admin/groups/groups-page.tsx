@@ -13,6 +13,7 @@ import CreateGroupDialog from 'client/dialogs/group-create-dialog';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as UI from 'lib/ui';
 
@@ -46,7 +47,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Gruppen', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('groups'), loading_step: 1 });
         this.props.dispatch(Groups.actions.get_groups()).then(res => {
             this.setState({ loading: 'finished', loading_step: 2 });
         });
@@ -60,7 +61,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                     min={0}
                     value={this.state.loading_step}
                 >
-                    Lade Gruppe
+                    {Core.i18n.t('groups')}
                 </UI.components.LoadingPage>
             );
         }

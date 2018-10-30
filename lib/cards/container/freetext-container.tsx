@@ -9,6 +9,7 @@ import FreetextComponent from '../components/freetext';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
 import * as UI from 'lib/ui';
@@ -89,10 +90,10 @@ export class FreetextCardContainer extends React.Component<
                                 this.state.answer
                             )}
                             labels={[
-                                'Speichern',
-                                'speichere...',
-                                'gespeichert',
-                                'Fehler'
+                                Core.i18n.t('save'),
+                                Core.i18n.t('saving'),
+                                Core.i18n.t('saved'),
+                                Core.i18n.t('error')
                             ]}
                             disabled={false}
                             fullWidth={true}

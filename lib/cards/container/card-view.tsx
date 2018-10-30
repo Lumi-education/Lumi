@@ -10,6 +10,7 @@ import FreetextContainer from './freetext-container';
 import VideoCardContainer from './video-card';
 import TextCardContainer from './text-card-container';
 
+import * as Core from 'lib/core';
 import * as Cards from '..';
 
 interface IPassedProps {
@@ -95,11 +96,7 @@ export class CardViewContainer extends React.Component<IProps, {}> {
             }
         }
 
-        return (
-            <div id="card_view">
-                card_type {this.props.card.card_type} not found
-            </div>
-        );
+        return <div id="card_view">{Core.i18n.t('error')}</div>;
     }
 }
 

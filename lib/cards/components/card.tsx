@@ -68,7 +68,7 @@ export default class CardComponent extends React.Component<IProps, {}> {
                     <CardActions>
                         <RaisedButton
                             onClick={this.props.edit}
-                            label="Bearbeiten"
+                            label={Core.i18n.t('edit')}
                         />
                     </CardActions>
                 </Card>

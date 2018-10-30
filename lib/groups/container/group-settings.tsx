@@ -8,6 +8,7 @@ import { Dialog, TextField, RaisedButton } from 'material-ui';
 import { state_color } from 'lib/ui/utils';
 
 // modules
+import * as Core from 'lib/core';
 import * as Groups from '..';
 
 interface IPassedProps {
@@ -66,8 +67,8 @@ export class GroupSettingsContainer extends React.Component<
             return (
                 <div>
                     <TextField
-                        hintText="Name"
-                        floatingLabelText="Name"
+                        hintText={Core.i18n.t('name')}
+                        floatingLabelText={Core.i18n.t('name')}
                         value={this.state.name}
                         fullWidth={true}
                         onChange={(e, name) => this.setState({ name })}
@@ -81,7 +82,7 @@ export class GroupSettingsContainer extends React.Component<
                     {this.props.children}
                     <RaisedButton
                         fullWidth={true}
-                        label="Back"
+                        label={Core.i18n.t('back')}
                         onClick={() =>
                             this.props.dispatch(push('/admin/groups'))
                         }
@@ -92,7 +93,7 @@ export class GroupSettingsContainer extends React.Component<
                         onClick={() =>
                             this.setState({ show_delete_dialog: true })
                         }
-                        label="Delete"
+                        label={Core.i18n.t('delete')}
                     />
 
                     <Dialog
@@ -100,7 +101,9 @@ export class GroupSettingsContainer extends React.Component<
                         onRequestClose={() =>
                             this.setState({ show_delete_dialog: false })
                         }
-                        title={'Delete user'}
+                        title={Core.i18n.t('delete_', {
+                            item: Core.i18n.t('group')
+                        })}
                         actions={[
                             <RaisedButton
                                 onClick={() =>
@@ -108,7 +111,7 @@ export class GroupSettingsContainer extends React.Component<
                                 }
                                 secondary={true}
                                 fullWidth={true}
-                                label="NO"
+                                label={Core.i18n.t('cancel')}
                             />,
                             <RaisedButton
                                 onClick={() => {
@@ -126,17 +129,20 @@ export class GroupSettingsContainer extends React.Component<
                                 }}
                                 primary={true}
                                 fullWidth={true}
-                                label="YES"
+                                label={Core.i18n.t('delete')}
                             />
                         ]}
                     >
-                        Do you really want to delete {this.props.group.name}?
+                        {Core.i18n.t('delete_', {
+                            item: this.props.group.name
+                        })}
+                        ?
                     </Dialog>
                 </div>
             );
         }
 
-        return <div>loading</div>;
+        return <div>{Core.i18n.t('loading')}</div>;
     }
 }
 

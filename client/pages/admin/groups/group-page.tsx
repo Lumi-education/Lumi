@@ -12,6 +12,7 @@ import GroupUsersTab from './group-users-tab';
 import GroupFlowTab from './group-flow-tab';
 
 // modules
+import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as UI from 'lib/ui';
 
@@ -67,7 +68,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                     value={this.props.tab}
                 >
                     <Tab
-                        label="Settings"
+                        label={Core.i18n.t('settings')}
                         value="settings"
                         onActive={() =>
                             this.props.dispatch(
@@ -80,7 +81,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         }
                     />
                     <Tab
-                        label="Users"
+                        label={Core.i18n.t('users')}
                         value="users"
                         onActive={() =>
                             this.props.dispatch(
@@ -93,7 +94,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         }
                     />
                     <Tab
-                        label="Flow"
+                        label={Core.i18n.t('flow')}
                         value="flow"
                         onActive={() =>
                             this.props.dispatch(

@@ -54,7 +54,7 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <Dialog
-                title="Aufgabe"
+                title={Core.i18n.t('assignment')}
                 autoScrollBodyContent={true}
                 contentStyle={{
                     width: '100%',
@@ -65,7 +65,7 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                 }}
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(Flow.actions.toggle_dialog())
                         }
@@ -75,10 +75,10 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             this.props.assignment._id
                         ])}
                         labels={[
-                            'Archivieren',
-                            'Wird archiviert...',
-                            'Archiviert',
-                            'Fehler'
+                            Core.i18n.t('archive'),
+                            Core.i18n.t('archiving'),
+                            Core.i18n.t('archived'),
+                            Core.i18n.t('error')
                         ]}
                         fullWidth={false}
                         disabled={false}
@@ -87,7 +87,12 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                         action={Flow.actions.delete_assignments([
                             this.props.assignment._id
                         ])}
-                        labels={['Löschen', 'lösche...', 'Gelöscht', 'Fehler']}
+                        labels={[
+                            Core.i18n.t('delete'),
+                            Core.i18n.t('deleting'),
+                            Core.i18n.t('deleted'),
+                            Core.i18n.t('error')
+                        ]}
                         fullWidth={false}
                         disabled={false}
                         onSuccess={() => {
@@ -103,10 +108,10 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             this.props.assignment
                         )}
                         labels={[
-                            'Speichern',
-                            'Speichere...',
-                            'Gespeichert',
-                            'Fehler'
+                            Core.i18n.t('save'),
+                            Core.i18n.t('saving'),
+                            Core.i18n.t('saved'),
+                            Core.i18n.t('error')
                         ]}
                         fullWidth={false}
                         disabled={false}
@@ -142,7 +147,7 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             padding: '15px 0px 15px 0px'
                         }}
                     >
-                        <h1>Kommentare</h1>
+                        <h1>{Core.i18n.t('comments')}</h1>
 
                         {this.props.comments.map(comment => {
                             return (
@@ -173,7 +178,7 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                                         comment_field_focused: false
                                     })
                                 }
-                                hintText="Kommentar"
+                                hintText={Core.i18n.t('comment')}
                                 value={this.state.comment}
                                 onChange={(e, v) =>
                                     this.setState({ comment: v })
@@ -181,9 +186,8 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             />
                             {this.state.comment !== '' ? (
                                 <RaisedButton
-                                    label="Senden"
+                                    label={Core.i18n.t('send')}
                                     onClick={() => {
-                                        log('test');
                                         this.props
                                             .dispatch(
                                                 Comments.actions.create_comment(

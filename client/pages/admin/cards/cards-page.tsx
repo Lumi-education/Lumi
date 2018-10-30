@@ -65,9 +65,9 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Karten', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('cards'), loading_step: 1 });
         this.props.dispatch(Cards.actions.get_cards()).then(res => {
-            this.setState({ loading: 'Tags', loading_step: 2 });
+            this.setState({ loading: Core.i18n.t('tags'), loading_step: 2 });
             this.props.dispatch(Tags.actions.get_tags()).then(tags_res => {
                 this.setState({ loading: 'finished', loading_step: 3 });
             });

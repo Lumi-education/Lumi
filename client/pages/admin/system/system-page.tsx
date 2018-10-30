@@ -12,6 +12,7 @@ import System_update_tab from './system-update-tab';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 
 interface IStateProps {
@@ -70,7 +71,7 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
                     value={this.props.tab}
                 >
                     <Tab
-                        label="Umgebung"
+                        label={Core.i18n.t('environment')}
                         value="environment"
                         onActive={() =>
                             this.props.dispatch(
@@ -79,7 +80,7 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
                         }
                     />
                     <Tab
-                        label="Update"
+                        label={Core.i18n.t('update')}
                         value="update"
                         onActive={() =>
                             this.props.dispatch(push('/admin/system/update'))

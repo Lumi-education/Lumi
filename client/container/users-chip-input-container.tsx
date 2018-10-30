@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
+import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 
 interface IPassedProps {
@@ -50,7 +51,7 @@ export class UsersChipInputContainer extends React.Component<
                     return { value: user._id, label: user.name };
                 })}
                 isMulti={true}
-                name="Users"
+                name={Core.i18n.t('user')}
                 onChange={e => this.props.onChange(e.map(v => v.value))}
                 options={this.props.users.map(user => {
                     return { value: user._id, label: user.name };

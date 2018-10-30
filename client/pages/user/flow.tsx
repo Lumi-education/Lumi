@@ -21,6 +21,7 @@ import SVGComment from 'material-ui/svg-icons/communication/comment';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
@@ -114,7 +115,9 @@ export class UserFlow extends React.Component<IProps, {}> {
                                                 }}
                                             >
                                                 <MenuItem
-                                                    primaryText="Archivieren"
+                                                    primaryText={Core.i18n.t(
+                                                        'archive'
+                                                    )}
                                                     onClick={() =>
                                                         this.props.dispatch(
                                                             Flow.actions.archive_assignments(

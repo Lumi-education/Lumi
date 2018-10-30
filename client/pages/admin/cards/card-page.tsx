@@ -12,6 +12,7 @@ import { TagsChipInputContainer } from 'client/container';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Tags from 'lib/tags';
 import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
@@ -42,7 +43,7 @@ export class CardPage extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Karte', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('card'), loading_step: 1 });
         this.props
             .dispatch(Cards.actions.get_cards([this.props.card_id]))
             .then(res => {
@@ -80,30 +81,32 @@ export class CardPage extends React.Component<IProps, IComponentState> {
                 </ErrorBoundary>
                 <UI.components.ActionBar>
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() => this.props.dispatch(UI.actions.goBack())}
                     />
                     <UI.components.RaisedButton
                         action={Cards.actions.delete_card(this.props.card_id)}
-                        labels={['Löschen', 'lösche...', 'gelöscht', 'Fehler']}
+                        labels={[
+                            Core.i18n.t('delete'),
+                            Core.i18n.t('deleting'),
+                            Core.i18n.t('deleted'),
+                            Core.i18n.t('error')
+                        ]}
                         fullWidth={false}
                         disabled={false}
                         onSuccess={res => {
                             this.props.dispatch(
                                 UI.actions.push('/admin/cards/')
                             );
-                            this.props.dispatch(
-                                UI.actions.snackbar_open('Karte gelöscht')
-                            );
                         }}
                     />
                     <UI.components.RaisedButton
                         action={Cards.actions.duplicate(this.props.card_id)}
                         labels={[
-                            'Duplizieren',
-                            'dupliziere...',
-                            'Dupliziert',
-                            'Fehler'
+                            Core.i18n.t('duplicate'),
+                            Core.i18n.t('duplicating'),
+                            Core.i18n.t('duplicated'),
+                            Core.i18n.t('error')
                         ]}
                         fullWidth={false}
                         disabled={false}
@@ -111,11 +114,6 @@ export class CardPage extends React.Component<IProps, IComponentState> {
                             this.props.dispatch(
                                 UI.actions.push(
                                     '/admin/cards/' + res.payload._id
-                                )
-                            );
-                            this.props.dispatch(
-                                UI.actions.snackbar_open(
-                                    'Karte erfolgreich dupliziert'
                                 )
                             );
                         }}
@@ -132,16 +130,16 @@ export class CardPage extends React.Component<IProps, IComponentState> {
                         labels={
                             this.props.card._id
                                 ? [
-                                      'Speichern',
-                                      'Speichere...',
-                                      'Gespeichert',
-                                      'Fehler'
+                                      Core.i18n.t('save'),
+                                      Core.i18n.t('saving'),
+                                      Core.i18n.t('saved'),
+                                      Core.i18n.t('error')
                                   ]
                                 : [
-                                      'Erstellen',
-                                      'erstelle...',
-                                      'Erstellt',
-                                      'Fehler'
+                                      Core.i18n.t('create'),
+                                      Core.i18n.t('creating'),
+                                      Core.i18n.t('created'),
+                                      Core.i18n.t('error')
                                   ]
                         }
                         fullWidth={false}

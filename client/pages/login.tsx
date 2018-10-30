@@ -7,6 +7,7 @@ import raven from 'lib/core/raven';
 import { TextField, Paper, RaisedButton, LinearProgress } from 'material-ui';
 
 // modules
+import * as Core from 'lib/core';
 import * as Auth from 'lib/auth';
 import * as UI from 'lib/ui';
 
@@ -70,7 +71,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
             login_button_style: {
                 backgroundColor: 'white'
             },
-            login_button_text: 'Anmelden'
+            login_button_text: Core.i18n.t('login')
         };
 
         this.login = this.login.bind(this);
@@ -98,7 +99,9 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                     switch (res.response.status) {
                         case 404:
                             this.setState({
-                                username_error: 'Name nicht gefunden',
+                                username_error: Core.i18n.t('not_found.user', {
+                                    name: this.state.username
+                                }),
                                 status: 404,
                                 login_button_style: {
                                     backgroundColor: this.props.colors.error
@@ -107,7 +110,9 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                             break;
                         case 401:
                             this.setState({
-                                password_error: 'Passwort falsch',
+                                password_error: Core.i18n.t(
+                                    'password_incorrect'
+                                ),
                                 status: 401,
                                 login_button_style: {
                                     backgroundColor: this.props.colors.error
@@ -133,7 +138,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                     login_button_style: {
                         backgroundColor: this.props.colors.pending
                     },
-                    login_button_text: 'Erstelle Benutzer...'
+                    login_button_text: Core.i18n.t('creating')
                 });
                 this.props
                     .dispatch(
@@ -144,7 +149,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                     )
                     .then(res => {
                         this.setState({
-                            login_button_text: 'Melde an...'
+                            login_button_text: Core.i18n.t('logging_in') + '...'
                         });
                         this.props
                             .dispatch(
@@ -182,7 +187,9 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                     switch (res.response.status) {
                         case 404:
                             return this.setState({
-                                username_error: 'Dieser Name ist frei.',
+                                username_error: Core.i18n.t('username_free', {
+                                    name: this.state.username
+                                }),
                                 username_exists: false,
                                 login_disabled: false,
                                 error_style: {
@@ -193,7 +200,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
 
                         default:
                             return this.setState({
-                                username_error: 'Dieser Name ist belegt.',
+                                username_error: Core.i18n.t('username_exists'),
                                 login_disabled: true,
                                 username_exists: true,
                                 error_style: {
@@ -207,7 +214,10 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                 switch (res.response.status) {
                     case 404:
                         return this.setState({
-                            username_error: 'Dieser Name existiert nicht.',
+                            username_error: Core.i18n.t(
+                                'username_does_not_exist',
+                                { name: this.state.username }
+                            ),
                             login_disabled: true,
                             username_exists: false,
                             error_style: {
@@ -272,7 +282,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 fullWidth={true}
                                 underlineFocusStyle={{ borderColor: 'black' }}
                                 inputStyle={{ fontWeight: 600 }}
-                                hintText="Name"
+                                hintText={Core.i18n.t('name')}
                                 type="text"
                                 style={{ borderBottom: '1px solid #E4E8EB' }}
                                 underlineShow={this.state.username_error !== ''}
@@ -296,7 +306,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                         borderColor: 'black'
                                     }}
                                     inputStyle={{ fontWeight: 600 }}
-                                    hintText="Passwort"
+                                    hintText={Core.i18n.t('password')}
                                     underlineShow={
                                         this.state.password_error !== ''
                                     }

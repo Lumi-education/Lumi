@@ -4,6 +4,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+import * as Core from 'lib/core';
+
 interface IProps {
     create_group: (name: string) => void;
     close: () => void;
@@ -32,12 +34,12 @@ export default class CreateGroupDialog extends React.Component<IProps, IState> {
     public render() {
         const actions = [
             <FlatButton
-                label="Cancel"
+                label={Core.i18n.t('cancel')}
                 primary={true}
                 onClick={this.props.close}
             />,
             <FlatButton
-                label="Create"
+                label={Core.i18n.t('create')}
                 primary={true}
                 onClick={this.create_group}
             />
@@ -45,13 +47,13 @@ export default class CreateGroupDialog extends React.Component<IProps, IState> {
 
         return (
             <Dialog
-                title="Create Group"
+                title={Core.i18n.t('group_create')}
                 actions={actions}
                 modal={true}
                 open={true}
             >
                 <TextField
-                    hintText="Name"
+                    hintText={Core.i18n.t('name')}
                     value={this.state.name}
                     onChange={(e, v) => this.setState({ name: v })}
                     fullWidth={true}

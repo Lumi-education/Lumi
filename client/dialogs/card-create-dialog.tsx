@@ -10,6 +10,7 @@ import { Dialog, RaisedButton } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Tags from 'lib/tags';
@@ -43,8 +44,10 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
             <Dialog
                 title={
                     this.props.card._id
-                        ? this.props.card.name + ' bearbeiten'
-                        : 'Material erstellen'
+                        ? Core.i18n.t('card_edit', {
+                              name: this.props.card.name
+                          })
+                        : Core.i18n.t('card_create')
                 }
                 autoScrollBodyContent={true}
                 contentStyle={{
@@ -56,7 +59,7 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                 }}
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(
                                 UI.actions.toggle_create_card_dialog()
@@ -65,7 +68,7 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                     />,
                     this.props.card._id ? (
                         <RaisedButton
-                            label="Duplizieren"
+                            label={Core.i18n.t('duplicate')}
                             onClick={() =>
                                 this.props.dispatch(
                                     Cards.actions.change_card({
@@ -87,16 +90,16 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                         labels={
                             this.props.card._id
                                 ? [
-                                      'Speichern',
-                                      'Speichere...',
-                                      'Gespeichert',
-                                      'Fehler'
+                                      Core.i18n.t('save'),
+                                      Core.i18n.t('saving'),
+                                      Core.i18n.t('saved'),
+                                      Core.i18n.t('error')
                                   ]
                                 : [
-                                      'Erstellen',
-                                      'erstelle...',
-                                      'Erstellt',
-                                      'Fehler'
+                                      Core.i18n.t('create'),
+                                      Core.i18n.t('creating'),
+                                      Core.i18n.t('created'),
+                                      Core.i18n.t('error')
                                   ]
                         }
                         fullWidth={false}
