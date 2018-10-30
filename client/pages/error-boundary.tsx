@@ -7,6 +7,7 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 // modules
 import Raven from 'lib/core/raven';
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 
 interface IPassedProps {
@@ -50,10 +51,11 @@ export default withStyles(styles)(
                     <UI.components.ErrorPage>
                         <Paper className={classes.root} elevation={1}>
                             <Typography variant="h5" component="h3">
-                                Oops!!! Something went wrong
+                                {Core.i18n.t('error_msg')}
                             </Typography>
                             <Typography component="p">
-                                The error: {this.state.error.toString()}
+                                {Core.i18n.t('error')}:{' '}
+                                {this.state.error.toString()}
                             </Typography>
                         </Paper>
                     </UI.components.ErrorPage>

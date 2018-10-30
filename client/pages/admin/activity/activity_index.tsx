@@ -17,6 +17,7 @@ import SVGComment from 'material-ui/svg-icons/communication/comment';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Activity from 'lib/activity';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
@@ -57,9 +58,9 @@ export class AdminActivityIndex extends React.Component<
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Aktivitäten', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('activities'), loading_step: 1 });
         this.props.dispatch(Activity.actions.get_activities()).then(res => {
-            this.setState({ loading: 'Karten', loading_step: 2 });
+            this.setState({ loading: Core.i18n.t('cards'), loading_step: 2 });
             this.props.dispatch(Cards.actions.get_cards()).then(cards_res => {
                 this.setState({ loading: 'finished', loading_step: 3 });
             });
@@ -131,30 +132,33 @@ export class AdminActivityIndex extends React.Component<
                                                 let _assignment = this.props.assignment(
                                                     activity.assignment_id
                                                 );
-                                                return (
-                                                    'hat die Lernkarte ' +
-                                                    this.props.card(
-                                                        _assignment.card_id
-                                                    ).name +
-                                                    ' mit ' +
-                                                    _assignment.get_score() +
-                                                    '%  beendet.'
+                                                return Core.i18n.t(
+                                                    'activity_assignment_completed',
+                                                    {
+                                                        cardname: this.props.card(
+                                                            _assignment.card_id
+                                                        ).name,
+                                                        score: _assignment.get_score()
+                                                    }
                                                 );
                                             case 'login':
-                                                return 'hat sich angemeldet.';
+                                                return Core.i18n.t(
+                                                    'activity_login'
+                                                );
                                             case 'comment':
                                                 _assignment = this.props.assignment(
                                                     activity.assignment_id
                                                 );
-                                                return (
-                                                    'hat in der Aufgabe ' +
-                                                    this.props.card(
-                                                        _assignment.card_id
-                                                    ).name +
-                                                    ' kommentiert.'
+                                                return Core.i18n.t(
+                                                    'activity_comment',
+                                                    {
+                                                        cardname: this.props.card(
+                                                            _assignment.card_id
+                                                        ).name
+                                                    }
                                                 );
                                             default:
-                                                return ' ein Fehler ist aufgetreten';
+                                                return Core.i18n.t('error');
                                         }
                                     })()
                                 }

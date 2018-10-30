@@ -41,6 +41,7 @@ interface IStateProps {
     left_drawer_show: boolean;
     update_available: boolean;
     unread_comments: Comments.models.Comment[];
+    locale: Core.types.Locales;
 }
 
 interface IDispatchProps {
@@ -99,16 +100,16 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             backgroundColor: '#FFFFFF'
                         }}
                     >
-                        <Subheader>Benutzer</Subheader>
+                        <Subheader>{Core.i18n.t('users')}</Subheader>
                         <ListItem
-                            primaryText="Benutzer"
+                            primaryText={Core.i18n.t('users')}
                             leftIcon={<SVGPerson />}
                             onClick={() => {
                                 this.props.push('/admin/users');
                             }}
                         />
                         <ListItem
-                            primaryText="Gruppen"
+                            primaryText={Core.i18n.t('groups')}
                             leftIcon={<SVGGroup />}
                             onClick={() => {
                                 this.props.push('/admin/groups');
@@ -116,41 +117,39 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         />
                         <Divider />
 
-                        <Subheader>Material</Subheader>
+                        <Subheader>{Core.i18n.t('cards')}</Subheader>
 
                         <ListItem
-                            primaryText="Lernkarten"
+                            primaryText={Core.i18n.t('cards')}
                             leftIcon={<SVGCards />}
                             onClick={() => {
                                 this.props.push('/admin/cards');
                             }}
                         />
                         <ListItem
-                            primaryText="Ordner"
+                            primaryText={Core.i18n.t('folders')}
                             leftIcon={<SVGFolder />}
                             onClick={() => {
                                 this.props.push('/admin/folders/root_folder');
                             }}
                         />
                         <ListItem
-                            primaryText="Tags"
+                            primaryText={Core.i18n.t('tags')}
                             leftIcon={<SVGTags />}
                             onClick={() => {
                                 this.props.push('/admin/tags');
                             }}
                         />
                         <Divider />
-                        <Subheader>Monitor</Subheader>
+                        <Subheader>{Core.i18n.t('monitor')}</Subheader>
 
                         <ListItem
-                            primaryText="Aktivität"
+                            primaryText={Core.i18n.t('activities')}
                             leftIcon={<SVGActivity />}
-                            onClick={() =>
-                                this.props.push('/admin/activity')
-                            }
+                            onClick={() => this.props.push('/admin/activity')}
                         />
                         <ListItem
-                            primaryText="Kommentare"
+                            primaryText={Core.i18n.t('comments')}
                             leftIcon={<SVGComments />}
                             rightAvatar={
                                 this.props.unread_comments.length !== 0 ? (
@@ -163,21 +162,19 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                     </Avatar>
                                 ) : null
                             }
-                            onClick={() =>
-                                this.props.push('/admin/comments')
-                            }
+                            onClick={() => this.props.push('/admin/comments')}
                         />
                         <Divider />
-                        <Subheader>Benutzer</Subheader>
+                        <Subheader>{Core.i18n.t('user')}</Subheader>
                         <ListItem
-                            primaryText="Abmelden"
+                            primaryText={Core.i18n.t('logout')}
                             leftIcon={<SVGPower />}
                             onClick={() =>
                                 this.props.dispatch(Auth.actions.logout())
                             }
                         />
                         <Divider />
-                        <Subheader>System</Subheader>
+                        <Subheader>{Core.i18n.t('system')}</Subheader>
                         <ListItem
                             primaryText="System"
                             leftIcon={<SVGSystem />}
@@ -189,7 +186,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() => this.props.push('/admin/system')}
                         />
                         <ListItem
-                            primaryText="Ausschalten"
+                            primaryText={Core.i18n.t('shutdown')}
                             leftIcon={<SVGPower />}
                             onClick={() =>
                                 this.props.dispatch(Core.actions.shutdown())
@@ -221,7 +218,8 @@ function mapStateToProps(state: IState): IStateProps {
             state,
             '*',
             state.users.me._id
-        )
+        ),
+        locale: state.i18n.locale
     };
 }
 

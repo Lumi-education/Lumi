@@ -12,6 +12,7 @@ import CreateUserContainer from 'client/container/user-create-container';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
@@ -40,10 +41,10 @@ export class CreateUserDialog extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <Dialog
-                title="Benutzer erstellen"
+                title={Core.i18n.t('user_create')}
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(
                                 UI.actions.toggle_create_user_dialog()

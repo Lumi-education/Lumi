@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import { i18nReducer } from 'react-redux-i18n';
+
 import { IState as IAuth, auth_reducer as auth } from 'lib/auth';
 import { IState as ICards, reducer as cards } from 'lib/cards';
 import { IState as IGroups, reducer as groups } from 'lib/groups';
@@ -21,6 +23,7 @@ const root_reducer = combineReducers({
     users,
     tags,
     flow,
+    i18n: i18nReducer,
     core: Core.reducer,
     activity: Activity.reducer,
     comments: Comments.reducer,

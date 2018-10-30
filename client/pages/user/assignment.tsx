@@ -22,6 +22,7 @@ import { push } from 'lib/ui/actions';
 
 // types
 import { IState } from 'client/state';
+import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Comments from 'lib/comments';
@@ -61,7 +62,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 'linear-gradient(90deg, #e74c3c, #f39c12)'
                         }}
                     >
-                        ACHTUNG: Daten nicht synchronisiert
+                        {Core.i18n.t('data_not_synced')}
                     </div>
                 ) : null}
                 {this.props.assignment.sync === 'pending' ? (
@@ -73,7 +74,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 'linear-gradient(90deg, #f1c40f, #e67e22)'
                         }}
                     >
-                        Synchronisiere...
+                        {Core.i18n.t('syncing')}
                     </div>
                 ) : null}
                 <Paper>
@@ -140,7 +141,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                                 }}
                             >
                                 <MenuItem
-                                    primaryText="Kommentare"
+                                    primaryText={Core.i18n.t('comments')}
                                     leftIcon={<SVGComment />}
                                     rightIcon={
                                         <b

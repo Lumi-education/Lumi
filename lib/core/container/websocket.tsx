@@ -40,16 +40,12 @@ export class WebsocketContainer extends React.Component<
 
         socket.on('error', () =>
             this.props.dispatch(
-                UI.actions.show_alarm_dialog(
-                    'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung.'
-                )
+                UI.actions.show_alarm_dialog(Core.i18n.t('lost_connection'))
             )
         );
         socket.on('disconnect', () =>
             this.props.dispatch(
-                UI.actions.show_alarm_dialog(
-                    'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung.'
-                )
+                UI.actions.show_alarm_dialog(Core.i18n.t('lost_connection'))
             )
         );
     }

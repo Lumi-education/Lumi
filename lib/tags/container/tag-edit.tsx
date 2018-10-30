@@ -6,6 +6,7 @@ import * as debug from 'debug';
 // components
 import { TextField, Paper } from 'material-ui';
 
+import * as Core from 'lib/core';
 import * as Tags from '..';
 
 const log = debug('lumi:container:cards:card-edit');
@@ -37,8 +38,8 @@ export class TagEditContainer extends React.Component<IProps, IComponentState> {
         return (
             <Paper style={{ margin: '15px', padding: '20px' }}>
                 <TextField
-                    hintText="Name"
-                    floatingLabelText="Name"
+                    hintText={Core.i18n.t('name')}
+                    floatingLabelText={Core.i18n.t('name')}
                     value={tag.name || ''}
                     fullWidth={true}
                     onChange={(e, v) =>
@@ -48,8 +49,8 @@ export class TagEditContainer extends React.Component<IProps, IComponentState> {
                     }
                 />
                 <TextField
-                    hintText="Kurzname (max 3 Zeichen)"
-                    floatingLabelText="Kurzname (max 3 Zeichen)"
+                    hintText={Core.i18n.t('short_name')}
+                    floatingLabelText={Core.i18n.t('short_name')}
                     value={tag.short_name || ''}
                     fullWidth={true}
                     onChange={(e, v) =>
@@ -61,8 +62,8 @@ export class TagEditContainer extends React.Component<IProps, IComponentState> {
                     }
                 />
                 <TextField
-                    hintText="Beschreibung"
-                    floatingLabelText="Beschreibung"
+                    hintText={Core.i18n.t('description')}
+                    floatingLabelText={Core.i18n.t('description')}
                     value={tag.description || ''}
                     fullWidth={true}
                     onChange={(e, v) =>
@@ -72,8 +73,8 @@ export class TagEditContainer extends React.Component<IProps, IComponentState> {
                     }
                 />
                 <TextField
-                    hintText="Farbe"
-                    floatingLabelText="Farbe"
+                    hintText={Core.i18n.t('color')}
+                    floatingLabelText={Core.i18n.t('color')}
                     value={tag.color || ''}
                     fullWidth={true}
                     onChange={(e, v) =>

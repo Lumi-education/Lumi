@@ -17,6 +17,7 @@ import { Dialog, RaisedButton } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
@@ -72,12 +73,16 @@ export class AssignMaterialDialog extends React.Component<
     public render() {
         return (
             <Dialog
-                title={
-                    this.props.selected_card_ids.length + ' Lernkarten zuweisen'
-                }
+                title={Core.i18n.t('cards')}
+                contentStyle={{
+                    width: '100%',
+                    maxWidth: 'none',
+                    minHeight: '500px'
+                }}
+
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(
                                 UI.actions.toggle_assign_material_dialog()
@@ -86,10 +91,12 @@ export class AssignMaterialDialog extends React.Component<
                     />,
                     <UI.components.RaisedButton
                         labels={[
-                            this.props.selected_card_ids.length + ' zuweisen',
-                            'wird zugewiesen...',
-                            'erfolgreich zugewiesen',
-                            'Fehler'
+                            Core.i18n.t('assign.cards', {
+                                num: this.props.selected_card_ids.length
+                            }),
+                            Core.i18n.t('assigning'),
+                            Core.i18n.t('assigned'),
+                            Core.i18n.t('error')
                         ]}
                         action={Flow.actions.assign(
                             this.props.user_ids,
@@ -115,7 +122,7 @@ export class AssignMaterialDialog extends React.Component<
                 }
             >
                 <div style={{ height: '350px' }}>
-                    Gruppen
+                    {Core.i18n.t('groups')}
                     <GroupsChipInputContainer
                         group_ids={this.props.selected_group_ids}
                         onChange={(group_ids: string[]) => {
@@ -136,7 +143,7 @@ export class AssignMaterialDialog extends React.Component<
                             );
                         }}
                     />
-                    Benutzer
+                    {Core.i18n.t('users')}
                     <UsersChipInputContainer
                         user_ids={this.props.selected_user_ids}
                         onChange={(user_ids: string[]) =>

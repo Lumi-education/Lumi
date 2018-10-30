@@ -6,6 +6,7 @@ import { TextField, Divider } from 'material-ui';
 
 // actions
 import { IState } from '../state';
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
 
@@ -47,8 +48,8 @@ export class CreateUserContainer extends React.Component<
         return (
             <div id="create-user">
                 <TextField
-                    hintText="Name"
-                    floatingLabelText="Name"
+                    hintText={Core.i18n.t('name')}
+                    floatingLabelText={Core.i18n.t('name')}
                     value={this.state.name}
                     fullWidth={true}
                     onChange={(e, name) => {
@@ -60,7 +61,7 @@ export class CreateUserContainer extends React.Component<
                         this.props.users
                             .map(user => user.name)
                             .indexOf(this.state.name) > -1
-                            ? 'Benutzername vergeben'
+                            ? Core.i18n.t('username_exists')
                             : null
                     }
                     errorStyle={{ color: UI.utils.state_color('error') }}
@@ -75,7 +76,12 @@ export class CreateUserContainer extends React.Component<
                         )
                     }
                     action={Users.actions.create_user(this.state.name)}
-                    labels={['Erstellen', 'Erstelle...', 'Erstellt!', 'Fehler']}
+                    labels={[
+                        Core.i18n.t('create'),
+                        Core.i18n.t('creating') + '...',
+                        Core.i18n.t('created'),
+                        Core.i18n.t('error')
+                    ]}
                     fullWidth={true}
                     disabled={
                         this.props.users

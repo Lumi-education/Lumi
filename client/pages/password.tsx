@@ -7,6 +7,7 @@ import { Dialog, TextField, RaisedButton } from 'material-ui';
 
 import { state_color } from 'lib/ui/utils';
 
+import * as Core from 'lib/core';
 import * as Auth from 'lib/auth';
 
 interface IStateProps {
@@ -66,11 +67,14 @@ export class PasswordContainer extends React.Component<
     public render() {
         try {
             return (
-                <Dialog title="Set your password" open={!this.props.password}>
+                <Dialog
+                    title={Core.i18n.t('set_your_password')}
+                    open={!this.props.password}
+                >
                     <TextField
                         fullWidth={true}
-                        hintText="Passwort"
-                        floatingLabelText="Passwort"
+                        hintText={Core.i18n.t('password')}
+                        floatingLabelText={Core.i18n.t('password')}
                         type="password"
                         value={this.state.password}
                         onChange={(event, value) =>
@@ -79,13 +83,13 @@ export class PasswordContainer extends React.Component<
                     />
                     <TextField
                         fullWidth={true}
-                        hintText="Repeat Passwort"
-                        floatingLabelText="Repeat Passwort"
+                        hintText={Core.i18n.t('repeat_password')}
+                        floatingLabelText={Core.i18n.t('repeat_password')}
                         type="password"
                         value={this.state.password_repeat}
                         errorText={
                             this.validate_password().type === 'pw_not_matching'
-                                ? 'Password does not match'
+                                ? Core.i18n.t('passwords_do_not_match')
                                 : null
                         }
                         onChange={(event, value) =>
@@ -97,7 +101,7 @@ export class PasswordContainer extends React.Component<
                         disabled={
                             !(this.validate_password().state === 'success')
                         }
-                        label="Continue"
+                        label={Core.i18n.t('continue')}
                         buttonStyle={{
                             backgroundColor: state_color(
                                 this.validate_password().state === 'success'

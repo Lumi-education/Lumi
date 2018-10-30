@@ -83,7 +83,7 @@ export class UploadCardContainer extends React.Component<
                                     background: this.props.UI.colors.error
                                 }}
                             >
-                                Upload fehlgeschlagen
+                                {Core.i18n.t('upload_error')}
                             </div>
                         ) : null}
 
@@ -114,7 +114,7 @@ export class UploadCardContainer extends React.Component<
                                     backgroundColor: this.state.color
                                 }}
                                 fullWidth={true}
-                                label="Hochladen"
+                                label={Core.i18n.t('upload')}
                             />
                         </Core.components.FileUpload>
                     </UploadCardComponent>

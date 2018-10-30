@@ -66,7 +66,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
             <div>
                 {this.props.comments.length === 0 ? (
                     <Paper>
-                        <h1>Keine neuen Kommentare</h1>
+                        <h1>{Core.i18n.t('comments_no')}</h1>
                     </Paper>
                 ) : null}
                 {this.props.comments.map(comment => {

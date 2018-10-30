@@ -28,6 +28,7 @@ import { logout } from 'lib/auth/actions';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Flow from 'lib/flow';
@@ -87,7 +88,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
 
                     <List>
                         <ListItem
-                            primaryText="Aufgaben"
+                            primaryText={Core.i18n.t('assignments')}
                             leftIcon={<SVGAssignments />}
                             initiallyOpen={true}
                             nestedItems={this.props.flow.map(
@@ -152,7 +153,7 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             }
                         />
                         <ListItem
-                            primaryText="Logout"
+                            primaryText={Core.i18n.t('logout')}
                             leftIcon={<SVGPower />}
                             onClick={() => {
                                 this.props.dispatch(push('/'));

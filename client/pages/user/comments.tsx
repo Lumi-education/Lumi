@@ -66,7 +66,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                         background: 'linear-gradient(90deg, #3498db, #1abc9c)'
                     }}
                     showMenuIconButton={true}
-                    title="Kommentare"
+                    title={Core.i18n.t('comments')}
                     onLeftIconButtonClick={() =>
                         this.props.dispatch(UI.actions.goBack())
                     }
@@ -96,7 +96,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                 >
                     {this.state.comment !== '' ? (
                         <RaisedButton
-                            label="Senden"
+                            label={Core.i18n.t('send')}
                             onClick={() => {
                                 this.props
                                     .dispatch(
@@ -136,7 +136,7 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                                 comment_field_focused: false
                             })
                         }
-                        hintText="Kommentar"
+                        hintText={Core.i18n.t('comment')}
                         value={this.state.comment}
                         onChange={(e, v) => this.setState({ comment: v })}
                     />

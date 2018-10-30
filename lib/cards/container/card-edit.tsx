@@ -52,8 +52,8 @@ export class CardEditContainer extends React.Component<
                     <div style={{ flex: 6 }}>
                         <Paper style={{ margin: '15px', padding: '20px' }}>
                             <TextField
-                                hintText="Name"
-                                floatingLabelText="Name"
+                                hintText={Core.i18n.t('name')}
+                                floatingLabelText={Core.i18n.t('name')}
                                 value={card.name || ''}
                                 fullWidth={true}
                                 onChange={(e, v) =>
@@ -64,7 +64,7 @@ export class CardEditContainer extends React.Component<
                             />
                             <SelectField
                                 fullWidth={true}
-                                floatingLabelText="Type"
+                                floatingLabelText={Core.i18n.t('type')}
                                 value={
                                     card.card_type ||
                                     Core.config.default_card_type
@@ -91,8 +91,8 @@ export class CardEditContainer extends React.Component<
                                 <MenuItem value="upload" primaryText="Upload" />
                             </SelectField>
                             <TextField
-                                hintText="Description"
-                                floatingLabelText="Description"
+                                hintText={Core.i18n.t('description')}
+                                floatingLabelText={Core.i18n.t('description')}
                                 value={card.description || ''}
                                 fullWidth={true}
                                 onChange={(e, v) =>
@@ -105,7 +105,7 @@ export class CardEditContainer extends React.Component<
                             />
                             {this.props.children}
                             <TextField
-                                floatingLabelText="Text"
+                                floatingLabelText={Core.i18n.t('text')}
                                 value={card.text || ''}
                                 onChange={(e, v) =>
                                     this.props.dispatch(
@@ -161,7 +161,13 @@ export class CardEditContainer extends React.Component<
                                                     errorText={
                                                         card.content_id
                                                             ? null
-                                                            : 'Content ID benötigt'
+                                                            : Core.i18n.t(
+                                                                  'required',
+                                                                  {
+                                                                      item:
+                                                                          'Content ID'
+                                                                  }
+                                                              )
                                                     }
                                                 />
                                                 <Core.components.FileUpload
@@ -177,7 +183,11 @@ export class CardEditContainer extends React.Component<
                                                         );
                                                     }}
                                                 >
-                                                    Drop .h5p files here
+                                                    {Core.i18n.t('drop_here', {
+                                                        item:
+                                                            'H5P ' +
+                                                            Core.i18n.t('files')
+                                                    })}
                                                 </Core.components.FileUpload>
                                             </div>
                                         );
@@ -237,7 +247,9 @@ export class CardEditContainer extends React.Component<
                                     );
                                 }}
                             >
-                                Drop files here
+                                {Core.i18n.t('drop_here', {
+                                    item: Core.i18n.t('files')
+                                })}
                             </Core.components.FileUpload>
                         </Paper>
                     </div>

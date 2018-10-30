@@ -79,7 +79,7 @@ export default class FreetextComponent extends React.Component<IProps, IState> {
                         onChange={this._onChange}
                         onBlur={this._onBlur}
                         value={this.state.value || ''}
-                        hintText="Antwort"
+                        hintText={Core.i18n.t('answer')}
                     />
                 </Paper>
             </div>

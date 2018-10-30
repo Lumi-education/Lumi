@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { GroupsChipInputContainer } from 'client/container';
 
+import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 
@@ -51,7 +52,7 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
                         <TextField
                             id="outlined-name"
                             fullWidth={true}
-                            label="Name"
+                            label={Core.i18n.t('name')}
                             className={classes.textField}
                             value={user.name}
                             onChange={e =>
@@ -80,10 +81,10 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
                     <UI.components.RaisedButton
                         fullWidth={true}
                         labels={[
-                            'Reset Password',
-                            'resetting password',
-                            'Password reset',
-                            'Fehler'
+                            Core.i18n.t('reset_password'),
+                            Core.i18n.t('loading'),
+                            Core.i18n.t('success'),
+                            Core.i18n.t('error')
                         ]}
                         action={Users.actions.update_user(this.props.user._id, {
                             password: null
@@ -97,10 +98,10 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
                             this.props.user
                         )}
                         labels={[
-                            'Speichern',
-                            'speichere...',
-                            'gespeichert',
-                            'Fehler'
+                            Core.i18n.t('save'),
+                            Core.i18n.t('saving'),
+                            Core.i18n.t('saved'),
+                            Core.i18n.t('error')
                         ]}
                         disabled={false}
                         fullWidth={true}

@@ -1,9 +1,14 @@
 export type Markdown = string;
 
+export type Locales = 'de' | 'en';
+
 export interface IState {
     core: {
         system: ISystemSettings;
         status: IStatus;
+    };
+    i18n: {
+        locale: Locales;
     };
 }
 

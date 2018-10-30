@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
+import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 
 interface IPassedProps {
@@ -50,7 +51,7 @@ export class GroupsChipInputContainer extends React.Component<
                     return { value: group._id, label: group.name };
                 })}
                 isMulti={true}
-                name="Groups"
+                name={Core.i18n.t('groups')}
                 onChange={e => this.props.onChange(e.map(v => v.value))}
                 options={this.props.groups.map(group => {
                     return { value: group._id, label: group.name };

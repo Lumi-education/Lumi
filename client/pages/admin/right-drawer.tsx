@@ -85,7 +85,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                         onLeftIconButtonClick={() => this.props.close()}
                     />
                     <List>
-                        <Subheader>Einstellungen</Subheader>
+                        <Subheader>{Core.i18n.t('settings')}</Subheader>
                         <ListItem
                             rightToggle={
                                 <Toggle
@@ -105,7 +105,7 @@ export class RightDrawer extends React.Component<IProps, {}> {
                                     }}
                                 />
                             }
-                            primaryText="Kontrollierter Modus"
+                            primaryText={Core.i18n.t('controlled_mode')}
                             secondaryText={
                                 this.props.system.controlled_location
                             }

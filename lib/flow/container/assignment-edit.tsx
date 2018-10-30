@@ -49,7 +49,7 @@ export class AssignmentEditContainer extends React.Component<
                     }}
                 >
                     <Slider
-                        name="Bewertung"
+                        name={Core.i18n.t('grading')}
                         value={this.props.assignment.get_score() || 0}
                         max={100}
                         min={0}

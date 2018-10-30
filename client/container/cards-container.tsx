@@ -15,6 +15,7 @@ import SVGRemove from 'material-ui/svg-icons/navigation/close';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Cards from 'lib/cards';
 import * as Tags from 'lib/tags';
 
@@ -67,7 +68,7 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                         width: '50%'
                     }}
                 >
-                    Material suchen
+                    {Core.i18n.t('search_for.cards')}
                     <FilterBar
                         filter={this.state.search_text}
                         set_filter={filter =>
@@ -131,7 +132,7 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                     </List>
                 </div>
                 <div style={{ width: '50%' }}>
-                    Material zuweisen
+                    {Core.i18n.t('assign.cards')}
                     <List>
                         {this.props.selected_cards.map(card => (
                             <ListItem

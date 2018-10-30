@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import UserListItem from './user-list-item';
 
 // modules
+import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 
 interface IPassedProps {
@@ -36,7 +37,7 @@ export default class UserListComponent extends React.Component<
             return (
                 <Paper>
                     <Typography variant="h5" component="h3">
-                        No users found
+                        {Core.i18n.t('not_found.users')}
                     </Typography>
                 </Paper>
             );

@@ -59,13 +59,15 @@ export class SystemUpdateTab extends React.Component<IProps, IComponentState> {
 
         if (this.props.update.request_status === 'pending') {
             return (
-                <UI.components.LoadingPage>Updates</UI.components.LoadingPage>
+                <UI.components.LoadingPage>
+                    {Core.i18n.t('update')}
+                </UI.components.LoadingPage>
             );
         }
         if (this.props.update.request_status === 'error') {
             return (
                 <UI.components.ErrorPage>
-                    Keine Internet-Verbindung
+                    {Core.i18n.t('no_internet_connection')}
                 </UI.components.ErrorPage>
             );
         }
@@ -75,17 +77,19 @@ export class SystemUpdateTab extends React.Component<IProps, IComponentState> {
                     {semver.lt(system_version, update_version) ? (
                         <div>
                             <h1>
-                                Update {this.props.update.tag_name} verfügbar
+                                {Core.i18n.t('update-available', {
+                                    name: this.props.update.tag_name
+                                })}
                             </h1>
                             <h2>{this.props.update.name}</h2>
                             {this.props.update.body}
                             <UI.components.RaisedButton
                                 action={Core.actions.update_system()}
                                 labels={[
-                                    'Update',
-                                    'lade...',
-                                    'Update wird durchgeführt',
-                                    'Fehler'
+                                    Core.i18n.t('update'),
+                                    Core.i18n.t('loading'),
+                                    Core.i18n.t('success'),
+                                    Core.i18n.t('error')
                                 ]}
                                 disabled={false}
                                 fullWidth={true}
@@ -93,7 +97,7 @@ export class SystemUpdateTab extends React.Component<IProps, IComponentState> {
                         </div>
                     ) : (
                         <div>
-                            <h1>Lumi ist auf dem neusten Stand. </h1>
+                            <h1> {Core.i18n.t('lumi_is_up_to_date')}</h1>
                         </div>
                     )}
                 </Paper>

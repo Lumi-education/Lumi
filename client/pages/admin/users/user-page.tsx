@@ -14,6 +14,7 @@ import UserSettingsTab from './user-settings-tab';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 import * as Groups from 'lib/groups';
@@ -47,7 +48,7 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Benutzer', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('user'), loading_step: 1 });
 
         this.props
             .dispatch(Users.actions.get_user(this.props.user_id))
@@ -89,7 +90,7 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
                     value={this.props.tab}
                 >
                     <Tab
-                        label="Settings"
+                        label={Core.i18n.t('settings')}
                         value="settings"
                         onActive={() =>
                             this.props.dispatch(
@@ -102,7 +103,7 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
                         }
                     />
                     <Tab
-                        label="Analyse"
+                        label={Core.i18n.t('analytics')}
                         value="analytics"
                         onActive={() =>
                             this.props.dispatch(
@@ -115,7 +116,7 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
                         }
                     />
                     <Tab
-                        label="Flow"
+                        label={Core.i18n.t('flow')}
                         value="flow"
                         onActive={() =>
                             this.props.dispatch(

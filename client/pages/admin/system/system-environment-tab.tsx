@@ -110,11 +110,11 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
                                 dialog_open: false
                             });
                         }}
-                        label="Speichern"
+                        label={Core.i18n.t('save')}
                     />
                     <RaisedButton
                         fullWidth={true}
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() => this.setState({ dialog_open: false })}
                     />
                 </Dialog>
@@ -123,13 +123,13 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
                     <RaisedButton
                         secondary={true}
                         fullWidth={true}
-                        label="Neues Feld hinzufügen"
+                        label={Core.i18n.t('add_new_field')}
                         onClick={() => this.setState({ dialog_open: true })}
                     />
                     <RaisedButton
                         primary={true}
                         fullWidth={true}
-                        label="Speichern und neustart"
+                        label={Core.i18n.t('save_and_reboot')}
                         onClick={() =>
                             this.props.dispatch(
                                 Core.actions.update_env(

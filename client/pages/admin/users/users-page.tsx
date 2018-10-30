@@ -62,7 +62,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: 'Benutzer', loading_step: 1 });
+        this.setState({ loading: Core.i18n.t('users'), loading_step: 1 });
         this.props.dispatch(Users.actions.get_users()).then(users_response => {
             // this.setState({ loading: 'Gruppen', loading_step: 2 });
             // this.props
@@ -103,7 +103,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                 }}
             >
                 <Typography variant="h5" component="h3">
-                    Benutzer
+                    {Core.i18n.t('users')}
                 </Typography>
                 <Paper>
                     <UserList

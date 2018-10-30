@@ -171,8 +171,8 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                 <Paper style={{ display: 'flex' }}>
                     <DatePicker
                         style={{ flex: 1 }}
-                        hintText="Von"
-                        floatingLabelText="Von"
+                        hintText={Core.i18n.t('from')}
+                        floatingLabelText={Core.i18n.t('from')}
                         value={this.state.from_date.toDate()}
                         onChange={(n, date) =>
                             this.setState({ from_date: moment(date) })
@@ -181,8 +181,8 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                     />
                     <DatePicker
                         style={{ flex: 1 }}
-                        hintText="Bis"
-                        floatingLabelText="Bis"
+                        hintText={Core.i18n.t('from')}
+                        floatingLabelText={Core.i18n.t('to')}
                         value={this.state.to_date.toDate()}
                         onChange={(n, date) =>
                             this.setState({ to_date: moment(date) })
@@ -191,26 +191,40 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                     />
                     <SelectField
                         style={{ flex: 1 }}
-                        floatingLabelText="Gruppieren"
+                        floatingLabelText={Core.i18n.t('to_group')}
                         value={this.state.group_by}
                         onChange={(e, v, i) => this.setState({ group_by: i })}
                     >
-                        <MenuItem value={'minute'} primaryText="Minuten" />
-                        <MenuItem value={'hour'} primaryText="Stunde" />
-                        <MenuItem value={'day'} primaryText="Tag" />
-                        <MenuItem value={'month'} primaryText="Monat" />
+                        <MenuItem
+                            value={'minute'}
+                            primaryText={Core.i18n.t('minute')}
+                        />
+                        <MenuItem
+                            value={'hour'}
+                            primaryText={Core.i18n.t('hour')}
+                        />
+                        <MenuItem
+                            value={'day'}
+                            primaryText={Core.i18n.t('day')}
+                        />
+                        <MenuItem
+                            value={'month'}
+                            primaryText={Core.i18n.t('month')}
+                        />
                     </SelectField>
                 </Paper>
 
                 <Paper>
-                    <h1>{num_assignments} Datensätze</h1>
+                    <h1>
+                        {Core.i18n.t('data_packages', { num: num_assignments })}
+                    </h1>
                 </Paper>
 
                 <Paper>
-                    <h1>Entwicklung über Zeit</h1>
+                    <h1>{Core.i18n.t('development_over_time')}</h1>
                     <LineChart
-                        xTitle="Zeit"
-                        yTitle="Prozent"
+                        xTitle={Core.i18n.t('time')}
+                        yTitle={Core.i18n.t('percent')}
                         curve={false}
                         min={0}
                         max={100}
@@ -218,7 +232,7 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
                     />
                 </Paper>
                 <Paper style={{ marginTop: '20px' }}>
-                    <h1>Durchschnitt</h1>
+                    <h1>{Core.i18n.t('average')}</h1>
                     <ColumnChart min={0} max={100} data={column_data} />
                 </Paper>
             </div>

@@ -10,6 +10,7 @@ import { Dialog, RaisedButton } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
@@ -56,7 +57,7 @@ export class AssignMaterialDialog extends React.Component<
     public render() {
         return (
             <Dialog
-                title="Gruppen"
+                title={Core.i18n.t('groups')}
                 autoScrollBodyContent={true}
                 contentStyle={{
                     width: '100%',
@@ -64,7 +65,7 @@ export class AssignMaterialDialog extends React.Component<
                 }}
                 actions={[
                     <RaisedButton
-                        label="Abbrechen"
+                        label={Core.i18n.t('cancel')}
                         onClick={() =>
                             this.props.dispatch(
                                 UI.actions.toggle_assign_group_dialog()
@@ -77,10 +78,10 @@ export class AssignMaterialDialog extends React.Component<
                             this.props.selected_groups
                         )}
                         labels={[
-                            'Gruppen zuweisen',
-                            'Wird zugewiesen...',
-                            'Gruppen zugewiesen',
-                            'Fehler'
+                            Core.i18n.t('assign'),
+                            Core.i18n.t('assigning'),
+                            Core.i18n.t('assigned'),
+                            Core.i18n.t('error')
                         ]}
                         disabled={false}
                         fullWidth={false}
