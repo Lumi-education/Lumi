@@ -84,7 +84,7 @@ const cards_view = {
     views: {
         index: {
             map:
-                'function (doc) {\n  if (doc.type === "card") { \n    emit(doc._id, 1); \n    doc.tags.forEach(function(tag_id) { emit(doc._id, { _id: tag_id })});\n    \n  }\n}'
+                'function (doc) {\n  if (doc.type === "card" || doc.type === "tag") { \n    emit(doc._id, 1);    \n  }\n}'
         }
     },
     language: 'javascript'

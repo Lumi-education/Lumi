@@ -28,7 +28,9 @@ const i18n = {
         card_edit: 'edit %{name}',
         card_create: 'Create card',
         cards: 'Cards',
-        cards_assign: 'Assign cards',
+        cards_assign: 'Assign %{num} cards',
+        cards_assign_explanation:
+            'Assign %{num} card(s) to whole groups or individual users.',
         comment: 'Comment',
         comments: 'Comments',
         comments_no: 'No comments',
@@ -136,7 +138,8 @@ const i18n = {
         upload: 'Upload',
         upload_error: 'Upload not successfull',
         lost_connection: 'Lost connection. Please check WiFi',
-        grading: 'Grading'
+        grading: 'Grading',
+        view: 'View'
     },
     de: {
         activity: 'Aktivittät',
@@ -164,7 +167,9 @@ const i18n = {
         card_add: 'Karte hinzufügen',
         card_edit: '%{name} bearbeiten',
         card_create: 'Karte erstellen',
-        cards_assign: 'Karten zuweisen',
+        cards_assign: '%{num} Karten zuweisen',
+        cards_assign_explanation:
+            'Weise %{num} Karte(n) ganzen Gruppen oder einzelnen Benutzer zu.',
         cards: 'Karten',
         comment: 'Kommentar',
         comments: 'Kommentare',
@@ -273,7 +278,8 @@ const i18n = {
         upload_error: 'Hochladen fehlgeschlagen',
         lost_connection:
             'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung',
-        grading: 'Bewertung'
+        grading: 'Bewertung',
+        view: 'Ansehen'
     }
 };
 

@@ -12,6 +12,7 @@ import {
 
 // components
 import { Dialog, RaisedButton } from 'material-ui';
+import Typography from '@material-ui/core/Typography';
 
 // local
 import { IState } from 'client/state';
@@ -73,13 +74,12 @@ export class AssignMaterialDialog extends React.Component<
     public render() {
         return (
             <Dialog
-                title={Core.i18n.t('cards')}
+                title={Core.i18n.t('cards_assign', {
+                    num: this.props.selected_card_ids.length
+                })}
                 contentStyle={{
-                    width: '100%',
-                    maxWidth: 'none',
                     minHeight: '500px'
                 }}
-
                 actions={[
                     <RaisedButton
                         label={Core.i18n.t('cancel')}
@@ -122,6 +122,11 @@ export class AssignMaterialDialog extends React.Component<
                 }
             >
                 <div style={{ height: '350px' }}>
+                    <Typography component="h2">
+                        {Core.i18n.t('cards_assign_explanation', {
+                            num: this.props.selected_card_ids.length
+                        })}
+                    </Typography>
                     {Core.i18n.t('groups')}
                     <GroupsChipInputContainer
                         group_ids={this.props.selected_group_ids}
