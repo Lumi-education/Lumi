@@ -4,12 +4,11 @@ import * as raven from 'raven';
 
 import { ISystemSettings } from 'lib/core/types';
 import { IUser } from 'lib/users/types';
-
 import boot_views from './views';
 
-import db from '../..';
+import db from '..';
 
-const debug = _debug('lumi:db:setup');
+const debug = _debug('lumi:db:setup:init');
 
 const _system: ISystemSettings = {
     _id: 'system',
@@ -34,7 +33,13 @@ const _admin: IUser = {
     flow: []
 };
 
-export default function(done: () => void) {
+export default function init(done: () => void) {
+    if (process.env.DB_DRIVER === 'pouchdb') {
+        boot();
+        return boot_views(() => {
+            done();
+        });
+    }
     debug('check for db: ' + process.env.DB);
     superagent
         .get(process.env.DB_HOST + '/' + process.env.DB)
@@ -70,13 +75,17 @@ export default function(done: () => void) {
 function boot() {
     db.findById('system', (find_system_error, system) => {
         if (find_system_error || !system._id) {
-            db.insert(_system);
+            db.insert(_system, (error, docs) => {
+                debug('system created');
+            });
         }
     });
 
     db.findById('admin', (find_admin_error, admin) => {
         if (find_admin_error || !admin._id) {
-            db.insert(_admin);
+            db.insert(_admin, (error, doc) => {
+                debug('admin created');
+            });
         }
     });
 }

@@ -1,8 +1,8 @@
-import db from '../..';
+import db from '..';
 import * as debug from 'debug';
 import { isEqual } from 'lodash';
 
-const log = debug('db:setup:couchdb:views');
+const log = debug('lumi:db:setup:views');
 
 export default function boot(done: () => void) {
     check_view('users', users_view, () => {
@@ -25,6 +25,7 @@ export default function boot(done: () => void) {
 }
 
 function check_view(type: string, _view, done: () => void) {
+    log('checking view', type);
     db.findById('_design/' + type, (find_view_error, view) => {
         if (find_view_error) {
             log(type + '-view not found -> creating view');

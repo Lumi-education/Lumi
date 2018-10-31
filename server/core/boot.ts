@@ -5,7 +5,7 @@ import app from './app';
 
 const log = debug('lumi:core:boot');
 
-export default function boot() {
+export default function boot(done: () => void) {
     log('start boot-sequence');
 
     const server = app().listen(process.env.PORT || 80, () => {
@@ -13,6 +13,7 @@ export default function boot() {
             'express-server successfully booted on port ' + process.env.PORT ||
                 80
         );
+        done();
         raven.captureMessage('server booted', { level: 'info' });
     });
 

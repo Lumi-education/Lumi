@@ -10,7 +10,7 @@
         "start": "npm run build && npm run dev",
         "test": "jest",
         "test:update": "jest -u",
-        "clean": "rm -rf build && rm -rf dist",
+        "clean": "rm -rf build && rm -rf dist && rm -rf app",
         "uninstall": "npm run clean && rm -rf node_modules",
         "dev": "NODE_ENV=development VERSION=$(git describe --tags) ./node_modules/.bin/webpack-dev-server --config './config/webpack.config.dev.js' --progress --colors --hot --inline",
         "build": "npm run build:client && npm run build:server",
@@ -18,6 +18,7 @@
         "build:client": "NODE_ENV=production VERSION=$(echo ${VERSION}) TAG=$(echo ${TAG}) ./node_modules/.bin/webpack --config './config/webpack.config.prod.js' --progress --colors",
         "lint:client": "./node_modules/.bin/tslint --project tsconfig.json --config tslint.json",
         "lint:server": "./node_modules/.bin/tslint --project server/tsconfig.server.json --config tslint.json",
+        "build:mac": "npm run clean && npm run build && cp config/electron.js build/ && ./node_modules/.bin/build install-app-dep &&./node_modules/.bin/build -m",
         "postinstall": "ln -s ../lib node_modules/lib && ln -s ../client node_modules/client && ln -s ../server node_modules/server"
     },
     "author": "Jan Philip Schellenberg",
@@ -47,9 +48,12 @@
         "mkdirp": "^0.5.1",
         "mv": "^2.1.1",
         "nano": "^6.4.2",
+        "pouchdb": "^7.0.0",
+        "pouchdb-find": "^7.0.0",
         "query-string": "^5.0.1",
         "raven": "^2.4.0",
         "react": "16.4.1",
+        "react-dom": "16.4.1",
         "react-select": "^2.1.1",
         "recursive-readdir": "^2.2.2",
         "rimraf": "^2.6.2",
@@ -81,6 +85,8 @@
         "copy-webpack-plugin": "^4.5.2",
         "css-loader": "^1.0.0",
         "debug": "^2.3.3",
+        "electron": "^3.0.6",
+        "electron-builder": "^20.29.0",
         "enzyme": "^3.7.0",
         "enzyme-adapter-react-15.4": "^1.1.1",
         "enzyme-to-json": "^3.2.2",
@@ -99,7 +105,6 @@
         "react-addons-test-utils": "^15.6.2",
         "react-chartjs-2": "^2.7.2",
         "react-chartkick": "^0.3.0",
-        "react-dom": "16.4.1",
         "react-dropzone": "^4.2.3",
         "react-hot-loader": "1.3.0",
         "react-katex": "^2.0.2",
@@ -142,5 +147,17 @@
             "enzyme-to-json/serializer"
         ],
         "setupTestFrameworkScriptFile": "./client/utils/test-setup.ts"
+    },
+    "main": "build/electron.js",
+    "build": {
+        "appId": "org.lumi.education",
+        "files": [
+            "build/**/*",
+            "node_modules/**/*",
+            "package.json"
+        ],
+        "mac": {
+            "category": "org.lumi.education"
+        }
     }
 }

@@ -2,9 +2,17 @@ import * as superagent from 'superagent';
 import * as _debug from 'debug';
 import * as raven from 'raven';
 
-const debug = _debug('lumi:db:wait');
+import setup_db from './setup';
 
-export default function wait_for_couchdb(boot: () => void) {
+const debug = _debug('lumi:db:boot');
+
+export default function(done: () => void) {
+    if (process.env.DB_DRIVER === 'pouchdb') {
+        debug('booting with pouchdb - no need to wait for couchdb to be up.');
+        return setup_db(() => {
+            done();
+        });
+    }
     debug('start polling for db');
     const couchdb_polling = setInterval(() => {
         debug('polling ' + process.env.DB_HOST);
@@ -15,8 +23,9 @@ export default function wait_for_couchdb(boot: () => void) {
 
                 debug('canceling couchdb polling');
                 clearInterval(couchdb_polling);
-
-                boot();
+                setup_db(() => {
+                    done();
+                });
             })
             .catch(err => {
                 debug('CouchDB on ' + process.env.DB_HOST + ' is not up.', err);

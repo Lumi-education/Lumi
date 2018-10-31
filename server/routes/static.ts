@@ -3,11 +3,11 @@ import * as path from 'path';
 
 const router = express.Router();
 
-router.use(express.static(path.resolve('build/client')));
+const static_path = path.join(__dirname, '..', '..', 'client');
+router.use(express.static(static_path));
 
 router.get('*', (req, res) => {
     res.render('index');
-    // res.sendFile(path.resolve('build/client/index.html'));
 });
 
 export default router;

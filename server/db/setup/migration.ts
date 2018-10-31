@@ -1,6 +1,6 @@
 import db from '../';
 import * as debug from 'debug';
-const log = debug('db:setup:migration');
+const log = debug('lumi:db:setup:migration');
 
 export default function migrate(done: () => void) {
     // finished not set & data saved wrong in multiplechoice-question
