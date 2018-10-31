@@ -29,6 +29,7 @@ import TagsPage from './tags/tags-page';
 import TagPage from './tags/tag-page';
 import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
+import DashboardPage from './dashboard/dashboard-page';
 
 // modules
 import * as UI from 'lib/ui';
@@ -101,6 +102,16 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 >
                     <ErrorBoundary>
                         <Switch>
+                            <Route
+                                exact={true}
+                                path="/admin"
+                                component={DashboardPage}
+                            />
+                            <Route
+                                exact={true}
+                                path="/admin/dashboard"
+                                component={DashboardPage}
+                            />
                             <Route
                                 exact={true}
                                 path="/admin/groups"

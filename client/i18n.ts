@@ -45,6 +45,7 @@ const i18n = {
         duplicate: 'duplicate',
         duplicating: 'duplicating',
         duplicated: 'duplicated',
+        dashboard: 'Dashboard',
         error: 'Error',
         environment: 'Environment',
         flow: 'Flow',
@@ -139,7 +140,9 @@ const i18n = {
         upload_error: 'Upload not successfull',
         lost_connection: 'Lost connection. Please check WiFi',
         grading: 'Grading',
-        view: 'View'
+        view: 'View',
+        ip_description:
+            'This is the address, which makes Lumi available over the network'
     },
     de: {
         activity: 'Aktivittät',
@@ -198,6 +201,7 @@ const i18n = {
         group_create: 'Gruppe erstellen',
         groups: 'Gruppen',
         login: 'Anmelden',
+        dashboard: 'Übersicht',
         password: 'Passwort',
         logout: 'Abmelden',
         loading: 'lade',
@@ -279,7 +283,8 @@ const i18n = {
         lost_connection:
             'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung',
         grading: 'Bewertung',
-        view: 'Ansehen'
+        view: 'Ansehen',
+        ip_description: 'Über diese Adresse ist Lumi im Netzwerk zu erreichen.'
     }
 };
 

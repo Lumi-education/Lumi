@@ -24,7 +24,9 @@ const _system: ISystemSettings = {
     mode: 'free',
     controlled_location: '/user',
     allow_user_registration: true,
-    provide_password: false
+    provide_password: false,
+    ip: undefined,
+    port: undefined
 };
 
 const _admin: IUser = {

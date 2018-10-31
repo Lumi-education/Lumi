@@ -106,6 +106,7 @@ export default function(): express.Router {
     );
     router.get('/core/env', mw.auth, mw.level(3), coreController.env);
     router.put('/core/env', mw.auth, mw.level(3), coreController.update_env);
+    router.get('/core/ip', coreController.ip_address);
     router.get('/system/settings', coreController.settings);
 
     // mw.auth

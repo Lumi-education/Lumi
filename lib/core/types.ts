@@ -15,6 +15,8 @@ export interface IState {
 export interface ISystemSettings {
     _id: 'system';
     mode: 'free' | 'controlled';
+    ip: string;
+    port: string;
     controlled_location: string;
     allow_user_registration: boolean;
     provide_password: boolean;

@@ -43,7 +43,8 @@ export class CoreController {
             res.status(200).json(
                 assign(
                     {
-                        changes_port: process.env.CHANGES_PORT
+                        port: process.env.PORT,
+                        ip: Host.get_ip_address()
                     },
                     system
                 )
@@ -142,6 +143,10 @@ export class CoreController {
 
             res.status(200).json(msg);
         });
+    }
+
+    public ip_address(req: express.Request, res: express.Response) {
+        res.status(200).end(Host.get_ip_address());
     }
 }
 

@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-
+import * as os from 'os';
 import * as debug from 'debug';
 
 const log = debug('lumi:core:host');
@@ -13,19 +13,56 @@ export class Host {
         this.error = undefined;
         this.ip_address = undefined;
 
-        exec(
-            "/sbin/ip route|awk '/default/ { print $3 }'",
-            (ip_error, ip_stdout, ip_stderr) => {
-                if (ip_error || ip_stderr !== '') {
-                    log('HOST_IP_ADDRESS_ERROR', ip_error || ip_stderr);
-                    return (this.error = ip_error || ip_stderr);
-                }
-                const host_ip_address = ip_stdout.replace(/\n/g, '');
+        switch (process.env.TARGET) {
+            case 'pi':
+            default:
+                exec(
+                    "/sbin/ip route|awk '/default/ { print $3 }'",
+                    (ip_error, ip_stdout, ip_stderr) => {
+                        if (ip_error || ip_stderr !== '') {
+                            log('HOST_IP_ADDRESS_ERROR', ip_error || ip_stderr);
+                            return (this.error = ip_error || ip_stderr);
+                        }
+                        const host_ip_address = ip_stdout.replace(/\n/g, '');
 
-                this.ip_address = host_ip_address;
-                log('HOST_IP_ADDRESS_SUCCESS', this.ip_address);
-            }
-        );
+                        this.ip_address = host_ip_address;
+                        log('HOST_IP_ADDRESS_SUCCESS', this.ip_address);
+                    }
+                );
+                break;
+
+            case 'election':
+            case 'development':
+                this.ip_address = this.get_ip_address();
+                console.log(this.ip_address);
+                break;
+        }
+    }
+
+    public get_ip_address(): string {
+        const ifaces = os.networkInterfaces();
+        let ip: string = '';
+        Object.keys(ifaces).forEach(ifname => {
+            let alias = 0;
+
+            ifaces[ifname].forEach(iface => {
+                if ('IPv4' !== iface.family || iface.internal) {
+                    // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+                    return;
+                }
+
+                if (alias >= 1) {
+                    // this single interface has multiple ipv4 addresses
+                } else {
+                    // this interface has only one ipv4 adress
+                    if (ifname === 'en0') {
+                        return (ip = iface.address);
+                    }
+                }
+                ++alias;
+            });
+        });
+        return ip;
     }
 
     public exec(cmd: string, cb: (error, message) => void) {
