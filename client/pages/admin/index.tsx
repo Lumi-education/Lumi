@@ -16,7 +16,7 @@ import { IState } from 'client/state';
 // pages
 import ErrorBoundary from 'client/pages/error-boundary';
 
-import ActivityPage from './activity/activity_index';
+import ActivityPage from './activity/activity-page';
 import GroupPage from 'client/pages/admin/groups/group-page';
 import GroupsPage from 'client/pages/admin/groups/groups-page';
 import Lessons from 'client/pages/admin/lessons/lesson-page';
@@ -27,7 +27,7 @@ import CardPage from './cards/card-page';
 import FoldersPage from './folders/folders-page';
 import TagsPage from './tags/tags-page';
 import TagPage from './tags/tag-page';
-import CommentsPage from './comments/comments_index';
+import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
 
 // modules
