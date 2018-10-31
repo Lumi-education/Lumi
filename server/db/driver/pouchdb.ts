@@ -3,6 +3,8 @@ import * as debug from 'debug';
 import * as mkdirp from 'mkdirp';
 import * as PouchDB from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
+import * as Event from 'events';
+
 PouchDB.plugin(PouchDBFind);
 
 import * as raven from 'raven';
@@ -10,7 +12,10 @@ import * as raven from 'raven';
 const log = debug('lumi:db:driver:pouchdb');
 
 export default class DB {
+    public changes: Event;
+    private changes_stream;
     private db: PouchDB;
+
     constructor() {
         log('creating ' + process.env.LUMI_DIR);
         mkdirp.sync(process.env.LUMI_DIR);
@@ -22,6 +27,25 @@ export default class DB {
         this.findOne = this.findOne.bind(this);
         this.updateOne = this.updateOne.bind(this);
         this.delete = this.delete.bind(this);
+
+        this.changes = new Event();
+
+        this.changes_stream = this.db.changes({
+            since: 'now',
+            live: true,
+            include_docs: true
+        });
+
+        this.changes_stream
+            .on('change', change => {
+                this.changes.emit('change', {
+                    type: 'DB_CHANGE',
+                    payload: [change.doc]
+                });
+            })
+            .on('error', err => {
+                raven.captureException(err);
+            });
     }
 
     public findById(id: string, cb: (err, doc) => void) {

@@ -2,12 +2,16 @@ import * as request from 'superagent';
 import { assign, noop } from 'lodash';
 import * as debug from 'debug';
 import * as nano from 'nano';
+import * as ChangeStream from 'changes-stream';
+import * as Event from 'events';
 
 import * as raven from 'raven';
 
 const log = debug('lumi:db:driver:couchdb');
 
 export default class DB {
+    public changes: Event;
+    private changes_stream;
     private db: string;
     private nano: any;
 
@@ -24,6 +28,35 @@ export default class DB {
         this.findOne = this.findOne.bind(this);
         this.updateOne = this.updateOne.bind(this);
         this.delete = this.delete.bind(this);
+
+        this.changes = new Event();
+        this.changes.setMaxListeners(32);
+
+        this.changes_stream = ChangeStream({
+            db: process.env.DB_HOST + '/' + process.env.DB,
+            include_docs: true,
+            since: 'now'
+        });
+
+        this.changes_stream.on('error', err => {
+            raven.captureException(err);
+        });
+
+        this.changes_stream._onError(raven.captureException);
+
+        this.changes_stream.on('readable', () => {
+            try {
+                const change = this.changes_stream.read();
+                const msg = {
+                    type: 'DB_CHANGE',
+                    payload: [change.doc]
+                };
+
+                this.changes.emit('change', msg);
+            } catch (err) {
+                raven.captureException(err);
+            }
+        });
     }
 
     public findById(id: string, cb: (err, doc) => void) {

@@ -3,7 +3,6 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 
 import FileListComponent from './components/file-list';
-import WebsocketContainer from './container/websocket';
 import Markdown from './components/markdown';
 import reducer from './reducer';
 import SystemContainer from './container/system';
@@ -18,7 +17,6 @@ const components = {
 };
 
 const container = {
-    websocket: WebsocketContainer,
     System: SystemContainer
 };
 

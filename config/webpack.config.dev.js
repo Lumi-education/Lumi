@@ -21,7 +21,7 @@ module.exports = Object.assign(sharedConfig, {
                 secure: false
             },
             '/socket.io': {
-                target: process.env.WS_SERVER || 'http://localhost:8081',
+                target: process.env.WS_SERVER || 'http://localhost',
                 secure: false,
                 ws: true
             }
