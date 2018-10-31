@@ -1,6 +1,7 @@
 export type Markdown = string;
 
 export type Locales = 'de' | 'en';
+export type ITarget = 'pi' | 'electron' | 'development';
 
 export interface IState {
     core: {
@@ -20,6 +21,7 @@ export interface ISystemSettings {
     controlled_location: string;
     allow_user_registration: boolean;
     provide_password: boolean;
+    target: ITarget;
 }
 
 export interface IStatus {

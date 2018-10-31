@@ -43,6 +43,7 @@ interface IStateProps {
     update_available: boolean;
     unread_comments: Comments.models.Comment[];
     locale: Core.types.Locales;
+    system: Core.types.ISystemSettings;
 }
 
 interface IDispatchProps {
@@ -68,6 +69,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
     }
 
     public render() {
+        const { system } = this.props;
         const leftIcon = (
             <IconButton>
                 <SVGClose />
@@ -182,25 +184,35 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }
                         />
                         <Divider />
-                        <Subheader>{Core.i18n.t('system')}</Subheader>
-                        <ListItem
-                            primaryText="System"
-                            leftIcon={<SVGSystem />}
-                            rightIcon={
-                                this.props.update_available ? (
-                                    <SVGUpdate color={UI.config.new_color} />
-                                ) : null
-                            }
-                            onClick={() => this.props.push('/admin/system')}
-                        />
-                        <ListItem
-                            primaryText={Core.i18n.t('shutdown')}
-                            leftIcon={<SVGPower />}
-                            onClick={() =>
-                                this.props.dispatch(Core.actions.shutdown())
-                            }
-                        />
-                        <Divider />
+                        {system.target === 'pi' || !system.target ? (
+                            <div>
+                                <Subheader>{Core.i18n.t('system')}</Subheader>
+                                <ListItem
+                                    primaryText="System"
+                                    leftIcon={<SVGSystem />}
+                                    rightIcon={
+                                        this.props.update_available ? (
+                                            <SVGUpdate
+                                                color={UI.config.new_color}
+                                            />
+                                        ) : null
+                                    }
+                                    onClick={() =>
+                                        this.props.push('/admin/system')
+                                    }
+                                />
+                                <ListItem
+                                    primaryText={Core.i18n.t('shutdown')}
+                                    leftIcon={<SVGPower />}
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            Core.actions.shutdown()
+                                        )
+                                    }
+                                />
+                                <Divider />{' '}
+                            </div>
+                        ) : null}
                         <Subheader>
                             <a
                                 style={{
@@ -227,7 +239,8 @@ function mapStateToProps(state: IState): IStateProps {
             '*',
             state.users.me._id
         ),
-        locale: state.i18n.locale
+        locale: state.i18n.locale,
+        system: state.core.system
     };
 }
 

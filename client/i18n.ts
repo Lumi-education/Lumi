@@ -1,5 +1,3 @@
-import { update_available } from 'lib/core/selectors';
-
 const i18n = {
     en: {
         activity: 'Activity',

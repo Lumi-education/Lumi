@@ -44,7 +44,8 @@ export class CoreController {
                 assign(
                     {
                         port: process.env.PORT,
-                        ip: Host.get_ip_address()
+                        ip: Host.get_ip_address(),
+                        target: process.env.TARGET
                     },
                     system
                 )
