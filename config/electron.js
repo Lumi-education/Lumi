@@ -1,20 +1,19 @@
 var electron = require('electron');
+
+var app = electron.app;
+var BrowserWindow = electron.BrowserWindow;
+
 process.env.DB_DRIVER = 'pouchdb';
 process.env.KEY = 'ABC';
 process.env.NODE_ENV = 'production';
-process.env.DB = 'test';
-process.env.DB_HOST = 'http://localhost:5984';
-process.env.PORT = 3002;
+process.env.DB = 'lumi';
+process.env.DB_HOST = 'http://localhost:1337';
+process.env.PORT = 1337;
 process.env.TARGET = 'electron';
 process.env.DEBUG = '*';
 process.env.LUMI_DIR = app.getPath('appData') + '/Lumi/db/pouchdb';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-
-var app = electron.app;
-var BrowserWindow = electron.BrowserWindow;
-// global reference to mainWindow (necessary to prevent window from being garbage collected)
-
 let mainWindow;
 let server;
 
@@ -28,7 +27,7 @@ function createMainWindow() {
     if (isDevelopment) {
         window.loadURL(`http://localhost:8080`);
     } else {
-        window.loadURL('http://localhost');
+        window.loadURL('http://localhost:1337');
     }
 
     window.on('closed', () => {
