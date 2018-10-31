@@ -1,5 +1,5 @@
 import * as raven from 'raven';
-
+import * as debug from 'debug';
 raven
     .config(process.env.SENTRY, {
         release: process.env.VERSION,
@@ -12,36 +12,48 @@ raven
     })
     .install();
 
-import * as cluster from 'cluster';
-import * as os from 'os';
+// import * as cluster from 'cluster';
+// import * as os from 'os';
 
-import wait_for_db from './db/wait';
-import setup_db from './db/setup';
-
+import boot_db from './db/boot';
 import boot_core from './core/boot';
 
 declare var process;
 
-if (process.env.NODE_ENV !== 'production') {
-    wait_for_db(() => {
-        setup_db(() => {
-            boot_core();
-        });
+const log = debug('lumi:boot');
+
+log('boot-file loaded');
+
+// if (process.env.NODE_ENV !== 'production') {
+//     log('booting in single-mode');
+export function boot(done: () => void) {
+    log('entering boot-sequence');
+
+    boot_db(() => {
+        boot_core(() => done());
     });
-} else {
-    const numCPUs = os.cpus().length;
-    if (cluster.isMaster) {
-        wait_for_db(() => {
-            setup_db(() => {
-                for (let i = 0; i < numCPUs; i++) {
-                    const worker = cluster.fork();
-                }
-            });
-        });
-        cluster.on('exit', (deadWorker, code, signal) => {
-            const worker = cluster.fork();
-        });
-    } else {
-        boot_core();
-    }
 }
+
+if (process.env.TARGET !== 'electron') {
+    boot(() => {
+        log('ending boot-sequence');
+    });
+}
+// } else {
+//     log('booting in cluster-mode');
+//     const numCPUs = os.cpus().length;
+//     if (cluster.isMaster) {
+//         wait_for_db(() => {
+//             setup_db(() => {
+//                 for (let i = 0; i < numCPUs; i++) {
+//                     const worker = cluster.fork();
+//                 }
+//             });
+//         });
+//         cluster.on('exit', (deadWorker, code, signal) => {
+//             const worker = cluster.fork();
+//         });
+//     } else {
+//         boot_core();
+//     }
+// }

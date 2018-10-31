@@ -4,12 +4,11 @@ import * as raven from 'raven';
 
 import { ISystemSettings } from 'lib/core/types';
 import { IUser } from 'lib/users/types';
-
 import boot_views from './views';
 
-import db from '../..';
+import db from '..';
 
-const debug = _debug('lumi:db:setup');
+const debug = _debug('lumi:db:setup:init');
 
 const _system: ISystemSettings = {
     _id: 'system',
@@ -34,7 +33,7 @@ const _admin: IUser = {
     flow: []
 };
 
-export default function(done: () => void) {
+export default function init(done: () => void) {
     if (process.env.DB_DRIVER === 'pouchdb') {
         boot();
         return boot_views(() => {

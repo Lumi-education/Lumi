@@ -1,8 +1,8 @@
-import db from '../..';
+import db from '..';
 import * as debug from 'debug';
 import { isEqual } from 'lodash';
 
-const log = debug('lumi:db:setup:couchdb:views');
+const log = debug('lumi:db:setup:views');
 
 export default function boot(done: () => void) {
     check_view('users', users_view, () => {

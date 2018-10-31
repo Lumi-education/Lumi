@@ -1,8 +1,8 @@
-import boot_couchdb from './couchdb/boot';
+import init from './init';
 import migrate from './migration';
 
 export default function boot(done: () => void) {
-    boot_couchdb(() => {
+    init(() => {
         migrate(() => {
             done();
         });

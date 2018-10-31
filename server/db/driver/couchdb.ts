@@ -7,7 +7,7 @@ import * as raven from 'raven';
 
 const _nano = nano(process.env.DB_HOST);
 
-const log = debug('lumi:db');
+const log = debug('lumi:db:driver:couchdb');
 
 export class DB {
     private db: string;
