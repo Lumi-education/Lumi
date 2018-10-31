@@ -5,17 +5,17 @@ import * as nano from 'nano';
 
 import * as raven from 'raven';
 
-const _nano = nano(process.env.DB_HOST);
-
 const log = debug('lumi:db:driver:couchdb');
 
-export class DB {
+export default class DB {
     private db: string;
     private nano: any;
 
     constructor() {
         this.db = process.env.DB_HOST + '/' + process.env.DB + '/';
-        this.nano = _nano.use(process.env.DB);
+        this.nano = nano(process.env.DB_HOST || 'http://localhost:5984').use(
+            process.env.DB || 'test'
+        );
 
         this.findById = this.findById.bind(this);
         this.save = this.save.bind(this);
@@ -234,5 +234,3 @@ export class DB {
         });
     }
 }
-
-export default new DB();

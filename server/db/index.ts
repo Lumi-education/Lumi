@@ -2,8 +2,8 @@ import * as debug from 'debug';
 
 const log = debug('lumi:db');
 
-import { DB as CouchDB } from './driver/couchdb';
-import { DB as PouchDB } from './driver/pouchdb';
+import CouchDB from './driver/couchdb';
+import PouchDB from './driver/pouchdb';
 
 let db;
 switch (process.env.DB_DRIVER) {

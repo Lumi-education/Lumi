@@ -9,7 +9,7 @@ import * as raven from 'raven';
 
 const log = debug('lumi:db:driver:pouchdb');
 
-export class DB {
+export default class DB {
     private db: PouchDB;
     constructor() {
         log('creating ' + process.env.LUMI_DIR);
@@ -125,5 +125,3 @@ export class DB {
         log('delete');
     }
 }
-
-export default new DB();
