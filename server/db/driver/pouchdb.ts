@@ -40,10 +40,7 @@ export default class DB {
 
         this.changes_stream
             .on('change', change => {
-                this.changes.emit('change', {
-                    type: 'DB_CHANGE',
-                    payload: [change.doc]
-                });
+                this.changes.emit('change', change.doc);
             })
             .on('error', err => {
                 raven.captureException(err);

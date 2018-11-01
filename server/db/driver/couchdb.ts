@@ -49,12 +49,8 @@ export default class DB {
         this.changes_stream.on('readable', () => {
             try {
                 const change = this.changes_stream.read();
-                const msg = {
-                    type: 'DB_CHANGE',
-                    payload: [change.doc]
-                };
 
-                this.changes.emit('change', msg);
+                this.changes.emit('change', change.doc);
             } catch (err) {
                 raven.captureException(err);
             }

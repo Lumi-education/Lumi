@@ -11,7 +11,7 @@ export default function boot(server) {
     const io = SocketIO(server);
 
     io.on('connection', (socket: SocketIO.Socket) => {
-        log('connection', socket);
+        log('connection');
 
         try {
             const user = jwt.decode(
@@ -23,15 +23,19 @@ export default function boot(server) {
                 raven.captureException(err);
             });
 
-            db.changes.on('change', msg => {
+            db.changes.on('change', doc => {
+                const action = {
+                    type: 'DB_CHANGE',
+                    payload: [doc]
+                };
                 if (user.level > 1) {
-                    socket.emit('DB_CHANGE', JSON.stringify(msg));
+                    socket.emit('DB_CHANGE', JSON.stringify(action));
                 } else {
                     if (
-                        user._id === msg.payload[0].user_id ||
-                        msg.payload[0]._id === 'system'
+                        user._id === action.payload[0].user_id ||
+                        action.payload[0]._id === 'system'
                     ) {
-                        socket.emit('DB_CHANGE', JSON.stringify(msg));
+                        socket.emit('DB_CHANGE', JSON.stringify(action));
                     }
                 }
             });
