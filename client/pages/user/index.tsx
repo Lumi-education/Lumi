@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
-
+import { setLocale } from 'react-redux-i18n';
 import { IState } from 'client/state';
 
 import AppBar from './app-bar';
@@ -14,6 +14,7 @@ import FlowPage from './flow';
 import AssignmentPage from './assignment';
 import CommentsPage from './comments';
 import CardsPage from './cards';
+import SettingsPage from './settings';
 
 // modules
 import * as Users from 'lib/users';
@@ -25,6 +26,7 @@ interface IStateProps {
     user_id: string;
     system: Core.types.ISystemSettings;
     locale: Core.types.Locales;
+    me: Users.IUser;
 }
 
 interface IDispatchProps {
@@ -51,6 +53,12 @@ export class Root extends React.Component<IProps, IComponentState> {
     public componentWillMount() {
         this.setState({ loading: Core.i18n.t('user'), loading_step: 1 });
         this.props.dispatch(Users.actions.init_user()).then(res => {
+            const user =
+                res.payload.filter(docs => docs.type === 'user')[0] || {};
+            if (user.language) {
+                this.props.dispatch(setLocale(user.language));
+            }
+
             this.setState({ loading: 'finished', loading_step: 2 });
         });
     }
@@ -81,6 +89,11 @@ export class Root extends React.Component<IProps, IComponentState> {
                 <div style={{ paddingBottom: '80px' }}>
                     <Switch>
                         <Route exact={true} path="/user" component={FlowPage} />
+                        <Route
+                            exact={true}
+                            path="/user/settings"
+                            component={SettingsPage}
+                        />
                         <Route path="/user/flow" component={FlowPage} />
                         <Route
                             exact={true}
@@ -111,7 +124,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         location: ownProps.location.pathname,
         user_id: state.users.me._id,
         system: state.core.system,
-        locale: state.i18n.locale
+        locale: state.i18n.locale,
+        me: state.users.me
     };
 }
 

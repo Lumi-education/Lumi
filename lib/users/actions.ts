@@ -28,6 +28,9 @@ export const USERS_INIT_USER_REQUEST = 'USERS_INIT_USER_REQUEST';
 export const USERS_INIT_USER_SUCCESS = 'USERS_INIT_USER_SUCCESS';
 export const USERS_INIT_USER_ERROR = 'USERS_INIT_USER_ERROR';
 export const USERS_UI_CHANGE_USER = 'USERS_UI_CHANGE_USER';
+export const USERS_UPDATE_MYSELF_REQUEST = 'USERS_UPDATE_MYSELF_REQUEST';
+export const USERS_UPDATE_MYSELF_SUCCESS = 'USERS_UPDATE_MYSELF_SUCCESS';
+export const USERS_UPDATE_MYSELF_ERROR = 'USERS_UPDATE_MYSELF_ERROR';
 
 export function create_user(name: string, options?) {
     return {
@@ -125,5 +128,17 @@ export function change_user(payload: any) {
     return {
         payload,
         type: USERS_UI_CHANGE_USER
+    };
+}
+
+export function update_myself(update) {
+    return {
+        types: [
+            USERS_UPDATE_MYSELF_REQUEST,
+            USERS_UPDATE_MYSELF_SUCCESS,
+            USERS_UPDATE_MYSELF_ERROR
+        ],
+        api: API.update_myself(update),
+        payload: { update }
     };
 }

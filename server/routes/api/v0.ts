@@ -185,6 +185,7 @@ export default function(): express.Router {
     router.get('/user/card/:id', mw.auth, cardsController.read);
     router.put('/user/card/:id', mw.auth, cardsController.update);
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
+    router.put('/user', mw.auth, mw.level(0), usersController.update_myself);
 
     router.get('/user', mw.auth, mw.level(0), usersController.init);
 

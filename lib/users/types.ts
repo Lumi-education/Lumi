@@ -1,6 +1,8 @@
 export type User_id = string;
 type Group_id = string;
 
+import { Locales } from 'lib/core/types';
+
 export interface IUser {
     _id: User_id;
     _deleted: boolean;
@@ -14,6 +16,7 @@ export interface IUser {
     location: string;
     password: string;
     flow: string[];
+    language?: Locales;
 }
 
 export interface IState {

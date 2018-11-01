@@ -28,6 +28,7 @@ const i18n = {
         card_create: 'Create card',
         cards: 'Cards',
         cards_assign: 'Assign %{num} cards',
+        language: 'Language',
         cards_assign_explanation:
             'Assign %{num} card(s) to whole groups or individual users.',
         comment: 'Comment',
@@ -186,6 +187,7 @@ const i18n = {
         delete_: '%{item} löschen',
         deleting: 'lösche',
         deleted: 'gelöscht',
+        language: 'Sprache',
         duplicate: 'Duplizieren',
         duplicating: 'dupliziere',
         duplicated: 'dupliziert',

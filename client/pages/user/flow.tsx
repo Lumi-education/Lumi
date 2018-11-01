@@ -53,6 +53,9 @@ export class UserFlow extends React.Component<IProps, {}> {
     public render() {
         return (
             <Paper>
+                {this.props.flow.length === 0
+                    ? Core.i18n.t('list_empty')
+                    : null}
                 <List>
                     {this.props.flow.map((assignment_id: string) => {
                         const assignment = this.props.assignment(assignment_id);

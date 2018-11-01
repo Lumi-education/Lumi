@@ -16,6 +16,7 @@ import {
 import SVGClose from 'material-ui/svg-icons/navigation/close';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
 import SVGAssignments from 'material-ui/svg-icons/action/assignment';
+import SVGSettings from 'material-ui/svg-icons/action/settings';
 
 // actions
 import { push, left_drawer_close } from 'lib/ui/actions';
@@ -82,6 +83,13 @@ export class UserLeftDrawer extends React.Component<IProps, {}> {
                             leftIcon={<SVGAssignments />}
                             onClick={() =>
                                 this.props.dispatch(push('/user/flow'))
+                            }
+                        />
+                        <ListItem
+                            primaryText={Core.i18n.t('settings')}
+                            leftIcon={<SVGSettings />}
+                            onClick={() =>
+                                this.props.dispatch(push('/user/settings'))
                             }
                         />
                         <ListItem

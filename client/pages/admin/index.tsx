@@ -30,6 +30,7 @@ import TagPage from './tags/tag-page';
 import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
 import DashboardPage from './dashboard/dashboard-page';
+import SettingsPage from './settings-page';
 
 // modules
 import * as UI from 'lib/ui';
@@ -181,6 +182,10 @@ export class AdminRoot extends React.Component<IProps, {}> {
                             <Route
                                 path="/admin/system"
                                 component={SystemPage}
+                            />
+                            <Route
+                                path="/admin/settings"
+                                component={SettingsPage}
                             />
                         </Switch>
                     </ErrorBoundary>

@@ -46,7 +46,7 @@ export class AuthContainer extends React.Component<IProps, {}> {
                         <Websocket>
                             <Route path="/admin" component={Admin} />
                             <Route path="/user" component={User} />
-                            <Password />
+                            {/* <Password /> */}
                             <Route exact={true} path="/" component={Landing} />
                         </Websocket>
                     </div>

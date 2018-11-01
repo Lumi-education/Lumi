@@ -72,6 +72,18 @@ class UsersController {
         });
     }
 
+    public update_myself(req: IRequest, res: express.Response) {
+        const user_id = req.user._id;
+
+        const update = {
+            language: req.body.language
+        };
+
+        db.updateOne(user_id, update, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
+    }
+
     public delete(req: IRequest, res: express.Response) {
         const user_ids = req.body.user_ids;
 

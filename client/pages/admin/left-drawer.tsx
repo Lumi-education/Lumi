@@ -177,6 +177,11 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         <Divider />
                         <Subheader>{Core.i18n.t('user')}</Subheader>
                         <ListItem
+                            primaryText={Core.i18n.t('settings')}
+                            leftIcon={<SVGSystem />}
+                            onClick={() => this.props.push('/admin/settings')}
+                        />
+                        <ListItem
                             primaryText={Core.i18n.t('logout')}
                             leftIcon={<SVGPower />}
                             onClick={() =>
