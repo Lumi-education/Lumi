@@ -189,7 +189,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             }
                         />
                         <Divider />
-                        {system.target === 'pi' || !system.target ? (
+                        {system.target === 'pi' ? (
                             <div>
                                 <Subheader>{Core.i18n.t('system')}</Subheader>
                                 <ListItem
