@@ -152,6 +152,11 @@ export default function(): express.Router {
         cardsController.attachment
     );
 
+    router.get(
+        '/core/attachment/:id/:attachment',
+        coreController.get_attachment
+    );
+
     // groups
     router.get('/groups', mw.auth, groupController.list);
     router.post('/groups', groupController.create);

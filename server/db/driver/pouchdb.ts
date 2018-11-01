@@ -27,6 +27,8 @@ export default class DB {
         this.findOne = this.findOne.bind(this);
         this.updateOne = this.updateOne.bind(this);
         this.delete = this.delete.bind(this);
+        this.saveAttachment = this.saveAttachment.bind(this);
+        this.getAttachment = this.getAttachment.bind(this);
 
         this.changes = new Event();
 
@@ -103,8 +105,17 @@ export default class DB {
     public updateOne(id: string, update, cb: (error, doc) => void) {
         log('updateOne', id, update);
         this.findById(id, (error, doc) => {
-            assign(doc, update);
-            this.db.put(doc, cb);
+            assign(doc, update, { _rev: doc._rev });
+            this.db.put(doc, (db_err, result) => {
+                if (db_err) {
+                    return cb(db_err, undefined);
+                }
+                assign(doc, {
+                    _id: result.id,
+                    _rev: result.rev
+                });
+                cb(undefined, doc);
+            });
         });
     }
 
@@ -147,5 +158,38 @@ export default class DB {
 
     public delete(id: string, cb: (err) => void) {
         log('delete');
+    }
+
+    public saveAttachment(
+        _id: string,
+        attachment_id: string,
+        attachment,
+        type,
+        cb: (error, success) => void
+    ) {
+        this.findById(_id, (error, doc) => {
+            this.db.putAttachment(
+                doc._id,
+                attachment_id,
+                doc._rev,
+                new Buffer(attachment),
+                type,
+                cb
+            );
+        });
+    }
+
+    public getAttachment(
+        _id: string,
+        attachment_id: string,
+        cb: (error, attachment) => void
+    ) {
+        this.db.getAttachment(_id, attachment_id, (err, blobOrBuffer) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log('test');
+            cb(err, blobOrBuffer);
+        });
     }
 }
