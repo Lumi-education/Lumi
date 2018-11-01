@@ -80,6 +80,7 @@ export class Root extends React.Component<IProps, IComponentState> {
                 <LeftDrawer />
                 <div style={{ paddingBottom: '80px' }}>
                     <Switch>
+                        <Route exact={true} path="/user" component={FlowPage} />
                         <Route path="/user/flow" component={FlowPage} />
                         <Route
                             exact={true}
