@@ -47,8 +47,25 @@ export default function migrate(done: () => void) {
 
             db.updateMany(assignments, {}, (update_assignment_error, docs) => {
                 log('migrated ' + i + ' assigments.');
-                done();
+                migrate_groups(done);
             });
         }
     );
+}
+
+function migrate_groups(done: () => void) {
+    db.find({ type: 'group' }, { limit: 1000 }, (find_group_error, groups) => {
+        groups.forEach(group => {
+            if (group.autojoin === undefined) {
+                group.autojoin = false;
+            }
+            if (group.members) {
+                group.members = undefined;
+            }
+        });
+
+        db.updateMany(groups, {}, (update_groups_error, docs) => {
+            done();
+        });
+    });
 }
