@@ -109,11 +109,11 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     }}
                 >
                     {this.props.cards
-                        .slice(0, 20)
                         .filter(
                             card =>
                                 card.name.indexOf(this.props.search_text) > -1
                         )
+                        .slice(0, 20)
                         .map(card => (
                             <Card
                                 key={card._id}
