@@ -5,7 +5,6 @@ export interface IGroup {
     type: 'group';
     name: string;
     created_at: Date;
-    members: string[]; // no longer needed -> deprecate issue #234
 }
 
 export interface IGroupUI {

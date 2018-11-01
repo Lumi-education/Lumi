@@ -10,8 +10,7 @@ export function select_group(state: IState, group_id: string): IGroup {
             _id: undefined,
             name: 'group ' + group_id + ' not found',
             type: 'group',
-            created_at: new Date(),
-            members: []
+            created_at: new Date()
         }
     );
 }

@@ -26,7 +26,8 @@ const _system: ISystemSettings = {
     allow_user_registration: true,
     provide_password: false,
     ip: undefined,
-    port: undefined
+    port: undefined,
+    target: undefined
 };
 
 const _admin: IUser = {

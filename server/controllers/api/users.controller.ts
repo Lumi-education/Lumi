@@ -89,29 +89,7 @@ class UsersController {
             (find_users_error, users) => {
                 users.forEach(user => (user._deleted = true));
                 db.updateMany(users, {}, (delete_user_error, docs) => {
-                    db.find(
-                        { type: 'group', members: { $in: user_ids } },
-                        {},
-                        (find_groups_error, groups) => {
-                            groups.forEach(
-                                group =>
-                                    (group.members = group.members.filter(
-                                        user_id =>
-                                            user_ids.indexOf(user_id) === -1
-                                    ))
-                            );
-                            db.updateMany(
-                                groups,
-                                {},
-                                (update_groups_error, updated_groups) => {
-                                    res.status(200).json([
-                                        ...groups,
-                                        ...deleted_users
-                                    ]);
-                                }
-                            );
-                        }
-                    );
+                    res.status(200).json([...deleted_users]);
                 });
             }
         );
