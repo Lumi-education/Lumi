@@ -11,6 +11,7 @@ import { IState } from 'client/state';
 import GroupUsersTab from './group-users-tab';
 import GroupFlowTab from './group-flow-tab';
 import GroupSettingsTab from './group-settings-tab';
+import GroupCardsTab from './group-cards-tab';
 
 // modules
 import * as Core from 'lib/core';
@@ -28,7 +29,7 @@ interface IDispatchProps {
 }
 
 interface IComponentState {
-    show_user_dialog: boolean;
+    loading: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -38,25 +39,27 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
-            show_user_dialog: false
+            loading: 'init'
         };
     }
 
     public componentWillMount() {
+        this.setState({ loading: Core.i18n.t('group') });
         this.props
             .dispatch(Groups.actions.get_group(this.props.group_id))
             .then(res => {
                 this.props.dispatch(
                     Groups.actions.change_group(this.props.group)
                 );
+                this.setState({ loading: 'finished' });
             });
     }
 
     public render() {
-        if (!this.props.group._id) {
+        if (this.state.loading !== 'finished') {
             return (
                 <UI.components.LoadingPage>
-                    Lade Gruppe
+                    {this.state.loading}
                 </UI.components.LoadingPage>
             );
         }
@@ -113,6 +116,19 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                             )
                         }
                     />
+                    <Tab
+                        label={Core.i18n.t('cards')}
+                        value="cards"
+                        onActive={() =>
+                            this.props.dispatch(
+                                push(
+                                    '/admin/groups/' +
+                                        this.props.group_id +
+                                        '/cards'
+                                )
+                            )
+                        }
+                    />
                 </Tabs>
                 {(() => {
                     switch (this.props.tab) {
@@ -134,6 +150,10 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         case 'flow':
                             return (
                                 <GroupFlowTab group_id={this.props.group_id} />
+                            );
+                        case 'cards':
+                            return (
+                                <GroupCardsTab group_id={this.props.group_id} />
                             );
                     }
                 })()}

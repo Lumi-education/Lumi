@@ -34,28 +34,25 @@ class UsersController {
     }
 
     public create(req: IRequest, res: express.Response) {
-        db.view('groups', 'autojoin', {}, (view_groups_error, groups) => {
-            const group_ids = groups.map(group => group._id);
-            const new_user: IUser = {
-                _id: undefined,
-                type: 'user',
-                name: 'no name',
-                level: 2,
-                groups: group_ids,
-                last_login: undefined,
-                last_active: undefined,
-                online: false,
-                location: '/',
-                password: undefined,
-                flow: [],
-                _deleted: false
-            };
+        const new_user: IUser = {
+            _id: undefined,
+            type: 'user',
+            name: 'no name',
+            level: 2,
+            groups: [],
+            last_login: undefined,
+            last_active: undefined,
+            online: false,
+            location: '/',
+            password: undefined,
+            flow: [],
+            _deleted: false
+        };
 
-            assign(new_user, req.body, { password: undefined });
+        assign(new_user, req.body, { password: undefined });
 
-            db.insert(new_user, (error, user) => {
-                res.status(200).json(user);
-            });
+        db.insert(new_user, (error, user) => {
+            res.status(200).json(user);
         });
     }
 

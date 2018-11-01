@@ -169,6 +169,7 @@ export default function(): express.Router {
     router.get('/groups/:id', groupController.read);
     router.put('/groups/:id', groupController.update);
     router.delete('/groups/:id', groupController.delete);
+    router.put('/groups/:group_id/cards', groupController.add_cards);
 
     // tags
     router.get('/tags', tagsController.index);

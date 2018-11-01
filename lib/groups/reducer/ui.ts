@@ -14,7 +14,8 @@ const initialState: IGroupUI = {
         type: 'group',
         name: 'no group',
         created_at: new Date(),
-        autojoin: false
+        autojoin: false,
+        cards: []
     }
 };
 

@@ -11,7 +11,8 @@ export function select_group(state: IState, group_id: string): IGroup {
             name: 'group ' + group_id + ' not found',
             type: 'group',
             created_at: new Date(),
-            autojoin: false
+            autojoin: false,
+            cards: []
         }
     );
 }

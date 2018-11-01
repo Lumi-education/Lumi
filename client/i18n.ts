@@ -77,8 +77,10 @@ const i18n = {
         no_internet_connection: 'No internet connection',
         not_found: {
             users: 'No users found',
-            user: '%{name} not found'
+            user: '%{name} not found',
+            cards: 'No cards found'
         },
+        list_empty: 'This list is empty.',
         save: 'Save',
         saving: 'saving',
         saved: 'saved',
@@ -284,6 +286,7 @@ const i18n = {
             'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung',
         grading: 'Bewertung',
         view: 'Ansehen',
+        list_empty: 'Diese Liste ist leer.',
         ip_description: 'Über diese Adresse ist Lumi im Netzwerk zu erreichen.'
     }
 };

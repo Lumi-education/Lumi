@@ -6,14 +6,14 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 
-import UserListItem from './user-list-item';
+import CardListItem from './card-list-item';
 
 // modules
 import * as Core from 'lib/core';
-import * as Users from 'lib/users';
+import * as Cards from 'lib/cards';
 
 interface IPassedProps {
-    users: Users.IUser[];
+    cards: Cards.ICard[];
 }
 
 interface IDispatchProps {
@@ -24,7 +24,7 @@ interface IProps extends IPassedProps, IDispatchProps {}
 
 interface IComponentState {}
 
-export default class UserListComponent extends React.Component<
+export default class CardListComponent extends React.Component<
     IProps,
     IComponentState
 > {
@@ -33,22 +33,21 @@ export default class UserListComponent extends React.Component<
     }
 
     public render() {
-        if (this.props.users.length === 0) {
+        if (this.props.cards.length === 0) {
             return (
-                <Paper>
-                    <Typography variant="h5" component="h3">
-                        {Core.i18n.t('list_empty')}
-                    </Typography>
-                </Paper>
+                <Typography variant="h5" component="h3">
+                    {Core.i18n.t('list_empty')}
+                </Typography>
             );
         }
         return (
             <List component="nav">
-                {this.props.users.map(user => (
+                {this.props.cards.map(card => (
                     <div>
-                        <UserListItem
-                            user={user}
-                            onClick={() => this.props.onListItemClick(user._id)}
+                        <CardListItem
+                            key={card._id}
+                            card={card}
+                            onClick={() => this.props.onListItemClick(card._id)}
                         />
                         <Divider />
                     </div>

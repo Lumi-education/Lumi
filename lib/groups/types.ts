@@ -6,6 +6,7 @@ export interface IGroup {
     name: string;
     created_at: Date;
     autojoin: boolean;
+    cards: string[];
 }
 
 export interface IGroupUI {
