@@ -109,27 +109,38 @@ class AuthController {
                     res.status(409).end();
                 } else {
                     bcrypt.hash(req.body.password, null, null, (err, pw) => {
-                        const new_user: IUser = {
-                            _id: undefined,
-                            type: 'user',
-                            name: 'no name',
-                            level: 0,
-                            groups: [],
-                            last_login: undefined,
-                            last_active: undefined,
-                            online: false,
-                            location: '/',
-                            password: pw,
-                            flow: [],
-                            _deleted: false
-                        };
+                        db.view(
+                            'groups',
+                            'autojoin',
+                            {},
+                            (view_groups_error, groups) => {
+                                const group_ids = groups.map(
+                                    group => group._id
+                                );
 
-                        assign(new_user, req.body, { password: pw });
+                                const new_user: IUser = {
+                                    _id: undefined,
+                                    type: 'user',
+                                    name: 'no name',
+                                    level: 0,
+                                    groups: group_ids,
+                                    last_login: undefined,
+                                    last_active: undefined,
+                                    online: false,
+                                    location: '/',
+                                    password: pw,
+                                    flow: [],
+                                    _deleted: false
+                                };
 
-                        db.insert(
-                            new_user,
-                            (insert_user_error, inserted_user) => {
-                                res.status(200).json(inserted_user);
+                                assign(new_user, req.body, { password: pw });
+
+                                db.insert(
+                                    new_user,
+                                    (insert_user_error, inserted_user) => {
+                                        res.status(200).json(inserted_user);
+                                    }
+                                );
                             }
                         );
                     });

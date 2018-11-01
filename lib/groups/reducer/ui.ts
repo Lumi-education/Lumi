@@ -1,10 +1,21 @@
 import { assign } from 'lodash';
 import { IGroupUI } from '../types';
 
-import { GROUPS_SELECT_GROUP, GROUPS_UI_SET_SELECTED_GROUPS } from '../actions';
+import {
+    GROUPS_SELECT_GROUP,
+    GROUPS_UI_SET_SELECTED_GROUPS,
+    GROUPS_UI_CHANGE_GROUP
+} from '../actions';
 
 const initialState: IGroupUI = {
-    selected_groups: []
+    selected_groups: [],
+    group: {
+        _id: undefined,
+        type: 'group',
+        name: 'no group',
+        created_at: new Date(),
+        autojoin: false
+    }
 };
 
 export default function(state: IGroupUI = initialState, action): IGroupUI {
@@ -28,6 +39,10 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
             return assign({}, state, {
                 selected_groups: action.group_ids
             });
+
+        case GROUPS_UI_CHANGE_GROUP:
+            const new_group = assign({}, state.group, action.payload);
+            return assign({}, state, { group: new_group });
 
         default:
             return state;

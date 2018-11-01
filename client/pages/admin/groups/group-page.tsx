@@ -10,6 +10,7 @@ import { IState } from 'client/state';
 
 import GroupUsersTab from './group-users-tab';
 import GroupFlowTab from './group-flow-tab';
+import GroupSettingsTab from './group-settings-tab';
 
 // modules
 import * as Core from 'lib/core';
@@ -23,7 +24,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IComponentState {
@@ -42,7 +43,13 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.props.dispatch(Groups.actions.get_group(this.props.group_id));
+        this.props
+            .dispatch(Groups.actions.get_group(this.props.group_id))
+            .then(res => {
+                this.props.dispatch(
+                    Groups.actions.change_group(this.props.group)
+                );
+            });
     }
 
     public render() {
@@ -112,7 +119,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         case 'settings':
                         default:
                             return (
-                                <Groups.GroupSettingsContainer
+                                <GroupSettingsTab
                                     group_id={this.props.group_id}
                                 />
                             );

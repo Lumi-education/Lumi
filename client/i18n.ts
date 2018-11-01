@@ -19,6 +19,7 @@ const i18n = {
         assignment: 'Assignment',
         assignments: 'Assignments',
         analytics: 'Analytics',
+        autojoin: 'Autojoin',
         back: 'back',
         cancel: 'Cancel',
         card: 'Card',
@@ -214,6 +215,7 @@ const i18n = {
         tag_create: 'Tag erstellen',
         tags: 'Tags',
         monitor: 'Monitor',
+        autojoin: 'Automatisch beitreten',
         name: 'Name',
         no_internet_connection: 'Keine Internetverbindung',
         not_found: {

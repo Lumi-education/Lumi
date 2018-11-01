@@ -28,7 +28,8 @@ class GroupController {
             _id: undefined,
             type: 'group',
             name: 'no name',
-            created_at: new Date()
+            created_at: new Date(),
+            autojoin: false
         };
 
         assign(new_group, req.body);

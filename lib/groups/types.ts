@@ -5,10 +5,12 @@ export interface IGroup {
     type: 'group';
     name: string;
     created_at: Date;
+    autojoin: boolean;
 }
 
 export interface IGroupUI {
     selected_groups: string[];
+    group: IGroup;
 }
 
 export interface IState {

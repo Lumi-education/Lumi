@@ -52,6 +52,7 @@ export const GROUPS_REMOVE_USERS_FROM_GROUPS_ERROR =
 
 export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP';
 export const GROUPS_UI_SET_SELECTED_GROUPS = 'GROUPS_UI_SET_SELECTED_GROUPS';
+export const GROUPS_UI_CHANGE_GROUP = 'GROUPS_UI_CHANGE_GROUP';
 
 import * as API from './api';
 
@@ -165,5 +166,12 @@ export function set_selected_groups(group_ids: string[]) {
         group_ids,
         type: GROUPS_UI_SET_SELECTED_GROUPS,
         payload: { group_ids }
+    };
+}
+
+export function change_group(payload) {
+    return {
+        payload,
+        type: GROUPS_UI_CHANGE_GROUP
     };
 }
