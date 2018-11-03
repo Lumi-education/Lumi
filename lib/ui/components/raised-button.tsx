@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { RaisedButton } from 'material-ui';
 import { state_color } from '../utils';
+
+import * as Core from 'lib/core';
 import * as UI from '..';
 
 // actions
@@ -24,6 +26,7 @@ interface IDispatchProps {
 
 interface IComponentState {
     request: 'init' | 'pending' | 'success' | 'error';
+    message: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -36,7 +39,8 @@ export class RaisedButtonContainer extends React.Component<
         super(props);
 
         this.state = {
-            request: 'init'
+            request: 'init',
+            message: null
         };
 
         this._click = this._click.bind(this);
@@ -48,7 +52,7 @@ export class RaisedButtonContainer extends React.Component<
             .dispatch(this.props.action)
             .then(res => {
                 if (res.response.status !== 200) {
-                    throw new Error(res.response.message);
+                    throw new Error(res.response.response.body.message);
                 }
                 this.setState({ request: 'success' });
                 if (this.props.onSuccess) {
@@ -56,7 +60,10 @@ export class RaisedButtonContainer extends React.Component<
                 }
                 setTimeout(() => this.setState({ request: 'init' }), 2000);
             })
-            .catch(err => this.setState({ request: 'error' }));
+            .catch(err => {
+                this.setState({ message: err.message, request: 'error' });
+                setTimeout(() => this.setState({ request: 'init' }), 2000);
+            });
 
         this.setState({ request: 'pending' });
     }
@@ -70,7 +77,9 @@ export class RaisedButtonContainer extends React.Component<
             case 'success':
                 return this.props.labels[2];
             case 'error':
-                return this.props.labels[3];
+                return this.state.message
+                    ? Core.i18n.t(this.state.message)
+                    : this.props.labels[3];
         }
     }
 

@@ -29,6 +29,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Close';
 
 // modules
 import * as Core from 'lib/core';
@@ -252,6 +255,31 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                                     user.name
                                                                 }
                                                             />
+                                                            <ListItemSecondaryAction
+                                                            >
+                                                                <IconButton aria-label="Delete">
+                                                                    <DeleteIcon
+                                                                        onClick={() => {
+                                                                            this.props.dispatch(
+                                                                                Users.actions.delete_user(
+                                                                                    [
+                                                                                        user._id
+                                                                                    ]
+                                                                                )
+                                                                            );
+                                                                            this.setState(
+                                                                                {
+                                                                                    users: this.state.users.filter(
+                                                                                        _user =>
+                                                                                            _user._id !==
+                                                                                            user._id
+                                                                                    )
+                                                                                }
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                </IconButton>
+                                                            </ListItemSecondaryAction>
                                                         </ListItem>
                                                         <Divider />
                                                     </div>
@@ -335,6 +363,29 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                                     card.name
                                                                 }
                                                             />
+                                                            <ListItemSecondaryAction
+                                                            >
+                                                                <IconButton aria-label="Delete">
+                                                                    <DeleteIcon
+                                                                        onClick={() => {
+                                                                            this.props.dispatch(
+                                                                                Cards.actions.delete_card(
+                                                                                    card._id
+                                                                                )
+                                                                            );
+                                                                            this.setState(
+                                                                                {
+                                                                                    cards: this.state.cards.filter(
+                                                                                        _card =>
+                                                                                            _card._id !==
+                                                                                            card._id
+                                                                                    )
+                                                                                }
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                </IconButton>
+                                                            </ListItemSecondaryAction>
                                                         </ListItem>
                                                         <Divider />
                                                     </div>

@@ -34,11 +34,21 @@ class GroupController {
             cards: []
         };
 
-        assign(new_group, req.body);
+        db.find(
+            { type: 'group', name: req.body.name },
+            { limit: 1 },
+            (find_group_error, group) => {
+                if (group.length > 0) {
+                    return res.status(409).json({ message: 'group_exists' });
+                }
 
-        db.insert(new_group, (error, group) => {
-            res.status(200).json(group);
-        });
+                assign(new_group, req.body);
+
+                db.insert(new_group, (error, _group) => {
+                    res.status(200).json(_group);
+                });
+            }
+        );
     }
 
     public read(req: IRequest, res: express.Response) {

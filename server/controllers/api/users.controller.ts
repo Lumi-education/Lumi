@@ -49,11 +49,22 @@ class UsersController {
             _deleted: false
         };
 
-        assign(new_user, req.body, { password: undefined });
+        db.view(
+            'auth',
+            'username',
+            { key: req.body.name },
+            (view_user_error, users) => {
+                if (users.length > 0) {
+                    return res.status(409).json({ message: 'username_exists' });
+                }
 
-        db.insert(new_user, (error, user) => {
-            res.status(200).json(user);
-        });
+                assign(new_user, req.body, { password: undefined });
+
+                db.insert(new_user, (error, user) => {
+                    res.status(200).json(user);
+                });
+            }
+        );
     }
 
     public read(req: IRequest, res: express.Response) {

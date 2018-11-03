@@ -124,7 +124,7 @@ const i18n = {
         hour: 'Hour',
         day: 'Day',
         month: 'Month',
-
+        group_exists: 'This group already exists',
         reset_password: 'Reset Password',
         set_your_password: 'Set your password',
         repeat_password: 'Repeat password',
@@ -228,6 +228,7 @@ const i18n = {
         username_exists: 'Benutzername bereits vergeben',
         username_free: 'Benutzername %{name} ist frei',
         username_does_not_exist: 'Der Benutzer %{name} existiert nicht',
+        group_exists: 'Gruppe existiert bereits.',
         users: 'Benutzer',
         tag: 'Tag',
         tag_create: 'Tag erstellen',
