@@ -12,12 +12,14 @@ const i18n = {
         archiving: 'archiving',
         archived: 'archived',
         assign: {
-            cards: 'Assign %{num} cards'
+            cards: 'Assign cards'
         },
+        assistant: 'Assistant',
         assigning: 'assigning',
         assigned: 'assigned',
         assignment: 'Assignment',
         assignments: 'Assignments',
+        next: 'Next',
         analytics: 'Analytics',
         autojoin: 'Autojoin',
         back: 'back',
@@ -27,12 +29,13 @@ const i18n = {
         card_edit: 'edit %{name}',
         card_create: 'Create card',
         cards: 'Cards',
-        cards_assign: 'Assign %{num} cards',
+        cards_assign: 'Assign cards',
         language: 'Language',
         cards_assign_explanation:
             'Assign %{num} card(s) to whole groups or individual users.',
         comment: 'Comment',
         comments: 'Comments',
+        get_connected: 'Get connected',
         comments_no: 'No comments',
         continue: 'Continue',
         create: 'Create',
@@ -113,6 +116,8 @@ const i18n = {
         average: 'Average',
 
         color: 'color',
+        assistant_explain:
+            'Start the assistant,create your first group and users and learn how Lumi works',
 
         time: 'Time',
         minute: 'Minute',
@@ -144,7 +149,14 @@ const i18n = {
         grading: 'Grading',
         view: 'View',
         ip_description:
-            'This is the address, which makes Lumi available over the network'
+            'This is the address, which makes Lumi available over the network',
+        tutorial_open_wifi: 'Open WiFi',
+        group_created: 'Group %{name} created.',
+        finish: 'Finish',
+        next_steps: 'Next Steps',
+        flow_explain: 'Overview of the progress of the group',
+        go: 'Go',
+        tutorial_explain: 'Learn how users can connect with Lumi.'
     },
     de: {
         activity: 'Aktivittät',
@@ -159,7 +171,7 @@ const i18n = {
         archiving: 'archiviere',
         archived: 'archiviert',
         assign: {
-            cards: '%{num} Karten zuweisen'
+            cards: 'Karten zuweisen'
         },
         assigning: 'zuweisen',
         assigned: 'zugewiesen',
@@ -172,7 +184,7 @@ const i18n = {
         card_add: 'Karte hinzufügen',
         card_edit: '%{name} bearbeiten',
         card_create: 'Karte erstellen',
-        cards_assign: '%{num} Karten zuweisen',
+        cards_assign: 'Karten zuweisen',
         cards_assign_explanation:
             'Weise %{num} Karte(n) ganzen Gruppen oder einzelnen Benutzer zu.',
         cards: 'Karten',
@@ -185,6 +197,7 @@ const i18n = {
         created: 'erstellt',
         delete: 'Löschen',
         delete_: '%{item} löschen',
+        next: 'Weiter',
         deleting: 'lösche',
         deleted: 'gelöscht',
         language: 'Sprache',
@@ -192,6 +205,7 @@ const i18n = {
         duplicating: 'dupliziere',
         duplicated: 'dupliziert',
         environment: 'Umgebung',
+        get_connected: 'Verbindung aufbauen',
         error: 'Fehler',
         flow: 'Flow',
         folder: 'Ordner',
@@ -273,6 +287,7 @@ const i18n = {
         data_not_synced: 'Daten nicht synchronisiert',
         syncing: 'Synchronisiere',
         error_msg: 'Es ist ein Fehler aufgetreten',
+        assistant: 'Assistent',
         edit: 'Bearbeiten',
         answer: 'Antwort',
         type: 'Typ',
@@ -289,7 +304,17 @@ const i18n = {
         grading: 'Bewertung',
         view: 'Ansehen',
         list_empty: 'Diese Liste ist leer.',
-        ip_description: 'Über diese Adresse ist Lumi im Netzwerk zu erreichen.'
+        ip_description: 'Über diese Adresse ist Lumi im Netzwerk zu erreichen.',
+        tutorial_open_wifi: 'WLAN aufmachen',
+        group_created: 'Gruppe %{name} erstellt.',
+        finish: 'Fertigstellen',
+        next_steps: 'Nächste Schritte',
+        flow_explain: 'Übersicht über den Fortschritt der Lerngruppe.',
+        go: 'Los',
+        assistant_explain:
+            'Starte den Assistenten, erstelle deine erste Gruppe und Benutzer und lerne wie Lumi funktioniert.',
+        tutorial_explain:
+            'Lerne wie sich die Benutzer mit Lumi verbinden können.'
     }
 };
 

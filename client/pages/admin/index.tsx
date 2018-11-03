@@ -31,6 +31,8 @@ import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
 import DashboardPage from './dashboard/dashboard-page';
 import SettingsPage from './settings-page';
+import TutorialMacPage from './tutorial/get-connected-mac';
+import AssistantPage from './assistant/assistant-page';
 
 // modules
 import * as UI from 'lib/ui';
@@ -186,6 +188,14 @@ export class AdminRoot extends React.Component<IProps, {}> {
                             <Route
                                 path="/admin/settings"
                                 component={SettingsPage}
+                            />
+                            <Route
+                                path="/admin/tutorial/get-connected-mac"
+                                component={TutorialMacPage}
+                            />
+                            <Route
+                                path="/admin/assistant"
+                                component={AssistantPage}
                             />
                         </Switch>
                     </ErrorBoundary>

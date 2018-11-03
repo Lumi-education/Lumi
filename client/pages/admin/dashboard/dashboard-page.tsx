@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { IState } from 'client/state';
 
 import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
 import * as Comments from 'lib/comments';
 import * as Users from 'lib/users';
 import * as Flow from 'lib/flow';
@@ -67,6 +68,55 @@ export class AdminDashboardPage extends React.Component<
                         </CardContent>
                     </CardActionArea>
                 </Card>
+                <Card
+                                                        className={classes.card}
+                                                    >
+                                                        <CardActionArea>
+                                                            <CardMedia
+                                                                className={
+                                                                    classes.media
+                                                                }
+                                                                title={Core.i18n.t(
+                                                                    'assistant'
+                                                                )}
+                                                            />
+                                                            <CardContent>
+                                                                <Typography
+                                                                    gutterBottom={
+                                                                        true
+                                                                    }
+                                                                    variant="h5"
+                                                                    component="h2"
+                                                                >
+                                                                    {Core.i18n.t(
+                                                                        'assistant'
+                                                                    )}
+                                                                </Typography>
+                                                                <Typography component="p">
+                                                                    {Core.i18n.t(
+                                                                        'assistant_explain'
+                                                                    )}
+                                                                </Typography>
+                                                            </CardContent>
+                                                        </CardActionArea>
+                                                        <CardActions>
+                                                            <Button
+                                                                size="small"
+                                                                color="primary"
+                                                                onClick={() =>
+                                                                    this.props.dispatch(
+                                                                        UI.actions.push(
+                                                                            '/admin/assistant'
+                                                                        )
+                                                                    )
+                                                                }
+                                                            >
+                                                                {Core.i18n.t(
+                                                                    'go'
+                                                                )}
+                                                            </Button>
+                                                        </CardActions>
+                                                    </Card>
             </div>
         );
     }
@@ -89,9 +139,6 @@ const styles: StyleRulesCallback = theme => ({
         maxWidth: 345,
         margin: '10px'
     },
-    media: {
-        height: 140
-    }
 });
 
 export default withStyles(styles)(
