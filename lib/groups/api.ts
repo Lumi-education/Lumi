@@ -60,3 +60,9 @@ export function update_group(group_id: string, update) {
         .send(update)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+export function add_cards(group_id: string, card_ids: string[]) {
+    return request
+        .put('/api/v0/groups/' + group_id + '/cards')
+        .send({ group_id, card_ids })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

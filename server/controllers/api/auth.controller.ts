@@ -2,15 +2,16 @@ import * as express from 'express';
 import * as bcrypt from 'bcrypt-nodejs';
 import * as jwt from 'jwt-simple';
 import * as debug from 'debug';
-import { assign, noop } from 'lodash';
+import { assign, flatten } from 'lodash';
 
 import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
 
 import { IUser } from 'lib/users/types';
-
+import { IAssignment } from 'lib/flow/types';
 import { add_activity } from '../../modules/activity';
+import { FileAttachment } from 'material-ui/svg-icons';
 
 const log = debug('lumi:controller:auth');
 
@@ -109,27 +110,87 @@ class AuthController {
                     res.status(409).end();
                 } else {
                     bcrypt.hash(req.body.password, null, null, (err, pw) => {
-                        const new_user: IUser = {
-                            _id: undefined,
-                            type: 'user',
-                            name: 'no name',
-                            level: 0,
-                            groups: [],
-                            last_login: undefined,
-                            last_active: undefined,
-                            online: false,
-                            location: '/',
-                            password: pw,
-                            flow: [],
-                            _deleted: false
-                        };
+                        db.view(
+                            'groups',
+                            'autojoin',
+                            {},
+                            (view_groups_error, groups) => {
+                                const group_ids = groups.map(
+                                    group => group._id
+                                );
 
-                        assign(new_user, req.body, { password: pw });
+                                const new_user: IUser = {
+                                    _id: undefined,
+                                    type: 'user',
+                                    name: 'no name',
+                                    level: 0,
+                                    groups: group_ids,
+                                    last_login: undefined,
+                                    last_active: undefined,
+                                    online: false,
+                                    location: '/',
+                                    password: pw,
+                                    flow: [],
+                                    _deleted: false
+                                };
 
-                        db.insert(
-                            new_user,
-                            (insert_user_error, inserted_user) => {
-                                res.status(200).json(inserted_user);
+                                assign(new_user, req.body, { password: pw });
+
+                                db.insert(
+                                    new_user,
+                                    (insert_user_error, inserted_user) => {
+                                        const card_ids = flatten(
+                                            groups.map(group => group.cards)
+                                        );
+
+                                        const _assignments = [];
+
+                                        card_ids.forEach((card_id: string) => {
+                                            const _assignment: IAssignment = {
+                                                card_id,
+                                                user_id: inserted_user._id,
+                                                type: 'assignment',
+                                                completed: false,
+                                                data: {},
+                                                state: null,
+                                                archived: false,
+                                                finished: null,
+                                                time: null,
+                                                sync: 'success',
+                                                _attachments: {},
+                                                files: []
+                                            };
+
+                                            _assignments.push(_assignment);
+                                        });
+
+                                        db.insertMany(
+                                            _assignments,
+                                            {},
+                                            (
+                                                insert_assignments_error,
+                                                docs
+                                            ) => {
+                                                db.updateOne(
+                                                    inserted_user._id,
+                                                    {
+                                                        flow: docs.map(
+                                                            d => d.id
+                                                        )
+                                                    },
+                                                    (
+                                                        update_user_error,
+                                                        updated_user
+                                                    ) => {
+                                                        res.status(200).json(
+                                                            updated_user
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        );
+                                    }
+                                );
                             }
                         );
                     });

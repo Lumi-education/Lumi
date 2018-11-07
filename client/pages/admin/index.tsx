@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+import { setLocale } from 'react-redux-i18n';
 
 import * as debug from 'debug';
 
@@ -16,7 +17,7 @@ import { IState } from 'client/state';
 // pages
 import ErrorBoundary from 'client/pages/error-boundary';
 
-import ActivityPage from './activity/activity_index';
+import ActivityPage from './activity/activity-page';
 import GroupPage from 'client/pages/admin/groups/group-page';
 import GroupsPage from 'client/pages/admin/groups/groups-page';
 import Lessons from 'client/pages/admin/lessons/lesson-page';
@@ -27,8 +28,12 @@ import CardPage from './cards/card-page';
 import FoldersPage from './folders/folders-page';
 import TagsPage from './tags/tags-page';
 import TagPage from './tags/tag-page';
-import CommentsPage from './comments/comments_index';
+import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
+import DashboardPage from './dashboard/dashboard-page';
+import SettingsPage from './settings-page';
+import TutorialMacPage from './tutorial/get-connected-mac';
+import AssistantPage from './assistant/assistant-page';
 
 // modules
 import * as UI from 'lib/ui';
@@ -50,7 +55,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -66,7 +71,13 @@ export class AdminRoot extends React.Component<IProps, {}> {
             this.props.dispatch(UI.actions.push('/user'));
         }
 
-        this.props.dispatch(Users.actions.init_user());
+        this.props.dispatch(Users.actions.init_user()).then(res => {
+            const user =
+                res.payload.filter(docs => docs.type === 'user')[0] || {};
+            if (user.language) {
+                this.props.dispatch(setLocale(user.language));
+            }
+        });
         this.props.dispatch(Core.actions.check_update());
     }
 
@@ -101,6 +112,16 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 >
                     <ErrorBoundary>
                         <Switch>
+                            <Route
+                                exact={true}
+                                path="/admin"
+                                component={DashboardPage}
+                            />
+                            <Route
+                                exact={true}
+                                path="/admin/dashboard"
+                                component={DashboardPage}
+                            />
                             <Route
                                 exact={true}
                                 path="/admin/groups"
@@ -170,6 +191,18 @@ export class AdminRoot extends React.Component<IProps, {}> {
                             <Route
                                 path="/admin/system"
                                 component={SystemPage}
+                            />
+                            <Route
+                                path="/admin/settings"
+                                component={SettingsPage}
+                            />
+                            <Route
+                                path="/admin/tutorial/get-connected-mac"
+                                component={TutorialMacPage}
+                            />
+                            <Route
+                                path="/admin/assistant"
+                                component={AssistantPage}
                             />
                         </Switch>
                     </ErrorBoundary>

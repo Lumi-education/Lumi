@@ -17,7 +17,7 @@ import {
     Checkbox
 } from 'material-ui';
 
-import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
+import CardsAssignDialog from 'client/dialogs/cards-assign-dialog';
 
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
@@ -116,9 +116,6 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                             onClick={() => {
                                 this.props.dispatch(
                                     Flow.actions.toggle_dialog()
-                                    // Flow.actions.select_assignment(
-                                    //     assignment._id
-                                    // )
                                 );
                                 this.props.dispatch(
                                     Flow.actions.change_assignment(assignment)
@@ -164,7 +161,13 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                         <ContentAdd />
                     </FloatingActionButton>
                 </UI.components.ActionBar>
-                <AssignMaterialDialog />
+                <CardsAssignDialog
+                    assign_callback={card_ids =>
+                        this.props.dispatch(
+                            Flow.actions.assign([this.props.user_id], card_ids)
+                        )
+                    }
+                />
             </div>
         );
     }

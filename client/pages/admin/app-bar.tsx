@@ -50,20 +50,6 @@ interface IProps extends IStateProps, IDispatchProps {}
 export class AdminAppBar extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-
-        this.app_bar_bg = this.app_bar_bg.bind(this);
-    }
-
-    public app_bar_bg(): string {
-        if (!this.props.connected) {
-            return 'linear-gradient(90deg, #e74c3c, #f39c12)';
-        }
-
-        if (this.props.mode === 'controlled') {
-            return 'linear-gradient(90deg, #8e44ad, #2980b9)';
-        }
-
-        return 'linear-gradient(90deg, #3498db, #1abc9c)';
     }
 
     public render() {

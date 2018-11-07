@@ -13,7 +13,9 @@ export default function boot(done: () => void) {
                         check_view('comments', comments_view, () => {
                             check_view('flow', flow_view, () => {
                                 check_view('folders', folders_view, () => {
-                                    done();
+                                    check_view('groups', groups_view, () => {
+                                        done();
+                                    });
                                 });
                             });
                         });
@@ -84,7 +86,7 @@ const cards_view = {
     views: {
         index: {
             map:
-                'function (doc) {\n  if (doc.type === "card") { \n    emit(doc._id, 1); \n    doc.tags.forEach(function(tag_id) { emit(doc._id, { _id: tag_id })});\n    \n  }\n}'
+                'function (doc) {\n  if (doc.type === "card" || doc.type === "tag") { \n    emit(doc._id, 1);    \n  }\n}'
         }
     },
     language: 'javascript'
@@ -140,6 +142,17 @@ const folders_view = {
         all: {
             map:
                 "function (doc) {\n  if (doc.type === 'folder') { \n    emit(doc._id, 1); \n    doc.content.forEach(function(content) { if (content.type !== 'folder') { emit(doc._id, { _id: content._id })} })\n  }\n}"
+        }
+    },
+    language: 'javascript'
+};
+
+const groups_view = {
+    _id: '_design/groups',
+    views: {
+        autojoin: {
+            map:
+                "function (doc) {\n  if (doc.type === 'group') { \n    if (doc.autojoin) {\n          emit(doc._id, 1); \n\n    }\n    \n  }\n}"
         }
     },
     language: 'javascript'

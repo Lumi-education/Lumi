@@ -30,8 +30,6 @@ import { _card_type } from 'lib/cards/components/card-type';
 
 import CardsContainer from '../../../container/cards-container';
 
-import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
-
 // state
 import { IState } from 'client/state';
 
@@ -351,7 +349,6 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                         floatingLabelText={Core.i18n.t('name')}
                     />
                 </Dialog>
-                <AssignMaterialDialog />
             </div>
         );
     }

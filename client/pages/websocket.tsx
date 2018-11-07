@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as socketio from 'socket.io-client';
 
-import * as Core from '..';
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 
 declare var window;

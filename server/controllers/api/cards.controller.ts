@@ -130,6 +130,9 @@ class CardController {
 
     public update(req: IRequest, res: express.Response) {
         db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            if (err) {
+                return res.status(err.status).json(err);
+            }
             res.status(200).json(updated_doc);
         });
     }

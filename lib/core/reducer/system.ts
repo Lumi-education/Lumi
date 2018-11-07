@@ -7,7 +7,10 @@ const initialState: ISystemSettings = {
     mode: 'free',
     controlled_location: '/',
     allow_user_registration: true,
-    provide_password: false
+    provide_password: false,
+    ip: undefined,
+    port: undefined,
+    target: undefined
 };
 
 export default function(

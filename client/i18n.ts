@@ -1,5 +1,3 @@
-import { update_available } from 'lib/core/selectors';
-
 const i18n = {
     en: {
         activity: 'Activity',
@@ -14,13 +12,17 @@ const i18n = {
         archiving: 'archiving',
         archived: 'archived',
         assign: {
-            cards: 'Assign %{num} cards'
+            cards: 'Assign cards'
         },
+        assistant: 'Assistant',
+        selected_cards: 'Selected Cards',
         assigning: 'assigning',
         assigned: 'assigned',
         assignment: 'Assignment',
         assignments: 'Assignments',
+        next: 'Next',
         analytics: 'Analytics',
+        autojoin: 'Autojoin',
         back: 'back',
         cancel: 'Cancel',
         card: 'Card',
@@ -29,8 +31,12 @@ const i18n = {
         card_create: 'Create card',
         cards: 'Cards',
         cards_assign: 'Assign cards',
+        language: 'Language',
+        cards_assign_explanation:
+            'Assign %{num} card(s) to whole groups or individual users.',
         comment: 'Comment',
         comments: 'Comments',
+        get_connected: 'Get connected',
         comments_no: 'No comments',
         continue: 'Continue',
         create: 'Create',
@@ -43,6 +49,7 @@ const i18n = {
         duplicate: 'duplicate',
         duplicating: 'duplicating',
         duplicated: 'duplicated',
+        dashboard: 'Dashboard',
         error: 'Error',
         environment: 'Environment',
         flow: 'Flow',
@@ -75,8 +82,10 @@ const i18n = {
         no_internet_connection: 'No internet connection',
         not_found: {
             users: 'No users found',
-            user: '%{name} not found'
+            user: '%{name} not found',
+            cards: 'No cards found'
         },
+        list_empty: 'This list is empty.',
         save: 'Save',
         saving: 'saving',
         saved: 'saved',
@@ -108,13 +117,15 @@ const i18n = {
         average: 'Average',
 
         color: 'color',
+        assistant_explain:
+            'Start the assistant,create your first group and users and learn how Lumi works',
 
         time: 'Time',
         minute: 'Minute',
         hour: 'Hour',
         day: 'Day',
         month: 'Month',
-
+        group_exists: 'This group already exists',
         reset_password: 'Reset Password',
         set_your_password: 'Set your password',
         repeat_password: 'Repeat password',
@@ -136,7 +147,17 @@ const i18n = {
         upload: 'Upload',
         upload_error: 'Upload not successfull',
         lost_connection: 'Lost connection. Please check WiFi',
-        grading: 'Grading'
+        grading: 'Grading',
+        view: 'View',
+        ip_description:
+            'This is the address, which makes Lumi available over the network',
+        tutorial_open_wifi: 'Open WiFi',
+        group_created: 'Group %{name} created.',
+        finish: 'Finish',
+        next_steps: 'Next Steps',
+        flow_explain: 'Overview of the progress of the group',
+        go: 'Go',
+        tutorial_explain: 'Learn how users can connect with Lumi.'
     },
     de: {
         activity: 'Aktivittät',
@@ -151,7 +172,7 @@ const i18n = {
         archiving: 'archiviere',
         archived: 'archiviert',
         assign: {
-            cards: '%{num} Karten zuweisen'
+            cards: 'Karten zuweisen'
         },
         assigning: 'zuweisen',
         assigned: 'zugewiesen',
@@ -165,6 +186,8 @@ const i18n = {
         card_edit: '%{name} bearbeiten',
         card_create: 'Karte erstellen',
         cards_assign: 'Karten zuweisen',
+        cards_assign_explanation:
+            'Weise %{num} Karte(n) ganzen Gruppen oder einzelnen Benutzer zu.',
         cards: 'Karten',
         comment: 'Kommentar',
         comments: 'Kommentare',
@@ -175,12 +198,15 @@ const i18n = {
         created: 'erstellt',
         delete: 'Löschen',
         delete_: '%{item} löschen',
+        next: 'Weiter',
         deleting: 'lösche',
         deleted: 'gelöscht',
+        language: 'Sprache',
         duplicate: 'Duplizieren',
         duplicating: 'dupliziere',
         duplicated: 'dupliziert',
         environment: 'Umgebung',
+        get_connected: 'Verbindung aufbauen',
         error: 'Fehler',
         flow: 'Flow',
         folder: 'Ordner',
@@ -193,6 +219,7 @@ const i18n = {
         group_create: 'Gruppe erstellen',
         groups: 'Gruppen',
         login: 'Anmelden',
+        dashboard: 'Übersicht',
         password: 'Passwort',
         logout: 'Abmelden',
         loading: 'lade',
@@ -202,11 +229,13 @@ const i18n = {
         username_exists: 'Benutzername bereits vergeben',
         username_free: 'Benutzername %{name} ist frei',
         username_does_not_exist: 'Der Benutzer %{name} existiert nicht',
+        group_exists: 'Gruppe existiert bereits.',
         users: 'Benutzer',
         tag: 'Tag',
         tag_create: 'Tag erstellen',
         tags: 'Tags',
         monitor: 'Monitor',
+        autojoin: 'Automatisch beitreten',
         name: 'Name',
         no_internet_connection: 'Keine Internetverbindung',
         not_found: {
@@ -222,6 +251,7 @@ const i18n = {
             cards: 'Karten suchen'
         },
         logging_in: 'Melde an',
+        selected_cards: 'Ausgewählte Karten',
         settings: 'Einstellungen',
         select_all_finished_cards: 'Alle abgeschlossenen Aufgaben auswählen',
         select_all_users: 'Alle Benutzer auswählen',
@@ -260,6 +290,7 @@ const i18n = {
         data_not_synced: 'Daten nicht synchronisiert',
         syncing: 'Synchronisiere',
         error_msg: 'Es ist ein Fehler aufgetreten',
+        assistant: 'Assistent',
         edit: 'Bearbeiten',
         answer: 'Antwort',
         type: 'Typ',
@@ -273,7 +304,20 @@ const i18n = {
         upload_error: 'Hochladen fehlgeschlagen',
         lost_connection:
             'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung',
-        grading: 'Bewertung'
+        grading: 'Bewertung',
+        view: 'Ansehen',
+        list_empty: 'Diese Liste ist leer.',
+        ip_description: 'Über diese Adresse ist Lumi im Netzwerk zu erreichen.',
+        tutorial_open_wifi: 'WLAN aufmachen',
+        group_created: 'Gruppe %{name} erstellt.',
+        finish: 'Fertigstellen',
+        next_steps: 'Nächste Schritte',
+        flow_explain: 'Übersicht über den Fortschritt der Lerngruppe.',
+        go: 'Los',
+        assistant_explain:
+            'Starte den Assistenten, erstelle deine erste Gruppe und Benutzer und lerne wie Lumi funktioniert.',
+        tutorial_explain:
+            'Lerne wie sich die Benutzer mit Lumi verbinden können.'
     }
 };
 

@@ -37,7 +37,7 @@ export default class UserListComponent extends React.Component<
             return (
                 <Paper>
                     <Typography variant="h5" component="h3">
-                        {Core.i18n.t('not_found.users')}
+                        {Core.i18n.t('list_empty')}
                     </Typography>
                 </Paper>
             );
