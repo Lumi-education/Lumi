@@ -16,7 +16,6 @@ import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 
 import CreateUserDialog from 'client/dialogs/user-create-dialog';
 import AssignGroupDialog from 'client/dialogs/groups-assign-dialog';
-import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 import DeleteUserDialog from 'client/dialogs/user-delete-dialog';
 
 // state
@@ -160,7 +159,6 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                     </FloatingActionButton>
                 </ActionBar>
                 <CreateUserDialog />
-                <AssignMaterialDialog />
                 <AssignGroupDialog />
                 <DeleteUserDialog />
             </div>

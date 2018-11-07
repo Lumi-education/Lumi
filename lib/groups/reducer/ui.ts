@@ -4,7 +4,8 @@ import { IGroupUI } from '../types';
 import {
     GROUPS_SELECT_GROUP,
     GROUPS_UI_SET_SELECTED_GROUPS,
-    GROUPS_UI_CHANGE_GROUP
+    GROUPS_UI_CHANGE_GROUP,
+    GROUPS_ADD_CARDS_REQUEST
 } from '../actions';
 
 const initialState: IGroupUI = {
@@ -35,6 +36,12 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
                     action.payload.group_id
                 ]
             });
+
+        case GROUPS_ADD_CARDS_REQUEST:
+            const _group = assign({}, state.group, {
+                cards: [...state.group.cards, ...action.card_ids]
+            });
+            return assign({}, state, { group: _group });
 
         case GROUPS_UI_SET_SELECTED_GROUPS:
             return assign({}, state, {

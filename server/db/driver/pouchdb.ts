@@ -165,6 +165,9 @@ export default class DB {
         cb: (error, success) => void
     ) {
         this.findById(_id, (error, doc) => {
+            if (error) {
+                return cb(error, undefined);
+            }
             this.db.putAttachment(
                 doc._id,
                 attachment_id,

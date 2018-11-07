@@ -34,7 +34,7 @@ interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {}
 
-export class AssignMaterialDialog extends React.Component<
+export class GroupsAssignDialog extends React.Component<
     IProps,
     IComponentState
 > {
@@ -121,4 +121,4 @@ function mapDispatchToProps(dispatch) {
 export default connect<IStateProps, IDispatchProps, IPassedProps>(
     mapStateToProps,
     mapDispatchToProps
-)(AssignMaterialDialog);
+)(GroupsAssignDialog);

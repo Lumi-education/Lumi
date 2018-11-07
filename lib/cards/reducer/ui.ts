@@ -14,7 +14,11 @@ import * as Core from 'lib/core';
 
 const initialState: ICardUI = {
     selected_cards: [],
-    card: { card_type: Core.config.default_card_type, files: [] }
+    card: {
+        _id: 'new_card',
+        card_type: Core.config.default_card_type,
+        files: []
+    }
 };
 
 export default function(state: ICardUI = initialState, action): ICardUI {

@@ -40,13 +40,15 @@ import * as Users from 'lib/users';
 import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
+import CardsAssignDialog from 'client/dialogs/cards-assign-dialog';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {
     classes: any;
     language: Core.types.Locales;
     system: Core.types.ISystemSettings;
-    card: Cards.ICard;
+    card: (card_id: string) => Cards.ICard;
+    selected_cards: string[];
 }
 
 interface IDispatchProps {
@@ -58,7 +60,6 @@ interface IComponentState {
     group_name: string;
     user_name: string;
     users: Users.IUser[];
-    cards: Cards.ICard[];
     next_disabled: boolean;
     group: Groups.IGroup;
 }
@@ -77,8 +78,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
             user_name: '',
             next_disabled: true,
             users: [],
-            group: null,
-            cards: []
+            group: null
         };
 
         this.handleBack = this.handleBack.bind(this);
@@ -93,7 +93,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
             this.props.dispatch(
                 Flow.actions.assign(
                     this.state.users.map(user => user._id),
-                    this.state.cards.map(card => card._id)
+                    this.props.selected_cards
                 )
             );
         }
@@ -217,7 +217,11 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                             Core.i18n.t('error')
                                                         ]}
                                                         fullWidth={true}
-                                                        disabled={false}
+                                                        disabled={
+                                                            this.state
+                                                                .group_name
+                                                                .length === 0
+                                                        }
                                                         onSuccess={res => {
                                                             this.setState({
                                                                 group:
@@ -324,7 +328,10 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                     Core.i18n.t('error')
                                                 ]}
                                                 fullWidth={true}
-                                                disabled={false}
+                                                disabled={
+                                                    this.state.user_name
+                                                        .length === 0
+                                                }
                                                 onSuccess={res => {
                                                     const user = res.payload;
                                                     this.setState({
@@ -346,53 +353,68 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                 variant="h5"
                                                 component="h3"
                                             >
-                                                {Core.i18n.t('card_create')}
+                                                {Core.i18n.t('cards')}
                                             </Typography>
                                             <List component="nav">
-                                                {this.state.cards.map(card => (
-                                                    <div key={card._id}>
-                                                        <ListItem>
-                                                            <Avatar>
-                                                                {card.name.substring(
-                                                                    0,
-                                                                    2
-                                                                )}
-                                                            </Avatar>
-                                                            <ListItemText
-                                                                primary={
-                                                                    card.name
-                                                                }
-                                                            />
-                                                            <ListItemSecondaryAction
-                                                            >
-                                                                <IconButton aria-label="Delete">
-                                                                    <DeleteIcon
-                                                                        onClick={() => {
-                                                                            this.props.dispatch(
-                                                                                Cards.actions.delete_card(
-                                                                                    card._id
-                                                                                )
-                                                                            );
-                                                                            this.setState(
-                                                                                {
-                                                                                    cards: this.state.cards.filter(
-                                                                                        _card =>
-                                                                                            _card._id !==
-                                                                                            card._id
-                                                                                    )
-                                                                                }
-                                                                            );
-                                                                        }}
+                                                {this.props.selected_cards.map(
+                                                    card_id => {
+                                                        const card = this.props.card(
+                                                            card_id
+                                                        );
+                                                        return (
+                                                            <div key={card._id}>
+                                                                <ListItem>
+                                                                    <Avatar>
+                                                                        {card.name.substring(
+                                                                            0,
+                                                                            2
+                                                                        )}
+                                                                    </Avatar>
+                                                                    <ListItemText
+                                                                        primary={
+                                                                            card.name
+                                                                        }
                                                                     />
-                                                                </IconButton>
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                        <Divider />
-                                                    </div>
-                                                ))}
+                                                                    <ListItemSecondaryAction
+                                                                    >
+                                                                        <IconButton aria-label="Delete">
+                                                                            <DeleteIcon
+                                                                                onClick={() => {
+                                                                                    this.props.dispatch(
+                                                                                        Cards.actions.select_card(
+                                                                                            card._id
+                                                                                        )
+                                                                                    );
+                                                                                }}
+                                                                            />
+                                                                        </IconButton>
+                                                                    </ListItemSecondaryAction>
+                                                                </ListItem>
+                                                                <Divider />
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
                                             </List>
-                                            <Cards.CardEdit />
-                                            <UI.components.RaisedButton
+                                            {/* <Cards.CardEdit /> */}
+                                            <Grid container={true} spacing={24}>
+                                                <Button
+                                                    fullWidth={true}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    onClick={() =>
+                                                        this.props.dispatch(
+                                                            UI.actions.toggle_assign_material_dialog()
+                                                        )
+                                                    }
+                                                    className={classes.button}
+                                                >
+                                                    {Core.i18n.t(
+                                                        'cards_assign'
+                                                    )}
+                                                </Button>
+                                            </Grid>
+                                            {/* <UI.components.RaisedButton
                                                 action={Cards.actions.create_card(
                                                     this.props.card
                                                 )}
@@ -414,7 +436,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                         ]
                                                     });
                                                 }}
-                                            />
+                                            /> */}
                                         </div>
                                     );
                                 case 3:
@@ -555,6 +577,14 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                         )}
                     </div>
                 </Paper>
+                <CardsAssignDialog
+                    assign_callback={card_ids => {
+                        this.props.dispatch(
+                            Cards.actions.set_selected_cards(card_ids)
+                        );
+                        this.setState({ next_disabled: false });
+                    }}
+                />
             </div>
         );
     }
@@ -565,7 +595,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         classes: ownProps.classes,
         language: state.i18n.locale,
         system: state.core.system,
-        card: state.cards.ui.card
+        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        selected_cards: state.cards.ui.selected_cards
     };
 }
 

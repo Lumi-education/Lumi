@@ -25,7 +25,7 @@ import { TagsChipInputContainer } from 'client/container';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGAction from 'material-ui/svg-icons/action/build';
 
-import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
+import CardsAssignDialog from 'client/dialogs/cards-assign-dialog';
 
 // modules
 import * as UI from 'lib/ui';
@@ -407,7 +407,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             ) : null}
                         </IconMenu>
                     </UI.components.ActionBar>
-                    <AssignMaterialDialog />
+                    <CardsAssignDialog
+                        assign_callback={test => console.log(test)}
+                    />
                 </div>
             </div>
         );

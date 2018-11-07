@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+import { setLocale } from 'react-redux-i18n';
 
 import * as debug from 'debug';
 
@@ -54,7 +55,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    dispatch: (action) => void;
+    dispatch: (action) => any;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -70,7 +71,13 @@ export class AdminRoot extends React.Component<IProps, {}> {
             this.props.dispatch(UI.actions.push('/user'));
         }
 
-        this.props.dispatch(Users.actions.init_user());
+        this.props.dispatch(Users.actions.init_user()).then(res => {
+            const user =
+                res.payload.filter(docs => docs.type === 'user')[0] || {};
+            if (user.language) {
+                this.props.dispatch(setLocale(user.language));
+            }
+        });
         this.props.dispatch(Core.actions.check_update());
     }
 

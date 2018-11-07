@@ -15,6 +15,7 @@ const i18n = {
             cards: 'Assign cards'
         },
         assistant: 'Assistant',
+        selected_cards: 'Selected Cards',
         assigning: 'assigning',
         assigned: 'assigned',
         assignment: 'Assignment',
@@ -250,6 +251,7 @@ const i18n = {
             cards: 'Karten suchen'
         },
         logging_in: 'Melde an',
+        selected_cards: 'Ausgewählte Karten',
         settings: 'Einstellungen',
         select_all_finished_cards: 'Alle abgeschlossenen Aufgaben auswählen',
         select_all_users: 'Alle Benutzer auswählen',

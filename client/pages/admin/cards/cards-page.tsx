@@ -10,7 +10,6 @@ import {
     FloatingActionButton,
     Paper
 } from 'material-ui';
-import AssignMaterialDialog from 'client/dialogs/cards-assign-dialog';
 
 import { Card } from 'client/components';
 import { TagsChipInputContainer } from 'client/container';
@@ -140,20 +139,8 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 </div>
 
                 <UI.components.ActionBar>
-                    {this.props.selected_cards.length !== 0 ? (
+                    {/* {this.props.selected_cards.length !== 0 ? (
                         <div>
-                            {/* <FloatingActionButton
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        UI.actions.toggle_assign_material_dialog()
-                                    );
-                                }}
-                                style={{
-                                    zIndex: 5000
-                                }}
-                            >
-                                <SVGFolder />
-                            </FloatingActionButton> */}
                             <FloatingActionButton
                                 onClick={() => {
                                     this.props.dispatch(
@@ -167,7 +154,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                 <SVGCards />
                             </FloatingActionButton>
                         </div>
-                    ) : null}
+                    ) : null} */}
                     <FloatingActionButton
                         onClick={() => {
                             this.props
@@ -184,7 +171,6 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         <ContentAdd />
                     </FloatingActionButton>
                 </UI.components.ActionBar>
-                <AssignMaterialDialog />
             </div>
         );
     }
