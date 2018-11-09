@@ -1,5 +1,13 @@
+// setup env
+process.env.DB = process.env.DB || './db/lumi';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.DEBUG = process.env.DEBUG || '*';
+process.env.PORT = process.env.PORT || 3000;
+process.env.KEY = process.env.KEY || 'abcdefg';
+
 import * as raven from 'raven';
 import * as debug from 'debug';
+
 raven
     .config(process.env.SENTRY, {
         release: process.env.VERSION,
@@ -37,7 +45,7 @@ export function boot(done: () => void) {
     });
 }
 
-if (process.env.TARGET !== 'electron') {
+if (process.env.NODE_ENV !== 'electron') {
     boot(() => {
         log('ending boot-sequence');
     });

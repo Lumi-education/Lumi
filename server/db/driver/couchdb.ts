@@ -1,4 +1,5 @@
 import * as request from 'superagent';
+import * as url from 'url';
 import { assign, noop } from 'lodash';
 import * as debug from 'debug';
 import * as nano from 'nano';
@@ -16,9 +17,11 @@ export default class DB {
     private nano: any;
 
     constructor() {
-        this.db = process.env.DB_HOST + '/' + process.env.DB + '/';
-        this.nano = nano(process.env.DB_HOST || 'http://localhost:5984').use(
-            process.env.DB || 'test'
+        const _db = url.parse(process.env.DB);
+        const _db_host = _db.protocol + '//' + _db.host;
+        this.db = _db.href + '/';
+        this.nano = nano(_db_host || 'http://localhost:5984').use(
+            _db.pathname.replace(/\//g, '') || 'test'
         );
 
         this.findById = this.findById.bind(this);
