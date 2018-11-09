@@ -25,6 +25,7 @@ raven
 
 import boot_db from './db/boot';
 import boot_core from './core/boot';
+import boot_modules from './modules/boot';
 
 declare var process;
 
@@ -38,7 +39,9 @@ export function boot(done: () => void) {
     log('entering boot-sequence');
 
     boot_db(() => {
-        boot_core(() => done());
+        boot_core(() => {
+            boot_modules(() => done());
+        });
     });
 }
 

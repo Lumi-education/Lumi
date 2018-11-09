@@ -52,7 +52,11 @@ export const GROUPS_REMOVE_USERS_FROM_GROUPS_ERROR =
 
 export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP';
 export const GROUPS_UI_SET_SELECTED_GROUPS = 'GROUPS_UI_SET_SELECTED_GROUPS';
+export const GROUPS_UI_CHANGE_GROUP = 'GROUPS_UI_CHANGE_GROUP';
 
+export const GROUPS_ADD_CARDS_REQUEST = 'GROUPS_ADD_CARDS_REUQEST';
+export const GROUPS_ADD_CARDS_SUCCESS = 'GROUPS_ADD_CARDS_SUCCESS';
+export const GROUPS_ADD_CARDS_ERROR = 'GROUPS_ADD_CARDS_ERROR';
 import * as API from './api';
 
 export function assign_groups(user_ids: string[], group_ids: string[]) {
@@ -165,5 +169,24 @@ export function set_selected_groups(group_ids: string[]) {
         group_ids,
         type: GROUPS_UI_SET_SELECTED_GROUPS,
         payload: { group_ids }
+    };
+}
+
+export function change_group(payload) {
+    return {
+        payload,
+        type: GROUPS_UI_CHANGE_GROUP
+    };
+}
+
+export function add_cards(group_id: string, card_ids: string[]) {
+    return {
+        types: [
+            GROUPS_ADD_CARDS_REQUEST,
+            GROUPS_ADD_CARDS_SUCCESS,
+            GROUPS_ADD_CARDS_ERROR
+        ],
+        api: API.add_cards(group_id, card_ids),
+        payload: { group_id, card_ids }
     };
 }

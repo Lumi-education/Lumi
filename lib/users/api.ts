@@ -43,3 +43,10 @@ export function init_user() {
         .get('/api/v0/user')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function update_myself(update) {
+    return request
+        .put('/api/v0/user')
+        .send(update)
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}

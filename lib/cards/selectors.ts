@@ -40,3 +40,9 @@ export function with_tags(state: IState, tag_ids: string[]): ICard[] {
         card => intersection(card.tags, tag_ids).length === tag_ids.length
     );
 }
+
+export function selected_cards(state: IState): ICard[] {
+    return state.cards.list.filter(
+        card => state.cards.ui.selected_cards.indexOf(card._id) > -1
+    );
+}

@@ -43,7 +43,9 @@ export class CoreController {
             res.status(200).json(
                 assign(
                     {
-                        changes_port: process.env.CHANGES_PORT
+                        port: process.env.PORT,
+                        ip: Host.get_ip_address(),
+                        target: process.env.TARGET
                     },
                     system
                 )
@@ -59,24 +61,15 @@ export class CoreController {
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
         const uploaded_file = req.files.file;
 
-        mkdirp(path.resolve('build/files') + '/' + req.query.path, error => {
-            uploaded_file.mv(
-                path.resolve('build/files') +
-                    '/' +
-                    req.query.path +
-                    '/' +
-                    uploaded_file.name,
-                err => {
-                    if (err) {
-                        return res.status(500).send(err);
-                    }
-
-                    res.send('File uploaded!');
-                }
-            );
-        });
-
-        // Use the mv() method to place the file somewhere on your server
+        db.saveAttachment(
+            req.query.path,
+            uploaded_file.name,
+            uploaded_file.data,
+            uploaded_file.mimetype,
+            (error, success) => {
+                res.status(200).end();
+            }
+        );
     }
 
     public ping(req: express.Request, res: express.Response) {
@@ -141,6 +134,35 @@ export class CoreController {
             }
 
             res.status(200).json(msg);
+        });
+    }
+
+    public ip_address(req: express.Request, res: express.Response) {
+        res.status(200).end(Host.get_ip_address());
+    }
+
+    public get_attachment(req: any, res: express.Response) {
+        // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+        db.findById(req.params.id, (find_error, doc) => {
+            db.getAttachment(
+                req.params.id,
+                req.params.attachment,
+                (err, attachment) => {
+                    const attachment_info = doc._attachments
+                        ? doc._attachments[req.params.attachment]
+                        : undefined;
+
+                    if (!attachment_info) {
+                        return res.status(404).end();
+                    }
+
+                    const type = attachment_info.content_type;
+                    const md5 = attachment_info.digest.slice(4);
+                    res.set('ETag', JSON.stringify(md5));
+                    res.setHeader('Content-Type', type);
+                    res.status(200).send(new Buffer(attachment));
+                }
+            );
         });
     }
 }

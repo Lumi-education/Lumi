@@ -128,6 +128,6 @@ export function alphabetically(a, b) {
 
 export function convert_files_url(markdown: string, ref_id: string): string {
     return markdown
-        ? markdown.replace(/\.\//g, '/files/' + ref_id + '/')
+        ? markdown.replace(/\.\//g, '/api/v0/core/attachment/' + ref_id + '/')
         : undefined;
 }

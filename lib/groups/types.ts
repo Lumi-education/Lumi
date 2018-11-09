@@ -5,11 +5,13 @@ export interface IGroup {
     type: 'group';
     name: string;
     created_at: Date;
-    members: string[]; // no longer needed -> deprecate issue #234
+    autojoin: boolean;
+    cards: string[];
 }
 
 export interface IGroupUI {
     selected_groups: string[];
+    group: IGroup;
 }
 
 export interface IState {

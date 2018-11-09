@@ -1,5 +1,5 @@
-export const primary_color = '#3498db';
-export const secondary_color = '#1abc9c';
+export const primary_color = '#2980b9';
+export const secondary_color = '#16a085';
 export const new_color = '#f39c12';
 export const default_bg = '#FAFAFA';
 export const gradient_bg =

@@ -3,12 +3,16 @@ import * as url from 'url';
 import { assign, noop } from 'lodash';
 import * as debug from 'debug';
 import * as nano from 'nano';
+import * as ChangeStream from 'changes-stream';
+import * as Event from 'events';
 
 import * as raven from 'raven';
 
 const log = debug('lumi:db:driver:couchdb');
 
 export default class DB {
+    public changes: Event;
+    private changes_stream;
     private db: string;
     private nano: any;
 
@@ -27,6 +31,33 @@ export default class DB {
         this.findOne = this.findOne.bind(this);
         this.updateOne = this.updateOne.bind(this);
         this.delete = this.delete.bind(this);
+        this.saveAttachment = this.saveAttachment.bind(this);
+        this.getAttachment = this.getAttachment.bind(this);
+
+        this.changes = new Event();
+        this.changes.setMaxListeners(32);
+
+        this.changes_stream = ChangeStream({
+            db: process.env.DB_HOST + '/' + process.env.DB,
+            include_docs: true,
+            since: 'now'
+        });
+
+        this.changes_stream.on('error', err => {
+            raven.captureException(err);
+        });
+
+        this.changes_stream._onError(raven.captureException);
+
+        this.changes_stream.on('readable', () => {
+            try {
+                const change = this.changes_stream.read();
+
+                this.changes.emit('change', change.doc);
+            } catch (err) {
+                raven.captureException(err);
+            }
+        });
     }
 
     public findById(id: string, cb: (err, doc) => void) {
@@ -145,9 +176,15 @@ export default class DB {
         request
             .get(this.db + id)
             .then(({ body }) => {
-                const newDoc = assign({}, body, update, {
-                    updated_at: new Date()
-                });
+                const newDoc = assign(
+                    {},
+                    body,
+                    update,
+                    {
+                        updated_at: new Date()
+                    },
+                    { _rev: body._rev }
+                );
                 request
                     .put(this.db + body._id)
                     .send(newDoc)
@@ -155,7 +192,10 @@ export default class DB {
                         cb
                             ? cb(
                                   undefined,
-                                  assign({}, newDoc, { _rev: res.body.rev })
+                                  assign({}, newDoc, {
+                                      _rev: res.body.rev,
+                                      _attachments: res.body_attachments
+                                  })
                               )
                             : noop();
                     })
@@ -234,6 +274,44 @@ export default class DB {
                     cb(err);
                     raven.captureException(err);
                 });
+        });
+    }
+
+    public saveAttachment(
+        _id: string,
+        attachment_id: string,
+        attachment,
+        type,
+        cb: (error, success) => void
+    ) {
+        this.findById(_id, (error, doc) => {
+            this.nano.attachment.insert(
+                doc._id,
+                attachment_id,
+                attachment,
+                type,
+                { rev: doc._rev },
+                (nano_error, result) => {
+                    if (nano_error) {
+                        return cb(nano_error, undefined);
+                    }
+                    assign(doc, {
+                        _rev: result.rev
+                    });
+
+                    cb(undefined, doc);
+                }
+            );
+        });
+    }
+
+    public getAttachment(
+        _id: string,
+        attachment_id: string,
+        cb: (error, attachment) => void
+    ) {
+        this.nano.attachment.get(_id, attachment_id, (nano_error, result) => {
+            cb(nano_error, result);
         });
     }
 }

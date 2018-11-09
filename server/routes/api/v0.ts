@@ -106,6 +106,7 @@ export default function(): express.Router {
     );
     router.get('/core/env', mw.auth, mw.level(3), coreController.env);
     router.put('/core/env', mw.auth, mw.level(3), coreController.update_env);
+    router.get('/core/ip', coreController.ip_address);
     router.get('/system/settings', coreController.settings);
 
     // mw.auth
@@ -151,6 +152,11 @@ export default function(): express.Router {
         cardsController.attachment
     );
 
+    router.get(
+        '/core/attachment/:id/:attachment',
+        coreController.get_attachment
+    );
+
     // groups
     router.get('/groups', mw.auth, groupController.list);
     router.post('/groups', groupController.create);
@@ -163,6 +169,7 @@ export default function(): express.Router {
     router.get('/groups/:id', groupController.read);
     router.put('/groups/:id', groupController.update);
     router.delete('/groups/:id', groupController.delete);
+    router.put('/groups/:group_id/cards', groupController.add_cards);
 
     // tags
     router.get('/tags', tagsController.index);
@@ -178,6 +185,7 @@ export default function(): express.Router {
     router.get('/user/card/:id', mw.auth, cardsController.read);
     router.put('/user/card/:id', mw.auth, cardsController.update);
     router.delete('/user/card/:id', mw.auth, cardsController.delete);
+    router.put('/user', mw.auth, mw.level(0), usersController.update_myself);
 
     router.get('/user', mw.auth, mw.level(0), usersController.init);
 

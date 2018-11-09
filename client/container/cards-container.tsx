@@ -5,8 +5,11 @@ import * as debug from 'debug';
 import { intersection } from 'lodash';
 
 // components
-import { Avatar, List, ListItem, IconButton } from 'material-ui';
-import FilterBar from 'lib/ui/components/filter-bar';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+
+import { CardList } from 'client/components';
+import { TagsChipInputContainer } from 'client/container';
 
 import SVGRightArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import SVGRemove from 'material-ui/svg-icons/navigation/close';
@@ -16,6 +19,7 @@ import { IState } from 'client/state';
 
 // modules
 import * as Core from 'lib/core';
+import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Tags from 'lib/tags';
 
@@ -31,6 +35,8 @@ interface IStateProps extends IPassedProps {
     selected_card_ids: string[];
     selected_cards: Cards.ICard[];
     selected_tags: string[];
+    search_text: string;
+    tag_ids: string[];
 }
 
 interface IDispatchProps {
@@ -39,17 +45,13 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    search_text?: string;
-}
+interface IComponentState {}
 
 export class CardsContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            search_text: ''
-        };
+        this.state = {};
     }
 
     public componentWillMount() {
@@ -68,18 +70,34 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                         width: '50%'
                     }}
                 >
-                    {Core.i18n.t('search_for.cards')}
-                    <FilterBar
-                        filter={this.state.search_text}
-                        set_filter={filter =>
-                            this.setState({ search_text: filter })
+                    <Typography variant="h5" component="h3">
+                        {Core.i18n.t('search_for.cards')}
+                    </Typography>
+                    <TextField
+                        id="standard-name"
+                        label={Core.i18n.t('search')}
+                        value={this.props.search_text}
+                        onChange={e =>
+                            this.props.dispatch(
+                                UI.actions.set_search_filter(e.target.value)
+                            )
+                        }
+                        margin="normal"
+                        fullWidth={true}
+                    />
+                    <TagsChipInputContainer
+                        tag_ids={this.props.tag_ids}
+                        onChange={tag_ids =>
+                            this.props.dispatch(
+                                Tags.actions.set_selected_tags(tag_ids)
+                            )
                         }
                     />
-                    <List>
-                        {this.props.cards
+                    <CardList
+                        cards={this.props.cards
                             .filter(
                                 card =>
-                                    card.name.indexOf(this.state.search_text) >
+                                    card.name.indexOf(this.props.search_text) >
                                     -1
                             )
                             .filter(
@@ -95,78 +113,24 @@ export class CardsContainer extends React.Component<IProps, IComponentState> {
                                         this.props.selected_tags
                                     ).length === this.props.selected_tags.length
                             )
-                            .map(card => (
-                                <ListItem
-                                    key={card._id}
-                                    primaryText={card.name}
-                                    secondaryText={
-                                        <Tags.TagsContainer
-                                            tag_ids={card.tags}
-                                        />
-                                    }
-                                    onClick={() =>
-                                        this.props.dispatch(
-                                            Cards.actions.select_card(card._id)
-                                        )
-                                    }
-                                    leftAvatar={
-                                        <Avatar>
-                                            {_card_type(card.card_type)}
-                                        </Avatar>
-                                    }
-                                    rightIconButton={
-                                        <IconButton
-                                            onClick={() =>
-                                                this.props.dispatch(
-                                                    Cards.actions.select_card(
-                                                        card._id
-                                                    )
-                                                )
-                                            }
-                                        >
-                                            <SVGRightArrow />
-                                        </IconButton>
-                                    }
-                                />
-                            ))}
-                    </List>
+                            .slice(0, 4)}
+                        onListItemClick={(card_id: string) =>
+                            this.props.dispatch(
+                                Cards.actions.select_card(card_id)
+                            )
+                        }
+                    />
                 </div>
                 <div style={{ width: '50%' }}>
                     {Core.i18n.t('assign.cards')}
-                    <List>
-                        {this.props.selected_cards.map(card => (
-                            <ListItem
-                                key={card._id}
-                                primaryText={card.name}
-                                secondaryText={
-                                    <Tags.TagsContainer tag_ids={card.tags} />
-                                }
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        Cards.actions.select_card(card._id)
-                                    )
-                                }
-                                leftAvatar={
-                                    <Avatar>
-                                        {_card_type(card.card_type)}
-                                    </Avatar>
-                                }
-                                rightIconButton={
-                                    <IconButton
-                                        onClick={() =>
-                                            this.props.dispatch(
-                                                Cards.actions.select_card(
-                                                    card._id
-                                                )
-                                            )
-                                        }
-                                    >
-                                        <SVGRemove />
-                                    </IconButton>
-                                }
-                            />
-                        ))}
-                    </List>
+                    <CardList
+                        cards={this.props.selected_cards}
+                        onListItemClick={(card_id: string) =>
+                            this.props.dispatch(
+                                Cards.actions.select_card(card_id)
+                            )
+                        }
+                    />
                 </div>
             </div>
         );
@@ -182,7 +146,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             state.cards.ui.selected_cards
         ),
         cards: state.cards.list,
-        selected_tags: state.tags.ui.selected_tags
+        selected_tags: state.tags.ui.selected_tags,
+        search_text: state.ui.search_filter_text,
+        tag_ids: state.tags.ui.selected_tags
     };
 }
 

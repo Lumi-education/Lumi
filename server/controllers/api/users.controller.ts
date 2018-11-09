@@ -49,11 +49,22 @@ class UsersController {
             _deleted: false
         };
 
-        assign(new_user, req.body, { password: undefined });
+        db.view(
+            'auth',
+            'username',
+            { key: req.body.name },
+            (view_user_error, users) => {
+                if (users.length > 0) {
+                    return res.status(409).json({ message: 'username_exists' });
+                }
 
-        db.insert(new_user, (error, user) => {
-            res.status(200).json(user);
-        });
+                assign(new_user, req.body, { password: undefined });
+
+                db.insert(new_user, (error, user) => {
+                    res.status(200).json(user);
+                });
+            }
+        );
     }
 
     public read(req: IRequest, res: express.Response) {
@@ -68,6 +79,18 @@ class UsersController {
 
     public update(req: IRequest, res: express.Response) {
         db.updateOne(req.params.id, req.body, (err, updated_doc) => {
+            res.status(200).json(updated_doc);
+        });
+    }
+
+    public update_myself(req: IRequest, res: express.Response) {
+        const user_id = req.user._id;
+
+        const update = {
+            language: req.body.language
+        };
+
+        db.updateOne(user_id, update, (err, updated_doc) => {
             res.status(200).json(updated_doc);
         });
     }
@@ -89,29 +112,7 @@ class UsersController {
             (find_users_error, users) => {
                 users.forEach(user => (user._deleted = true));
                 db.updateMany(users, {}, (delete_user_error, docs) => {
-                    db.find(
-                        { type: 'group', members: { $in: user_ids } },
-                        {},
-                        (find_groups_error, groups) => {
-                            groups.forEach(
-                                group =>
-                                    (group.members = group.members.filter(
-                                        user_id =>
-                                            user_ids.indexOf(user_id) === -1
-                                    ))
-                            );
-                            db.updateMany(
-                                groups,
-                                {},
-                                (update_groups_error, updated_groups) => {
-                                    res.status(200).json([
-                                        ...groups,
-                                        ...deleted_users
-                                    ]);
-                                }
-                            );
-                        }
-                    );
+                    res.status(200).json([...deleted_users]);
                 });
             }
         );
