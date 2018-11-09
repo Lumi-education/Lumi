@@ -12,9 +12,9 @@ const log = debug('lumi:db:driver:pouchdb');
 export default class DB {
     private db: PouchDB;
     constructor() {
-        log('creating ' + process.env.LUMI_DIR);
-        mkdirp.sync(process.env.LUMI_DIR);
-        this.db = new PouchDB(process.env.LUMI_DIR || '.pouchdb');
+        log('creating ' + process.env.DB);
+        mkdirp.sync(process.env.DB);
+        this.db = new PouchDB(process.env.DB || './db/lumi');
         this.findById = this.findById.bind(this);
         this.save = this.save.bind(this);
         this.insert = this.insert.bind(this);

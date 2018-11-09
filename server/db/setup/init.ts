@@ -1,4 +1,5 @@
 import * as _debug from 'debug';
+import * as url from 'url';
 import * as superagent from 'superagent';
 import * as raven from 'raven';
 
@@ -34,42 +35,44 @@ const _admin: IUser = {
 };
 
 export default function init(done: () => void) {
-    if (process.env.DB_DRIVER === 'pouchdb') {
+    const DB = url.parse(process.env.DB);
+    if (DB.protocol === null) {
         boot();
-        return boot_views(() => {
+        boot_views(() => {
             done();
         });
-    }
-    debug('check for db: ' + process.env.DB);
-    superagent
-        .get(process.env.DB_HOST + '/' + process.env.DB)
-        .then(res => {
-            debug(process.env.DB + ': OK');
-            // boot_views(() => done());
-            boot();
-            boot_views(() => {
-                done();
+    } else {
+        debug('check for db: ' + DB.pathname);
+        superagent
+            .get(DB.href)
+            .then(res => {
+                debug(DB.pathname + ': OK');
+                // boot_views(() => done());
+                boot();
+                boot_views(() => {
+                    done();
+                });
+            })
+            .catch(err => {
+                if (err.status === 404) {
+                    debug(DB.pathname + ': not OK');
+
+                    debug('creating db ' + DB.pathname);
+
+                    superagent
+                        .put(DB.href)
+                        .then(res => {
+                            debug(DB.pathname + ': created');
+                            boot();
+                            boot_views(() => done());
+                        })
+                        .catch(error => {
+                            debug('ERROR: ', error);
+                        });
+                }
+                raven.captureException(err);
             });
-        })
-        .catch(err => {
-            if (err.status === 404) {
-                debug(process.env.DB + ': not OK');
-
-                debug('creating db ' + process.env.DB);
-
-                superagent
-                    .put(process.env.DB_HOST + '/' + process.env.DB)
-                    .then(res => {
-                        debug(process.env.DB + ': created');
-                        boot();
-                        boot_views(() => done());
-                    })
-                    .catch(error => {
-                        debug('ERROR: ', error);
-                    });
-            }
-            raven.captureException(err);
-        });
+    }
 }
 
 function boot() {
