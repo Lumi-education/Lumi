@@ -1,6 +1,6 @@
 # Lumi
 
-Lumi is a single-page web application that allows teachers to create and share content with their students and monitor their progress. Lumi is build for providing blended learining-tools in environments with weak infrastructure.
+Lumi is a single-page web application that allows teachers to create and share content with their students and monitor their progress. Lumi is builtfor providing blended learning-tools in environments with weak infrastructure.
 
 ![Lumi](./docs/img/lumi_flow.png)
 
