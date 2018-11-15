@@ -12,6 +12,47 @@ import * as envfile from 'envfile';
 import * as fs from 'fs';
 
 export class CoreController {
+    public install_admin(req: IRequest, res: express.Response) {
+        db.findById('system', (find_system_error, system) => {
+            if (find_system_error) {
+                return res.status(400).json(find_system_error);
+            }
+
+            if (system.installed) {
+                return res
+                    .status(409)
+                    .json({ message: 'system_already_installed' });
+            }
+
+            db.findById('admin', (find_admin_error, admin) => {
+                if (find_admin_error) {
+                    return res.status(400).json(find_admin_error);
+                }
+
+                admin.name = req.body.username;
+                admin.language = req.body.language;
+
+                db.updateOne(
+                    'admin',
+                    admin,
+                    (update_admin_error, updated_admin) => {
+                        if (update_admin_error) {
+                            return res.status(400).json(find_admin_error);
+                        }
+
+                        db.updateOne(
+                            'system',
+                            { installed: true },
+                            (update_system_error, _system) => {
+                                res.status(200).end();
+                            }
+                        );
+                    }
+                );
+            });
+        });
+    }
+
     public find(req: IRequest, res: express.Response) {
         db.find(req.body.selector, req.body.options || {}, (error, docs) =>
             res.status(200).json(docs)
