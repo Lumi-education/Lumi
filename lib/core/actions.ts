@@ -1,3 +1,5 @@
+import * as debug from 'debug';
+
 export const SYSTEM_SHUTDOWN = 'SYSTEM_SHUTDOWN';
 export const SYSTEM_GET_SETTINGS_REQUEST = 'SYSTEM_GET_SETTINGS_REQUEST';
 export const SYSTEM_GET_SETTINGS_SUCCESS = 'SYSTEM_GET_SETTINGS_SUCCESS';
@@ -27,7 +29,14 @@ export const CORE_UPDATE_SYSTEM_REQUEST = 'CORE_UPDATE_SYSTEM_REQUEST';
 export const CORE_UPDATE_SYSTEM_SUCCESS = 'CORE_UPDATE_SYSTEM_SUCCESS';
 export const CORE_UPDATE_SYSTEM_ERROR = 'CORE_UPDATE_SYSTEM_ERROR';
 
+export const CORE_INSTALL_ADMIN_REQUEST = 'CORE_INSTALL_ADMIN_REQUEST';
+export const CORE_INSTALL_ADMIN_SUCCESS = 'CORE_INSTALL_ADMIN_SUCCESS';
+export const CORE_INSTALL_ADMIN_ERROR = 'CORE_INSTALL_ADMIN_ERROR';
+
 import * as API from './api';
+
+const info = debug('lumi:info:actions:core');
+const error = debug('lumi:error:actions:core');
 
 export function find(query, options?) {
     return {
@@ -115,5 +124,19 @@ export function update_system() {
             CORE_UPDATE_SYSTEM_ERROR
         ],
         api: API.update_system()
+    };
+}
+
+export function install_admin(username: string, language: string) {
+    info('install_admin', username, language);
+
+    return {
+        types: [
+            CORE_INSTALL_ADMIN_REQUEST,
+            CORE_INSTALL_ADMIN_SUCCESS,
+            CORE_INSTALL_ADMIN_ERROR
+        ],
+        api: API.install_admin(username, language),
+        payload: { username, language }
     };
 }
