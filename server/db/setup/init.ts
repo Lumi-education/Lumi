@@ -28,7 +28,8 @@ const _system: ISystemSettings = {
     provide_password: false,
     ip: undefined,
     port: undefined,
-    target: undefined
+    target: undefined,
+    installed: false
 };
 
 const _admin: IUser = {
