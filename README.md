@@ -1,6 +1,6 @@
 # Lumi
 
-Lumi is a single-page web application that allows teachers to create and share content with their students and monitor their progress. Lumi is build for providing blended learining-tools in environments with weak infrastructure.
+Lumi is a single-page web application that allows teachers to create and share content with their students and monitor their progress. Lumi is builtfor providing blended learning-tools in environments with weak infrastructure.
 
 ![Lumi](./docs/img/lumi_flow.png)
 
@@ -47,4 +47,4 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE v3 License - see the [LICENSE](LICENSE) file for details
