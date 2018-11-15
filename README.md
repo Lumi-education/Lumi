@@ -47,4 +47,4 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE v3 License - see the [LICENSE](LICENSE) file for details
