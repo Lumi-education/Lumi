@@ -1,3 +1,3 @@
 # Languages
 
-* [German](de/)
+-   [Deutsch](de/)
