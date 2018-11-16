@@ -259,8 +259,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                                     user.name
                                                                 }
                                                             />
-                                                            <ListItemSecondaryAction
-                                                            >
+                                                            <ListItemSecondaryAction>
                                                                 <IconButton aria-label="Delete">
                                                                     <DeleteIcon
                                                                         onClick={() => {
@@ -375,8 +374,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                                             card.name
                                                                         }
                                                                     />
-                                                                    <ListItemSecondaryAction
-                                                                    >
+                                                                    <ListItemSecondaryAction>
                                                                         <IconButton aria-label="Delete">
                                                                             <DeleteIcon
                                                                                 onClick={() => {
@@ -507,7 +505,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                     </Card>
                                                 </Grid>
                                                 <Grid item={true} xs={6}>
-                                                    <Card
+                                                    {/* <Card
                                                         className={classes.card}
                                                     >
                                                         <CardActionArea>
@@ -555,7 +553,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                                 )}
                                                             </Button>
                                                         </CardActions>
-                                                    </Card>
+                                                    </Card> */}
                                                 </Grid>
                                             </Grid>
                                         </div>

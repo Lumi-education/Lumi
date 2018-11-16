@@ -11,7 +11,6 @@ Lumi entstand durch den Wunsch in Schulen mit schlechter IT-Infrastruktur digita
 ### Digitale Inhalte erstellen
 
 Die Lehrkraft kann mit Hilfe von Lumi digitale Inhalte erstellen. Lumi bietet eine Vielzahl möglicher Inhalts-Typen. So können von Multiplechoice-Fragen über Videos bis hin zu Foto-Upload-Aufgaben alle Möglichen Aufgabenformate abgedeckt werden.
-![multiplechoice](../img/lumi_multiplechoice.png)
 
 ### Überwachung des Lernfortschritts
 
