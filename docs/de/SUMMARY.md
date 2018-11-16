@@ -1,6 +1,6 @@
 ### Allgemein
 
--   [Kontakt](CONTACT.md)
+-   [Kontakt](kontakt.md)
 
 <!-- ### Erste Schritte -->
 
@@ -13,15 +13,18 @@
 
 ### Lumi
 
--   [Konzept](lumi/CONCEPT.md)
--   [Terminologie](lumi/TERMINOLOGY.md)
--   [Erste Schritte](lumi/FIRST-STEPS.md)
--   [Tipps & Hinweise](lumi/tipps/README.md)
--   [Funktionen](lumi/funktionen/README.md)
--   [Features](lumi/features/README.md)
-
-### Raspberry Pi
-
--   [Installation](install/README.md)
-    -   [Bekannte Fehler](install/TROUBLE.md)
--   [Update](install/UPDATE.md)
+-   [Konzept](./konzept.md)
+-   [Terminologie](./terminologie.md)
+-   [Installation]()
+    -   [macOS](./installation/macOS.md)
+    -   [Raspberry Pi](./installation/raspberry-pi.md)
+    -   [Windows](./installation/windows.md)
+    -   [Linux](./installation/linux.md)
+-   [Netzwerk]()
+    -   [macOS](./netzwerk/macOS.md)
+    -   [Windows](./netzwerk/windows.md)
+    -   [Linux](./netzwerk/linux.md)
+-   [Erste Schritte](./erste-schritte.md)
+-   [Verbinden](./verbinden.md)
+-   [Tipps & Hinweise](./tipps.md)
+-   [Features](./features.md)
