@@ -14,7 +14,7 @@ declare var process;
 ReactChartkick.addAdapter(Chart);
 
 import * as moment from 'moment';
-import Auth from './pages/auth';
+import Root from './pages/root';
 
 if (localStorage.getItem('lumi_version') !== process.env.VERSION) {
     localStorage.clear();
@@ -51,7 +51,7 @@ ReactDOM.render(
                 <V0MuiThemeProvider muiTheme={getMuiTheme(theme_v0)}>
                     {/* deprecate issue #238 */}
                     <Switch>
-                        <Route path="/" component={Auth} />
+                        <Route path="/" component={Root} />
                     </Switch>
                 </V0MuiThemeProvider>
             </MuiThemeProvider>

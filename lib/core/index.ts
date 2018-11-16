@@ -5,7 +5,6 @@ import * as selectors from './selectors';
 import FileListComponent from './components/file-list';
 import Markdown from './components/markdown';
 import reducer from './reducer';
-import SystemContainer from './container/system';
 import FileUploadComponent from './components/file-upload';
 import i18n from './i18n';
 import * as utils from './utils';
@@ -16,18 +15,4 @@ const components = {
     FileList: FileListComponent
 };
 
-const container = {
-    System: SystemContainer
-};
-
-export {
-    actions,
-    selectors,
-    types,
-    container,
-    components,
-    reducer,
-    utils,
-    config,
-    i18n
-};
+export { actions, selectors, types, components, reducer, utils, config, i18n };

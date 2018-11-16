@@ -22,6 +22,7 @@ export interface ISystemSettings {
     allow_user_registration: boolean;
     provide_password: boolean;
     target: ITarget;
+    installed: boolean;
 }
 
 export interface IStatus {

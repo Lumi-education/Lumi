@@ -10,7 +10,8 @@ const initialState: ISystemSettings = {
     provide_password: false,
     ip: undefined,
     port: undefined,
-    target: undefined
+    target: undefined,
+    installed: false
 };
 
 export default function(

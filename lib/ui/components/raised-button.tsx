@@ -1,6 +1,8 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as debug from 'debug';
+import raven from 'lib/core/raven';
 
 import { RaisedButton } from 'material-ui';
 import { state_color } from '../utils';
@@ -30,6 +32,9 @@ interface IComponentState {
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
+
+const info = debug('lumi:info:lib:ui:components:raised-button');
+const error = debug('lumi:error:lib:ui:components:raised-button');
 
 export class RaisedButtonContainer extends React.Component<
     IProps,
@@ -61,6 +66,8 @@ export class RaisedButtonContainer extends React.Component<
                 setTimeout(() => this.setState({ request: 'init' }), 2000);
             })
             .catch(err => {
+                error('_click', err);
+                raven.captureException(err);
                 this.setState({ message: err.message, request: 'error' });
                 setTimeout(() => this.setState({ request: 'init' }), 2000);
             });
