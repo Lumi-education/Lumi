@@ -32,6 +32,7 @@ export default function(): express.Router {
     const commentsController = new CommentsController();
     const foldersController = new FoldersController();
 
+    router.post('/core/admin', coreController.install_admin);
     router.post('/flow/assign', mw.auth, mw.level(3), flowController.assign);
     router.post(
         '/flow/assignments/list',

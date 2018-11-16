@@ -1,17 +1,21 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import raven from '../raven';
+import raven from 'lib/core/raven';
 import * as debug from 'debug';
 
-import { IState } from '../types';
+import { IState } from 'lib/core/types';
 
-import * as Core from '..';
+import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 
-const log = debug('lumi:lib:core:system-container');
+import Auth from './auth';
+import InstallPage from './install-page';
+
+const log = debug('lumi:pages:root');
 
 interface IStateProps {
     connected: boolean;
+    installed: boolean;
 }
 
 interface IDispatchProps {
@@ -24,10 +28,7 @@ interface IComponentState {
     loading_step?: number;
 }
 
-export class SystemSettingsContainer extends React.Component<
-    IProps,
-    IComponentState
-> {
+export class RootContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
@@ -65,15 +66,18 @@ export class SystemSettingsContainer extends React.Component<
             >
                 Lumi
             </UI.components.LoadingPage>
+        ) : this.props.installed ? (
+            <Auth />
         ) : (
-            <div id="system">{this.props.children}</div>
+            <InstallPage />
         );
     }
 }
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        connected: state.core.status.connected
+        connected: state.core.status.connected,
+        installed: state.core.system.installed
     };
 }
 
@@ -86,4 +90,4 @@ function mapDispatchToProps(dispatch): IDispatchProps {
 export default connect<{}, {}, {}>(
     mapStateToProps,
     mapDispatchToProps
-)(SystemSettingsContainer);
+)(RootContainer);

@@ -65,3 +65,18 @@ export function update_system() {
         .post('/api/v0/core/update_system')
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
+
+export function install_admin(
+    username: string,
+    password: string,
+    language: string
+) {
+    return request
+        .post('/api/v0/core/admin')
+        .send({
+            username,
+            password,
+            language
+        })
+        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+}
