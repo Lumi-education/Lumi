@@ -1,7 +1,6 @@
 ID=${ID}
 KEY=${KEY}
 NODE_ENV=production
-DB_HOST=http://couchdb:5984
-DB=lumi
+DB=http://couchdb:5984/lumi
 DEBUG=*
 PORT=80
