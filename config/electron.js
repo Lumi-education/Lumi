@@ -3,15 +3,12 @@ var electron = require('electron');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 
-process.env.DB_DRIVER = 'pouchdb';
 process.env.KEY = 'ABC';
 process.env.NODE_ENV = 'production';
-process.env.DB = 'lumi';
-process.env.DB_HOST = 'http://localhost:1337';
 process.env.PORT = 1337;
 process.env.TARGET = 'electron';
 process.env.DEBUG = '*';
-process.env.LUMI_DIR = app.getPath('appData') + '/Lumi/db/pouchdb';
+process.env.DB = app.getPath('appData') + '/Lumi/db/pouchdb';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow;
