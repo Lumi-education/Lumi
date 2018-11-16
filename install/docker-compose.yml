@@ -1,14 +1,5 @@
 version: '3'
 services:
-    nginx:
-        image: lumieducation/nginx:latest
-        restart: always
-        ports:
-            - ${PORT}:80
-        networks:
-            - webnet
-        volumes:
-            - ./files:/usr/share/nginx/html/files
     lumi:
         image: lumieducation/lumi:latest
         restart: always
@@ -22,6 +13,7 @@ services:
             - SENTRY=${SENTRY}
             - SENTRY_PUBLIC=${SENTRY_PUBLIC}
             - DEBUG=*
+            - PORT=${PORT}
         volumes:
             - ./files:/srv/build/files
             - ./h5p:/srv/build/h5p
@@ -29,6 +21,8 @@ services:
             - ./lumi_sshkey:/srv/lumi_sshkey
         depends_on:
             - 'couchdb'
+        ports:
+            - 80:${PORT}
     apd:
         image: lumieducation/apd:latest
         privileged: true
