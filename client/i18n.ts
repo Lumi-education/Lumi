@@ -155,6 +155,8 @@ const i18n = {
             'This is the address, which makes Lumi available over the network',
         tutorial_open_wifi: 'Open WiFi',
         group_created: 'Group %{name} created.',
+        development_status:
+            'Please note that Lumi is under active development and is in a very early status. If you find any bugs or would like to suggest a feature, you are very welcome to contribute to our project.',
         finish: 'Finish',
         next_steps: 'Next Steps',
         flow_explain: 'Overview of the progress of the group',
@@ -262,6 +264,8 @@ const i18n = {
         send: 'Senden',
         shutdown: 'Ausschalten',
         system: 'System',
+        development_status:
+            'Bitte beachte, dass sich Lumi noch in der Entwicklung befindet und in einer sehr frühen Phase ist. Falls du Fehler findest oder eine Funktion vorschlagen möchtest, bist du immer herzlich willkommen dich an diesem Projekt zu beteiligen.',
         success: 'Erfolg',
         reset_user_selection: 'Benutzerauswahl zurücksetzen',
         update: 'Update',

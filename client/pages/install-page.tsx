@@ -77,6 +77,12 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
                         <Typography variant="h5" component="h3">
                             {Core.i18n.t('welcome')}
                         </Typography>
+                        <Typography variant="body1" component="p">
+                            {Core.i18n.t('development_status')}
+                        </Typography>
+                        <Typography variant="h5" component="h3">
+                            http://Lumi.education/
+                        </Typography>
                         <TextField
                             id="outlined-name"
                             label={Core.i18n.t('name')}
