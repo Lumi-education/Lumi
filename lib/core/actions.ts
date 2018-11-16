@@ -127,7 +127,11 @@ export function update_system() {
     };
 }
 
-export function install_admin(username: string, language: string) {
+export function install_admin(
+    username: string,
+    password: string,
+    language: string
+) {
     info('install_admin', username, language);
 
     return {
@@ -136,7 +140,7 @@ export function install_admin(username: string, language: string) {
             CORE_INSTALL_ADMIN_SUCCESS,
             CORE_INSTALL_ADMIN_ERROR
         ],
-        api: API.install_admin(username, language),
+        api: API.install_admin(username, password, language),
         payload: { username, language }
     };
 }

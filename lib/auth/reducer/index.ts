@@ -26,6 +26,10 @@ export default function(state: IAuth = initialState, action): IAuth {
         case k.AUTH_LOGIN_SET_PASSWORD_SUCCESS:
             return assign({}, state, { password: true });
 
+        case k.AUTH_LOGIN_SUCCESS:
+            window.localStorage.jwt_token = action.payload.jwt_token;
+            return state;
+
         case k.AUTH_LOGOUT_SUCCESS:
             window.logout = true;
             window.localStorage.clear();

@@ -4,7 +4,7 @@ import { IRequest } from '../../middleware/auth';
 import * as path from 'path';
 import * as request from 'superagent';
 
-import * as mkdirp from 'mkdirp';
+import * as bcrypt from 'bcrypt-nodejs';
 import db from '../../db';
 import Host from '../../core/host';
 import * as raven from 'raven';
@@ -31,6 +31,7 @@ export class CoreController {
 
                 admin.name = req.body.username;
                 admin.language = req.body.language;
+                admin.password = bcrypt.hashSync(req.body.password); // use sync for now.
 
                 db.updateOne(
                     'admin',

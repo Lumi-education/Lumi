@@ -16,24 +16,8 @@ import Avatar from '@material-ui/core/Avatar';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Close';
+import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -61,6 +45,8 @@ interface IDispatchProps {
 interface IComponentState {
     admin_username: string;
     language: string;
+    password: string;
+    password_repeat: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -71,6 +57,8 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
 
         this.state = {
             admin_username: '',
+            password: '',
+            password_repeat: '',
             language: 'en'
         };
     }
@@ -94,6 +82,7 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
                             label={Core.i18n.t('name')}
                             className={classes.textField}
                             value={this.state.admin_username}
+                            required={true}
                             onChange={e =>
                                 this.setState({
                                     admin_username: e.target.value
@@ -101,6 +90,40 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
                             }
                             margin="normal"
                             variant="outlined"
+                        />
+                        <TextField
+                            id="outlined-password"
+                            label={Core.i18n.t('password')}
+                            className={classes.textField}
+                            value={this.state.password}
+                            required={true}
+                            onChange={e =>
+                                this.setState({
+                                    password: e.target.value
+                                })
+                            }
+                            margin="normal"
+                            variant="outlined"
+                            type="password"
+                        />
+                        <TextField
+                            id="outlined-password2"
+                            label={Core.i18n.t('password_repeat')}
+                            className={classes.textField}
+                            value={this.state.password_repeat}
+                            required={true}
+                            onChange={e =>
+                                this.setState({
+                                    password_repeat: e.target.value
+                                })
+                            }
+                            margin="normal"
+                            variant="outlined"
+                            type="password"
+                            error={
+                                this.state.password !==
+                                this.state.password_repeat
+                            }
                         />
                         <FormControl
                             variant="outlined"
@@ -134,6 +157,7 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
                             <UI.components.RaisedButton
                                 action={Core.actions.install_admin(
                                     this.state.admin_username,
+                                    this.state.password,
                                     this.state.language
                                 )}
                                 labels={[
@@ -147,12 +171,20 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
                                 className={classes.submit}
                                 onSuccess={res => {
                                     info('Save-Button success', res);
-                                    this.props.dispatch(
-                                        Auth.actions.login(
-                                            this.state.admin_username,
-                                            'test'
+                                    this.props
+                                        .dispatch(
+                                            Auth.actions.login(
+                                                this.state.admin_username,
+                                                this.state.password
+                                            )
                                         )
-                                    );
+                                        .then(login_res => {
+                                            window.localStorage.jwt_token =
+                                                login_res.payload.jwt_token;
+                                            this.props.dispatch(
+                                                Auth.actions.get_session()
+                                            );
+                                        });
 
                                     this.props.dispatch(
                                         Core.actions.get_settings()
