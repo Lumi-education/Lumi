@@ -1,5 +1,7 @@
 # Erste Schritte
 
+> Lumi ist noch in einer sehr frühen Entwicklungsphase. Wenn du Fehler findest oder Verbesserungsvorschläge hast, kannst du uns gerne unterstützen: [http://lumi.education/unterstuetzen/](http://lumi.education/unterstuetzen/) .
+
 Hier erfährst du wie du Lumi für den Einsatz im Klassenzimmer vorbereitest. Im Beispiel werden wir für die Klasse 9x, die aus 5 Lernern besteht, Material für das Fach Physik bereitstellen.
 
 Lumi macht viele Dinge anders. Bevor du mit den ersten Schritten beginnst, empfehlen wir dir, dich mit dem [Konzept](/lumi/CONECPT.md) und der [Terminologie](/lumi/TERMINOLOGY.md) vertraut zu machen.

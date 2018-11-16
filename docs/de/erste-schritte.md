@@ -1,78 +1,60 @@
 # Erste Schritte
 
+> Lumi ist noch in einer sehr frühen Entwicklungsphase. Wenn du Fehler findest oder Verbesserungsvorschläge hast, kannst du uns gerne unterstützen: [http://Lumi.education/unterstuetzen/](http://lumi.education/unterstuetzen/) .
+
 Hier erfährst du wie du Lumi für den Einsatz im Klassenzimmer vorbereitest. Im Beispiel werden wir für die Klasse 9x, die aus 5 Lernern besteht, Material für das Fach Physik bereitstellen.
 
 Lumi macht viele Dinge anders. Bevor du mit den ersten Schritten beginnst, empfehlen wir dir, dich mit dem [Konzept](./konzept.md) und der [Terminologie](./terminologie.md) vertraut zu machen.
 
-Falls du Lumi auf einem Raspberry Pi betreibst, dann sch
+## Installations-Assistent
 
-## Login
+Beim ersten Start von Lumi wird der Installations-Assistent aufgerufen. Der Installations-Assistent erlaubt das Erstellen eines Admin-Accounts.
 
-Lumi installiert automatisch einen Admin-Account. Um diesen zu erreichen einfach mit dem Benutzernamen "admin" ohne Passwort anmelden. Im nächsten Schritt wird das Passwort gesetzt.
-![admin](img/lumi_setup.gif)
+![Installations-Assistent](../../img/lumi_install_assistant.png)
 
-## Erstellen einer Gruppe
+Sobald der Admin-Account erstellt wurde gelangt man zum Dashboard. Das Dashboard bietet momentan zwei Funktionen:
 
-In diesem Fall wollen wir für die Klasse 9x eine Gruppe anlegen:
+1. Es zeigt die aktuelle IP-Adresse an. Dies ist wichtig, damit Benutzer eine [Verbindung](./verbinden.md) aufbauen können.
+2. Den Assistenten zum Erstellen einer Gruppe und Benutzern.
 
-1. Menü öffnen. (Oben links)
-2. Auf "Gruppen" klicken.
-3. Auf das "+" unten rechts klicken.
-4. Namen der Gruppe eingeben.
-5. Auf "Create" klicken.
+![Dashboard](../../img/lumi_dashboard.png)
 
-![Gruppe erstellen](img/create_group.gif)
+## Assistent
 
-## Erstellen von Benutzern
+Der Assistent erlaubt es in kurzer Zeit eine Gruppe/Klasse mit Benutzern anzulegen.
 
-Wir wollen nun 5 Benutzer-Accounts für unsere 5 Lerner anlegen. Es gibt zwei Möglichkeiten Benutzer anzulegen. - Wir besprechen hier erst einmal nur eine Methode:
+### Gruppe
 
-1. Auf die eben erstelle Gruppe "9x" klicken.
-2. Auf das "+" unten rechts klicken.
-3. Namen des Benutzers eingeben. - Benutzernamen sollten nur einmal vergeben werden. Ist der Benutzer schon vorhanden, so wird er der Gruppe hinzugefügt. Alle so angelegten Benutzer sind automatisch der Gruppe 9x zugeordnet.
+Im ersten Schritt wird der Gruppename festgelegt:
 
-![Benutzer erstellen](img/create_group_user.gif)
+![Gruppe erstellen](../../img/lumi_assistant_group.png)
 
-## Material erstellen
+### Benutzer
 
-Wir wollen nun eine Multiplechoice-Karte erstellen.
+Im zweiten Schritt werden die Benutzer/Schüler angelegt.
+![Benutzer erstellen](../../img/lumi_assistant_users.png)
 
-1. Menü öffnen.
-2. Auf "Material" klicken.
-3. Auf das "+" unten rechts klicken.
-4. Name der Karte eintragen.
-5. Typ (in diesem Fall Multiplechoice) wählen.
-6. Unter Text wird die Fragestellung eingetragen. Die Karten unterstützen [Markdown].(https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-7. Unter Items werden die Antwortmöglichkeiten eingetragen. Eine richtige Antwort beginnt mit einem kleinen x (Beispiel: "x Diese Antwort ist richtig"). Falsche Antworten beginnen mit einem kleinen o. Alle Antworten werden durch ein "Enter" getrennt.
-8. (Optional) Karte mit Tags versehen.
+### Material
 
-![Karte erstellen](img/create_card2.gif)
+Im dritten Schritt können den Benutzern bereits Karten zugeordnet werden:
 
-## Material zuweisen
+![Karten zuordnen](../../img/lumi_assistant_assign_cards.png)
 
-Das Material soll nun allen Lernern der Klasse 9x als Aufgabe zugewiesen werden.
+![Karten zuordnen](../../img/lumi_assistant_cards_overview.png)
 
-1. Menü öffnen
-2. Auf "Gruppen" klicken.
-3. Auf die gewünschte Gruppe klicken. (In diesem Fall 9x)
-4. Im Reiter auf "Flow" klicken.
-5. Auf as "+" unten rechts klicken.
-6. Material durch hinzufügen auswählen.
-7. Auf "Zuweisen" klicken.
+Im vierten und letzten Schritt kann nun in den Flow-Ansichts-Modus gewechselt werden:
+![Nächste Schritte](../../img/lumi_assistant_next_steps.png)
 
-Allen Lernern der Klasse 9x wurde nun das Material als Aufgabe zugewiesen.
-Die Lernen können sich nun anmelden und die Aufgabe bearbeiten.
-
-![Karte zuweisen](img/assign_card.gif)
-
-## Benutzer Anmeldung und Bearbeiten der Aufgaben
-
-Lerner melden sich genau so an, wie der Admin bei der ersten Anmeldung. Der Lerner muss seinen Benutzernamen eingeben und anschließend ein Passwort auswählen.
-Nach der Anmeldung sieht der Lerner eine Liste mit seinen Aufgaben.
+![Nächste Schritte](../../img/lumi_assistant_flow.png)
 
 Hier ist ein "Split-Screen": Links ist das Admin-Interface in der Gruppen-Flow Ansicht. Rechts ist die Ansicht des Lerners. Sobald der Lerner eine Aufgabe bearbeitet hat erscheint diese im Admin-Interface gelb hinterlegt. Wird die Aufgabe automatisch ausgewertet, so erscheint die prozentuale Auswertung im Admin-Interface.
 
-![Benutzer ansicht](img/user_login.gif)
+![Benutzer ansicht](../../img/user_login.gif)
+
+# Mit Benutzern verbinden
+
+Nun müssen sich die Benutzer mit Lumi verbinden. Wenn du noch kein Netzwerk geöffnet hast, dann lies [hier](./netzwerk/macOS.md) weiter.
+Wenn du bereits das Netzwerk geöffnet hast, dann lies [hier](./verbinden.md) weiter.
 
 ### Tipps für den Einsatz im Unterricht
 

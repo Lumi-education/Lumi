@@ -27,7 +27,7 @@ dich mit dem Befehl
 ssh pi@<ip des pi>
 ```
 
-![lumi_ssh](./img/lumi_ssh.gif)
+![lumi_ssh](../../img/lumi_ssh.gif)
 
 mit dem Raspberry Pi verbinden. Wenn du mit dem Raspberry Pi über ssh verbunden bist, musst du nur noch
 
@@ -37,11 +37,11 @@ sudo curl get.lumi.education | sh
 
 eingeben und Lumi wird installiert.
 
-[Hier](../lumi/FIRST-STEPS.md) geht es weiter zu den ersten Schritten.
+[Hier](../erste-schritte.md) geht es weiter zu den ersten Schritten.
 
 # Bekannte Fehler
 
-Diese Liste lebt davon, dass uns Fehler gemeldet werden. Solltest du bei der Installation auf Fehler stoßen dann [kontaktiere](../CONTACT.md) uns bitte.
+Diese Liste lebt davon, dass uns Fehler gemeldet werden. Solltest du bei der Installation auf Fehler stoßen dann [kontaktiere](../kontakt.md) uns bitte.
 
 ## General
 
