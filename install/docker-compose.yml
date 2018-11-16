@@ -18,7 +18,6 @@ services:
             - LUMI_ID=${ID}
             - NODE_ENV=${NODE_ENV}
             - KEY=${KEY}
-            - DB_HOST=${DB_HOST}
             - DB=${DB}
             - SENTRY=${SENTRY}
             - SENTRY_PUBLIC=${SENTRY_PUBLIC}
@@ -28,20 +27,6 @@ services:
             - ./h5p:/srv/build/h5p
             - ./.env:/srv/.env
             - ./lumi_sshkey:/srv/lumi_sshkey
-        depends_on:
-            - 'couchdb'
-    changes:
-        image: lumieducation/changes:latest
-        restart: always
-        networks:
-            - webnet
-        environment:
-            - KEY=${KEY}
-            - NODE_ENV=${NODE_ENV}
-            - DB_HOST=${DB_HOST}
-            - DB=${DB}
-            - SENTRY=${SENTRY}
-            - DEBUG=*
         depends_on:
             - 'couchdb'
     apd:
@@ -61,4 +46,4 @@ services:
         ports:
             - '5984:5984'
 networks:
-    ? webnet
+    webnet:
