@@ -40,6 +40,10 @@ export class CardEditContainer extends React.Component<
         this.state = {};
     }
 
+    public componentWillUnmount() {
+        this.props.dispatch(Cards.actions.reset_card());
+    }
+
     public render() {
         const card = this.props.card;
         if (this.props.card) {
@@ -104,18 +108,22 @@ export class CardEditContainer extends React.Component<
                                 }
                             />
                             {this.props.children}
-                            <TextField
-                                floatingLabelText={Core.i18n.t('text')}
-                                value={card.text || ''}
-                                onChange={(e, v) =>
-                                    this.props.dispatch(
-                                        Cards.actions.change_card({ text: v })
-                                    )
-                                }
-                                fullWidth={true}
-                                multiLine={true}
-                                rows={3}
-                            />
+                            {this.props.card.card_type === 'h5p' ? null : (
+                                <TextField
+                                    floatingLabelText={Core.i18n.t('text')}
+                                    value={card.text || ''}
+                                    onChange={(e, v) =>
+                                        this.props.dispatch(
+                                            Cards.actions.change_card({
+                                                text: v
+                                            })
+                                        )
+                                    }
+                                    fullWidth={true}
+                                    multiLine={true}
+                                    rows={3}
+                                />
+                            )}
                             {(() => {
                                 switch (card.card_type) {
                                     case 'video':
@@ -142,42 +150,19 @@ export class CardEditContainer extends React.Component<
                                     case 'h5p':
                                         return (
                                             <div>
-                                                <TextField
-                                                    floatingLabelText="Content ID"
-                                                    value={
-                                                        card.content_id || ''
-                                                    }
-                                                    onChange={(e, v) =>
-                                                        this.props.dispatch(
-                                                            Cards.actions.change_card(
-                                                                {
-                                                                    content_id: v
-                                                                }
-                                                            )
-                                                        )
-                                                    }
-                                                    fullWidth={true}
-                                                    multiLine={true}
-                                                    errorText={
-                                                        card.content_id
-                                                            ? null
-                                                            : Core.i18n.t(
-                                                                  'required',
-                                                                  {
-                                                                      item:
-                                                                          'Content ID'
-                                                                  }
-                                                              )
-                                                    }
-                                                />
                                                 <Core.components.FileUpload
-                                                    post_url="/api/v0/h5p"
+                                                    post_url={
+                                                        '/h5p?content_id=' +
+                                                        this.props.card._id
+                                                    }
                                                     onSuccess={file => {
                                                         this.props.dispatch(
                                                             Cards.actions.change_card(
                                                                 {
-                                                                    content_id:
-                                                                        file.name
+                                                                    content_id: this
+                                                                        .props
+                                                                        .card
+                                                                        ._id
                                                                 }
                                                             )
                                                         );
@@ -217,40 +202,48 @@ export class CardEditContainer extends React.Component<
                                         );
                                 }
                             })()}
-                            <Core.components.FileList
-                                files={this.props.card.files || []}
-                                onClick={file =>
-                                    this.props.dispatch(
-                                        Cards.actions.change_card({
-                                            text:
-                                                this.props.card.text +
-                                                ' ![' +
-                                                path.basename(file) +
-                                                '](./' +
-                                                file.replace(/\s/g, '%20') +
-                                                ')'
-                                        })
-                                    )
-                                }
-                            />
-                            <Core.components.FileUpload
-                                post_url="/api/v0/core/upload"
-                                path={this.props.card._id || 'tmp'}
-                                onSuccess={file => {
-                                    this.props.dispatch(
-                                        Cards.actions.change_card({
-                                            files: [
-                                                ...this.props.card.files,
-                                                path.basename(file.path)
-                                            ]
-                                        })
-                                    );
-                                }}
-                            >
-                                {Core.i18n.t('drop_here', {
-                                    item: Core.i18n.t('files')
-                                })}
-                            </Core.components.FileUpload>
+                            {this.props.card.card_type === 'h5p' ? null : (
+                                <div>
+                                    <Core.components.FileList
+                                        files={this.props.card.files || []}
+                                        onClick={file =>
+                                            this.props.dispatch(
+                                                Cards.actions.change_card({
+                                                    text:
+                                                        this.props.card.text +
+                                                        ' ![' +
+                                                        path.basename(file) +
+                                                        '](./' +
+                                                        file.replace(
+                                                            /\s/g,
+                                                            '%20'
+                                                        ) +
+                                                        ')'
+                                                })
+                                            )
+                                        }
+                                    />
+                                    <Core.components.FileUpload
+                                        post_url="/api/v0/core/upload"
+                                        path={this.props.card._id || 'tmp'}
+                                        onSuccess={file => {
+                                            this.props.dispatch(
+                                                Cards.actions.change_card({
+                                                    files: [
+                                                        ...this.props.card
+                                                            .files,
+                                                        path.basename(file.path)
+                                                    ]
+                                                })
+                                            );
+                                        }}
+                                    >
+                                        {Core.i18n.t('drop_here', {
+                                            item: Core.i18n.t('files')
+                                        })}
+                                    </Core.components.FileUpload>
+                                </div>
+                            )}
                         </Paper>
                     </div>
                     <div style={{ flex: 4, maxWidth: '350px' }}>

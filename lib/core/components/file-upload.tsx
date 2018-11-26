@@ -50,7 +50,10 @@ export default class FileUploadComponent extends React.Component<
             this.setState({ upload: 'pending' });
 
             const req = request
-                .post(this.props.post_url + '?path=' + this.props.path)
+                .post(
+                    this.props.post_url +
+                        (this.props.path ? '?path=' + this.props.path : '')
+                )
                 .send(data)
                 .set(
                     'x-auth',

@@ -16,6 +16,10 @@ module.exports = Object.assign(sharedConfig, {
                 target: process.env.SERVER || 'http://localhost:3000',
                 secure: false
             },
+            '/h5p': {
+                target: process.env.SERVER || 'http://localhost:3000',
+                secure: false
+            },
             '/socket.io': {
                 target: process.env.WS_SERVER || 'http://localhost:3000',
                 secure: false,

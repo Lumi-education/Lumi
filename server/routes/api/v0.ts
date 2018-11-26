@@ -131,20 +131,6 @@ export default function(): express.Router {
         cardsController.duplicate
     );
 
-    router.use('/h5pcontent/content/:h5pfile/*', (req, res) => {
-        const file = path.join(
-            path.resolve('build/h5p'),
-            req.params.h5pfile,
-            'content',
-            req.params[0]
-        );
-        res.sendfile(file);
-    });
-    router.get('/h5p/:content_id', cardsController.h5p);
-    router.use('/h5plib', express.static(path.resolve('build/h5p')));
-
-    router.post('/h5p', mw.auth, mw.level(1), cardsController.h5p_upload);
-
     // cards -> attachments
     router.all(
         '/cards/:id/attachment/:attachment',

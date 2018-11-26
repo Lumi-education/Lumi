@@ -8,6 +8,7 @@ const log = debug('lumi:packages:cards:components:uploadcard');
 interface IProps {
     content_id: string;
     integration?: any;
+    h5p_found: boolean;
 }
 
 interface IComponentState {
@@ -30,7 +31,7 @@ export default class H5PComponent extends React.Component<
         (window as any).H5PIntegration = assign(
             {
                 baseUrl: window.location.origin,
-                url: '/api/v0/h5pcontent', // Relative to web root
+                url: '/h5p', // Relative to web root
                 postUserStatistics: true, // Only if user is logged in
                 ajaxPath: '/path/to/h5p-ajax', // Only used by older Content Types
                 saveFreq: false, // How often current content state should be saved. false to disable.
@@ -88,15 +89,15 @@ export default class H5PComponent extends React.Component<
     }
 
     public render() {
-        if (this.props.content_id === '') {
-            return <div>content_id not found</div>;
+        if (!this.props.h5p_found) {
+            return <div>no .h5p found</div>;
         }
         return (
             <iframe
                 frameBorder={0}
                 allowFullScreen={true}
                 height={this.state.iFrameHeight}
-                src={'/api/v0/h5p/' + this.props.content_id}
+                src={'/h5p?content_id=' + this.props.content_id}
                 scrolling="no"
                 onLoad={() => {
                     const obj = ReactDOM.findDOMNode(this);

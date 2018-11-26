@@ -1,3 +1,5 @@
+import { IH5P, IContent } from 'h5p-nodejs-library';
+
 export type Card_id = string;
 export type Card_types =
     | 'multiplechoice'
@@ -35,6 +37,8 @@ export interface ITextCard extends IBaseCard {
 }
 
 export interface IH5PCard extends IBaseCard {
+    h5p: IH5P;
+    content: IContent;
     content_id: string;
     card_type: 'h5p';
 }
