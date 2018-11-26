@@ -8,6 +8,7 @@ const log = debug('lumi:packages:cards:components:uploadcard');
 interface IProps {
     content_id: string;
     integration?: any;
+    h5p_found: boolean;
 }
 
 interface IComponentState {
@@ -88,8 +89,8 @@ export default class H5PComponent extends React.Component<
     }
 
     public render() {
-        if (this.props.content_id === '') {
-            return <div>content_id not found</div>;
+        if (!this.props.h5p_found) {
+            return <div>no .h5p found</div>;
         }
         return (
             <iframe

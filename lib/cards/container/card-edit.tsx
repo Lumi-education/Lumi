@@ -40,6 +40,10 @@ export class CardEditContainer extends React.Component<
         this.state = {};
     }
 
+    public componentWillUnmount() {
+        this.props.dispatch(Cards.actions.reset_card());
+    }
+
     public render() {
         const card = this.props.card;
         if (this.props.card) {

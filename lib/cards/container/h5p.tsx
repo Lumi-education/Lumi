@@ -43,7 +43,7 @@ export class H5PCardContainer extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <H5PComponent
-                content_id={this.props.card.content_id}
+                content_id={this.props.card._id}
                 integration={{
                     ajax: {
                         setFinished:
@@ -61,6 +61,7 @@ export class H5PCardContainer extends React.Component<IProps, IComponentState> {
                         mail: this.props.user_id + '@Lumi.education'
                     }
                 }}
+                h5p_found={true}
             />
         );
     }

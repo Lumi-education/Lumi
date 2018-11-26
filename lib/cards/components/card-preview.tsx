@@ -87,9 +87,14 @@ export default class CardPreviewComponent extends React.Component<IProps, {}> {
                                             return (
                                                 <Paper>
                                                     <H5PComponent
+                                                        key={card.content_id}
                                                         content_id={
-                                                            card.content_id ||
-                                                            ''
+                                                            card._id || ''
+                                                        }
+                                                        h5p_found={
+                                                            card.content_id
+                                                                ? true
+                                                                : false
                                                         }
                                                     />
                                                 </Paper>

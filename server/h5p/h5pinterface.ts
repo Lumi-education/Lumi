@@ -12,7 +12,11 @@ const h5pinterface: IH5PInterface = {
         cb: (error, content: IContent) => void
     ) => {
         db.findById(content_id, (error, card) => {
-            cb(error, card.content);
+            if (card) {
+                cb(error, card.content);
+            } else {
+                cb('card not found', undefined);
+            }
         });
     },
     load_h5p_json: (
