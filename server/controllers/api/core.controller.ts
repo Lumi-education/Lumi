@@ -10,6 +10,7 @@ import Host from '../../core/host';
 import * as raven from 'raven';
 import * as envfile from 'envfile';
 import * as fs from 'fs';
+import * as mkdirp from 'mkdirp';
 
 export class CoreController {
     public install_admin(req: IRequest, res: express.Response) {
@@ -103,15 +104,38 @@ export class CoreController {
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
         const uploaded_file = req.files.file;
 
-        db.saveAttachment(
-            req.query.path,
-            uploaded_file.name,
-            uploaded_file.data,
-            uploaded_file.mimetype,
-            (error, success) => {
-                res.status(200).end();
-            }
-        );
+        mkdirp(path.resolve('build/files') + '/' + req.query.path, error => {
+            uploaded_file.mv(
+                path.resolve('build/files') +
+                    '/' +
+                    req.query.path +
+                    '/' +
+                    uploaded_file.name,
+                err => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+
+                    res.send('File uploaded!');
+                }
+            );
+        });
+        // if (!req.files) {
+        //     return res.status(400).send('No files were uploaded.');
+        // }
+
+        // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+        // const uploaded_file = req.files.file;
+
+        // db.saveAttachment(
+        //     req.query.path,
+        //     uploaded_file.name,
+        //     uploaded_file.data,
+        //     uploaded_file.mimetype,
+        //     (error, success) => {
+        //         res.status(200).end();
+        //     }
+        // );
     }
 
     public ping(req: express.Request, res: express.Response) {
@@ -185,27 +209,41 @@ export class CoreController {
 
     public get_attachment(req: any, res: express.Response) {
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-        db.findById(req.params.id, (find_error, doc) => {
-            db.getAttachment(
-                req.params.id,
-                req.params.attachment,
-                (err, attachment) => {
-                    const attachment_info = doc._attachments
-                        ? doc._attachments[req.params.attachment]
-                        : undefined;
 
-                    if (!attachment_info) {
-                        return res.status(404).end();
-                    }
-
-                    const type = attachment_info.content_type;
-                    const md5 = attachment_info.digest.slice(4);
-                    res.set('ETag', JSON.stringify(md5));
-                    res.setHeader('Content-Type', type);
-                    res.status(200).send(new Buffer(attachment));
+        fs.readFile(
+            path.join(
+                path.resolve(
+                    'build/files/' + req.params.id + '/' + req.params.attachment
+                )
+            ),
+            (error, buffer) => {
+                if (error) {
+                    return res.status(404).end();
                 }
-            );
-        });
+                res.status(200).send(buffer);
+            }
+        );
+        // db.findById(req.params.id, (find_error, doc) => {
+        //     db.getAttachment(
+        //         req.params.id,
+        //         req.params.attachment,
+        //         (err, attachment) => {
+        //             const attachment_info = doc._attachments
+        //                 ? doc._attachments[req.params.attachment]
+        //                 : undefined;
+
+        //             if (!attachment_info) {
+        //                 return res.status(404).end();
+        //             }
+
+        //             const type = attachment_info.content_type;
+        //             const md5 = attachment_info.digest.slice(4);
+        //             res.set('ETag', JSON.stringify(md5));
+        //             res.setHeader('Content-Type', type);
+        //             res.status(200).send(new Buffer(attachment));
+        //         }
+        //     );
+        // });
     }
 }
 
