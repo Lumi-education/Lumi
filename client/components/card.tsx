@@ -21,9 +21,13 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
+import CardsPreviewComponent from 'lib/cards/components/card-preview';
+import { H5PIconAvatar } from 'client/components';
+
 import * as Tags from 'lib/tags';
 import * as Core from 'lib/core';
 import * as Cards from 'lib/cards';
+import { Divider } from 'material-ui';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 
@@ -42,14 +46,11 @@ interface IComponentState {}
 const styles: StyleRulesCallback = theme => ({
     card: {
         margin: '10px',
-        minWidth: 250,
-        maxWidth: 345,
+        minWidth: 300,
+        maxWidth: 300,
+        maxHeight: 400,
         overflow: 'hidden',
         flex: 1
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%' // 16:9
     },
     actions: {
         display: 'flex'
@@ -66,6 +67,12 @@ const styles: StyleRulesCallback = theme => ({
     },
     expandOpen: {
         transform: 'rotate(180deg)'
+    },
+    content: {
+        maxHeight: 200,
+        overflow: 'scroll',
+        margin: 0,
+        padding: 0
     },
     avatar: {
         backgroundColor: red[500]
@@ -86,25 +93,24 @@ export default withStyles(styles)(
                 <Card className={classes.card} raised={this.props.selected}>
                     <CardHeader
                         avatar={
-                            <Cards.components.CardType
-                                card_type={card.card_type}
-                            />
-                        }
-                        action={
-                            <IconButton onClick={this.props.select}>
-                                {this.props.selected ? (
-                                    <CheckBoxIcon />
-                                ) : (
-                                    <CheckBoxOutlineIcon />
-                                )}
-                            </IconButton>
+                            (card as any).h5p ? (
+                                <H5PIconAvatar
+                                    h5p_main_library={
+                                        (card as any).h5p.mainLibrary
+                                    }
+                                />
+                            ) : (
+                                <Avatar>T</Avatar>
+                            )
                         }
                         title={card.name}
-                        subheader={card.description}
+                        subheader={<Tags.TagsContainer tag_ids={card.tags} />}
                     />
-                    <CardContent>
-                        <Tags.TagsContainer tag_ids={card.tags} />
+                    <Divider />
+                    <CardContent className={classes.content}>
+                        <CardsPreviewComponent card={card} />
                     </CardContent>
+                    <Divider />
                     <CardActions
                         className={classes.actions}
                         disableActionSpacing={true}
