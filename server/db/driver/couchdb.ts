@@ -18,7 +18,8 @@ export default class DB {
 
     constructor() {
         const _db = url.parse(process.env.DB);
-        const _db_host = _db.protocol + '//' + _db.host;
+        const _db_host =
+            _db.protocol + '//' + (_db.auth ? _db.auth + '@' : '') + _db.host;
         this.db = _db.href + '/';
         this.nano = nano(_db_host || 'http://localhost:5984').use(
             _db.pathname.replace(/\//g, '') || 'test'
