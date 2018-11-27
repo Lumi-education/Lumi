@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt-nodejs';
 import * as jwt from 'jwt-simple';
 import * as debug from 'debug';
 import { assign, flatten } from 'lodash';
-
+import * as raven from 'raven';
 import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
@@ -295,6 +295,10 @@ class AuthController {
             'username',
             { key: req.params.username },
             (err, docs) => {
+                if (err) {
+                    raven.captureException(err);
+                    return res.status(400).json(err);
+                }
                 if (docs.length === 1) {
                     const user = docs[0];
 
