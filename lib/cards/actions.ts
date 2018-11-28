@@ -27,6 +27,8 @@ export const CARDS_DUPLICATE_REQUEST = 'CARDS_DUPLICATE_REQUEST';
 export const CARDS_DUPLICATE_SUCCESS = 'CARDS_DUPLICATE_SUCCESS';
 export const CARDS_DUPLICATE_ERROR = 'CARDS_DUPLICATE_ERROR';
 
+import { Subjects } from './types';
+
 export function get_cards(ids?: string[]) {
     return {
         types: [
@@ -117,5 +119,14 @@ export function duplicate(card_id: string) {
         ],
         api: API.duplicate(card_id),
         payload: { card_id }
+    };
+}
+
+export const CARDS_CHANGE_SUBJECT = 'CARDS_CHANGE_SUBJECT';
+
+export function change_subject(subject: Subjects) {
+    return {
+        subject,
+        type: CARDS_CHANGE_SUBJECT
     };
 }

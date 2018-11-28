@@ -70,9 +70,16 @@ export interface ICardUI {
     card: any;
 }
 
+export interface IUICardSearchMenu {
+    subject: Subjects;
+}
+
+export type Subjects = 'physics' | 'chemistry' | 'maths';
+
 export interface IState {
     cards: {
         list: ICard[];
         ui: ICardUI;
+        card_search_menu: IUICardSearchMenu;
     };
 }
