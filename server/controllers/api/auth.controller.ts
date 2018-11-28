@@ -11,7 +11,6 @@ import db from '../../db';
 import { IUser } from 'lib/users/types';
 import { IAssignment } from 'lib/flow/types';
 import { add_activity } from '../../modules/activity';
-import { FileAttachment } from 'material-ui/svg-icons';
 
 const log = debug('lumi:controller:auth');
 
