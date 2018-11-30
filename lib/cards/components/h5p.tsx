@@ -75,13 +75,6 @@ export default class H5PComponent extends React.Component<
                         showLess: 'Show less',
                         subLevel: 'Sublevel'
                     }
-                },
-                loadedJs: [], // Only required when Embed Type = div
-                loadedCss: [],
-                core: {
-                    // Only required when Embed Type = iframe
-                    scripts: [],
-                    styles: []
                 }
             },
             this.props.integration

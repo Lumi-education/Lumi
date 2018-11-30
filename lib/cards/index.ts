@@ -19,6 +19,7 @@ export {
 import reducer from './reducer';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import * as types from './types';
 
 const components = {
     Multiplechoice,
@@ -28,4 +29,4 @@ const components = {
     Card: CardComponent
 };
 
-export { actions, reducer, selectors, components };
+export { actions, reducer, selectors, components, types };

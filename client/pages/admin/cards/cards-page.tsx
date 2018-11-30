@@ -3,16 +3,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import {
-    Avatar,
-    List,
-    ListItem,
-    FloatingActionButton,
-    Paper
-} from 'material-ui';
+import Grid from '@material-ui/core/Grid';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 import { Card } from 'client/components';
-import { TagsChipInputContainer } from 'client/container';
+import {
+    CardsSearchMenuContainer,
+    TagsChipInputContainer
+} from 'client/container';
 
 // svg
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -38,6 +36,8 @@ interface IStateProps {
 
     search_text: string;
     selected_tags: string[];
+
+    classes: any;
 }
 
 interface IDispatchProps {
@@ -88,55 +88,59 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 </UI.components.LoadingPage>
             );
         }
+        const { classes } = this.props;
         return (
             <div>
-                <Paper>
-                    <TagsChipInputContainer
-                        tag_ids={this.props.selected_tags}
-                        onChange={(tag_ids: string[]) =>
-                            this.props.dispatch(
-                                Tags.actions.set_selected_tags(tag_ids)
-                            )
-                        }
-                    />
-                </Paper>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        flexWrap: 'wrap'
-                    }}
-                >
-                    {this.props.cards
-                        .filter(
-                            card =>
-                                card.name.indexOf(this.props.search_text) > -1
-                        )
-                        .slice(0, 20)
-                        .map(card => (
-                            <Card
-                                key={card._id}
-                                card={card}
-                                selected={
-                                    this.props.selected_cards.indexOf(
-                                        card._id
-                                    ) > -1
-                                }
-                                select={() =>
-                                    this.props.dispatch(
-                                        Cards.actions.select_card(card._id)
-                                    )
-                                }
-                                view={() =>
-                                    this.props.dispatch(
-                                        UI.actions.push(
-                                            '/admin/cards/' + card._id
-                                        )
-                                    )
-                                }
-                            />
-                        ))}
-                </div>
+                <Grid container={true} className={classes.root} spacing={16}>
+                    <Grid item={true} lg={2}>
+                        <CardsSearchMenuContainer />
+                    </Grid>
+                    <Grid item={true} lg={10}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                flexWrap: 'wrap',
+                                maxWidth: '1400px',
+                                margin: 'auto'
+                            }}
+                        >
+                            {this.props.cards
+                                .filter(
+                                    card =>
+                                        card.name.indexOf(
+                                            this.props.search_text
+                                        ) > -1
+                                )
+                                .slice(0, 20)
+                                .map(card => (
+                                    <Card
+                                        key={card._id}
+                                        card={card}
+                                        selected={
+                                            this.props.selected_cards.indexOf(
+                                                card._id
+                                            ) > -1
+                                        }
+                                        select={() =>
+                                            this.props.dispatch(
+                                                Cards.actions.select_card(
+                                                    card._id
+                                                )
+                                            )
+                                        }
+                                        view={() =>
+                                            this.props.dispatch(
+                                                UI.actions.push(
+                                                    '/admin/cards/' + card._id
+                                                )
+                                            )
+                                        }
+                                    />
+                                ))}
+                        </div>
+                    </Grid>
+                </Grid>
 
                 <UI.components.ActionBar>
                     {/* {this.props.selected_cards.length !== 0 ? (
@@ -155,7 +159,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                             </FloatingActionButton>
                         </div>
                     ) : null} */}
-                    <FloatingActionButton
+                    {/* <FloatingActionButton
                         onClick={() => {
                             this.props
                                 .dispatch(Cards.actions.create_card())
@@ -169,20 +173,23 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         }}
                     >
                         <ContentAdd />
-                    </FloatingActionButton>
+                    </FloatingActionButton> */}
                 </UI.components.ActionBar>
             </div>
         );
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+const styles: StyleRulesCallback = theme => ({});
+
+function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         cards: Cards.selectors.with_tags(state, state.tags.ui.selected_tags),
         selected_tags: state.tags.ui.selected_tags,
         card: state.cards.ui.card,
         selected_cards: state.cards.ui.selected_cards,
-        search_text: state.ui.search_filter_text
+        search_text: state.ui.search_filter_text,
+        classes: ownProps.classes
     };
 }
 
@@ -192,7 +199,9 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminCards);
+export default withStyles(styles)(
+    connect<{}, {}, {}>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(AdminCards)
+);
