@@ -1,3 +1,4 @@
+import * as debug from 'debug';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
@@ -5,8 +6,13 @@ import * as mkdirp from 'mkdirp';
 import db from '../db';
 
 import { IH5PInterface, IContent, IH5P } from 'h5p-nodejs-library';
+import upload_complete from './upload_complete';
+
+const log_error = debug('lumi:error:h5p:interface');
+const log_info = debug('lumi:info:h5p:interface');
 
 const h5pinterface: IH5PInterface = {
+    upload_complete,
     load_content_json: (
         content_id: string,
         cb: (error, content: IContent) => void
