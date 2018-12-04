@@ -5,10 +5,12 @@ import * as debug from 'debug';
 
 import Grid from '@material-ui/core/Grid';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 import { Card } from 'client/components';
 import {
     CardsSearchMenuContainer,
+    CardsToolbarContainer,
     TagsChipInputContainer
 } from 'client/container';
 
@@ -92,53 +94,65 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
         return (
             <div>
                 <Grid container={true} className={classes.root} spacing={16}>
-                    <Grid item={true} lg={2}>
-                        <CardsSearchMenuContainer />
+                    <Grid item={true} xs={12}>
+                        <Paper>
+                            <CardsToolbarContainer />
+                        </Paper>
                     </Grid>
-                    <Grid item={true} lg={10}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                flexWrap: 'wrap',
-                                maxWidth: '1400px',
-                                margin: 'auto'
-                            }}
-                        >
-                            {this.props.cards
-                                .filter(
-                                    card =>
-                                        card.name.indexOf(
-                                            this.props.search_text
-                                        ) > -1
-                                )
-                                .slice(0, 20)
-                                .map(card => (
-                                    <Card
-                                        key={card._id}
-                                        card={card}
-                                        selected={
-                                            this.props.selected_cards.indexOf(
-                                                card._id
+                    <Grid
+                        container={true}
+                        className={classes.content}
+                        spacing={16}
+                    >
+                        <Grid item={true} lg={2}>
+                            <CardsSearchMenuContainer />
+                        </Grid>
+                        <Grid item={true} lg={10}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    flexWrap: 'wrap',
+                                    maxWidth: '1400px',
+                                    margin: 'auto'
+                                }}
+                            >
+                                {this.props.cards
+                                    .filter(
+                                        card =>
+                                            card.name.indexOf(
+                                                this.props.search_text
                                             ) > -1
-                                        }
-                                        select={() =>
-                                            this.props.dispatch(
-                                                Cards.actions.select_card(
+                                    )
+                                    .slice(0, 20)
+                                    .map(card => (
+                                        <Card
+                                            key={card._id}
+                                            card={card}
+                                            selected={
+                                                this.props.selected_cards.indexOf(
                                                     card._id
+                                                ) > -1
+                                            }
+                                            select={() =>
+                                                this.props.dispatch(
+                                                    Cards.actions.select_card(
+                                                        card._id
+                                                    )
                                                 )
-                                            )
-                                        }
-                                        view={() =>
-                                            this.props.dispatch(
-                                                UI.actions.push(
-                                                    '/admin/cards/' + card._id
+                                            }
+                                            view={() =>
+                                                this.props.dispatch(
+                                                    UI.actions.push(
+                                                        '/admin/cards/' +
+                                                            card._id
+                                                    )
                                                 )
-                                            )
-                                        }
-                                    />
-                                ))}
-                        </div>
+                                            }
+                                        />
+                                    ))}
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
 

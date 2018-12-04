@@ -237,7 +237,7 @@ export default class DB {
         options,
         cb: (error, docs) => void
     ) {
-        const _options = assign(options, { include_docs: true });
+        const _options = assign(options, { include_docs: true, sorted: false });
 
         this.nano.view(_design, index, _options, (err, body) => {
             if (err) {

@@ -132,7 +132,7 @@ export default class DB {
         cb: (error, docs) => void
     ) {
         log('view', _design, index, options);
-        const _options = assign(options, { include_docs: true });
+        const _options = assign(options, { include_docs: true, sorted: false });
 
         this.db.query(_design + '/' + index, options, (err, body) => {
             if (err) {
