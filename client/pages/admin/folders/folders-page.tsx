@@ -28,8 +28,6 @@ import SVGAssignment from 'material-ui/svg-icons/action/assignment';
 
 import { _card_type } from 'lib/cards/components/card-type';
 
-import CardsContainer from '../../../container/cards-container';
-
 // state
 import { IState } from 'client/state';
 
@@ -309,7 +307,7 @@ export class FoldersIndex extends React.Component<IProps, IComponentState> {
                         />
                     ]}
                 >
-                    <CardsContainer />
+                    {/* <CardsContainer /> */}
                 </Dialog>
                 <Dialog
                     open={this.state.show_create_folder_dialog}

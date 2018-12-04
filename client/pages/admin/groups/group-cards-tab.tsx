@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 // types
 import { IState } from 'client/state';
 
-// components
-import { CardList } from 'client/components';
-import { CardsContainer } from 'client/container';
-
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -80,10 +76,10 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
                     {Core.i18n.t('cards')}
                 </Typography>
                 <Paper className={classes.paper}>
-                    <CardList
+                    {/* <CardList
                         cards={cards}
                         onListItemClick={card_id => console.log(card_id)}
-                    />
+                    /> */}
                     {/* <div className={classes.buttons}>
                         <UI.components.RaisedButton
                             action={Groups.actions.update_group(
@@ -152,7 +148,7 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
                         />
                     ]}
                 >
-                    <CardsContainer />
+                    {/* <CardsContainer /> */}
                 </Dialog>
             </div>
         );

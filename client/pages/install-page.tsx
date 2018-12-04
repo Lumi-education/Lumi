@@ -8,7 +8,6 @@ import * as debug from 'debug';
 import { IState } from 'client/state';
 
 // components
-import { CardList } from 'client/components';
 import { UserSettingsContainer } from 'client/container';
 
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';

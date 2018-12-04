@@ -3,6 +3,6 @@ import * as path from 'path';
 
 const router = express.Router();
 
-router.use(express.static(path.resolve('build/upload')));
+router.use(express.static(path.resolve('build/files')));
 
 export default router;

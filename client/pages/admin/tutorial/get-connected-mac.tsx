@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 // types
 import { IState } from 'client/state';
 
-// components
-import { CardList } from 'client/components';
-import { CardsContainer } from 'client/container';
-
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';

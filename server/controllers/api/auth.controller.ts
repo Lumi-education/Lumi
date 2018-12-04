@@ -56,48 +56,6 @@ class AuthController {
                 );
             }
         );
-
-        // db.findOne(
-        //     {
-        //         type: 'user',
-        //         name: req.body.username
-        //     },
-        //     {},
-        //     (error, user: IUser) => {
-        //         if (!user) {
-        //             return res.status(404).json({
-        //                 message: 'user not found',
-        //                 username: req.body.username
-        //             });
-        //         }
-        //         if (!user.password) {
-        //             return res.status(200).json({
-        //                 jwt_token: jwt_token(user._id, user.level),
-        //                 _id: user._id,
-        //                 level: user.level
-        //             });
-        //         }
-
-        //         bcrypt.compare(
-        //             req.body.password,
-        //             user.password,
-        //             (err, hash) => {
-        //                 if (err || !hash) {
-        //                     res.status(401).end();
-        //                 } else {
-        //                     user.last_login = new Date();
-        //                     db.save(user, noop);
-
-        //                     return res.status(200).json({
-        //                         jwt_token: jwt_token(user._id, user.level),
-        //                         _id: user._id,
-        //                         level: user.level
-        //                     });
-        //                 }
-        //             }
-        //         );
-        //     }
-        // );
     }
 
     public register(req: IRequest, res: express.Response) {
@@ -212,32 +170,6 @@ class AuthController {
     }
 
     public set_password(req: IRequest, res: express.Response) {
-        // db.find(
-        //     { type: 'user', name: req.body.username },
-        //     { limit: 1 },
-        //     (find_user_error, users) => {
-        //         if (find_user_error) {
-        //             res.status(404).end();
-        //         }
-        //         const _user = users[0];
-
-        //         if (!_user.password) {
-        //             bcrypt.hash(req.body.password, null, null, (err, hash) => {
-        //                 db.updateOne(
-        //                     _user._id,
-        //                     {
-        //                         password: hash
-        //                     },
-        //                     (updateOne_error, doc) => {
-        //                         res.status(200).end();
-        //                     }
-        //                 );
-        //             });
-        //         } else {
-        //             res.status(401).end();
-        //         }
-        //     }
-        // );
         db.view(
             'auth',
             'login',
@@ -276,19 +208,6 @@ class AuthController {
     }
 
     public username(req: IRequest, res: express.Response) {
-        // db.find(
-        //     { type: 'user', name: req.params.username },
-        //     { limit: 1 },
-        //     (find_user_error, user) => {
-        //         if (find_user_error) {
-        //             res.status(404).end();
-        //         }
-        //         res.status(200).json({
-        //             username: user.name,
-        //             password: user.password ? true : false
-        //         });
-        //     }
-        // );
         db.view(
             'auth',
             'username',
