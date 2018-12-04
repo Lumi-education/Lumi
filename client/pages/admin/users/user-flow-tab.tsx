@@ -161,13 +161,13 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                         <ContentAdd />
                     </FloatingActionButton>
                 </UI.components.ActionBar>
-                <CardsAssignDialog
+                {/* <CardsAssignDialog
                     assign_callback={card_ids =>
                         this.props.dispatch(
                             Flow.actions.assign([this.props.user_id], card_ids)
                         )
                     }
-                />
+                /> */}
             </div>
         );
     }

@@ -407,9 +407,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                             ) : null}
                         </IconMenu>
                     </UI.components.ActionBar>
-                    <CardsAssignDialog
+                    {/* <CardsAssignDialog
                         assign_callback={test => console.log(test)}
-                    />
+                    /> */}
                 </div>
             </div>
         );

@@ -195,7 +195,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
                 description: '',
                 created_at: new Date(),
                 _rev: '1',
-                files: []
+                files: [],
+                _index: ''
             },
             {
                 _id: 'test2',
@@ -208,7 +209,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
                 description: '',
                 created_at: new Date(),
                 _rev: '1',
-                files: []
+                files: [],
+                _index: ''
             }
         ]
     };

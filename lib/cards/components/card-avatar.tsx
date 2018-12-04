@@ -2,32 +2,9 @@ import * as React from 'react';
 import * as debug from 'debug';
 
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
-import * as classnames from 'classnames';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import CheckBoxOutlineIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
-import CardsPreviewComponent from 'lib/cards/components/card-preview';
-import * as Tags from 'lib/tags';
-import * as Core from 'lib/core';
-import * as Cards from 'lib/cards';
-import { Divider } from 'material-ui';
-
-const log = debug('lumi:packages:cards:components:uploadcard');
+const log = debug('lumi:cards:components:card-avatar');
 
 interface IProps {
     h5p_main_library: string;
@@ -40,7 +17,7 @@ interface IComponentState {}
 const styles: StyleRulesCallback = theme => ({});
 
 export default withStyles(styles)(
-    class CardComponent extends React.Component<IProps, IComponentState> {
+    class CardAvatarComponent extends React.Component<IProps, IComponentState> {
         constructor(props: IProps) {
             super(props);
 

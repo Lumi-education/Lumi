@@ -23,3 +23,8 @@ docker-compose.yml
 
 # Dependency directory
 node_modules
+server/server
+
+lib/lib
+
+client/client

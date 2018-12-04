@@ -1,5 +1,5 @@
 import { ICard } from '../types';
-import { unionBy } from 'lodash';
+import { unionBy, assign } from 'lodash';
 
 import {
     CARDS_GET_CARDS_SUCCESS,
@@ -43,7 +43,20 @@ export default function(state: ICard[] = [], action): ICard[] {
         case FLOW_GET_ASSIGNMENTS_SUCCESS:
         case FOLDERS_GET_FOLDERS_SUCCESS:
             return unionBy(
-                action.payload.filter(d => d.type === 'card'),
+                action.payload
+                    .filter(d => d.type === 'card')
+                    .map(card => {
+                        const card_to_index = assign({}, card, {
+                            _index: undefined,
+                            _id: undefined,
+                            _rev: undefined,
+                            type: undefined
+                        }); // remove old _index
+                        const _index = JSON.stringify(card_to_index)
+                            .replace(/[^A-Za-z0-9!?]/g, '')
+                            .toLowerCase();
+                        return assign({}, card, { _index });
+                    }),
                 state,
                 '_id'
             );
