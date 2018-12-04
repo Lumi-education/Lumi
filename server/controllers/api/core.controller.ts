@@ -210,40 +210,40 @@ export class CoreController {
     public get_attachment(req: any, res: express.Response) {
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
-        fs.readFile(
-            path.join(
-                path.resolve(
-                    'build/files/' + req.params.id + '/' + req.params.attachment
-                )
-            ),
-            (error, buffer) => {
-                if (error) {
-                    return res.status(404).end();
-                }
-                res.status(200).send(buffer);
-            }
-        );
-        // db.findById(req.params.id, (find_error, doc) => {
-        //     db.getAttachment(
-        //         req.params.id,
-        //         req.params.attachment,
-        //         (err, attachment) => {
-        //             const attachment_info = doc._attachments
-        //                 ? doc._attachments[req.params.attachment]
-        //                 : undefined;
-
-        //             if (!attachment_info) {
-        //                 return res.status(404).end();
-        //             }
-
-        //             const type = attachment_info.content_type;
-        //             const md5 = attachment_info.digest.slice(4);
-        //             res.set('ETag', JSON.stringify(md5));
-        //             res.setHeader('Content-Type', type);
-        //             res.status(200).send(new Buffer(attachment));
+        // fs.readFile(
+        //     path.join(
+        //         path.resolve(
+        //             'build/files/' + req.params.id + '/' + req.params.attachment
+        //         )
+        //     ),
+        //     (error, buffer) => {
+        //         if (error) {
+        //             return res.status(404).end();
         //         }
-        //     );
-        // });
+        //         res.status(200).send(buffer);
+        //     }
+        // );
+        db.findById(req.params.id, (find_error, doc) => {
+            db.getAttachment(
+                req.params.id,
+                req.params.attachment,
+                (err, attachment) => {
+                    const attachment_info = doc._attachments
+                        ? doc._attachments[req.params.attachment]
+                        : undefined;
+
+                    if (!attachment_info) {
+                        return res.status(404).end();
+                    }
+
+                    const type = attachment_info.content_type;
+                    const md5 = attachment_info.digest.slice(4);
+                    res.set('ETag', JSON.stringify(md5));
+                    res.setHeader('Content-Type', type);
+                    res.status(200).send(new Buffer(attachment));
+                }
+            );
+        });
     }
 }
 

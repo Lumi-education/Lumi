@@ -1,11 +1,13 @@
-import { assign } from 'lodash';
+import { assign, uniq } from 'lodash';
 
 import {
     CARDS_UI_CHANGE_CARD,
     CARDS_UI_RESET_CARD,
     CARDS_UI_SET_SELECTED_CARDS,
     CARD_SELECT,
-    CARD_SELECTION_RESET
+    CARD_SELECTION_RESET,
+    CARDS_ADD_CARD_TO_SELECTION,
+    CARDS_REMOVE_CARD_FROM_SELECTION
 } from '../actions';
 
 import { ICardUI } from '..';
@@ -41,8 +43,32 @@ export default function(state: ICardUI = initialState, action): ICardUI {
         case CARD_SELECTION_RESET:
             return assign({}, state, { selected_cards: [] });
 
+        case CARDS_ADD_CARD_TO_SELECTION:
+            const index =
+                action.index !== undefined
+                    ? action.index
+                    : state.selected_cards.length;
+            return assign({}, state, {
+                selected_cards: uniq([
+                    ...state.selected_cards.slice(0, index),
+                    action.card_id,
+                    ...state.selected_cards.slice(index)
+                ]).filter(card_id => card_id !== 'no_id' && card_id !== null)
+            });
+
+        case CARDS_REMOVE_CARD_FROM_SELECTION:
+            return assign({}, state, {
+                selected_cards: state.selected_cards.filter(
+                    card_id => card_id !== action.card_id
+                )
+            });
+
         case CARDS_UI_SET_SELECTED_CARDS:
-            return assign({}, state, { selected_cards: action.card_ids });
+            return assign({}, state, {
+                selected_cards: action.card_ids.filter(
+                    card_id => card_id !== 'no_id' && card_id !== null
+                )
+            });
 
         case CARDS_UI_CHANGE_CARD:
             const new_card = assign({}, state.card, action.payload);

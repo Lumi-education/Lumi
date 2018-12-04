@@ -575,14 +575,14 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                         )}
                     </div>
                 </Paper>
-                <CardsAssignDialog
+                {/* <CardsAssignDialog
                     assign_callback={card_ids => {
                         this.props.dispatch(
                             Cards.actions.set_selected_cards(card_ids)
                         );
                         this.setState({ next_disabled: false });
                     }}
-                />
+                /> */}
             </div>
         );
     }

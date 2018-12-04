@@ -169,26 +169,33 @@ export class AdminTag extends React.Component<IProps, IComponentState> {
                                         .map(card => (
                                             <Cards.components.Card
                                                 key={card._id}
-                                                onClick={() =>
+                                                // onClick={() =>
+                                                //     this.props.dispatch(
+                                                //         Cards.actions.select_card(
+                                                //             card._id
+                                                //         )
+                                                //     )
+                                                // }
+                                                card={card}
+                                                view={() =>
                                                     this.props.dispatch(
-                                                        Cards.actions.select_card(
-                                                            card._id
+                                                        UI.actions.push(
+                                                            '/admin/cards/' +
+                                                                card._id
                                                         )
                                                     )
                                                 }
-                                                selected={false}
-                                                card={card}
-                                                edit={event => {
-                                                    event.preventDefault();
-                                                    this.props.dispatch(
-                                                        Cards.actions.change_card(
-                                                            card
-                                                        )
-                                                    );
-                                                    this.props.dispatch(
-                                                        UI.actions.toggle_create_card_dialog()
-                                                    );
-                                                }}
+                                                // edit={event => {
+                                                //     event.preventDefault();
+                                                //     this.props.dispatch(
+                                                //         Cards.actions.change_card(
+                                                //             card
+                                                //         )
+                                                //     );
+                                                //     this.props.dispatch(
+                                                //         UI.actions.toggle_create_card_dialog()
+                                                //     );
+                                                // }}
                                             />
                                         ))}
                                 </div>

@@ -1,78 +1,124 @@
 import * as React from 'react';
 import * as debug from 'debug';
 
-import {
-    Avatar,
-    Card,
-    CardHeader,
-    CardText,
-    CardActions,
-    Paper,
-    RaisedButton
-} from 'material-ui';
-import { ICard } from '..';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Avatar from '@material-ui/core/Avatar';
+import CardsPreviewComponent from 'lib/cards/components/card-preview';
+import CardAvatar from './card-avatar';
 
-import * as Tags from 'lib/tags';
 import * as Core from 'lib/core';
+import * as Cards from 'lib/cards';
+import { Divider } from 'material-ui';
 
 const log = debug('lumi:packages:cards:components:uploadcard');
 
 interface IProps {
-    card: ICard;
-    edit: (event) => void;
-    selected?: boolean;
-    onClick?: () => void;
+    card: Cards.ICard;
+    view: () => void;
+    classes: any;
 }
 
-export default class CardComponent extends React.Component<IProps, {}> {
-    constructor(props: IProps) {
-        super(props);
-    }
+interface IComponentState {}
 
-    public render() {
-        const card = this.props.card;
-        return (
-            <Paper
-                style={{ margin: '10px' }}
-                onClick={this.props.onClick}
-                zDepth={this.props.selected ? 5 : 1}
-            >
-                <Card
-                    style={{
-                        width: '200px',
-                        height: '300px',
-                        overflow: 'hidden',
-                        background: this.props.selected ? 'lightgrey' : 'white'
-                    }}
-                >
+const styles: StyleRulesCallback = theme => ({
+    card: {
+        margin: '10px',
+        minWidth: 300,
+        maxWidth: 300,
+        maxHeight: 400,
+        overflow: 'hidden',
+        flex: 1
+    },
+    actions: {
+        display: 'flex'
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest
+        }),
+        marginLeft: 'auto',
+        [theme.breakpoints.up('sm')]: {
+            marginRight: -8
+        }
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)'
+    },
+    content: {
+        maxHeight: 200,
+        overflow: 'scroll',
+        margin: 0,
+        padding: 0,
+        minWidth: 300,
+        minHeight: 200
+    },
+    media: {
+        minWidth: 300,
+        minHeight: 200
+    }
+});
+
+export default withStyles(styles)(
+    class CardComponent extends React.Component<IProps, IComponentState> {
+        constructor(props: IProps) {
+            super(props);
+
+            this.state = {};
+        }
+
+        public render() {
+            const { card, classes } = this.props;
+            return (
+                <Card className={classes.card}>
                     <CardHeader
-                        title={<div onClick={this.props.edit}>{card.name}</div>}
-                        subtitle={<Tags.TagsContainer tag_ids={card.tags} />}
-                        style={{ paddingBottom: '2px' }}
                         avatar={
-                            <Avatar>
-                                {card.card_type
-                                    ? card.card_type
-                                          .substring(0, 3)
-                                          .toLocaleUpperCase()
-                                    : 'X'}
-                            </Avatar>
+                            (card as any).h5p ? (
+                                <CardAvatar
+                                    h5p_main_library={
+                                        (card as any).h5p.mainLibrary
+                                    }
+                                />
+                            ) : (
+                                <Avatar>T</Avatar>
+                            )
                         }
+                        title={card.name}
                     />
-                    <CardText style={{ paddingTop: '2px' }}>
-                        <Core.components.Markdown
-                            ref_id={this.props.card._id}
-                            markdown={this.props.card.text}
+                    <Divider />
+                    {card.card_type === 'h5p' ? (
+                        <CardMedia
+                            className={classes.media}
+                            image={
+                                '/api/v0/core/attachment/' +
+                                card._id +
+                                '/preview.png'
+                            }
+                            title={card.name}
                         />
-                    </CardText>
-                    <CardActions>
-                        <RaisedButton
-                            onClick={this.props.edit}
-                            label={Core.i18n.t('edit')}
-                        />
+                    ) : (
+                        <CardContent className={classes.content}>
+                            <CardsPreviewComponent card={card} />
+                        </CardContent>
+                    )}
+
+                    <Divider />
+                    <CardActions
+                        className={classes.actions}
+                        disableActionSpacing={true}
+                    >
+                        <Button onClick={this.props.view} size="small">
+                            {Core.i18n.t('view')}
+                        </Button>
                     </CardActions>
                 </Card>
-            </Paper>
-        );
+            );
+        }
     }
-}
+);

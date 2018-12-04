@@ -30,6 +30,7 @@ export interface IBaseCard {
     created_at: Date;
     _rev: string;
     files: string[];
+    _index?: string;
 }
 
 export interface ITextCard extends IBaseCard {

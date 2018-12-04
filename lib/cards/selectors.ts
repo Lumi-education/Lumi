@@ -26,7 +26,8 @@ export function select_card(state: IState, card_id: string): ICard {
             files: [],
             description: '',
             created_at: new Date(),
-            tags: []
+            tags: [],
+            _index: ''
         }
     );
 }

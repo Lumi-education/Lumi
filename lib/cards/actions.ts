@@ -26,6 +26,9 @@ export const CARDS_UI_SET_SELECTED_CARDS = 'CARDS_UI_SET_SELECTED_CARDS';
 export const CARDS_DUPLICATE_REQUEST = 'CARDS_DUPLICATE_REQUEST';
 export const CARDS_DUPLICATE_SUCCESS = 'CARDS_DUPLICATE_SUCCESS';
 export const CARDS_DUPLICATE_ERROR = 'CARDS_DUPLICATE_ERROR';
+export const CARDS_ADD_CARD_TO_SELECTION = 'CARDS_ADD_CARD_TO_SELECTION';
+export const CARDS_REMOVE_CARD_FROM_SELECTION =
+    'CARDS_REMOVE_CARD_FROM_SELECTION';
 
 import { Subjects } from './types';
 
@@ -82,6 +85,20 @@ export function select_card(card_id: string) {
         payload: {
             card_id
         }
+    };
+}
+
+export function add_card_to_selection(card_id: string, index?: number) {
+    return {
+        card_id,
+        index,
+        type: CARDS_ADD_CARD_TO_SELECTION
+    };
+}
+export function remove_card_from_selection(card_id: string) {
+    return {
+        card_id,
+        type: CARDS_REMOVE_CARD_FROM_SELECTION
     };
 }
 
