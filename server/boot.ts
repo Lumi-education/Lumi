@@ -44,7 +44,7 @@ export function boot(done: () => void) {
     });
 }
 
-if (process.env.TARGET !== 'electron') {
+if (process.env.TARGET !== 'electron' && process.env.NODE_ENV !== 'test') {
     boot(() => {
         log('ending boot-sequence');
     });

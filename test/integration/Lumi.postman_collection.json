@@ -1,0 +1,685 @@
+{
+	"info": {
+		"_postman_id": "f6963213-fff1-6a5e-719a-c04dcbab79a3",
+		"name": "Lumi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "install",
+			"item": [
+				{
+					"name": "check system installation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c39e7a4-eb2f-45ab-92b3-41957a2dbe9c",
+								"exec": [
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.installed).to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v0/system/settings",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"system",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "install admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2845f1ea-06ea-4d9a-b66d-5c4636c86fd9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{login}}\",\n\t\"password\": \"{{password}}\",\n\t\"language\": \"en\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v0/core/admin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"core",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check system installation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c39e7a4-eb2f-45ab-92b3-41957a2dbe9c",
+								"exec": [
+									"pm.test(\"System is installed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.installed).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v0/system/settings",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"system",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refuse second install",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2845f1ea-06ea-4d9a-b66d-5c4636c86fd9",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"message is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql({",
+									"    \"module\": \"core\",",
+									"    \"type\": \"SystemAlreadyInstalled\",",
+									"    \"message\": \"core.system_already_installed\"",
+									"});",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{login}}\",\n\t\"password\": \"{{password}}\",\n\t\"language\": \"en\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v0/core/admin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"core",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "error",
+							"item": [
+								{
+									"name": "UserNotFound",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b906baf4-963a-4a5b-bc7a-4a54b25b2ead",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"",
+													"pm.test(\"message is correct\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData).to.eql({",
+													"        \"module\": \"auth\",",
+													"        \"type\": \"UserNotFound\",",
+													"        \"message\": \"user.not_found\"",
+													"    });",
+													"});",
+													"",
+													"pm.test(\"Content-Type is present\", function () {",
+													"    pm.response.to.have.header(\"Content-Type\");",
+													"});",
+													"",
+													"pm.test(\"Content-Type is application/json\", function() {",
+													"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept-Encoding",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"test\"\n}"
+										},
+										"url": {
+											"raw": "{{url}}/api/v0/auth/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"v0",
+												"auth",
+												"login"
+											]
+										},
+										"description": "Login"
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidPassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b906baf4-963a-4a5b-bc7a-4a54b25b2ead",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													"",
+													"pm.test(\"message is correct\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData).to.eql({",
+													"        \"module\": \"auth\",",
+													"        \"type\": \"InvalidPassword\",",
+													"        \"message\": \"auth.invalid_password\"",
+													"    });",
+													"});",
+													"",
+													"pm.test(\"Content-Type is present\", function () {",
+													"    pm.response.to.have.header(\"Content-Type\");",
+													"});",
+													"",
+													"pm.test(\"Content-Type is application/json\", function() {",
+													"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept-Encoding",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"username\": \"{{login}}\",\n\t\"password\": \"wrongpassword\"\n}"
+										},
+										"url": {
+											"raw": "{{url}}/api/v0/auth/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"v0",
+												"auth",
+												"login"
+											]
+										},
+										"description": "Login"
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6cefd075-e17f-497c-a6cc-46debc3115a7",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "3d830a19-1fea-4faa-bb75-c85b77e6c326",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "success",
+							"item": [
+								{
+									"name": "Login success",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b906baf4-963a-4a5b-bc7a-4a54b25b2ead",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Content-Type is present\", function () {",
+													"    pm.response.to.have.header(\"Content-Type\");",
+													"});",
+													"",
+													"pm.test(\"Content-Type is application/json\", function() {",
+													"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+													"});",
+													"",
+													"var jsonData = pm.response.json();",
+													"",
+													"pm.test(\"set environment jwt_token\", function () {",
+													"        pm.environment.set(\"jwt_token\", jsonData.jwt_token);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"username\": \"{{login}}\",\n\t\"password\": \"{{password}}\"\n}"
+										},
+										"url": {
+											"raw": "{{url}}/api/v0/auth/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"v0",
+												"auth",
+												"login"
+											]
+										},
+										"description": "Login"
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "dc72b946-5ba7-42ae-94be-7dee5485a846",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d1ddbaa5-16b1-490c-bb98-eff833190b62",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Username is free",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf5808c-0458-4b86-b263-5660432cef5b",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"message is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql({",
+									"        \"module\": \"auth\",",
+									"        \"type\": \"UserNotFound\",",
+									"        \"message\": \"user.not_found\"",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v0/auth/username/aegoiegr",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"auth",
+								"username",
+								"aegoiegr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Username is taken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2af12bc2-64df-4079-bc7f-70ae2f234465",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v0/auth/username/{{login}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"auth",
+								"username",
+								"{{login}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cards",
+			"item": [
+				{
+					"name": "Cards",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "074c246e-bdee-4547-9719-44f2738e0250",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"Content-Type is application/json\", function() {",
+									"//     pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+									"// });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/{{db}}/_design/cards/_view/index",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"{{db}}",
+								"_design",
+								"cards",
+								"_view",
+								"index"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "error",
+					"item": [
+						{
+							"name": "user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3f23bfc3-6350-42d0-b7c8-c5321ed2275b",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"message is correct\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.eql({",
+											"    \"module\": \"users\",",
+											"    \"type\": \"UserNotFound\",",
+											"    \"message\": \"user.not_found\",",
+											"    \"error\": {",
+											"        \"message\": \"missing\",",
+											"        \"status\": 404,",
+											"        \"name\": \"not_found\",",
+											"        \"error\": true,",
+											"        \"reason\": \"missing\",",
+											"        \"docId\": \"lipp\"",
+											"    }",
+											"});",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth",
+										"value": "{{jwt_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/api/v0/users/{{login}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"users",
+										"{{login}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
