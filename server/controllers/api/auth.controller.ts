@@ -8,6 +8,8 @@ import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
 
+import ErrorResponse from '../../core/error';
+
 import { IUser } from 'lib/users/types';
 import { IAssignment } from 'lib/flow/types';
 import { add_activity } from '../../modules/activity';
@@ -16,46 +18,67 @@ const log = debug('lumi:controller:auth');
 
 class AuthController {
     public login(req: IRequest, res: express.Response) {
-        db.view(
-            'auth',
-            'login',
-            { key: req.body.username.toLowerCase() },
-            (view_user_error, users) => {
-                if (users.length !== 1 || view_user_error) {
-                    return res.status(404).json({ message: 'user not found' });
-                }
-
-                const user = users[0];
-
-                if (!user.password) {
-                    add_activity(user._id, 'login', new Date());
-
-                    return res.status(200).json({
-                        jwt_token: jwt_token(user._id, user.level),
-                        _id: user._id,
-                        level: user.level
-                    });
-                }
-
-                bcrypt.compare(
-                    req.body.password,
-                    user.password,
-                    (err, hash) => {
-                        if (err || !hash) {
-                            res.status(401).end();
-                        } else {
-                            add_activity(user._id, 'login', new Date());
-
-                            return res.status(200).json({
-                                jwt_token: jwt_token(user._id, user.level),
-                                _id: user._id,
-                                level: user.level
-                            });
-                        }
+        try {
+            db.view(
+                'auth',
+                'login',
+                { key: req.body.username.toLowerCase() },
+                (view_user_error, users) => {
+                    if (users.length !== 1 || view_user_error) {
+                        return res
+                            .status(404)
+                            .json(
+                                new ErrorResponse(
+                                    'auth',
+                                    'UserNotFound',
+                                    'user.not_found',
+                                    view_user_error
+                                )
+                            );
                     }
-                );
-            }
-        );
+
+                    const user = users[0];
+
+                    if (!user.password) {
+                        add_activity(user._id, 'login', new Date());
+
+                        return res.status(200).json({
+                            jwt_token: jwt_token(user._id, user.level),
+                            _id: user._id,
+                            level: user.level
+                        });
+                    }
+
+                    bcrypt.compare(
+                        req.body.password,
+                        user.password,
+                        (err, hash) => {
+                            if (err || !hash) {
+                                res.status(401).json(
+                                    new ErrorResponse(
+                                        'auth',
+                                        'InvalidPassword',
+                                        'auth.invalid_password'
+                                    )
+                                );
+                            } else {
+                                add_activity(user._id, 'login', new Date());
+
+                                return res.status(200).json({
+                                    jwt_token: jwt_token(user._id, user.level),
+                                    _id: user._id,
+                                    level: user.level
+                                });
+                            }
+                        }
+                    );
+                }
+            );
+        } catch (error) {
+            res.status(500).json(
+                new ErrorResponse('auth', 'ServerError', 'server.error', error)
+            );
+        }
     }
 
     public register(req: IRequest, res: express.Response) {
@@ -225,7 +248,13 @@ class AuthController {
                         password: user.password ? true : false
                     });
                 } else {
-                    res.status(404).end();
+                    res.status(404).json(
+                        new ErrorResponse(
+                            'auth',
+                            'UserNotFound',
+                            'user.not_found'
+                        )
+                    );
                 }
             }
         );

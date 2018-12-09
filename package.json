@@ -44,6 +44,8 @@
         "envfile": "^2.3.0",
         "express": "^4.16.0",
         "express-fileupload": "^0.4.0",
+        "express-http-proxy": "^1.5.0",
+        "express-pouchdb": "^4.1.0",
         "express-react-views": "^0.10.5",
         "h5p-nodejs-library": "0.0.6",
         "http-proxy": "^1.16.2",
@@ -69,6 +71,7 @@
         "socket.io": "^2.1.1",
         "sticky-session": "^1.1.2",
         "superagent": "^3.8.3",
+        "supertest": "^3.3.0",
         "tslint": "^5.7.0",
         "tslint-config-airbnb": "^5.3.1",
         "tslint-config-prettier": "^1.6.0",
@@ -141,7 +144,7 @@
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
         },
-        "testRegex": "(client/*/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "testRegex": "(server|client/*/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
         "moduleFileExtensions": [
             "ts",
             "tsx",
@@ -157,8 +160,7 @@
         ],
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
-        ],
-        "setupTestFrameworkScriptFile": "./client/utils/test-setup.ts"
+        ]
     },
     "main": "build/electron.js",
     "build": {

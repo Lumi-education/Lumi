@@ -3,9 +3,13 @@ import * as debug from 'debug';
 import * as mkdirp from 'mkdirp';
 import * as PouchDB from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
+import * as express_pouchdb from 'express-pouchdb';
+import * as express from 'express';
+
 import * as Event from 'events';
 
 PouchDB.plugin(PouchDBFind);
+PouchDB.defaults({ prefix: process.env.DB });
 
 import * as raven from 'raven';
 
@@ -13,13 +17,16 @@ const log = debug('lumi:db:driver:pouchdb');
 
 export default class DB {
     public changes: Event;
+    public api: express.Router;
     private changes_stream;
     private db: PouchDB;
-
     constructor() {
         log('creating ' + process.env.DB);
         mkdirp.sync(process.env.DB);
-        this.db = new PouchDB(process.env.DB || './db/lumi');
+        this.api = express_pouchdb(
+            PouchDB.defaults({ prefix: process.env.DB })
+        );
+        this.db = new PouchDB.defaults({ prefix: process.env.DB })('lumi');
         this.findById = this.findById.bind(this);
         this.save = this.save.bind(this);
         this.insert = this.insert.bind(this);
