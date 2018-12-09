@@ -32,14 +32,14 @@ export const CARDS_REMOVE_CARD_FROM_SELECTION =
 
 import { Subjects } from './types';
 
-export function get_cards(ids?: string[]) {
+export function get_cards(ids?: string[], options?) {
     return {
         types: [
             CARDS_GET_CARDS_REQUEST,
             CARDS_GET_CARDS_SUCCESS,
             CARDS_GET_CARDS_ERROR
         ],
-        api: API.get_cards(ids)
+        api: API.get_cards(ids, options)
     };
 }
 

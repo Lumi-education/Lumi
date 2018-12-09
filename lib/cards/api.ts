@@ -1,9 +1,23 @@
 import * as request from 'superagent';
+import * as qs from 'query-string';
+import { assign } from 'lodash';
+
 declare var window;
 
-export function get_cards(_ids?: string[]) {
+// const request = _request.set(
+//     'x-auth',
+//     window.localStorage.jwt_token || window.jwt_token || ''
+// );
+
+const db = 'lumi';
+
+export function get_cards(_ids?: string[], options?) {
     return request
-        .get('/api/v0/cards' + (_ids ? '?_ids=' + JSON.stringify(_ids) : ''))
+        .get(
+            `/api/v1/${db}/_design/cards/_view/index?${qs.stringify(
+                assign({ keys: _ids, include_docs: true }, options)
+            )}`
+        )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
@@ -22,9 +36,7 @@ export function create_card(card?) {
 }
 
 export function delete_card(card_id: string) {
-    return request
-        .delete('/api/v0/cards/' + card_id)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+    return request.delete('/api/v0/cards/' + card_id);
 }
 
 export function duplicate(card_id: string) {
