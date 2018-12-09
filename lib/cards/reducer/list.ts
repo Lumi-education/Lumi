@@ -38,12 +38,31 @@ export default function(state: ICard[] = [], action): ICard[] {
         case USERS_GET_USERS_SUCCESS:
         case Users.actions.USERS_INIT_USER_SUCCESS:
 
-        case CARDS_GET_CARDS_SUCCESS:
         case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:
         case FLOW_GET_ASSIGNMENTS_SUCCESS:
         case FOLDERS_GET_FOLDERS_SUCCESS:
             return unionBy(
                 action.payload
+                    .filter(d => d.type === 'card')
+                    .map(card => {
+                        const card_to_index = assign({}, card, {
+                            _index: undefined,
+                            _id: undefined,
+                            _rev: undefined,
+                            type: undefined
+                        }); // remove old _index
+                        const _index = JSON.stringify(card_to_index)
+                            .replace(/[^A-Za-z0-9!?]/g, '')
+                            .toLowerCase();
+                        return assign({}, card, { _index });
+                    }),
+                state,
+                '_id'
+            );
+        case CARDS_GET_CARDS_SUCCESS:
+            return unionBy(
+                action.payload.rows
+                    .map(row => row.doc)
                     .filter(d => d.type === 'card')
                     .map(card => {
                         const card_to_index = assign({}, card, {

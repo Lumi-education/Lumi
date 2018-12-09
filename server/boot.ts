@@ -1,5 +1,5 @@
 // setup env
-process.env.DB = process.env.DB || './db/lumi';
+process.env.DB = process.env.DB || './db/';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.DEBUG = process.env.DEBUG || '*';
 process.env.PORT = process.env.PORT || 3000;
@@ -44,7 +44,7 @@ export function boot(done: () => void) {
     });
 }
 
-if (process.env.TARGET !== 'electron') {
+if (process.env.TARGET !== 'electron' && process.env.NODE_ENV !== 'test') {
     boot(() => {
         log('ending boot-sequence');
     });

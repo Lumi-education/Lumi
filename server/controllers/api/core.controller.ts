@@ -12,6 +12,8 @@ import * as envfile from 'envfile';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 
+import ErrorResponse from '../../core/error';
+
 export class CoreController {
     public install_admin(req: IRequest, res: express.Response) {
         db.findById('system', (find_system_error, system) => {
@@ -22,7 +24,13 @@ export class CoreController {
             if (system.installed) {
                 return res
                     .status(409)
-                    .json({ message: 'system_already_installed' });
+                    .json(
+                        new ErrorResponse(
+                            'core',
+                            'SystemAlreadyInstalled',
+                            'core.system_already_installed'
+                        )
+                    );
             }
 
             db.findById('admin', (find_admin_error, admin) => {
@@ -104,22 +112,22 @@ export class CoreController {
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
         const uploaded_file = req.files.file;
 
-        mkdirp(path.resolve('build/files') + '/' + req.query.path, error => {
-            uploaded_file.mv(
-                path.resolve('build/files') +
-                    '/' +
-                    req.query.path +
-                    '/' +
-                    uploaded_file.name,
-                err => {
-                    if (err) {
-                        return res.status(500).send(err);
-                    }
+        // mkdirp(path.resolve('build/files') + '/' + req.query.path, error => {
+        //     uploaded_file.mv(
+        //         path.resolve('build/files') +
+        //             '/' +
+        //             req.query.path +
+        //             '/' +
+        //             uploaded_file.name,
+        //         err => {
+        //             if (err) {
+        //                 return res.status(500).send(err);
+        //             }
 
-                    res.send('File uploaded!');
-                }
-            );
-        });
+        //             res.send('File uploaded!');
+        //         }
+        //     );
+        // });
         // if (!req.files) {
         //     return res.status(400).send('No files were uploaded.');
         // }
@@ -127,15 +135,15 @@ export class CoreController {
         // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
         // const uploaded_file = req.files.file;
 
-        // db.saveAttachment(
-        //     req.query.path,
-        //     uploaded_file.name,
-        //     uploaded_file.data,
-        //     uploaded_file.mimetype,
-        //     (error, success) => {
-        //         res.status(200).end();
-        //     }
-        // );
+        db.saveAttachment(
+            req.query.path,
+            uploaded_file.name,
+            uploaded_file.data,
+            uploaded_file.mimetype,
+            (error, success) => {
+                res.status(200).end();
+            }
+        );
     }
 
     public ping(req: express.Request, res: express.Response) {

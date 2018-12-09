@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as raven from 'raven';
 import { IRequest } from '../../middleware/auth';
 import { assign } from 'lodash';
+import ErrorResponse from '../../core/error';
 
 import db from '../../db';
 
@@ -68,13 +69,29 @@ class UsersController {
     }
 
     public read(req: IRequest, res: express.Response) {
-        db.view('users', 'init', { key: req.params.id }, (error, docs) => {
+        db.findById(req.params.id, (error, user) => {
             if (error) {
-                raven.captureException(error);
-                return res.status(400).json(error);
+                return res
+                    .status(error.status)
+                    .json(
+                        new ErrorResponse(
+                            'users',
+                            'UserNotFound',
+                            'user.not_found',
+                            error
+                        )
+                    );
             }
-            res.status(200).json(docs);
+
+            res.status(200).json(user);
         });
+        // db.view('users', 'user', { key: req.params.id }, (error, docs) => {
+        //     if (error) {
+        //         raven.captureException(error);
+        //         return res.status(400).json(error);
+        //     }
+        //     res.status(200).json(docs);
+        // });
     }
 
     public update(req: IRequest, res: express.Response) {
