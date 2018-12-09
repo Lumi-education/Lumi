@@ -5,7 +5,6 @@ import * as debug from 'debug';
 import { flatten, uniq } from 'lodash';
 // container
 import {
-    CardsContainer,
     GroupsChipInputContainer,
     UsersChipInputContainer,
     TagsChipInputContainer

@@ -4,14 +4,9 @@ import { uniq, assign } from 'lodash';
 import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
-import event from '../../core/event';
 
 import { IUser } from 'lib/users/types';
 import { IGroup } from 'lib/groups/types';
-import {
-    USERS_UPDATE_USER_ERROR,
-    USERS_ADD_GROUP_ERROR
-} from 'lib/users/actions';
 
 class GroupController {
     public list(req: IRequest, res: express.Response) {
@@ -114,15 +109,6 @@ class GroupController {
                     users,
                     {},
                     (update_users_error, updated_users) => {
-                        user_ids.forEach(user_id => {
-                            group_ids.forEach(group_id => {
-                                event.emit(
-                                    'GROUPS/USER_ASSIGNED',
-                                    group_id,
-                                    user_id
-                                );
-                            });
-                        });
                         res.status(200).json([...users]);
                     }
                 );
@@ -167,7 +153,6 @@ class GroupController {
                 group_id,
                 group,
                 (update_group_error, updated_group) => {
-                    event.emit('GROUPS/CARDS_ADDED', group_id, card_ids);
                     res.status(200).json([updated_group]);
                 }
             );
