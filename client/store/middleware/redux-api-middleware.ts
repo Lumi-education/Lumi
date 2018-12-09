@@ -39,7 +39,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                 dispatch(
                     assign({}, payload, {
                         response,
-                        payload: response.body,
+                        payload: response.body || JSON.parse(response.text),
                         type: successType
                     })
                 ),
