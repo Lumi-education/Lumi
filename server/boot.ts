@@ -44,7 +44,7 @@ export function boot(done: () => void) {
         log('booting in single-mode');
         boot_db(() => {
             boot_core((server: http.Server) => {
-                boot_socket(server);
+                // boot_socket(server);
                 done();
             });
         });
@@ -54,7 +54,7 @@ export function boot(done: () => void) {
         if (cluster.isMaster) {
             boot_db(() => {
                 boot_core((server: http.Server) => {
-                    boot_socket(server);
+                    // boot_socket(server);
                     for (let i = 0; i < numCPUs; i++) {
                         const worker = cluster.fork();
                     }
