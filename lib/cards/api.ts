@@ -15,7 +15,10 @@ export function get_cards(_ids?: string[], options?) {
     return request
         .get(
             `/api/v1/${db}/_design/cards/_view/index?${qs.stringify(
-                assign({ keys: _ids, include_docs: true }, options)
+                assign(
+                    { keys: JSON.stringify(_ids), include_docs: true },
+                    options
+                )
             )}`
         )
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
