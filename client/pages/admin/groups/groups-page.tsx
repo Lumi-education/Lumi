@@ -47,10 +47,10 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('groups'), loading_step: 1 });
-        this.props.dispatch(Groups.actions.get_groups()).then(res => {
-            this.setState({ loading: 'finished', loading_step: 2 });
-        });
+        // this.setState({ loading: Core.i18n.t('groups'), loading_step: 1 });
+        // this.props.dispatch(Groups.actions.get_groups()).then(res => {
+        this.setState({ loading: 'finished', loading_step: 2 });
+        // });
     }
 
     public render() {
