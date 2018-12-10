@@ -20,6 +20,7 @@ import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
+import { RaisedButton } from 'material-ui';
 
 interface IPassedProps {
     group_id: string;
@@ -117,9 +118,18 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                         />
                     </FormGroup>
                     <div className={classes.buttons}>
-                        <UI.components.RaisedButton
-                            action={Groups.actions.update_group(
-                                this.props.group_id,
+                        <RaisedButton
+                            label={Core.i18n.t('save')}
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Core.actions.update<Groups.IGroup>(
+                                        this.props.group
+                                    )
+                                )
+                            }
+                        />
+                        {/* <UI.components.RaisedButton
+                            action={Core.actions.update<Groups.IGroup>(
                                 this.props.group
                             )}
                             labels={[
@@ -130,7 +140,7 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                             ]}
                             fullWidth={false}
                             disabled={false}
-                        />
+                        /> */}
                         {/* <Button
                             variant="contained"
                             color="primary"

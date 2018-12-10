@@ -59,6 +59,8 @@ export const GROUPS_ADD_CARDS_SUCCESS = 'GROUPS_ADD_CARDS_SUCCESS';
 export const GROUPS_ADD_CARDS_ERROR = 'GROUPS_ADD_CARDS_ERROR';
 import * as API from './api';
 
+import { IGroup } from './types';
+
 export function assign_groups(user_ids: string[], group_ids: string[]) {
     return {
         types: [
@@ -87,14 +89,22 @@ export function remove_users_from_groups(
 }
 
 export function create_group(name: string) {
+    const group: IGroup = {
+        name,
+        _id: undefined,
+        type: 'group',
+        created_at: new Date(),
+        autojoin: false,
+        cards: []
+    };
     return {
         types: [
             GROUPS_CREATE_REQUEST,
             GROUPS_CREATE_SUCCESS,
             GROUPS_CREATE_ERROR
         ],
-        api: API.create_group(name),
-        payload: { payload: { name } }
+        api: API.create_group(group),
+        payload: { group }
     };
 }
 
