@@ -1,4 +1,5 @@
 import * as request from 'superagent';
+import db from 'client/store/pouchdb';
 
 declare var window;
 
@@ -9,11 +10,12 @@ export function find(query, options?) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function update(id: string, _update) {
-    return request
-        .post('/api/v0/core/update?id=' + id)
-        .send(_update)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+export function update<T>(doc: T): Promise<T> {
+    return db.put(doc);
+    // return request
+    //     .post('/api/v0/core/update?id=' + id)
+    //     .send(_update)
+    //     .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function action(_action: string, ids: string[], payload) {

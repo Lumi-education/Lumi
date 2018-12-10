@@ -33,6 +33,10 @@ export const CORE_INSTALL_ADMIN_REQUEST = 'CORE_INSTALL_ADMIN_REQUEST';
 export const CORE_INSTALL_ADMIN_SUCCESS = 'CORE_INSTALL_ADMIN_SUCCESS';
 export const CORE_INSTALL_ADMIN_ERROR = 'CORE_INSTALL_ADMIN_ERROR';
 
+export const CORE_UPDATE_DB_REQUEST = 'CORE_UPDATE_DB_REQUEST';
+export const CORE_UPDATE_DB_SUCCESS = 'CORE_UPDATE_DB_SUCCESS';
+export const CORE_UPDATE_DB_ERROR = 'CORE_UPDATE_DB_ERROR';
+
 import * as API from './api';
 
 const info = debug('lumi:info:actions:core');
@@ -49,13 +53,24 @@ export function find(query, options?) {
     };
 }
 
-export function update(id: string, _update) {
+export function update<T>(
+    doc: T
+): {
+    types: string[];
+    api: Promise<T>;
+    payload: {
+        payload: T;
+    };
+} {
     return {
-        types: [CORE_DB_UPDATE_REQUEST, CORE_DB_CHANGE, CORE_DB_UPDATE_ERROR],
-        api: API.update(id, _update),
+        types: [
+            CORE_UPDATE_DB_REQUEST,
+            CORE_UPDATE_DB_SUCCESS,
+            CORE_UPDATE_DB_ERROR
+        ],
+        api: API.update<T>(doc),
         payload: {
-            id,
-            update: _update
+            payload: doc
         }
     };
 }
