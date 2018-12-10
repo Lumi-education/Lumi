@@ -2,16 +2,19 @@ import * as SocketIO from 'socket.io';
 import * as debug from 'debug';
 import * as jwt from 'jwt-simple';
 import * as raven from 'raven';
+import * as http from 'http';
 
 import db from '../db';
 
-const log = debug('lumi:core:socket');
+const log_info = debug('lumi:info:core:socket');
+const log_error = debug('lumi:error:core:socket');
 
-export default function boot(server) {
+export default function boot(server: http.Server) {
+    log_info('boot start');
     const io = SocketIO(server);
 
     io.on('connection', (socket: SocketIO.Socket) => {
-        log('connection');
+        log_info('connection');
 
         try {
             const user = jwt.decode(
@@ -20,6 +23,7 @@ export default function boot(server) {
             );
 
             socket.on('error', err => {
+                log_error(err);
                 raven.captureException(err);
             });
 
@@ -40,7 +44,10 @@ export default function boot(server) {
                 }
             });
         } catch (err) {
+            log_error(err);
             raven.captureException(err);
         }
     });
+
+    log_info('boot end');
 }
