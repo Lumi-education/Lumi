@@ -34,6 +34,16 @@ if ((locale !== 'en' && locale !== 'de') || !locale) {
 moment.locale(locale);
 store.dispatch(setLocale(locale));
 
+import db from './store/pouchdb';
+
+db.allDocs({ include_docs: true }).then(docs => {
+    const _docs = docs.rows.map(row => row.doc).filter(doc => doc.type);
+    store.dispatch({
+        type: 'DB_CHANGE',
+        payload: _docs
+    });
+});
+
 // themes
 import 'typeface-roboto';
 
