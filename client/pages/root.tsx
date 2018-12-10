@@ -45,12 +45,6 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
         });
     }
 
-    public componentDidMount() {
-        setInterval(() => {
-            this.props.dispatch(Core.actions.ping());
-        }, 10000);
-    }
-
     public componentWillReceiveProps(nextProps: IProps) {
         if (!this.props.connected && nextProps.connected) {
             raven.captureMessage('Connection was lost.', { level: 'info' });
