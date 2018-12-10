@@ -52,6 +52,15 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
             const new_group = assign({}, state.group, action.payload);
             return assign({}, state, { group: new_group });
 
+        case 'CORE_UPDATE_DB_SUCCESS':
+            const updated_group = action.payload.filter(
+                doc => doc.type === 'group' && doc._id === state.group._id
+            )[0];
+
+            return assign({}, state, {
+                group: assign({}, state.group, updated_group)
+            });
+
         default:
             return state;
     }
