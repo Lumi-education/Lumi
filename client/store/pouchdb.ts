@@ -23,7 +23,7 @@ PouchDB.sync(db, remote_db, {
     live: true,
     retry: true,
     filter: '_view',
-    view: `users/me`
+    view: `user/me`
 })
     .on('change', changes => {
         log_info('changes', changes);
