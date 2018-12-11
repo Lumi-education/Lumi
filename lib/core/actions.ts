@@ -37,6 +37,10 @@ export const CORE_UPDATE_DB_REQUEST = 'CORE_UPDATE_DB_REQUEST';
 export const CORE_UPDATE_DB_SUCCESS = 'CORE_UPDATE_DB_SUCCESS';
 export const CORE_UPDATE_DB_ERROR = 'CORE_UPDATE_DB_ERROR';
 
+export const CORE_CREATE_DB_REQUEST = 'CORE_CREATE_DB_REQUEST';
+export const CORE_CREATE_DB_SUCCESS = 'CORE_CREATE_DB_SUCCESS';
+export const CORE_CREATE_DB_ERROR = 'CORE_CREATE_DB_ERROR';
+
 import * as API from './api';
 
 const info = debug('lumi:info:actions:core');
@@ -58,9 +62,7 @@ export function update<T>(
 ): {
     types: string[];
     api: Promise<T>;
-    payload: {
-        payload: T;
-    };
+    payload: T;
 } {
     return {
         types: [
@@ -69,12 +71,27 @@ export function update<T>(
             CORE_UPDATE_DB_ERROR
         ],
         api: API.update<T>(doc),
-        payload: {
-            payload: doc
-        }
+        payload: doc
     };
 }
 
+export function create<T>(
+    doc: T
+): {
+    types: string[];
+    api: Promise<T>;
+    payload: T;
+} {
+    return {
+        types: [
+            CORE_CREATE_DB_REQUEST,
+            CORE_CREATE_DB_SUCCESS,
+            CORE_CREATE_DB_ERROR
+        ],
+        api: API.create<T>(doc),
+        payload: doc
+    };
+}
 export function shutdown() {
     return dispatch => {
         API.shutdown().then(res => {
