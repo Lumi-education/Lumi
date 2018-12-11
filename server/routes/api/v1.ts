@@ -30,7 +30,6 @@ export default function(): express.Router {
                 }
                 next();
             },
-            Auth.level(4),
             db.api
         );
     } else {
@@ -47,8 +46,19 @@ export default function(): express.Router {
                 }
                 next();
             },
-            Auth.level(4),
-            proxy(process.env.DB)
+            proxy(process.env.DB, {
+                proxyReqPathResolver: proxy_req => {
+                    const parts = proxy_req.url.split('?');
+                    const queryString = parts[1]
+                        ? parts[1].replace(
+                              'user%2Fme',
+                              'user%2F' + proxy_req.user._id
+                          )
+                        : undefined;
+                    const updatedPath = parts[0];
+                    return updatedPath + (queryString ? '?' + queryString : '');
+                }
+            })
         );
     }
 
