@@ -9,7 +9,9 @@ export function find(query, options?) {
         .send({ options, selector: query })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
-
+export function create<T>(doc: T): Promise<T> {
+    return db.post(doc);
+}
 export function update<T>(doc: T): Promise<T> {
     return db.put(doc);
     // return request
