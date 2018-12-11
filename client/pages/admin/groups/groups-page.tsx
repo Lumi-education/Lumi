@@ -127,7 +127,14 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                     <CreateGroupDialog
                         create_group={(name: string) =>
                             this.props.dispatch(
-                                Groups.actions.create_group(name)
+                                Core.actions.create<Groups.IGroup>({
+                                    name,
+                                    _id: undefined,
+                                    type: 'group',
+                                    created_at: new Date(),
+                                    autojoin: false,
+                                    cards: []
+                                })
                             )
                         }
                         close={() =>

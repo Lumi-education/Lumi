@@ -39,6 +39,7 @@ export default function(state: IGroup[] = [], action): IGroup[] {
 
         case 'DB_CHANGE':
         case 'CORE_UPDATE_DB_SUCCESS':
+        case 'CORE_CREATE_DB_SUCCESS':
         case USERS_GET_USER_SUCCESS:
         case GROUPS_ASSIGN_GROUPS_SUCCESS:
         case GROUPS_GET_GROUPS_SUCCESS:
