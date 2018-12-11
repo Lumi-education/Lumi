@@ -8,8 +8,13 @@ PouchDB.plugin(PouchDBFind);
 export const db_name = 'lumi';
 
 const db = new PouchDB(db_name);
-
-PouchDB.sync(db, `${window.location.origin}/api/v1/${db_name}`, {
+const remote_db = new PouchDB(`${window.location.origin}/api/v1/${db_name}`, {
+    fetch: (url, opts) => {
+        opts.headers.set('x-auth', window.localStorage.jwt_token);
+        return PouchDB.fetch(url, opts);
+    }
+});
+PouchDB.sync(db, remote_db, {
     live: true,
     retry: true
 })
