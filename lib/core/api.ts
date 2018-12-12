@@ -11,10 +11,14 @@ export function find(query, options?) {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 export function create<T>(doc: T): Promise<T> {
-    return db.post(doc);
+    return db.post(doc).then(response => {
+        return assign({}, doc, { _id: response.id, _rev: response.rev });
+    });
 }
 export function update<T>(doc: T): Promise<T> {
-    return db.put(doc);
+    return db.put(doc).then(response => {
+        return assign({}, doc, { _id: response.id, _rev: response.rev });
+    });
     // return request
     //     .post('/api/v0/core/update?id=' + id)
     //     .send(_update)
