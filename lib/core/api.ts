@@ -1,5 +1,6 @@
 import * as request from 'superagent';
-import db from 'client/store/pouchdb';
+import db from './db';
+import { assign } from 'lodash';
 
 declare var window;
 

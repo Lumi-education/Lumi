@@ -1,6 +1,6 @@
 import * as debug from 'debug';
 import PouchDB from 'pouchdb';
-import store from './';
+import store from 'client/store';
 
 import * as PouchDBFind from 'pouchdb-find';
 

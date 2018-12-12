@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-import db from 'client/store/pouchdb';
+import db from 'lib/core/db';
 declare var window;
 
 import { IGroup } from './types';
