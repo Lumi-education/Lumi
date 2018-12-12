@@ -34,7 +34,7 @@ if ((locale !== 'en' && locale !== 'de') || !locale) {
 moment.locale(locale);
 store.dispatch(setLocale(locale));
 
-import db from './store/pouchdb';
+import db from 'lib/core/db';
 
 db.allDocs({ include_docs: true }).then(docs => {
     const _docs = docs.rows.map(row => row.doc).filter(doc => doc.type);
