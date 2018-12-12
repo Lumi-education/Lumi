@@ -21,9 +21,7 @@ const remote_db = new PouchDB(`${window.location.origin}/api/v1/${db_name}`, {
 });
 PouchDB.sync(db, remote_db, {
     live: true,
-    retry: true,
-    filter: '_view',
-    view: `user/me`
+    retry: true
 })
     .on('change', changes => {
         log_info('changes', changes);
