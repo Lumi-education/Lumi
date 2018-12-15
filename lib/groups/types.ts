@@ -12,6 +12,10 @@ export interface IGroup {
 export interface IGroupUI {
     selected_groups: string[];
     group: IGroup;
+    error: {
+        message: string;
+    };
+    show_create_group_dialog: boolean;
 }
 
 export interface IState {

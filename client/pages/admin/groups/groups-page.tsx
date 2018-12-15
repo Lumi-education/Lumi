@@ -7,7 +7,16 @@ import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
 import FilterBar from 'lib/ui/components/filter-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import CreateGroupDialog from 'client/dialogs/group-create-dialog';
+
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import styles from 'client/style/style';
+
+import { GroupCreateContainer } from 'client/container';
 
 // types
 import { IState } from 'client/state';
@@ -19,6 +28,11 @@ import * as UI from 'lib/ui';
 
 interface IStateProps {
     groups: Groups.IGroup[];
+    existing_groupnames: string[];
+    classes: any;
+    group: Groups.models.Group;
+
+    show_create_group_dialog: boolean;
 }
 
 interface IDispatchProps {
@@ -44,28 +58,16 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
             loading: 'init',
             loading_step: 0
         };
+
+        this.close_dialog = this.close_dialog.bind(this);
     }
 
-    public componentWillMount() {
-        // this.setState({ loading: Core.i18n.t('groups'), loading_step: 1 });
-        // this.props.dispatch(Groups.actions.get_groups()).then(res => {
-        this.setState({ loading: 'finished', loading_step: 2 });
-        // });
+    public close_dialog() {
+        this.setState({ show_create_group_dialog: false });
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    max={2}
-                    min={0}
-                    value={this.state.loading_step}
-                >
-                    {Core.i18n.t('groups')}
-                </UI.components.LoadingPage>
-            );
-        }
-
+        const { classes, existing_groupnames, group } = this.props;
         return (
             <div>
                 <Paper>
@@ -79,28 +81,29 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 <Paper>
                     <List>
                         {this.props.groups
-                            .filter(group => {
+                            .filter(_group => {
                                 return this.state.search_text === ''
                                     ? true
-                                    : group.name
+                                    : _group.name
                                           .toLocaleLowerCase()
                                           .indexOf(
                                               this.state.search_text.toLocaleLowerCase()
                                           ) > -1;
                             })
-                            .map(group => (
-                                <div key={group._id}>
+                            .map((_group, index) => (
+                                <div key={_group._id + index}>
                                     <ListItem
                                         leftAvatar={
                                             <Avatar>
-                                                {group.name.substring(0, 3)}
+                                                {_group.name.substring(0, 3)}
                                             </Avatar>
                                         }
-                                        primaryText={group.name}
+                                        primaryText={_group.name}
                                         onClick={() =>
                                             this.props.dispatch(
                                                 UI.actions.push(
-                                                    '/admin/groups/' + group._id
+                                                    '/admin/groups/' +
+                                                        _group._id
                                                 )
                                             )
                                         }
@@ -112,7 +115,9 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 </Paper>
                 <FloatingActionButton
                     onClick={() =>
-                        this.setState({ show_create_group_dialog: true })
+                        this.props.dispatch(
+                            Groups.actions.create_group_dialog(true)
+                        )
                     }
                     style={{
                         margin: '20px',
@@ -123,33 +128,57 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                 >
                     <ContentAdd />
                 </FloatingActionButton>
-                {this.state.show_create_group_dialog ? (
-                    <CreateGroupDialog
-                        create_group={(name: string) =>
-                            this.props.dispatch(
-                                Core.actions.create<Groups.IGroup>({
-                                    name,
-                                    _id: undefined,
-                                    type: 'group',
-                                    created_at: new Date(),
-                                    autojoin: false,
-                                    cards: []
-                                })
-                            )
-                        }
-                        close={() =>
-                            this.setState({ show_create_group_dialog: false })
-                        }
-                    />
-                ) : null}
+                <Dialog
+                    className={classes.dialog}
+                    title={Core.i18n.t('group_create')}
+                    open={this.props.show_create_group_dialog}
+                >
+                    <DialogTitle id="form-dialog-title">
+                        {Core.i18n.t('group_create')}
+                    </DialogTitle>
+                    <DialogContent className={classes.dialogContent}>
+                        <GroupCreateContainer />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Groups.actions.create_group_dialog(false)
+                                )
+                            }
+                            color="primary"
+                        >
+                            {Core.i18n.t('cancel')}
+                        </Button>
+                        <Button
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Groups.actions.create_group(
+                                        group,
+                                        existing_groupnames
+                                    )
+                                )
+                            }
+                            color="primary"
+                        >
+                            {Core.i18n.t('create')}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        groups: Groups.selectors.groups_list(state)
+        groups: Groups.selectors.groups_list(state),
+        existing_groupnames: Groups.selectors
+            .groups_list(state)
+            .map(group => group.name),
+        classes: ownProps.classes,
+        group: state.groups.ui.group,
+        show_create_group_dialog: state.groups.ui.show_create_group_dialog
     };
 }
 
@@ -159,7 +188,9 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminGroups);
+export default withStyles(styles)(
+    connect<{}, {}, {}>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(AdminGroups)
+);

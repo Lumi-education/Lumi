@@ -39,6 +39,7 @@ export const GROUPS_REM_GROUP_ERROR = 'GROUPS_REM_GROUP_ERROR';
 export const GROUPS_UPDATE_GROUP_REQUEST = 'GROUPS_UPDATE_GROUP_REQUEST';
 export const GROUPS_UPDATE_GROUP_SUCCESS = 'GROUPS_UPDATE_GROUP_SUCCESS';
 export const GROUPS_UPDATE_GROUP_ERROR = 'GROUPS_UPDATE_GROUP_ERROR';
+export const GROUPS_CREATE_GROUP_DIALOG = 'GROUPS_CREATE_GROUP_DIALOG';
 
 export const GROUPS_ASSIGN_GROUPS_REQUEST = 'GROUPS_ASSIGN_GROUPS_REQUEST';
 export const GROUPS_ASSIGN_GROUPS_SUCCESS = 'GROUPS_ASSIGN_GROUPS_SUCCESS';
@@ -50,6 +51,7 @@ export const GROUPS_REMOVE_USERS_FROM_GROUPS_SUCCESS =
 export const GROUPS_REMOVE_USERS_FROM_GROUPS_ERROR =
     'GROUPS_REMOVE_USERS_FROM_GROUPS_ERROR';
 
+export const GROUPS_UI_RESET_GROUP = 'GROUPS_UI_RESET_GROUP';
 export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP';
 export const GROUPS_UI_SET_SELECTED_GROUPS = 'GROUPS_UI_SET_SELECTED_GROUPS';
 export const GROUPS_UI_CHANGE_GROUP = 'GROUPS_UI_CHANGE_GROUP';
@@ -58,8 +60,14 @@ export const GROUPS_ADD_CARDS_REQUEST = 'GROUPS_ADD_CARDS_REUQEST';
 export const GROUPS_ADD_CARDS_SUCCESS = 'GROUPS_ADD_CARDS_SUCCESS';
 export const GROUPS_ADD_CARDS_ERROR = 'GROUPS_ADD_CARDS_ERROR';
 import * as API from './api';
+import * as Core from 'lib/core';
+import * as debug from 'debug';
 
 import { IGroup } from './types';
+import { Group } from './models';
+
+const log_info = debug('lumi:info:groups:actions');
+const log_error = debug('lumi:error:groups:actions');
 
 export function assign_groups(user_ids: string[], group_ids: string[]) {
     return {
@@ -88,23 +96,34 @@ export function remove_users_from_groups(
     };
 }
 
-export function create_group(name: string) {
-    const group: IGroup = {
-        name,
-        _id: undefined,
-        type: 'group',
-        created_at: new Date(),
-        autojoin: false,
-        cards: []
-    };
-    return {
-        types: [
-            GROUPS_CREATE_REQUEST,
-            GROUPS_CREATE_SUCCESS,
-            GROUPS_CREATE_ERROR
-        ],
-        api: API.create_group(group),
-        payload: { group }
+export function create_group(group: Group, existing_groupnames: string[]) {
+    log_info('create_group');
+    return dispatch => {
+        if (existing_groupnames.indexOf(group.name) > -1) {
+            log_error('create_group', 'groups_conflict');
+            return dispatch({
+                type: GROUPS_CREATE_ERROR,
+                payload: { group, message: 'groups_conflict' }
+            });
+        }
+
+        if (group.name === '') {
+            log_error('create_group', 'groups.no_name');
+            return dispatch({
+                type: GROUPS_CREATE_ERROR,
+                payload: { group, message: 'groups_no_name' }
+            });
+        }
+
+        return dispatch({
+            types: [
+                GROUPS_CREATE_REQUEST,
+                GROUPS_CREATE_SUCCESS,
+                GROUPS_CREATE_ERROR
+            ],
+            api: Core.api.create<IGroup>(group),
+            payload: [group]
+        });
     };
 }
 
@@ -155,17 +174,17 @@ export function get_user_groups(user_id: string) {
     };
 }
 
-export function update_group(group_id: string, update) {
-    return {
-        types: [
-            GROUPS_UPDATE_GROUP_REQUEST,
-            GROUPS_UPDATE_GROUP_SUCCESS,
-            GROUPS_UPDATE_GROUP_ERROR
-        ],
-        api: API.update_group(group_id, update),
-        payload: { group_id, update }
-    };
-}
+// export function update_group(group_id: string, update) {
+//     return {
+//         types: [
+//             GROUPS_UPDATE_GROUP_REQUEST,
+//             GROUPS_UPDATE_GROUP_SUCCESS,
+//             GROUPS_UPDATE_GROUP_ERROR
+//         ],
+//         api: API.update_group(group_id, update),
+//         payload: { group_id, update }
+//     };
+// }
 
 export function select_group(group_id: string) {
     return {
@@ -198,5 +217,18 @@ export function add_cards(group_id: string, card_ids: string[]) {
         ],
         api: API.add_cards(group_id, card_ids),
         payload: { group_id, card_ids }
+    };
+}
+
+export function create_group_dialog(open: boolean) {
+    return {
+        open,
+        type: GROUPS_CREATE_GROUP_DIALOG
+    };
+}
+
+export function reset_ui_group() {
+    return {
+        type: GROUPS_UI_RESET_GROUP
     };
 }

@@ -55,6 +55,10 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
             });
     }
 
+    public componentWillUnmount() {
+        this.props.dispatch(Groups.actions.reset_ui_group());
+    }
+
     public render() {
         if (this.state.loading !== 'finished') {
             return (
@@ -133,12 +137,12 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                 {(() => {
                     switch (this.props.tab) {
                         case 'settings':
-                        default:
                             return (
                                 <GroupSettingsTab
                                     group_id={this.props.group_id}
                                 />
                             );
+                        default:
                         case 'users':
                             return (
                                 <div>
@@ -167,7 +171,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         group_id,
         group: Groups.selectors.select_group(state, group_id),
-        tab: ownProps.match.params.tab || 'settings'
+        tab: ownProps.match.params.tab || 'users'
     };
 }
 
