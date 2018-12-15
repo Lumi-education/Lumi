@@ -62,7 +62,7 @@ export function update<T>(
 ): {
     types: string[];
     api: Promise<T>;
-    payload: T;
+    payload: T[];
 } {
     return {
         types: [
@@ -71,7 +71,7 @@ export function update<T>(
             CORE_UPDATE_DB_ERROR
         ],
         api: API.update<T>(doc),
-        payload: doc
+        payload: [doc]
     };
 }
 
@@ -80,7 +80,7 @@ export function create<T>(
 ): {
     types: string[];
     api: Promise<T>;
-    payload: T;
+    payload: T[];
 } {
     return {
         types: [
@@ -89,7 +89,7 @@ export function create<T>(
             CORE_CREATE_DB_ERROR
         ],
         api: API.create<T>(doc),
-        payload: doc
+        payload: [doc]
     };
 }
 export function shutdown() {

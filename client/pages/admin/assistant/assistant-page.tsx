@@ -195,7 +195,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                             variant="outlined"
                                                         />
                                                     </form>
-                                                    <UI.components.RaisedButton
+                                                    {/* <UI.components.RaisedButton
                                                         action={Groups.actions.create_group(
                                                             this.state
                                                                 .group_name
@@ -226,7 +226,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                             });
                                                             this.handleNext();
                                                         }}
-                                                    />
+                                                    /> */}
                                                 </div>
                                             )}
                                         </div>
@@ -307,14 +307,18 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                     variant="outlined"
                                                 />
                                             </form>
-                                            <UI.components.RaisedButton
-                                                action={Users.actions.create_user(
-                                                    this.state.user_name,
-                                                    {
-                                                        groups: [
-                                                            this.state.group._id
-                                                        ]
-                                                    }
+                                            {/* <UI.components.RaisedButton
+                                                action={Users.actions.create_users(
+                                                    [
+                                                        {
+                                                            name: this.state
+                                                                .user_name,
+                                                            groups: [
+                                                                this.state.group
+                                                                    ._id
+                                                            ]
+                                                        }
+                                                    ]
                                                 )}
                                                 labels={[
                                                     Core.i18n.t('user_create'),
@@ -338,7 +342,7 @@ export class AssistantPage extends React.Component<IProps, IComponentState> {
                                                         user_name: ''
                                                     });
                                                 }}
-                                            />
+                                            /> */}
                                         </div>
                                     );
                                 case 2:

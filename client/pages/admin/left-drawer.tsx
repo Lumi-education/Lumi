@@ -136,7 +136,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/cards');
                             }}
                         />
-                        <ListItem
+                        {/* <ListItem
                             primaryText={Core.i18n.t('folders')}
                             leftIcon={<SVGFolder />}
                             onClick={() => {
@@ -149,8 +149,8 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() => {
                                 this.props.push('/admin/tags');
                             }}
-                        />
-                        <Divider />
+                        /> */}
+                        {/* <Divider />
                         <Subheader>{Core.i18n.t('monitor')}</Subheader>
 
                         <ListItem
@@ -173,7 +173,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 ) : null
                             }
                             onClick={() => this.props.push('/admin/comments')}
-                        />
+                        /> */}
                         <Divider />
                         <Subheader>{Core.i18n.t('user')}</Subheader>
                         <ListItem

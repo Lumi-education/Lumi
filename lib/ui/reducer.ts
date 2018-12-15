@@ -26,6 +26,8 @@ import {
     UI_SET_SEARCH_FILTER
 } from './actions';
 
+import { USERS_CREATE_USER_SUCCESS } from 'lib/users/actions';
+
 const initialState: IUI = {
     left_drawer_show: false,
     right_drawer_show: false,
@@ -56,6 +58,8 @@ const initialState: IUI = {
 
 export default function(state: IUI = initialState, action): IUI {
     switch (action.type) {
+        case USERS_CREATE_USER_SUCCESS:
+            return assign({}, state, { show_create_user_dialog: false });
         case UI_SET_APPBAR_TITLE:
             return assign({}, state, { appbar_title: action.payload.title });
 
@@ -156,7 +160,9 @@ export default function(state: IUI = initialState, action): IUI {
             if (action.type.indexOf('_ERROR') > -1) {
                 console.log(action);
                 return assign({}, state, {
-                    snackbar_text: action.response.message,
+                    snackbar_text: action.payload
+                        ? action.payload.message
+                        : action.response.message,
                     snackbar_open: true
                 });
             }

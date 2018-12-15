@@ -78,7 +78,7 @@ export class AdminAppBar extends React.Component<IProps, {}> {
                         >
                             Lumi
                         </Typography>
-                        <div className={classes.search}>
+                        {/* <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
                             </div>
@@ -97,7 +97,7 @@ export class AdminAppBar extends React.Component<IProps, {}> {
                                     input: classes.inputInput
                                 }}
                             />
-                        </div>
+                        </div> */}
                         {/* <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">

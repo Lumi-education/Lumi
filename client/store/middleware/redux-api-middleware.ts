@@ -41,22 +41,17 @@ export default function callAPIMiddleware({ dispatch, getState }) {
         return api.then(
             response =>
                 dispatch(
-                    !response.body && !response.test && response.ok
-                        ? {
-                              payload: [
-                                  assign({}, ...payload, {
-                                      _id: response.id,
-                                      _rev: response.rev
-                                  })
-                              ],
-                              type: successType
-                          }
-                        : assign({}, payload, {
+                    response.header || response.headers
+                        ? assign({}, payload, {
                               response,
                               payload:
                                   response.body || JSON.parse(response.text),
                               type: successType
                           })
+                        : {
+                              payload: response,
+                              type: successType
+                          }
                 ),
             error =>
                 dispatch(

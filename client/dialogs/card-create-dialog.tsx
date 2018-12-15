@@ -77,40 +77,40 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                                 )
                             }
                         />
-                    ) : null,
-                    <UI.components.RaisedButton
-                        action={
-                            this.props.card._id
-                                ? Cards.actions.update_card(
-                                      this.props.card._id,
-                                      this.props.card
-                                  )
-                                : Cards.actions.create_card(this.props.card)
-                        }
-                        labels={
-                            this.props.card._id
-                                ? [
-                                      Core.i18n.t('save'),
-                                      Core.i18n.t('saving'),
-                                      Core.i18n.t('saved'),
-                                      Core.i18n.t('error')
-                                  ]
-                                : [
-                                      Core.i18n.t('create'),
-                                      Core.i18n.t('creating'),
-                                      Core.i18n.t('created'),
-                                      Core.i18n.t('error')
-                                  ]
-                        }
-                        fullWidth={false}
-                        disabled={false}
-                        onSuccess={() => {
-                            this.props.dispatch(
-                                UI.actions.toggle_create_card_dialog()
-                            );
-                            this.props.dispatch(Cards.actions.reset_card());
-                        }}
-                    />
+                    ) : null
+                    // <UI.components.RaisedButton
+                    //     action={
+                    //         this.props.card._id
+                    //             ? Cards.actions.update_card(
+                    //                   this.props.card._id,
+                    //                   this.props.card
+                    //               )
+                    //             : Cards.actions.create_card(this.props.card)
+                    //     }
+                    //     labels={
+                    //         this.props.card._id
+                    //             ? [
+                    //                   Core.i18n.t('save'),
+                    //                   Core.i18n.t('saving'),
+                    //                   Core.i18n.t('saved'),
+                    //                   Core.i18n.t('error')
+                    //               ]
+                    //             : [
+                    //                   Core.i18n.t('create'),
+                    //                   Core.i18n.t('creating'),
+                    //                   Core.i18n.t('created'),
+                    //                   Core.i18n.t('error')
+                    //               ]
+                    //     }
+                    //     fullWidth={false}
+                    //     disabled={false}
+                    //     onSuccess={() => {
+                    //         this.props.dispatch(
+                    //             UI.actions.toggle_create_card_dialog()
+                    //         );
+                    //         this.props.dispatch(Cards.actions.reset_card());
+                    //     }}
+                    // />
                 ]}
                 open={this.props.open}
                 onRequestClose={() =>
