@@ -45,7 +45,7 @@ export default class UserListComponent extends React.Component<
         return (
             <List component="nav">
                 {this.props.users.map(user => (
-                    <div>
+                    <div key={user._id}>
                         <UserListItem
                             user={user}
                             onClick={() => this.props.onListItemClick(user._id)}

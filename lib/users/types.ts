@@ -1,6 +1,6 @@
 export type User_id = string;
 type Group_id = string;
-
+import { User } from './models';
 import { Locales } from 'lib/core/types';
 
 export interface IUser {
@@ -30,4 +30,9 @@ export interface IState {
 export interface IUsersUI {
     selected_users: string[];
     user: IUser;
+    users_to_create: string[];
+    username_to_create: string;
+    error: {
+        message: string;
+    };
 }

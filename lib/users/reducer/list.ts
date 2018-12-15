@@ -19,31 +19,28 @@ import * as Groups from '../../groups';
 export default function(state: IUser[] = [], action): IUser[] {
     switch (action.type) {
         case USERS_ADD_GROUP_REQUEST:
-            return state.map(
-                u =>
-                    u._id === action.payload.user_id
-                        ? add_group(u, action.payload.group_id)
-                        : u
+            return state.map(u =>
+                u._id === action.payload.user_id
+                    ? add_group(u, action.payload.group_id)
+                    : u
             );
 
         case USERS_REM_GROUP_REQUEST:
-            return state.map(
-                u =>
-                    u._id === action.payload.user_id
-                        ? rem_group(u, action.payload.group_id)
-                        : u
+            return state.map(u =>
+                u._id === action.payload.user_id
+                    ? rem_group(u, action.payload.group_id)
+                    : u
             );
 
         case USERS_UPDATE_USER_REQUEST:
-            return state.map(
-                user =>
-                    user._id === action.payload.user_id
-                        ? update_user(user, action.payload.update)
-                        : user
+            return state.map(user =>
+                user._id === action.payload.user_id
+                    ? update_user(user, action.payload.update)
+                    : user
             );
 
         case USERS_CREATE_USER_SUCCESS:
-            return [...state, action.payload];
+            return [...state, ...action.payload];
 
         case USERS_DELETE_USER_REQUEST:
             return state.filter(u => u._id !== action.payload.user_id);
