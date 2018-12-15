@@ -162,8 +162,32 @@ class AuthController {
                                                         update_user_error,
                                                         updated_user
                                                     ) => {
-                                                        res.status(200).json(
-                                                            updated_user
+                                                        db.findById(
+                                                            '_design/user',
+                                                            (
+                                                                view_error,
+                                                                view
+                                                            ) => {
+                                                                const new_view = add_view_to_user(
+                                                                    view,
+                                                                    updated_user._id
+                                                                );
+
+                                                                db.updateOne(
+                                                                    '_design/user',
+                                                                    new_view,
+                                                                    (
+                                                                        update_view_error,
+                                                                        updated_view
+                                                                    ) => {
+                                                                        res.status(
+                                                                            200
+                                                                        ).json(
+                                                                            updated_user
+                                                                        );
+                                                                    }
+                                                                );
+                                                            }
                                                         );
                                                     }
                                                 );
@@ -271,4 +295,18 @@ function jwt_token(user_id: string, level: number): any {
         },
         process.env.KEY || 'KEY'
     );
+}
+
+function add_view_to_user(_design, user_id: string) {
+    const new_view = {};
+    new_view[user_id] = {
+        map: "function (doc) {\n  if (doc.user_id === '__USERID__') { \n    emit('__USERID__', 1); \n    if (doc.type === 'assignment') { emit('__USERID__', { _id: doc.card_id }) }\n  }\n  if (doc.type === 'user' && doc._id === '__USERID__') {\n    emit('__USERID__', 1);\n    doc.groups.forEach(function(group_id)  { emit('__USERID__', {_id: group_id })} );\n  }\n}".replace(
+            /__USERID__/g,
+            user_id
+        )
+    };
+    const views = assign({}, _design.views, new_view);
+
+    _design.views = views;
+    return _design;
 }
