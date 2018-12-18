@@ -42,6 +42,22 @@ db.allDocs({ include_docs: true }).then(docs => {
         type: 'DB_CHANGE',
         payload: _docs
     });
+
+    ReactDOM.render(
+        <Provider store={store}>
+            <ConnectedRouter history={history}>
+                <MuiThemeProvider theme={theme_v1}>
+                    <V0MuiThemeProvider muiTheme={getMuiTheme(theme_v0)}>
+                        {/* deprecate issue #238 */}
+                        <Switch>
+                            <Route path="/" component={Root} />
+                        </Switch>
+                    </V0MuiThemeProvider>
+                </MuiThemeProvider>
+            </ConnectedRouter>
+        </Provider>,
+        document.getElementById('lumi')
+    );
 });
 
 // themes
@@ -53,19 +69,3 @@ import { default as V0MuiThemeProvider } from 'material-ui/styles/MuiThemeProvid
 
 import theme_v1 from './style/theme_v1';
 import theme_v0 from './style/theme'; // deprecate issue #238
-
-ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <MuiThemeProvider theme={theme_v1}>
-                <V0MuiThemeProvider muiTheme={getMuiTheme(theme_v0)}>
-                    {/* deprecate issue #238 */}
-                    <Switch>
-                        <Route path="/" component={Root} />
-                    </Switch>
-                </V0MuiThemeProvider>
-            </MuiThemeProvider>
-        </ConnectedRouter>
-    </Provider>,
-    document.getElementById('lumi')
-);
