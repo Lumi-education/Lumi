@@ -1,6 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as debug from 'debug';
 import { push } from 'lib/ui/actions';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -18,6 +19,7 @@ import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as UI from 'lib/ui';
 
+const log_info = debug('lumi:pages:admin:groups:group-page');
 interface IStateProps {
     group_id: string;
     tab: string;
@@ -44,10 +46,12 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
+        log_info('componentWillMount');
         this.props.dispatch(Groups.actions.change_group(this.props.group));
     }
 
     public componentWillUnmount() {
+        log_info('componentWillUnmount');
         this.props.dispatch(Groups.actions.reset_ui_group());
     }
 

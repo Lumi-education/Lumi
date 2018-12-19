@@ -40,6 +40,8 @@ const i18n = {
             'Assign %{num} card(s) to whole groups or individual users.',
         comment: 'Comment',
         comments: 'Comments',
+        remove_user_from_group_confirmation:
+            'Do you want to remove %{user} from %{group}?',
         get_connected: 'Get connected',
         welcome: 'Welcome',
         comments_no: 'No comments',
@@ -238,6 +240,8 @@ const i18n = {
         logout: 'Abmelden',
         loading: 'lade',
         user: 'Schüler',
+        remove_user_from_group_confirmation:
+            'Möchtest du %{user} aus  %{group} entfernen?',
         user_delete: 'Benutzer löschen',
         user_create: 'Benutzer erstellen',
         username_exists: 'Benutzername bereits vergeben',

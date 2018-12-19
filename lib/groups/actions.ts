@@ -66,6 +66,8 @@ import * as debug from 'debug';
 import { IGroup } from './types';
 import { Group } from './models';
 
+import * as Users from 'lib/users';
+
 const log_info = debug('lumi:info:groups:actions');
 const log_error = debug('lumi:error:groups:actions');
 
@@ -82,17 +84,12 @@ export function assign_groups(user_ids: string[], group_ids: string[]) {
 }
 
 export function remove_users_from_groups(
-    user_ids: string[],
-    group_ids: string[]
+    user: Users.models.User,
+    group: Group
 ) {
-    return {
-        types: [
-            GROUPS_REMOVE_USERS_FROM_GROUPS_REQUEST,
-            GROUPS_REMOVE_USERS_FROM_GROUPS_SUCCESS,
-            GROUPS_REMOVE_USERS_FROM_GROUPS_ERROR
-        ],
-        api: API.remove_users_from_groups(user_ids, group_ids),
-        payload: { payload: { user_ids, group_ids } }
+    return dispatch => {
+        user.groups = user.groups.filter(group_id => group_id !== group._id);
+        dispatch(Core.actions.update<Users.models.User>(user));
     };
 }
 
