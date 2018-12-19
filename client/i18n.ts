@@ -169,9 +169,25 @@ const i18n = {
         next_steps: 'Next Steps',
         flow_explain: 'Overview of the progress of the group',
         go: 'Go',
-        tutorial_explain: 'Learn how users can connect with Lumi.'
+        tutorial_explain: 'Learn how users can connect with Lumi.',
+        autojoin_explain:
+            'Enabling Autojoin adds all registering users to this group',
+        create_users: 'Create new Users',
+        add_users: 'Add users',
+        create_users_explain: 'Create new users and add them to this group',
+        add_users_explain: 'Add existing users to this group'
     },
     de: {
+        autojoin_explain:
+            'Wenn "Automatisch Beitretren" aktiviert wird, werden alle, sich neu registrierenden Benutzer, automatisch dieser Lerngruppe hinzugefügt.',
+        add_users: 'Existierende Lernende hinzufügen',
+
+        create_users: 'Accounts für Lernende neu anlegen',
+        create_users_explain:
+            'Erstelle neue Lernende und fgüe diese dieser Lerngruppe hinzu.',
+        add_users_explain:
+            'Füge bereits existierende Lernende dieser Lerngruppe hinzu.',
+        use: 'Benutzen',
         activity: 'Aktivittät',
         activity_assignment_completed:
             'hat die Lernkarte %{cardname} mit %{score} beendet.',
@@ -233,13 +249,13 @@ const i18n = {
         group: 'Gruppe',
         group_create: 'Gruppe erstellen',
         password_repeat: 'Passwort wiederholen',
-        groups: 'Klassen',
+        groups: 'Lerngruppen',
         login: 'Anmelden',
         dashboard: 'Übersicht',
         password: 'Passwort',
         logout: 'Abmelden',
         loading: 'lade',
-        user: 'Schüler',
+        user: 'Lernender',
         remove_user_from_group_confirmation:
             'Möchtest du %{user} aus  %{group} entfernen?',
         user_delete: 'Benutzer löschen',
@@ -248,7 +264,7 @@ const i18n = {
         username_free: 'Benutzername %{name} ist frei',
         username_does_not_exist: 'Der Benutzer %{name} existiert nicht',
         group_exists: 'Gruppe existiert bereits.',
-        users: 'Schüler',
+        users: 'Lernende',
         tag: 'Tag',
         tag_create: 'Tag erstellen',
         tags: 'Tags',

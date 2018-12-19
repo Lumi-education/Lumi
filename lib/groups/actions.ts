@@ -93,6 +93,17 @@ export function remove_users_from_groups(
     };
 }
 
+export function add_users_to_group(users: Users.models.User[], group: Group) {
+    return dispatch => {
+        const _users = users.map(user => {
+            user.groups.push(group._id);
+            return user;
+        });
+
+        dispatch(Core.actions.update_many<Users.models.User>(_users));
+    };
+}
+
 export function create_group(group: Group, existing_groupnames: string[]) {
     log_info('create_group');
     return dispatch => {

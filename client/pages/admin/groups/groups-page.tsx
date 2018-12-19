@@ -156,10 +156,26 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                                         <ListItemText
                                             primary={group.name}
                                             secondary={
-                                                this.props.users(group._id)
-                                                    .length +
-                                                ' ' +
-                                                Core.i18n.t('users')
+                                                <span>
+                                                    {group.autojoin ? (
+                                                        <Typography color="error">
+                                                            {Core.i18n.t(
+                                                                'autojoin'
+                                                            )}
+                                                        </Typography>
+                                                    ) : (
+                                                        ''
+                                                    )}
+                                                    <Typography>
+                                                        {this.props.users(
+                                                            group._id
+                                                        ).length +
+                                                            ' ' +
+                                                            Core.i18n.t(
+                                                                'users'
+                                                            )}
+                                                    </Typography>
+                                                </span>
                                             }
                                         />
                                     </ListItem>

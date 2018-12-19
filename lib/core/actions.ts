@@ -92,6 +92,25 @@ export function create<T>(
         payload: [doc]
     };
 }
+
+export function update_many<T>(
+    docs: T[]
+): {
+    types: string[];
+    api: Promise<T[]>;
+    payload: T[];
+} {
+    return {
+        types: [
+            CORE_UPDATE_DB_REQUEST,
+            CORE_UPDATE_DB_SUCCESS,
+            CORE_UPDATE_DB_ERROR
+        ],
+        api: API.batch_create<T>(docs),
+        payload: docs
+    };
+}
+
 export function shutdown() {
     return dispatch => {
         API.shutdown().then(res => {

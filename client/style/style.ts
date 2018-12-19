@@ -9,7 +9,8 @@ const style: StyleRulesCallback = theme => ({
         minWidth: '500px'
     },
     dialogContent: {
-        minWidth: '500px'
+        minWidth: '500px',
+        minHeight: '350px'
     },
     root: {
         display: 'flex'
