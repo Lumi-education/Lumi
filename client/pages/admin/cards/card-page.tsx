@@ -27,8 +27,6 @@ interface IDispatchProps {
 }
 
 interface IComponentState {
-    loading: string;
-    loading_step: number;
 }
 interface IProps extends IStateProps, IDispatchProps {}
 
@@ -43,27 +41,14 @@ export class CardPage extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('card'), loading_step: 1 });
-        this.props
-            .dispatch(Cards.actions.get_cards([this.props.card_id]))
-            .then(res => {
-                this.props.dispatch(Cards.actions.change_card(res.payload[0]));
-                this.setState({ loading: 'finished', loading_step: 2 });
-            });
+        this.props.dispatch(
+            Cards.actions.change_card(this.props.card_in_state)
+        );
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={0}
-                    max={2}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
+        return <div id="card-page" />;
+    }
 
         return (
             <div>
