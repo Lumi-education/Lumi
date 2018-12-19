@@ -42,10 +42,7 @@ export default withStyles(styles)(
 
         public generate_avatar_url() {
             log_info('generate_avatar_url');
-            if (
-                this.props.doc._attachments &&
-                this.props.doc._attachments['avatar.jpg']
-            ) {
+            if (this.props.doc._attachments) {
                 Core.db
                     .getAttachment(this.props.doc._id, 'avatar.jpg')
                     .then((avatar: Blob) => {
@@ -73,7 +70,7 @@ export default withStyles(styles)(
 
         public componentDidUpdate(prevProps: IProps) {
             log_info('componentDidUpdate', prevProps);
-            if (!this.props.doc._attachments) {
+            if (!this.props.doc._attachments || !prevProps.doc._attachments) {
                 log_error(
                     'componentDidUpdate',
                     '_attachments is undefined',
