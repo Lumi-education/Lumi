@@ -8,7 +8,7 @@ import { IState } from 'client/state';
 
 // components
 import {
-    Avatar,
+    Avatar as MUIAvatar,
     Paper,
     IconMenu,
     MenuItem,
@@ -18,6 +18,8 @@ import {
     RaisedButton,
     FloatingActionButton
 } from 'material-ui';
+
+import { Avatar } from 'client/components';
 
 import { TagsChipInputContainer } from 'client/container';
 
@@ -198,7 +200,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                     >
                                         <CardHeader
                                             title={user.name}
-                                            avatar={<Avatar>P</Avatar>}
+                                            avatar={
+                                                <Avatar doc={user}>P</Avatar>
+                                            }
                                             showExpandableButton={false}
                                         />
                                     </div>
@@ -285,13 +289,13 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                                 false
                                                             }
                                                             avatar={
-                                                                <Avatar
+                                                                <MUIAvatar
                                                                     backgroundColor={UI.utils.get_grade_color(
                                                                         assignment.get_score()
                                                                     )}
                                                                 >
                                                                     {assignment.get_score()}
-                                                                </Avatar>
+                                                                </MUIAvatar>
                                                             }
                                                         />
                                                     </Card>

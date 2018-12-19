@@ -16,6 +16,9 @@ const initialState: IGroupUI = {
     selected_groups: [],
     group: {
         _id: undefined,
+        _rev: undefined,
+        _deleted: false,
+        _attachments: {},
         type: 'group',
         name: '',
         created_at: new Date(),
@@ -97,6 +100,7 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
             });
 
         case 'CORE_UPDATE_DB_SUCCESS':
+        case 'DB_CHANGE':
             const updated_group = action.payload.filter(
                 doc => doc.type === 'group' && doc._id === state.group._id
             )[0];

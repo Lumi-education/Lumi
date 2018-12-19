@@ -21,9 +21,10 @@ export default function boot(): express.Application {
     app.set('view engine', 'jsx');
     app.engine('jsx', require('express-react-views').createEngine());
 
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({ limit: '50mb', extended: true }));
     app.use(
         bodyParser.urlencoded({
+            limit: '50mb',
             extended: true
         })
     );

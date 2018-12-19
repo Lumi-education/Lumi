@@ -101,6 +101,7 @@ class AuthController {
 
                                 const new_user: IUser = {
                                     _id: undefined,
+                                    _rev: undefined,
                                     type: 'user',
                                     name: 'no name',
                                     level: 0,
@@ -111,7 +112,8 @@ class AuthController {
                                     location: '/',
                                     password: pw,
                                     flow: [],
-                                    _deleted: false
+                                    _deleted: false,
+                                    _attachments: {}
                                 };
 
                                 assign(new_user, req.body, { password: pw });

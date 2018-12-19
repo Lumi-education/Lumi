@@ -1,6 +1,8 @@
 type Group_id = string;
 
-export interface IGroup {
+import { IDoc } from 'lib/core/types';
+
+export interface IGroup extends IDoc {
     _id: Group_id;
     type: 'group';
     name: string;

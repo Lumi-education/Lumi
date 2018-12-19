@@ -3,7 +3,9 @@ import { IUser } from './types';
 
 export class User implements IUser {
     public _id: string;
+    public _rev: string;
     public _deleted: boolean;
+    public _attachments: any;
     public type: 'user';
     public name: string;
     public level: number;
@@ -20,6 +22,7 @@ export class User implements IUser {
             this,
             {
                 _id: undefined,
+                _rev: undefined,
                 type: 'user',
                 name: 'no name',
                 level: 0,
@@ -29,7 +32,8 @@ export class User implements IUser {
                 online: false,
                 location: '/',
                 flow: [],
-                _deleted: false
+                _deleted: false,
+                _attachments: {}
             },
             u
         );

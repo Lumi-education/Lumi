@@ -95,15 +95,15 @@ export function delete_user(user_ids: string[]) {
     };
 }
 
-export function update_user(user_id: string, update) {
+export function update_user(user: User) {
     return {
         types: [
             USERS_UPDATE_USER_REQUEST,
             USERS_UPDATE_USER_SUCCESS,
             USERS_UPDATE_USER_ERROR
         ],
-        api: API.update_user(user_id, update),
-        payload: { user_id, update }
+        api: API.update_user(user),
+        payload: [user]
     };
 }
 

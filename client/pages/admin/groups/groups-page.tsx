@@ -1,22 +1,38 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as classNames from 'classnames';
 
-import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
-
-import FilterBar from 'lib/ui/components/filter-bar';
+// import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-
+import GroupIcon from '@material-ui/icons/Group';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@material-ui/icons/Menu';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from 'client/components/avatar';
+
 import styles from 'client/style/style';
 
-import { GroupCreateContainer } from 'client/container';
+import {
+    GroupCreateContainer,
+    UsersChipInputContainer
+} from 'client/container';
 
 // types
 import { IState } from 'client/state';
@@ -24,6 +40,7 @@ import { IState } from 'client/state';
 // modules
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
+import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 
 interface IStateProps {
@@ -31,8 +48,10 @@ interface IStateProps {
     existing_groupnames: string[];
     classes: any;
     group: Groups.models.Group;
+    users: (groups_id: string) => Users.models.User[];
 
     show_create_group_dialog: boolean;
+    search_text: string;
 }
 
 interface IDispatchProps {
@@ -67,104 +86,143 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        const { classes, existing_groupnames, group } = this.props;
+        const { classes, existing_groupnames } = this.props;
+        const groups = this.props.groups
+            .filter(group => group.name.indexOf(this.props.search_text) > -1)
+            .sort(Core.utils.alphabetically);
         return (
-            <div>
-                <Paper>
-                    <FilterBar
-                        filter={this.state.search_text}
-                        set_filter={filter =>
-                            this.setState({ search_text: filter })
-                        }
-                    />
-                </Paper>
-                <Paper>
-                    <List>
-                        {this.props.groups
-                            .filter(_group => {
-                                return this.state.search_text === ''
-                                    ? true
-                                    : _group.name
-                                          .toLocaleLowerCase()
-                                          .indexOf(
-                                              this.state.search_text.toLocaleLowerCase()
-                                          ) > -1;
-                            })
-                            .map((_group, index) => (
-                                <div key={_group._id + index}>
+            <div id="groups-page">
+                <AppBar position="fixed" className={classNames(classes.appBar)}>
+                    <Toolbar disableGutters={!open} style={{ display: 'flex' }}>
+                        <div style={{ flex: 1 }}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="Open drawer"
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        UI.actions.left_drawer_open()
+                                    )
+                                }
+                                className={classNames(classes.menuButton)}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </div>
+                        <div style={{ flex: 10 }}>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon />
+                                </div>
+                                <InputBase
+                                    placeholder={Core.i18n.t('search') + '...'}
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput
+                                    }}
+                                    onChange={e =>
+                                        this.props.dispatch(
+                                            UI.actions.set_search_filter(
+                                                e.target.value
+                                            )
+                                        )
+                                    }
+                                    value={this.props.search_text}
+                                />
+                            </div>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+                <div className={classes.contentList}>
+                    <Typography variant="h5" component="h3">
+                        {Core.i18n.t('groups')}
+                    </Typography>
+                    <Paper>
+                        <List>
+                            {groups.map((group, index) => (
+                                <div key={group._id + index}>
                                     <ListItem
-                                        leftAvatar={
-                                            <Avatar>
-                                                {_group.name.substring(0, 3)}
-                                            </Avatar>
-                                        }
-                                        primaryText={_group.name}
                                         onClick={() =>
                                             this.props.dispatch(
                                                 UI.actions.push(
-                                                    '/admin/groups/' +
-                                                        _group._id
+                                                    '/admin/groups/' + group._id
                                                 )
                                             )
                                         }
-                                    />
-                                    <Divider inset={true} />
+                                    >
+                                        <Avatar doc={group}>
+                                            {group.name.substring(0, 3)}
+                                        </Avatar>
+
+                                        <ListItemText
+                                            primary={group.name}
+                                            secondary={
+                                                this.props.users(group._id)
+                                                    .length +
+                                                ' ' +
+                                                Core.i18n.t('users')
+                                            }
+                                        />
+                                    </ListItem>
+                                    <Divider />
                                 </div>
                             ))}
-                    </List>
-                </Paper>
-                <FloatingActionButton
-                    onClick={() =>
-                        this.props.dispatch(
-                            Groups.actions.create_group_dialog(true)
-                        )
-                    }
-                    style={{
-                        margin: '20px',
-                        bottom: '0px',
-                        right: '20px',
-                        position: 'fixed'
-                    }}
-                >
-                    <ContentAdd />
-                </FloatingActionButton>
-                <Dialog
-                    className={classes.dialog}
-                    title={Core.i18n.t('group_create')}
-                    open={this.props.show_create_group_dialog}
-                >
-                    <DialogTitle id="form-dialog-title">
-                        {Core.i18n.t('group_create')}
-                    </DialogTitle>
-                    <DialogContent className={classes.dialogContent}>
-                        <GroupCreateContainer />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            onClick={() =>
-                                this.props.dispatch(
-                                    Groups.actions.create_group_dialog(false)
-                                )
-                            }
-                            color="primary"
-                        >
-                            {Core.i18n.t('cancel')}
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                this.props.dispatch(
-                                    Groups.actions.create_group(
-                                        group,
-                                        existing_groupnames
+                        </List>
+                    </Paper>
+                    <FloatingActionButton
+                        onClick={() =>
+                            this.props.dispatch(
+                                Groups.actions.create_group_dialog(true)
+                            )
+                        }
+                        style={{
+                            margin: '20px',
+                            bottom: '0px',
+                            right: '20px',
+                            position: 'fixed'
+                        }}
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
+                    <Dialog
+                        className={classes.dialog}
+                        title={Core.i18n.t('group_create')}
+                        open={this.props.show_create_group_dialog}
+                    >
+                        <DialogTitle id="form-dialog-title">
+                            {Core.i18n.t('group_create')}
+                        </DialogTitle>
+                        <DialogContent className={classes.dialogContent}>
+                            <GroupCreateContainer />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Groups.actions.create_group_dialog(
+                                            false
+                                        )
                                     )
-                                )
-                            }
-                            color="primary"
-                        >
-                            {Core.i18n.t('create')}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                                }
+                                color="primary"
+                            >
+                                {Core.i18n.t('cancel')}
+                            </Button>
+                            <Button
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Groups.actions.create_group(
+                                            this.props.group,
+                                            existing_groupnames
+                                        )
+                                    )
+                                }
+                                color="primary"
+                            >
+                                {Core.i18n.t('create')}
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
             </div>
         );
     }
@@ -173,12 +231,15 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         groups: Groups.selectors.groups_list(state),
+        users: (group_id: string) =>
+            Users.selectors.users_in_group(state, group_id),
         existing_groupnames: Groups.selectors
             .groups_list(state)
             .map(group => group.name),
         classes: ownProps.classes,
         group: state.groups.ui.group,
-        show_create_group_dialog: state.groups.ui.show_create_group_dialog
+        show_create_group_dialog: state.groups.ui.show_create_group_dialog,
+        search_text: state.ui.search_filter_text
     };
 }
 

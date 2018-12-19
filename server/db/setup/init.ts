@@ -34,6 +34,7 @@ const _system: ISystemSettings = {
 
 const _admin: IUser = {
     _id: 'admin',
+    _rev: undefined,
     _deleted: false,
     type: 'user',
     name: 'admin',
@@ -44,7 +45,8 @@ const _admin: IUser = {
     online: false,
     location: '',
     password: undefined,
-    flow: []
+    flow: [],
+    _attachments: {}
 };
 
 export default function init(done: () => void) {

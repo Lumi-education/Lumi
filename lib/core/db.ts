@@ -25,9 +25,9 @@ PouchDB.sync(db, remote_db, {
 })
     .on('change', changes => {
         log_info('changes', changes);
-        if (changes.direction === 'pull') {
-            store.dispatch({ type: 'DB_CHANGE', payload: changes.change.docs });
-        }
+        // if (changes.direction === 'pull') {
+        store.dispatch({ type: 'DB_CHANGE', payload: changes.change.docs });
+        // }
     })
     .on('paused', error => {
         log_info('paused', error);

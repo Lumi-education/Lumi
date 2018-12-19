@@ -64,6 +64,11 @@ const style: StyleRulesCallback = theme => ({
         marginRight: -drawerWidth,
         margin: 'auto'
     },
+    contentList: {
+        maxWidth: 680,
+        margin: 'auto',
+        marginTop: 40
+    },
     contentShift: {
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,

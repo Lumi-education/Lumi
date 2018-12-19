@@ -18,6 +18,7 @@ const initialState: IUsersUI = {
     selected_users: [],
     user: {
         _id: undefined,
+        _rev: undefined,
         _deleted: false,
         type: 'user',
         name: 'no user',
@@ -28,7 +29,8 @@ const initialState: IUsersUI = {
         online: false,
         location: '',
         password: '',
-        flow: []
+        flow: [],
+        _attachments: {}
     },
     users_to_create: [],
     username_to_create: '',

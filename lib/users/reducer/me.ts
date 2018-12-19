@@ -6,6 +6,7 @@ import * as Flow from 'lib/flow';
 
 const initialState: IUser = {
     _id: undefined,
+    _rev: undefined,
     type: 'user',
     name: undefined,
     level: 0,
@@ -16,7 +17,8 @@ const initialState: IUser = {
     location: '',
     password: '',
     flow: [],
-    _deleted: false
+    _deleted: false,
+    _attachments: {}
 };
 
 export default function(state: IUser = initialState, action): IUser {

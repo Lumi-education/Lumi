@@ -9,7 +9,8 @@ import {
     USERS_GET_USERS_SUCCESS,
     USERS_GET_USER_SUCCESS,
     USERS_DELETE_USER_REQUEST,
-    USERS_UPDATE_USER_REQUEST
+    USERS_UPDATE_USER_REQUEST,
+    USERS_UPDATE_USER_SUCCESS
 } from '../actions';
 
 import * as Flow from '../../flow';
@@ -46,6 +47,7 @@ export default function(state: IUser[] = [], action): IUser[] {
             return state.filter(u => u._id !== action.payload.user_id);
 
         case 'DB_CHANGE':
+        case USERS_UPDATE_USER_SUCCESS:
         case Activity.actions.ACTIVITY_GET_SUCCESS:
         case Flow.actions.FLOW_ARCHIVE_ASSIGNMENT_SUCCESS:
         case USERS_GET_USERS_SUCCESS:

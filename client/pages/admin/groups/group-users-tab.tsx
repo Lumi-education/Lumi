@@ -39,7 +39,6 @@ interface IDispatchProps {
 
 interface IComponentState {
     show_user_dialog?: boolean;
-    loading?: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -49,34 +48,11 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
-            show_user_dialog: false,
-            loading: 'init'
+            show_user_dialog: false
         };
     }
 
-    public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('users') });
-        this.props
-            .dispatch(
-                Core.actions.find({
-                    type: 'user',
-                    groups: { $in: [this.props.group_id] }
-                })
-            )
-            .then(user_response => {
-                this.setState({ loading: 'finished' });
-            });
-    }
-
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage>
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         return (
             <div
                 style={{

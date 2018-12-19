@@ -44,15 +44,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('group') });
-        this.props
-            .dispatch(Groups.actions.get_group(this.props.group_id))
-            .then(res => {
-                this.props.dispatch(
-                    Groups.actions.change_group(this.props.group)
-                );
-                this.setState({ loading: 'finished' });
-            });
+        this.props.dispatch(Groups.actions.change_group(this.props.group));
     }
 
     public componentWillUnmount() {
@@ -60,14 +52,6 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage>
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         return (
             <div>
                 <Tabs
