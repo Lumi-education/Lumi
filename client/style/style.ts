@@ -65,6 +65,14 @@ const style: StyleRulesCallback = theme => ({
         marginRight: -drawerWidth,
         margin: 'auto'
     },
+    contentContainer: {
+        paddingTop: '40px',
+        maxWidth: '680px',
+        margin: 'auto'
+    },
+    paperContent: {
+        padding: '20px'
+    },
     contentList: {
         maxWidth: 680,
         margin: 'auto',
