@@ -1,10 +1,11 @@
 export type User_id = string;
 type Group_id = string;
+import { User } from './models';
+import { IDoc, Locales } from 'lib/core/types';
 
-import { Locales } from 'lib/core/types';
-
-export interface IUser {
+export interface IUser extends IDoc {
     _id: User_id;
+    _rev: string;
     _deleted: boolean;
     type: 'user';
     name: string;
@@ -30,4 +31,9 @@ export interface IState {
 export interface IUsersUI {
     selected_users: string[];
     user: IUser;
+    users_to_create: string[];
+    username_to_create: string;
+    error: {
+        message: string;
+    };
 }

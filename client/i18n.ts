@@ -19,10 +19,12 @@ const i18n = {
         assigning: 'assigning',
         assigned: 'assigned',
         class: 'Class',
+        users_conflict: 'User already exists',
         assignment: 'Assignment',
         password_repeat: 'Repeat password',
         assignments: 'Assignments',
         next: 'Next',
+        groups_conflict: 'Group %{name} already exists',
         analytics: 'Analytics',
         autojoin: 'Autojoin',
         back: 'back',
@@ -38,6 +40,8 @@ const i18n = {
             'Assign %{num} card(s) to whole groups or individual users.',
         comment: 'Comment',
         comments: 'Comments',
+        remove_user_from_group_confirmation:
+            'Do you want to remove %{user} from %{group}?',
         get_connected: 'Get connected',
         welcome: 'Welcome',
         comments_no: 'No comments',
@@ -165,9 +169,25 @@ const i18n = {
         next_steps: 'Next Steps',
         flow_explain: 'Overview of the progress of the group',
         go: 'Go',
-        tutorial_explain: 'Learn how users can connect with Lumi.'
+        tutorial_explain: 'Learn how users can connect with Lumi.',
+        autojoin_explain:
+            'Enabling Autojoin adds all registering users to this group',
+        create_users: 'Create new Users',
+        add_users: 'Add users',
+        create_users_explain: 'Create new users and add them to this group',
+        add_users_explain: 'Add existing users to this group'
     },
     de: {
+        autojoin_explain:
+            'Wenn "Automatisch Beitretren" aktiviert wird, werden alle, sich neu registrierenden Benutzer, automatisch dieser Lerngruppe hinzugefügt.',
+        add_users: 'Existierende Lernende hinzufügen',
+
+        create_users: 'Accounts für Lernende neu anlegen',
+        create_users_explain:
+            'Erstelle neue Lernende und fgüe diese dieser Lerngruppe hinzu.',
+        add_users_explain:
+            'Füge bereits existierende Lernende dieser Lerngruppe hinzu.',
+        use: 'Benutzen',
         activity: 'Aktivittät',
         activity_assignment_completed:
             'hat die Lernkarte %{cardname} mit %{score} beendet.',
@@ -182,6 +202,7 @@ const i18n = {
         assign: {
             cards: 'Karten zuweisen'
         },
+        groups_conflict: 'Gruppe %{name} existiert bereits',
         assigning: 'zuweisen',
         assigned: 'zugewiesen',
         assignment: 'Auftrag',
@@ -218,7 +239,7 @@ const i18n = {
         environment: 'Umgebung',
         get_connected: 'Verbindung aufbauen',
         error: 'Fehler',
-        flow: 'Flow',
+        flow: 'Arbeitsaufträge',
         folder: 'Ordner',
         folder_create: 'Neuen Ordner erstellen',
         folders: 'Ordner',
@@ -228,20 +249,22 @@ const i18n = {
         group: 'Gruppe',
         group_create: 'Gruppe erstellen',
         password_repeat: 'Passwort wiederholen',
-        groups: 'Gruppen',
+        groups: 'Lerngruppen',
         login: 'Anmelden',
         dashboard: 'Übersicht',
         password: 'Passwort',
         logout: 'Abmelden',
         loading: 'lade',
-        user: 'Benutzer',
+        user: 'Lernender',
+        remove_user_from_group_confirmation:
+            'Möchtest du %{user} aus  %{group} entfernen?',
         user_delete: 'Benutzer löschen',
         user_create: 'Benutzer erstellen',
         username_exists: 'Benutzername bereits vergeben',
         username_free: 'Benutzername %{name} ist frei',
         username_does_not_exist: 'Der Benutzer %{name} existiert nicht',
         group_exists: 'Gruppe existiert bereits.',
-        users: 'Benutzer',
+        users: 'Lernende',
         tag: 'Tag',
         tag_create: 'Tag erstellen',
         tags: 'Tags',
@@ -318,6 +341,8 @@ const i18n = {
         upload_error: 'Hochladen fehlgeschlagen',
         physics: 'Physik',
         chemistry: 'Chemie',
+        users_conflict: 'Benutzername existiert bereits',
+
         lost_connection:
             'Verbindung verloren. Bitte überprüfe deine WLAN Verbindung',
         grading: 'Bewertung',

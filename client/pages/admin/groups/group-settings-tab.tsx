@@ -13,13 +13,18 @@ import Typography from '@material-ui/core/Typography';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { Avatar, AvatarCropDialog } from 'client/components';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+
+import Dropzone from 'react-dropzone';
 
 // modules
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
+import { RaisedButton } from 'material-ui';
 
 interface IPassedProps {
     group_id: string;
@@ -37,8 +42,8 @@ interface IDispatchProps {
 }
 
 interface IComponentState {
-    show_user_dialog?: boolean;
-    loading?: string;
+    show_avatar_dialog: boolean;
+    avatar_url: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -48,100 +53,125 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
-            show_user_dialog: false,
-            loading: 'init'
+            show_avatar_dialog: false,
+            avatar_url: null
         };
     }
 
-    public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('users') });
-        this.props
-            .dispatch(
-                Core.actions.find({
-                    type: 'user',
-                    groups: { $in: [this.props.group_id] }
-                })
-            )
-            .then(user_response => {
-                this.setState({ loading: 'finished' });
-            });
-    }
-
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage>
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         const { classes, group } = this.props;
 
         return (
-            <div className={classes.contentContainer}>
-                <Typography variant="h5" component="h3">
-                    {Core.i18n.t('settings')}
-                </Typography>
+            <div id="group-settings-tab" className={classes.contentContainer}>
                 <Paper className={classes.paper}>
-                    <TextField
-                        id="outlined-name"
-                        label={Core.i18n.t('name')}
-                        className={classes.textField}
-                        value={group.name}
-                        onChange={e =>
-                            this.props.dispatch(
-                                Groups.actions.change_group({
-                                    name: e.target.value
-                                })
-                            )
-                        }
-                        margin="normal"
-                        variant="outlined"
-                    />
-                    <FormGroup row={true}>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={group.autojoin}
-                                    onChange={() =>
+                    <div className={classes.paperHeader}>
+                        <div style={{ margin: 'auto' }}>
+                            <Dropzone
+                                style={{}}
+                                onDrop={acceptedFiles => {
+                                    // log_info(acceptedFiles);
+                                    acceptedFiles.forEach(file => {
+                                        this.setState({
+                                            show_avatar_dialog: true,
+                                            avatar_url: file.preview
+                                        });
+                                    });
+                                }}
+                            >
+                                <Avatar
+                                    doc={group}
+                                    key={group._rev}
+                                    className={classes.bigAvatar}
+                                >
+                                    {/* <Avatar className={classes.bigAvatar}> */}
+                                    <AddAPhotoIcon />
+                                    {/* </Avatar> */}
+                                </Avatar>
+                            </Dropzone>
+                        </div>
+                        <Typography
+                            variant="h6"
+                            gutterBottom={true}
+                            align="center"
+                            color="textPrimary"
+                        >
+                            <span style={{ color: 'white' }}>{group.name}</span>
+                        </Typography>
+                    </div>
+                    <div className={classes.paperContent}>
+                        <Grid container={true} spacing={24}>
+                            <Grid item={true} xs={12} sm={12}>
+                                <TextField
+                                    required={true}
+                                    id="name"
+                                    name="name"
+                                    label={Core.i18n.t('name')}
+                                    value={group.name}
+                                    onChange={e =>
                                         this.props.dispatch(
                                             Groups.actions.change_group({
-                                                autojoin: !group.autojoin
+                                                name: e.target.value
                                             })
                                         )
                                     }
+                                    fullWidth={true}
+                                    autoComplete="fname"
                                 />
-                            }
-                            label={Core.i18n.t('autojoin')}
-                        />
-                    </FormGroup>
-                    <div className={classes.buttons}>
-                        <UI.components.RaisedButton
-                            action={Groups.actions.update_group(
-                                this.props.group_id,
-                                this.props.group
-                            )}
-                            labels={[
-                                Core.i18n.t('save'),
-                                Core.i18n.t('saving'),
-                                Core.i18n.t('saved'),
-                                Core.i18n.t('error')
-                            ]}
-                            fullWidth={false}
-                            disabled={false}
-                        />
-                        {/* <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => console.log('test')}
-                            className={classes.button}
-                            
-                        >
-                            {Core.i18n.t('save')}
-                        </Button> */}
+                            </Grid>
+                            <Grid item={true} xs={12}>
+                                <FormGroup row={true}>
+                                    <FormControlLabel
+                                        labelPlacement="start"
+                                        control={
+                                            <Switch
+                                                checked={group.autojoin}
+                                                onChange={() =>
+                                                    this.props.dispatch(
+                                                        Groups.actions.change_group(
+                                                            {
+                                                                autojoin: !group.autojoin
+                                                            }
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        }
+                                        label={Core.i18n.t('autojoin')}
+                                    />
+                                </FormGroup>
+                            </Grid>
+                        </Grid>
+
+                        <div className={classes.buttons}>
+                            <RaisedButton
+                                label={Core.i18n.t('save')}
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Core.actions.update<Groups.IGroup>(
+                                            this.props.group
+                                        )
+                                    )
+                                }
+                            />
+                        </div>
                     </div>
                 </Paper>
+                <AvatarCropDialog
+                    open={this.state.show_avatar_dialog}
+                    avatar_url={this.state.avatar_url}
+                    classes={this.props.classes}
+                    close={() => this.setState({ show_avatar_dialog: false })}
+                    save_image={(image: Blob) => {
+                        Core.db.putAttachment(
+                            group._id,
+                            'avatar.jpg',
+                            group._rev,
+                            image,
+                            'image/jpeg'
+                        );
+                        this.setState({ show_avatar_dialog: false });
+                    }}
+                />
             </div>
         );
     }
@@ -164,8 +194,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 const styles: StyleRulesCallback = theme => ({
+    bigAvatar: {
+        margin: 10,
+        width: 120,
+        height: 120
+    },
     contentContainer: {
-        paddingTop: '40px',
         maxWidth: '680px',
         margin: 'auto'
     },
@@ -174,8 +208,19 @@ const styles: StyleRulesCallback = theme => ({
         marginRight: theme.spacing.unit
     },
     paper: {
+        marginTop: theme.spacing.unit * 8,
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    paperHeader: {
+        background: UI.config.gradient_bg,
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit *
+            3}px ${theme.spacing.unit * 3}px`
+    },
+    paperContent: {
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit *
             3}px ${theme.spacing.unit * 3}px`
     },

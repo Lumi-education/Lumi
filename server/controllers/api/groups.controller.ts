@@ -22,6 +22,9 @@ class GroupController {
     public create(req: IRequest, res: express.Response) {
         const new_group: IGroup = {
             _id: undefined,
+            _rev: undefined,
+            _deleted: false,
+            _attachments: {},
             type: 'group',
             name: 'no name',
             created_at: new Date(),

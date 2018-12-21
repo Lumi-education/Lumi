@@ -70,14 +70,6 @@ export class AdminRoot extends React.Component<IProps, {}> {
         if (this.props.userlevel < 2) {
             this.props.dispatch(UI.actions.push('/user'));
         }
-
-        this.props.dispatch(Users.actions.init_user()).then(res => {
-            const user =
-                res.payload.filter(docs => docs.type === 'user')[0] || {};
-            if (user.language) {
-                this.props.dispatch(setLocale(user.language));
-            }
-        });
         this.props.dispatch(Core.actions.check_update());
     }
 

@@ -1,11 +1,12 @@
 import * as request from 'superagent';
+import * as core from 'lib/core';
 declare var window;
 
-export function create_group(name: string) {
-    return request
-        .post('/api/v0/groups')
-        .send({ name })
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+import { IGroup } from './types';
+import { assign } from 'lib/flow/api';
+
+export function create_group(group: IGroup): Promise<IGroup> {
+    return core.api.create<IGroup>(group);
 }
 
 export function delete_group(_id: string) {
@@ -54,12 +55,17 @@ export function remove_users_from_groups(
         })
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
-export function update_group(group_id: string, update) {
-    return request
-        .put('/api/v0/groups/' + group_id)
-        .send(update)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
+// export function update_group<T>(group_id: string, update): Promise<T> {
+//     // return db.get(group_id).then(group => {
+//     // assign(group, update);
+//     return core.api.update<IGroup>(update);
+
+//     // });
+//     // return request
+//     //     .put('/api/v0/groups/' + group_id)
+//     //     .send(update)
+//     //     .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+// }
 export function add_cards(group_id: string, card_ids: string[]) {
     return request
         .put('/api/v0/groups/' + group_id + '/cards')

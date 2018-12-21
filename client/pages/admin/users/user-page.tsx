@@ -48,34 +48,14 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('user'), loading_step: 1 });
-
-        this.props
-            .dispatch(Users.actions.get_user(this.props.user_id))
-            .then(res => {
-                this.props.dispatch(
-                    Users.actions.change_user(
-                        this.props.select_user(this.props.user_id)
-                    )
-                );
-
-                this.setState({ loading: 'finished', loading_step: 2 });
-            });
+        this.props.dispatch(
+            Users.actions.change_user(
+                this.props.select_user(this.props.user_id)
+            )
+        );
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={0}
-                    max={2}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         return (
             <div>
                 <Tabs

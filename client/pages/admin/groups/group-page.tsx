@@ -1,6 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as debug from 'debug';
 import { push } from 'lib/ui/actions';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -18,6 +19,7 @@ import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as UI from 'lib/ui';
 
+const log_info = debug('lumi:pages:admin:groups:group-page');
 interface IStateProps {
     group_id: string;
     tab: string;
@@ -44,26 +46,16 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('group') });
-        this.props
-            .dispatch(Groups.actions.get_group(this.props.group_id))
-            .then(res => {
-                this.props.dispatch(
-                    Groups.actions.change_group(this.props.group)
-                );
-                this.setState({ loading: 'finished' });
-            });
+        log_info('componentWillMount');
+        this.props.dispatch(Groups.actions.change_group(this.props.group));
+    }
+
+    public componentWillUnmount() {
+        log_info('componentWillUnmount');
+        this.props.dispatch(Groups.actions.reset_ui_group());
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage>
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         return (
             <div>
                 <Tabs
@@ -133,12 +125,12 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                 {(() => {
                     switch (this.props.tab) {
                         case 'settings':
-                        default:
                             return (
                                 <GroupSettingsTab
                                     group_id={this.props.group_id}
                                 />
                             );
+                        default:
                         case 'users':
                             return (
                                 <div>
@@ -167,7 +159,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         group_id,
         group: Groups.selectors.select_group(state, group_id),
-        tab: ownProps.match.params.tab || 'settings'
+        tab: ownProps.match.params.tab || 'users'
     };
 }
 

@@ -55,20 +55,30 @@ export class RaisedButtonContainer extends React.Component<
     public _click() {
         this.props
             .dispatch(this.props.action)
-            .then(res => {
-                if (res.response.status !== 200) {
-                    throw new Error(res.response.response.body.message);
+            .then(action => {
+                const action_type = action.type.split('_')[
+                    action.type.split('_').length - 1
+                ];
+                switch (action_type) {
+                    case 'SUCCESS':
+                        this.setState({ request: 'success' });
+                        if (this.props.onSuccess) {
+                            this.props.onSuccess(action);
+                        }
+                        break;
+                    case 'ERROR':
+                        throw new Error(action.type);
                 }
-                this.setState({ request: 'success' });
-                if (this.props.onSuccess) {
-                    this.props.onSuccess(res);
-                }
+
                 setTimeout(() => this.setState({ request: 'init' }), 2000);
             })
             .catch(err => {
                 error('_click', err);
                 raven.captureException(err);
-                this.setState({ message: err.message, request: 'error' });
+                this.setState({
+                    message: err.message || 'error',
+                    request: 'error'
+                });
                 setTimeout(() => this.setState({ request: 'init' }), 2000);
             });
 

@@ -93,15 +93,15 @@ export class RightDrawer extends React.Component<IProps, {}> {
                                         this.props.system.mode === 'controlled'
                                     }
                                     onToggle={() => {
-                                        this.props.dispatch(
-                                            Core.actions.update('system', {
-                                                mode:
-                                                    this.props.system.mode ===
-                                                    'free'
-                                                        ? 'controlled'
-                                                        : 'free'
-                                            })
-                                        );
+                                        // this.props.dispatch(
+                                        //     Core.actions.update('system', {
+                                        //         mode:
+                                        //             this.props.system.mode ===
+                                        //             'free'
+                                        //                 ? 'controlled'
+                                        //                 : 'free'
+                                        //     })
+                                        // );
                                     }}
                                 />
                             }

@@ -1,9 +1,9 @@
 import * as express from 'express';
 import * as debug from 'debug';
 import * as url from 'url';
-
+import * as qs from 'query-string';
 import * as proxy from 'express-http-proxy';
-
+import { assign } from 'lodash';
 import * as Auth from '../../middleware/auth';
 
 import db from '../../db';
@@ -30,7 +30,6 @@ export default function(): express.Router {
                 }
                 next();
             },
-            Auth.level(4),
             db.api
         );
     } else {
@@ -47,8 +46,21 @@ export default function(): express.Router {
                 }
                 next();
             },
-            Auth.level(4),
-            proxy(process.env.DB)
+            proxy(process.env.DB, {
+                proxyReqPathResolver: proxy_req => {
+                    const parts = proxy_req.url.split('?');
+                    const query = qs.parse(parts[1]);
+                    if (proxy_req.user.level < 3) {
+                        assign(query, {
+                            filter: '_view',
+                            view: 'user/' + proxy_req.user._id
+                        });
+                    }
+                    const queryString = qs.stringify(query);
+                    const updatedPath = parts[0];
+                    return updatedPath + (queryString ? '?' + queryString : '');
+                }
+            })
         );
     }
 

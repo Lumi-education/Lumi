@@ -8,7 +8,7 @@ import { IState } from 'client/state';
 
 // components
 import {
-    Avatar,
+    Avatar as MUIAvatar,
     Paper,
     IconMenu,
     MenuItem,
@@ -18,6 +18,8 @@ import {
     RaisedButton,
     FloatingActionButton
 } from 'material-ui';
+
+import { Avatar } from 'client/components';
 
 import { TagsChipInputContainer } from 'client/container';
 
@@ -36,7 +38,7 @@ import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
 
-const log = debug('lumi:admin:groups:group-flow-tab');
+const log_info = debug('lumi:info:pages:admin:groups:group-flow-tab');
 
 // actions
 
@@ -61,8 +63,6 @@ interface IDispatchProps {
 
 interface IComponentState {
     show_user_dialog?: boolean;
-    loading?: string;
-    loading_step?: number;
     error?: string;
     tags: string[];
 }
@@ -75,67 +75,15 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
 
         this.state = {
             show_user_dialog: false,
-            loading: 'init',
-            loading_step: 0,
             tags: []
         };
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('users'), loading_step: 1 });
-
-        try {
-            this.props.dispatch(Tags.actions.get_tags());
-
-            this.props
-                .dispatch(
-                    Core.actions.find(
-                        {
-                            type: 'user',
-                            groups: { $in: [this.props.group_id] }
-                        },
-                        { limit: 40 }
-                    )
-                )
-                .then(user_response => {
-                    const assignment_ids = uniq(
-                        user_response.payload
-                            .map(user => user.flow)
-                            .reduce((p, c) => p.concat(c), [])
-                    ) as string[];
-
-                    this.setState({
-                        loading: Core.i18n.t('assignments'),
-                        loading_step: 2
-                    });
-
-                    this.props
-                        .dispatch(Flow.actions.get_assignments(assignment_ids))
-                        .then(res => {
-                            this.setState({
-                                loading: 'finished',
-                                loading_step: 3
-                            });
-                        });
-                });
-        } catch (error) {
-            this.setState({ loading: 'error', error: JSON.stringify(error) });
-        }
+        log_info('componentWillMount');
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={1}
-                    max={3}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         return (
             <div
                 id="group-flow-tab"
@@ -198,7 +146,9 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                     >
                                         <CardHeader
                                             title={user.name}
-                                            avatar={<Avatar>P</Avatar>}
+                                            avatar={
+                                                <Avatar doc={user}>P</Avatar>
+                                            }
                                             showExpandableButton={false}
                                         />
                                     </div>
@@ -229,7 +179,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                     }}
                                                     key={assignment._id}
                                                     onClick={() => {
-                                                        log(
+                                                        log_info(
                                                             'clicked on ',
                                                             assignment
                                                         );
@@ -240,7 +190,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         );
                                                     }}
                                                     onDoubleClick={() => {
-                                                        log(
+                                                        log_info(
                                                             'double-clicked on ',
                                                             assignment
                                                         );
@@ -285,13 +235,13 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                                 false
                                                             }
                                                             avatar={
-                                                                <Avatar
+                                                                <MUIAvatar
                                                                     backgroundColor={UI.utils.get_grade_color(
                                                                         assignment.get_score()
                                                                     )}
                                                                 >
                                                                     {assignment.get_score()}
-                                                                </Avatar>
+                                                                </MUIAvatar>
                                                             }
                                                         />
                                                     </Card>

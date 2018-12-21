@@ -1,5 +1,6 @@
 // modules
 import * as React from 'react';
+import * as debug from 'debug';
 import { connect } from 'react-redux';
 
 // types
@@ -17,6 +18,8 @@ import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
+
+const log_info = debug('lumi:info:pages:admin:groups:group-cards-tab');
 
 interface IPassedProps {
     group_id: string;
@@ -51,12 +54,7 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('cards') });
-        this.props
-            .dispatch(Cards.actions.get_cards(this.props.group.cards))
-            .then(response => {
-                this.setState({ loading: 'finished' });
-            });
+        log_info('componentWillMount');
     }
 
     public render() {

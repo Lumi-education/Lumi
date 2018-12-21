@@ -28,7 +28,7 @@ import styles from './styles';
 import moment = require('moment');
 import CardsAssignDialog from 'client/dialogs/cards-assign-dialog';
 
-const log = debug('lumi:modules:admin:cards:cards-page');
+const log_info = debug('lumi:info:pages:admin:cards:cards-page');
 
 interface IStateProps {
     cards: Cards.ICard[];
@@ -82,96 +82,19 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
 
         this.load_more = throttle((page: number) => {
             this.setState({ page });
-            // this.setState({ loading_more: true });
-            // this.props
-            //     .dispatch(
-            //         Core.actions.find(
-            //             {
-            //                 type: 'card',
-            //                 tags: { $all: this.props.selected_tags },
-            //                 created_at: { $gt: null }
-            //             },
-            //             {
-            //                 limit: 3,
-            //                 skip: page * 3 + 9,
-            //                 sort: [{ created_at: 'desc' }]
-            //             }
-            //         )
-            //     )
-            //     .then(res => this.setState({ loading_more: false }));
         }, 1000);
 
         this.set_search_text = this.set_search_text.bind(this);
-        // this.fetch_search = this.fetch_search.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
     }
 
     public componentWillMount() {
-        this.setState({ loading: true });
-        this.props.dispatch(Cards.actions.get_cards()).then(res => {
-            this.setState({ loading: false });
-        });
-        // this.props
-        //     .dispatch(
-        //         Core.actions.find(
-        //             {
-        //                 type: 'card',
-        //                 tags: { $all: this.props.selected_tags },
-        //                 created_at: { $gt: null }
-        //             },
-        //             {
-        //                 limit: 9,
-        //                 sort: [{ created_at: 'desc' }]
-        //             }
-        //         )
-        //     )
-        //     .then(res => {
-        //         this.setState({ loading: 'finished', loading_step: 2 });
-        //     });
+        log_info('componentWillMount');
     }
 
     public set_search_text(e) {
-        // clearTimeout(this.search_timeout);
-        // this.search_timeout = setTimeout(this.fetch_search, 1000);
         this.props.dispatch(UI.actions.set_search_filter(e));
     }
-
-    // public fetch_search() {
-    //     const regex = this.props.search_text.split(' ').map(word => {
-    //         return { name: { $regex: word } };
-    //     });
-    //     this.props.dispatch(
-    //         Core.actions.find(
-    //             {
-    //                 type: 'card',
-    //                 $and: regex,
-    //                 created_at: { $gt: null }
-    //             },
-    //             {
-    //                 limit: 9,
-    //                 sort: [{ created_at: 'desc' }]
-    //             }
-    //         )
-    //     );
-    // }
-
-    // public componentDidUpdate(prevProps: IProps, prevState: IComponentState) {
-    //     if (this.props.selected_tags !== prevProps.selected_tags) {
-    //         this.props.dispatch(
-    //             Core.actions.find(
-    //                 {
-    //                     type: 'card',
-    //                     tags: { $all: this.props.selected_tags },
-    //                     created_at: { $gt: null }
-    //                 },
-    //                 {
-    //                     limit: 9,
-    //                     sort: [{ created_at: 'desc' }]
-    //                 }
-    //             )
-    //         );
-    //     }
-    // }
 
     public onDragEnd(result) {
         const { source, destination } = result;

@@ -50,10 +50,6 @@ export class GroupsAssignDialog extends React.Component<
         }
     }
 
-    public componentWillMount() {
-        this.props.dispatch(Cards.actions.get_cards());
-    }
-
     public render() {
         return (
             <Dialog

@@ -8,6 +8,9 @@ export function select_group(state: IState, group_id: string): IGroup {
     return (
         state.groups.list.filter(group => group._id === group_id)[0] || {
             _id: undefined,
+            _rev: undefined,
+            _deleted: false,
+            _attachments: {},
             name: 'group ' + group_id + ' not found',
             type: 'group',
             created_at: new Date(),

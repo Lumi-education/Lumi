@@ -14,7 +14,9 @@ export default function boot(done: () => void) {
                             check_view('flow', flow_view, () => {
                                 check_view('folders', folders_view, () => {
                                     check_view('groups', groups_view, () => {
-                                        done();
+                                        check_view('user', user_view, () => {
+                                            done();
+                                        });
                                     });
                                 });
                             });
@@ -76,6 +78,16 @@ const users_view = {
         user: {
             map:
                 "function (doc) {\n  if (doc.type === 'user') { emit(doc._id, 1); }\n}"
+        }
+    },
+    language: 'javascript'
+};
+
+const user_view = {
+    _id: '_design/user',
+    views: {
+        admin: {
+            map: 'function (doc) {\n  emit(doc._id); \n}'
         }
     },
     language: 'javascript'

@@ -4,12 +4,22 @@ import { connect } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import * as classNames from 'classnames';
+
+import { withStyles } from '@material-ui/core/styles';
 
 import FilterBar from 'lib/ui/components/filter-bar';
 import ActionBar from 'lib/ui/components/action-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import MenuIcon from '@material-ui/icons/Menu';
+import InputBase from '@material-ui/core/InputBase';
 
 import SVGGroup from 'material-ui/svg-icons/social/group';
 import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
@@ -17,6 +27,8 @@ import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 import CreateUserDialog from 'client/dialogs/user-create-dialog';
 import AssignGroupDialog from 'client/dialogs/groups-assign-dialog';
 import DeleteUserDialog from 'client/dialogs/user-delete-dialog';
+
+import styles from 'client/style/style';
 
 // state
 import { IState } from 'client/state';
@@ -37,6 +49,7 @@ interface IStateProps {
     selected_users: string[];
 
     search_text: string;
+    classes: any;
 }
 
 interface IDispatchProps {
@@ -60,118 +73,106 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
         };
     }
 
-    public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('users'), loading_step: 1 });
-        this.props.dispatch(Users.actions.get_users()).then(users_response => {
-            // this.setState({ loading: 'Gruppen', loading_step: 2 });
-            // this.props
-            //     .dispatch(Groups.actions.get_groups())
-            //     .then(groups_response => {
-            this.setState({ loading: 'finished', loading_step: 3 });
-            // });
-        });
-    }
-
     public componentWillUnmount() {
         this.props.dispatch(Users.actions.selection_reset());
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={0}
-                    max={3}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         const users = this.props.users
             .filter(user => user.name.indexOf(this.props.search_text) > -1)
             .sort(Core.utils.alphabetically);
 
+        const { classes } = this.props;
+
         return (
-            <div
-                style={{
-                    paddingTop: '40px',
-                    maxWidth: '680px',
-                    margin: 'auto'
-                }}
-            >
-                <Typography variant="h5" component="h3">
-                    {Core.i18n.t('users')}
-                </Typography>
-                <Paper>
-                    <UserList
-                        users={users}
-                        onListItemClick={(user_id: string) =>
-                            this.props.dispatch(push('/admin/users/' + user_id))
-                        }
-                    />
-                </Paper>
-                <ActionBar>
-                    {this.props.selected_users.length > 0 ? (
-                        <div>
-                            <FloatingActionButton
-                                secondary={true}
-                                onClick={() => {
+            <div id="users-page">
+                <AppBar position="fixed" className={classNames(classes.appBar)}>
+                    <Toolbar disableGutters={!open} style={{ display: 'flex' }}>
+                        <div style={{ flex: 1 }}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="Open drawer"
+                                onClick={() =>
                                     this.props.dispatch(
-                                        UI.actions.toggle_delete_user_dialog()
-                                    );
-                                }}
+                                        UI.actions.left_drawer_open()
+                                    )
+                                }
+                                className={classNames(classes.menuButton)}
                             >
-                                <ContentRemove />
-                            </FloatingActionButton>
-                            <FloatingActionButton
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        UI.actions.toggle_assign_material_dialog()
-                                    );
-                                }}
-                                style={{
-                                    zIndex: 5000
-                                }}
-                            >
-                                <SVGCards />
-                            </FloatingActionButton>
-                            <FloatingActionButton
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        UI.actions.toggle_assign_group_dialog()
-                                    );
-                                }}
-                            >
-                                <SVGGroup />
-                            </FloatingActionButton>
+                                <MenuIcon />
+                            </IconButton>
                         </div>
-                    ) : null}
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                UI.actions.toggle_create_user_dialog()
-                            );
-                        }}
-                    >
-                        <ContentAdd />
-                    </FloatingActionButton>
-                </ActionBar>
-                <CreateUserDialog />
-                <AssignGroupDialog />
-                <DeleteUserDialog />
+                        <div style={{ flex: 10 }}>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon />
+                                </div>
+                                <InputBase
+                                    placeholder={Core.i18n.t('search') + '...'}
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput
+                                    }}
+                                    onChange={e =>
+                                        this.props.dispatch(
+                                            UI.actions.set_search_filter(
+                                                e.target.value
+                                            )
+                                        )
+                                    }
+                                    value={this.props.search_text}
+                                />
+                            </div>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+                <div
+                    style={{
+                        paddingTop: '40px',
+                        maxWidth: '680px',
+                        margin: 'auto'
+                    }}
+                >
+                    <Typography variant="h5" component="h3">
+                        {Core.i18n.t('users')}
+                    </Typography>
+                    <Paper>
+                        <UserList
+                            users={users}
+                            onListItemClick={(user_id: string) =>
+                                this.props.dispatch(
+                                    push('/admin/users/' + user_id)
+                                )
+                            }
+                        />
+                    </Paper>
+                    <ActionBar>
+                        <FloatingActionButton
+                            onClick={() => {
+                                this.props.dispatch(
+                                    UI.actions.toggle_create_user_dialog()
+                                );
+                            }}
+                        >
+                            <ContentAdd />
+                        </FloatingActionButton>
+                    </ActionBar>
+                    <CreateUserDialog />
+                    <AssignGroupDialog />
+                    <DeleteUserDialog />
+                </div>
             </div>
         );
     }
 }
 
-function mapStateToProps(state: IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         users: state.users.list,
         group: group_id => Groups.selectors.select_group(state, group_id),
         selected_users: state.users.ui.selected_users,
-        search_text: state.ui.search_filter_text
+        search_text: state.ui.search_filter_text,
+        classes: ownProps.classes
     };
 }
 
@@ -181,7 +182,9 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<IStateProps, IDispatchProps, {}>(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminUsers);
+export default withStyles(styles)(
+    connect<IStateProps, IDispatchProps, {}>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(AdminUsers)
+);

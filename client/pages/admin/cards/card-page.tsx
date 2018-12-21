@@ -1,10 +1,18 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as debug from 'debug';
 
-import { RaisedButton } from 'material-ui';
-import ErrorBoundary from 'client/pages/error-boundary';
-
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Buttom from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 // container
 import { TagsChipInputContainer } from 'client/container';
 
@@ -12,140 +20,130 @@ import { TagsChipInputContainer } from 'client/container';
 import { IState } from 'client/state';
 
 // modules
+import styles from 'client/style/style';
 import * as Core from 'lib/core';
 import * as Tags from 'lib/tags';
 import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
 
+const log_info = debug('lumi:info:pages:cards:card-page');
+
 interface IStateProps {
     card_id: string;
     card: Cards.ICard;
+    card_in_state: Cards.ICard;
+    classes: any;
 }
 
 interface IDispatchProps {
     dispatch: (action) => any;
 }
 
-interface IComponentState {
-    loading: string;
-    loading_step: number;
-}
+interface IComponentState {}
 interface IProps extends IStateProps, IDispatchProps {}
 
 export class CardPage extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            loading: 'init',
-            loading_step: 0
-        };
+        this.state = {};
     }
 
     public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('card'), loading_step: 1 });
-        this.props
-            .dispatch(Cards.actions.get_cards([this.props.card_id]))
-            .then(res => {
-                this.props.dispatch(Cards.actions.change_card(res.payload[0]));
-                this.setState({ loading: 'finished', loading_step: 2 });
-            });
+        log_info('componentWillMount');
+        this.props.dispatch(
+            Cards.actions.change_card(this.props.card_in_state)
+        );
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={0}
-                    max={2}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
+        const { classes, card } = this.props;
         return (
-            <div>
-                <ErrorBoundary>
-                    <Cards.CardEdit>
-                        <TagsChipInputContainer
-                            tag_ids={this.props.card.tags}
-                            onChange={tag_ids =>
-                                this.props.dispatch(
-                                    Cards.actions.change_card({ tags: tag_ids })
-                                )
-                            }
-                        />
-                    </Cards.CardEdit>
-                </ErrorBoundary>
-                <UI.components.ActionBar>
-                    <RaisedButton
-                        label={Core.i18n.t('cancel')}
-                        onClick={() => this.props.dispatch(UI.actions.goBack())}
-                    />
-                    <UI.components.RaisedButton
-                        action={Cards.actions.delete_card(this.props.card_id)}
-                        labels={[
-                            Core.i18n.t('delete'),
-                            Core.i18n.t('deleting'),
-                            Core.i18n.t('deleted'),
-                            Core.i18n.t('error')
-                        ]}
-                        fullWidth={false}
-                        disabled={false}
-                        onSuccess={res => {
-                            this.props.dispatch(
-                                UI.actions.push('/admin/cards/')
-                            );
-                        }}
-                    />
-                    <UI.components.RaisedButton
-                        action={Cards.actions.duplicate(this.props.card_id)}
-                        labels={[
-                            Core.i18n.t('duplicate'),
-                            Core.i18n.t('duplicating'),
-                            Core.i18n.t('duplicated'),
-                            Core.i18n.t('error')
-                        ]}
-                        fullWidth={false}
-                        disabled={false}
-                        onSuccess={res => {
-                            this.props.dispatch(
-                                UI.actions.push(
-                                    '/admin/cards/' + res.payload._id
-                                )
-                            );
-                        }}
-                    />
-                    <UI.components.RaisedButton
-                        action={
-                            this.props.card._id
-                                ? Cards.actions.update_card(
-                                      this.props.card._id,
-                                      this.props.card
-                                  )
-                                : Cards.actions.create_card(this.props.card)
-                        }
-                        labels={
-                            this.props.card._id
-                                ? [
-                                      Core.i18n.t('save'),
-                                      Core.i18n.t('saving'),
-                                      Core.i18n.t('saved'),
-                                      Core.i18n.t('error')
-                                  ]
-                                : [
-                                      Core.i18n.t('create'),
-                                      Core.i18n.t('creating'),
-                                      Core.i18n.t('created'),
-                                      Core.i18n.t('error')
-                                  ]
-                        }
-                        fullWidth={false}
-                        disabled={false}
-                    />
-                </UI.components.ActionBar>
+            <div id="card-page" className={classes.contentContainer}>
+                <Paper className={classes.paper}>
+                    <div className={classes.paperHeader}>
+                        <Typography
+                            variant="h6"
+                            gutterBottom={true}
+                            align="center"
+                            color="textPrimary"
+                        >
+                            <span style={{ color: 'white' }}>{card.name}</span>
+                        </Typography>
+                    </div>
+                    <div className={classes.paperContent}>
+                        <Grid container={true} spacing={24}>
+                            <Grid item={true} xs={12} sm={12}>
+                                <TextField
+                                    required={true}
+                                    id="name"
+                                    name="name"
+                                    label={Core.i18n.t('name')}
+                                    value={card.name}
+                                    onChange={e =>
+                                        this.props.dispatch(
+                                            Cards.actions.change_card({
+                                                name: e.target.value
+                                            })
+                                        )
+                                    }
+                                    fullWidth={true}
+                                    autoComplete="fname"
+                                />
+                            </Grid>
+                            <Grid item={true} xs={12}>
+                                <FormControl
+                                    fullWidth={true}
+                                    className={classes.formControl}
+                                >
+                                    <InputLabel htmlFor="card_type">
+                                        {Core.i18n.t('type')}
+                                    </InputLabel>
+                                    <Select
+                                        value={card.card_type}
+                                        onChange={e =>
+                                            this.props.dispatch(
+                                                Cards.actions.change_card({
+                                                    card_type: e.target.value
+                                                })
+                                            )
+                                        }
+                                        inputProps={{
+                                            name: 'card_type',
+                                            id: 'card_type'
+                                        }}
+                                    >
+                                        <MenuItem value={'h5p'}>H5P</MenuItem>
+                                        <MenuItem value={'markdown'}>
+                                            Markdown
+                                        </MenuItem>
+                                        <MenuItem value={'upload'}>
+                                            Upload
+                                        </MenuItem>
+                                        <MenuItem value={'video'}>
+                                            Video
+                                        </MenuItem>
+                                        <MenuItem value={'pdf'}>PDF</MenuItem>
+                                        <MenuItem value={'docx'}>DOCX</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+
+                        <div className={classes.buttons}>
+                            {/* <RaisedButton
+                                label={Core.i18n.t('save')}
+                                onClick={() =>
+                                    this.props.dispatch(
+                                        Core.actions.update<Groups.IGroup>(
+                                            this.props.group
+                                        )
+                                    )
+                                }
+                            /> */}
+                        </div>
+                    </div>
+                </Paper>
             </div>
         );
     }
@@ -155,7 +153,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     const card_id = ownProps.match.params.card_id;
     return {
         card_id,
-        card: state.cards.ui.card
+        card: state.cards.ui.card,
+        card_in_state: Cards.selectors.select_card(state, card_id),
+        classes: ownProps.classes
     };
 }
 
@@ -165,7 +165,9 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect<{}, {}, {}>(
-    mapStateToProps,
-    mapDispatchToProps
-)(CardPage);
+export default withStyles(styles)(
+    connect<{}, {}, {}>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(CardPage)
+);

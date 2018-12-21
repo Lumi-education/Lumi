@@ -3,6 +3,13 @@ export type Markdown = string;
 export type Locales = 'de' | 'en';
 export type ITarget = 'pi' | 'electron' | 'development';
 
+export interface IDoc {
+    _id: string;
+    _rev: string;
+    _deleted: boolean;
+    _attachments: any;
+}
+
 export interface IState {
     core: {
         system: ISystemSettings;

@@ -1,12 +1,12 @@
 import * as React from 'react';
-
 // components
-import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import Avatar from 'client/components/avatar';
+import PersonIcon from '@material-ui/icons/Person';
 // modules
 import * as Users from 'lib/users';
+import * as Core from 'lib/core';
 
 interface IPassedProps {
     user: Users.IUser;
@@ -30,8 +30,17 @@ export default class UserListItemComponent extends React.Component<
     public render() {
         return (
             <ListItem onClick={this.props.onClick}>
-                <Avatar>{this.props.user.name.substring(0, 2)}</Avatar>
-                <ListItemText primary={this.props.user.name} />
+                <Avatar doc={this.props.user}>
+                    <PersonIcon />
+                </Avatar>
+                <ListItemText
+                    primary={this.props.user.name}
+                    secondary={
+                        this.props.user.flow.length +
+                        ' ' +
+                        Core.i18n.t('assignments')
+                    }
+                />
             </ListItem>
         );
     }

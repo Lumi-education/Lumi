@@ -14,8 +14,6 @@ import Landing from './landing';
 import Admin from './admin';
 import User from './user';
 
-import Websocket from './websocket';
-
 const log = debug('lumi:client:pages:auth');
 
 interface IStateProps {
@@ -43,12 +41,10 @@ export class AuthContainer extends React.Component<IProps, {}> {
             if (this.props.user_id) {
                 return (
                     <div id="auth">
-                        <Websocket>
-                            <Route path="/admin" component={Admin} />
-                            <Route path="/user" component={User} />
-                            <Password />
-                            <Route exact={true} path="/" component={Landing} />
-                        </Websocket>
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/user" component={User} />
+                        <Password />
+                        <Route exact={true} path="/" component={Landing} />
                     </div>
                 );
             }
