@@ -1,5 +1,9 @@
-FROM arm32v7/node:8.6.0
+FROM arm32v7/node:latest
 
+RUN apt-get update --fix-missing && apt-get install -y \
+    phantomjs \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+ENV QT_QPA_PLATFORM=offscreen
 COPY package.json /tmp/package.json
 COPY package-lock.json /tmp/package-lock.json
 RUN cd /tmp && npm install --production
