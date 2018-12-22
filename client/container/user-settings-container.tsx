@@ -22,7 +22,7 @@ import * as UI from 'lib/ui';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {
-    user: Users.IUser;
+    user: Users.models.User;
     locale: Core.types.Locales;
     classes: any;
 }
@@ -86,22 +86,7 @@ export class UserSettingsContainer extends React.Component<
                             <option value={'en'}>English</option>
                         </Select>
                     </FormControl>
-                    <div className={classes.buttons}>
-                        <UI.components.RaisedButton
-                            action={Users.actions.update_myself(
-                                this.props.user
-                            )}
-                            labels={[
-                                Core.i18n.t('save'),
-                                Core.i18n.t('saving'),
-                                Core.i18n.t('saved'),
-                                Core.i18n.t('error')
-                            ]}
-                            disabled={false}
-                            fullWidth={false}
-                            className={classes.submit}
-                        />
-                    </div>
+                    <div className={classes.buttons} />
                 </Paper>
             </div>
         );

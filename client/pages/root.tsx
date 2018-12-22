@@ -6,7 +6,6 @@ import * as debug from 'debug';
 import { IState } from 'lib/core/types';
 
 import * as Core from 'lib/core';
-import * as UI from 'lib/ui';
 
 import Auth from './auth';
 import InstallPage from './install-page';
@@ -53,13 +52,7 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
 
     public render() {
         return this.state.loading ? (
-            <UI.components.LoadingPage
-                min={0}
-                max={2}
-                value={this.state.loading_step}
-            >
-                Lumi
-            </UI.components.LoadingPage>
+            <div>loading</div>
         ) : this.props.installed ? (
             <Auth />
         ) : (

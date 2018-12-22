@@ -19,8 +19,7 @@ const style: StyleRulesCallback = theme => ({
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
-        }),
-        background: UI.config.gradient_bg
+        })
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,

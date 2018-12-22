@@ -25,7 +25,7 @@ interface IStateProps {
     classes?: any;
     theme?: any;
     close: () => void;
-    open_assign_dialog: () => void;
+    // open_assign_dialog: () => void;
     view_card: (card_id: string) => void;
 }
 
@@ -66,7 +66,7 @@ export default withStyles(styles, { withTheme: true })(
                             variant="contained"
                             color="secondary"
                             className={classes.button}
-                            onClick={this.props.open_assign_dialog}
+                            // onClick={this.props.open_assign_dialog}
                         >
                             <RecentActorsIcon className={classes.leftIcon} />
                             {Core.i18n.t('assign.cards')}

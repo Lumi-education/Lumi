@@ -10,7 +10,6 @@ import { Paper } from 'material-ui';
 import { IState } from 'client/state';
 
 // modules
-import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 
 const log = debug('lumi:modules:admin:cards:cards-page');
@@ -57,20 +56,6 @@ export class SystemUpdateTab extends React.Component<IProps, IComponentState> {
         const update_version = semver.coerce(this.props.update.tag_name)
             .version;
 
-        if (this.props.update.request_status === 'pending') {
-            return (
-                <UI.components.LoadingPage>
-                    {Core.i18n.t('update')}
-                </UI.components.LoadingPage>
-            );
-        }
-        if (this.props.update.request_status === 'error') {
-            return (
-                <UI.components.ErrorPage>
-                    {Core.i18n.t('no_internet_connection')}
-                </UI.components.ErrorPage>
-            );
-        }
         return (
             <div id="lumi_admin_system_update" style={{}}>
                 <Paper style={{ margin: '20px', padding: '15px' }}>
@@ -83,17 +68,6 @@ export class SystemUpdateTab extends React.Component<IProps, IComponentState> {
                             </h1>
                             <h2>{this.props.update.name}</h2>
                             {this.props.update.body}
-                            <UI.components.RaisedButton
-                                action={Core.actions.update_system()}
-                                labels={[
-                                    Core.i18n.t('update'),
-                                    Core.i18n.t('loading'),
-                                    Core.i18n.t('success'),
-                                    Core.i18n.t('error')
-                                ]}
-                                disabled={false}
-                                fullWidth={true}
-                            />
                         </div>
                     ) : (
                         <div>

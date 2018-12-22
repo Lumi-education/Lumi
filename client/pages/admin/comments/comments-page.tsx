@@ -22,7 +22,7 @@ import * as Flow from 'lib/flow';
 
 interface IStateProps {
     comments: Comments.models.Comment[];
-    me: Users.IUser;
+    me: Users.models.User;
     assignment: (assignment_id: string) => Flow.models.Assignment;
 }
 

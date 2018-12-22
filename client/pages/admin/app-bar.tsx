@@ -1,28 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import SVGSettings from 'material-ui/svg-icons/action/settings';
-
 // material-ui
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+
 // icons
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-
-// import { AppBar, IconButton } from 'material-ui';
 
 // state
 import { IState } from 'client/state';
@@ -32,11 +20,7 @@ import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 
 interface IStateProps {
-    right_appbar_icon: JSX.Element;
-    connected: boolean;
-    mode: 'free' | 'controlled';
     search_filter_text: string;
-
     locale: Core.types.Locales;
     classes: any;
 }
@@ -78,58 +62,6 @@ export class AdminAppBar extends React.Component<IProps, {}> {
                         >
                             Lumi
                         </Typography>
-                        {/* <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder={Core.i18n.t('search') + '...'}
-                                onChange={e =>
-                                    this.props.dispatch(
-                                        UI.actions.set_search_filter(
-                                            e.target.value
-                                        )
-                                    )
-                                }
-                                value={this.props.search_filter_text}
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput
-                                }}
-                            />
-                        </div> */}
-                        {/* <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={4} color="secondary">
-                                    <MailIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={17} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton> */}
-                        {/* <IconButton
-                                aria-owns={
-                                    isMenuOpen ? 'material-appbar' : null
-                                }
-                                aria-haspopup="true"
-                                onClick={this.handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton> */}
-                        {/* </div> */}
-                        {/* <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-haspopup="true"
-                                onClick={this.handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MoreIcon />
-                            </IconButton>
-                        </div> */}
                     </Toolbar>
                 </AppBar>
             </div>
@@ -138,9 +70,6 @@ export class AdminAppBar extends React.Component<IProps, {}> {
 }
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        right_appbar_icon: state.ui.right_appbar_icon,
-        connected: state.core.status.connected,
-        mode: state.core.system.mode,
         classes: ownProps.classes,
         search_filter_text: state.ui.search_filter_text,
         locale: state.i18n.locale
@@ -163,9 +92,6 @@ const styles: StyleRulesCallback = theme => ({
     menuButton: {
         marginLeft: -12,
         marginRight: 20
-    },
-    appBar: {
-        background: UI.config.gradient_bg
     },
     title: {
         display: 'none',

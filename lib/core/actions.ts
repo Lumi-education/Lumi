@@ -46,6 +46,9 @@ import * as API from './api';
 const info = debug('lumi:info:actions:core');
 const error = debug('lumi:error:actions:core');
 
+export function db_change(payload: any[]) {
+    return { payload, type: CORE_DB_CHANGE };
+}
 export function find(query, options?) {
     return {
         types: [CORE_DB_FIND_REQUEST, CORE_DB_CHANGE, CORE_DB_FIND_ERROR],

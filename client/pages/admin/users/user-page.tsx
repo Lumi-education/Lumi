@@ -21,8 +21,8 @@ import * as Groups from 'lib/groups';
 
 interface IStateProps {
     user_id: string;
-    user: Users.IUser;
-    select_user: (user_id: string) => Users.IUser;
+    user: Users.models.User;
+    select_user: (user_id: string) => Users.models.User;
     tab: string;
 }
 
@@ -63,9 +63,6 @@ export class AdminUserPage extends React.Component<IProps, IComponentState> {
                         backgroundColor: '#FFFFFF',
                         zIndex: 1099,
                         width: '100%'
-                    }}
-                    tabItemContainerStyle={{
-                        background: UI.config.gradient_bg
                     }}
                     value={this.props.tab}
                 >

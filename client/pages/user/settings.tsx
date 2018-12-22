@@ -1,17 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-// material-ui
-import {
-    Avatar,
-    List,
-    ListItem,
-    Paper,
-    IconMenu,
-    IconButton,
-    MenuItem
-} from 'material-ui';
-
 // svg
 import { UserSettingsContainer } from 'client/container';
 

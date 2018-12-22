@@ -17,15 +17,12 @@ import {
     Checkbox
 } from 'material-ui';
 
-import CardsAssignDialog from 'client/dialogs/cards-assign-dialog';
-
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
 import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
-import { runInThisContext } from 'vm';
 
 interface IPassedProps {
     user_id: string;
@@ -34,10 +31,9 @@ interface IStateProps extends IPassedProps {
     assignments: Flow.models.Assignment[];
     assignment: (assignment_id: string) => Flow.models.Assignment;
     card_name: (card_id: string) => string;
-    user: Users.IUser;
+    user: Users.models.User;
     card: (card_id: string) => Cards.ICard;
     group: (group_id: string) => Groups.IGroup;
-    show_completed_assignments: boolean;
     selected_tags: string[];
 }
 
@@ -71,8 +67,7 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
         return (
             <div
                 style={{
-                    minHeight: '100vh',
-                    background: UI.config.gradient_bg
+                    minHeight: '100vh'
                 }}
             >
                 <Paper>
@@ -81,25 +76,9 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                         onChange={tag_ids => this.setState({ tags: tag_ids })}
                     />
                 </Paper>
-                <Paper style={{ padding: '15px' }}>
-                    <Checkbox
-                        checked={this.props.show_completed_assignments}
-                        onCheck={() =>
-                            this.props.dispatch(
-                                UI.actions.toggle_show_completed_assignments()
-                            )
-                        }
-                    />
-                </Paper>
+                <Paper style={{ padding: '15px' }} />
                 {this.props.user.flow.map(assignment_id => {
                     const assignment = this.props.assignment(assignment_id);
-
-                    if (
-                        assignment.completed &&
-                        !this.props.show_completed_assignments
-                    ) {
-                        return null;
-                    }
 
                     const card = this.props.card(assignment.card_id);
 
@@ -130,44 +109,27 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                                             tag_ids={card.tags}
                                         />
                                     }
-                                    avatar={
-                                        <Cards.components.CardScore
-                                            score={assignment.get_score()}
-                                        />
-                                    }
                                 />
                             </Card>
                         </div>
                     );
                 })}
 
-                <UI.components.ActionBar>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.props.dispatch(
-                                Users.actions.set_selected_users([
-                                    this.props.user_id
-                                ])
-                            );
-                            this.props.dispatch(
-                                UI.actions.toggle_assign_material_dialog()
-                            );
-                        }}
-                        style={{
-                            margin: '20px',
-                            zIndex: 5000
-                        }}
-                    >
-                        <ContentAdd />
-                    </FloatingActionButton>
-                </UI.components.ActionBar>
-                {/* <CardsAssignDialog
-                    assign_callback={card_ids =>
+                <FloatingActionButton
+                    onClick={() => {
                         this.props.dispatch(
-                            Flow.actions.assign([this.props.user_id], card_ids)
-                        )
-                    }
-                /> */}
+                            Users.actions.set_selected_users([
+                                this.props.user_id
+                            ])
+                        );
+                    }}
+                    style={{
+                        margin: '20px',
+                        zIndex: 5000
+                    }}
+                >
+                    <ContentAdd />
+                </FloatingActionButton>
             </div>
         );
     }
@@ -187,7 +149,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         group: (group_id: string) =>
             Groups.selectors.select_group(state, group_id),
-        show_completed_assignments: state.ui.show_completed_assignments,
         selected_tags: state.tags.ui.selected_tags
     };
 }

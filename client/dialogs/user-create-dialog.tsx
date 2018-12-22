@@ -50,13 +50,9 @@ export class UserCreateDialog extends React.Component<IProps, IComponentState> {
             users: []
         };
 
-        this.close_dialog = this.close_dialog.bind(this);
         this.create_users = this.create_users.bind(this);
     }
 
-    public close_dialog() {
-        this.props.dispatch(UI.actions.toggle_create_user_dialog());
-    }
     public create_users() {
         log_info('create_users', 'start', this.props.users_to_create);
 
@@ -87,9 +83,7 @@ export class UserCreateDialog extends React.Component<IProps, IComponentState> {
                     <UserCreateContainer />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.close_dialog} color="primary">
-                        {Core.i18n.t('cancel')}
-                    </Button>
+                    <Button color="primary">{Core.i18n.t('cancel')}</Button>
                     <Button
                         disabled={
                             this.props.username_to_create !== '' ||
@@ -108,7 +102,7 @@ export class UserCreateDialog extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        open: state.ui.show_create_user_dialog,
+        open: false,
         classes: ownProps.classes,
         users_to_create: state.users.ui.users_to_create,
         username_to_create: state.users.ui.username_to_create,

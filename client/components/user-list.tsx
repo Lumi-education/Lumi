@@ -13,7 +13,7 @@ import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 
 interface IPassedProps {
-    users: Users.IUser[];
+    users: Users.models.User[];
 }
 
 interface IDispatchProps {

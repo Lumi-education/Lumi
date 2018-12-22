@@ -30,7 +30,7 @@ interface IPassedProps {
     group_id: string;
 }
 interface IStateProps extends IPassedProps {
-    users: Users.IUser[];
+    users: Users.models.User[];
     group: Groups.IGroup;
     selected_users: string[];
 
@@ -78,11 +78,7 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                                     });
                                 }}
                             >
-                                <Avatar
-                                    doc={group}
-                                    key={group._rev}
-                                    className={classes.bigAvatar}
-                                >
+                                <Avatar doc={group} key={group._rev} size={120}>
                                     {/* <Avatar className={classes.bigAvatar}> */}
                                     <AddAPhotoIcon />
                                     {/* </Avatar> */}
@@ -213,7 +209,6 @@ const styles: StyleRulesCallback = theme => ({
         flexDirection: 'column'
     },
     paperHeader: {
-        background: UI.config.gradient_bg,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

@@ -27,7 +27,6 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     card: Cards.IUploadCard;
     assignment: Flow.models.Assignment;
-    UI: UI.IUI;
 }
 
 interface IDispatchProps {
@@ -37,7 +36,6 @@ interface IDispatchProps {
 interface IComponentState {
     loading?: boolean;
     status?: string;
-    color?: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -51,8 +49,7 @@ export class UploadCardContainer extends React.Component<
 
         this.state = {
             loading: false,
-            status: 'init',
-            color: this.props.UI.colors.primary
+            status: 'init'
         };
 
         this.log = this.log.bind(this);
@@ -77,15 +74,6 @@ export class UploadCardContainer extends React.Component<
                                 src={'/files/' + this.props.assignment.state[0]}
                             />
                         ) : null}
-                        {this.state.color === this.props.UI.colors.error ? (
-                            <div
-                                style={{
-                                    background: this.props.UI.colors.error
-                                }}
-                            >
-                                {Core.i18n.t('upload_error')}
-                            </div>
-                        ) : null}
 
                         <Core.components.FileUpload
                             post_url="/api/v0/core/upload"
@@ -93,9 +81,6 @@ export class UploadCardContainer extends React.Component<
                             onSuccess={file => {
                                 log(file);
 
-                                this.setState({
-                                    color: this.props.UI.colors.success
-                                });
                                 this.props.dispatch(
                                     Flow.actions.save_state(
                                         this.props.assignment._id,
@@ -103,16 +88,8 @@ export class UploadCardContainer extends React.Component<
                                     )
                                 );
                             }}
-                            onError={error => {
-                                this.setState({
-                                    color: this.props.UI.colors.error
-                                });
-                            }}
                         >
                             <RaisedButton
-                                buttonStyle={{
-                                    backgroundColor: this.state.color
-                                }}
                                 fullWidth={true}
                                 label={Core.i18n.t('upload')}
                             />
@@ -132,7 +109,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         user_id,
         card_id: ownProps.card_id,
-        UI: state.ui,
         assignment_id: ownProps.assignment_id,
         card: Cards.selectors.select_card(
             state,

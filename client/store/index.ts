@@ -16,27 +16,6 @@ import i18n from '../i18n';
 
 const history = createBrowserHistory();
 
-export function loadState() {
-    try {
-        const serializedState = localStorage.getItem('state');
-        if (serializedState === null) {
-            return undefined;
-        }
-        return JSON.parse(serializedState);
-    } catch (err) {
-        return undefined;
-    }
-}
-
-export function saveState(state) {
-    try {
-        const serializedState = JSON.stringify(state);
-        localStorage.setItem('state', serializedState);
-    } catch (err) {
-        raven.captureException(err);
-    }
-}
-
 const persistentState = undefined;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

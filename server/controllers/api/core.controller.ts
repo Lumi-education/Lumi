@@ -10,7 +10,6 @@ import Host from '../../core/host';
 import * as raven from 'raven';
 import * as envfile from 'envfile';
 import * as fs from 'fs';
-import * as mkdirp from 'mkdirp';
 
 import ErrorResponse from '../../core/error';
 

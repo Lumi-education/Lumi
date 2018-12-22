@@ -64,9 +64,6 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         zIndex: 1099,
                         width: '100%'
                     }}
-                    tabItemContainerStyle={{
-                        background: UI.config.gradient_bg
-                    }}
                     value={this.props.tab}
                 >
                     <Tab

@@ -8,7 +8,6 @@ import * as debug from 'debug';
 import { IState } from 'client/state';
 
 // components
-import { UserSettingsContainer } from 'client/container';
 
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -158,45 +157,7 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
                                 <option value={'en'}>English</option>
                             </Select>
                         </FormControl>
-                        <div className={classes.buttons}>
-                            <UI.components.RaisedButton
-                                action={Core.actions.install_admin(
-                                    this.state.admin_username,
-                                    this.state.password,
-                                    this.state.language
-                                )}
-                                labels={[
-                                    Core.i18n.t('save'),
-                                    Core.i18n.t('saving'),
-                                    Core.i18n.t('saved'),
-                                    Core.i18n.t('error')
-                                ]}
-                                disabled={false}
-                                fullWidth={false}
-                                className={classes.submit}
-                                onSuccess={res => {
-                                    info('Save-Button success', res);
-                                    this.props
-                                        .dispatch(
-                                            Auth.actions.login(
-                                                this.state.admin_username,
-                                                this.state.password
-                                            )
-                                        )
-                                        .then(login_res => {
-                                            window.localStorage.jwt_token =
-                                                login_res.payload.jwt_token;
-                                            this.props.dispatch(
-                                                Auth.actions.get_session()
-                                            );
-                                        });
-
-                                    this.props.dispatch(
-                                        Core.actions.get_settings()
-                                    );
-                                }}
-                            />
-                        </div>
+                        <div className={classes.buttons} />
                     </Paper>
                 </div>
             </div>

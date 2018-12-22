@@ -3,10 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
-// import { Avatar, Paper, Divider, List, ListItem } from 'material-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import GroupIcon from '@material-ui/icons/Group';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -29,10 +27,7 @@ import Avatar from 'client/components/avatar';
 
 import styles from 'client/style/style';
 
-import {
-    GroupCreateContainer,
-    UsersChipInputContainer
-} from 'client/container';
+import { GroupCreateContainer } from 'client/container';
 
 // types
 import { IState } from 'client/state';
@@ -49,7 +44,6 @@ interface IStateProps {
     classes: any;
     group: Groups.models.Group;
     users: (groups_id: string) => Users.models.User[];
-
     show_create_group_dialog: boolean;
     search_text: string;
 }

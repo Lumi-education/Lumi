@@ -5,8 +5,6 @@ import raven from 'lib/core/raven';
 // components
 import { Dialog, TextField, RaisedButton } from 'material-ui';
 
-import { state_color } from 'lib/ui/utils';
-
 import * as Core from 'lib/core';
 import * as Auth from 'lib/auth';
 
@@ -102,13 +100,6 @@ export class PasswordContainer extends React.Component<
                             !(this.validate_password().state === 'success')
                         }
                         label={Core.i18n.t('continue')}
-                        buttonStyle={{
-                            backgroundColor: state_color(
-                                this.validate_password().state === 'success'
-                                    ? 'init'
-                                    : 'disabled'
-                            )
-                        }}
                         onClick={() =>
                             this.props.dispatch(
                                 Auth.actions.set_password(

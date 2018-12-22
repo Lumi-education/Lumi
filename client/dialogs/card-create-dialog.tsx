@@ -54,18 +54,8 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                     width: '100%',
                     maxWidth: 'none'
                 }}
-                bodyStyle={{
-                    background: UI.config.default_bg
-                }}
                 actions={[
-                    <RaisedButton
-                        label={Core.i18n.t('cancel')}
-                        onClick={() =>
-                            this.props.dispatch(
-                                UI.actions.toggle_create_card_dialog()
-                            )
-                        }
-                    />,
+                    <RaisedButton label={Core.i18n.t('cancel')} />,
                     this.props.card._id ? (
                         <RaisedButton
                             label={Core.i18n.t('duplicate')}
@@ -78,51 +68,10 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
                             }
                         />
                     ) : null
-                    // <UI.components.RaisedButton
-                    //     action={
-                    //         this.props.card._id
-                    //             ? Cards.actions.update_card(
-                    //                   this.props.card._id,
-                    //                   this.props.card
-                    //               )
-                    //             : Cards.actions.create_card(this.props.card)
-                    //     }
-                    //     labels={
-                    //         this.props.card._id
-                    //             ? [
-                    //                   Core.i18n.t('save'),
-                    //                   Core.i18n.t('saving'),
-                    //                   Core.i18n.t('saved'),
-                    //                   Core.i18n.t('error')
-                    //               ]
-                    //             : [
-                    //                   Core.i18n.t('create'),
-                    //                   Core.i18n.t('creating'),
-                    //                   Core.i18n.t('created'),
-                    //                   Core.i18n.t('error')
-                    //               ]
-                    //     }
-                    //     fullWidth={false}
-                    //     disabled={false}
-                    //     onSuccess={() => {
-                    //         this.props.dispatch(
-                    //             UI.actions.toggle_create_card_dialog()
-                    //         );
-                    //         this.props.dispatch(Cards.actions.reset_card());
-                    //     }}
-                    // />
                 ]}
                 open={this.props.open}
-                onRequestClose={() =>
-                    this.props.dispatch(UI.actions.toggle_create_card_dialog())
-                }
             >
-                <Cards.CardEdit>
-                    {/* <Tags.TagInputContainer
-                        tag_ids={this.props.card.tags}
-                        doc_id={this.props.card._id}
-                    /> */}
-                </Cards.CardEdit>
+                <Cards.CardEdit />
             </Dialog>
         );
     }
@@ -130,7 +79,7 @@ export class CreateCardDialog extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        open: state.ui.show_create_card_dialog,
+        open: false,
         card: state.cards.ui.card
     };
 }

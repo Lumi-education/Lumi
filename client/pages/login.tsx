@@ -9,7 +9,6 @@ import { TextField, Paper, RaisedButton, LinearProgress } from 'material-ui';
 // modules
 import * as Core from 'lib/core';
 import * as Auth from 'lib/auth';
-import * as UI from 'lib/ui';
 
 import { IState } from 'client/state';
 
@@ -21,7 +20,6 @@ interface IComponentState {}
 
 interface IStateProps {
     allow_user_registration: boolean;
-    colors: UI.IUIColors;
 }
 
 interface IDispatchProps {
@@ -40,9 +38,6 @@ interface IComponentState {
     username_exists?: boolean;
     login_disabled?: boolean;
     show_password_input?: boolean;
-    error_style?: {
-        color: string;
-    };
     login_button_style?: {
         backgroundColor: string;
     };
@@ -65,9 +60,6 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
             username_exists: false,
             login_disabled: true,
             show_password_input: false,
-            error_style: {
-                color: this.props.colors.primary
-            },
             login_button_style: {
                 backgroundColor: 'white'
             },
@@ -80,12 +72,6 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
     }
 
     public login() {
-        this.setState({
-            login_button_style: {
-                backgroundColor: this.props.colors.pending
-            }
-        });
-
         if (this.state.username_exists) {
             this.props
                 .dispatch(
@@ -102,10 +88,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 username_error: Core.i18n.t('not_found.user', {
                                     name: this.state.username
                                 }),
-                                status: 404,
-                                login_button_style: {
-                                    backgroundColor: this.props.colors.error
-                                }
+                                status: 404
                             });
                             break;
                         case 401:
@@ -113,17 +96,11 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 password_error: Core.i18n.t(
                                     'password_incorrect'
                                 ),
-                                status: 401,
-                                login_button_style: {
-                                    backgroundColor: this.props.colors.error
-                                }
+                                status: 401
                             });
                             break;
                         case 200:
                             this.setState({
-                                login_button_style: {
-                                    backgroundColor: this.props.colors.success
-                                },
                                 status: 200
                             });
                             window.localStorage.jwt_token =
@@ -135,9 +112,6 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
         } else {
             if (this.props.allow_user_registration) {
                 this.setState({
-                    login_button_style: {
-                        backgroundColor: this.props.colors.pending
-                    },
                     login_button_text: Core.i18n.t('creating')
                 });
                 this.props
@@ -161,10 +135,6 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                             .then(login_response => {
                                 if (login_response.response.status === 200) {
                                     this.setState({
-                                        login_button_style: {
-                                            backgroundColor: this.props.colors
-                                                .success
-                                        },
                                         status: 200
                                     });
                                     window.localStorage.jwt_token =
@@ -192,9 +162,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 }),
                                 username_exists: false,
                                 login_disabled: false,
-                                error_style: {
-                                    color: this.props.colors.success
-                                },
+
                                 checking_username: false
                             });
 
@@ -203,9 +171,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 username_error: Core.i18n.t('username_exists'),
                                 login_disabled: true,
                                 username_exists: true,
-                                error_style: {
-                                    color: this.props.colors.primary
-                                },
+
                                 checking_username: false,
                                 show_password_input: true
                             });
@@ -220,9 +186,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                             ),
                             login_disabled: true,
                             username_exists: false,
-                            error_style: {
-                                color: this.props.colors.error
-                            },
+
                             checking_username: false
                         });
 
@@ -231,9 +195,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                             username_error: undefined,
                             login_disabled: false,
                             username_exists: true,
-                            error_style: {
-                                color: this.props.colors.primary
-                            },
+
                             checking_username: false,
                             show_password_input: true
                         });
@@ -287,7 +249,6 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
                                 style={{ borderBottom: '1px solid #E4E8EB' }}
                                 underlineShow={this.state.username_error !== ''}
                                 errorText={this.state.username_error}
-                                errorStyle={this.state.error_style}
                                 value={this.state.username}
                                 onChange={this._onChangeUsername}
                                 onKeyDown={e => {
@@ -366,8 +327,7 @@ export class LoginContainer extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps: {}): IStateProps {
     return {
-        allow_user_registration: state.core.system.allow_user_registration,
-        colors: state.ui.colors
+        allow_user_registration: state.core.system.allow_user_registration
     };
 }
 

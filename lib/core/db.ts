@@ -3,7 +3,7 @@ import PouchDB from 'pouchdb';
 import store from 'client/store';
 
 import * as PouchDBFind from 'pouchdb-find';
-
+import * as Core from './';
 PouchDB.plugin(PouchDBFind);
 
 export const db_name = 'test';
@@ -26,7 +26,7 @@ PouchDB.sync(db, remote_db, {
     .on('change', changes => {
         log_info('changes', changes);
         // if (changes.direction === 'pull') {
-        store.dispatch({ type: 'DB_CHANGE', payload: changes.change.docs });
+        store.dispatch(Core.actions.db_change(changes.change.docs));
         // }
     })
     .on('paused', error => {

@@ -2,6 +2,7 @@ import * as types from './types';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as api from './api';
+import raven from './raven';
 
 import FileListComponent from './components/file-list';
 import Markdown from './components/markdown';
@@ -27,5 +28,6 @@ export {
     reducer,
     utils,
     config,
-    i18n
+    i18n,
+    raven
 };

@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 import { IState } from 'client/state';
 
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Dialog, RaisedButton, FloatingActionButton } from 'material-ui';
 import SVGContentAdd from 'material-ui/svg-icons/content/add';
@@ -38,7 +36,6 @@ interface IDispatchProps {
 
 interface IComponentState {
     show_add_material_dialog?: boolean;
-    loading?: string;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -48,7 +45,6 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
-            loading: 'init',
             show_add_material_dialog: false
         };
     }
@@ -58,14 +54,6 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage>
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         const { classes, cards } = this.props;
 
         return (
@@ -73,37 +61,6 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
                 <Typography variant="h5" component="h3">
                     {Core.i18n.t('cards')}
                 </Typography>
-                <Paper className={classes.paper}>
-                    {/* <CardList
-                        cards={cards}
-                        onListItemClick={card_id => console.log(card_id)}
-                    /> */}
-                    {/* <div className={classes.buttons}>
-                        <UI.components.RaisedButton
-                            action={Groups.actions.update_group(
-                                this.props.group_id,
-                                this.props.group
-                            )}
-                            labels={[
-                                Core.i18n.t('save'),
-                                Core.i18n.t('saving'),
-                                Core.i18n.t('saved'),
-                                Core.i18n.t('error')
-                            ]}
-                            fullWidth={false}
-                            disabled={false}
-                        />
-                    </div> */}
-                </Paper>
-                <UI.components.ActionBar>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.setState({ show_add_material_dialog: true });
-                        }}
-                    >
-                        <SVGContentAdd />
-                    </FloatingActionButton>
-                </UI.components.ActionBar>
 
                 <Dialog
                     open={this.state.show_add_material_dialog}

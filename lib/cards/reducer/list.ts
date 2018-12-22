@@ -11,14 +11,8 @@ import {
 } from '../actions';
 
 import * as Tags from 'lib/tags';
-import {
-    USERS_GET_USER_SUCCESS,
-    USERS_GET_USERS_SUCCESS
-} from 'lib/users/actions';
 
 import { FLOW_GET_ASSIGNMENTS_SUCCESS } from 'lib/flow/actions';
-
-import { FOLDERS_GET_FOLDERS_SUCCESS } from 'lib/folders/actions';
 
 import * as Users from 'lib/users';
 import * as Core from 'lib/core';
@@ -36,11 +30,9 @@ export default function(state: ICard[] = [], action): ICard[] {
 
         case 'DB_CHANGE':
         case Core.actions.CORE_CREATE_DB_SUCCESS:
-        case Users.actions.USERS_INIT_USER_SUCCESS:
 
         case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:
         case FLOW_GET_ASSIGNMENTS_SUCCESS:
-        case FOLDERS_GET_FOLDERS_SUCCESS:
             return unionBy(
                 action.payload
                     .filter(d => d.type === 'card')

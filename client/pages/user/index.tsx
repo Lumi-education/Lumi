@@ -7,18 +7,14 @@ import { IState } from 'client/state';
 import AppBar from './app-bar';
 import LeftDrawer from './left-drawer';
 
-import Sync from './sync';
-
 // pages
 import FlowPage from './flow';
 import AssignmentPage from './assignment';
 import CommentsPage from './comments';
-import CardsPage from './cards';
 import SettingsPage from './settings';
 
 // modules
 import * as Users from 'lib/users';
-import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 
 interface IStateProps {
@@ -26,7 +22,7 @@ interface IStateProps {
     user_id: string;
     system: Core.types.ISystemSettings;
     locale: Core.types.Locales;
-    me: Users.IUser;
+    me: Users.models.User;
 }
 
 interface IDispatchProps {
@@ -35,56 +31,19 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    loading: string;
-    loading_step: number;
-}
+interface IComponentState {}
 
 export class Root extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            loading: 'init',
-            loading_step: 0
-        };
-    }
-
-    public componentWillMount() {
-        this.setState({ loading: Core.i18n.t('user'), loading_step: 1 });
-        this.props.dispatch(Users.actions.init_user()).then(res => {
-            const user =
-                res.payload.filter(docs => docs.type === 'user')[0] || {};
-            if (user.language) {
-                this.props.dispatch(setLocale(user.language));
-            }
-
-            this.setState({ loading: 'finished', loading_step: 2 });
-        });
+        this.state = {};
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage value={this.state.loading_step}>
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
-        if (this.props.system.mode === 'controlled') {
-            if (this.props.location !== this.props.system.controlled_location) {
-                this.props.dispatch(
-                    UI.actions.push(this.props.system.controlled_location)
-                );
-            }
-        }
-
         return (
             <div id="root" key={this.props.locale}>
-                <Sync />
                 <AppBar />
-                <UI.container.AlarmDialog />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '80px' }}>
                     <Switch>
@@ -108,10 +67,6 @@ export class Root extends React.Component<IProps, IComponentState> {
                         <Route
                             path="/user/comments/:ref_id"
                             component={CommentsPage}
-                        />
-                        <Route
-                            path="/user/cards/:card_id"
-                            component={CardsPage}
                         />
                     </Switch>
                 </div>

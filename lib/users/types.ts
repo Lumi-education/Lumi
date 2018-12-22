@@ -1,6 +1,5 @@
 export type User_id = string;
 type Group_id = string;
-import { User } from './models';
 import { IDoc, Locales } from 'lib/core/types';
 
 export interface IUser extends IDoc {
@@ -11,10 +10,6 @@ export interface IUser extends IDoc {
     name: string;
     level: number;
     groups: Group_id[];
-    last_login: Date;
-    last_active: Date;
-    online: boolean;
-    location: string;
     password: string;
     flow: string[];
     language?: Locales;

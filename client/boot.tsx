@@ -34,14 +34,11 @@ if ((locale !== 'en' && locale !== 'de') || !locale) {
 moment.locale(locale);
 store.dispatch(setLocale(locale));
 
-import db from 'lib/core/db';
+import * as Core from 'lib/core';
 
-db.allDocs({ include_docs: true }).then(docs => {
+Core.db.allDocs({ include_docs: true }).then(docs => {
     const _docs = docs.rows.map(row => row.doc).filter(doc => doc.type);
-    store.dispatch({
-        type: 'DB_CHANGE',
-        payload: _docs
-    });
+    store.dispatch(Core.actions.db_change(_docs));
 
     ReactDOM.render(
         <Provider store={store}>

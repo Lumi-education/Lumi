@@ -14,10 +14,6 @@ export function user(state: IState, user_id): IUser {
             name: 'user not found',
             level: 0,
             groups: [],
-            last_active: undefined,
-            last_login: undefined,
-            online: false,
-            location: '',
             password: undefined,
             flow: [],
             _attachments: {}

@@ -15,8 +15,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -38,19 +36,16 @@ import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
-import global_styles from 'client/style/style';
 
-import GroupsAssignDialog from 'client/dialogs/groups-assign-dialog';
 import CreateUserDialog from 'client/dialogs/user-create-dialog';
 
-import { push } from 'lib/ui/actions';
 import { UsersChipInputContainer } from 'client/container';
 
 interface IPassedProps {
     group_id: string;
 }
 interface IStateProps extends IPassedProps {
-    users: Users.IUser[];
+    users: Users.models.User[];
     group: Groups.IGroup;
     user: (user_id: string) => Users.models.User;
     selected_users: string[];
@@ -176,15 +171,6 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                         ))}
                     </List>
                 </Paper>
-                <UI.components.ActionBar>
-                    <FloatingActionButton
-                        onClick={() => {
-                            this.setState({ show_add_users_dialog: true });
-                        }}
-                    >
-                        <ContentAdd />
-                    </FloatingActionButton>
-                </UI.components.ActionBar>
                 <Dialog open={this.state.show_remove_user_dialog}>
                     <DialogContent>
                         {Core.i18n.t('remove_user_from_group_confirmation', {
@@ -284,9 +270,6 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                                             variant="outlined"
                                             color="primary"
                                             onClick={() => {
-                                                this.props.dispatch(
-                                                    UI.actions.toggle_create_user_dialog()
-                                                );
                                                 this.setState({
                                                     show_add_users_dialog: false
                                                 });
@@ -408,23 +391,22 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const styles: StyleRulesCallback = theme =>
-    assign(global_styles(theme), {
-        cardHeader: {
-            backgroundColor: theme.palette.grey[200]
-        },
-        cardPricing: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'baseline',
-            marginBottom: theme.spacing.unit * 2
-        },
-        cardActions: {
-            [theme.breakpoints.up('sm')]: {
-                paddingBottom: theme.spacing.unit * 2
-            }
+const styles: StyleRulesCallback = theme => ({
+    cardHeader: {
+        backgroundColor: theme.palette.grey[200]
+    },
+    cardPricing: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'baseline',
+        marginBottom: theme.spacing.unit * 2
+    },
+    cardActions: {
+        [theme.breakpoints.up('sm')]: {
+            paddingBottom: theme.spacing.unit * 2
         }
-    });
+    }
+});
 
 export default withStyles(styles)(
     connect<IStateProps, IDispatchProps, IPassedProps>(

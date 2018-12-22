@@ -8,8 +8,6 @@ import * as classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import FilterBar from 'lib/ui/components/filter-bar';
-import ActionBar from 'lib/ui/components/action-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
@@ -21,12 +19,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuIcon from '@material-ui/icons/Menu';
 import InputBase from '@material-ui/core/InputBase';
 
-import SVGGroup from 'material-ui/svg-icons/social/group';
-import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
-
 import CreateUserDialog from 'client/dialogs/user-create-dialog';
 import AssignGroupDialog from 'client/dialogs/groups-assign-dialog';
-import DeleteUserDialog from 'client/dialogs/user-delete-dialog';
 
 import styles from 'client/style/style';
 
@@ -44,7 +38,7 @@ import * as Groups from 'lib/groups';
 import { push } from 'lib/ui/actions';
 
 interface IStateProps {
-    users: Users.IUser[];
+    users: Users.models.User[];
     group: (group_id) => Groups.IGroup;
     selected_users: string[];
 
@@ -146,20 +140,11 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                             }
                         />
                     </Paper>
-                    <ActionBar>
-                        <FloatingActionButton
-                            onClick={() => {
-                                this.props.dispatch(
-                                    UI.actions.toggle_create_user_dialog()
-                                );
-                            }}
-                        >
-                            <ContentAdd />
-                        </FloatingActionButton>
-                    </ActionBar>
+                    <FloatingActionButton>
+                        <ContentAdd />
+                    </FloatingActionButton>
                     <CreateUserDialog />
                     <AssignGroupDialog />
-                    <DeleteUserDialog />
                 </div>
             </div>
         );

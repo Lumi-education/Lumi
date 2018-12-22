@@ -1,15 +1,17 @@
 import * as React from 'react';
+
 // components
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from 'client/components/avatar';
 import PersonIcon from '@material-ui/icons/Person';
+
 // modules
 import * as Users from 'lib/users';
 import * as Core from 'lib/core';
 
 interface IPassedProps {
-    user: Users.IUser;
+    user: Users.models.User;
     onClick: () => void;
 }
 

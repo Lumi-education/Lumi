@@ -5,20 +5,12 @@ import * as raven from 'raven';
 
 import { ISystemSettings } from 'lib/core/types';
 import { IUser } from 'lib/users/types';
-import { IFolder } from 'lib/folders/types';
 
 import boot_views from './views';
 
 import db from '..';
 
 const debug = _debug('lumi:db:setup:init');
-
-const _folder: IFolder = {
-    _id: 'root_folder',
-    type: 'folder',
-    name: '/',
-    content: []
-};
 
 const _system: ISystemSettings = {
     _id: 'system',
@@ -40,10 +32,6 @@ const _admin: IUser = {
     name: 'admin',
     level: 4,
     groups: [],
-    last_active: new Date(),
-    last_login: new Date(),
-    online: false,
-    location: '',
     password: undefined,
     flow: [],
     _attachments: {}
@@ -62,7 +50,6 @@ export default function init(done: () => void) {
             .get(DB.href)
             .then(res => {
                 debug(DB.pathname + ': OK');
-                // boot_views(() => done());
                 boot();
                 boot_views(() => {
                     done();
@@ -103,14 +90,6 @@ function boot() {
         if (find_admin_error || !admin._id) {
             db.insert(_admin, (error, doc) => {
                 debug('admin created');
-            });
-        }
-    });
-
-    db.findById('root_folder', (find_error, doc) => {
-        if (find_error || !doc._id) {
-            db.insert(_folder, (error, _doc) => {
-                debug('folder created');
             });
         }
     });

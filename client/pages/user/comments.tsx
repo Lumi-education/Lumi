@@ -21,7 +21,7 @@ import * as UI from 'lib/ui';
 interface IStateProps {
     ref_id: string;
     comments: Comments.models.Comment[];
-    me: Users.IUser;
+    me: Users.models.User;
 }
 
 interface IDispatchProps {

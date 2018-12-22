@@ -14,9 +14,6 @@ import { IState } from 'client/state';
 
 import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
-import * as Comments from 'lib/comments';
-import * as Users from 'lib/users';
-import * as Flow from 'lib/flow';
 
 interface IStateProps {
     system: Core.types.ISystemSettings;

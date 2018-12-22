@@ -1,70 +1,21 @@
-import * as request from 'superagent';
 import { assign } from 'lodash';
-declare var window;
 
 import { User } from './models';
-import * as core from 'lib/core';
+import * as Core from 'lib/core';
 
 export function create_users(users: User[]): Promise<User[]> {
-    return core.api.batch_create<User>(users).then(created_users => {
-        return core.db.get('_design/user').then(_design => {
+    return Core.api.batch_create<User>(users).then(created_users => {
+        return Core.db.get('_design/user').then(_design => {
             let design = _design;
             created_users.forEach(
                 user => (design = add_view_to_user(design, user._id))
             );
 
-            return core.db.put(design).then(update_design => {
+            return Core.db.put(design).then(update_design => {
                 return created_users;
             });
         });
     });
-    // return request
-    //     .post('/api/v0/users')
-    //     .send(assign({}, { name }, options))
-    //     .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function get_users(user_ids?: string[]) {
-    return request
-        .get(
-            '/api/v0/users' +
-                (user_ids ? '?user_ids=' + JSON.stringify(user_ids) : '')
-        )
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function get_user(user_id: string) {
-    return request
-        .get('/api/v0/users/' + user_id)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function delete_user(user_ids: string[]) {
-    return request
-        .delete('/api/v0/users')
-        .send({ user_ids })
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function update_user(user: User) {
-    return core.api.update(user);
-    // return request
-    //     .put('/api/v0/users/' + user_id)
-    //     .send(update)
-    //     .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function init_user() {
-    return request
-        .get('/api/v0/user')
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function update_myself(update) {
-    return request
-        .put('/api/v0/user')
-        .send(update)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 function add_view_to_user(_design, user_id: string) {
