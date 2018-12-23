@@ -31,7 +31,6 @@ export default function(state: ICard[] = [], action): ICard[] {
         case 'DB_CHANGE':
         case Core.actions.CORE_CREATE_DB_SUCCESS:
 
-        case Tags.actions.TAGS_ADD_TO_DOC_SUCCESS:
         case FLOW_GET_ASSIGNMENTS_SUCCESS:
             return unionBy(
                 action.payload

@@ -31,7 +31,7 @@ interface IPassedProps {
 }
 interface IStateProps extends IPassedProps {
     users: Users.models.User[];
-    group: Groups.IGroup;
+    group: Groups.models.Group;
     selected_users: string[];
 
     classes: any;
@@ -143,9 +143,9 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                                 label={Core.i18n.t('save')}
                                 onClick={() =>
                                     this.props.dispatch(
-                                        Core.actions.update<Groups.IGroup>(
-                                            this.props.group
-                                        )
+                                        Core.actions.update<
+                                            Groups.models.Group
+                                        >(this.props.group)
                                     )
                                 }
                             />

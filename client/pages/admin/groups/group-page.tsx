@@ -23,7 +23,7 @@ const log_info = debug('lumi:pages:admin:groups:group-page');
 interface IStateProps {
     group_id: string;
     tab: string;
-    group: Groups.IGroup;
+    group: Groups.models.Group;
 }
 
 interface IDispatchProps {

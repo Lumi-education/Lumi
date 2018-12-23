@@ -1,18 +1,16 @@
-import { assign, unionBy } from 'lodash';
+import { assign } from 'lodash';
 
 import {
-    TAGS_UI_SELECT_TAG_ID,
-    TAGS_UI_TOGGLE_DIALOG,
+    TAGS_UI_SELECT_TAG_ID, // deprecate with universal selection module #286
     TAGS_UI_CHANGE_TAG,
-    TAGS_UI_RESET_TAG,
-    TAGS_UI_SET_SELECTED_TAGS
+    TAGS_UI_RESET_TAG, // deprecate with universal selection module #286
+    TAGS_UI_SET_SELECTED_TAGS // deprecate with universal selection module #286
 } from '../actions';
 
-import { ITagsUI } from '..';
+import { ITagsUI } from '../types';
 
 const initialState: ITagsUI = {
-    selected_tags: [],
-    show_dialog: false,
+    selected_tags: [], // deprecate with universal selection module #286
     tag: {
         _id: undefined,
         type: 'tag',
@@ -26,7 +24,7 @@ const initialState: ITagsUI = {
 
 export default function(state: ITagsUI = initialState, action): ITagsUI {
     switch (action.type) {
-        case TAGS_UI_SELECT_TAG_ID:
+        case TAGS_UI_SELECT_TAG_ID: // deprecate with universal selection module #286
             if (state.selected_tags.indexOf(action.payload.tag_id) > -1) {
                 return assign({}, state, {
                     selected_tags: state.selected_tags.filter(
@@ -38,13 +36,8 @@ export default function(state: ITagsUI = initialState, action): ITagsUI {
                 selected_tags: [...state.selected_tags, action.payload.tag_id]
             });
 
-        case TAGS_UI_SET_SELECTED_TAGS:
+        case TAGS_UI_SET_SELECTED_TAGS: // deprecate with universal selection module #286
             return assign({}, state, { selected_tags: action.payload.tag_ids });
-
-        case TAGS_UI_TOGGLE_DIALOG:
-            return assign({}, state, {
-                show_dialog: !state.show_dialog
-            });
 
         case TAGS_UI_CHANGE_TAG:
             return assign({}, state, {

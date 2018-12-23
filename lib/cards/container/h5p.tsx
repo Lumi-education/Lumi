@@ -22,7 +22,7 @@ interface IPassedProps {
 
 interface IStateProps extends IPassedProps {
     card: Cards.IH5PCard;
-    assignment: Flow.IAssignment;
+    assignment: Flow.models.Assignment;
 }
 
 interface IDispatchProps {

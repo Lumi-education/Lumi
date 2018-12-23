@@ -21,14 +21,10 @@ export const FLOW_SAVE_STATE_ERROR = 'FLOW_SAVE_STATE_ERROR';
 export const FLOW_SAVE_DATA_REQUEST = 'FLOW_SAVE_DATA_REQUEST';
 export const FLOW_SAVE_DATA_SUCCESS = 'FLOW_SAVE_DATA_SUCCESS';
 export const FLOW_SAVE_DATA_ERROR = 'FLOW_SAVE_DATA_ERROR';
-export const FLOW_SYNC_ASSIGNMENTS_REQUEST = 'FLOW_SYNC_ASSIGNMENTS_REQUEST';
-export const FLOW_SYNC_ASSIGNMENTS_SUCCESS = 'FLOW_SYNC_ASSIGNMENTS_SUCCESS';
-export const FLOW_SYNC_ASSIGNMENTS_ERROR = 'FLOW_SYNC_ASSIGNMENTS_ERROR';
 export const FLOW_UI_SELECT_ASSIGNMENT = 'FLOW_UI_SELECT_ASSIGNMENT';
 export const FLOW_UI_SET_SELECTED_ASSIGNMENTS =
     ' FLOW_UI_SET_SELECTED_ASSIGNMENTS:';
 export const FLOW_UI_CHANGE_ASSIGNMENT = 'FLOW_UI_CHANGE_ASSIGNMENT';
-export const FLOW_UI_TOGGLE_DIALOG = 'FLOW_UI_TOGGLE_DIALOG';
 export const FLOW_UI_RESET_ASSIGNMENT = 'FLOW_UI_RESET_ASSIGNMENT';
 
 import * as API from './api';
@@ -99,6 +95,7 @@ export function delete_assignments(assignment_ids: string[]) {
 }
 
 export function select_assignment(assignment_id: string) {
+    // deprecate with universal selection module #286
     return {
         type: FLOW_UI_SELECT_ASSIGNMENT,
         payload: { assignment_id }
@@ -106,6 +103,7 @@ export function select_assignment(assignment_id: string) {
 }
 
 export function set_selected_assignments(assignment_ids: string[]) {
+    // deprecate with universal selection module #286
     return {
         type: FLOW_UI_SET_SELECTED_ASSIGNMENTS,
         payload: { assignment_ids }
@@ -124,12 +122,6 @@ export function archive_assignments(assignment_ids: string[]) {
     };
 }
 
-export function toggle_dialog() {
-    return {
-        type: FLOW_UI_TOGGLE_DIALOG
-    };
-}
-
 export function change_assignment(payload: any) {
     return {
         payload,
@@ -140,29 +132,5 @@ export function change_assignment(payload: any) {
 export function reset_assignment() {
     return {
         type: FLOW_UI_RESET_ASSIGNMENT
-    };
-}
-
-export function sync_assignments(assignments: IAssignment[]) {
-    return {
-        types: [
-            FLOW_SYNC_ASSIGNMENTS_REQUEST,
-            FLOW_SYNC_ASSIGNMENTS_SUCCESS,
-            FLOW_SYNC_ASSIGNMENTS_ERROR
-        ],
-        api: API.sync_assignments(assignments),
-        payload: { assignments }
-    };
-}
-
-export function get_assignments(assignment_ids?: string[]) {
-    return {
-        types: [
-            FLOW_GET_ASSIGNMENTS_REQUEST,
-            FLOW_GET_ASSIGNMENTS_SUCCESS,
-            FLOW_GET_ASSIGNMENTS_ERROR
-        ],
-        api: API.get_assignments(assignment_ids),
-        payload: { assignment_ids }
     };
 }

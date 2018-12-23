@@ -4,6 +4,9 @@ import * as moment from 'moment';
 
 export class Assignment implements IAssignment {
     public _id: string;
+    public _rev: string;
+    public _deleted: boolean;
+    public _attachments: {};
     public user_id: string;
     public card_id: string; // h5p content_id ?
     public completed: boolean;
@@ -17,13 +20,8 @@ export class Assignment implements IAssignment {
     public updated_at?: Date;
     public time: number;
     public archived: boolean;
-    public _deleted?: boolean;
-    public _attachments: any;
     public finished: number;
-    public _rev?: string;
-    public sync: 'pending' | 'error' | 'success';
     public type: 'assignment';
-    public files: string[];
 
     constructor(assignment?: IAssignment) {
         return assign(
@@ -39,10 +37,8 @@ export class Assignment implements IAssignment {
                 score: null,
                 state: null,
                 time: 0,
-                sync: 'success',
                 finished: null,
-                _attachments: {},
-                files: []
+                _attachments: {}
             },
             assignment
         );
@@ -70,9 +66,5 @@ export class Assignment implements IAssignment {
         return this.finished === null
             ? null
             : moment(this.finished).format('llll');
-    }
-
-    public add_file(path: string): string[] {
-        return [...this.files, path];
     }
 }

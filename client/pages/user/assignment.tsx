@@ -29,7 +29,7 @@ import * as Comments from 'lib/comments';
 
 interface IStateProps {
     assignment_id: string;
-    assignment: Flow.IAssignment;
+    assignment: Flow.models.Assignment;
     flow: string[];
     card: (card_id: string) => Cards.ICard;
     user_id: string;
@@ -53,30 +53,6 @@ export class UserFlow extends React.Component<IProps, {}> {
     public render() {
         return (
             <div>
-                {this.props.assignment.sync === 'error' ? (
-                    <div
-                        style={{
-                            color: '#ffffff',
-                            padding: '10px',
-                            background:
-                                'linear-gradient(90deg, #e74c3c, #f39c12)'
-                        }}
-                    >
-                        {Core.i18n.t('data_not_synced')}
-                    </div>
-                ) : null}
-                {this.props.assignment.sync === 'pending' ? (
-                    <div
-                        style={{
-                            color: '#ffffff',
-                            padding: '10px',
-                            background:
-                                'linear-gradient(90deg, #f1c40f, #e67e22)'
-                        }}
-                    >
-                        {Core.i18n.t('syncing')}
-                    </div>
-                ) : null}
                 <Paper>
                     <Cards.CardViewContainer
                         user_id={this.props.user_id}

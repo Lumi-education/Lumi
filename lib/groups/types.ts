@@ -12,12 +12,11 @@ export interface IGroup extends IDoc {
 }
 
 export interface IGroupUI {
-    selected_groups: string[];
+    selected_groups: string[]; // deprecate with universal selection module #286
     group: IGroup;
     error: {
         message: string;
     };
-    show_create_group_dialog: boolean;
 }
 
 export interface IState {

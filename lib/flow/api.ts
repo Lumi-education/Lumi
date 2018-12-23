@@ -39,15 +39,3 @@ export function save_data(assignment_id: string, data: IAssignment['data']) {
         .send(data)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
-export function sync_assignments(assignments: IAssignment[]) {
-    return request
-        .post('/api/v0/flow/assignments/sync')
-        .send({ assignments })
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-export function get_assignments(_ids?: string[]) {
-    return request
-        .post('/api/v0/flow/assignments/list')
-        .send({ assignment_ids: _ids })
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}

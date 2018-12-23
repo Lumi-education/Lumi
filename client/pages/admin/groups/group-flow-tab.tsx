@@ -46,7 +46,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     assignments: Flow.models.Assignment[];
     users: Users.models.User[];
-    group: Groups.IGroup;
+    group: Groups.models.Group;
     selected_users: string[];
     selected_assignments: string[];
     user: (user_id: string) => Users.models.User;
@@ -192,9 +192,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                             assignment
                                                         );
                                                         this.props.dispatch(
-                                                            Flow.actions.toggle_dialog()
-                                                        );
-                                                        this.props.dispatch(
                                                             Flow.actions.change_assignment(
                                                                 assignment
                                                             )
@@ -213,13 +210,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                     >
                                                         <CardHeader
                                                             title={card.name}
-                                                            subtitle={
-                                                                <Tags.TagsContainer
-                                                                    tag_ids={
-                                                                        card.tags
-                                                                    }
-                                                                />
-                                                            }
                                                             showExpandableButton={
                                                                 false
                                                             }

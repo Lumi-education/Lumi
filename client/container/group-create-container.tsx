@@ -25,7 +25,7 @@ interface IDispatchProps {
 interface IStateProps extends IPassedProps {
     existing_groupnames: string[];
     classes: any;
-    group: Groups.IGroup;
+    group: Groups.models.Group;
     error_message: string;
 }
 

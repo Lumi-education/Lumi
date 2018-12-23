@@ -118,7 +118,7 @@ export class PasswordContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Auth.IState, ownProps: {}): IStateProps {
+function mapStateToProps(state: Auth.types.IState, ownProps: {}): IStateProps {
     return {
         username: state.auth.username,
         password: state.auth.password

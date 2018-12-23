@@ -6,7 +6,7 @@ import * as PouchDBFind from 'pouchdb-find';
 import * as Core from './';
 PouchDB.plugin(PouchDBFind);
 
-export const db_name = 'test';
+export const db_name = 'develop';
 
 const log_info = debug('lumi:info:db');
 const log_error = debug('lumi:error:db');

@@ -75,9 +75,6 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                             key={comment._id}
                             onClick={() => {
                                 this.props.dispatch(
-                                    Flow.actions.toggle_dialog()
-                                );
-                                this.props.dispatch(
                                     Flow.actions.change_assignment(
                                         this.props.assignment(comment.ref_id)
                                     )

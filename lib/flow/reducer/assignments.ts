@@ -12,9 +12,6 @@ import {
     FLOW_SAVE_DATA_REQUEST,
     FLOW_SAVE_DATA_SUCCESS,
     FLOW_SAVE_DATA_ERROR,
-    FLOW_SYNC_ASSIGNMENTS_SUCCESS,
-    FLOW_SYNC_ASSIGNMENTS_REQUEST,
-    FLOW_SYNC_ASSIGNMENTS_ERROR,
     FLOW_GET_ASSIGNMENTS_SUCCESS
 } from '../actions';
 
@@ -27,41 +24,11 @@ export default function(
     switch (action.type) {
         case 'DB_CHANGE':
         case FLOW_GET_ASSIGNMENTS_SUCCESS:
-            const no_sync_ids = state
-                .filter(assignment => assignment.sync === 'error')
-                .map(assignment => assignment._id);
-
             return unionBy(
-                action.payload
-                    .filter(d => d.type === 'assignment')
-                    .filter(
-                        assignment => no_sync_ids.indexOf(assignment._id) === -1
-                    ), // filter all assignment where local sync field holds the error value -> do not overwrite local data, that has not been send to the server
-
+                action.payload.filter(d => d.type === 'assignment'),
                 state,
                 '_id'
             ).filter(assignment => !assignment._deleted);
-
-        case FLOW_SYNC_ASSIGNMENTS_SUCCESS:
-            return state.map(assignment =>
-                action.payload.map(a => a._id).indexOf(assignment._id) > -1
-                    ? assign({}, assignment, { sync: 'success' })
-                    : assignment
-            );
-
-        case FLOW_SYNC_ASSIGNMENTS_REQUEST:
-            return state.map(assignment =>
-                action.assignments.map(a => a._id).indexOf(assignment._id) > -1
-                    ? assign({}, assignment, { sync: 'pending' })
-                    : assignment
-            );
-
-        case FLOW_SYNC_ASSIGNMENTS_ERROR:
-            return state.map(assignment =>
-                action.assignments.map(a => a._id).indexOf(assignment._id) > -1
-                    ? assign({}, assignment, { sync: 'error' })
-                    : assignment
-            );
 
         case FLOW_DELETE_ASSIGNMENT_REQUEST:
             return state.filter(

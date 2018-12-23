@@ -57,7 +57,7 @@ export class AuthContainer extends React.Component<IProps, {}> {
     }
 }
 
-function mapStateToProps(state: Auth.IState, ownProps): IStateProps {
+function mapStateToProps(state: Auth.types.IState, ownProps): IStateProps {
     return {
         user_id: state.auth.user_id
     };

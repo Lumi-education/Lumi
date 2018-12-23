@@ -30,17 +30,6 @@ export function update<T>(doc: T): Promise<T> {
     return db.put(doc).then(response => {
         return [assign({}, doc, { _id: response.id, _rev: response.rev })];
     });
-    // return request
-    //     .post('/api/v0/core/update?id=' + id)
-    //     .send(_update)
-    //     .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
-}
-
-export function action(_action: string, ids: string[], payload) {
-    return request
-        .post('/api/v0/core/action/' + _action + '?ids=' + JSON.stringify(ids))
-        .send(payload)
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
 export function shutdown() {

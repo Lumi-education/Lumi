@@ -33,7 +33,7 @@ interface IStateProps extends IPassedProps {
     card_name: (card_id: string) => string;
     user: Users.models.User;
     card: (card_id: string) => Cards.ICard;
-    group: (group_id: string) => Groups.IGroup;
+    group: (group_id: string) => Groups.models.Group;
     selected_tags: string[];
 }
 
@@ -94,22 +94,12 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                             key={assignment._id}
                             onClick={() => {
                                 this.props.dispatch(
-                                    Flow.actions.toggle_dialog()
-                                );
-                                this.props.dispatch(
                                     Flow.actions.change_assignment(assignment)
                                 );
                             }}
                         >
                             <Card style={{ margin: '20px' }}>
-                                <CardHeader
-                                    title={card.name}
-                                    subtitle={
-                                        <Tags.TagsContainer
-                                            tag_ids={card.tags}
-                                        />
-                                    }
-                                />
+                                <CardHeader title={card.name} />
                             </Card>
                         </div>
                     );

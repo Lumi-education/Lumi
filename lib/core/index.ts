@@ -12,6 +12,7 @@ import i18n from './i18n';
 import db from './db';
 import * as utils from './utils';
 import * as config from './config';
+
 const components = {
     Markdown,
     FileUpload: FileUploadComponent,

@@ -11,8 +11,7 @@ export interface ITag {
 }
 
 export interface ITagsUI {
-    selected_tags: string[];
-    show_dialog: boolean;
+    selected_tags: string[]; // deprecate with universal selection module #286
     tag: ITag;
 }
 

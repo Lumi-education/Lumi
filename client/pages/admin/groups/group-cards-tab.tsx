@@ -23,7 +23,7 @@ interface IPassedProps {
     group_id: string;
 }
 interface IStateProps extends IPassedProps {
-    group: Groups.IGroup;
+    group: Groups.models.Group;
     cards: Cards.ICard[];
     selected_cards: string[];
 
@@ -86,12 +86,6 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
                         <RaisedButton
                             label={Core.i18n.t('add')}
                             onClick={() => {
-                                this.props.dispatch(
-                                    Groups.actions.add_cards(
-                                        this.props.group_id,
-                                        this.props.selected_cards
-                                    )
-                                );
                                 this.setState({
                                     show_add_material_dialog: false
                                 });

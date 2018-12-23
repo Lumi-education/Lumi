@@ -1,5 +1,10 @@
-export interface IAssignment {
-    _id?: string;
+import { IDoc } from 'lib/core/types';
+
+export interface IAssignment extends IDoc {
+    _id: string;
+    _rev: string;
+    _deleted: boolean;
+    _attachments: {};
     user_id: string;
     card_id: string; // h5p content_id ?
     type: 'assignment';
@@ -13,19 +18,13 @@ export interface IAssignment {
     };
     state: any;
     updated_at?: Date;
-
     finished: number;
     time: number;
     archived: boolean;
-    _deleted?: boolean;
-    _attachments: any;
-    _rev?: string;
-    files: string[];
-    sync: 'pending' | 'error' | 'success';
 }
 
 export interface IFlowUI {
-    selected_assignments: string[];
+    selected_assignments: string[]; // deprecate with universal selection module #286
     show_dialog: boolean;
     assignment: any;
 }

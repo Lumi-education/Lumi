@@ -35,7 +35,7 @@ interface IStateProps extends IPassedProps {
     user: Users.models.User;
     card: (card_id: string) => Cards.ICard;
     selected_tags: string[];
-    tag: (tag_id: string) => Tags.ITag;
+    tag: (tag_id: string) => Tags.models.Tag;
     cards_with_tag: (tag_id: string) => Cards.ICard[];
 }
 

@@ -46,7 +46,7 @@ interface IPassedProps {
 }
 interface IStateProps extends IPassedProps {
     users: Users.models.User[];
-    group: Groups.IGroup;
+    group: Groups.models.Group;
     user: (user_id: string) => Users.models.User;
     selected_users: string[];
     classes: any;

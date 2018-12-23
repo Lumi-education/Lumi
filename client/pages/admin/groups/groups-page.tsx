@@ -39,12 +39,11 @@ import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 
 interface IStateProps {
-    groups: Groups.IGroup[];
+    groups: Groups.models.Group[];
     existing_groupnames: string[];
     classes: any;
     group: Groups.models.Group;
     users: (groups_id: string) => Users.models.User[];
-    show_create_group_dialog: boolean;
     search_text: string;
 }
 
@@ -179,11 +178,6 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                         </List>
                     </Paper>
                     <FloatingActionButton
-                        onClick={() =>
-                            this.props.dispatch(
-                                Groups.actions.create_group_dialog(true)
-                            )
-                        }
                         style={{
                             margin: '20px',
                             bottom: '0px',
@@ -196,7 +190,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                     <Dialog
                         className={classes.dialog}
                         title={Core.i18n.t('group_create')}
-                        open={this.props.show_create_group_dialog}
+                        open={this.state.show_create_group_dialog}
                     >
                         <DialogTitle id="form-dialog-title">
                             {Core.i18n.t('group_create')}
@@ -205,16 +199,7 @@ export class AdminGroups extends React.Component<IProps, IComponentState> {
                             <GroupCreateContainer />
                         </DialogContent>
                         <DialogActions>
-                            <Button
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        Groups.actions.create_group_dialog(
-                                            false
-                                        )
-                                    )
-                                }
-                                color="primary"
-                            >
+                            <Button color="primary">
                                 {Core.i18n.t('cancel')}
                             </Button>
                             <Button
@@ -248,7 +233,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             .map(group => group.name),
         classes: ownProps.classes,
         group: state.groups.ui.group,
-        show_create_group_dialog: state.groups.ui.show_create_group_dialog,
         search_text: state.ui.search_filter_text
     };
 }

@@ -39,7 +39,7 @@ import { push } from 'lib/ui/actions';
 
 interface IStateProps {
     users: Users.models.User[];
-    group: (group_id) => Groups.IGroup;
+    group: (group_id) => Groups.models.Group;
     selected_users: string[];
 
     search_text: string;

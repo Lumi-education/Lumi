@@ -15,8 +15,8 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     classes: any;
 
-    group: (group_id: string) => Groups.IGroup;
-    groups: Groups.IGroup[];
+    group: (group_id: string) => Groups.models.Group;
+    groups: Groups.models.Group[];
 }
 
 interface IDispatchProps {
@@ -35,10 +35,6 @@ export class GroupsChipInputContainer extends React.Component<
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        this.props.dispatch(Groups.actions.get_groups());
     }
 
     public render() {
@@ -63,7 +59,7 @@ export class GroupsChipInputContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Groups.IState, ownProps): IStateProps {
+function mapStateToProps(state: Groups.types.IState, ownProps): IStateProps {
     return {
         group: (group_id: string) =>
             Groups.selectors.select_group(state, group_id),

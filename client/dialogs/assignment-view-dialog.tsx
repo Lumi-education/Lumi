@@ -24,7 +24,7 @@ interface IPassedProps {}
 interface IStateProps extends IPassedProps {
     open: boolean;
     card: (card_id: string) => Cards.ICard;
-    assignment: Flow.IAssignment;
+    assignment: Flow.models.Assignment;
     comments: Comments.models.Comment[];
     user: (user_id: string) => Users.models.User;
     me: Users.models.User;
@@ -60,18 +60,8 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                     width: '100%',
                     maxWidth: 'none'
                 }}
-                actions={[
-                    <RaisedButton
-                        label={Core.i18n.t('cancel')}
-                        onClick={() =>
-                            this.props.dispatch(Flow.actions.toggle_dialog())
-                        }
-                    />
-                ]}
+                actions={[<RaisedButton label={Core.i18n.t('cancel')} />]}
                 open={this.props.open}
-                onRequestClose={() =>
-                    this.props.dispatch(Flow.actions.toggle_dialog())
-                }
             >
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 2 }}>
@@ -79,7 +69,6 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             card_id={this.props.assignment.card_id}
                             assignment_id={this.props.assignment._id}
                         />
-                        <Flow.container.AssignmentEdit />
                     </div>
                     <div
                         id="comments"
