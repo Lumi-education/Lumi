@@ -67,10 +67,6 @@ export class CardsAssignDialog extends React.Component<
         };
     }
 
-    public componentWillMount() {
-        this.props.dispatch(Cards.actions.get_cards());
-    }
-
     public render() {
         const { classes } = this.props;
         return (

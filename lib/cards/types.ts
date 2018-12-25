@@ -1,4 +1,5 @@
 import { IH5P, IContent } from 'h5p-nodejs-library';
+import { IDoc } from 'lib/core/types';
 
 export type Card_id = string;
 export type Card_types =
@@ -19,8 +20,11 @@ export type ICard =
     | ITextCard
     | IH5PCard;
 
-export interface IBaseCard {
+export interface IBaseCard extends IDoc {
     _id: Card_id;
+    _rev: string;
+    _deleted: boolean;
+    _attachments: any;
     type: 'card';
     name: string;
     card_type: Card_types;
@@ -28,8 +32,6 @@ export interface IBaseCard {
     tags: string[];
     description: string;
     created_at: Date;
-    _rev: string;
-    files: string[];
     _index?: string;
 }
 
@@ -67,20 +69,13 @@ export interface IMultiplechoiceCard extends IBaseCard {
 }
 
 export interface ICardUI {
-    selected_cards: string[];
+    selected_cards: string[]; // deprecate with universal selection module #286
     card: any;
 }
-
-export interface IUICardSearchMenu {
-    subject: Subjects;
-}
-
-export type Subjects = 'physics' | 'chemistry' | 'maths';
 
 export interface IState {
     cards: {
         list: ICard[];
         ui: ICardUI;
-        card_search_menu: IUICardSearchMenu;
     };
 }

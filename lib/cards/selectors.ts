@@ -16,14 +16,15 @@ export function select_card(state: IState, card_id: string): ICard {
     return (
         state.cards.list.filter(card => card._id === card_id)[0] || {
             _id: undefined,
+            _rev: undefined,
+            _deleted: false,
+            _attachments: {},
             type: 'card',
             card_type: undefined,
             video_url: '',
             name: 'card ' + card_id + ' not found',
             text: 'card ' + card_id + ' not found',
-            _rev: undefined,
             items: [],
-            files: [],
             description: '',
             created_at: new Date(),
             tags: [],

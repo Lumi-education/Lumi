@@ -150,6 +150,9 @@ class FlowController {
                 const _assignment: IAssignment = {
                     user_id,
                     card_id,
+                    _id: undefined,
+                    _rev: undefined,
+                    _deleted: false,
                     type: 'assignment',
                     completed: false,
                     data: {},
@@ -157,9 +160,7 @@ class FlowController {
                     archived: false,
                     finished: null,
                     time: null,
-                    sync: 'success',
-                    _attachments: {},
-                    files: []
+                    _attachments: {}
                 };
 
                 _assignments.push(_assignment);

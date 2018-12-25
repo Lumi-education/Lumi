@@ -121,6 +121,9 @@ class AuthController {
                                         card_ids.forEach((card_id: string) => {
                                             const _assignment: IAssignment = {
                                                 card_id,
+                                                _id: undefined,
+                                                _rev: undefined,
+                                                _deleted: false,
                                                 user_id: inserted_user._id,
                                                 type: 'assignment',
                                                 completed: false,
@@ -129,9 +132,7 @@ class AuthController {
                                                 archived: false,
                                                 finished: null,
                                                 time: null,
-                                                sync: 'success',
-                                                _attachments: {},
-                                                files: []
+                                                _attachments: {}
                                             };
 
                                             _assignments.push(_assignment);
