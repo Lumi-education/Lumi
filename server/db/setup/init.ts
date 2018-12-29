@@ -14,6 +14,7 @@ const debug = _debug('lumi:db:setup:init');
 
 const _system: ISystemSettings = {
     _id: 'system',
+    type: 'system',
     mode: 'free',
     controlled_location: '/user',
     allow_user_registration: true,

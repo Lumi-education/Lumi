@@ -22,6 +22,7 @@ export interface IState {
 
 export interface ISystemSettings {
     _id: 'system';
+    type: 'system';
     mode: 'free' | 'controlled';
     ip: string;
     port: string;
