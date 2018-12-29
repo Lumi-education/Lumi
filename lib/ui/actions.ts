@@ -15,7 +15,7 @@ export function push(url: string) {
     return dispatch => {
         dispatch(left_drawer_close());
         dispatch(right_drawer_close());
-        dispatch(_push(url));
+        dispatch(_push('/' + window.location.pathname.split('/')[1] + url));
     };
 }
 
