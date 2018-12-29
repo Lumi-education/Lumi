@@ -6,6 +6,7 @@ import * as debug from 'debug';
 import { IState } from 'lib/core/types';
 
 import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 
 import Auth from './auth';
 import InstallPage from './install-page';
@@ -51,12 +52,18 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        return this.state.loading ? (
-            <div>loading</div>
-        ) : this.props.installed ? (
-            <Auth />
-        ) : (
-            <InstallPage />
+        return (
+            <div id="root">
+                <DB.container.db>
+                    {this.state.loading ? (
+                        <div>loading</div>
+                    ) : this.props.installed ? (
+                        <Auth />
+                    ) : (
+                        <InstallPage />
+                    )}
+                </DB.container.db>
+            </div>
         );
     }
 }
