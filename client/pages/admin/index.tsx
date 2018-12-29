@@ -86,63 +86,63 @@ export class AdminRoot extends React.Component<IProps, {}> {
                         <Switch>
                             <Route
                                 exact={true}
-                                path="/admin"
+                                path="/:db/admin"
                                 component={DashboardPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/dashboard"
+                                path="/:db/admin/dashboard"
                                 component={DashboardPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/groups"
+                                path="/:db/admin/groups"
                                 component={GroupsPage}
                             />
                             <Route
-                                path="/admin/groups/:group_id/:tab"
+                                path="/:db/admin/groups/:group_id/:tab"
                                 component={GroupPage}
                             />
                             <Route
-                                path="/admin/groups/:group_id"
+                                path="/:db/admin/groups/:group_id"
                                 component={GroupPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/users"
+                                path="/:db/admin/users"
                                 component={UsersPage}
                             />
                             <Route
-                                path="/admin/users/:user_id/:tab"
+                                path="/:db/admin/users/:user_id/:tab"
                                 component={UserPage}
                             />
                             <Route
-                                path="/admin/users/:user_id"
+                                path="/:db/admin/users/:user_id"
                                 component={UserPage}
                             />
                             <Route
-                                path="/admin/cards/:card_id"
+                                path="/:db/admin/cards/:card_id"
                                 component={CardPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/cards"
+                                path="/:db/admin/cards"
                                 component={CardsPage}
                             />
                             <Route
-                                path="/admin/comments"
+                                path="/:db/admin/comments"
                                 component={CommentsPage}
                             />
                             <Route
-                                path="/admin/system/:tab"
+                                path="/:db/admin/system/:tab"
                                 component={SystemPage}
                             />
                             <Route
-                                path="/admin/system"
+                                path="/:db/admin/system"
                                 component={SystemPage}
                             />
                             <Route
-                                path="/admin/settings"
+                                path="/:db/admin/settings"
                                 component={SettingsPage}
                             />
                         </Switch>
