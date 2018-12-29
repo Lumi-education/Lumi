@@ -1,7 +1,7 @@
 import * as debug from 'debug';
 import * as API from './api';
 import { User } from './models';
-import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 const log_info = debug('lumi:info:users:actions');
 const log_error = debug('lumi:error:users:actions');
 
@@ -43,7 +43,7 @@ export function update_user(user: User) {
             USERS_UPDATE_USER_SUCCESS,
             USERS_UPDATE_USER_ERROR
         ],
-        api: Core.api.update<User>(user),
+        api: DB.api.update<User>(user),
         payload: [user]
     };
 }

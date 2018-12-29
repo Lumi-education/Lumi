@@ -1,17 +1,17 @@
 import { assign } from 'lodash';
 
 import { User } from './models';
-import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 
 export function create_users(users: User[]): Promise<User[]> {
-    return Core.api.batch_create<User>(users).then(created_users => {
-        return Core.db.get('_design/user').then(_design => {
+    return DB.api.batch_create<User>(users).then(created_users => {
+        return DB.db.get('_design/user').then(_design => {
             let design = _design;
             created_users.forEach(
                 user => (design = add_view_to_user(design, user._id))
             );
 
-            return Core.db.put(design).then(update_design => {
+            return DB.db.put(design).then(update_design => {
                 return created_users;
             });
         });

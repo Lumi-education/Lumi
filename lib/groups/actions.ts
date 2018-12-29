@@ -13,12 +13,13 @@ export const GROUPS_SELECT_GROUP = 'GROUPS_SELECT_GROUP'; // deprecate with univ
 export const GROUPS_UI_SET_SELECTED_GROUPS = 'GROUPS_UI_SET_SELECTED_GROUPS'; // deprecate with universal selection module #286
 export const GROUPS_UI_CHANGE_GROUP = 'GROUPS_UI_CHANGE_GROUP';
 
-import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 import * as debug from 'debug';
 
 import { IGroup } from './types';
 import { Group } from './models';
 
+import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 
 const log_info = debug('lumi:info:groups:actions');
@@ -70,7 +71,7 @@ export function create_group(group: Group, existing_groupnames: string[]) {
                 GROUPS_CREATE_SUCCESS,
                 GROUPS_CREATE_ERROR
             ],
-            api: Core.api.create<IGroup>(group),
+            api: DB.api.create<IGroup>(group),
             payload: [group]
         });
     };

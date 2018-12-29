@@ -33,6 +33,7 @@ export const CORE_CREATE_DB_SUCCESS = 'CORE_CREATE_DB_SUCCESS';
 export const CORE_CREATE_DB_ERROR = 'CORE_CREATE_DB_ERROR';
 
 import * as API from './api';
+import * as DB from 'lib/db';
 
 const info = debug('lumi:info:actions:core');
 const error = debug('lumi:error:actions:core');
@@ -55,7 +56,7 @@ export function update<T>(
     doc: T
 ): {
     types: string[];
-    api: Promise<T>;
+    api: Promise<T[]>;
     payload: T[];
 } {
     return {
@@ -64,7 +65,7 @@ export function update<T>(
             CORE_UPDATE_DB_SUCCESS,
             CORE_UPDATE_DB_ERROR
         ],
-        api: API.update<T>(doc),
+        api: DB.api.update<T>(doc),
         payload: [doc]
     };
 }
@@ -73,7 +74,7 @@ export function create<T>(
     doc: T
 ): {
     types: string[];
-    api: Promise<T>;
+    api: Promise<T[]>;
     payload: T[];
 } {
     return {
@@ -82,7 +83,7 @@ export function create<T>(
             CORE_CREATE_DB_SUCCESS,
             CORE_CREATE_DB_ERROR
         ],
-        api: API.create<T>(doc),
+        api: DB.api.create<T>(doc),
         payload: [doc]
     };
 }
@@ -100,7 +101,7 @@ export function update_many<T>(
             CORE_UPDATE_DB_SUCCESS,
             CORE_UPDATE_DB_ERROR
         ],
-        api: API.batch_create<T>(docs),
+        api: DB.api.batch_create<T>(docs),
         payload: docs
     };
 }

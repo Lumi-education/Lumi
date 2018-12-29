@@ -9,7 +9,7 @@ import Markdown from './components/markdown';
 import reducer from './reducer';
 import FileUploadComponent from './components/file-upload';
 import i18n from './i18n';
-import db from './db';
+import { db } from 'lib/db';
 import * as utils from './utils';
 import * as config from './config';
 
@@ -22,7 +22,6 @@ const components = {
 export {
     api,
     actions,
-    db,
     selectors,
     types,
     components,
@@ -30,5 +29,6 @@ export {
     utils,
     config,
     i18n,
-    raven
+    raven,
+    db
 };
