@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import raven from 'lib/core/raven';
 import * as debug from 'debug';
 
@@ -41,10 +41,15 @@ export class AuthContainer extends React.Component<IProps, {}> {
             if (this.props.user_id) {
                 return (
                     <div id="auth">
-                        <Route path="/admin" component={Admin} />
-                        <Route path="/user" component={User} />
+                        <Route path="/:db/admin" component={Admin} />
+                        <Route path="/:db/user" component={User} />
                         <Password />
-                        <Route exact={true} path="/" component={Landing} />
+                        <Route
+                            exact={true}
+                            path="/"
+                            render={() => <Redirect to="/lumi" />}
+                        />
+                        <Route exact={true} path="/:db" component={Landing} />
                     </div>
                 );
             }
