@@ -18,34 +18,12 @@ export default function(): express.Router {
 
     if (DB.protocol === null) {
         log_info('using pouchdb');
-        router.all(
-            '*',
-            (
-                req: Auth.IRequest,
-                res: express.Response,
-                next: express.NextFunction
-            ) => {
-                if (!req.user) {
-                    return res.status(401).json({ message: 'auth_required' });
-                }
-                next();
-            },
-            db.api
-        );
+        router.all('*', Auth.db, db.api);
     } else {
         log_info('using couchdb');
         router.all(
             '*',
-            (
-                req: Auth.IRequest,
-                res: express.Response,
-                next: express.NextFunction
-            ) => {
-                if (!req.user) {
-                    return res.status(401).json({ message: 'auth_required' });
-                }
-                next();
-            },
+            Auth.db,
             proxy(process.env.DB, {
                 proxyReqPathResolver: proxy_req => {
                     const parts = proxy_req.url.split('?');

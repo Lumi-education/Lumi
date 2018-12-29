@@ -1,6 +1,8 @@
 export type ResponseErrorType =
     | 'UserNotFound'
     | 'InvalidPassword'
+    | 'InvalidUser'
+    | 'InvalidDB'
     | 'ServerError'
     | 'SystemAlreadyInstalled';
 export type ModuleType = 'core' | 'auth' | 'users';
