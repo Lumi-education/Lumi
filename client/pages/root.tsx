@@ -23,45 +23,24 @@ interface IDispatchProps {
 }
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    loading?: boolean;
-    loading_step?: number;
-}
+interface IComponentState {}
 
 export class RootContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            loading: true,
-            loading_step: 0
-        };
+        this.state = {};
     }
 
     public componentWillMount() {
-        this.setState({ loading: true, loading_step: 1 });
-        this.props.dispatch(Core.actions.get_settings()).then(res => {
-            this.setState({ loading: false, loading_step: 2 });
-        });
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (!this.props.connected && nextProps.connected) {
-            raven.captureMessage('Connection was lost.', { level: 'info' });
-        }
+        this.props.dispatch(Core.actions.get_settings());
     }
 
     public render() {
         return (
             <div id="root">
                 <DB.container.db>
-                    {this.state.loading ? (
-                        <div>loading</div>
-                    ) : this.props.installed ? (
-                        <Auth />
-                    ) : (
-                        <InstallPage />
-                    )}
+                    {this.props.installed ? <Auth /> : <InstallPage />}
                 </DB.container.db>
             </div>
         );
