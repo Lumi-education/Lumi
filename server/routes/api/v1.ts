@@ -6,6 +6,9 @@ import * as proxy from 'express-http-proxy';
 import { assign } from 'lodash';
 import * as Auth from '../../middleware/auth';
 
+import AuthAPI from '../../api/v1/auth';
+import SystemAPI from '../../api/v1/system';
+
 import db from '../../db';
 
 const log_info = debug('lumi:info:api:v1');
@@ -16,36 +19,19 @@ export default function(): express.Router {
 
     const DB = url.parse(process.env.DB);
 
+    router.post('/:db/auth/login', AuthAPI.login);
+    // router.post('/:db/auth/register', AuthAPI.register);
+    router.get('/:db/auth/username/:username', AuthAPI.username);
+    router.get('/:db/system', SystemAPI.system);
+
     if (DB.protocol === null) {
         log_info('using pouchdb');
-        router.all(
-            '*',
-            (
-                req: Auth.IRequest,
-                res: express.Response,
-                next: express.NextFunction
-            ) => {
-                if (!req.user) {
-                    return res.status(401).json({ message: 'auth_required' });
-                }
-                next();
-            },
-            db.api
-        );
+        router.all('*', Auth.db, db.api);
     } else {
         log_info('using couchdb');
         router.all(
             '*',
-            (
-                req: Auth.IRequest,
-                res: express.Response,
-                next: express.NextFunction
-            ) => {
-                if (!req.user) {
-                    return res.status(401).json({ message: 'auth_required' });
-                }
-                next();
-            },
+            Auth.db,
             proxy(process.env.DB, {
                 proxyReqPathResolver: proxy_req => {
                     const parts = proxy_req.url.split('?');

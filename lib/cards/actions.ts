@@ -1,8 +1,5 @@
 import * as API from './api';
 
-export const CARDS_GET_CARDS_REQUEST = 'CARDS_GET_CARDS_REQUEST';
-export const CARDS_GET_CARDS_SUCCESS = 'CARDS_GET_CARDS_SUCCESS';
-export const CARDS_GET_CARDS_ERROR = 'CARDS_GET_CARDS_ERROR';
 export const CARDS_CREATE_CARD_REQUEST = 'CARDS_CREATE_CARD_REQUEST';
 export const CARDS_CREATE_CARD_SUCCESS = 'CARDS_CREATE_CARD_SUCCESS';
 export const CARDS_CREATE_CARD_ERROR = 'CARDS_CREATE_CARD_ERROR';
@@ -12,12 +9,6 @@ export const CARDS_UPDATE_CARD_ERROR = 'CARDS_UPDATE_CARD_ERROR';
 export const CARDS_DELETE_CARD_REQUEST = 'CARDS_DELETECARD_REQUEST';
 export const CARDS_DELETE_CARD_SUCCESS = 'CARDS_DELETE_CARD_SUCCESS';
 export const CARDS_DELETE_CARD_ERROR = 'CARDS_DELETE_CARD_ERROR';
-export const CARDS_REM_TAG_REQUEST = 'CARDS_REM_TAG_REQUEST';
-export const CARDS_REM_TAG_SUCCESS = 'CARDS_REM_TAG_SUCCESS';
-export const CARDS_REM_TAG_ERROR = 'CARDS_REM_TAG_ERROR';
-export const CARDS_ADD_TAG_REQUEST = 'CARDS_ADD_TAG_REQUEST';
-export const CARDS_ADD_TAG_SUCCESS = 'CARDS_ADD_TAG_SUCCESS';
-export const CARDS_ADD_TAG_ERROR = 'CARDS_ADD_TAG_ERROR';
 export const CARD_SELECT = 'CARD_SELECT';
 export const CARD_SELECTION_RESET = 'CARD_SELECTION_RESET';
 export const CARDS_UI_CHANGE_CARD = 'CARDS_UI_CHANGE_CARD';
@@ -29,19 +20,6 @@ export const CARDS_DUPLICATE_ERROR = 'CARDS_DUPLICATE_ERROR';
 export const CARDS_ADD_CARD_TO_SELECTION = 'CARDS_ADD_CARD_TO_SELECTION';
 export const CARDS_REMOVE_CARD_FROM_SELECTION =
     'CARDS_REMOVE_CARD_FROM_SELECTION';
-
-import { Subjects } from './types';
-
-export function get_cards(ids?: string[], options?) {
-    return {
-        types: [
-            CARDS_GET_CARDS_REQUEST,
-            CARDS_GET_CARDS_SUCCESS,
-            CARDS_GET_CARDS_ERROR
-        ],
-        api: API.get_cards(ids, options)
-    };
-}
 
 export function update_card(card_id: string, update) {
     return {
@@ -80,6 +58,7 @@ export function delete_card(card_id: string) {
 }
 
 export function select_card(card_id: string) {
+    // deprecate with universal selection module #286
     return {
         type: CARD_SELECT,
         payload: {
@@ -89,6 +68,7 @@ export function select_card(card_id: string) {
 }
 
 export function add_card_to_selection(card_id: string, index?: number) {
+    // deprecate with universal selection module #286
     return {
         card_id,
         index,
@@ -96,6 +76,7 @@ export function add_card_to_selection(card_id: string, index?: number) {
     };
 }
 export function remove_card_from_selection(card_id: string) {
+    // deprecate with universal selection module #286
     return {
         card_id,
         type: CARDS_REMOVE_CARD_FROM_SELECTION
@@ -103,6 +84,7 @@ export function remove_card_from_selection(card_id: string) {
 }
 
 export function set_selected_cards(card_ids: string[]) {
+    // deprecate with universal selection module #286
     return {
         card_ids,
         type: CARDS_UI_SET_SELECTED_CARDS
@@ -110,6 +92,7 @@ export function set_selected_cards(card_ids: string[]) {
 }
 
 export function reset_card_selection() {
+    // deprecate with universal selection module #286
     return {
         type: CARD_SELECTION_RESET
     };
@@ -136,14 +119,5 @@ export function duplicate(card_id: string) {
         ],
         api: API.duplicate(card_id),
         payload: { card_id }
-    };
-}
-
-export const CARDS_CHANGE_SUBJECT = 'CARDS_CHANGE_SUBJECT';
-
-export function change_subject(subject: Subjects) {
-    return {
-        subject,
-        type: CARDS_CHANGE_SUBJECT
     };
 }

@@ -19,12 +19,8 @@ import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
 import SVGGroup from 'material-ui/svg-icons/social/group';
 import SVGPerson from 'material-ui/svg-icons/social/person';
 import SVGPower from 'material-ui/svg-icons/action/power-settings-new';
-import SVGActivity from 'material-ui/svg-icons/social/notifications';
-import SVGTags from 'material-ui/svg-icons/action/label';
-import SVGComments from 'material-ui/svg-icons/communication/comment';
 import SVGSystem from 'material-ui/svg-icons/action/settings';
 import SVGUpdate from 'material-ui/svg-icons/action/update';
-import SVGFolder from 'material-ui/svg-icons/file/folder';
 import SVGDashboard from 'material-ui/svg-icons/action/dashboard';
 
 // state
@@ -88,9 +84,6 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                     }}
                 >
                     <AppBar
-                        style={{
-                            backgroundColor: UI.config.primary_color
-                        }}
                         showMenuIconButton={true}
                         iconElementLeft={leftIcon}
                         onLeftIconButtonClick={() =>
@@ -136,44 +129,6 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 this.props.push('/admin/cards');
                             }}
                         />
-                        {/* <ListItem
-                            primaryText={Core.i18n.t('folders')}
-                            leftIcon={<SVGFolder />}
-                            onClick={() => {
-                                this.props.push('/admin/folders/root_folder');
-                            }}
-                        />
-                        <ListItem
-                            primaryText={Core.i18n.t('tags')}
-                            leftIcon={<SVGTags />}
-                            onClick={() => {
-                                this.props.push('/admin/tags');
-                            }}
-                        /> */}
-                        {/* <Divider />
-                        <Subheader>{Core.i18n.t('monitor')}</Subheader>
-
-                        <ListItem
-                            primaryText={Core.i18n.t('activities')}
-                            leftIcon={<SVGActivity />}
-                            onClick={() => this.props.push('/admin/activity')}
-                        />
-                        <ListItem
-                            primaryText={Core.i18n.t('comments')}
-                            leftIcon={<SVGComments />}
-                            rightAvatar={
-                                this.props.unread_comments.length !== 0 ? (
-                                    <Avatar
-                                        backgroundColor={
-                                            UI.config.primary_color
-                                        }
-                                    >
-                                        {this.props.unread_comments.length}
-                                    </Avatar>
-                                ) : null
-                            }
-                            onClick={() => this.props.push('/admin/comments')}
-                        /> */}
                         <Divider />
                         <Subheader>{Core.i18n.t('user')}</Subheader>
                         <ListItem
@@ -195,13 +150,6 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                                 <ListItem
                                     primaryText="System"
                                     leftIcon={<SVGSystem />}
-                                    rightIcon={
-                                        this.props.update_available ? (
-                                            <SVGUpdate
-                                                color={UI.config.new_color}
-                                            />
-                                        ) : null
-                                    }
                                     onClick={() =>
                                         this.props.push('/admin/system')
                                     }

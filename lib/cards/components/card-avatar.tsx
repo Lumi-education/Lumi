@@ -8,7 +8,6 @@ const log = debug('lumi:cards:components:card-avatar');
 
 interface IProps {
     h5p_main_library: string;
-
     classes: any;
 }
 

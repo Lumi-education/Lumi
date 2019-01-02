@@ -12,7 +12,6 @@ import ErrorResponse from '../../core/error';
 
 import { IUser } from 'lib/users/types';
 import { IAssignment } from 'lib/flow/types';
-import { add_activity } from '../../modules/activity';
 
 const log = debug('lumi:controller:auth');
 
@@ -40,8 +39,6 @@ class AuthController {
                     const user = users[0];
 
                     if (!user.password) {
-                        add_activity(user._id, 'login', new Date());
-
                         return res.status(200).json({
                             jwt_token: jwt_token(user._id, user.level),
                             _id: user._id,
@@ -62,8 +59,6 @@ class AuthController {
                                     )
                                 );
                             } else {
-                                add_activity(user._id, 'login', new Date());
-
                                 return res.status(200).json({
                                     jwt_token: jwt_token(user._id, user.level),
                                     _id: user._id,
@@ -106,10 +101,6 @@ class AuthController {
                                     name: 'no name',
                                     level: 0,
                                     groups: group_ids,
-                                    last_login: undefined,
-                                    last_active: undefined,
-                                    online: false,
-                                    location: '/',
                                     password: pw,
                                     flow: [],
                                     _deleted: false,
@@ -130,6 +121,9 @@ class AuthController {
                                         card_ids.forEach((card_id: string) => {
                                             const _assignment: IAssignment = {
                                                 card_id,
+                                                _id: undefined,
+                                                _rev: undefined,
+                                                _deleted: false,
                                                 user_id: inserted_user._id,
                                                 type: 'assignment',
                                                 completed: false,
@@ -138,9 +132,7 @@ class AuthController {
                                                 archived: false,
                                                 finished: null,
                                                 time: null,
-                                                sync: 'success',
-                                                _attachments: {},
-                                                files: []
+                                                _attachments: {}
                                             };
 
                                             _assignments.push(_assignment);

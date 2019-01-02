@@ -3,8 +3,8 @@ import * as url from 'url';
 import { assign, noop } from 'lodash';
 import * as debug from 'debug';
 import * as nano from 'nano';
-import * as ChangeStream from 'changes-stream';
-import * as Event from 'events';
+// import * as ChangeStream from 'changes-stream';
+// import * as Event from 'events';
 
 import * as raven from 'raven';
 
@@ -35,30 +35,30 @@ export default class DB {
         this.saveAttachment = this.saveAttachment.bind(this);
         this.getAttachment = this.getAttachment.bind(this);
 
-        this.changes = new Event();
-        this.changes.setMaxListeners(32);
+        // this.changes = new Event();
+        // this.changes.setMaxListeners(32);
 
-        this.changes_stream = ChangeStream({
-            db: process.env.DB_HOST + '/' + process.env.DB,
-            include_docs: true,
-            since: 'now'
-        });
+        // this.changes_stream = ChangeStream({
+        //     db: process.env.DB_HOST + '/' + process.env.DB,
+        //     include_docs: true,
+        //     since: 'now'
+        // });
 
-        this.changes_stream.on('error', err => {
-            raven.captureException(err);
-        });
+        // this.changes_stream.on('error', err => {
+        //     raven.captureException(err);
+        // });
 
-        this.changes_stream._onError(raven.captureException);
+        // this.changes_stream._onError(raven.captureException);
 
-        this.changes_stream.on('readable', () => {
-            try {
-                const change = this.changes_stream.read();
+        // this.changes_stream.on('readable', () => {
+        //     try {
+        //         const change = this.changes_stream.read();
 
-                this.changes.emit('change', change.doc);
-            } catch (err) {
-                raven.captureException(err);
-            }
-        });
+        //         this.changes.emit('change', change.doc);
+        //     } catch (err) {
+        //         raven.captureException(err);
+        //     }
+        // });
     }
 
     public findById(id: string, cb: (err, doc) => void) {
@@ -73,10 +73,6 @@ export default class DB {
                 raven.captureException(err);
             });
     }
-
-    // public _findById(id: string, cb: (err, doc) => void) {
-    //     this.findById(id, cb);
-    // }
 
     public save(doc, cb?: (err, saved_doc) => void) {
         request

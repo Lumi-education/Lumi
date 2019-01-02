@@ -71,7 +71,6 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
                             ? 'was: ' + this.props.env[key]
                             : null
                     }
-                    errorStyle={{ color: UI.config.primary_color }}
                     value={env[key]}
                     fullWidth={true}
                 />

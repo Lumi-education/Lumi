@@ -15,8 +15,8 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     classes: any;
 
-    user: (user_id: string) => Users.IUser;
-    users: Users.IUser[];
+    user: (user_id: string) => Users.models.User;
+    users: Users.models.User[];
 }
 
 interface IDispatchProps {
@@ -35,10 +35,6 @@ export class UsersChipInputContainer extends React.Component<
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        this.props.dispatch(Users.actions.get_users());
     }
 
     public render() {
@@ -63,7 +59,7 @@ export class UsersChipInputContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Users.IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.types.IState, ownProps): IStateProps {
     return {
         user: (user_id: string) => Users.selectors.user(state, user_id),
         user_ids: ownProps.user_ids,

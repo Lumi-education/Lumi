@@ -205,7 +205,7 @@ export class CardEditContainer extends React.Component<
                             {this.props.card.card_type === 'h5p' ? null : (
                                 <div>
                                     <Core.components.FileList
-                                        files={this.props.card.files || []}
+                                        files={[]}
                                         onClick={file =>
                                             this.props.dispatch(
                                                 Cards.actions.change_card({
@@ -227,15 +227,7 @@ export class CardEditContainer extends React.Component<
                                         post_url="/api/v0/core/upload"
                                         path={this.props.card._id || 'tmp'}
                                         onSuccess={file => {
-                                            this.props.dispatch(
-                                                Cards.actions.change_card({
-                                                    files: [
-                                                        ...this.props.card
-                                                            .files,
-                                                        path.basename(file.path)
-                                                    ]
-                                                })
-                                            );
+                                            log(file);
                                         }}
                                     >
                                         {Core.i18n.t('drop_here', {

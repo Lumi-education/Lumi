@@ -32,10 +32,10 @@ interface IStateProps extends IPassedProps {
     assignment: (assignment_id: string) => Flow.models.Assignment;
     assignments_for_cards: (card_id: string[]) => Flow.models.Assignment[];
     card_name: (card_id: string) => string;
-    user: Users.IUser;
+    user: Users.models.User;
     card: (card_id: string) => Cards.ICard;
     selected_tags: string[];
-    tag: (tag_id: string) => Tags.ITag;
+    tag: (tag_id: string) => Tags.models.Tag;
     cards_with_tag: (tag_id: string) => Cards.ICard[];
 }
 

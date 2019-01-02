@@ -8,7 +8,6 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 // modules
 import Raven from 'lib/core/raven';
 import * as Core from 'lib/core';
-import * as UI from 'lib/ui';
 
 interface IPassedProps {
     classes: any;
@@ -48,17 +47,15 @@ export default withStyles(styles)(
 
             if (this.state.error) {
                 return (
-                    <UI.components.ErrorPage>
-                        <Paper className={classes.root} elevation={1}>
-                            <Typography variant="h5" component="h3">
-                                {Core.i18n.t('error_msg')}
-                            </Typography>
-                            <Typography component="p">
-                                {Core.i18n.t('error')}:{' '}
-                                {this.state.error.toString()}
-                            </Typography>
-                        </Paper>
-                    </UI.components.ErrorPage>
+                    <Paper className={classes.root} elevation={1}>
+                        <Typography variant="h5" component="h3">
+                            {Core.i18n.t('error_msg')}
+                        </Typography>
+                        <Typography component="p">
+                            {Core.i18n.t('error')}:{' '}
+                            {this.state.error.toString()}
+                        </Typography>
+                    </Paper>
                 );
             }
             return this.props.children;

@@ -4,7 +4,6 @@ import { IFlowUI } from '../types';
 import {
     FLOW_UI_SET_SELECTED_ASSIGNMENTS,
     FLOW_UI_SELECT_ASSIGNMENT,
-    FLOW_UI_TOGGLE_DIALOG,
     FLOW_UI_CHANGE_ASSIGNMENT,
     FLOW_UI_RESET_ASSIGNMENT
 } from '../actions';
@@ -17,7 +16,7 @@ const initialState: IFlowUI = {
 
 export default function(state: IFlowUI = initialState, action): IFlowUI {
     switch (action.type) {
-        case FLOW_UI_SELECT_ASSIGNMENT:
+        case FLOW_UI_SELECT_ASSIGNMENT: // deprecate with universal selection module #286
             if (
                 state.selected_assignments.indexOf(
                     action.payload.assignment_id
@@ -36,13 +35,10 @@ export default function(state: IFlowUI = initialState, action): IFlowUI {
                 ]
             });
 
-        case FLOW_UI_SET_SELECTED_ASSIGNMENTS:
+        case FLOW_UI_SET_SELECTED_ASSIGNMENTS: // deprecate with universal selection module #286
             return assign({}, state, {
                 selected_assignments: action.payload.assignment_ids
             });
-
-        case FLOW_UI_TOGGLE_DIALOG:
-            return assign({}, state, { show_dialog: !state.show_dialog });
 
         case FLOW_UI_CHANGE_ASSIGNMENT:
             const new_assignment = assign({}, state.assignment, action.payload);

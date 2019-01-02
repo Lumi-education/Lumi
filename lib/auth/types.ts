@@ -2,7 +2,13 @@ export interface IAuth {
     userlevel: number;
     user_id: string;
     username: string;
-    password: string;
+    username_validated: boolean;
+    email: {
+        email: string;
+        validated: boolean;
+    };
+    login_state: 'init' | 'pending' | 'success' | 'error';
+    error_message: string;
 }
 
 export interface IState {

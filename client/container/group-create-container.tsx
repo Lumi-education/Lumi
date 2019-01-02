@@ -3,10 +3,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import styles from 'client/style/style';
 
 // modules
 import * as Core from 'lib/core';
@@ -25,7 +24,7 @@ interface IDispatchProps {
 interface IStateProps extends IPassedProps {
     existing_groupnames: string[];
     classes: any;
-    group: Groups.IGroup;
+    group: Groups.models.Group;
     error_message: string;
 }
 
@@ -114,6 +113,105 @@ function mapDispatchToProps(dispatch) {
         dispatch: action => dispatch(action)
     };
 }
+
+const styles: StyleRulesCallback = theme => ({
+    dialog: {
+        minWidth: '500px'
+    },
+    dialogContent: {
+        minWidth: '500px',
+        minHeight: '350px'
+    },
+    root: {
+        display: 'flex'
+    },
+    appBar: {
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
+    },
+
+    menuButton: {
+        marginLeft: 12,
+        marginRight: 20
+    },
+    hide: {
+        display: 'none'
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-start'
+    },
+    content: {
+        flexGrow: 1,
+        // padding: theme.spacing.unit * 3,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        }),
+        margin: 'auto'
+    },
+    contentContainer: {
+        paddingTop: '40px',
+        maxWidth: '680px',
+        margin: 'auto'
+    },
+    paperContent: {
+        padding: '20px'
+    },
+    contentList: {
+        maxWidth: 680,
+        margin: 'auto',
+        marginTop: 40
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen
+        }),
+        marginRight: 0
+    },
+    searchIcon: {
+        width: theme.spacing.unit * 9,
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    media: {
+        minWidth: 300,
+        minHeight: 200
+    },
+    inputRoot: {
+        color: 'inherit',
+        width: '100%'
+    },
+    inputInput: {
+        paddingTop: theme.spacing.unit,
+        paddingRight: theme.spacing.unit,
+        paddingBottom: theme.spacing.unit,
+        paddingLeft: theme.spacing.unit * 10,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: 200
+        }
+    },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 2
+    }
+});
 
 export default withStyles(styles)(
     connect<{}, {}, {}>(

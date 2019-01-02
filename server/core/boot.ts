@@ -3,7 +3,6 @@ import * as raven from 'raven';
 import * as express from 'express';
 
 import app from './app';
-import socket from './socket';
 import * as http from 'http';
 
 const log = debug('lumi:core:boot');

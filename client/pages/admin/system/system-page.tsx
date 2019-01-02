@@ -25,38 +25,16 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    loading?: string;
-    loading_step?: number;
-}
+interface IComponentState {}
 
 export class SystemIndex extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            loading: 'init',
-            loading_step: 0
-        };
-    }
-
-    public componentWillMount() {
-        this.setState({ loading: 'finished' });
+        this.state = {};
     }
 
     public render() {
-        if (this.state.loading !== 'finished') {
-            return (
-                <UI.components.LoadingPage
-                    min={0}
-                    max={2}
-                    value={this.state.loading_step}
-                >
-                    {this.state.loading}
-                </UI.components.LoadingPage>
-            );
-        }
-
         return (
             <div>
                 <Tabs
@@ -64,9 +42,6 @@ export class SystemIndex extends React.Component<IProps, IComponentState> {
                         backgroundColor: '#FFFFFF',
                         zIndex: 1099,
                         width: '100%'
-                    }}
-                    tabItemContainerStyle={{
-                        background: UI.config.gradient_bg
                     }}
                     value={this.props.tab}
                 >

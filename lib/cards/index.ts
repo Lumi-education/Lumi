@@ -1,7 +1,5 @@
 export { default as CardViewContainer } from './container/card-view';
-import { default as CardTypeComponent } from './components/card-type';
 import { default as CardPreview } from './components/card-preview';
-import { default as CardScoreComponent } from './components/card-score';
 import { default as Multiplechoice } from './components/multiplechoice';
 import { default as CardComponent } from './components/card';
 export { default as CardEdit } from './container/card-edit';
@@ -24,8 +22,6 @@ import * as types from './types';
 const components = {
     Multiplechoice,
     CardPreview,
-    CardType: CardTypeComponent,
-    CardScore: CardScoreComponent,
     Card: CardComponent
 };
 

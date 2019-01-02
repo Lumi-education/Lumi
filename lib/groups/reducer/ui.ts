@@ -5,15 +5,13 @@ import {
     GROUPS_SELECT_GROUP,
     GROUPS_UI_SET_SELECTED_GROUPS,
     GROUPS_UI_CHANGE_GROUP,
-    GROUPS_ADD_CARDS_REQUEST,
     GROUPS_CREATE_SUCCESS,
     GROUPS_CREATE_ERROR,
-    GROUPS_CREATE_GROUP_DIALOG,
     GROUPS_UI_RESET_GROUP
 } from '../actions';
 
 const initialState: IGroupUI = {
-    selected_groups: [],
+    selected_groups: [], // deprecate with universal selection module #286
     group: {
         _id: undefined,
         _rev: undefined,
@@ -27,15 +25,11 @@ const initialState: IGroupUI = {
     },
     error: {
         message: ''
-    },
-    show_create_group_dialog: false
+    }
 };
 
 export default function(state: IGroupUI = initialState, action): IGroupUI {
     switch (action.type) {
-        case GROUPS_CREATE_GROUP_DIALOG:
-            return assign({}, state, { show_create_group_dialog: action.open });
-
         case GROUPS_CREATE_SUCCESS:
             return assign({}, state, {
                 group: {
@@ -66,7 +60,7 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
                 error: { message: action.payload.message }
             });
 
-        case GROUPS_SELECT_GROUP:
+        case GROUPS_SELECT_GROUP: // deprecate with universal selection module #286
             if (state.selected_groups.indexOf(action.payload.group_id) > -1) {
                 return assign({}, state, {
                     selected_groups: state.selected_groups.filter(
@@ -81,13 +75,7 @@ export default function(state: IGroupUI = initialState, action): IGroupUI {
                 ]
             });
 
-        case GROUPS_ADD_CARDS_REQUEST:
-            const _group = assign({}, state.group, {
-                cards: [...state.group.cards, ...action.card_ids]
-            });
-            return assign({}, state, { group: _group });
-
-        case GROUPS_UI_SET_SELECTED_GROUPS:
+        case GROUPS_UI_SET_SELECTED_GROUPS: // deprecate with universal selection module #286
             return assign({}, state, {
                 selected_groups: action.group_ids
             });

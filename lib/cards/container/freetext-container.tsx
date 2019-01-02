@@ -82,23 +82,6 @@ export class FreetextCardContainer extends React.Component<
                         cb={this.handleInput}
                         preview={card.preview}
                     />
-                    {this.state.answer ===
-                    this.props.assignment.state ? null : (
-                        <UI.components.RaisedButton
-                            action={Flow.actions.save_state(
-                                this.props.assignment_id,
-                                this.state.answer
-                            )}
-                            labels={[
-                                Core.i18n.t('save'),
-                                Core.i18n.t('saving'),
-                                Core.i18n.t('saved'),
-                                Core.i18n.t('error')
-                            ]}
-                            disabled={false}
-                            fullWidth={true}
-                        />
-                    )}
                 </div>
             );
         }

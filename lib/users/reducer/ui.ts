@@ -12,7 +12,7 @@ import {
     USERS_CREATE_USER_SUCCESS
 } from '../actions';
 
-import { IUsersUI } from '..';
+import { IUsersUI } from '../types';
 
 const initialState: IUsersUI = {
     selected_users: [],
@@ -24,10 +24,6 @@ const initialState: IUsersUI = {
         name: 'no user',
         level: 0,
         groups: [],
-        last_active: new Date(),
-        last_login: new Date(),
-        online: false,
-        location: '',
         password: '',
         flow: [],
         _attachments: {}

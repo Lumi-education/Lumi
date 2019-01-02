@@ -32,7 +32,6 @@ interface IStateProps extends IPassedProps {
     assignment: (assignment_id: string) => Flow.models.Assignment;
     flow: string[];
     card: (card_id: string) => Cards.ICard;
-    ui: UI.IUI;
     unread_comments: (assignment_id: string) => Comments.models.Comment[];
 }
 
@@ -66,13 +65,6 @@ export class UserFlow extends React.Component<IProps, {}> {
 
                         return (
                             <ListItem
-                                leftAvatar={
-                                    <Avatar>
-                                        <Cards.components.CardType
-                                            card_type={card.card_type}
-                                        />
-                                    </Avatar>
-                                }
                                 key={assignment._id}
                                 rightIconButton={(() => {
                                     if (
@@ -168,7 +160,6 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             Flow.selectors.assignment_by_id(state, assignment_id),
         flow: state.users.me.flow || [],
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
-        ui: state.ui,
         unread_comments: (assignment_id: string) =>
             Comments.selectors.unread(state, assignment_id, state.users.me._id)
     };

@@ -2,14 +2,19 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import raven from 'lib/core/raven';
 import * as debug from 'debug';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { IState } from 'lib/core/types';
 
 import * as Core from 'lib/core';
-import * as UI from 'lib/ui';
+import * as DB from 'lib/db';
 
-import Auth from './auth';
+import Auth from 'lib/auth/container/auth';
 import InstallPage from './install-page';
+
+import Landing from './landing';
+import Admin from './admin';
+import User from './user';
 
 const log = debug('lumi:pages:root');
 
@@ -23,47 +28,45 @@ interface IDispatchProps {
 }
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {
-    loading?: boolean;
-    loading_step?: number;
-}
+interface IComponentState {}
 
 export class RootContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            loading: true,
-            loading_step: 0
-        };
+        this.state = {};
     }
 
     public componentWillMount() {
-        this.setState({ loading: true, loading_step: 1 });
-        this.props.dispatch(Core.actions.get_settings()).then(res => {
-            this.setState({ loading: false, loading_step: 2 });
-        });
-    }
-
-    public componentWillReceiveProps(nextProps: IProps) {
-        if (!this.props.connected && nextProps.connected) {
-            raven.captureMessage('Connection was lost.', { level: 'info' });
-        }
+        this.props.dispatch(Core.actions.get_settings());
     }
 
     public render() {
-        return this.state.loading ? (
-            <UI.components.LoadingPage
-                min={0}
-                max={2}
-                value={this.state.loading_step}
-            >
-                Lumi
-            </UI.components.LoadingPage>
-        ) : this.props.installed ? (
-            <Auth />
-        ) : (
-            <InstallPage />
+        return (
+            <div id="root">
+                <DB.container.db>
+                    <Route
+                        exact={true}
+                        path="/"
+                        render={() => <Redirect to="/lumi" />}
+                    />
+                    {this.props.installed ? (
+                        <div>
+                            <Auth>
+                                <Route path="/:db/admin" component={Admin} />
+                                <Route path="/:db/user" component={User} />
+                                <Route
+                                    exact={true}
+                                    path="/:db"
+                                    component={Landing}
+                                />
+                            </Auth>
+                        </div>
+                    ) : (
+                        <InstallPage />
+                    )}
+                </DB.container.db>
+            </div>
         );
     }
 }

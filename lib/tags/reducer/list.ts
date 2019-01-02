@@ -1,16 +1,11 @@
-import { assign, unionBy } from 'lodash';
+import { unionBy } from 'lodash';
 
 import { ITag } from '../types';
 
-import {
-    TAGS_GET_TAGS_SUCCESS,
-    TAGS_CREATE_TAG_SUCCESS,
-    TAGS_DELETE_TAG_SUCCESS
-} from '../actions';
+import { TAGS_CREATE_TAG_SUCCESS, TAGS_DELETE_TAG_SUCCESS } from '../actions';
 
 export default function(state: ITag[] = [], action): ITag[] {
     switch (action.type) {
-        case TAGS_GET_TAGS_SUCCESS:
         case 'DB_CHANGE':
             return unionBy(
                 action.payload.filter(d => d.type === 'tag'),

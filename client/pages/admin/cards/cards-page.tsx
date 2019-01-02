@@ -250,11 +250,6 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     <CardsPageRightDrawer
                         open={this.state.open}
                         close={() => this.setState({ open: false })}
-                        open_assign_dialog={() =>
-                            this.props.dispatch(
-                                UI.actions.toggle_assign_material_dialog()
-                            )
-                        }
                         cards={this.props.selected_cards}
                         view_card={(card_id: string) =>
                             this.props.dispatch(

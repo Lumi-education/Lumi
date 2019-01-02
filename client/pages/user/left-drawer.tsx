@@ -34,7 +34,7 @@ declare var process;
 interface IStateProps {
     left_drawer_show: boolean;
     user_id: string;
-    user: Users.IUser;
+    user: Users.models.User;
     username: string;
 }
 

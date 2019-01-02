@@ -2,44 +2,42 @@ import { combineReducers } from 'redux';
 
 import { i18nReducer } from 'react-redux-i18n';
 
-import { IState as IAuth, auth_reducer as auth } from 'lib/auth';
 import { IState as ICards, reducer as cards } from 'lib/cards';
-import { IState as IGroups, reducer as groups } from 'lib/groups';
-import { IState as ITags, tags_reducer as tags } from 'lib/tags';
-import { IState as IUI, ui_reducer as ui } from 'lib/ui';
-import { IState as IUsers, users_reducer as users } from 'lib/users';
-import { IState as IFlow, reducer as flow } from 'lib/flow';
 
+import * as Auth from 'lib/auth';
 import * as Core from 'lib/core';
-import * as Folders from 'lib/folders';
-import * as Activity from 'lib/activity';
 import * as Comments from 'lib/comments';
+import * as DB from 'lib/db';
+import * as Flow from 'lib/flow';
+import * as Groups from 'lib/groups';
+import * as Tags from 'lib/tags';
+import * as UI from 'lib/ui';
+import * as Users from 'lib/users';
 
 const root_reducer = combineReducers({
-    auth,
     cards,
-    groups,
-    ui,
-    users,
-    tags,
-    flow,
-    i18n: i18nReducer,
+    auth: Auth.reducer,
     core: Core.reducer,
-    activity: Activity.reducer,
     comments: Comments.reducer,
-    folders: Folders.reducer
+    db: DB.reducer,
+    flow: Flow.reducer,
+    groups: Groups.reducer,
+    i18n: i18nReducer,
+    tags: Tags.reducer,
+    ui: UI.reducer,
+    users: Users.reducer
 });
+
 export default root_reducer;
 
 export interface IState
     extends ICards,
-        ITags,
+        Tags.types.IState,
         Core.types.IState,
-        IAuth,
-        Activity.types.IState,
+        Auth.types.IState,
+        DB.types.IState,
         Comments.types.IState,
-        IUsers,
-        Folders.types.IState,
-        IGroups,
-        IUI,
-        IFlow {}
+        Users.types.IState,
+        Groups.types.IState,
+        UI.types.IState,
+        Flow.types.IState {}

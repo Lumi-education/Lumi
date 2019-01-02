@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as jwt from 'jwt-simple';
 import * as raven from 'raven';
+import ErrorResponse from '../core/error';
 
 export function auth(
     req: IRequest,
@@ -41,6 +42,35 @@ export function level(userLevel: number): any {
             res.status(500).end(JSON.stringify(err));
         }
     };
+}
+
+export function db(
+    req: IRequest,
+    res: express.Response,
+    next: express.NextFunction
+) {
+    if (!req.user) {
+        return res
+            .status(401)
+            .json(
+                new ErrorResponse('auth', 'InvalidUser', 'auth.invalid_user')
+            );
+    }
+
+    if (!req.user.db) {
+        return res
+            .status(404)
+            .json(new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db'));
+    }
+
+    const _db = req.path.split('/')[1];
+
+    if (req.user.db !== _db && _db !== '') {
+        return res
+            .status(401)
+            .json(new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db'));
+    }
+    next();
 }
 
 // 0 unauthed

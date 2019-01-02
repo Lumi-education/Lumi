@@ -30,8 +30,8 @@ interface IPassedProps {
     group_id: string;
 }
 interface IStateProps extends IPassedProps {
-    users: Users.IUser[];
-    group: Groups.IGroup;
+    users: Users.models.User[];
+    group: Groups.models.Group;
     selected_users: string[];
 
     classes: any;
@@ -78,11 +78,7 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                                     });
                                 }}
                             >
-                                <Avatar
-                                    doc={group}
-                                    key={group._rev}
-                                    className={classes.bigAvatar}
-                                >
+                                <Avatar doc={group} key={group._rev} size={120}>
                                     {/* <Avatar className={classes.bigAvatar}> */}
                                     <AddAPhotoIcon />
                                     {/* </Avatar> */}
@@ -147,9 +143,9 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                                 label={Core.i18n.t('save')}
                                 onClick={() =>
                                     this.props.dispatch(
-                                        Core.actions.update<Groups.IGroup>(
-                                            this.props.group
-                                        )
+                                        Core.actions.update<
+                                            Groups.models.Group
+                                        >(this.props.group)
                                     )
                                 }
                             />
@@ -213,7 +209,6 @@ const styles: StyleRulesCallback = theme => ({
         flexDirection: 'column'
     },
     paperHeader: {
-        background: UI.config.gradient_bg,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

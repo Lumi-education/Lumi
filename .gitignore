@@ -12,7 +12,6 @@ build
 dist
 _book
 book.json
-db/
 
 # vscode
 .vscode

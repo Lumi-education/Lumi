@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 // components
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -45,8 +46,6 @@ export default class AvatarCropComponent extends React.Component<
 
     public onClickSave() {
         if (this.editor) {
-            // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
-            // drawn on another canvas, or added to the DOM.
             const canvas = this.editor.getImage();
 
             canvas.toBlob(image => {
@@ -60,7 +59,7 @@ export default class AvatarCropComponent extends React.Component<
     }
 
     public render() {
-        const { classes, avatar_url } = this.props;
+        const { classes } = this.props;
         return (
             <Dialog open={this.props.open}>
                 <DialogContent className={classes.dialogContent}>

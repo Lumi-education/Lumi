@@ -25,9 +25,10 @@ class CardController {
             text: 'missing text',
             description: '',
             created_at: new Date(),
-            files: [],
             tags: [],
-            _rev: undefined
+            _rev: undefined,
+            _deleted: false,
+            _attachments: {}
         };
 
         assign(new_card, req.body);

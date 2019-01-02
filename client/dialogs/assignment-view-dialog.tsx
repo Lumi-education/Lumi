@@ -24,10 +24,10 @@ interface IPassedProps {}
 interface IStateProps extends IPassedProps {
     open: boolean;
     card: (card_id: string) => Cards.ICard;
-    assignment: Flow.IAssignment;
+    assignment: Flow.models.Assignment;
     comments: Comments.models.Comment[];
-    user: (user_id: string) => Users.IUser;
-    me: Users.IUser;
+    user: (user_id: string) => Users.models.User;
+    me: Users.models.User;
 }
 
 interface IDispatchProps {
@@ -60,73 +60,8 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                     width: '100%',
                     maxWidth: 'none'
                 }}
-                bodyStyle={{
-                    background: UI.config.default_bg
-                }}
-                actions={[
-                    <RaisedButton
-                        label={Core.i18n.t('cancel')}
-                        onClick={() =>
-                            this.props.dispatch(Flow.actions.toggle_dialog())
-                        }
-                    />,
-                    <UI.components.RaisedButton
-                        action={Flow.actions.archive_assignments([
-                            this.props.assignment._id
-                        ])}
-                        labels={[
-                            Core.i18n.t('archive'),
-                            Core.i18n.t('archiving'),
-                            Core.i18n.t('archived'),
-                            Core.i18n.t('error')
-                        ]}
-                        fullWidth={false}
-                        disabled={false}
-                    />,
-                    <UI.components.RaisedButton
-                        action={Flow.actions.delete_assignments([
-                            this.props.assignment._id
-                        ])}
-                        labels={[
-                            Core.i18n.t('delete'),
-                            Core.i18n.t('deleting'),
-                            Core.i18n.t('deleted'),
-                            Core.i18n.t('error')
-                        ]}
-                        fullWidth={false}
-                        disabled={false}
-                        onSuccess={() => {
-                            this.props.dispatch(Flow.actions.toggle_dialog());
-                            this.props.dispatch(
-                                Flow.actions.reset_assignment()
-                            );
-                        }}
-                    />,
-                    <UI.components.RaisedButton
-                        action={Flow.actions.update_assignments(
-                            [this.props.assignment._id],
-                            this.props.assignment
-                        )}
-                        labels={[
-                            Core.i18n.t('save'),
-                            Core.i18n.t('saving'),
-                            Core.i18n.t('saved'),
-                            Core.i18n.t('error')
-                        ]}
-                        fullWidth={false}
-                        disabled={false}
-                        onSuccess={() => {
-                            this.props.dispatch(Flow.actions.toggle_dialog());
-                            this.props.dispatch(
-                                Flow.actions.reset_assignment()
-                            );
-                        }}
-                    />
-                ]}
+                actions={[<RaisedButton label={Core.i18n.t('cancel')} />]}
                 open={this.props.open}
-                onRequestClose={() =>
-                    this.props.dispatch(Flow.actions.toggle_dialog())
-                }
             >
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 2 }}>
@@ -134,7 +69,6 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             card_id={this.props.assignment.card_id}
                             assignment_id={this.props.assignment._id}
                         />
-                        <Flow.container.AssignmentEdit />
                     </div>
                     <div
                         id="comments"
@@ -142,7 +76,6 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
                             overflow: 'scroll',
                             flex: 1,
                             maxHeight: '450px',
-                            background: UI.config.gradient_bg,
                             color: 'white',
                             padding: '15px 0px 15px 0px'
                         }}

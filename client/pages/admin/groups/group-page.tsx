@@ -23,7 +23,7 @@ const log_info = debug('lumi:pages:admin:groups:group-page');
 interface IStateProps {
     group_id: string;
     tab: string;
-    group: Groups.IGroup;
+    group: Groups.models.Group;
 }
 
 interface IDispatchProps {
@@ -63,9 +63,6 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                         backgroundColor: '#FFFFFF',
                         zIndex: 1099,
                         width: '100%'
-                    }}
-                    tabItemContainerStyle={{
-                        background: UI.config.gradient_bg
                     }}
                     value={this.props.tab}
                 >

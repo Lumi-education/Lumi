@@ -22,7 +22,7 @@ import * as Flow from 'lib/flow';
 
 interface IStateProps {
     comments: Comments.models.Comment[];
-    me: Users.IUser;
+    me: Users.models.User;
     assignment: (assignment_id: string) => Flow.models.Assignment;
 }
 
@@ -74,9 +74,6 @@ export class UserComments extends React.Component<IProps, IComponentState> {
                         <div
                             key={comment._id}
                             onClick={() => {
-                                this.props.dispatch(
-                                    Flow.actions.toggle_dialog()
-                                );
                                 this.props.dispatch(
                                     Flow.actions.change_assignment(
                                         this.props.assignment(comment.ref_id)

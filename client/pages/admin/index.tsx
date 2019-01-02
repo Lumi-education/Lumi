@@ -2,13 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
-import { setLocale } from 'react-redux-i18n';
 
 import * as debug from 'debug';
 
 // container
 import LeftDrawer from './left-drawer';
-import RightDrawer from './right-drawer';
 import AppBar from './app-bar';
 
 // state
@@ -17,27 +15,19 @@ import { IState } from 'client/state';
 // pages
 import ErrorBoundary from 'client/pages/error-boundary';
 
-import ActivityPage from './activity/activity-page';
 import GroupPage from 'client/pages/admin/groups/group-page';
 import GroupsPage from 'client/pages/admin/groups/groups-page';
-import Lessons from 'client/pages/admin/lessons/lesson-page';
 import UsersPage from './users/users-page';
 import UserPage from './users/user-page';
 import CardsPage from './cards/cards-page';
 import CardPage from './cards/card-page';
-import FoldersPage from './folders/folders-page';
-import TagsPage from './tags/tags-page';
-import TagPage from './tags/tag-page';
 import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
 import DashboardPage from './dashboard/dashboard-page';
 import SettingsPage from './settings-page';
-import TutorialMacPage from './tutorial/get-connected-mac';
-import AssistantPage from './assistant/assistant-page';
 
 // modules
 import * as UI from 'lib/ui';
-import * as Users from 'lib/users';
 import * as Core from 'lib/core';
 
 import CreateCardDialog from 'client/dialogs/card-create-dialog';
@@ -47,7 +37,6 @@ const log = debug('lumi:client:pages:admin:index');
 
 interface IStateProps {
     userlevel: number;
-    right_appbar_icon: JSX.Element;
     user_id: string;
     status_page: boolean;
     status_page_text: string;
@@ -83,20 +72,11 @@ export class AdminRoot extends React.Component<IProps, {}> {
                     <LeftDrawer />
                 </ErrorBoundary>
                 <ErrorBoundary>
-                    <RightDrawer />
-                </ErrorBoundary>
-                <ErrorBoundary>
                     <CreateCardDialog />
                 </ErrorBoundary>
                 <ErrorBoundary>
                     <AssignmentDialog />
                 </ErrorBoundary>
-
-                {this.props.status_page ? (
-                    <UI.components.StatusPage
-                        text={this.props.status_page_text}
-                    />
-                ) : null}
                 <div
                     style={{
                         paddingBottom: '40px'
@@ -106,95 +86,64 @@ export class AdminRoot extends React.Component<IProps, {}> {
                         <Switch>
                             <Route
                                 exact={true}
-                                path="/admin"
+                                path="/:db/admin"
                                 component={DashboardPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/dashboard"
+                                path="/:db/admin/dashboard"
                                 component={DashboardPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/groups"
+                                path="/:db/admin/groups"
                                 component={GroupsPage}
                             />
                             <Route
-                                path="/admin/groups/:group_id/:tab"
+                                path="/:db/admin/groups/:group_id/:tab"
                                 component={GroupPage}
                             />
                             <Route
-                                path="/admin/groups/:group_id"
+                                path="/:db/admin/groups/:group_id"
                                 component={GroupPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/users"
+                                path="/:db/admin/users"
                                 component={UsersPage}
                             />
                             <Route
-                                path="/admin/users/:user_id/:tab"
+                                path="/:db/admin/users/:user_id/:tab"
                                 component={UserPage}
                             />
                             <Route
-                                path="/admin/users/:user_id"
+                                path="/:db/admin/users/:user_id"
                                 component={UserPage}
                             />
-                            <Route path="/admin/lessons" component={Lessons} />
                             <Route
-                                path="/admin/cards/:card_id"
+                                path="/:db/admin/cards/:card_id"
                                 component={CardPage}
                             />
                             <Route
                                 exact={true}
-                                path="/admin/cards"
+                                path="/:db/admin/cards"
                                 component={CardsPage}
                             />
                             <Route
-                                path="/admin/folders/:folder_id"
-                                component={FoldersPage}
-                            />
-                            <Route
-                                path="/admin/tags/:tag_id/:tab"
-                                component={TagPage}
-                            />
-                            <Route
-                                path="/admin/tags/:tag_id"
-                                component={TagPage}
-                            />
-                            <Route
-                                exact={true}
-                                path="/admin/tags"
-                                component={TagsPage}
-                            />
-                            <Route
-                                exact={true}
-                                path="/admin/activity"
-                                component={ActivityPage}
-                            />
-                            <Route
-                                path="/admin/comments"
+                                path="/:db/admin/comments"
                                 component={CommentsPage}
                             />
                             <Route
-                                path="/admin/system/:tab"
+                                path="/:db/admin/system/:tab"
                                 component={SystemPage}
                             />
                             <Route
-                                path="/admin/system"
+                                path="/:db/admin/system"
                                 component={SystemPage}
                             />
                             <Route
-                                path="/admin/settings"
+                                path="/:db/admin/settings"
                                 component={SettingsPage}
-                            />
-                            <Route
-                                path="/admin/tutorial/get-connected-mac"
-                                component={TutorialMacPage}
-                            />
-                            <Route
-                                path="/admin/assistant"
-                                component={AssistantPage}
                             />
                         </Switch>
                     </ErrorBoundary>
@@ -206,7 +155,6 @@ export class AdminRoot extends React.Component<IProps, {}> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         userlevel: state.auth.userlevel,
-        right_appbar_icon: state.ui.right_appbar_icon,
         user_id: state.users.me._id,
         status_page: state.core.status.status_page,
         status_page_text: state.core.status.status_page_text,

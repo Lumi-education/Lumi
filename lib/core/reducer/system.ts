@@ -4,6 +4,7 @@ import { SYSTEM_GET_SETTINGS_SUCCESS } from '../actions';
 
 const initialState: ISystemSettings = {
     _id: 'system',
+    type: 'system',
     mode: 'free',
     controlled_location: '/',
     allow_user_registration: true,

@@ -2,10 +2,8 @@
 import * as React from 'react';
 import * as debug from 'debug';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-
-import styles from 'client/style/style';
 
 // actions
 import * as Core from 'lib/core';
@@ -15,10 +13,12 @@ const log_error = debug('lumi:error:components:avatar');
 
 interface IPassedProps {
     doc: Core.types.IDoc;
-    className?: any;
+    size?: number;
 }
 
-interface IStateProps extends IPassedProps {}
+interface IStateProps extends IPassedProps {
+    classes: any;
+}
 
 interface IDispatchProps {}
 
@@ -28,7 +28,15 @@ interface IComponentState {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-export default withStyles(styles)(
+const styles: StyleRulesCallback = theme => {
+    return {
+        avatar: {
+            margin: 10
+        }
+    };
+};
+
+export default withStyles(styles, { withTheme: true })(
     class AvatarComponent extends React.Component<IProps, IComponentState> {
         constructor(props: IProps) {
             super(props);
@@ -55,6 +63,7 @@ export default withStyles(styles)(
                         this.setState({ avatar_url });
                     })
                     .catch(error => {
+                        Core.raven.captureException(error);
                         log_error(
                             'generate_avatar_url',
                             'no avatar-image found'
@@ -71,6 +80,10 @@ export default withStyles(styles)(
         public componentDidUpdate(prevProps: IProps) {
             log_info('componentDidUpdate', prevProps);
             if (!this.props.doc._attachments || !prevProps.doc._attachments) {
+                Core.raven.captureMessage(
+                    'component: avatar: _attachments is undefined',
+                    { level: 'warning' }
+                );
                 log_error(
                     'componentDidUpdate',
                     '_attachments is undefined',
@@ -90,8 +103,9 @@ export default withStyles(styles)(
             log_info('render');
             return (
                 <Avatar
+                    style={{ width: this.props.size, height: this.props.size }}
+                    className={this.props.classes.avatar}
                     src={this.state.avatar_url}
-                    className={this.props.className}
                 >
                     {this.props.children}
                 </Avatar>

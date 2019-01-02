@@ -6,8 +6,6 @@ import { IRequest } from '../../middleware/auth';
 
 import db from '../../db';
 
-import { add_activity } from '../../modules/activity';
-
 export default class CommentsController {
     public create(req: IRequest, res: express.Response) {
         const comment = req.body;
@@ -20,12 +18,6 @@ export default class CommentsController {
                 return res.status(400).json(insert_comment_error);
             }
 
-            add_activity(
-                created_comment.from,
-                'comment',
-                new Date(),
-                created_comment.ref_id
-            );
             res.status(200).json(created_comment);
         });
     }

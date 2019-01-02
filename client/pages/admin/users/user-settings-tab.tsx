@@ -33,8 +33,8 @@ interface IPassedProps {
     classes: any;
 }
 interface IStateProps extends IPassedProps {
-    user: Users.IUser;
-    user_in_state: Users.IUser;
+    user: Users.models.User;
+    user_in_state: Users.models.User;
 }
 
 interface IDispatchProps {
@@ -85,10 +85,7 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
                                     });
                                 }}
                             >
-                                <Avatar
-                                    doc={user}
-                                    className={classes.bigAvatar}
-                                >
+                                <Avatar doc={user} size={120}>
                                     {/* <Avatar className={classes.bigAvatar}> */}
                                     <AddAPhotoIcon />
                                     {/* </Avatar> */}
@@ -273,7 +270,6 @@ const styles: StyleRulesCallback = theme => ({
         flexDirection: 'column'
     },
     paperHeader: {
-        background: UI.config.gradient_bg,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

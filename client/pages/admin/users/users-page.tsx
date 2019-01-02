@@ -6,10 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import * as classNames from 'classnames';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
-import FilterBar from 'lib/ui/components/filter-bar';
-import ActionBar from 'lib/ui/components/action-bar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
@@ -21,14 +19,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuIcon from '@material-ui/icons/Menu';
 import InputBase from '@material-ui/core/InputBase';
 
-import SVGGroup from 'material-ui/svg-icons/social/group';
-import SVGCards from 'material-ui/svg-icons/action/perm-device-information';
-
 import CreateUserDialog from 'client/dialogs/user-create-dialog';
 import AssignGroupDialog from 'client/dialogs/groups-assign-dialog';
-import DeleteUserDialog from 'client/dialogs/user-delete-dialog';
-
-import styles from 'client/style/style';
 
 // state
 import { IState } from 'client/state';
@@ -44,8 +36,8 @@ import * as Groups from 'lib/groups';
 import { push } from 'lib/ui/actions';
 
 interface IStateProps {
-    users: Users.IUser[];
-    group: (group_id) => Groups.IGroup;
+    users: Users.models.User[];
+    group: (group_id) => Groups.models.Group;
     selected_users: string[];
 
     search_text: string;
@@ -146,20 +138,11 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
                             }
                         />
                     </Paper>
-                    <ActionBar>
-                        <FloatingActionButton
-                            onClick={() => {
-                                this.props.dispatch(
-                                    UI.actions.toggle_create_user_dialog()
-                                );
-                            }}
-                        >
-                            <ContentAdd />
-                        </FloatingActionButton>
-                    </ActionBar>
+                    <FloatingActionButton>
+                        <ContentAdd />
+                    </FloatingActionButton>
                     <CreateUserDialog />
                     <AssignGroupDialog />
-                    <DeleteUserDialog />
                 </div>
             </div>
         );
@@ -181,6 +164,105 @@ function mapDispatchToProps(dispatch) {
         dispatch: action => dispatch(action)
     };
 }
+
+const styles: StyleRulesCallback = theme => ({
+    dialog: {
+        minWidth: '500px'
+    },
+    dialogContent: {
+        minWidth: '500px',
+        minHeight: '350px'
+    },
+    root: {
+        display: 'flex'
+    },
+    appBar: {
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
+    },
+
+    menuButton: {
+        marginLeft: 12,
+        marginRight: 20
+    },
+    hide: {
+        display: 'none'
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-start'
+    },
+    content: {
+        flexGrow: 1,
+        // padding: theme.spacing.unit * 3,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        }),
+        margin: 'auto'
+    },
+    contentContainer: {
+        paddingTop: '40px',
+        maxWidth: '680px',
+        margin: 'auto'
+    },
+    paperContent: {
+        padding: '20px'
+    },
+    contentList: {
+        maxWidth: 680,
+        margin: 'auto',
+        marginTop: 40
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen
+        }),
+        marginRight: 0
+    },
+    searchIcon: {
+        width: theme.spacing.unit * 9,
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    media: {
+        minWidth: 300,
+        minHeight: 200
+    },
+    inputRoot: {
+        color: 'inherit',
+        width: '100%'
+    },
+    inputInput: {
+        paddingTop: theme.spacing.unit,
+        paddingRight: theme.spacing.unit,
+        paddingBottom: theme.spacing.unit,
+        paddingLeft: theme.spacing.unit * 10,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: 200
+        }
+    },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 2
+    }
+});
 
 export default withStyles(styles)(
     connect<IStateProps, IDispatchProps, {}>(

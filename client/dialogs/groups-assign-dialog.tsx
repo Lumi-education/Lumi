@@ -13,8 +13,6 @@ import { IState } from 'client/state';
 import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
-import * as Users from 'lib/users';
-import * as Groups from 'lib/groups';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
@@ -59,42 +57,8 @@ export class GroupsAssignDialog extends React.Component<
                     width: '100%',
                     maxWidth: 'none'
                 }}
-                actions={[
-                    <RaisedButton
-                        label={Core.i18n.t('cancel')}
-                        onClick={() =>
-                            this.props.dispatch(
-                                UI.actions.toggle_assign_group_dialog()
-                            )
-                        }
-                    />,
-                    <UI.components.RaisedButton
-                        action={Groups.actions.assign_groups(
-                            this.props.selected_users,
-                            this.props.selected_groups
-                        )}
-                        labels={[
-                            Core.i18n.t('assign'),
-                            Core.i18n.t('assigning'),
-                            Core.i18n.t('assigned'),
-                            Core.i18n.t('error')
-                        ]}
-                        disabled={false}
-                        fullWidth={false}
-                        onSuccess={() => {
-                            this.props.dispatch(
-                                UI.actions.toggle_assign_group_dialog()
-                            );
-                            this.props.dispatch(
-                                Groups.actions.set_selected_groups([])
-                            );
-                        }}
-                    />
-                ]}
+                actions={[<RaisedButton label={Core.i18n.t('cancel')} />]}
                 open={this.props.open}
-                onRequestClose={() =>
-                    this.props.dispatch(UI.actions.toggle_assign_group_dialog())
-                }
             />
         );
     }
@@ -102,7 +66,7 @@ export class GroupsAssignDialog extends React.Component<
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        open: state.ui.show_assign_group_dialog,
+        open: false,
         selected_users: state.users.ui.selected_users,
         selected_groups: state.groups.ui.selected_groups
     };

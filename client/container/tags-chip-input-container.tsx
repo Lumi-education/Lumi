@@ -15,8 +15,8 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     classes: any;
 
-    tag: (tag_id: string) => Tags.ITag;
-    tags: Tags.ITag[];
+    tag: (tag_id: string) => Tags.models.Tag;
+    tags: Tags.models.Tag[];
 }
 
 interface IDispatchProps {
@@ -35,10 +35,6 @@ export class TagsChipInputContainer extends React.Component<
         super(props);
 
         this.state = {};
-    }
-
-    public componentWillMount() {
-        this.props.dispatch(Tags.actions.get_tags());
     }
 
     public render() {
@@ -63,7 +59,7 @@ export class TagsChipInputContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: Tags.IState, ownProps): IStateProps {
+function mapStateToProps(state: Tags.types.IState, ownProps): IStateProps {
     return {
         tag: (tag_id: string) => Tags.selectors.tag(state, tag_id),
         tag_ids: ownProps.tag_ids,

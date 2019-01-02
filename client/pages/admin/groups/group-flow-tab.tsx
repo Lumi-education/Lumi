@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as debug from 'debug';
-import { uniq, intersection } from 'lodash';
+import { intersection } from 'lodash';
 
 // types
 import { IState } from 'client/state';
@@ -27,8 +27,6 @@ import { TagsChipInputContainer } from 'client/container';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SVGAction from 'material-ui/svg-icons/action/build';
 
-import CardsAssignDialog from 'client/dialogs/cards-assign-dialog';
-
 // modules
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
@@ -47,11 +45,11 @@ interface IPassedProps {
 }
 interface IStateProps extends IPassedProps {
     assignments: Flow.models.Assignment[];
-    users: Users.IUser[];
-    group: Groups.IGroup;
+    users: Users.models.User[];
+    group: Groups.models.Group;
     selected_users: string[];
     selected_assignments: string[];
-    user: (user_id: string) => Users.IUser;
+    user: (user_id: string) => Users.models.User;
     assignment: (assignment_id: string) => Flow.models.Assignment;
     card: (card_id: string) => Cards.ICard;
     selected_tags: string[];
@@ -88,7 +86,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
             <div
                 id="group-flow-tab"
                 style={{
-                    background: UI.config.gradient_bg,
                     minHeight: '100vh'
                 }}
             >
@@ -195,9 +192,6 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                             assignment
                                                         );
                                                         this.props.dispatch(
-                                                            Flow.actions.toggle_dialog()
-                                                        );
-                                                        this.props.dispatch(
                                                             Flow.actions.change_assignment(
                                                                 assignment
                                                             )
@@ -211,37 +205,13 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                                 assignment.get_score() ===
                                                                     null
                                                                     ? 'yellow'
-                                                                    : 'white',
-                                                            border:
-                                                                this.props.selected_assignments.indexOf(
-                                                                    assignment._id
-                                                                ) > -1
-                                                                    ? '3px solid ' +
-                                                                      UI.config
-                                                                          .primary_color
-                                                                    : null
+                                                                    : 'white'
                                                         }}
                                                     >
                                                         <CardHeader
                                                             title={card.name}
-                                                            subtitle={
-                                                                <Tags.TagsContainer
-                                                                    tag_ids={
-                                                                        card.tags
-                                                                    }
-                                                                />
-                                                            }
                                                             showExpandableButton={
                                                                 false
-                                                            }
-                                                            avatar={
-                                                                <MUIAvatar
-                                                                    backgroundColor={UI.utils.get_grade_color(
-                                                                        assignment.get_score()
-                                                                    )}
-                                                                >
-                                                                    {assignment.get_score()}
-                                                                </MUIAvatar>
                                                             }
                                                         />
                                                     </Card>
@@ -259,107 +229,85 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         [user._id]
                                                     )
                                                 );
-                                                this.props.dispatch(
-                                                    UI.actions.toggle_assign_material_dialog()
-                                                );
                                             }}
                                         />
                                     </CardText>
                                 </Card>
                             );
                         })}
-                    <UI.components.ActionBar>
-                        <IconMenu
-                            iconButtonElement={
-                                <FloatingActionButton>
-                                    <SVGAction />
-                                </FloatingActionButton>
-                            }
-                            anchorOrigin={{
-                                horizontal: 'right',
-                                vertical: 'bottom'
-                            }}
-                            targetOrigin={{
-                                horizontal: 'left',
-                                vertical: 'top'
-                            }}
-                        >
-                            <MenuItem
-                                primaryText={Core.i18n.t('cards_assign')}
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        UI.actions.toggle_assign_material_dialog()
-                                    );
-                                }}
-                            />
-                            <MenuItem
-                                primaryText={Core.i18n.t(
-                                    'select_all_finished_cards'
-                                )}
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        Flow.actions.set_selected_assignments(
-                                            this.props.assignments
-                                                .filter(
-                                                    assignment =>
-                                                        assignment.state &&
-                                                        assignment.get_score() !==
-                                                            null
-                                                )
-                                                .map(
-                                                    assignment => assignment._id
-                                                )
-                                        )
-                                    )
-                                }
-                            />
-                            <MenuItem
-                                primaryText={Core.i18n.t('select_all_users')}
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        Users.actions.set_selected_users(
-                                            this.props.users.map(
-                                                user => user._id
+                    <IconMenu
+                        iconButtonElement={
+                            <FloatingActionButton>
+                                <SVGAction />
+                            </FloatingActionButton>
+                        }
+                        anchorOrigin={{
+                            horizontal: 'right',
+                            vertical: 'bottom'
+                        }}
+                        targetOrigin={{
+                            horizontal: 'left',
+                            vertical: 'top'
+                        }}
+                    >
+                        <MenuItem primaryText={Core.i18n.t('cards_assign')} />
+                        <MenuItem
+                            primaryText={Core.i18n.t(
+                                'select_all_finished_cards'
+                            )}
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Flow.actions.set_selected_assignments(
+                                        this.props.assignments
+                                            .filter(
+                                                assignment =>
+                                                    assignment.state &&
+                                                    assignment.get_score() !==
+                                                        null
                                             )
-                                        )
-                                    );
-                                }}
-                            />
-                            <MenuItem
-                                primaryText={Core.i18n.t(
-                                    'reset_user_selection'
-                                )}
-                                onClick={() => {
-                                    this.props.dispatch(
-                                        Users.actions.set_selected_users([])
-                                    );
-                                }}
-                            />
-                            {this.props.selected_assignments.length !== 0 ? (
-                                <div>
-                                    <MenuItem
-                                        primaryText={Core.i18n.t('archive')}
-                                        onClick={() => {
-                                            this.props.dispatch(
-                                                Flow.actions.archive_assignments(
-                                                    this.props
-                                                        .selected_assignments
-                                                )
-                                            );
-                                            this.props.dispatch(
-                                                Flow.actions.set_selected_assignments(
-                                                    []
-                                                )
-                                            );
-                                        }}
-                                    />
-                                </div>
-                            ) : null}
-                        </IconMenu>
-                    </UI.components.ActionBar>
-                    {/* <CardsAssignDialog
-                        assign_callback={test => console.log(test)}
-                    /> */}
+                                            .map(assignment => assignment._id)
+                                    )
+                                )
+                            }
+                        />
+                        <MenuItem
+                            primaryText={Core.i18n.t('select_all_users')}
+                            onClick={() => {
+                                this.props.dispatch(
+                                    Users.actions.set_selected_users(
+                                        this.props.users.map(user => user._id)
+                                    )
+                                );
+                            }}
+                        />
+                        <MenuItem
+                            primaryText={Core.i18n.t('reset_user_selection')}
+                            onClick={() => {
+                                this.props.dispatch(
+                                    Users.actions.set_selected_users([])
+                                );
+                            }}
+                        />
+                        {this.props.selected_assignments.length !== 0 ? (
+                            <div>
+                                <MenuItem
+                                    primaryText={Core.i18n.t('archive')}
+                                    onClick={() => {
+                                        this.props.dispatch(
+                                            Flow.actions.archive_assignments(
+                                                this.props.selected_assignments
+                                            )
+                                        );
+                                        this.props.dispatch(
+                                            Flow.actions.set_selected_assignments(
+                                                []
+                                            )
+                                        );
+                                    }}
+                                />
+                            </div>
+                        ) : null}
+                    </IconMenu>
                 </div>
             </div>
         );

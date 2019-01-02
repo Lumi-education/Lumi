@@ -10,10 +10,6 @@ export class User implements IUser {
     public name: string;
     public level: number;
     public groups: string[];
-    public last_login: Date;
-    public last_active: Date;
-    public online: boolean;
-    public location: string;
     public password: string;
     public flow: string[];
 
@@ -24,13 +20,9 @@ export class User implements IUser {
                 _id: undefined,
                 _rev: undefined,
                 type: 'user',
-                name: 'no name',
+                name: '',
                 level: 0,
                 groups: [],
-                last_login: undefined,
-                last_active: undefined,
-                online: false,
-                location: '/',
                 flow: [],
                 _deleted: false,
                 _attachments: {}

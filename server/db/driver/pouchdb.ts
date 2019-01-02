@@ -6,7 +6,7 @@ import * as PouchDBFind from 'pouchdb-find';
 import * as express_pouchdb from 'express-pouchdb';
 import * as express from 'express';
 
-import * as Event from 'events';
+// import * as Event from 'events';
 
 PouchDB.plugin(PouchDBFind);
 PouchDB.defaults({ prefix: process.env.DB });
@@ -37,21 +37,21 @@ export default class DB {
         this.saveAttachment = this.saveAttachment.bind(this);
         this.getAttachment = this.getAttachment.bind(this);
 
-        this.changes = new Event();
+        // this.changes = new Event();
 
-        this.changes_stream = this.db.changes({
-            since: 'now',
-            live: true,
-            include_docs: true
-        });
+        // this.changes_stream = this.db.changes({
+        //     since: 'now',
+        //     live: true,
+        //     include_docs: true
+        // });
 
-        this.changes_stream
-            .on('change', change => {
-                this.changes.emit('change', change.doc);
-            })
-            .on('error', err => {
-                raven.captureException(err);
-            });
+        // this.changes_stream
+        //     .on('change', change => {
+        //         this.changes.emit('change', change.doc);
+        //     })
+        //     .on('error', err => {
+        //         raven.captureException(err);
+        //     });
     }
 
     public findById(id: string, cb: (err, doc) => void) {
