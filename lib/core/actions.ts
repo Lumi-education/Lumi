@@ -7,7 +7,6 @@ export const SYSTEM_GET_SETTINGS_ERROR = 'SYSTEM_GET_SETTINGS_ERROR';
 export const CORE_DB_FIND_REQUEST = 'CORE_DB_FIND_REQUEST';
 export const CORE_DB_FIND_SUCCESS = 'CORE_DB_FIND_SUCCESS';
 export const CORE_DB_FIND_ERROR = 'CORE_DB_FIND_ERROR';
-export const CORE_DB_CHANGE = 'DB_CHANGE';
 export const CORE_DB_UPDATE_REQUEST = 'CORE_DB_UPDATE_REQUEST';
 export const CORE_DB_UPDATE_ERROR = 'CORE_DB_UPDATE_ERROR';
 export const CORE_GET_ENV_REQUEST = 'CORE_GET_ENV_REQUEST';
@@ -38,12 +37,9 @@ import * as DB from 'lib/db';
 const info = debug('lumi:info:actions:core');
 const error = debug('lumi:error:actions:core');
 
-export function db_change(payload: any[]) {
-    return { payload, type: CORE_DB_CHANGE };
-}
 export function find(query, options?) {
     return {
-        types: [CORE_DB_FIND_REQUEST, CORE_DB_CHANGE, CORE_DB_FIND_ERROR],
+        types: [CORE_DB_FIND_REQUEST, CORE_DB_FIND_SUCCESS, CORE_DB_FIND_ERROR],
         api: API.find(query, options),
         payload: {
             query,

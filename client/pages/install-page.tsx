@@ -6,6 +6,7 @@ import * as debug from 'debug';
 
 // types
 import { IState } from 'client/state';
+import Particles from 'react-particles-js';
 
 // components
 
@@ -68,97 +69,30 @@ export class InstallPage extends React.Component<IProps, IComponentState> {
     public render() {
         const { classes } = this.props;
         return (
-            <div className={classes.page}>
-                <div className={classes.contentContainer}>
-                    <Paper className={classes.paper}>
-                        {' '}
-                        <Typography variant="h5" component="h3">
-                            {Core.i18n.t('welcome')}
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {Core.i18n.t('development_status')}
-                        </Typography>
-                        <Typography variant="h5" component="h3">
-                            http://Lumi.education/
-                        </Typography>
-                        <TextField
-                            id="outlined-name"
-                            label={Core.i18n.t('name')}
-                            className={classes.textField}
-                            value={this.state.admin_username}
-                            required={true}
-                            onChange={e =>
-                                this.setState({
-                                    admin_username: e.target.value
-                                })
+            <div>
+                <Particles
+                    style={{ position: 'fixed' }}
+                    params={{
+                        particles: {
+                            number: {
+                                value: 42
+                            },
+                            size: {
+                                value: 3
                             }
-                            margin="normal"
-                            variant="outlined"
-                        />
-                        <TextField
-                            id="outlined-password"
-                            label={Core.i18n.t('password')}
-                            className={classes.textField}
-                            value={this.state.password}
-                            required={true}
-                            onChange={e =>
-                                this.setState({
-                                    password: e.target.value
-                                })
-                            }
-                            margin="normal"
-                            variant="outlined"
-                            type="password"
-                        />
-                        <TextField
-                            id="outlined-password2"
-                            label={Core.i18n.t('password_repeat')}
-                            className={classes.textField}
-                            value={this.state.password_repeat}
-                            required={true}
-                            onChange={e =>
-                                this.setState({
-                                    password_repeat: e.target.value
-                                })
-                            }
-                            margin="normal"
-                            variant="outlined"
-                            type="password"
-                            error={
-                                this.state.password !==
-                                this.state.password_repeat
-                            }
-                        />
-                        <FormControl
-                            variant="outlined"
-                            className={classes.formControl}
-                        >
-                            <InputLabel htmlFor="outlined-age-native-simple">
-                                {Core.i18n.t('language')}
-                            </InputLabel>
-                            <Select
-                                native={true}
-                                value={this.state.language}
-                                onChange={e => {
-                                    this.props.dispatch(
-                                        setLocale(e.target.value)
-                                    );
-                                    this.setState({ language: e.target.value });
-                                }}
-                                input={
-                                    <OutlinedInput
-                                        name={Core.i18n.t('language')}
-                                        labelWidth={200}
-                                        id="outlined-age-native-simple"
-                                    />
+                        },
+                        interactivity: {
+                            events: {
+                                onhover: {
+                                    enable: true,
+                                    mode: 'repulse'
                                 }
-                            >
-                                <option value={'de'}>Deutsch</option>
-                                <option value={'en'}>English</option>
-                            </Select>
-                        </FormControl>
-                        <div className={classes.buttons} />
-                    </Paper>
+                            }
+                        }
+                    }}
+                />
+                <div className={classes.background}>
+                    <main className={classes.main} />
                 </div>
             </div>
         );
@@ -178,42 +112,25 @@ function mapDispatchToProps(dispatch) {
         dispatch: action => dispatch(action)
     };
 }
-
 const styles: StyleRulesCallback = theme => ({
-    page: {
+    background: {
+        width: '100%',
         height: '100vh',
-        background: 'linear-gradient(45deg, #1abc9c 0%, #3498db 100%)'
-    },
-    contentContainer: {
-        maxWidth: '680px',
-        margin: 'auto'
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit
-    },
-    paper: {
         display: 'flex',
         flexDirection: 'column',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit *
-            3}px ${theme.spacing.unit * 3}px`
+        justifyContent: 'center',
+        background: theme.palette.background.default
     },
-    dense: {
-        marginTop: 16
-    },
-    menu: {
-        width: 200
-    },
-    submit: {
-        marginTop: theme.spacing.unit * 3
-    },
-    buttons: {
-        display: 'flex',
-        justifyContent: 'flex-end'
-    },
-    button: {
-        marginTop: theme.spacing.unit * 3,
-        marginLeft: theme.spacing.unit
+    main: {
+        width: 'auto',
+        display: 'block',
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto'
+        }
     }
 });
 

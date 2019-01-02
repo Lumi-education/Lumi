@@ -65,7 +65,7 @@ export function db(
 
     const _db = req.path.split('/')[1];
 
-    if (req.user.db !== _db) {
+    if (req.user.db !== _db && _db !== '') {
         return res
             .status(401)
             .json(new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db'));

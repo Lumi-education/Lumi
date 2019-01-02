@@ -2,7 +2,7 @@ import { IUser } from '../types';
 
 import { AUTH_GET_SESSION_SUCCESS } from '../../auth/actions';
 
-import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 
 const initialState: IUser = {
     _id: undefined,
@@ -22,7 +22,7 @@ export default function(state: IUser = initialState, action): IUser {
         case AUTH_GET_SESSION_SUCCESS:
             return action.payload;
 
-        case Core.actions.CORE_DB_CHANGE:
+        case DB.actions.DB_CHANGE:
             if (action.payload._id === state._id) {
                 return action.payload;
             }

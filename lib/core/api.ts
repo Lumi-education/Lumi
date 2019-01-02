@@ -17,9 +17,9 @@ export function shutdown() {
 }
 
 export function get_settings() {
-    return request
-        .get('/api/v0/system/settings')
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+    return request.get(
+        '/api/v1/' + window.location.pathname.split('/')[1] + '/system'
+    );
 }
 
 export function ping() {
