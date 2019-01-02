@@ -4,9 +4,10 @@ declare var window;
 
 export function login(username: string, password: string) {
     return request
-        .post('/api/v0/auth/login')
-        .send({ username, password })
-        .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
+        .post(
+            '/api/v1/' + window.location.pathname.split('/')[1] + '/auth/login'
+        )
+        .send({ username, password });
 }
 
 export function logout() {
@@ -15,10 +16,14 @@ export function logout() {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function register(username: string, password: string) {
+export function register<T>(payload: T) {
     return request
-        .post('/api/v0/auth/register')
-        .send({ password, name: username });
+        .post(
+            '/api/v1/' +
+                window.location.pathname.split('/')[1] +
+                '/auth/register'
+        )
+        .send(payload);
 }
 
 export function get_session() {
@@ -38,5 +43,10 @@ export function set_password(username: string, password: string) {
 }
 
 export function check_username(username: string) {
-    return request.get('/api/v0/auth/username/' + username);
+    return request.get(
+        '/api/v1/' +
+            window.location.pathname.split('/')[1] +
+            '/auth/username/' +
+            username
+    );
 }

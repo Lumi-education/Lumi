@@ -2,14 +2,19 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import raven from 'lib/core/raven';
 import * as debug from 'debug';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { IState } from 'lib/core/types';
 
 import * as Core from 'lib/core';
 import * as DB from 'lib/db';
 
-import Auth from './auth';
+import Auth from 'lib/auth/container/auth';
 import InstallPage from './install-page';
+
+import Landing from './landing';
+import Admin from './admin';
+import User from './user';
 
 const log = debug('lumi:pages:root');
 
@@ -40,7 +45,26 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
         return (
             <div id="root">
                 <DB.container.db>
-                    {this.props.installed ? <Auth /> : <InstallPage />}
+                    <Route
+                        exact={true}
+                        path="/"
+                        render={() => <Redirect to="/lumi" />}
+                    />
+                    {this.props.installed ? (
+                        <div>
+                            <Auth>
+                                <Route path="/:db/admin" component={Admin} />
+                                <Route path="/:db/user" component={User} />
+                                <Route
+                                    exact={true}
+                                    path="/:db"
+                                    component={Landing}
+                                />
+                            </Auth>
+                        </div>
+                    ) : (
+                        <InstallPage />
+                    )}
                 </DB.container.db>
             </div>
         );
