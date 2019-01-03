@@ -20,7 +20,7 @@ export class Group implements IGroup {
             _deleted: false,
             _attachments: {},
             type: 'group',
-            name: '__GROUP__',
+            name: '',
             created_at: new Date(),
             autojoin: false,
             cards: []

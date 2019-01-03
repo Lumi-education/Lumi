@@ -17,6 +17,7 @@ export interface IGroupUI {
     error: {
         message: string;
     };
+    dialogs: any;
 }
 
 export interface IState {

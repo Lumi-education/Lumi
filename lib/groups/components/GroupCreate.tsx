@@ -15,7 +15,9 @@ import { IState } from 'client/state';
 const log_info = debug('lumi:info:container:group-create');
 const log_error = debug('lumi:error:container:group-create');
 
-interface IPassedProps {}
+interface IPassedProps {
+    onSuccess?: () => void;
+}
 
 interface IDispatchProps {
     dispatch: (action) => void;
