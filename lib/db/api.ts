@@ -2,6 +2,7 @@ import db from './db';
 import { assign } from 'lodash';
 import * as Core from 'lib/core';
 
+import { IQuery, IFindResponse } from './types';
 export function create<T>(doc: T): Promise<T[]> {
     return db
         .post(doc)
@@ -27,6 +28,19 @@ export function batch_create<T>(docs: T[]): Promise<T[]> {
         .catch(error => {
             Core.raven.captureException(error);
         });
+}
+
+export function batch_update<T>(docs: T[]): Promise<T[]> {
+    return batch_create<T>(docs);
+}
+
+export function remove<T>(docs: T[]): Promise<T[]> {
+    const _docs = docs.map(doc => assign({}, doc, { _deleted: true }));
+    return batch_update<T>(_docs);
+}
+
+export function find<T>(query: IQuery): Promise<IFindResponse<T>> {
+    return db.find(query);
 }
 
 export function update<T>(doc: T): Promise<T[]> {
