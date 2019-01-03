@@ -1,5 +1,4 @@
 export type User_id = string;
-type Group_id = string;
 import { IDoc, Locales } from 'lib/core/types';
 
 export interface IUser extends IDoc {
@@ -9,7 +8,7 @@ export interface IUser extends IDoc {
     type: 'user';
     name: string;
     level: number;
-    groups: Group_id[];
+    groups: string[];
     password: string;
     flow: string[];
     language?: Locales;
@@ -31,4 +30,7 @@ export interface IUsersUI {
     error: {
         message: string;
     };
+
+    dialogs: any;
+    user_options: any;
 }

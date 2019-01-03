@@ -1,7 +1,8 @@
 import * as debug from 'debug';
 import * as API from './api';
 import { User } from './models';
-import * as DB from 'lib/db';
+import * as Core from 'lib/core';
+
 const log_info = debug('lumi:info:users:actions');
 const log_error = debug('lumi:error:users:actions');
 
@@ -23,6 +24,56 @@ export const USERS_UI_ADD_USER_TO_CREATE_ERROR =
 export const USERS_UI_REMOVE_USER_FROM_CREATE =
     'USERS_UI_REMOVE_USER_FROM_CREATE';
 
+export const USERS_DELETE_USERS_REQUEST = 'USERS_DELETE_USERS_REQUEST';
+export const USERS_DELETE_USERS_SUCCESS = 'USERS_DELETE_USERS_SUCCESS';
+export const USERS_DELETE_USERS_ERROR = 'USERS_DELETE_USERS_ERROR';
+
+export const USERS_UI_SHOW_DIALOG = 'USERS_UI_SHOW_DIALOG';
+export const USERS_UI_CLOSE_DIALOG = 'USERS_UI_CLOSE_DIALOG';
+
+export const USERS_UI_CHANGE_USER_OPTIONS = 'USERS_UI_CHANGE_USER_OPTIONS';
+
+export const USERS_ACTION_ERROR = 'USERS_ACTION_ERROR';
+
+export function remove_users_from_groups(users: User[], group_id: string) {
+    try {
+        return dispatch => {
+            users.forEach(user => {
+                user.groups = user.groups.filter(
+                    _group_id => _group_id !== group_id
+                );
+            });
+
+            dispatch(update_users(users));
+        };
+    } catch (error) {
+        Core.raven.captureException(error);
+        return {
+            type: USERS_ACTION_ERROR,
+            payload: error
+        };
+    }
+}
+
+export function add_users_to_group(users: User[], group_id: string) {
+    try {
+        return dispatch => {
+            const _users = users.map(user => {
+                user.groups.push(group_id);
+                return user;
+            });
+
+            dispatch(update_users(_users));
+        };
+    } catch (error) {
+        Core.raven.captureException(error);
+        return {
+            type: USERS_ACTION_ERROR,
+            payload: error
+        };
+    }
+}
+
 export function create_users(users: User[]) {
     log_info('create_users', users);
     return {
@@ -36,15 +87,27 @@ export function create_users(users: User[]) {
     };
 }
 
-export function update_user(user: User) {
+export function delete_users(users: User[]) {
+    return {
+        types: [
+            USERS_DELETE_USERS_REQUEST,
+            USERS_DELETE_USERS_SUCCESS,
+            USERS_DELETE_USERS_ERROR
+        ],
+        api: API.delete_users(users),
+        payload: users
+    };
+}
+
+export function update_users(users: User[]) {
     return {
         types: [
             USERS_UPDATE_USER_REQUEST,
             USERS_UPDATE_USER_SUCCESS,
             USERS_UPDATE_USER_ERROR
         ],
-        api: DB.api.update<User>(user),
-        payload: [user]
+        api: API.update(users),
+        payload: users
     };
 }
 
@@ -88,31 +151,39 @@ export function add_user_to_create(
     username: string,
     existing_usernames: string[]
 ) {
-    log_info('add_user_to_create', username, existing_usernames);
-    return dispatch => {
-        if (username === '') {
-            log_info('add_user_to_create', 'no username provided');
-            dispatch({
-                type: USERS_UI_ADD_USER_TO_CREATE_ERROR,
-                payload: { message: 'users_conflict' }
-            });
-            return;
-        }
+    try {
+        log_info('add_user_to_create', username, existing_usernames);
+        return dispatch => {
+            if (username === '') {
+                log_info('add_user_to_create', 'no username provided');
+                dispatch({
+                    type: USERS_UI_ADD_USER_TO_CREATE_ERROR,
+                    payload: { message: 'users_conflict' }
+                });
+                return;
+            }
 
-        if (existing_usernames.indexOf(username) > -1) {
-            log_info('add_user_to_create', 'users.conflict', username);
-            dispatch({
-                type: USERS_UI_ADD_USER_TO_CREATE_ERROR,
-                payload: { message: 'users_conflict' }
-            });
-            return;
-        }
+            if (existing_usernames.indexOf(username) > -1) {
+                log_info('add_user_to_create', 'users.conflict', username);
+                dispatch({
+                    type: USERS_UI_ADD_USER_TO_CREATE_ERROR,
+                    payload: { message: 'users_conflict' }
+                });
+                return;
+            }
 
-        dispatch({
-            type: USERS_UI_ADD_USER_TO_CREATE,
-            payload: username
-        });
-    };
+            dispatch({
+                type: USERS_UI_ADD_USER_TO_CREATE,
+                payload: username
+            });
+        };
+    } catch (error) {
+        Core.raven.captureException(error);
+        return {
+            type: USERS_ACTION_ERROR,
+            payload: error
+        };
+    }
 }
 
 export function remove_user_from_create(username: string) {
@@ -120,5 +191,26 @@ export function remove_user_from_create(username: string) {
     return {
         type: USERS_UI_REMOVE_USER_FROM_CREATE,
         payload: username
+    };
+}
+
+export function ui_show_dialog(key: string) {
+    return {
+        payload: { key },
+        type: USERS_UI_SHOW_DIALOG
+    };
+}
+
+export function ui_close_dialog(key: string) {
+    return {
+        payload: { key },
+        type: USERS_UI_CLOSE_DIALOG
+    };
+}
+
+export function ui_change_user_options(options: any) {
+    return {
+        payload: options,
+        type: USERS_UI_CHANGE_USER_OPTIONS
     };
 }
