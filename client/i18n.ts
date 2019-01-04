@@ -125,7 +125,7 @@ const i18n = merge(
             percent: 'Percent',
             physics: 'Physics',
             remove_user_from_group_confirmation:
-                'Do you want to remove %{user} from %{group}?',
+                'Do you want to remove these users from %{group}?',
             repeat_password: 'Repeat password',
             required: '%{item} required',
             reset_password: 'Reset Password',

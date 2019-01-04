@@ -19,8 +19,6 @@ import {
     FloatingActionButton
 } from 'material-ui';
 
-import { Avatar } from 'client/components';
-
 import { TagsChipInputContainer } from 'client/container';
 
 // svg
@@ -144,7 +142,11 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                         <CardHeader
                                             title={user.name}
                                             avatar={
-                                                <Avatar doc={user}>P</Avatar>
+                                                <Core.components.Avatar
+                                                    doc={user}
+                                                >
+                                                    P
+                                                </Core.components.Avatar>
                                             }
                                             showExpandableButton={false}
                                         />
@@ -326,7 +328,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             users.map(user => user._id)
         ),
         user: user_id => Users.selectors.user(state, user_id),
-        group: Groups.selectors.select_group(state, ownProps.group_id),
+        group: Groups.selectors.group(state, ownProps.group_id),
         selected_users: state.users.ui.selected_users,
         selected_assignments: state.flow.ui.selected_assignments,
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),

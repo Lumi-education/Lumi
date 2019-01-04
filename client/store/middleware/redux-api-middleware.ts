@@ -1,5 +1,6 @@
 import { IState } from 'client/state';
 import { assign } from 'lodash';
+import * as Core from 'lib/core';
 
 export default function callAPIMiddleware({ dispatch, getState }) {
     return next => action => {
@@ -19,7 +20,9 @@ export default function callAPIMiddleware({ dispatch, getState }) {
             types.length !== 3 ||
             !types.every(type => typeof type === 'string')
         ) {
-            throw new Error('Expected an array of three string types.');
+            const error = new Error('Expected an array of three string types.');
+            Core.raven.captureException(error);
+            throw error;
         }
 
         if (!shouldCallAPI(getState())) {
@@ -53,14 +56,16 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                               type: successType
                           }
                 ),
-            error =>
+            error => {
+                Core.raven.captureException(error);
                 dispatch(
                     assign({}, payload, {
                         response: error,
                         payload: error.body,
                         type: failureType
                     })
-                )
+                );
+            }
         );
     };
 }

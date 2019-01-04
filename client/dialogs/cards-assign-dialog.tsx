@@ -5,10 +5,7 @@ import * as debug from 'debug';
 import { flatten, uniq } from 'lodash';
 
 // container
-import {
-    GroupsChipInputContainer,
-    UsersChipInputContainer
-} from 'client/container';
+// import { GroupsChipInputContainer } from 'client/container';
 
 // components
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
@@ -21,7 +18,6 @@ import { IState } from 'client/state';
 
 // modules
 import * as Core from 'lib/core';
-import * as UI from 'lib/ui';
 import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
@@ -84,7 +80,7 @@ export class CardsAssignDialog extends React.Component<
                         })}
                     </Typography>
                     {Core.i18n.t('groups')}
-                    <GroupsChipInputContainer
+                    {/* <GroupsChipInputContainer
                         group_ids={this.props.selected_group_ids}
                         onChange={(group_ids: string[]) => {
                             this.props.dispatch(
@@ -103,9 +99,9 @@ export class CardsAssignDialog extends React.Component<
                                 Users.actions.set_selected_users(user_ids)
                             );
                         }}
-                    />
+                    /> */}
                     {Core.i18n.t('users')}
-                    <UsersChipInputContainer
+                    <Users.components.UserChipInput
                         user_ids={this.props.selected_user_ids}
                         onChange={(user_ids: string[]) =>
                             this.props.dispatch(

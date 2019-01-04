@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 // components
-import Avatar from 'client/components/Avatar';
+import Avatar from 'lib/core/components/Avatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import PersonIcon from '@material-ui/icons/Person';
 import ListItem from '@material-ui/core/ListItem';

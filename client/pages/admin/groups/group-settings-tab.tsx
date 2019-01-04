@@ -8,13 +8,12 @@ import { IState } from 'client/state';
 // components
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import { Avatar, AvatarCropDialog } from 'client/components';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 
 import Dropzone from 'react-dropzone';
@@ -23,8 +22,6 @@ import Dropzone from 'react-dropzone';
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
-import * as UI from 'lib/ui';
-import { RaisedButton } from 'material-ui';
 
 interface IPassedProps {
     group_id: string;
@@ -33,6 +30,7 @@ interface IStateProps extends IPassedProps {
     users: Users.models.User[];
     group: Groups.models.Group;
     selected_users: string[];
+    group_in_state: Groups.models.Group;
 
     classes: any;
 }
@@ -58,126 +56,141 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
         };
     }
 
+    public componentWillUpdate(prevProps: IProps) {
+        if (prevProps.group_in_state !== this.props.group_in_state) {
+            this.props.dispatch(
+                Groups.actions.change_group(this.props.group_in_state)
+            );
+        }
+    }
+
     public render() {
         const { classes, group } = this.props;
 
         return (
-            <div id="group-settings-tab" className={classes.contentContainer}>
-                <Paper className={classes.paper}>
-                    <div className={classes.paperHeader}>
-                        <div style={{ margin: 'auto' }}>
-                            <Dropzone
-                                style={{}}
-                                onDrop={acceptedFiles => {
-                                    // log_info(acceptedFiles);
-                                    acceptedFiles.forEach(file => {
-                                        this.setState({
-                                            show_avatar_dialog: true,
-                                            avatar_url: file.preview
-                                        });
-                                    });
-                                }}
-                            >
-                                <Avatar doc={group} key={group._rev} size={120}>
-                                    {/* <Avatar className={classes.bigAvatar}> */}
-                                    <AddAPhotoIcon />
-                                    {/* </Avatar> */}
-                                </Avatar>
-                            </Dropzone>
-                        </div>
-                        <Typography
-                            variant="h6"
-                            gutterBottom={true}
-                            align="center"
-                            color="textPrimary"
+            <Core.components.Content>
+                <Core.components.PaperHeader>
+                    <Dropzone
+                        style={{}}
+                        onDrop={acceptedFiles => {
+                            // log_info(acceptedFiles);
+                            acceptedFiles.forEach(file => {
+                                this.setState({
+                                    show_avatar_dialog: true,
+                                    avatar_url: file.preview
+                                });
+                            });
+                        }}
+                    >
+                        <Core.components.Avatar
+                            doc={group}
+                            key={group._rev}
+                            size={120}
                         >
-                            <span style={{ color: 'white' }}>{group.name}</span>
-                        </Typography>
-                    </div>
-                    <div className={classes.paperContent}>
-                        <Grid container={true} spacing={24}>
-                            <Grid item={true} xs={12} sm={12}>
-                                <TextField
-                                    required={true}
-                                    id="name"
-                                    name="name"
-                                    label={Core.i18n.t('name')}
-                                    value={group.name}
-                                    onChange={e =>
-                                        this.props.dispatch(
-                                            Groups.actions.change_group({
-                                                name: e.target.value
-                                            })
-                                        )
-                                    }
-                                    fullWidth={true}
-                                    autoComplete="fname"
-                                />
-                            </Grid>
-                            <Grid item={true} xs={12}>
-                                <FormGroup row={true}>
-                                    <FormControlLabel
-                                        labelPlacement="start"
-                                        control={
-                                            <Switch
-                                                checked={group.autojoin}
-                                                onChange={() =>
-                                                    this.props.dispatch(
-                                                        Groups.actions.change_group(
-                                                            {
-                                                                autojoin: !group.autojoin
-                                                            }
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        }
-                                        label={Core.i18n.t('autojoin')}
-                                    />
-                                </FormGroup>
-                            </Grid>
-                        </Grid>
-
-                        <div className={classes.buttons}>
-                            <RaisedButton
-                                label={Core.i18n.t('save')}
-                                onClick={() =>
+                            {/* <Avatar className={classes.bigAvatar}> */}
+                            <AddAPhotoIcon />
+                            {/* </Avatar> */}
+                        </Core.components.Avatar>
+                    </Dropzone>
+                    <Typography
+                        variant="h6"
+                        gutterBottom={true}
+                        align="center"
+                        color="textPrimary"
+                    >
+                        <span style={{ color: 'white' }}>{group.name}</span>
+                    </Typography>
+                </Core.components.PaperHeader>
+                <div className={classes.paperContent}>
+                    <Grid container={true} spacing={24}>
+                        <Grid item={true} xs={12} sm={12}>
+                            <TextField
+                                required={true}
+                                id="name"
+                                name="name"
+                                label={Core.i18n.t('name')}
+                                value={group.name}
+                                onChange={e =>
                                     this.props.dispatch(
-                                        Core.actions.update<
-                                            Groups.models.Group
-                                        >(this.props.group)
+                                        Groups.actions.change_group({
+                                            name: e.target.value
+                                        })
                                     )
                                 }
+                                fullWidth={true}
+                                autoComplete="fname"
                             />
-                        </div>
+                        </Grid>
+                        <Grid item={true} xs={12}>
+                            <FormGroup row={true}>
+                                <FormControlLabel
+                                    labelPlacement="start"
+                                    control={
+                                        <Switch
+                                            checked={group.autojoin}
+                                            onChange={() =>
+                                                this.props.dispatch(
+                                                    Groups.actions.change_group(
+                                                        {
+                                                            autojoin: !group.autojoin
+                                                        }
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    }
+                                    label={Core.i18n.t('autojoin')}
+                                />
+                            </FormGroup>
+                        </Grid>
+                    </Grid>
+
+                    <div className={classes.buttons}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Core.actions.update<Groups.models.Group>(
+                                        this.props.group
+                                    )
+                                )
+                            }
+                        >
+                            {Core.i18n.t('save')}
+                        </Button>
                     </div>
-                </Paper>
-                <AvatarCropDialog
-                    open={this.state.show_avatar_dialog}
-                    avatar_url={this.state.avatar_url}
-                    classes={this.props.classes}
-                    close={() => this.setState({ show_avatar_dialog: false })}
-                    save_image={(image: Blob) => {
-                        Core.db.putAttachment(
-                            group._id,
-                            'avatar.jpg',
-                            group._rev,
-                            image,
-                            'image/jpeg'
-                        );
-                        this.setState({ show_avatar_dialog: false });
-                    }}
-                />
-            </div>
+                    <Core.components.AvatarCropDialog
+                        open={this.state.show_avatar_dialog}
+                        avatar_url={this.state.avatar_url}
+                        classes={this.props.classes}
+                        close={() =>
+                            this.setState({ show_avatar_dialog: false })
+                        }
+                        save_image={(image: Blob) => {
+                            Core.db.putAttachment(
+                                group._id,
+                                'avatar.jpg',
+                                group._rev,
+                                image,
+                                'image/jpeg'
+                            );
+                            this.setState({ show_avatar_dialog: false });
+                        }}
+                    />
+                </div>
+            </Core.components.Content>
         );
     }
 }
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
+    const group_id = ownProps.group_id;
     return {
-        group_id: ownProps.group_id,
+        group_id,
         users: Users.selectors.users_in_group(state, ownProps.group_id),
         group: state.groups.ui.group,
+        group_in_state: Groups.selectors.group(state, group_id),
         selected_users: state.users.ui.selected_users,
         classes: ownProps.classes
     };

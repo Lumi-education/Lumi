@@ -137,8 +137,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             Flow.selectors.assignment_by_id(state, assignment_id),
         card_name: (card_id: string) => Cards.selectors.name(state, card_id),
         card: (card_id: string) => Cards.selectors.select_card(state, card_id),
-        group: (group_id: string) =>
-            Groups.selectors.select_group(state, group_id),
+        group: (group_id: string) => Groups.selectors.group(state, group_id),
         selected_tags: state.tags.ui.selected_tags
     };
 }

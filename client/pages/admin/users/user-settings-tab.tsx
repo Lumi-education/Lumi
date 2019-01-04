@@ -11,13 +11,11 @@ import Button from '@material-ui/core/Button';
 
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import { GroupsChipInputContainer } from 'client/container';
+// import { GroupsChipInputContainer } from 'client/container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import Dropzone from 'react-dropzone';
-
-import { Avatar, AvatarCropDialog } from 'client/components';
 
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
@@ -69,167 +67,106 @@ export class UserSettingsTab extends React.Component<IProps, IComponentState> {
     public render() {
         const { classes, user } = this.props;
         return (
-            <div id="user-settings-tab" className={classes.contentContainer}>
-                <Paper className={classes.paper}>
-                    <div className={classes.paperHeader}>
-                        <div style={{ margin: 'auto' }}>
-                            <Dropzone
-                                style={{}}
-                                onDrop={acceptedFiles => {
-                                    log_info(acceptedFiles);
-                                    acceptedFiles.forEach(file => {
-                                        this.setState({
-                                            show_avatar_dialog: true,
-                                            avatar_url: file.preview
-                                        });
-                                    });
-                                }}
-                            >
-                                <Avatar doc={user} size={120}>
-                                    {/* <Avatar className={classes.bigAvatar}> */}
-                                    <AddAPhotoIcon />
-                                    {/* </Avatar> */}
-                                </Avatar>
-                            </Dropzone>
-                        </div>
-                        <Typography
-                            variant="h6"
-                            gutterBottom={true}
-                            align="center"
-                            color="textPrimary"
-                        >
-                            <span style={{ color: 'white' }}>{user.name}</span>
-                        </Typography>
-                    </div>
-                    <div className={classes.paperContent}>
-                        <Grid container={true} spacing={24}>
-                            <Grid item={true} xs={12} sm={12}>
-                                <TextField
-                                    required={true}
-                                    id="username"
-                                    name="username"
-                                    label={Core.i18n.t('name')}
-                                    value={user.name}
-                                    onChange={e =>
-                                        this.props.dispatch(
-                                            Users.actions.change_user({
-                                                name: e.target.value
-                                            })
-                                        )
-                                    }
-                                    fullWidth={true}
-                                    autoComplete="fname"
-                                />
-                            </Grid>
-                            {/* <Grid item={true} xs={12} sm={6}>
-                                <TextField
-                                    required={true}
-                                    id="lastName"
-                                    name="lastName"
-                                    label="Last name"
-                                    fullWidth={true}
-                                    autoComplete="lname"
-                                />
-                            </Grid> */}
-                            <Grid item={true} xs={12}>
-                                {Core.i18n.t('groups')}
-                                <GroupsChipInputContainer
-                                    group_ids={this.props.user.groups}
-                                    onChange={new_group_ids =>
-                                        this.props.dispatch(
-                                            Users.actions.change_user({
-                                                groups: new_group_ids
-                                            })
-                                        )
-                                    }
-                                />
-                            </Grid>
-                            {/* <Grid item={true} xs={12}>
-                                <TextField
-                                    id="addiress2"
-                                    name="addiress2"
-                                    label="Address line 2"
-                                    fullWidth={true}
-                                    autoComplete="billing address-line2"
-                                />
-                            </Grid>
-                            <Grid item={true} xs={12} sm={6}>
-                                <TextField
-                                    required={true}
-                                    id="city"
-                                    name="city"
-                                    label="City"
-                                    fullWidth={true}
-                                    autoComplete="billing address-level2"
-                                />
-                            </Grid>
-                            <Grid item={true} xs={12} sm={6}>
-                                <TextField
-                                    id="state"
-                                    name="state"
-                                    label="State/Province/Region"
-                                    fullWidth={true}
-                                />
-                            </Grid>
-                            <Grid item={true} xs={12} sm={6}>
-                                <TextField
-                                    required={true}
-                                    id="zip"
-                                    name="zip"
-                                    label="Zip / Postal code"
-                                    fullWidth={true}
-                                    autoComplete="billing postal-code"
-                                />
-                            </Grid>
-                            <Grid item={true} xs={12} sm={6}>
-                                <TextField
-                                    required={true}
-                                    id="country"
-                                    name="country"
-                                    label="Country"
-                                    fullWidth={true}
-                                    autoComplete="billing country"
-                                />
-                            </Grid> */}
-                        </Grid>
-                        <AvatarCropDialog
-                            open={this.state.show_avatar_dialog}
-                            avatar_url={this.state.avatar_url}
-                            classes={this.props.classes}
-                            close={() =>
-                                this.setState({ show_avatar_dialog: false })
-                            }
-                            save_image={(image: Blob) => {
-                                Core.db.putAttachment(
-                                    user._id,
-                                    'avatar.jpg',
-                                    user._rev,
-                                    image,
-                                    'image/jpeg'
-                                );
-                                this.setState({ show_avatar_dialog: false });
-                                //     });
-                            }}
-                        />
-                        <div className={classes.buttons}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}
-                                onClick={() =>
+            <Core.components.Content>
+                <Core.components.PaperHeader>
+                    <Dropzone
+                        style={{}}
+                        onDrop={acceptedFiles => {
+                            log_info(acceptedFiles);
+                            acceptedFiles.forEach(file => {
+                                this.setState({
+                                    show_avatar_dialog: true,
+                                    avatar_url: file.preview
+                                });
+                            });
+                        }}
+                    >
+                        <Core.components.Avatar doc={user} size={120}>
+                            {/* <Avatar className={classes.bigAvatar}> */}
+                            <AddAPhotoIcon />
+                            {/* </Avatar> */}
+                        </Core.components.Avatar>
+                    </Dropzone>
+                    <Typography
+                        variant="h6"
+                        gutterBottom={true}
+                        align="center"
+                        color="textPrimary"
+                    >
+                        <span style={{ color: 'white' }}>{user.name}</span>
+                    </Typography>
+                </Core.components.PaperHeader>
+                <div className={classes.paperContent}>
+                    <Grid container={true} spacing={24}>
+                        <Grid item={true} xs={12} sm={12}>
+                            <TextField
+                                required={true}
+                                id="username"
+                                name="username"
+                                label={Core.i18n.t('name')}
+                                value={user.name}
+                                onChange={e =>
                                     this.props.dispatch(
-                                        Users.actions.update_user(
-                                            this.props.user
-                                        )
+                                        Users.actions.change_user({
+                                            name: e.target.value
+                                        })
                                     )
                                 }
-                            >
-                                {Core.i18n.t('save')}
-                            </Button>
-                        </div>
+                                fullWidth={true}
+                                autoComplete="fname"
+                            />
+                        </Grid>
+                        {/* <Grid item={true} xs={12}>
+                            {Core.i18n.t('groups')}
+                            <GroupsChipInputContainer
+                                group_ids={this.props.user.groups}
+                                onChange={new_group_ids =>
+                                    this.props.dispatch(
+                                        Users.actions.change_user({
+                                            groups: new_group_ids
+                                        })
+                                    )
+                                }
+                            />
+                        </Grid> */}
+                    </Grid>
+                    <Core.components.AvatarCropDialog
+                        open={this.state.show_avatar_dialog}
+                        avatar_url={this.state.avatar_url}
+                        classes={this.props.classes}
+                        close={() =>
+                            this.setState({ show_avatar_dialog: false })
+                        }
+                        save_image={(image: Blob) => {
+                            Core.db.putAttachment(
+                                user._id,
+                                'avatar.jpg',
+                                user._rev,
+                                image,
+                                'image/jpeg'
+                            );
+                            this.setState({ show_avatar_dialog: false });
+                            //     });
+                        }}
+                    />
+                    <div className={classes.buttons}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Users.actions.update_users([
+                                        this.props.user
+                                    ])
+                                )
+                            }
+                        >
+                            {Core.i18n.t('save')}
+                        </Button>
                     </div>
-                </Paper>
-            </div>
+                </div>
+            </Core.components.Content>
         );
     }
 }

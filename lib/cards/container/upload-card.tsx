@@ -14,7 +14,6 @@ import { IState } from 'client/state';
 import * as Core from 'lib/core';
 import * as Cards from '../';
 import * as Flow from 'lib/flow';
-import * as UI from 'lib/ui';
 
 const log = debug('lumi:packages:cards:container:freetextcard');
 

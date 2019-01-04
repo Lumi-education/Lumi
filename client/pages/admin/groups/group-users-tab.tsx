@@ -8,7 +8,7 @@ import { IState } from 'client/state';
 // components
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
-import Avatar from 'client/components/avatar';
+import Avatar from 'lib/core/components/Avatar';
 import { Paper } from 'material-ui';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -19,6 +19,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -30,6 +31,7 @@ import Grid from '@material-ui/core/Grid';
 // icons
 import PersonIcon from '@material-ui/icons/Person';
 import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
 
 // modules
 import * as Core from 'lib/core';
@@ -37,9 +39,7 @@ import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as UI from 'lib/ui';
 
-import CreateUserDialog from 'client/dialogs/user-create-dialog';
-
-import { UsersChipInputContainer } from 'client/container';
+import CreateUserDialog from 'lib/users/components/UserCreateDialog';
 
 interface IPassedProps {
     group_id: string;
@@ -47,8 +47,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     users: Users.models.User[];
     group: Groups.models.Group;
-    user: (user_id: string) => Users.models.User;
-    selected_users: string[];
+    selected_users: Users.models.User[];
     classes: any;
 }
 
@@ -61,6 +60,8 @@ interface IComponentState {
     show_add_users_dialog: boolean;
     show_add_existing_users_dialog: boolean;
     user_to_remove: Users.models.User;
+
+    show_create_users_dialog: boolean;
 }
 
 interface IProps extends IStateProps, IDispatchProps {}
@@ -73,7 +74,9 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
             show_remove_user_dialog: false,
             show_add_users_dialog: false,
             show_add_existing_users_dialog: false,
-            user_to_remove: null
+            user_to_remove: null,
+
+            show_create_users_dialog: false
         };
 
         this.remove_user = this.remove_user.bind(this);
@@ -83,9 +86,9 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
 
     public remove_user() {
         this.props.dispatch(
-            Groups.actions.remove_users_from_groups(
-                this.state.user_to_remove,
-                this.props.group
+            Users.actions.remove_users_from_groups(
+                this.props.selected_users,
+                this.props.group._id
             )
         );
         this.setState({ user_to_remove: null, show_remove_user_dialog: false });
@@ -102,11 +105,9 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
 
     public add_existing_users() {
         this.props.dispatch(
-            Groups.actions.add_users_to_group(
-                this.props.selected_users.map(user_id =>
-                    this.props.user(user_id)
-                ),
-                this.props.group
+            Users.actions.add_users_to_group(
+                this.props.selected_users,
+                this.props.group_id
             )
         );
         this.setState({ show_add_existing_users_dialog: false });
@@ -115,71 +116,28 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
     public render() {
         const { users, group, classes } = this.props;
         return (
-            <div
-                style={{
-                    paddingTop: '40px',
-                    maxWidth: '680px',
-                    margin: 'auto'
-                }}
-            >
-                <Typography variant="h5" component="h3">
-                    {Core.i18n.t('users')}
-                    {group.autojoin ? (
-                        <Typography color="error">
-                            {Core.i18n.t('autojoin')}
-                        </Typography>
-                    ) : null}
-                </Typography>
-                <Paper>
-                    <List component="nav">
-                        {users.sort(Core.utils.alphabetically).map(user => (
-                            <ListItem
-                                key={user._id}
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        UI.actions.push(
-                                            '/admin/users/' + user._id
-                                        )
-                                    )
-                                }
-                            >
-                                <Avatar doc={user}>
-                                    <PersonIcon />
-                                </Avatar>
-                                <ListItemText
-                                    primary={user.name}
-                                    secondary={
-                                        user.flow.length +
-                                        ' ' +
-                                        Core.i18n.t('assignments')
-                                    }
-                                />
-                                <ListItemSecondaryAction>
-                                    <IconButton
-                                        onClick={() =>
-                                            this.setState({
-                                                user_to_remove: user,
-                                                show_remove_user_dialog: true
-                                            })
-                                        }
-                                        aria-label="Delete"
-                                    >
-                                        <CloseIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Paper>
+            <div>
+                <Core.components.Content>
+                    <Users.components.List
+                        on_add_click={() =>
+                            this.setState({ show_add_users_dialog: true })
+                        }
+                        on_remove_click={() =>
+                            this.setState({ show_remove_user_dialog: true })
+                        }
+                        users={users}
+                    />
+                </Core.components.Content>
                 <Dialog open={this.state.show_remove_user_dialog}>
                     <DialogContent>
                         {Core.i18n.t('remove_user_from_group_confirmation', {
-                            user:
-                                this.state.user_to_remove === null
-                                    ? ''
-                                    : this.state.user_to_remove.name,
                             group: this.props.group.name
                         })}
+                        <List>
+                            {this.props.selected_users.map(user => (
+                                <Users.components.ListItem user={user} />
+                            ))}
+                        </List>
                     </DialogContent>
                     <DialogActions>
                         <Button
@@ -270,6 +228,21 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                                             variant="outlined"
                                             color="primary"
                                             onClick={() => {
+                                                this.props.dispatch(
+                                                    Users.actions.ui_show_dialog(
+                                                        'create'
+                                                    )
+                                                );
+                                                this.props.dispatch(
+                                                    Users.actions.ui_change_user_options(
+                                                        {
+                                                            groups: [
+                                                                this.props.group
+                                                                    ._id
+                                                            ]
+                                                        }
+                                                    )
+                                                );
                                                 this.setState({
                                                     show_add_users_dialog: false
                                                 });
@@ -337,8 +310,10 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                 <Dialog open={this.state.show_add_existing_users_dialog}>
                     <DialogTitle>{Core.i18n.t('users')}</DialogTitle>
                     <DialogContent className={classes.dialogContent}>
-                        <UsersChipInputContainer
-                            user_ids={this.props.selected_users}
+                        <Users.components.UserChipInput
+                            user_ids={this.props.selected_users.map(
+                                user => user._id
+                            )}
                             onChange={user_ids =>
                                 this.props.dispatch(
                                     Users.actions.set_selected_users(user_ids)
@@ -365,9 +340,6 @@ export class GroupUsersTab extends React.Component<IProps, IComponentState> {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <CreateUserDialog
-                    user_options={{ groups: [this.props.group_id] }}
-                />
             </div>
         );
     }
@@ -378,9 +350,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         group_id,
         users: Users.selectors.users_in_group(state, ownProps.group_id),
-        user: (user_id: string) => Users.selectors.user(state, user_id),
-        group: Groups.selectors.select_group(state, group_id),
-        selected_users: state.users.ui.selected_users,
+        group: Groups.selectors.group(state, group_id),
+        selected_users: Users.selectors.selected_users(state),
         classes: ownProps.classes
     };
 }
