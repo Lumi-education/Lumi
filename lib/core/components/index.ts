@@ -1,5 +1,5 @@
 import FileList from './FileList';
-import Markdown from './Markdown';
+import Markdown from './markdown';
 import ListToolbar from './ListToolbar';
 import SearchField from './SearchField';
 import AppBar from './AppBar';
