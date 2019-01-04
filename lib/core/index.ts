@@ -4,20 +4,12 @@ import * as selectors from './selectors';
 import * as api from './api';
 import raven from './raven';
 
-import FileListComponent from './components/file-list';
-import Markdown from './components/markdown';
 import reducer from './reducer';
-import FileUploadComponent from './components/file-upload';
 import i18n from './i18n';
 import { db } from 'lib/db';
 import * as utils from './utils';
 import * as config from './config';
-
-const components = {
-    Markdown,
-    FileUpload: FileUploadComponent,
-    FileList: FileListComponent
-};
+import * as components from './components';
 
 export {
     api,

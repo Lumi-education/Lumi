@@ -63,11 +63,14 @@ export default withStyles(styles, { withTheme: true })(
                         this.setState({ avatar_url });
                     })
                     .catch(error => {
-                        Core.raven.captureException(error);
-                        log_error(
-                            'generate_avatar_url',
-                            'no avatar-image found'
-                        );
+                        if (error.status === 404) {
+                            log_error(
+                                'generate_avatar_url',
+                                'no avatar-image found'
+                            );
+                        } else {
+                            Core.raven.captureException(error);
+                        }
                     });
             }
         }
