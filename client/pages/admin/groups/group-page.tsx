@@ -105,7 +105,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                             )
                         }
                     />
-                    <Tab
+                    {/* <Tab
                         label={Core.i18n.t('cards')}
                         value="cards"
                         onActive={() =>
@@ -117,7 +117,7 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                                 )
                             )
                         }
-                    />
+                    /> */}
                 </Tabs>
                 {(() => {
                     switch (this.props.tab) {
@@ -155,7 +155,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     const group_id = ownProps.match.params.group_id;
     return {
         group_id,
-        group: Groups.selectors.select_group(state, group_id),
+        group: Groups.selectors.group(state, group_id),
         tab: ownProps.match.params.tab || 'users'
     };
 }

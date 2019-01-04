@@ -2,31 +2,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import * as classNames from 'classnames';
+import * as InfiniteScroll from 'react-infinite-scroller';
 
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import ContentRemove from 'material-ui/svg-icons/content/remove';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import MenuIcon from '@material-ui/icons/Menu';
-import InputBase from '@material-ui/core/InputBase';
 
-import CreateUserDialog from 'client/dialogs/user-create-dialog';
+import CreateUserDialog from 'lib/users/components/UserCreateDialog';
 import AssignGroupDialog from 'client/dialogs/groups-assign-dialog';
 
 // state
 import { IState } from 'client/state';
-
-// components
-import { UserList } from 'client/components';
 
 // modules
 import * as UI from 'lib/ui';
@@ -51,8 +37,7 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {}
 
 interface IComponentState {
-    loading?: string;
-    loading_step?: number;
+    page: number;
 }
 
 export class AdminUsers extends React.Component<IProps, IComponentState> {
@@ -60,90 +45,29 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
         super(props);
 
         this.state = {
-            loading: 'init',
-            loading_step: 0
+            page: 1
         };
+
+        this.load_more = this.load_more.bind(this);
     }
 
     public componentWillUnmount() {
         this.props.dispatch(Users.actions.selection_reset());
     }
 
+    public load_more(page: number) {
+        this.setState({ page });
+    }
+
     public render() {
-        const users = this.props.users
-            .filter(user => user.name.indexOf(this.props.search_text) > -1)
-            .sort(Core.utils.alphabetically);
-
-        const { classes } = this.props;
-
+        const { users } = this.props;
         return (
             <div id="users-page">
-                <AppBar position="fixed" className={classNames(classes.appBar)}>
-                    <Toolbar disableGutters={!open} style={{ display: 'flex' }}>
-                        <div style={{ flex: 1 }}>
-                            <IconButton
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={() =>
-                                    this.props.dispatch(
-                                        UI.actions.left_drawer_open()
-                                    )
-                                }
-                                className={classNames(classes.menuButton)}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        </div>
-                        <div style={{ flex: 10 }}>
-                            <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <SearchIcon />
-                                </div>
-                                <InputBase
-                                    placeholder={Core.i18n.t('search') + '...'}
-                                    classes={{
-                                        root: classes.inputRoot,
-                                        input: classes.inputInput
-                                    }}
-                                    onChange={e =>
-                                        this.props.dispatch(
-                                            UI.actions.set_search_filter(
-                                                e.target.value
-                                            )
-                                        )
-                                    }
-                                    value={this.props.search_text}
-                                />
-                            </div>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-                <div
-                    style={{
-                        paddingTop: '40px',
-                        maxWidth: '680px',
-                        margin: 'auto'
-                    }}
-                >
-                    <Typography variant="h5" component="h3">
-                        {Core.i18n.t('users')}
-                    </Typography>
-                    <Paper>
-                        <UserList
-                            users={users}
-                            onListItemClick={(user_id: string) =>
-                                this.props.dispatch(
-                                    push('/admin/users/' + user_id)
-                                )
-                            }
-                        />
-                    </Paper>
-                    <FloatingActionButton>
-                        <ContentAdd />
-                    </FloatingActionButton>
-                    <CreateUserDialog />
-                    <AssignGroupDialog />
-                </div>
+                <Core.components.AppBar title={Core.i18n.t('users')} />
+                <Core.components.Content>
+                    <Users.components.List users={users} />
+                </Core.components.Content>
+                <AssignGroupDialog />
             </div>
         );
     }
@@ -152,7 +76,7 @@ export class AdminUsers extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         users: state.users.list,
-        group: group_id => Groups.selectors.select_group(state, group_id),
+        group: group_id => Groups.selectors.group(state, group_id),
         selected_users: state.users.ui.selected_users,
         search_text: state.ui.search_filter_text,
         classes: ownProps.classes
@@ -165,104 +89,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const styles: StyleRulesCallback = theme => ({
-    dialog: {
-        minWidth: '500px'
-    },
-    dialogContent: {
-        minWidth: '500px',
-        minHeight: '350px'
-    },
-    root: {
-        display: 'flex'
-    },
-    appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-        })
-    },
-
-    menuButton: {
-        marginLeft: 12,
-        marginRight: 20
-    },
-    hide: {
-        display: 'none'
-    },
-    leftIcon: {
-        marginRight: theme.spacing.unit
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-start'
-    },
-    content: {
-        flexGrow: 1,
-        // padding: theme.spacing.unit * 3,
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-        }),
-        margin: 'auto'
-    },
-    contentContainer: {
-        paddingTop: '40px',
-        maxWidth: '680px',
-        margin: 'auto'
-    },
-    paperContent: {
-        padding: '20px'
-    },
-    contentList: {
-        maxWidth: 680,
-        margin: 'auto',
-        marginTop: 40
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen
-        }),
-        marginRight: 0
-    },
-    searchIcon: {
-        width: theme.spacing.unit * 9,
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    media: {
-        minWidth: 300,
-        minHeight: 200
-    },
-    inputRoot: {
-        color: 'inherit',
-        width: '100%'
-    },
-    inputInput: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200
-        }
-    },
-    fab: {
-        position: 'fixed',
-        bottom: theme.spacing.unit * 2,
-        right: theme.spacing.unit * 2
-    }
-});
+const styles: StyleRulesCallback = theme => ({});
 
 export default withStyles(styles)(
     connect<IStateProps, IDispatchProps, {}>(

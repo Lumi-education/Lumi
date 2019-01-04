@@ -1,7 +1,7 @@
 import * as debug from 'debug';
 import PouchDB from 'pouchdb';
 
-import * as PouchDBFind from 'pouchdb-find';
+import PouchDBFind from 'pouchdb-find';
 
 PouchDB.plugin(PouchDBFind);
 

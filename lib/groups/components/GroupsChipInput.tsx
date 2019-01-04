@@ -61,8 +61,7 @@ export class GroupsChipInputContainer extends React.Component<
 
 function mapStateToProps(state: Groups.types.IState, ownProps): IStateProps {
     return {
-        group: (group_id: string) =>
-            Groups.selectors.select_group(state, group_id),
+        group: (group_id: string) => Groups.selectors.group(state, group_id),
         group_ids: ownProps.group_ids,
         classes: ownProps.classes,
         onChange: ownProps.onChange,

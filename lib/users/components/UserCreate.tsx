@@ -18,7 +18,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
 // actions
-import { IState } from '../state';
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
 
@@ -143,7 +142,7 @@ export class CreateUserContainer extends React.Component<
     }
 }
 
-function mapStateToProps(state: IState, ownProps): IStateProps {
+function mapStateToProps(state: Users.types.IState, ownProps): IStateProps {
     return {
         existing_usernames: [
             ...state.users.list.map(user => user.name),

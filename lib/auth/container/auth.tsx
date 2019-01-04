@@ -5,10 +5,10 @@ import raven from 'lib/core/raven';
 import * as debug from 'debug';
 
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
-import { GradientBackground } from 'client/components';
 
 // local
 import * as Auth from 'lib/auth';
+import * as Core from 'lib/core';
 
 import Logo from '../components/logo';
 import AuthSwitchContainer from './switch';
@@ -57,12 +57,12 @@ export class AuthContainer extends React.Component<IProps, {}> {
                 return this.props.children;
             }
             return (
-                <GradientBackground>
+                <Core.components.GradientBackground>
                     <main className={classes.main}>
                         <Logo>Lumi</Logo>
                         <AuthSwitchContainer />
                     </main>
-                </GradientBackground>
+                </Core.components.GradientBackground>
             );
         } catch (err) {
             raven.captureException(err);

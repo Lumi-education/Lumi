@@ -2,12 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // svg
-import { UserSettingsContainer } from 'client/container';
 
 // types
 import { IState } from 'client/state';
 
 // modules
+
+import * as Users from 'lib/users';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {}
@@ -27,7 +28,7 @@ export class UserSettings extends React.Component<IProps, {}> {
     }
 
     public render() {
-        return <UserSettingsContainer />;
+        return <Users.components.UserSettings />;
     }
 }
 

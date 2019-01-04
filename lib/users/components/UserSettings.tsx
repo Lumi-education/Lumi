@@ -14,11 +14,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Typography from '@material-ui/core/Typography';
 
-import { GroupsChipInputContainer } from 'client/container';
-
 import * as Core from 'lib/core';
 import * as Users from 'lib/users';
-import * as UI from 'lib/ui';
 
 interface IPassedProps {}
 interface IStateProps extends IPassedProps {

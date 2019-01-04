@@ -16,3 +16,15 @@ export interface IDBUI {
 export interface IState {
     db: IDBUI;
 }
+
+export interface IFindResponse<T> {
+    bookmark: string;
+    docs: T[];
+    warning?: string;
+}
+
+export interface IQuery {
+    selector: any;
+    fields?: string[];
+    limit?: number;
+}
