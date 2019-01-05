@@ -92,7 +92,7 @@ export class UserDeleteDialog extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: Users.types.IState, ownProps): IStateProps {
     return {
-        open: state.users.ui.dialogs.delete,
+        open: Users.selectors.dialog(state, 'delete'),
         users: Users.selectors.users(state, state.users.ui.selected_users),
         classes: ownProps.classes
     };

@@ -43,3 +43,12 @@ export function users_in_group(state: IState, group_id: string): User[] {
         return [new User()];
     }
 }
+
+export function dialog(state: IState, key: string): boolean {
+    try {
+        return state.users.ui.dialogs[key] || false;
+    } catch (error) {
+        Core.raven.captureException(error);
+        return false;
+    }
+}
