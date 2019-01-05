@@ -24,7 +24,6 @@ import * as cluster from 'cluster';
 import * as os from 'os';
 import * as http from 'http';
 
-import boot_db from './db/boot';
 import boot_core from './core/boot';
 
 declare var process;
@@ -41,26 +40,20 @@ export function boot(done: () => void) {
         process.env.NODE_ENV === 'test'
     ) {
         log('booting in single-mode');
-        boot_db(() => {
-            boot_core((server: http.Server) => {
-                done();
-            });
+        boot_core((server: http.Server) => {
+            done();
         });
     } else {
         log('booting in cluster-mode');
         const numCPUs = os.cpus().length;
         if (cluster.isMaster) {
-            boot_db(() => {
-                boot_core((server: http.Server) => {
-                    for (let i = 0; i < numCPUs; i++) {
-                        const worker = cluster.fork();
-                    }
-                    done();
-                });
-            });
+            for (let i = 0; i < numCPUs; i++) {
+                const worker = cluster.fork();
+            }
             cluster.on('exit', (deadWorker, code, signal) => {
                 const worker = cluster.fork();
             });
+            done();
         } else {
             boot_core(server => {
                 log('server booted');
