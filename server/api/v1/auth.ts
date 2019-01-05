@@ -83,29 +83,31 @@ class AuthController {
     }
 
     public username(req: IRequest, res: express.Response) {
-        const db: IDB = new DB(req.params.db);
+        try {
+            const db: IDB = new DB(req.params.db);
 
-        db.view<IUser>('auth', 'username', { key: req.params.username })
-            .then(body => {
-                if (body.rows.length === 0) {
+            db.view<IUser>('auth', 'username', { key: req.params.username })
+                .then(body => {
+                    if (body.rows.length === 0) {
+                        return res.status(200).json({
+                            ok: true
+                        });
+                    }
+                    return res.status(200).json({
+                        ok: false
+                    });
+                })
+                .catch(error => {
                     return res.status(200).json({
                         ok: true
                     });
-                }
-                return res.status(200).json({
-                    ok: false
                 });
-            })
-            .catch(error => {
-                res.status(500).json(
-                    new ErrorResponse(
-                        'auth',
-                        'ServerError',
-                        'server.error',
-                        error
-                    )
-                );
-            });
+        } catch (error) {
+            raven.captureException(error);
+            res.status(500).json(
+                new ErrorResponse('auth', 'ServerError', 'auth.server.error')
+            );
+        }
     }
 
     // public register(req: IRequest, res: express.Response) {
