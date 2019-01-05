@@ -7,6 +7,9 @@ import * as PouchDBFind from 'pouchdb-find';
 
 import * as raven from 'raven';
 
+import views from '../setup/views';
+import init from '../setup/init';
+
 const log = debug('lumi:db:driver:v1:pouchdb');
 
 PouchDB.plugin(PouchDBFind);
@@ -22,9 +25,15 @@ import {
 
 export default class DB implements IDB {
     private db: PouchDB;
+    private name: string;
 
     constructor(db_name: string) {
-        this.db = new PouchDB.defaults({ prefix: process.env.DB })(db_name);
+        this.db = new PouchDB.defaults({ prefix: process.env.DB })(db_name, {
+            skip_setup: true
+        });
+        this.name = db_name;
+
+        this.init = this.init.bind(this);
     }
 
     public view<T>(
@@ -46,5 +55,30 @@ export default class DB implements IDB {
 
     public insert<T>(doc: T): Promise<IMutateResponse> {
         return this.db.post(doc);
+    }
+
+    public insertMany<T>(docs: T[], options?): Promise<IMutateResponse[]> {
+        return this.db.bulkDocs(docs, options);
+    }
+
+    public init(admin_user): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            try {
+                this.db = new PouchDB.defaults({ prefix: process.env.DB })(
+                    this.name
+                );
+                this.insertMany(views).then(views_response => {
+                    this.insertMany(init(admin_user)).then(init_response => {
+                        resolve(this.db);
+                    });
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    public drop(): Promise<{ ok: boolean }> {
+        return this.db.destroy();
     }
 }

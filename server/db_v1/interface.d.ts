@@ -3,6 +3,9 @@ export interface IDB {
     findById: IfindByIdFn;
     find: IFindFn;
     insert: IInsertFn;
+    insertMany: IInsertManyFn;
+    init: IInitFn;
+    drop: () => Promise<{ ok: boolean }>;
 }
 
 interface IViewResponse<T> {
@@ -39,6 +42,10 @@ interface IInsertFn {
     <T>(doc: T): Promise<IMutateResponse>;
 }
 
+interface IInsertManyFn {
+    <T>(docs: T[]): Promise<IMutateResponse[]>;
+}
+
 interface IRow<T> {
     id: string;
     key: string;
@@ -49,4 +56,12 @@ interface IQuery {
     selector: any;
     fields?: string[];
     limit?: number;
+}
+
+interface IInitFn {
+    (admin_user: IAdminUserInit): Promise<any>;
+}
+
+interface IAdminUserInit {
+    name: string;
 }
