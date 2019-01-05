@@ -66,7 +66,6 @@ export default function callAPIMiddleware({ dispatch, getState }) {
             },
 
             error => {
-                Core.raven.captureException(error);
                 dispatch(
                     assign({}, payload, {
                         response: error,
