@@ -69,14 +69,7 @@ export class AdminDashboardPage extends React.Component<
                                                         className={classes.card}
                                                     >
                                                         <CardActionArea>
-                                                            <CardMedia
-                                                                className={
-                                                                    classes.media
-                                                                }
-                                                                title={Core.i18n.t(
-                                                                    'assistant'
-                                                                )}
-                                                            />
+                                                           
                                                             <CardContent>
                                                                 <Typography
                                                                     gutterBottom={
