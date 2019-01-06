@@ -42,22 +42,30 @@ export default function callAPIMiddleware({ dispatch, getState }) {
         );
 
         return api.then(
-            response =>
-                dispatch(
-                    response.header || response.headers
-                        ? assign({}, payload, {
-                              response,
-                              payload:
-                                  response.body || JSON.parse(response.text),
-                              type: successType
-                          })
-                        : {
-                              payload: response,
-                              type: successType
-                          }
-                ),
+            response => {
+                try {
+                    dispatch(
+                        response.header || response.headers
+                            ? assign({}, payload, {
+                                  response,
+                                  payload: response.body,
+                                  type: successType
+                              })
+                            : {
+                                  payload: response,
+                                  type: successType
+                              }
+                    );
+                } catch (error) {
+                    Core.raven.captureException(error);
+                    dispatch({
+                        type: 'CORE_ACTION_ERROR',
+                        payload: error
+                    });
+                }
+            },
+
             error => {
-                Core.raven.captureException(error);
                 dispatch(
                     assign({}, payload, {
                         response: error,

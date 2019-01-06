@@ -4,7 +4,9 @@ export type ResponseErrorType =
     | 'InvalidUser'
     | 'InvalidDB'
     | 'ServerError'
-    | 'SystemAlreadyInstalled';
+    | 'SystemAlreadyInstalled'
+    | 'init_db';
+
 export type ModuleType = 'core' | 'auth' | 'users';
 
 export default class ResponseError {

@@ -7,7 +7,7 @@ import { assign } from 'lodash';
 import * as Auth from '../../middleware/auth';
 
 import AuthAPI from '../../api/v1/auth';
-import SystemAPI from '../../api/v1/system';
+import CoreAPI from '../../api/v1/core';
 
 import db from '../../db';
 
@@ -22,7 +22,9 @@ export default function(): express.Router {
     router.post('/:db/auth/login', AuthAPI.login);
     // router.post('/:db/auth/register', AuthAPI.register);
     router.get('/:db/auth/username/:username', AuthAPI.username);
-    router.get('/:db/system', SystemAPI.system);
+    router.get('/:db/core', CoreAPI.get);
+    router.post('/:db/core', CoreAPI.post);
+    router.delete('/:db/core', Auth.db, Auth.level(4), CoreAPI.delete);
 
     if (DB.protocol === null) {
         log_info('using pouchdb');

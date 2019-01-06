@@ -21,10 +21,15 @@ export default function(
 ): ISystemSettings {
     switch (action.type) {
         case 'DB_CHANGE':
-            return action.payload.filter(d => d._id === 'system')[0] || state;
+            return action.payload.filter(d => d._id === 'core')[0]
+                ? { ...state, installed: true }
+                : state;
 
         case SYSTEM_GET_SETTINGS_SUCCESS:
-            return action.payload;
+            return {
+                ...state,
+                installed: true
+            };
 
         default:
             return state;

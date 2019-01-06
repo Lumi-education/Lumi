@@ -8,6 +8,7 @@ import PouchDB from 'pouchdb';
 import { IState } from 'client/state';
 
 import * as DB from '../';
+import * as Core from 'lib/core';
 
 import db from '../db';
 
@@ -26,7 +27,9 @@ interface IDispatchProps {
 
 interface IProps extends IStateProps, IDispatchProps {}
 
-interface IComponentState {}
+interface IComponentState {
+    loading: boolean;
+}
 
 export class DBContainer extends React.Component<IProps, IComponentState> {
     public remote_db: PouchDB;
@@ -34,7 +37,9 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            loading: true
+        };
 
         this.sync = this.sync.bind(this);
         this.push_to_store = this.push_to_store.bind(this);
@@ -79,6 +84,7 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
             const _docs = docs.rows.map(row => row.doc).filter(doc => doc.type);
             this.props.dispatch(DB.actions.change(_docs));
             log_info('all docs pushed to store');
+            this.setState({ loading: false });
         });
     }
 
@@ -133,6 +139,13 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
+        if (this.state.loading) {
+            return (
+                <Core.components.GradientBackground>
+                    <Core.components.Content>Loading</Core.components.Content>
+                </Core.components.GradientBackground>
+            );
+        }
         return this.props.children;
     }
 }

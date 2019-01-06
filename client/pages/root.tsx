@@ -10,7 +10,7 @@ import * as Core from 'lib/core';
 import * as DB from 'lib/db';
 
 import Auth from 'lib/auth/container/auth';
-import InstallPage from './install-page';
+import InstallPage from './install';
 
 import Landing from './landing';
 import Admin from './admin';

@@ -18,7 +18,7 @@ export function shutdown() {
 
 export function get_settings() {
     return request.get(
-        '/api/v1/' + window.location.pathname.split('/')[1] + '/system'
+        '/api/v1/' + window.location.pathname.split('/')[1] + '/core'
     );
 }
 
@@ -53,17 +53,9 @@ export function update_system() {
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }
 
-export function install_admin(
-    username: string,
-    password: string,
-    language: string
-) {
+export function init_db(payload: any) {
     return request
-        .post('/api/v0/core/admin')
-        .send({
-            username,
-            password,
-            language
-        })
+        .post('/api/v1/' + window.location.pathname.split('/')[1] + '/core')
+        .send(payload)
         .set('x-auth', window.localStorage.jwt_token || window.jwt_token || '');
 }

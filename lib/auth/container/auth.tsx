@@ -47,7 +47,6 @@ export class AuthContainer extends React.Component<IProps, {}> {
 
     public componentWillMount() {
         log_info('componentWillMount');
-        this.props.dispatch(Auth.actions.get_session());
     }
 
     public render() {

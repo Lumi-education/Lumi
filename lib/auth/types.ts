@@ -9,6 +9,7 @@ export interface IAuth {
     };
     login_state: 'init' | 'pending' | 'success' | 'error';
     error_message: string;
+    password: string;
 }
 
 export interface IState {

@@ -21,9 +21,9 @@ export const CORE_CHECK_UPDATE_ERROR = 'CORE_CHECK_UPDATE_ERROR';
 export const CORE_UPDATE_SYSTEM_REQUEST = 'CORE_UPDATE_SYSTEM_REQUEST';
 export const CORE_UPDATE_SYSTEM_SUCCESS = 'CORE_UPDATE_SYSTEM_SUCCESS';
 export const CORE_UPDATE_SYSTEM_ERROR = 'CORE_UPDATE_SYSTEM_ERROR';
-export const CORE_INSTALL_ADMIN_REQUEST = 'CORE_INSTALL_ADMIN_REQUEST';
-export const CORE_INSTALL_ADMIN_SUCCESS = 'CORE_INSTALL_ADMIN_SUCCESS';
-export const CORE_INSTALL_ADMIN_ERROR = 'CORE_INSTALL_ADMIN_ERROR';
+export const CORE_INIT_DB_REQUEST = 'CORE_INIT_DB_REQUEST';
+export const CORE_INIT_DB_SUCCESS = 'CORE_INIT_DB_SUCCESS';
+export const CORE_INIT_DB_ERROR = 'CORE_INIT_DB_ERROR';
 export const CORE_UPDATE_DB_REQUEST = 'CORE_UPDATE_DB_REQUEST';
 export const CORE_UPDATE_DB_SUCCESS = 'CORE_UPDATE_DB_SUCCESS';
 export const CORE_UPDATE_DB_ERROR = 'CORE_UPDATE_DB_ERROR';
@@ -162,20 +162,12 @@ export function update_system() {
     };
 }
 
-export function install_admin(
-    username: string,
-    password: string,
-    language: string
-) {
-    info('install_admin', username, language);
+export function init_db(payload: any) {
+    info('init_db', payload);
 
     return {
-        types: [
-            CORE_INSTALL_ADMIN_REQUEST,
-            CORE_INSTALL_ADMIN_SUCCESS,
-            CORE_INSTALL_ADMIN_ERROR
-        ],
-        api: API.install_admin(username, password, language),
-        payload: { username, language }
+        payload,
+        types: [CORE_INIT_DB_REQUEST, CORE_INIT_DB_SUCCESS, CORE_INIT_DB_ERROR],
+        api: API.init_db(payload)
     };
 }

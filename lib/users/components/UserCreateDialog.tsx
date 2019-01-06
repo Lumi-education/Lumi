@@ -105,7 +105,7 @@ export class UserCreateDialog extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        open: state.users.ui.dialogs.create,
+        open: Users.selectors.dialog(state, 'create'),
         classes: ownProps.classes,
         users_to_create: state.users.ui.users_to_create,
         username_to_create: state.users.ui.username_to_create,
