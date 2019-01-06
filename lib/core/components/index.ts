@@ -9,6 +9,7 @@ import Content from './Content';
 import Fab from './Fab';
 import FileUpload from './FileUpload';
 import GradientBackground from './GradientBackground';
+import PaperContent from './PaperContent';
 import PaperHeader from './PaperHeader';
 
 export {
@@ -22,6 +23,7 @@ export {
     GradientBackground,
     ListToolbar,
     Markdown,
+    PaperContent,
     PaperHeader,
     SearchField
 };
