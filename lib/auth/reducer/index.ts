@@ -16,18 +16,19 @@ const initialState: IAuth = {
         validated: false
     },
     login_state: 'init',
-    error_message: null
+    error_message: null,
+    password: ''
 };
 
 export default function(state: IAuth = initialState, action): IAuth {
     switch (action.type) {
-        case k.AUTH_GET_SESSION_SUCCESS:
-            return assign({}, state, {
-                userlevel: action.payload.level,
-                user_id: action.payload._id,
-                username: action.payload.name,
-                password: action.payload.password
-            });
+        // case k.AUTH_GET_SESSION_SUCCESS:
+        //     return assign({}, state, {
+        //         userlevel: action.payload.level,
+        //         user_id: action.payload._id,
+        //         username: action.payload.name,
+        //         password: action.payload.password
+        //     });
 
         case k.AUTH_CHECK_USERNAME_SUCCESS:
             return assign({}, state, {
@@ -42,11 +43,12 @@ export default function(state: IAuth = initialState, action): IAuth {
             return assign({}, state, {
                 login_state: 'success',
                 user_id: action.payload._id,
-                userlevel: action.payload.level
+                userlevel: action.payload.level,
+                password: ''
             });
 
         case k.AUTH_LOGIN_REQUEST:
-            return assign({}, state, { login_state: 'pending' });
+            return assign({}, state, { login_state: 'pending', password: '' });
 
         case k.AUTH_SET_EMAIL:
             return assign({}, state, {
@@ -61,7 +63,8 @@ export default function(state: IAuth = initialState, action): IAuth {
         case k.AUTH_LOGIN_ERROR:
             return assign({}, state, {
                 login_state: 'error',
-                error_message: action.payload.message
+                error_message: action.payload.message,
+                password: ''
             });
 
         case k.AUTH_RESET_ERROR:
@@ -81,6 +84,12 @@ export default function(state: IAuth = initialState, action): IAuth {
                 login_state: 'init',
                 error_message: null
             });
+
+        case k.AUTH_SET_PASSWORD:
+            return {
+                ...state,
+                password: action.payload
+            };
 
         case '@@INIT':
             return initialState;

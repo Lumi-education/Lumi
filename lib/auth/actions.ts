@@ -30,6 +30,7 @@ export const AUTH_CHECK_USERNAME_ERROR = 'AUTH_CHECK_USERNAME_ERROR';
 export const AUTH_SET_USERNAME = 'AUTH_SET_USERNAME';
 export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 export const AUTH_SET_EMAIL = 'AUTH_SET_EMAIL';
+export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
 
 const log_info = debug('lumi:info:auth:actions');
 const log_error = debug('lumi:error:auth:actions');
@@ -83,30 +84,6 @@ export function register<T>(payload: T) {
     };
 }
 
-export function get_session() {
-    return {
-        types: [
-            AUTH_GET_SESSION_REQUEST,
-            AUTH_GET_SESSION_SUCCESS,
-            AUTH_GET_SESSION_ERROR
-        ],
-        api: API.get_session(),
-        payload: {}
-    };
-}
-
-export function set_password(username: string, password: string) {
-    return {
-        types: [
-            AUTH_LOGIN_SET_PASSWORD_REQUEST,
-            AUTH_LOGIN_SET_PASSWORD_SUCCESS,
-            AUTH_LOGIN_SET_PASSWORD_ERROR
-        ],
-        api: API.set_password(username, password),
-        payload: { username }
-    };
-}
-
 export function check_username(username: string) {
     return {
         types: [
@@ -134,5 +111,12 @@ export function set_email(email: string) {
     return {
         type: AUTH_SET_EMAIL,
         payload: email
+    };
+}
+
+export function set_password(password: string) {
+    return {
+        type: AUTH_SET_PASSWORD,
+        payload: password
     };
 }
