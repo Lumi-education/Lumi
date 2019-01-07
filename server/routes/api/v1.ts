@@ -5,7 +5,7 @@ import * as qs from 'query-string';
 import * as proxy from 'express-http-proxy';
 import { assign } from 'lodash';
 import * as Auth from '../../middleware/auth';
-
+import raven from 'raven';
 import AuthAPI from '../../api/v1/auth';
 import CoreAPI from '../../api/v1/core';
 
@@ -36,17 +36,23 @@ export default function(): express.Router {
             Auth.db,
             proxy(process.env.DB, {
                 proxyReqPathResolver: proxy_req => {
-                    const parts = proxy_req.url.split('?');
-                    const query = qs.parse(parts[1]);
-                    if (proxy_req.user.level < 3) {
-                        assign(query, {
-                            filter: '_view',
-                            view: 'user/' + proxy_req.user._id
-                        });
+                    try {
+                        const parts = proxy_req.url.split('?');
+                        const query = qs.parse(parts[1]);
+                        if (proxy_req.user.level < 3) {
+                            assign(query, {
+                                filter: '_view',
+                                view: 'user/' + proxy_req.user._id
+                            });
+                        }
+                        const queryString = qs.stringify(query);
+                        const updatedPath = parts[0];
+                        return (
+                            updatedPath + (queryString ? '?' + queryString : '')
+                        );
+                    } catch (error) {
+                        raven.captureException(error);
                     }
-                    const queryString = qs.stringify(query);
-                    const updatedPath = parts[0];
-                    return updatedPath + (queryString ? '?' + queryString : '');
                 }
             })
         );
