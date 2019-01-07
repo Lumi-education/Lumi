@@ -2,7 +2,7 @@ import * as debug from 'debug';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
-
+import * as raven from 'raven';
 import db from '../db';
 
 import { IH5PInterface, IContent, IH5P } from 'h5p-nodejs-library';
@@ -18,6 +18,9 @@ const h5pinterface: IH5PInterface = {
         cb: (error, content: IContent) => void
     ) => {
         db.findById(content_id, (error, card) => {
+            if (error) {
+                raven.captureException(error);
+            }
             if (card) {
                 cb(error, card.content);
             } else {
@@ -30,16 +33,23 @@ const h5pinterface: IH5PInterface = {
         cb: (error, h5p_json: IH5P) => void
     ) => {
         db.findById(content_id, (error, card) => {
+            if (error) {
+                raven.captureException(error);
+            }
             cb(error, card.h5p);
         });
     },
     load_library: (name: string, cb: (error, library) => void) => {
-        cb(
-            undefined,
-            require(path.resolve(
-                path.join('build/h5p/libraries', name, 'library.json')
-            ))
-        );
+        try {
+            cb(
+                undefined,
+                require(path.resolve(
+                    path.join('build/h5p/libraries', name, 'library.json')
+                ))
+            );
+        } catch (error) {
+            raven.captureException(error);
+        }
     },
     load_content: (
         content_id: string,
@@ -49,6 +59,9 @@ const h5pinterface: IH5PInterface = {
         fs.readFile(
             path.resolve('build/h5p/content', content_id, 'content', file_name),
             (error, buffer) => {
+                if (error) {
+                    raven.captureException(error);
+                }
                 cb(error, buffer);
             }
         );
@@ -59,6 +72,9 @@ const h5pinterface: IH5PInterface = {
         done: (error) => void
     ) => {
         db.updateOne(content_id, { h5p: h5p_json }, (error, updated_card) => {
+            if (error) {
+                raven.captureException(error);
+            }
             done(undefined);
         });
     },
@@ -71,31 +87,43 @@ const h5pinterface: IH5PInterface = {
             content_id,
             { content: content_json },
             (error, updated_card) => {
+                if (error) {
+                    raven.captureException(error);
+                }
                 done(error);
             }
         );
     },
     save_content: (content_id: string, file_name: string, content: Buffer) => {
-        mkdirp(
-            path.resolve(
-                path.join('build/h5p/content', content_id, 'content', 'images')
-            ),
-            () => {
-                fs.writeFile(
+        try {
+            mkdirp(
+                path.resolve(
                     path.join(
                         'build/h5p/content',
                         content_id,
                         'content',
-                        'images',
-                        file_name
-                    ),
-                    content,
-                    () => {
-                        console.log('file written');
-                    }
-                );
-            }
-        );
+                        'images'
+                    )
+                ),
+                () => {
+                    fs.writeFile(
+                        path.join(
+                            'build/h5p/content',
+                            content_id,
+                            'content',
+                            'images',
+                            file_name
+                        ),
+                        content,
+                        () => {
+                            console.log('file written');
+                        }
+                    );
+                }
+            );
+        } catch (error) {
+            raven.captureException(error);
+        }
     },
 
     library_dir: path.resolve('build/h5p/libraries'),

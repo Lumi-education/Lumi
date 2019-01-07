@@ -1,4 +1,5 @@
 import * as debug from 'debug';
+import * as raven from 'raven';
 
 import * as Screenshot from 'url-to-screenshot';
 
@@ -25,6 +26,9 @@ export default function upload_complete(content_id: string) {
                 img,
                 'image/png',
                 (db_error, db_info) => {
+                    if (db_error) {
+                        raven.captureException(error);
+                    }
                     db_error
                         ? error(db_error)
                         : info(content_id, 'preview image saved to db');
