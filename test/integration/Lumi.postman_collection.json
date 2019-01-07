@@ -660,6 +660,58 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Invalid JWTToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0cc7b886-c2d8-4238-9fa9-aff358e6975e",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"message is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql({",
+									"    \"module\": \"auth\",",
+									"    \"type\": \"InvalidJWTToken\",",
+									"    \"message\": \"auth.invalid_jwt_token\"",
+									"});",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "invalid_token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

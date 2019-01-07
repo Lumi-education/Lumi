@@ -17,8 +17,13 @@ export function auth(
 
             next();
         } catch (err) {
-            raven.captureException(err);
-            res.status(401).end();
+            res.status(401).json(
+                new ErrorResponse(
+                    'auth',
+                    'InvalidJWTToken',
+                    'auth.invalid_jwt_token'
+                )
+            );
         }
     } else {
         req.user = undefined;
