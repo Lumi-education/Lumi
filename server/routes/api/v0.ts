@@ -132,13 +132,6 @@ export default function(): express.Router {
     );
 
     // cards -> attachments
-    router.all(
-        '/cards/:id/attachment/:attachment',
-        mw.auth,
-        mw.level(2),
-        cardsController.attachment
-    );
-
     router.get(
         '/core/attachment/:id/:attachment',
         coreController.get_attachment

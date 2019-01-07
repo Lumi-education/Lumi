@@ -8,7 +8,6 @@ import * as rimraf from 'rimraf';
 import * as mkdirp from 'mkdirp';
 import * as unzip from 'unzip';
 import * as recursive from 'recursive-readdir';
-import proxy from '../../core/proxy';
 import * as raven from 'raven';
 
 import db from '../../db';
@@ -175,22 +174,6 @@ class CardController {
                 res.status(200).json(cards);
             }
         );
-    }
-
-    public attachment(req: express.Request, res: express.Response) {
-        req.url =
-            process.env.DB_HOST +
-            '/' +
-            process.env.DB +
-            '/' +
-            req.params.id +
-            '/' +
-            req.params.attachment +
-            (req.query.rev ? '?rev=' + req.query.rev : '');
-
-        proxy.web(req, res, {
-            target: process.env.DB_HOST
-        });
     }
 }
 

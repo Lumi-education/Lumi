@@ -16,7 +16,6 @@ export default function boot(done: (server: http.Server) => void) {
                 80
         );
         done(server);
-        raven.captureMessage('server booted', { level: 'info' });
     });
 
     server.on('error', raven.captureException);
