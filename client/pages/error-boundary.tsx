@@ -40,6 +40,7 @@ export default withStyles(styles)(
         public componentDidCatch(error, errorInfo) {
             this.setState({ error, errorInfo });
             Raven.captureException(error, { extra: errorInfo });
+            Raven.showReportDialog();
         }
 
         public render() {
