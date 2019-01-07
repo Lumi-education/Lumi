@@ -41,6 +41,7 @@ export function boot(done: () => void) {
     ) {
         log('booting in single-mode');
         boot_core((server: http.Server) => {
+            raven.captureMessage('Server booted', { level: 'info' });
             done();
         });
     } else {
@@ -53,6 +54,7 @@ export function boot(done: () => void) {
             cluster.on('exit', (deadWorker, code, signal) => {
                 const worker = cluster.fork();
             });
+            raven.captureMessage('Server booted', { level: 'info' });
             done();
         } else {
             boot_core(server => {
