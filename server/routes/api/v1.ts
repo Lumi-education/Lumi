@@ -5,7 +5,7 @@ import * as qs from 'query-string';
 import * as proxy from 'express-http-proxy';
 import { assign } from 'lodash';
 import * as Auth from '../../middleware/auth';
-import raven from 'raven';
+import * as raven from 'raven';
 import AuthAPI from '../../api/v1/auth';
 import CoreAPI from '../../api/v1/core';
 
