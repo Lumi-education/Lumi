@@ -27,13 +27,19 @@ export default class DB implements IDB {
     private name: string;
 
     constructor(db_name: string) {
-        const _db = url.parse(process.env.DB);
-        this.host =
-            _db.protocol + '//' + (_db.auth ? _db.auth + '@' : '') + _db.host ||
-            'http://localhost:5984';
-        this.db = nano(this.host).use(db_name);
-        this.nano = nano(this.host);
-        this.name = db_name;
+        try {
+            const _db = url.parse(process.env.DB);
+            this.host =
+                _db.protocol +
+                    '//' +
+                    (_db.auth ? _db.auth + '@' : '') +
+                    _db.host || 'http://localhost:5984';
+            this.db = nano(this.host).use(db_name);
+            this.nano = nano(this.host);
+            this.name = db_name;
+        } catch (error) {
+            raven.captureException(error);
+        }
     }
 
     public view<T>(

@@ -1,42 +1,41 @@
-export function avg(a, c, i, ar) {
+import raven from './raven';
+
+export function avg(a: number, c: number, i: number, ar: number[]): number {
     return a + c / ar.length;
 }
 
-export function sum(a, c, i, ar) {
+export function sum(a: number, c: number, i: number, ar: number[]): number {
     return a + c;
 }
 
-export function compare(o, c): boolean {
-    for (const key in c) {
-        if (c[key] !== o[key]) {
-            return false;
+export function alphabetically(
+    a: { name: string },
+    b: { name: string }
+): number {
+    try {
+        if (a.name < b.name) {
+            return -1;
         }
+        if (a.name > b.name) {
+            return 1;
+        }
+        return 0;
+    } catch (error) {
+        raven.captureException(error);
+        return 0;
     }
-    return true;
-}
-
-export function arrayToObject(array) {
-    if (!array) {
-        return {};
-    }
-    return array.reduce((a, c, i) => {
-        a[c._id] = c;
-        return a;
-    }, {});
-}
-
-export function alphabetically(a, b) {
-    if (a.name < b.name) {
-        return -1;
-    }
-    if (a.name > b.name) {
-        return 1;
-    }
-    return 0;
 }
 
 export function convert_files_url(markdown: string, ref_id: string): string {
-    return markdown
-        ? markdown.replace(/\.\//g, '/api/v0/core/attachment/' + ref_id + '/')
-        : undefined;
+    try {
+        return markdown
+            ? markdown.replace(
+                  /\.\//g,
+                  '/api/v0/core/attachment/' + ref_id + '/'
+              )
+            : undefined;
+    } catch (error) {
+        raven.captureException(error);
+        return '';
+    }
 }

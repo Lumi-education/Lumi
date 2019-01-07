@@ -54,28 +54,45 @@ export function db(
     res: express.Response,
     next: express.NextFunction
 ) {
-    if (!req.user) {
+    try {
+        if (!req.user) {
+            return res
+                .status(401)
+                .json(
+                    new ErrorResponse(
+                        'auth',
+                        'InvalidUser',
+                        'auth.invalid_user'
+                    )
+                );
+        }
+
+        if (!req.user.db) {
+            return res
+                .status(404)
+                .json(
+                    new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db')
+                );
+        }
+
+        const _db = req.path.split('/')[1];
+
+        if (req.user.db !== _db && _db !== '') {
+            return res
+                .status(401)
+                .json(
+                    new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db')
+                );
+        }
+        next();
+    } catch (error) {
+        raven.captureException(error);
         return res
-            .status(401)
+            .status(500)
             .json(
-                new ErrorResponse('auth', 'InvalidUser', 'auth.invalid_user')
+                new ErrorResponse('auth', 'ServerError', 'auth.server_error')
             );
     }
-
-    if (!req.user.db) {
-        return res
-            .status(404)
-            .json(new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db'));
-    }
-
-    const _db = req.path.split('/')[1];
-
-    if (req.user.db !== _db && _db !== '') {
-        return res
-            .status(401)
-            .json(new ErrorResponse('auth', 'InvalidDB', 'auth.invalid_db'));
-    }
-    next();
 }
 
 // 0 unauthed

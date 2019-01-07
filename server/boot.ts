@@ -43,6 +43,7 @@ export function boot(done: () => void) {
                 const worker = cluster.fork();
             }
             cluster.on('exit', (deadWorker, code, signal) => {
+                raven.captureException(new Error('worker died'));
                 const worker = cluster.fork();
             });
             raven.captureMessage('Server booted', { level: 'info' });

@@ -1,4 +1,5 @@
 import * as debug from 'debug';
+import * as Core from 'lib/core';
 
 export const AUTH_GET_SESSION_REQUEST = 'AUTH_GET_SESSION_REQUEST';
 export const AUTH_GET_SESSION_SUCCESS = 'AUTH_GET_SESSION_SUCCESS';
@@ -31,6 +32,7 @@ export const AUTH_SET_USERNAME = 'AUTH_SET_USERNAME';
 export const AUTH_RESET_ERROR = 'AUTH_RESET_ERROR';
 export const AUTH_SET_EMAIL = 'AUTH_SET_EMAIL';
 export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
+export const AUTH_ACTION_ERROR = 'AUTH_ACTION_ERROR';
 
 const log_info = debug('lumi:info:auth:actions');
 const log_error = debug('lumi:error:auth:actions');
@@ -38,29 +40,40 @@ const log_error = debug('lumi:error:auth:actions');
 import * as API from './api';
 
 export function login(username: string, password: string) {
-    log_info('login', 'start');
-    return dispatch => {
-        dispatch({
-            type: AUTH_LOGIN_REQUEST,
-            payload: { username }
-        });
-
-        API.login(username, password)
-            .then(response => {
-                log_info('login', 'success', response.body);
-                window.localStorage.jwt_token = response.body.jwt_token;
-                window.localStorage.user_id = response.body._id;
-                window.localStorage.level = response.body.level;
-                dispatch({ type: AUTH_LOGIN_SUCCESS, payload: response.body });
-            })
-            .catch(error => {
-                log_error('login', 'error', error);
-                dispatch({
-                    type: AUTH_LOGIN_ERROR,
-                    payload: error.response.body
-                });
+    try {
+        log_info('login', 'start');
+        return dispatch => {
+            dispatch({
+                type: AUTH_LOGIN_REQUEST,
+                payload: { username }
             });
-    };
+
+            API.login(username, password)
+                .then(response => {
+                    log_info('login', 'success', response.body);
+                    window.localStorage.jwt_token = response.body.jwt_token;
+                    window.localStorage.user_id = response.body._id;
+                    window.localStorage.level = response.body.level;
+                    dispatch({
+                        type: AUTH_LOGIN_SUCCESS,
+                        payload: response.body
+                    });
+                })
+                .catch(error => {
+                    log_error('login', 'error', error);
+                    dispatch({
+                        type: AUTH_LOGIN_ERROR,
+                        payload: error.response.body
+                    });
+                });
+        };
+    } catch (error) {
+        Core.raven.captureException(error);
+        return {
+            type: AUTH_ACTION_ERROR,
+            payload: error
+        };
+    }
 }
 
 export function logout() {
