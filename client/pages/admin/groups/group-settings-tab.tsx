@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-
+import * as debug from 'debug';
 // types
 import { IState } from 'client/state';
 
@@ -22,6 +22,8 @@ import Dropzone from 'react-dropzone';
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
+
+const log_info = debug('lumi:info:pages:admin:groups:GroupsSettingsTab');
 
 interface IPassedProps {
     group_id: string;
@@ -56,8 +58,9 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
         };
     }
 
-    public componentWillUpdate(prevProps: IProps) {
-        if (prevProps.group_in_state !== this.props.group_in_state) {
+    public componentDidUpdate(prevProps: IProps) {
+        log_info('componentDidUpdate');
+        if (prevProps.group_in_state._rev !== this.props.group_in_state._rev) {
             this.props.dispatch(
                 Groups.actions.change_group(this.props.group_in_state)
             );
