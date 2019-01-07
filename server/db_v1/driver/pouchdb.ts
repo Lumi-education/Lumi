@@ -28,12 +28,19 @@ export default class DB implements IDB {
     private name: string;
 
     constructor(db_name: string) {
-        this.db = new PouchDB.defaults({ prefix: process.env.DB })(db_name, {
-            skip_setup: true
-        });
-        this.name = db_name;
+        try {
+            this.db = new PouchDB.defaults({ prefix: process.env.DB })(
+                db_name,
+                {
+                    skip_setup: true
+                }
+            );
+            this.name = db_name;
 
-        this.init = this.init.bind(this);
+            this.init = this.init.bind(this);
+        } catch (error) {
+            raven.captureException(error);
+        }
     }
 
     public view<T>(
