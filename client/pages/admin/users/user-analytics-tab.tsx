@@ -119,12 +119,12 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
             const data = [];
 
             for (const date in grouped_data) {
-                data.push([
-                    date,
-                    grouped_data[date]
-                        .map(e => e[1])
-                        .reduce(Core.utils.sum, 0) / grouped_data[date].length
-                ]);
+                // data.push([
+                //     date,
+                //     grouped_data[date]
+                //         .map(e => e[1])
+                //         .reduce(Core.utils.sum, 0) / grouped_data[date].length
+                // ]);
             }
 
             return { data, name: tag.name, color: tag.color };

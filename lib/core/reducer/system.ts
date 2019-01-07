@@ -1,3 +1,4 @@
+import raven from '../raven';
 import { ISystemSettings } from '../types';
 
 import { SYSTEM_GET_SETTINGS_SUCCESS } from '../actions';
@@ -19,19 +20,24 @@ export default function(
     state: ISystemSettings = initialState,
     action
 ): ISystemSettings {
-    switch (action.type) {
-        case 'DB_CHANGE':
-            return action.payload.filter(d => d._id === 'core')[0]
-                ? { ...state, installed: true }
-                : state;
+    try {
+        switch (action.type) {
+            case 'DB_CHANGE':
+                return action.payload.filter(d => d._id === 'core')[0]
+                    ? { ...state, installed: true }
+                    : state;
 
-        case SYSTEM_GET_SETTINGS_SUCCESS:
-            return {
-                ...state,
-                installed: true
-            };
+            case SYSTEM_GET_SETTINGS_SUCCESS:
+                return {
+                    ...state,
+                    installed: true
+                };
 
-        default:
-            return state;
+            default:
+                return state;
+        }
+    } catch (error) {
+        raven.captureException(error);
+        return state;
     }
 }

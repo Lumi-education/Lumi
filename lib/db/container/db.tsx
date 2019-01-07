@@ -74,18 +74,26 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
             .on('error', error => {
                 log_error('error', error);
                 this.props.dispatch(DB.actions.error(error));
+                Core.raven.captureExceoption(error);
             });
     }
 
     public push_to_store() {
         log_info('push_to_store');
-        db.allDocs({ include_docs: true }).then(docs => {
-            log_info('push_to_store', docs);
-            const _docs = docs.rows.map(row => row.doc).filter(doc => doc.type);
-            this.props.dispatch(DB.actions.change(_docs));
-            log_info('all docs pushed to store');
-            this.setState({ loading: false });
-        });
+        db.allDocs({ include_docs: true })
+            .then(docs => {
+                log_info('push_to_store', docs);
+                const _docs = docs.rows
+                    .map(row => row.doc)
+                    .filter(doc => doc.type);
+                this.props.dispatch(DB.actions.change(_docs));
+                log_info('all docs pushed to store');
+                this.setState({ loading: false });
+            })
+            .catch(error => {
+                Core.raven.captureExceoption(error);
+                this.props.dispatch(DB.actions.error(error));
+            });
     }
 
     public componentWillMount() {
@@ -133,6 +141,7 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
             .on('error', error => {
                 log_error('error', error);
                 this.props.dispatch(DB.actions.error(error));
+                Core.raven.captureExceoption(error);
             });
 
         this.push_to_store();
