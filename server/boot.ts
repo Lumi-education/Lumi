@@ -4,7 +4,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.DEBUG = process.env.DEBUG || '*';
 process.env.PORT = process.env.PORT || 3000;
 process.env.KEY = process.env.KEY || 'abcdefg';
-
+process.env.VERSION =
+    process.env.VERSION || require('../../package.json').version;
 import * as raven from 'raven';
 import * as debug from 'debug';
 
@@ -13,8 +14,8 @@ raven
         release: process.env.VERSION,
         environment: process.env.NODE_ENV,
         tags: {
-            branch: process.env.BRANCH,
-            component: 'server'
+            component: 'server',
+            lumi_id: process.env.LUMI_ID
         },
         autoBreadcrumbs: true
     })
