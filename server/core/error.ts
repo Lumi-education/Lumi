@@ -5,7 +5,8 @@ export type ResponseErrorType =
     | 'InvalidDB'
     | 'ServerError'
     | 'SystemAlreadyInstalled'
-    | 'init_db';
+    | 'init_db'
+    | 'InvalidJWTToken';
 
 export type ModuleType = 'core' | 'auth' | 'users';
 
