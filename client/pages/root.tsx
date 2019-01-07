@@ -16,6 +16,8 @@ import Landing from './landing';
 import Admin from './admin';
 import User from './user';
 
+import ErrorBoundary from './error-boundary';
+
 const log = debug('lumi:pages:root');
 
 interface IStateProps {
@@ -44,28 +46,33 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <div id="root">
-                <DB.container.db>
-                    <Route
-                        exact={true}
-                        path="/"
-                        render={() => <Redirect to="/lumi" />}
-                    />
-                    {this.props.installed ? (
-                        <div>
-                            <Auth>
-                                <Route path="/:db/admin" component={Admin} />
-                                <Route path="/:db/user" component={User} />
-                                <Route
-                                    exact={true}
-                                    path="/:db"
-                                    component={Landing}
-                                />
-                            </Auth>
-                        </div>
-                    ) : (
-                        <InstallPage />
-                    )}
-                </DB.container.db>
+                <ErrorBoundary>
+                    <DB.container.db>
+                        <Route
+                            exact={true}
+                            path="/"
+                            render={() => <Redirect to="/lumi" />}
+                        />
+                        {this.props.installed ? (
+                            <div>
+                                <Auth>
+                                    <Route
+                                        path="/:db/admin"
+                                        component={Admin}
+                                    />
+                                    <Route path="/:db/user" component={User} />
+                                    <Route
+                                        exact={true}
+                                        path="/:db"
+                                        component={Landing}
+                                    />
+                                </Auth>
+                            </div>
+                        ) : (
+                            <InstallPage />
+                        )}
+                    </DB.container.db>
+                </ErrorBoundary>
             </div>
         );
     }

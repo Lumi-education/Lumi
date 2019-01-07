@@ -21,7 +21,9 @@ export default class Index extends React.Component {
                                 process.env.VERSION +
                                 '",environment: "' +
                                 process.env.NODE_ENV +
-                                '",tags: {component: "client"},autoBreadcrumbs: true}).install();'
+                                '",tags: {component: "client", "lumi_id": ' +
+                                process.env.LUMI_ID +
+                                '},autoBreadcrumbs: true}).install();'
                         }}
                     />
 
