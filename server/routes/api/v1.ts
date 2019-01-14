@@ -8,6 +8,7 @@ import * as Auth from '../../middleware/auth';
 import * as raven from 'raven';
 import AuthAPI from '../../api/v1/auth';
 import CoreAPI from '../../api/v1/core';
+import MaterialAPI from '../../api/v1/material';
 
 import db from '../../db';
 
@@ -25,6 +26,29 @@ export default function(): express.Router {
     router.get('/:db/core', CoreAPI.get);
     router.post('/:db/core', CoreAPI.post);
     router.delete('/:db/core', Auth.db, Auth.level(4), CoreAPI.delete);
+    router.post(
+        '/:db/material',
+        Auth.db,
+        Auth.level(4),
+        MaterialAPI.create_material
+    );
+    router.delete(
+        '/:db/material/:material_id',
+        Auth.db,
+        Auth.level(4),
+        MaterialAPI.delete_material
+    );
+    router.get(
+        '/:db/material/:id/attachment/:attachment',
+        MaterialAPI.get_attachment
+    );
+
+    router.put(
+        '/:db/material/:material_id',
+        Auth.db,
+        Auth.level(4),
+        MaterialAPI.update_material
+    );
 
     if (DB.protocol === null) {
         log_info('using pouchdb');

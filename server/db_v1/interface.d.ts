@@ -5,6 +5,9 @@ export interface IDB {
     insert: IInsertFn;
     insertMany: IInsertManyFn;
     init: IInitFn;
+    updateOne: IUpdateOneFn;
+    saveAttachment: ISaveAttachmentFn;
+    getAttachment: IGetAttachmentFn;
     drop: () => Promise<{ ok: boolean }>;
 }
 
@@ -44,6 +47,23 @@ interface IInsertFn {
 
 interface IInsertManyFn {
     <T>(docs: T[]): Promise<IMutateResponse[]>;
+}
+
+interface IUpdateOneFn {
+    <T>(doc: T): Promise<IMutateResponse>;
+}
+
+interface ISaveAttachmentFn {
+    (
+        id: string,
+        attachment_name: string,
+        attachment: Buffer,
+        type: string
+    ): Promise<IMutateResponse>;
+}
+
+interface IGetAttachmentFn {
+    (doc_id: string, attachment_name): Promise<Buffer>;
 }
 
 interface IRow<T> {

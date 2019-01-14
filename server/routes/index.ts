@@ -16,7 +16,7 @@ export default function(): express.Router {
     log('start boot-sequence');
     const router = express.Router();
 
-    router.use('/h5p', h5p(h5pinterface));
+    router.use('/api/v1/:db/h5p', h5p(h5pinterface));
     router.use('/api/v0', api_routes_v0());
     router.use('/api/v1', api_routes_v1());
     router.use('/files', files_route);
