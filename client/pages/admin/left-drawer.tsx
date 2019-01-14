@@ -120,13 +120,13 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                         />
                         <Divider />
 
-                        <Subheader>{Core.i18n.t('cards')}</Subheader>
+                        <Subheader>{Core.i18n.t('material')}</Subheader>
 
                         <ListItem
-                            primaryText={Core.i18n.t('cards')}
+                            primaryText={Core.i18n.t('material')}
                             leftIcon={<SVGCards />}
                             onClick={() => {
-                                this.props.push('/admin/cards');
+                                this.props.push('/admin/material');
                             }}
                         />
                         <Divider />

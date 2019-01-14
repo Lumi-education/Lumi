@@ -19,8 +19,8 @@ import GroupPage from 'client/pages/admin/groups/group-page';
 import GroupsPage from 'client/pages/admin/groups/groups-page';
 import UsersPage from './users/users-page';
 import UserPage from './users/user-page';
-import CardsPage from './cards/cards-page';
-import CardPage from './cards/card-page';
+import MaterialIndexPage from './material/MaterialIndexPage';
+import MaterialEditPage from './material/MaterialEditPage';
 import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
 import DashboardPage from './dashboard/dashboard-page';
@@ -121,13 +121,13 @@ export class AdminRoot extends React.Component<IProps, {}> {
                                 component={UserPage}
                             />
                             <Route
-                                path="/:db/admin/cards/:card_id"
-                                component={CardPage}
+                                path="/:db/admin/material/:material_id"
+                                component={MaterialEditPage}
                             />
                             <Route
                                 exact={true}
-                                path="/:db/admin/cards"
-                                component={CardsPage}
+                                path="/:db/admin/material"
+                                component={MaterialIndexPage}
                             />
                             <Route
                                 path="/:db/admin/comments"

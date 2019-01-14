@@ -13,6 +13,7 @@ import * as Groups from 'lib/groups';
 import * as Tags from 'lib/tags';
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
+import * as Material from 'lib/material';
 
 const root_reducer = combineReducers({
     cards,
@@ -23,6 +24,7 @@ const root_reducer = combineReducers({
     flow: Flow.reducer,
     groups: Groups.reducer,
     i18n: i18nReducer,
+    material: Material.reducer,
     tags: Tags.reducer,
     ui: UI.reducer,
     users: Users.reducer
@@ -37,6 +39,7 @@ export interface IState
         Auth.types.IState,
         DB.types.IState,
         Comments.types.IState,
+        Material.types.IState,
         Users.types.IState,
         Groups.types.IState,
         UI.types.IState,
