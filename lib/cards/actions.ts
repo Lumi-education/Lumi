@@ -68,7 +68,6 @@ export function select_card(card_id: string) {
 }
 
 export function add_card_to_selection(card_id: string, index?: number) {
-    // deprecate with universal selection module #286
     return {
         card_id,
         index,
@@ -76,7 +75,6 @@ export function add_card_to_selection(card_id: string, index?: number) {
     };
 }
 export function remove_card_from_selection(card_id: string) {
-    // deprecate with universal selection module #286
     return {
         card_id,
         type: CARDS_REMOVE_CARD_FROM_SELECTION
@@ -84,7 +82,6 @@ export function remove_card_from_selection(card_id: string) {
 }
 
 export function set_selected_cards(card_ids: string[]) {
-    // deprecate with universal selection module #286
     return {
         card_ids,
         type: CARDS_UI_SET_SELECTED_CARDS
@@ -92,7 +89,6 @@ export function set_selected_cards(card_ids: string[]) {
 }
 
 export function reset_card_selection() {
-    // deprecate with universal selection module #286
     return {
         type: CARD_SELECTION_RESET
     };
