@@ -69,7 +69,7 @@ export class UserDeleteDialog extends React.Component<IProps, IComponentState> {
                 <DialogContent className={classes.dialogContent}>
                     <List>
                         {this.props.users.map(user => (
-                            <UserListItem user={user} />
+                            <UserListItem key={user._id} user={user} />
                         ))}
                     </List>
                 </DialogContent>
