@@ -15,6 +15,8 @@ import InstallPage from './install';
 import Landing from './landing';
 import Admin from './admin';
 import User from './user';
+import UserPrintCards from './admin/users/UserPrintCards';
+
 import NotifierContainer from 'lib/notifications/container/Notifier';
 
 import ErrorBoundary from './error-boundary';
@@ -58,16 +60,26 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
                         <div>
                             <Auth>
                                 <DB.container.db>
-                                    <Route
-                                        path="/:db/admin"
-                                        component={Admin}
-                                    />
-                                    <Route path="/:db/user" component={User} />
-                                    <Route
-                                        exact={true}
-                                        path="/:db"
-                                        component={Landing}
-                                    />
+                                    <Switch>
+                                        <Route
+                                            exact={true}
+                                            path="/:db/admin/userprintcards"
+                                            component={UserPrintCards}
+                                        />
+                                        <Route
+                                            path="/:db/admin"
+                                            component={Admin}
+                                        />
+                                        <Route
+                                            path="/:db/user"
+                                            component={User}
+                                        />
+                                        <Route
+                                            exact={true}
+                                            path="/:db"
+                                            component={Landing}
+                                        />
+                                    </Switch>
                                 </DB.container.db>
                             </Auth>
                         </div>
