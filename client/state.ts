@@ -14,6 +14,7 @@ import * as Tags from 'lib/tags';
 import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
 import * as Material from 'lib/material';
+import * as Notifications from 'lib/notifications';
 
 const root_reducer = combineReducers({
     cards,
@@ -25,6 +26,7 @@ const root_reducer = combineReducers({
     groups: Groups.reducer,
     i18n: i18nReducer,
     material: Material.reducer,
+    notifications: Notifications.reducer,
     tags: Tags.reducer,
     ui: UI.reducer,
     users: Users.reducer
@@ -43,4 +45,5 @@ export interface IState
         Users.types.IState,
         Groups.types.IState,
         UI.types.IState,
+        Notifications.types.IState,
         Flow.types.IState {}

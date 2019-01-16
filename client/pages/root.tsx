@@ -15,6 +15,7 @@ import InstallPage from './install';
 import Landing from './landing';
 import Admin from './admin';
 import User from './user';
+import NotifierContainer from 'lib/notifications/container/Notifier';
 
 import ErrorBoundary from './error-boundary';
 
@@ -47,15 +48,16 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
         return (
             <div id="root">
                 <ErrorBoundary>
-                    <DB.container.db>
-                        <Route
-                            exact={true}
-                            path="/"
-                            render={() => <Redirect to="/lumi" />}
-                        />
-                        {this.props.installed ? (
-                            <div>
-                                <Auth>
+                    <NotifierContainer />
+                    <Route
+                        exact={true}
+                        path="/"
+                        render={() => <Redirect to="/lumi" />}
+                    />
+                    {this.props.installed ? (
+                        <div>
+                            <Auth>
+                                <DB.container.db>
                                     <Route
                                         path="/:db/admin"
                                         component={Admin}
@@ -66,12 +68,12 @@ export class RootContainer extends React.Component<IProps, IComponentState> {
                                         path="/:db"
                                         component={Landing}
                                     />
-                                </Auth>
-                            </div>
-                        ) : (
-                            <InstallPage />
-                        )}
-                    </DB.container.db>
+                                </DB.container.db>
+                            </Auth>
+                        </div>
+                    ) : (
+                        <InstallPage />
+                    )}
                 </ErrorBoundary>
             </div>
         );
