@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { assign } from 'lodash';
 import * as debug from 'debug';
 
+import * as shortid from 'shortid';
+
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -55,18 +57,30 @@ export class UserCreateDialog extends React.Component<IProps, IComponentState> {
     public create_users() {
         log_info('create_users', 'start', this.props.users_to_create);
 
-        this.props.dispatch(
-            Users.actions.create_users(
-                this.props.users_to_create.map(
-                    username =>
-                        new Users.models.User(
-                            assign(this.props.user_options, { name: username })
-                        )
+        this.props
+            .dispatch(
+                Users.actions.create_users(
+                    this.props.users_to_create.map(
+                        username =>
+                            new Users.models.User(
+                                assign(this.props.user_options, {
+                                    name: username,
+                                    password: shortid.generate()
+                                })
+                            )
+                    )
                 )
             )
-        );
-
-        this.props.close();
+            .then(users => {
+                window.open(
+                    window.location.origin +
+                        '/' +
+                        window.location.pathname.split('/')[1] +
+                        '/admin/userprintcards?user_ids=' +
+                        JSON.stringify(users.map(user => user._id))
+                );
+                this.props.close();
+            });
     }
 
     public render() {
