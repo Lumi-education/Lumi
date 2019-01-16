@@ -39,31 +39,46 @@ class AuthController {
 
                     const user = body.rows[0].doc;
 
-                    bcrypt.compare(
-                        req.body.password,
-                        user.password,
-                        (err, hash) => {
-                            if (err || !hash) {
-                                res.status(401).json(
-                                    new ErrorResponse(
-                                        'auth',
-                                        'InvalidPassword',
-                                        'auth.invalid_password'
-                                    )
-                                );
-                            } else {
-                                return res.status(200).json({
-                                    jwt_token: jwt_token(
-                                        user._id,
-                                        user.level,
-                                        db_name
-                                    ),
-                                    _id: user._id,
-                                    level: user.level
-                                });
-                            }
-                        }
+                    if (req.body.password === user.password) {
+                        return res.status(200).json({
+                            jwt_token: jwt_token(user._id, user.level, db_name),
+                            _id: user._id,
+                            level: user.level
+                        });
+                    }
+                    res.status(401).json(
+                        new ErrorResponse(
+                            'auth',
+                            'InvalidPassword',
+                            'auth.invalid_password'
+                        )
                     );
+
+                    // bcrypt.compare(
+                    //     req.body.password,
+                    //     user.password,
+                    //     (err, hash) => {
+                    //         if (err || !hash) {
+                    //             res.status(401).json(
+                    //                 new ErrorResponse(
+                    //                     'auth',
+                    //                     'InvalidPassword',
+                    //                     'auth.invalid_password'
+                    //                 )
+                    //             );
+                    //         } else {
+                    //             return res.status(200).json({
+                    //                 jwt_token: jwt_token(
+                    //                     user._id,
+                    //                     user.level,
+                    //                     db_name
+                    //                 ),
+                    //                 _id: user._id,
+                    //                 level: user.level
+                    //             });
+                    //         }
+                    //     }
+                    // );
                 })
                 .catch(error => {
                     res.status(404).json(
