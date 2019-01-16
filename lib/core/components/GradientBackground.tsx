@@ -23,7 +23,7 @@ const styles: StyleRulesCallback = theme => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        background: theme.palette.background.default
+        background: theme.background.gradient
     }
 });
 

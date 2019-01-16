@@ -36,7 +36,7 @@ const styles: StyleRulesCallback = theme => ({
         flexGrow: 1
     },
     toolbar: {
-        background: theme.palette.background.default
+        background: theme.background.gradient
     },
     title: {
         display: 'none',
