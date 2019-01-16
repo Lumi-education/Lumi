@@ -154,9 +154,9 @@ export class GroupSettingsTab extends React.Component<IProps, IComponentState> {
                             color="primary"
                             onClick={() =>
                                 this.props.dispatch(
-                                    Core.actions.update<Groups.models.Group>(
+                                    Groups.actions.update_groups([
                                         this.props.group
-                                    )
+                                    ])
                                 )
                             }
                         >

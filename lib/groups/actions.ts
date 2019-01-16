@@ -120,6 +120,18 @@ export function delete_groups(groups: Group[]) {
     // return
 }
 
+export function update_groups(groups: IGroup[]) {
+    return {
+        types: [
+            GROUPS_UPDATE_GROUP_REQUEST,
+            GROUPS_UPDATE_GROUP_SUCCESS,
+            GROUPS_UPDATE_GROUP_ERROR
+        ],
+        api: API.update(groups),
+        payload: groups
+    };
+}
+
 // export function delete_group(group_id: string) {
 //     return {
 //         types: [
