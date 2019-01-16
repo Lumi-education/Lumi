@@ -5,6 +5,8 @@ export const DB_DENIED = 'DB_DENIED';
 export const DB_ERROR = 'DB_ERROR';
 export const DB_PAUSED = 'DB_PAUSED';
 export const DB_PENDING_DOCS = 'DB_PENDIG_DOCS';
+export const DB_START = 'DB_START';
+
 export function active() {
     return { type: DB_ACTIVE };
 }
@@ -33,5 +35,11 @@ export function pending_docs(num: number) {
     return {
         type: DB_PENDING_DOCS,
         payload: num
+    };
+}
+
+export function start() {
+    return {
+        type: DB_START
     };
 }

@@ -29,6 +29,7 @@ import SettingsPage from './settings-page';
 // modules
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 
 import CreateCardDialog from 'client/dialogs/card-create-dialog';
 import AssignmentDialog from 'client/dialogs/assignment-view-dialog';
@@ -77,6 +78,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <ErrorBoundary>
                     <AssignmentDialog />
                 </ErrorBoundary>
+                <DB.container.SyncProgress />
                 <div
                     style={{
                         paddingBottom: '40px'
