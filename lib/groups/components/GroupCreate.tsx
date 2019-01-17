@@ -105,7 +105,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
             .groups_list(state)
             .map(group => group.name),
         classes: ownProps.classes,
-        group: state.groups.ui.group,
+        group: Groups.selectors.ui_group(state),
         error_message: state.groups.ui.error.message
     };
 }

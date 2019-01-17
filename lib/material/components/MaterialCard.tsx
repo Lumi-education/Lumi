@@ -76,16 +76,7 @@ export default withStyles(styles)(
             return (
                 <Card className={classes.material}>
                     <CardHeader
-                        avatar={
-                            <MaterialAvatar
-                                h5p_main_library={
-                                    (material as IH5PMaterial).h5p
-                                        ? (material as IH5PMaterial).h5p
-                                              .mainLibrary
-                                        : ''
-                                }
-                            />
-                        }
+                        avatar={<MaterialAvatar material={material} />}
                         title={material.name}
                     />
                     <Divider />

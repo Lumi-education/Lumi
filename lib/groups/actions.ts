@@ -120,7 +120,7 @@ export function delete_groups(groups: Group[]) {
     // return
 }
 
-export function update_groups(groups: IGroup[]) {
+export function update_groups(groups: Group[]) {
     return {
         types: [
             GROUPS_UPDATE_GROUP_REQUEST,

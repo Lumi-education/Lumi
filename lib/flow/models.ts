@@ -8,7 +8,7 @@ export class Assignment implements IAssignment {
     public _deleted: boolean;
     public _attachments: {};
     public user_id: string;
-    public card_id: string; // h5p content_id ?
+    public material_id: string;
     public completed: boolean;
     public data: {
         finished?: number;
@@ -23,12 +23,12 @@ export class Assignment implements IAssignment {
     public finished: number;
     public type: 'assignment';
 
-    constructor(assignment?: IAssignment) {
+    constructor(assignment?) {
         return assign(
             this,
             {
                 _id: null,
-                card_id: null,
+                material_id: null,
                 user_id: null,
                 type: 'assignment',
                 completed: false,

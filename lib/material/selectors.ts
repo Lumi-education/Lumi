@@ -11,6 +11,13 @@ export function material(state: IState, material_id: string): Material {
     );
 }
 
+export function material_list(
+    state: IState,
+    material_ids: string[]
+): Material[] {
+    return material_ids.map(_id => material(state, _id));
+}
+
 export function all(state: IState): Material[] {
     return state.material.list.map(m => new Material(m));
 }

@@ -46,7 +46,7 @@ export class Root extends React.Component<IProps, IComponentState> {
                 <AppBar />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '80px' }}>
-                    <Switch>
+                    {/* <Switch>
                         <Route exact={true} path="/user" component={FlowPage} />
                         <Route
                             exact={true}
@@ -68,7 +68,7 @@ export class Root extends React.Component<IProps, IComponentState> {
                             path="/user/comments/:ref_id"
                             component={CommentsPage}
                         />
-                    </Switch>
+                    </Switch> */}
                 </div>
             </div>
         );

@@ -16,6 +16,7 @@ import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import styles from './styles';
 import * as Core from 'lib/core';
 import * as Material from 'lib/material';
+import * as Flow from 'lib/flow';
 
 const log = debug('lumi:pages:material:right-drawer');
 
@@ -25,7 +26,7 @@ interface IStateProps {
     classes?: any;
     theme?: any;
     close: () => void;
-    // open_assign_dialog: () => void;
+    open_assign_dialog: () => void;
     view_material: (material_id: string) => void;
 }
 
@@ -33,8 +34,13 @@ interface IDispatchProps {}
 
 interface IProps extends IStateProps, IDispatchProps {}
 
+interface IComponentState {}
+
 export default withStyles(styles, { withTheme: true })(
-    class CardsPageRightDrawer extends React.Component<IProps, {}> {
+    class CardsPageRightDrawer extends React.Component<
+        IProps,
+        IComponentState
+    > {
         constructor(props: IProps) {
             super(props);
 
@@ -66,7 +72,7 @@ export default withStyles(styles, { withTheme: true })(
                             variant="contained"
                             color="secondary"
                             className={classes.button}
-                            // onClick={this.props.open_assign_dialog}
+                            onClick={this.props.open_assign_dialog}
                         >
                             <RecentActorsIcon className={classes.leftIcon} />
                             {Core.i18n.t('assign.material')}

@@ -65,7 +65,7 @@ function mapStateToProps(state: Groups.types.IState, ownProps): IStateProps {
         group_ids: ownProps.group_ids,
         classes: ownProps.classes,
         onChange: ownProps.onChange,
-        groups: state.groups.list
+        groups: Groups.selectors.groups_list(state)
     };
 }
 

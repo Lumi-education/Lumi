@@ -13,6 +13,7 @@ import GroupUsersTab from './group-users-tab';
 import GroupFlowTab from './group-flow-tab';
 import GroupSettingsTab from './group-settings-tab';
 import GroupCardsTab from './group-cards-tab';
+import GroupAssignmentTableTab from './GroupAssignmentsTableTab';
 
 // modules
 import * as Core from 'lib/core';
@@ -138,7 +139,10 @@ export class AdminGroup extends React.Component<IProps, IComponentState> {
                             );
                         case 'flow':
                             return (
-                                <GroupFlowTab group_id={this.props.group_id} />
+                                <GroupAssignmentTableTab
+                                    group_id={this.props.group_id}
+                                />
+                                // <GroupFlowTab group_id={this.props.group_id} />
                             );
                         case 'cards':
                             return (

@@ -24,14 +24,13 @@ import { push } from 'lib/ui/actions';
 import { IState } from 'client/state';
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as Comments from 'lib/comments';
 
 interface IStateProps {
     assignment_id: string;
     assignment: Flow.models.Assignment;
     flow: string[];
-    card: (card_id: string) => Cards.ICard;
+    // card: (card_id: string) => Cards.ICard;
     user_id: string;
     unread_comments: Comments.models.Comment[];
 }
@@ -54,11 +53,11 @@ export class UserFlow extends React.Component<IProps, {}> {
         return (
             <div>
                 <Paper>
-                    <Cards.CardViewContainer
+                    {/* <Cards.CardViewContainer
                         user_id={this.props.user_id}
                         card_id={this.props.assignment.card_id}
                         assignment_id={this.props.assignment_id}
-                    />
+                    /> */}
                 </Paper>
 
                 <BottomNavigation
@@ -179,7 +178,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         ),
         assignment_id: ownProps.match.params.assignment_id,
         flow: state.users.me.flow || [],
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        // card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         user_id: state.users.me._id,
         unread_comments: Comments.selectors.unread(
             state,

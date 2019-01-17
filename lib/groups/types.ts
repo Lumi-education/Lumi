@@ -8,7 +8,7 @@ export interface IGroup extends IDoc {
     name: string;
     created_at: Date;
     autojoin: boolean;
-    cards: string[];
+    material_ids: string[];
 }
 
 export interface IGroupUI {

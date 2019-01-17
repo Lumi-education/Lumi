@@ -114,7 +114,7 @@ function mapStateToProps(state: Groups.types.IState, ownProps): IStateProps {
     return {
         open: Groups.selectors.dialog(state, 'create'),
         classes: ownProps.classes,
-        group: state.groups.ui.group,
+        group: Groups.selectors.ui_group(state),
         existing_groupnames: Groups.selectors
             .groups_list(state)
             .map(group => group.name)

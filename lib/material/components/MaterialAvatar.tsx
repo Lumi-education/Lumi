@@ -4,10 +4,13 @@ import * as debug from 'debug';
 import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
+import { Material } from '../models';
+import { IH5PMaterial } from '../types';
+
 const log = debug('lumi:cards:components:card-avatar');
 
 interface IProps {
-    h5p_main_library: string;
+    material: Material;
     classes: any;
 }
 
@@ -24,7 +27,11 @@ export default withStyles(styles)(
         }
 
         public render() {
-            const { h5p_main_library } = this.props;
+            const material = this.props.material as IH5PMaterial;
+
+            const h5p_main_library = material.h5p
+                ? material.h5p.mainLibrary
+                : '';
 
             let source = '/static/h5p/images/';
 

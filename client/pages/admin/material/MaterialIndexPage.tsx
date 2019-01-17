@@ -11,6 +11,7 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import MaterialAssignDialog from './MaterialAssignDialog';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -23,6 +24,7 @@ import { IState } from 'client/state';
 // modules
 import * as UI from 'lib/ui';
 import * as Material from 'lib/material';
+import * as Flow from 'lib/flow';
 
 import styles from './styles';
 import moment = require('moment');
@@ -145,28 +147,30 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
         const { classes } = this.props;
         const { open } = this.state;
 
-        const material = this.props.material;
-        // .sort(
-        //     (a, b) =>
-        //         moment(b.created_at).unix() - moment(a.created_at).unix()
-        // )
-        // .filter(material => {
-        //     if (this.props.selected_material_ids.indexOf(material._id) > -1) {
-        //         return false;
-        //     }
-        //     const search = this.props.search_text.split(' ');
+        const material = this.props.material
+            // .sort(
+            //     (a, b) =>
+            //         moment(b.created_at).unix() - moment(a.created_at).unix()
+            // )
+            .filter(_material => {
+                if (
+                    this.props.selected_material_ids.indexOf(_material._id) > -1
+                ) {
+                    return false;
+                }
+                // const search = this.props.search_text.split(' ');
 
-        //     for (let i = 0; i < search.length; i++) {
-        //         if (!material._index) {
-        //             return false;
-        //         }
-        //         if (material._index.indexOf(search[i].toLowerCase()) === -1) {
-        //             return false;
-        //         }
-        //     }
+                // for (let i = 0; i < search.length; i++) {
+                //     if (!_material._index) {
+                //         return false;
+                //     }
+                //     if (_material._index.indexOf(search[i].toLowerCase()) === -1) {
+                //         return false;
+                //     }
+                // }
 
-        //     return true;
-        // });
+                return true;
+            });
 
         return (
             <div className={classes.root}>
@@ -265,6 +269,11 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                 )
                             )
                         }
+                        open_assign_dialog={() =>
+                            this.props.dispatch(
+                                Flow.actions.ui_open_user_assign_dialog()
+                            )
+                        }
                     />
                 </DragDropContext>
                 <Fab
@@ -288,6 +297,7 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                     <AddIcon />
                 </Fab>
                 {/* <CardsAssignDialog /> */}
+                <MaterialAssignDialog />
             </div>
         );
     }

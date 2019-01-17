@@ -192,7 +192,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         group_id,
         users: Users.selectors.users_in_group(state, ownProps.group_id),
-        group: state.groups.ui.group,
+        group: Groups.selectors.ui_group(state),
         group_in_state: Groups.selectors.group(state, group_id),
         selected_users: state.users.ui.selected_users,
         classes: ownProps.classes

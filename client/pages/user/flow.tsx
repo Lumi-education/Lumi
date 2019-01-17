@@ -23,7 +23,6 @@ import { IState } from 'client/state';
 // modules
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
 import * as Comments from 'lib/comments';
 
@@ -31,7 +30,7 @@ interface IPassedProps {}
 interface IStateProps extends IPassedProps {
     assignment: (assignment_id: string) => Flow.models.Assignment;
     flow: string[];
-    card: (card_id: string) => Cards.ICard;
+    // card: (card_id: string) => Cards.ICard;
     unread_comments: (assignment_id: string) => Comments.models.Comment[];
 }
 
@@ -55,7 +54,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                 {this.props.flow.length === 0
                     ? Core.i18n.t('list_empty')
                     : null}
-                <List>
+                {/* <List>
                     {this.props.flow.map((assignment_id: string) => {
                         const assignment = this.props.assignment(assignment_id);
                         if (assignment.completed) {
@@ -148,7 +147,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                             />
                         );
                     })}
-                </List>
+                </List> */}
             </Paper>
         );
     }
@@ -159,7 +158,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         assignment: assignment_id =>
             Flow.selectors.assignment_by_id(state, assignment_id),
         flow: state.users.me.flow || [],
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        // card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         unread_comments: (assignment_id: string) =>
             Comments.selectors.unread(state, assignment_id, state.users.me._id)
     };

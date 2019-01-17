@@ -5,12 +5,15 @@ import {
     FLOW_UI_SET_SELECTED_ASSIGNMENTS,
     FLOW_UI_SELECT_ASSIGNMENT,
     FLOW_UI_CHANGE_ASSIGNMENT,
-    FLOW_UI_RESET_ASSIGNMENT
+    FLOW_UI_RESET_ASSIGNMENT,
+    FLOW_UI_OPEN_USER_ASSIGN_DIALOG,
+    FLOW_UI_CLOSE_USER_ASSIGN_DIALOG,
+    FLOW_ASSIGN_SUCCESS
 } from '../actions';
 
 const initialState: IFlowUI = {
     selected_assignments: [],
-    show_dialog: false,
+    show_user_assign_dialog: false,
     assignment: {}
 };
 
@@ -51,6 +54,18 @@ export default function(state: IFlowUI = initialState, action): IFlowUI {
 
             case FLOW_UI_RESET_ASSIGNMENT:
                 return assign({}, state, { assignment: {} });
+
+            case FLOW_UI_OPEN_USER_ASSIGN_DIALOG:
+                return { ...state, show_user_assign_dialog: true };
+
+            case FLOW_ASSIGN_SUCCESS:
+                return {
+                    ...state,
+                    show_user_assign_dialog: false
+                };
+            case FLOW_UI_CLOSE_USER_ASSIGN_DIALOG:
+                return { ...state, show_user_assign_dialog: false };
+
             default:
                 return state;
         }

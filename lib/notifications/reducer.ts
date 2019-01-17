@@ -2,6 +2,7 @@ import * as Users from 'lib/users';
 import * as Groups from 'lib/groups';
 import * as Material from 'lib/material';
 import * as DB from 'lib/db';
+import * as Flow from 'lib/flow';
 
 import { Notification } from './models';
 
@@ -9,6 +10,12 @@ const defaultState: Notification[] = [];
 
 export default (state: Notification[] = defaultState, action) => {
     switch (action.type) {
+        case Flow.actions.FLOW_ASSIGN_SUCCESS:
+            return [
+                ...state,
+                new Notification('flow.assign.success', 'success')
+            ];
+
         case Groups.actions.GROUPS_CREATE_SUCCESS:
             return [
                 ...state,

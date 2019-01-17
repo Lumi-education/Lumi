@@ -19,7 +19,6 @@ import {
 
 import * as UI from 'lib/ui';
 import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
@@ -30,9 +29,9 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     assignments: Flow.models.Assignment[];
     assignment: (assignment_id: string) => Flow.models.Assignment;
-    card_name: (card_id: string) => string;
+    // card_name: (card_id: string) => string;
     user: Users.models.User;
-    card: (card_id: string) => Cards.ICard;
+    // card: (card_id: string) => Cards.ICard;
     group: (group_id: string) => Groups.models.Group;
     selected_tags: string[];
 }
@@ -77,10 +76,10 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                     />
                 </Paper>
                 <Paper style={{ padding: '15px' }} />
-                {this.props.user.flow.map(assignment_id => {
+                {/* {this.props.user.flow.map(assignment_id => {
                     const assignment = this.props.assignment(assignment_id);
 
-                    const card = this.props.card(assignment.card_id);
+                    const card = {}//this.props.card(assignment.card_id);
 
                     if (
                         intersection(card.tags, this.props.selected_tags)
@@ -103,7 +102,7 @@ export class UserFlowTab extends React.Component<IProps, IComponentState> {
                             </Card>
                         </div>
                     );
-                })}
+                })} */}
 
                 <FloatingActionButton
                     onClick={() => {
@@ -135,8 +134,8 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         ),
         assignment: assignment_id =>
             Flow.selectors.assignment_by_id(state, assignment_id),
-        card_name: (card_id: string) => Cards.selectors.name(state, card_id),
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        // card_name: (card_id: string) => Cards.selectors.name(state, card_id),
+        // card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         group: (group_id: string) => Groups.selectors.group(state, group_id),
         selected_tags: state.tags.ui.selected_tags
     };
