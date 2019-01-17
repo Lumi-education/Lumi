@@ -6,7 +6,7 @@ export interface IAssignment extends IDoc {
     _deleted: boolean;
     _attachments: {};
     user_id: string;
-    card_id: string; // h5p content_id ?
+    material_id: string;
     type: 'assignment';
     completed: boolean;
     data: {
@@ -25,7 +25,7 @@ export interface IAssignment extends IDoc {
 
 export interface IFlowUI {
     selected_assignments: string[]; // deprecate with universal selection module #286
-    show_dialog: boolean;
+    show_user_assign_dialog: boolean;
     assignment: any;
 }
 

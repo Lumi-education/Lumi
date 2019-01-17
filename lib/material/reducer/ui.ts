@@ -13,7 +13,7 @@ import {
 
 import { IMaterialUI } from '../types';
 
-import * as Core from 'lib/core';
+import * as Flow from 'lib/flow';
 
 const initialState: IMaterialUI = {
     selected_material: [],
@@ -45,6 +45,7 @@ export default function(
             });
 
         case MATERIAL_SELECTION_RESET:
+        case Flow.actions.FLOW_ASSIGN_SUCCESS:
             return assign({}, state, { selected_material: [] });
 
         case MATERIAL_ADD_MATERIAL_TO_SELECTION:

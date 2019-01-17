@@ -2,8 +2,6 @@ import { combineReducers } from 'redux';
 
 import { i18nReducer } from 'react-redux-i18n';
 
-import { IState as ICards, reducer as cards } from 'lib/cards';
-
 import * as Auth from 'lib/auth';
 import * as Core from 'lib/core';
 import * as Comments from 'lib/comments';
@@ -17,7 +15,6 @@ import * as Material from 'lib/material';
 import * as Notifications from 'lib/notifications';
 
 const root_reducer = combineReducers({
-    cards,
     auth: Auth.reducer,
     core: Core.reducer,
     comments: Comments.reducer,
@@ -35,8 +32,7 @@ const root_reducer = combineReducers({
 export default root_reducer;
 
 export interface IState
-    extends ICards,
-        Tags.types.IState,
+    extends Tags.types.IState,
         Core.types.IState,
         Auth.types.IState,
         DB.types.IState,

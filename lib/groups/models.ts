@@ -11,7 +11,7 @@ export class Group implements IGroup {
     public name: string;
     public created_at: Date;
     public autojoin: boolean;
-    public cards: string[];
+    public material_ids: string[];
 
     constructor(g?: any) {
         const init: IGroup = {
@@ -23,8 +23,14 @@ export class Group implements IGroup {
             name: '',
             created_at: new Date(),
             autojoin: false,
-            cards: []
+            material_ids: []
         };
         return assign(this, init, g);
+    }
+
+    public add_material(material_ids: string[]): Group {
+        return assign({}, this, {
+            material_ids: [...this.material_ids, ...material_ids]
+        });
     }
 }

@@ -12,7 +12,6 @@ import { IState } from 'client/state';
 // modules
 import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
-import * as Cards from 'lib/cards';
 
 const log = debug('lumi:lib:collections:container:collection-assign-dialog');
 
@@ -43,9 +42,9 @@ export class GroupsAssignDialog extends React.Component<
     }
 
     public componentWillReceiveProps(nextProps: IProps) {
-        if (!this.props.open && nextProps.open) {
-            this.props.dispatch(Cards.actions.reset_card_selection());
-        }
+        // if (!this.props.open && nextProps.open) {
+        //     this.props.dispatch(Cards.actions.reset_card_selection());
+        // }
     }
 
     public render() {

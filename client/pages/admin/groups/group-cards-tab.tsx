@@ -14,7 +14,6 @@ import SVGContentAdd from 'material-ui/svg-icons/content/add';
 // modules
 import * as Core from 'lib/core';
 import * as Groups from 'lib/groups';
-import * as Cards from 'lib/cards';
 import * as UI from 'lib/ui';
 
 const log_info = debug('lumi:info:pages:admin:groups:group-cards-tab');
@@ -24,8 +23,8 @@ interface IPassedProps {
 }
 interface IStateProps extends IPassedProps {
     group: Groups.models.Group;
-    cards: Cards.ICard[];
-    selected_cards: string[];
+    // cards: Cards.ICard[];
+    // selected_cards: string[];
 
     classes: any;
 }
@@ -54,7 +53,7 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
     }
 
     public render() {
-        const { classes, cards } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.contentContainer}>
@@ -89,9 +88,9 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
                                 this.setState({
                                     show_add_material_dialog: false
                                 });
-                                this.props.dispatch(
-                                    Cards.actions.reset_card_selection()
-                                );
+                                // this.props.dispatch(
+                                //     Cards.actions.reset_card_selection()
+                                // );
                             }}
                             secondary={true}
                         />
@@ -107,12 +106,12 @@ export class GroupCardsTab extends React.Component<IProps, IComponentState> {
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
         group_id: ownProps.group_id,
-        group: state.groups.ui.group,
-        cards: Cards.selectors.select_cards_by_ids(
-            state,
-            state.groups.ui.group.cards
-        ),
-        selected_cards: state.cards.ui.selected_cards,
+        group: Groups.selectors.ui_group(state),
+        // cards: Cards.selectors.select_cards_by_ids(
+        //     state,
+        //     state.groups.ui.group.cards
+        // ),
+        // selected_cards: state.cards.ui.selected_cards,
         classes: ownProps.classes
     };
 }

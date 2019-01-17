@@ -29,7 +29,6 @@ import SVGAction from 'material-ui/svg-icons/action/build';
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as Groups from 'lib/groups';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
@@ -49,7 +48,7 @@ interface IStateProps extends IPassedProps {
     selected_assignments: string[];
     user: (user_id: string) => Users.models.User;
     assignment: (assignment_id: string) => Flow.models.Assignment;
-    card: (card_id: string) => Cards.ICard;
+    // card: (card_id: string) => Cards.ICard;
     selected_tags: string[];
 }
 
@@ -157,13 +156,13 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                 assignment_id
                                             );
 
-                                            const card = this.props.card(
-                                                assignment.card_id
-                                            );
+                                            // const card = this.props.card(
+                                            //     assignment.card_id
+                                            // );
 
                                             if (
                                                 intersection(
-                                                    card.tags,
+                                                    // card.tags,
                                                     this.props.selected_tags
                                                 ).length !==
                                                 this.props.selected_tags.length
@@ -211,7 +210,7 @@ export class GroupFlowTab extends React.Component<IProps, IComponentState> {
                                                         }}
                                                     >
                                                         <CardHeader
-                                                            title={card.name}
+                                                            // title={card.name}
                                                             showExpandableButton={
                                                                 false
                                                             }
@@ -331,7 +330,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         group: Groups.selectors.group(state, ownProps.group_id),
         selected_users: state.users.ui.selected_users,
         selected_assignments: state.flow.ui.selected_assignments,
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        // card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         selected_tags: state.tags.ui.selected_tags
     };
 }
