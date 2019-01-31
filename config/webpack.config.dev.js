@@ -13,15 +13,15 @@ module.exports = Object.assign(sharedConfig, {
         historyApiFallback: true,
         proxy: {
             '/api/*': {
-                target: process.env.SERVER || 'http://localhost:3000',
+                target: process.env.SERVER || 'http://localhost',
                 secure: false
             },
             '/h5p': {
-                target: process.env.SERVER || 'http://localhost:3000',
+                target: process.env.SERVER || 'http://localhost',
                 secure: false
             },
             '/socket.io': {
-                target: process.env.WS_SERVER || 'http://localhost:3000',
+                target: process.env.WS_SERVER || 'http://localhost',
                 secure: false,
                 ws: true
             }

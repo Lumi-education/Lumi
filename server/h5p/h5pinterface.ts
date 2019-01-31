@@ -7,12 +7,16 @@ import { IDB } from '../db_v1/interface';
 import { IH5PMaterial } from 'lib/material/types';
 import { IH5PInterface, IContent, IH5P } from 'h5p-nodejs-library';
 import upload_complete from './upload_complete';
+import handle_response from './handle_response';
+import generate_id from './generate_id';
 
 const log_error = debug('lumi:error:h5p:interface');
 const log_info = debug('lumi:info:h5p:interface');
 
 const h5pinterface: IH5PInterface = {
+    generate_id,
     upload_complete,
+    handle_response,
     load_content_json: (
         req: express.Request,
         cb: (error, content: IContent) => void

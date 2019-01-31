@@ -2,7 +2,9 @@ import * as url from 'url';
 import { assign } from 'lodash';
 import * as debug from 'debug';
 import * as nano from 'nano';
-
+import * as fs from 'fs';
+import * as path from 'path';
+import * as mkdirp from 'mkdirp';
 import * as raven from 'raven';
 
 const log_info = debug('lumi:info:db:driver:v1:couchdb');
@@ -105,11 +107,64 @@ export default class DB implements IDB {
     ): Promise<Buffer> {
         return new Promise<Buffer>((resolve, reject) => {
             log_info('getAttachment', doc_id, attachment_name);
-            this.db.attachment.get(doc_id, attachment_name, (error, result) => {
-                if (error) {
-                    return reject(error);
+            const cached_file_path = path.resolve(
+                path.join('build/cache', doc_id, attachment_name)
+            );
+            log_info(
+                'getAttachment',
+                'checking cached file at ',
+                cached_file_path
+            );
+            fs.readFile(cached_file_path, (err, data) => {
+                if (err) {
+                    log_info('getAttachment', 'no cached file found');
+                    return this.db.attachment.get(
+                        doc_id,
+                        attachment_name,
+                        (error, result) => {
+                            if (error) {
+                                log_error('getAttachment', error);
+                                return reject(error);
+                            }
+                            log_info('getAttachment', 'caching file');
+                            mkdirp(
+                                path.join('build/cache', doc_id),
+                                mkdirp_error => {
+                                    if (mkdirp_error) {
+                                        log_error(
+                                            'getAttachment',
+                                            mkdirp_error
+                                        );
+                                        return resolve(result);
+                                    }
+                                    fs.writeFile(
+                                        cached_file_path,
+                                        result,
+                                        _err => {
+                                            if (_err) {
+                                                return log_error(
+                                                    'getAttachment',
+                                                    _err
+                                                );
+                                            }
+                                            log_info(
+                                                'getAttachment',
+                                                'file cached'
+                                            );
+                                        }
+                                    );
+                                    log_info(
+                                        'getAttachment',
+                                        'sending cached file'
+                                    );
+                                    resolve(result);
+                                }
+                            );
+                        }
+                    );
                 }
-                resolve(result);
+                log_info('getAttachment', 'cached file found - sending file');
+                resolve(data);
             });
         });
     }

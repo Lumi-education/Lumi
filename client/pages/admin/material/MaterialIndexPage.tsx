@@ -28,7 +28,8 @@ import * as Flow from 'lib/flow';
 
 import styles from './styles';
 import moment = require('moment');
-// import CardsAssignDialog from 'client/dialogs/material-assign-dialog';
+
+const ITEMS_PER_PAGE = 9;
 
 const log_info = debug('lumi:info:pages:admin:material:material-page');
 
@@ -40,6 +41,8 @@ interface IStateProps {
     search_text: string;
     // selected_tags: string[];
 
+    bookmark: string;
+    page_has_more: boolean;
     classes: any;
 }
 
@@ -54,7 +57,6 @@ interface IComponentState {
     loading_step?: number;
     open?: boolean;
     loading_more: boolean;
-    search_text?: string;
     page: number;
 }
 
@@ -67,8 +69,8 @@ const reorder = (list: string[], startIndex: number, endIndex: number) => {
 };
 
 export class AdminCards extends React.Component<IProps, IComponentState> {
+    private search_timeout: any;
     private load_more: any;
-    // private search_timeout: any;
     constructor(props: IProps) {
         super(props);
 
@@ -77,24 +79,58 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
             loading_step: 0,
             open: false,
             loading_more: false,
-            search_text: '',
-            page: 1
+            page: 0
         };
 
+        this.set_search_text = this.set_search_text.bind(this);
         this.load_more = throttle((page: number) => {
             this.setState({ page });
-        }, 1000);
+            this.fetch_search();
+        }, 500);
 
-        this.set_search_text = this.set_search_text.bind(this);
+        this.fetch_search = this.fetch_search.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
     }
 
     public componentWillMount() {
         log_info('componentWillMount');
+        this.fetch_search();
+    }
+
+    public fetch_search() {
+        this.setState({ loading_more: true });
+        const regex = this.props.search_text.split(' ').map(word => {
+            return { index: { $regex: word.toLowerCase() } };
+        });
+
+        this.props
+            .dispatch(
+                Material.actions.find({
+                    selector: {
+                        $and: regex
+                    },
+                    limit: ITEMS_PER_PAGE,
+                    skip:
+                        this.props.bookmark !== 'nil' && this.props.bookmark
+                            ? undefined
+                            : this.state.page * ITEMS_PER_PAGE,
+                    bookmark:
+                        this.props.bookmark !== 'nil' && this.props.bookmark
+                            ? this.props.bookmark
+                            : undefined
+                })
+            )
+            .then(res => {
+                this.setState({ loading_more: false });
+            });
     }
 
     public set_search_text(e) {
         this.props.dispatch(UI.actions.set_search_filter(e));
+        clearTimeout(this.search_timeout);
+        this.search_timeout = setTimeout(this.fetch_search, 1000);
+        this.props.dispatch(Material.actions.ui_reset_bookmark());
+        this.setState({ page: 0 });
     }
 
     public onDragEnd(result) {
@@ -158,16 +194,14 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                 ) {
                     return false;
                 }
-                // const search = this.props.search_text.split(' ');
+                const search = this.props.search_text.toLowerCase().split(' ');
+                const _index = _material.index;
 
-                // for (let i = 0; i < search.length; i++) {
-                //     if (!_material._index) {
-                //         return false;
-                //     }
-                //     if (_material._index.indexOf(search[i].toLowerCase()) === -1) {
-                //         return false;
-                //     }
-                // }
+                for (let i = 0; i < search.length; i++) {
+                    if (_index.indexOf(search[i].toLowerCase()) === -1) {
+                        return false;
+                    }
+                }
 
                 return true;
             });
@@ -192,10 +226,11 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                         {this.state.loading ? <LinearProgress /> : null}
 
                         <InfiniteScroll
-                            pageStart={1}
+                            pageStart={0}
                             loadMore={this.load_more}
-                            hasMore={this.state.page * 9 < material.length}
+                            hasMore={this.props.page_has_more}
                             threshold={20}
+                            initialLoad={true}
                             loader={<div className="loader" key={0} />}
                         >
                             <Droppable droppableId="material_list">
@@ -211,7 +246,10 @@ export class AdminCards extends React.Component<IProps, IComponentState> {
                                         }}
                                     >
                                         {material
-                                            .slice(0, this.state.page * 9)
+                                            // .slice(
+                                            //     0,
+                                            //     this.state.page * ITEMS_PER_PAGE
+                                            // )
                                             .map((_material, index) => (
                                                 <Draggable
                                                     key={_material._id}
@@ -311,7 +349,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         // selected_tags: state.tags.ui.selected_tags,
         // material: state.material.ui.material,
         search_text: state.ui.search_filter_text,
-        classes: ownProps.classes
+        classes: ownProps.classes,
+        bookmark: state.material.ui.bookmark,
+        page_has_more: state.material.ui.page_has_more
     };
 }
 

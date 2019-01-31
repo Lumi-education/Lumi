@@ -5,6 +5,7 @@ import * as Screenshot from 'url-to-screenshot';
 
 import DB from '../db_v1';
 import { IDB } from '../db_v1/interface';
+import { IMaterial } from 'lib/material/types';
 
 const log_error = debug('lumi:error:h5p:interface:upload_complete');
 const log_info = debug('lumi:info:h5p:interface:upload_complete');
@@ -33,7 +34,16 @@ export default function upload_complete(req: express.Request): Promise<{}> {
                 db.saveAttachment(content_id, 'preview.png', img, 'image/png')
                     .then(res => {
                         log_info(content_id, 'preview image saved to db');
-                        resolve();
+
+                        db.findById<IMaterial>(content_id).then(material => {
+                            material.index = JSON.stringify(material)
+                                .replace(/[^a-zA-Z0-9 -]/g, '')
+                                .toLowerCase();
+
+                            db.updateOne(material).then(update_material_res => {
+                                resolve();
+                            });
+                        });
                     })
                     .catch(error => {
                         log_error(error);

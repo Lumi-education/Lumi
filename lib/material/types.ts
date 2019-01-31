@@ -6,6 +6,7 @@ export interface IMaterial extends IDoc {
     type: 'material';
     material_type: Material_types;
     name: string;
+    index: string;
 }
 
 export interface IH5PMaterial extends IMaterial {
@@ -16,6 +17,8 @@ export interface IH5PMaterial extends IMaterial {
 export interface IMaterialUI {
     selected_material: string[];
     material: any;
+    bookmark: string;
+    page_has_more: boolean;
 }
 
 export interface IState {

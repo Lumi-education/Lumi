@@ -9,6 +9,7 @@ export class Material implements IMaterial {
     public type: 'material';
     public material_type: Material_types;
     public name: string;
+    public index: string;
 
     constructor(m?: any) {
         assign(
@@ -18,7 +19,8 @@ export class Material implements IMaterial {
                 _deleted: false,
                 type: 'material',
                 material_type: 'h5p',
-                name: ''
+                name: '',
+                index: ''
             },
             m
         );

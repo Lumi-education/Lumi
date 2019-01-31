@@ -4,14 +4,16 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import { setLocale } from 'react-redux-i18n';
 import { IState } from 'client/state';
 
-import AppBar from './app-bar';
-import LeftDrawer from './left-drawer';
+import AppBar from './AppBar';
+import LeftDrawer from './LeftDrawer';
 
 // pages
-import FlowPage from './flow';
-import AssignmentPage from './assignment';
-import CommentsPage from './comments';
-import SettingsPage from './settings';
+import FlowPage from './FlowPage';
+import AssignmentPage from './AssignmentPage';
+import CommentsPage from './CommentsPage';
+import SettingsPage from './SettingsPage';
+
+import MaterialFetchContainer from './MaterialFetchContainer';
 
 // modules
 import * as Users from 'lib/users';
@@ -43,32 +45,37 @@ export class Root extends React.Component<IProps, IComponentState> {
     public render() {
         return (
             <div id="root" key={this.props.locale}>
+                <MaterialFetchContainer />
                 <AppBar />
                 <LeftDrawer />
                 <div style={{ paddingBottom: '80px' }}>
-                    {/* <Switch>
-                        <Route exact={true} path="/user" component={FlowPage} />
+                    <Switch>
                         <Route
+                            exact={true}
+                            path="/:db/user"
+                            component={FlowPage}
+                        />
+                        {/* <Route
                             exact={true}
                             path="/user/settings"
                             component={SettingsPage}
-                        />
-                        <Route path="/user/flow" component={FlowPage} />
+                        /> */}
+                        <Route path="/:db/user/flow" component={FlowPage} />
                         <Route
                             exact={true}
-                            path="/user/assignment/:assignment_id"
+                            path="/:db/user/assignment/:assignment_id"
                             component={AssignmentPage}
                         />
                         <Route
                             exact={true}
-                            path="/user/assignment/:ref_id/comments"
+                            path="/:db/user/assignment/:ref_id/comments"
                             component={CommentsPage}
                         />
                         <Route
-                            path="/user/comments/:ref_id"
+                            path="/:db/user/comments/:ref_id"
                             component={CommentsPage}
                         />
-                    </Switch> */}
+                    </Switch>
                 </div>
             </div>
         );

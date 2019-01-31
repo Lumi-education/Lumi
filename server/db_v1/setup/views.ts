@@ -31,7 +31,8 @@ const views = [
         _id: '_design/user',
         views: {
             admin: {
-                map: 'function (doc) {\n  emit(doc._id); \n}'
+                map:
+                    'function (doc) {\n  if (doc.type !== "material") { emit(doc._id); } \n}'
             }
         },
         language: 'javascript'
@@ -92,6 +93,16 @@ const views = [
             autojoin: {
                 map:
                     "function (doc) {\n  if (doc.type === 'group') { \n    if (doc.autojoin) {\n          emit(doc._id, 1); \n\n    }\n    \n  }\n}"
+            }
+        },
+        language: 'javascript'
+    },
+    {
+        _id: '_design/material',
+        views: {
+            index: {
+                map:
+                    "function (doc) {\n  if (doc.type === 'material') { \n              emit(doc._id); \n    \n  }\n}"
             }
         },
         language: 'javascript'

@@ -2,6 +2,14 @@ export const MATERIAL_CREATE_REQUEST = 'MATERIAL_CREATE_REQUEST';
 export const MATERIAL_CREATE_SUCCESS = 'MATERIAL_CREATE_SUCCESS';
 export const MATERIAL_CREATE_ERROR = 'MATERIAL_CREATE_ERROR';
 
+export const MATERIAL_GET_REQUEST = 'MATERIAL_GET_REQUEST';
+export const MATERIAL_GET_SUCCESS = 'MATERIAL_GET_SUCCESS';
+export const MATERIAL_GET_ERROR = 'MATERIAL_GET_ERROR';
+
+export const MATERIAL_FIND_REQUEST = 'MATERIAL_FIND_REQUEST';
+export const MATERIAL_FIND_SUCCESS = 'MATERIAL_FIND_SUCCESS';
+export const MATERIAL_FIND_ERROR = 'MATERIAL_FIND_ERROR';
+
 export const MATERIAL_DELETE_REQUEST = 'MATERIAL_DELETE_REQUEST';
 export const MATERIAL_DELETE_SUCCESS = 'MATERIAL_DELETE_SUCCESS';
 export const MATERIAL_DELETE_ERROR = 'MATERIAL_DELETE_ERROR';
@@ -26,6 +34,8 @@ export const MATERIAL_REMOVE_MATERIAL_FROM_SELECTION =
     'MATERIAL_REMOVE_MATERIAL_FROM_SELECTION';
 export const MATERIAL_UI_SET_MATERIAL = 'MATERIAL_UI_SET_MATERIAL';
 
+export const MATERIAL_UI_RESET_BOOKMARK = 'MATERIAL_UI_RESET_BOOKMAR';
+
 import * as debug from 'debug';
 import { Material } from './models';
 import * as api from './api';
@@ -35,6 +45,11 @@ const log_info = debug('lumi:info:material:actions');
 
 export function create(material?: Material) {
     const _material = material || new Material();
+
+    _material.index = JSON.stringify(_material)
+        .replace(/[^a-zA-Z0-9 -]/g, '')
+        .toLowerCase();
+
     return {
         types: [
             MATERIAL_CREATE_REQUEST,
@@ -46,7 +61,35 @@ export function create(material?: Material) {
     };
 }
 
+export function get(_ids: string[]) {
+    return {
+        types: [
+            MATERIAL_CREATE_REQUEST,
+            MATERIAL_CREATE_SUCCESS,
+            MATERIAL_CREATE_ERROR
+        ],
+        api: api.get(_ids),
+        payload: _ids
+    };
+}
+
+export function find(query) {
+    return {
+        types: [
+            MATERIAL_FIND_REQUEST,
+            MATERIAL_FIND_SUCCESS,
+            MATERIAL_FIND_ERROR
+        ],
+        api: api.find(query),
+        payload: query
+    };
+}
+
 export function update(material: IMaterial) {
+    material.index = JSON.stringify(material)
+        .replace(/[^a-zA-Z0-9 -]/g, '')
+        .toLowerCase();
+
     return {
         types: [
             MATERIAL_UPDATE_REQUEST,
@@ -121,5 +164,11 @@ export function set_selected_material(material_ids: string[]) {
     return {
         material_ids,
         type: MATERIAL_UI_SET_SELECTED_MATERIAL
+    };
+}
+
+export function ui_reset_bookmark() {
+    return {
+        type: MATERIAL_UI_RESET_BOOKMARK
     };
 }

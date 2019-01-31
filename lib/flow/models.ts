@@ -17,10 +17,7 @@ export class Assignment implements IAssignment {
         maxScore?: number;
     };
     public state: any;
-    public updated_at?: Date;
-    public time: number;
     public archived: boolean;
-    public finished: number;
     public type: 'assignment';
 
     constructor(assignment?) {
@@ -34,10 +31,7 @@ export class Assignment implements IAssignment {
                 completed: false,
                 data: null,
                 archived: false,
-                score: null,
                 state: null,
-                time: 0,
-                finished: null,
                 _attachments: {}
             },
             assignment
@@ -63,8 +57,5 @@ export class Assignment implements IAssignment {
                 return moment(this.data.finished).format('llll');
             }
         }
-        return this.finished === null
-            ? null
-            : moment(this.finished).format('llll');
     }
 }

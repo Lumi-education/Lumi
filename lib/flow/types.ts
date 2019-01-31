@@ -17,9 +17,6 @@ export interface IAssignment extends IDoc {
         state?: any;
     };
     state: any;
-    updated_at?: Date;
-    finished: number;
-    time: number;
     archived: boolean;
 }
 

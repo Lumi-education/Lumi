@@ -9,6 +9,7 @@ import * as raven from 'raven';
 import AuthAPI from '../../api/v1/auth';
 import CoreAPI from '../../api/v1/core';
 import MaterialAPI from '../../api/v1/material';
+import FlowAPI from '../../api/v1/flow';
 
 import db from '../../db';
 
@@ -38,6 +39,7 @@ export default function(): express.Router {
         Auth.level(4),
         MaterialAPI.delete_material
     );
+    router.get('/:db/material', MaterialAPI.read_material);
     router.get(
         '/:db/material/:id/attachment/:attachment',
         MaterialAPI.get_attachment
@@ -49,6 +51,15 @@ export default function(): express.Router {
         Auth.level(4),
         MaterialAPI.update_material
     );
+
+    router.post('/:db/material/find', MaterialAPI.find);
+
+    router.get('/:db/flow/assignment/:assignment_id/state', FlowAPI.get_state);
+    router.post(
+        '/:db/flow/assignment/:assignment_id/state',
+        FlowAPI.save_state
+    );
+    router.post('/:db/flow/assignment/:assignment_id/data', FlowAPI.save_data);
 
     if (DB.protocol === null) {
         log_info('using pouchdb');
@@ -67,6 +78,11 @@ export default function(): express.Router {
                             assign(query, {
                                 filter: '_view',
                                 view: 'user/' + proxy_req.user._id
+                            });
+                        } else {
+                            assign(query, {
+                                filter: '_view',
+                                view: 'user/admin'
                             });
                         }
                         const queryString = qs.stringify(query);

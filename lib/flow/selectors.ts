@@ -46,6 +46,15 @@ export function assignment_by_id(
     }
 }
 
+export function assignment_by_ids(state: IState, ids: string[]): Assignment[] {
+    try {
+        return ids.map(id => assignment_by_id(state, id));
+    } catch (error) {
+        raven.captureExceoption(error);
+        return [];
+    }
+}
+
 export function assignments_for_cards(
     state: IState,
     material_ids: string[]

@@ -51,6 +51,48 @@ class MaterialController {
         }
     }
 
+    public find(req: IRequest, res: express.Response) {
+        const db: IDB = new DB(req.params.db);
+        const query = assign(req.body, {
+            selector: assign({}, req.body.selector, { type: 'material' })
+        });
+
+        db.find(query).then(response => res.status(200).json(response));
+    }
+
+    public read_material(req: IRequest, res: express.Response) {
+        try {
+            const db: IDB = new DB(req.params.db);
+            const material_ids = req.query.material_ids;
+
+            log_info('read_material', req.params.db, 'start');
+
+            db.view<IMaterial>('material', 'index', {
+                keys: JSON.parse(material_ids)
+            })
+                .then(response => {
+                    res.status(200).json(response.rows.map(row => row.doc));
+                })
+                .catch(error => {
+                    log_error('read_material', req.params.db, error);
+                    raven.captureException(error);
+                    res.status(500).json(
+                        new ErrorResponse(
+                            'material',
+                            'ServerError',
+                            'material.server_error'
+                        )
+                    );
+                });
+        } catch (error) {
+            log_error('read_material', req.params.db, error);
+            raven.captureException(error);
+            res.status(500).json(
+                new ErrorResponse('core', 'ServerError', 'core.server_error')
+            );
+        }
+    }
+
     public update_material(req: IRequest, res: express.Response) {
         try {
             const db: IDB = new DB(req.params.db);

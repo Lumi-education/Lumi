@@ -1,15 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as debug from 'debug';
 
 // material-ui
-import {
-    Paper,
-    BottomNavigation,
-    BottomNavigationItem,
-    IconButton,
-    IconMenu,
-    MenuItem
-} from 'material-ui';
+import Paper from '@material-ui/core/Paper';
 
 // material-ui -> icons
 import SVGLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
@@ -24,7 +18,11 @@ import { push } from 'lib/ui/actions';
 import { IState } from 'client/state';
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
+import * as Material from 'lib/material';
 import * as Comments from 'lib/comments';
+
+declare var window;
+const log_info = debug('lumi:info:pages:user:assignment');
 
 interface IStateProps {
     assignment_id: string;
@@ -49,18 +47,48 @@ export class UserFlow extends React.Component<IProps, {}> {
         this.state = {};
     }
 
+    public componentWillMount() {
+        log_info('componentWillMount');
+
+        (window as any).__H5P_USERDATA = this.props.assignment.state
+            ? {
+                  0: { state: this.props.assignment.state.data }
+              }
+            : undefined;
+    }
+
     public render() {
         return (
             <div>
                 <Paper>
-                    {/* <Cards.CardViewContainer
-                        user_id={this.props.user_id}
-                        card_id={this.props.assignment.card_id}
-                        assignment_id={this.props.assignment_id}
-                    /> */}
+                    <Material.components.H5P
+                        content_id={this.props.assignment.material_id}
+                        integration={{
+                            ajax: {
+                                setFinished:
+                                    '/api/v1/' +
+                                    window.location.pathname.split('/')[1] +
+                                    '/flow/assignment/' +
+                                    this.props.assignment_id +
+                                    '/data',
+                                contentUserData:
+                                    '/api/v1/' +
+                                    window.location.pathname.split('/')[1] +
+                                    '/flow/assignment/' +
+                                    this.props.assignment_id +
+                                    '/state?data_type=:dataType&subContentId=:subContentId'
+                            },
+                            saveFreq: 10,
+                            user: {
+                                name: this.props.user_id,
+                                mail: this.props.user_id + '@Lumi.education'
+                            },
+                            contents: {}
+                        }}
+                    />
                 </Paper>
 
-                <BottomNavigation
+                {/* <BottomNavigation
                     style={{
                         position: 'fixed',
                         bottom: '0px',
@@ -89,9 +117,9 @@ export class UserFlow extends React.Component<IProps, {}> {
                                     : 'block'
                         }}
                         icon={<SVGLeft />}
-                    />
+                    /> */}
 
-                    <BottomNavigationItem
+                {/* <BottomNavigationItem
                         icon={
                             <IconMenu
                                 iconButtonElement={
@@ -164,7 +192,7 @@ export class UserFlow extends React.Component<IProps, {}> {
                         }}
                         icon={<SVGRight />}
                     />
-                </BottomNavigation>
+                </BottomNavigation> */}
             </div>
         );
     }

@@ -8,7 +8,9 @@ import {
     MATERIAL_SELECTION_RESET,
     MATERIAL_UI_SET_MATERIAL,
     MATERIAL_ADD_MATERIAL_TO_SELECTION,
-    MATERIAL_REMOVE_MATERIAL_FROM_SELECTION
+    MATERIAL_REMOVE_MATERIAL_FROM_SELECTION,
+    MATERIAL_FIND_SUCCESS,
+    MATERIAL_UI_RESET_BOOKMARK
 } from '../actions';
 
 import { IMaterialUI } from '../types';
@@ -19,7 +21,9 @@ const initialState: IMaterialUI = {
     selected_material: [],
     material: {
         material_type: 'h5p'
-    }
+    },
+    bookmark: 'nil',
+    page_has_more: true
 };
 
 export default function(
@@ -43,6 +47,19 @@ export default function(
                     action.payload.material_id
                 ]
             });
+
+        case MATERIAL_FIND_SUCCESS:
+            return {
+                ...state,
+                bookmark: action.payload.bookmark,
+                page_has_more: !(action.payload.docs.length < 9)
+            };
+
+        case MATERIAL_UI_RESET_BOOKMARK:
+            return {
+                ...state,
+                bookmark: undefined
+            };
 
         case MATERIAL_SELECTION_RESET:
         case Flow.actions.FLOW_ASSIGN_SUCCESS:

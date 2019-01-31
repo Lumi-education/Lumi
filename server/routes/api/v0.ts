@@ -5,7 +5,6 @@ import * as path from 'path';
 import mw from '../../middleware';
 
 import AuthController from '../../controllers/api/auth.controller';
-import CardsController from '../../controllers/api/cards.controller';
 import GroupController from '../../controllers/api/groups.controller';
 import UsersController from '../../controllers/api/users.controller';
 import TagsController from '../../controllers/api/tags.controller';
@@ -22,7 +21,6 @@ export default function(): express.Router {
     const router = express.Router();
 
     const authController = new AuthController();
-    const cardsController = new CardsController();
     const groupController = new GroupController();
     const usersController = new UsersController();
     const tagsController = new TagsController();
@@ -118,25 +116,6 @@ export default function(): express.Router {
     router.get('/auth/username/:username', authController.username);
     router.post('/auth/password', authController.set_password);
 
-    // cards
-    router.get('/cards', mw.auth, mw.level(1), cardsController.list);
-    router.post('/cards', mw.auth, mw.level(1), cardsController.create);
-    router.get('/cards/:id', mw.auth, mw.level(0), cardsController.read);
-    router.put('/cards/:id', mw.auth, mw.level(3), cardsController.update);
-    router.delete('/cards/:id', mw.auth, mw.level(3), cardsController.delete);
-    router.post(
-        '/cards/:id/duplicate',
-        mw.auth,
-        mw.level(3),
-        cardsController.duplicate
-    );
-
-    // cards -> attachments
-    router.get(
-        '/core/attachment/:id/:attachment',
-        coreController.get_attachment
-    );
-
     // groups
     router.get('/groups', mw.auth, groupController.list);
     router.post('/groups', groupController.create);
@@ -158,13 +137,6 @@ export default function(): express.Router {
     router.get('/tags/:id', tagsController.read);
     router.put('/tags/:id', tagsController.update);
     router.delete('/tags/:id', tagsController.delete);
-
-    // user -> carddata
-    router.get('/user/card', mw.auth, cardsController.list);
-    router.post('/user/card', mw.auth, cardsController.create);
-    router.get('/user/card/:id', mw.auth, cardsController.read);
-    router.put('/user/card/:id', mw.auth, cardsController.update);
-    router.delete('/user/card/:id', mw.auth, cardsController.delete);
     router.put('/user', mw.auth, mw.level(0), usersController.update_myself);
 
     router.get('/user', mw.auth, mw.level(0), usersController.init);

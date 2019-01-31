@@ -149,7 +149,7 @@ class FlowController {
             req.body.user_ids.forEach(user_id => {
                 const _assignment: IAssignment = {
                     user_id,
-                    card_id,
+                    material_id: card_id,
                     _id: undefined,
                     _rev: undefined,
                     _deleted: false,
@@ -158,8 +158,6 @@ class FlowController {
                     data: {},
                     state: null,
                     archived: false,
-                    finished: null,
-                    time: null,
                     _attachments: {}
                 };
 

@@ -120,7 +120,7 @@ class AuthController {
 
                                         card_ids.forEach((card_id: string) => {
                                             const _assignment: IAssignment = {
-                                                card_id,
+                                                material_id: card_id,
                                                 _id: undefined,
                                                 _rev: undefined,
                                                 _deleted: false,
@@ -130,8 +130,6 @@ class AuthController {
                                                 data: {},
                                                 state: null,
                                                 archived: false,
-                                                finished: null,
-                                                time: null,
                                                 _attachments: {}
                                             };
 

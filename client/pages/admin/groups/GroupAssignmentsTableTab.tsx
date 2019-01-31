@@ -34,6 +34,7 @@ interface IPassedProps {
 interface IStateProps extends IPassedProps {
     // assignments: Flow.models.Assignment[];
     users: Users.models.User[];
+    group: Groups.models.Group;
     material: Material.models.Material[];
     assignment: (
         user_id: string,
@@ -77,6 +78,9 @@ export class GroupAssignmentsTableTab extends React.Component<
 
     public componentWillMount() {
         log_info('componentWillMount');
+        this.props.dispatch(
+            Material.actions.get(this.props.group.material_ids)
+        );
     }
 
     public render() {
@@ -93,9 +97,9 @@ export class GroupAssignmentsTableTab extends React.Component<
                             <TableCell className={classes.avatarColumn}>
                                 Name
                             </TableCell>
-                            {material.map(m => (
+                            {material.map((m, i) => (
                                 <TableCell
-                                    key={m._id}
+                                    key={m._id + 'm' + i}
                                     className={classes.column}
                                 >
                                     <Material.components.Avatar material={m} />{' '}
@@ -128,11 +132,13 @@ export class GroupAssignmentsTableTab extends React.Component<
                                         <TableCell
                                             key={assignment._id}
                                             align="center"
+                                            style={{
+                                                backgroundColor: Core.utils.get_grade_color(
+                                                    assignment.get_score()
+                                                )
+                                            }}
                                         >
-                                            <Checkbox
-                                                checked={assignment.completed}
-                                                disabled={!assignment._id}
-                                            />
+                                            {assignment.get_score()}%
                                         </TableCell>
                                     );
                                 })}
@@ -151,6 +157,7 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
 
     return {
         users,
+        group,
         group_id: ownProps.group_id,
         material: Material.selectors.material_list(state, group.material_ids),
         assignment: (user_id: string, material_id: string) =>

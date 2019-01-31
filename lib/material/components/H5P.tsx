@@ -89,13 +89,16 @@ export default class H5PComponent extends React.Component<
                 frameBorder={0}
                 allowFullScreen={true}
                 height={this.state.iFrameHeight}
+                style={{
+                    overflow: 'auto'
+                }}
                 src={
                     '/api/v1/' +
                     window.location.pathname.split('/')[1] +
                     '/h5p?content_id=' +
                     this.props.content_id
                 }
-                scrolling="no"
+                scrolling="yes"
                 onLoad={() => {
                     const obj = ReactDOM.findDOMNode(this);
                     this.setState({

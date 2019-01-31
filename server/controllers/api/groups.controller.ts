@@ -29,7 +29,7 @@ class GroupController {
             name: 'no name',
             created_at: new Date(),
             autojoin: false,
-            cards: []
+            material_ids: []
         };
 
         db.find(

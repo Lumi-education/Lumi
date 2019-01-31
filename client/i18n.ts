@@ -173,7 +173,12 @@ const i18n = merge(
             users: 'Users',
             users_conflict: 'User already exists',
             view: 'View',
-            welcome: 'Welcome'
+            welcome: 'Welcome',
+            db: {
+                sync: {
+                    success: 'Database synchronization successful'
+                }
+            }
         },
         de: {
             activities: 'Aktivitäten',

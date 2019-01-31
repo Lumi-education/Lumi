@@ -143,7 +143,7 @@ export default withStyles(styles)(
                                 }
                             })()}
                         </Grid>
-                        <Grid className={classes.buttons} item={true} xs={12}>
+                        {/* <Grid className={classes.buttons} item={true} xs={12}>
                             <Button
                                 variant="contained"
                                 color="secondary"
@@ -164,7 +164,7 @@ export default withStyles(styles)(
                             >
                                 {Core.i18n.t('save')}
                             </Button>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     <Dialog
                         onClose={() =>

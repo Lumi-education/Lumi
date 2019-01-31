@@ -63,15 +63,17 @@ export class MaterialAssignDialog extends React.Component<
         );
         this.props.dispatch(
             Flow.actions.assign(
-                this.props.selected_users.map(user => user._id),
-                material_ids
+                this.props.selected_users,
+                this.props.selected_material
             )
         );
-        this.props.dispatch(
-            Groups.actions.update_groups(
-                this.props.groups.map(g => g.add_material(material_ids))
-            )
-        );
+        if (this.props.groups.length !== 0) {
+            this.props.dispatch(
+                Groups.actions.update_groups(
+                    this.props.groups.map(g => g.add_material(material_ids))
+                )
+            );
+        }
     }
 
     public render() {

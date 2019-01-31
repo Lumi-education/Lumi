@@ -79,35 +79,35 @@ class CoreController {
                                 )
                             );
                     }
-                    bcrypt.hash(admin_user.password, null, null, (err, pw) => {
-                        if (err) {
-                            return res
-                                .status(500)
-                                .json(
-                                    new ErrorResponse(
-                                        'core',
-                                        'ServerError',
-                                        'core.server_error'
-                                    )
-                                );
-                        }
-                        assign(admin_user, { password: pw });
+                    // bcrypt.hash(admin_user.password, null, null, (err, pw) => {
+                    //     if (err) {
+                    //         return res
+                    //             .status(500)
+                    //             .json(
+                    //                 new ErrorResponse(
+                    //                     'core',
+                    //                     'ServerError',
+                    //                     'core.server_error'
+                    //                 )
+                    //             );
+                    //     }
+                    assign(admin_user, { password: admin_user.password });
 
-                        db.init(admin_user)
-                            .then(init => {
-                                res.status(200).end();
-                            })
-                            .catch(init_error => {
-                                res.status(500).json(
-                                    new ErrorResponse(
-                                        'core',
-                                        'init_db',
-                                        init_error.message
-                                    )
-                                );
-                            });
-                    });
+                    db.init(admin_user)
+                        .then(init => {
+                            res.status(200).end();
+                        })
+                        .catch(init_error => {
+                            res.status(500).json(
+                                new ErrorResponse(
+                                    'core',
+                                    'init_db',
+                                    init_error.message
+                                )
+                            );
+                        });
                 });
+            // });
         } catch (error) {
             raven.captureException(error);
             res.status(500).json(

@@ -6,7 +6,7 @@ import { AUTH_GET_SESSION_SUCCESS } from '../../auth/actions';
 import * as DB from 'lib/db';
 
 const initialState: IUser = {
-    _id: undefined,
+    _id: localStorage.user_id,
     _rev: undefined,
     type: 'user',
     name: undefined,
@@ -25,8 +25,11 @@ export default function(state: IUser = initialState, action): IUser {
                 return action.payload;
 
             case DB.actions.DB_CHANGE:
-                if (action.payload._id === state._id) {
-                    return action.payload;
+                const user = action.payload.filter(
+                    doc => doc._id === state._id
+                )[0];
+                if (user) {
+                    return user;
                 }
 
             default:

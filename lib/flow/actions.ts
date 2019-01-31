@@ -31,22 +31,52 @@ export const FLOW_UI_OPEN_USER_ASSIGN_DIALOG =
 export const FLOW_UI_CLOSE_USER_ASSIGN_DIALOG =
     'FLOW_UI_CLOSE_USER_ASSIGN_DIALOG';
 
+import { assign as _assign } from 'lodash';
 import * as API from './api';
 import { IAssignment } from './types';
 import { Assignment } from './models';
+import * as Users from 'lib/users';
+import * as Material from 'lib/material';
 
-export function assign(user_ids: string[], material_ids: string[]) {
-    const assignments = [];
-    user_ids.forEach(user_id => {
-        material_ids.forEach(material_id => {
-            assignments.push(new Assignment({ user_id, material_id }));
+export function assign(
+    users: Users.models.User[],
+    material: Material.models.Material[]
+) {
+    return dispatch => {
+        const assignments = [];
+        const user_ids = users.map(u => u._id);
+        const material_ids = material.map(m => m._id);
+
+        user_ids.forEach(user_id => {
+            material_ids.forEach(material_id => {
+                assignments.push(new Assignment({ user_id, material_id }));
+            });
         });
-    });
 
-    return {
-        types: [FLOW_ASSIGN_REQUEST, FLOW_ASSIGN_SUCCESS, FLOW_ASSIGN_ERROR],
-        api: API.create_assignments(assignments),
-        payload: assignments
+        dispatch({
+            type: FLOW_ASSIGN_REQUEST,
+            payload: assignments
+        });
+
+        API.create_assignments(assignments)
+            .then(response => {
+                const _users = users.map(u => {
+                    const assignment_ids = response
+                        .filter(a => a.user_id === u._id)
+                        .map(a => a._id);
+                    return _assign({}, u, {
+                        flow: [...u.flow, ...assignment_ids]
+                    });
+                });
+                dispatch(Users.actions.update_users(_users));
+                dispatch({ type: FLOW_ASSIGN_SUCCESS, payload: response });
+            })
+            .catch(error => {
+                dispatch({
+                    type: FLOW_ASSIGN_ERROR,
+                    payload: assignments
+                });
+            });
     };
 }
 
