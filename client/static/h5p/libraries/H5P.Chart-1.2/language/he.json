@@ -1,0 +1,40 @@
+{
+  "semantics": [
+    {
+      "label": "סוג גרף",
+      "options": [
+        {
+          "label": "גרף עוגה"
+        },
+        {
+          "label": "גרף עמודות"
+        }
+      ]
+    },
+    {
+      "label": "נתונים הגרף",
+      "entity": "option",
+      "field": {
+        "label": "Data element",
+        "fields": [
+          {
+            "label": "שם"
+          },
+          {
+            "label": "ערך"
+          },
+          {
+            "label": "בצע רקע"
+          },
+          {
+            "label": "צבע הגופן"
+          }
+        ]
+      }
+    },
+    {
+      "label": "תאור המוקרא על ידי קורא־מסך יקריא את הרכיב כגרף.",
+      "default": "Chart"
+    }
+  ]
+}

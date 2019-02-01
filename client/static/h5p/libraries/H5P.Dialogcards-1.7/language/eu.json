@@ -1,0 +1,195 @@
+{
+  "semantics": [
+    {
+      "label": "Titulua"
+    },
+    {
+      "label": "Mode",
+      "description": "Mode of presenting the dialog cards",
+      "options": [
+        {
+          "label": "Normal"
+        },
+        {
+          "label": "Repetition"
+        }
+      ]
+    },
+    {
+      "label": "Zereginaren deskribapena",
+      "default": ""
+    },
+    {
+      "widgets": [
+        {
+          "label": "Lehenetsia"
+        }
+      ],
+      "label": "Elkarrizketak",
+      "entity": "elkarrizketa",
+      "field": {
+        "label": "Ariketa",
+        "fields": [
+          {
+            "label": "Testua",
+            "description": "Elkarrizketaren lehenengo zatirako laguntza"
+          },
+          {
+            "label": "Erantzuna",
+            "description": "Elkarrizketaren bigarren zatirako laguntza"
+          },
+          {
+            "label": "Irudia",
+            "description": "Aukerazko irudia txartelerako. (Txartelak izan dezake irudi bat, testu bat edo biak)"
+          },
+          {
+            "label": "Irudiaren ordezko testua"
+          },
+          {
+            "label": "Audio fitxategiak"
+          },
+          {
+            "label": "Argibideak",
+            "fields": [
+              {
+                "label": "Testurako aholkua",
+                "description": "Elkarrizketaren lehenengo zatirako argibidea"
+              },
+              {
+                "label": "Erantzuteko argibidea",
+                "description": "Elkarrizketaren bigarren parterako argibidea"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Portaera ezarpenak.",
+      "description": "Aukera hauen bidez kontrolatu ahal izango duzu zereginaren portaera.",
+      "fields": [
+        {
+          "label": "Aktibatu \"Saiatu berriro\" botoia"
+        },
+        {
+          "label": "Desgaitu atzeranzko nabigazioa",
+          "description": "Aukera hau aktibatuta soilik aurreruntz mugitu ahal izango da elkarrizketa-txarteletan"
+        },
+        {
+          "label": "Eskalatu testua txartelera doitzeko",
+          "description": "Aukera hau desmarkatuta txartela egokituko da testuaren tamainara"
+        },
+        {
+          "label": "Ausazko txartelak",
+          "description": "Gaitu pantailako txartelen ordena ausazkoa izatea."
+        },
+        {
+          "label": "Maximum proficiency level"
+        },
+        {
+          "label": "Allow quick progression",
+          "description": "If activated, learners can decide to indicate that they know a card without turning it"
+        }
+      ]
+    },
+    {
+      "label": "Buelta emateko botoiaren testua",
+      "default": "Eman buelta"
+    },
+    {
+      "label": "Hurrengoa botoiaren testua",
+      "default": "Hurrengoa"
+    },
+    {
+      "label": "Aurrekoa botoiaren testua",
+      "default": "Aurrekoa"
+    },
+    {
+      "label": "Saiatu berriro botoiaren testua",
+      "default": "Saiatu berriro"
+    },
+    {
+      "label": "Text for the \"correct answer\" button",
+      "default": "I got it right!"
+    },
+    {
+      "label": "Text for the \"incorrect answer\" button",
+      "default": "I got it wrong"
+    },
+    {
+      "label": "Text for \"Round\" message below cards and on the summary screen",
+      "description": "@round will be replaced by the number of the current round",
+      "default": "Round @round"
+    },
+    {
+      "label": "Text for \"Cards left\" message",
+      "description": "@number will be replaced by the number of cards left in this round",
+      "default": "Cards left: @number"
+    },
+    {
+      "label": "Text for the \"next round\" button",
+      "description": "@round will be replaced by the round number",
+      "default": "Proceed to round @round"
+    },
+    {
+      "label": "Text for the \"show summary\" button",
+      "default": "Next"
+    },
+    {
+      "label": "Title text for the summary page",
+      "default": "Summary"
+    },
+    {
+      "label": "Text for \"Cards you got right:\"",
+      "default": "Cards you got right:"
+    },
+    {
+      "label": "Text for \"Cards you got wrong:\"",
+      "default": "Cards you got wrong:"
+    },
+    {
+      "label": "Text for \"Cards not shown:\"",
+      "default": "Cards in pool not shown:"
+    },
+    {
+      "label": "Text for \"Overall Score\"",
+      "default": "Overall Score"
+    },
+    {
+      "label": "Text for \"Cards completed\"",
+      "default": "Cards you have completed learning:"
+    },
+    {
+      "label": "Text for \"Completed rounds:\"",
+      "default": "Completed rounds:"
+    },
+    {
+      "label": "Message when all cards have been learned proficiently",
+      "description": "@cards will be replaced by the number of all cards in the pool. @max will be replaced by the maximum proficiency level - 1.",
+      "default": "Well done! You got all @cards cards correct @max times in a row!"
+    },
+    {
+      "label": "Aurrerapena testua",
+      "description": "Erabiltzen dituen aldagaiak dira @card eta @total.",
+      "default": "@total -tik @card . txartela"
+    },
+    {
+      "label": "Txartelaren testuaren etiketa",
+      "description": "Laguntza teknologiko bidezko erabilerraztasunerako erabiltzen da",
+      "default": "Txartelaren aurreko aldea"
+    },
+    {
+      "label": "Txartelaren atzeko aldeko etiketa",
+      "description": "Laguntza teknologiko bidezko erabilerraztasunerako erabiltzen da",
+      "default": "Txartelaren atzeko aldea"
+    },
+    {
+      "label": "Erakutsi argibidea botoiaren etiketa",
+      "default": "Erakutsi argibidea"
+    },
+    {
+      "label": "Audioa ez da onartzen mezua",
+      "default": "Zure nabigatzaileak ez du onartzen audio hau"
+    }
+  ]
+}

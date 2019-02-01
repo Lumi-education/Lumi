@@ -1,0 +1,102 @@
+{
+  "semantics": [
+    {
+      "label": "Taak omschrijving"
+    },
+    {
+      "widgets": [
+        {
+          "label": "Standaard"
+        }
+      ],
+      "label": "Kaarten",
+      "entity": "kaart",
+      "field": {
+        "label": "Kaart",
+        "fields": [
+          {
+            "label": "Vraag",
+            "description": "De optionele vraag voorop de kaart. (De kaart kan voorzien worden van een afbeelding en/of tekst)"
+          },
+          {
+            "label": "Antwoord",
+            "description": "Het optionele antwoord(oplossing) achterop de kaart."
+          },
+          {
+            "label": "Afbeelding",
+            "description": "De optionele afbeelding voorop de kaart. (De kaart kan voorzien worden van een afbeelding en/of tekst)"
+          },
+          {
+            "label": "Tip",
+            "fields": [
+              {
+                "label": "Tip tekst"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Voortgangstekst",
+      "default": "Kaart @card van @total",
+      "description": "Voortgangstekst, beschikbare variabelen: @card and @total. Voorbeeld: 'Kaart @card van @total'"
+    },
+    {
+      "label": "Tekst voor de volgende knop",
+      "default": "Volgende"
+    },
+    {
+      "label": "Tekst voor de vorige knop",
+      "default": "Vorige"
+    },
+    {
+      "label": "Tekst voor de controleer antwoorden knop",
+      "default": "Controleer"
+    },
+    {
+      "label": "Gebruikers input is vereist, voordat de oplossing kan worden bekeken"
+    },
+    {
+      "label": "Tekst voor het antwoord invoerveld",
+      "default": "Jouw antwoord"
+    },
+    {
+      "label": "Tekst voor het juiste antwoord",
+      "default": "Juist"
+    },
+    {
+      "label": "Tekst voor het onjuiste antwoord",
+      "default": "Onjuist"
+    },
+    {
+      "label": "Toon tekst oplossing",
+      "default": "Juist geantwoord"
+    },
+    {
+      "label": "Titel voor de resultaten",
+      "default": "Resultaten"
+    },
+    {
+      "label": "Tekst voor het juiste aantal",
+      "default": "@score van @total juist",
+      "description": "Resultatentekst, beschikbare variabelen: @score en @total. Voorbeeld: '@score van @total juist'"
+    },
+    {
+      "label": "Tekst voor het tonen van de resultaten",
+      "default": "Toon de resultaten"
+    },
+    {
+      "label": "Tekstlabel voor een kort antwoord",
+      "default": "A:"
+    },
+    {
+      "label": "Text for \"retry\" button",
+      "default": "Retry"
+    },
+    {
+      "label": "Case sensitive",
+      "description": "Makes sure the user input has to be exactly the same as the answer."
+    }
+  ]
+}

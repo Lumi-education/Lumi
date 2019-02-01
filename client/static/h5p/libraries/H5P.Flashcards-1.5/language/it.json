@@ -1,0 +1,102 @@
+{
+  "semantics": [
+    {
+      "label": "Descrizione attività"
+    },
+    {
+      "widgets": [
+        {
+          "label": "Predefinito"
+        }
+      ],
+      "label": "Schede",
+      "entity": "scheda",
+      "field": {
+        "label": "Scheda",
+        "fields": [
+          {
+            "label": "Domanda",
+            "description": "Domanda testuale facoltativa per la scheda. (La scheda può utilizzare solo un'immagine, solo un testo o entrambi)"
+          },
+          {
+            "label": "Risposta",
+            "description": "Risposta facoltativa (soluzione) per la scheda."
+          },
+          {
+            "label": "Immagine",
+            "description": "Immagine facoltativa per la scheda. (La scheda può utilizzare solo un'immagine, solo un testo o entrambi)"
+          },
+          {
+            "label": "Suggerimento",
+            "fields": [
+              {
+                "label": "testo del suggerimento"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Testo di avanzamento",
+      "default": "Card @card of @total",
+      "description": "Testo di avanzamento, variabili disponibili: @card e @total. Esempio: 'Scheda @card di @total'"
+    },
+    {
+      "label": "Testo per il pulsante Prossimo",
+      "default": "Next"
+    },
+    {
+      "label": "Testo per il pulsante Precedente",
+      "default": "Previous"
+    },
+    {
+      "label": "Testo per il pulsante Inserisci risposte",
+      "default": "Check"
+    },
+    {
+      "label": "Richiedere l'immissione dei dati all'utente prima che la soluzione sia visulizzata"
+    },
+    {
+      "label": "Text for the answer input field",
+      "default": "Your answer"
+    },
+    {
+      "label": "Text for correct answer",
+      "default": "Correct"
+    },
+    {
+      "label": "Text for incorrect answer",
+      "default": "Incorrect"
+    },
+    {
+      "label": "Show solution text",
+      "default": "Correct answer"
+    },
+    {
+      "label": "Text for results title",
+      "default": "Results"
+    },
+    {
+      "label": "Text for number of correct",
+      "default": "@score of @total correct",
+      "description": "Result text, variables available: @score and @total. Example: '@score of @total correct'"
+    },
+    {
+      "label": "Text for show results",
+      "default": "Show results"
+    },
+    {
+      "label": "Text for short answer label",
+      "default": "A:"
+    },
+    {
+      "label": "Text for \"retry\" button",
+      "default": "Retry"
+    },
+    {
+      "label": "Case sensitive",
+      "description": "Makes sure the user input has to be exactly the same as the answer."
+    }
+  ]
+}

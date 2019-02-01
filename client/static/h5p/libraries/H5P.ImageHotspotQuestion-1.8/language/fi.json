@@ -1,0 +1,76 @@
+{
+  "semantics": [
+    {
+      "label": "Hotspot-tehtävän kysymyseditori",
+      "fields": [
+        {
+          "label": "Taustakuva",
+          "fields": [
+            {
+              "label": "Taustakuva",
+              "description": "Valitse tehtävälle taustakuva."
+            }
+          ]
+        },
+        {
+          "label": "Hotspotit",
+          "description": "Raahaa ja pudota haluttu kuvio työkalupalkista hotspotiksi. Tuplaklikkaa olemassaolevaa hotspotia muokataksesi sitä. Raahaa hotspotia siirtääksesi sitä. Vedä sitä oikeasta alakulmasta muuttaaksesi sen kokoa.",
+          "fields": [
+            {
+              "label": "Tehtävän ohje",
+              "description": "Ohje tekijälle, tehtävän alustus."
+            },
+            {
+              "label": "Hotspot",
+              "entity": "Hotspot",
+              "field": {
+                "label": "Hotspot",
+                "fields": [
+                  {
+                    "label": "Asetukset",
+                    "fields": [
+                      {
+                        "label": "Oikea valinta",
+                        "description": "Tehtävässä voi usea hotspot olla oikea valinta. Kuitenkin, käyttäjä saa oikein/väärin -palautteen heti ensimmäisen klikkauksen jälkeen."
+                      },
+                      {
+                        "label": "Palaute"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Lasketut asetukset"
+                  }
+                ]
+              }
+            },
+            {
+              "label": "Palaute, kun käyttäjä ei löydä hotspotia:",
+              "placeholder": "Et löytänyt mitään; yritä uudelleen!"
+            },
+            {
+              "label": "Show feedback as a popup"
+            },
+            {
+              "label": "Localization",
+              "fields": [
+                {
+                  "label": "Retry button text",
+                  "default": "Retry"
+                },
+                {
+                  "label": "Close button text",
+                  "default": "Close"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Textual representation of the score bar for those using a readspeaker",
+      "default": "You got :num out of :total points"
+    }
+  ]
+}

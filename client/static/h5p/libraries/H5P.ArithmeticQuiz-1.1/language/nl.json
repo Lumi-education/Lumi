@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Introductie",
+      "description":"De introductietekst (maximum 100 karakters)"
+    },
+    {
+      "label":"Rekenkundig type",
+      "options":[
+        {
+          "label":"Optellen"
+        },
+        {
+          "label":"Aftrekken"
+        },
+        {
+          "label":"Vermenigvuldigen"
+        },
+        {
+          "label":"Delen"
+        }
+      ]
+    },
+    {
+      "label":"Max aantal vragen"
+    },
+    {
+      "label":"Gebruikers interface vertalingen",
+      "fields":[
+        {
+          "label":"Score tijdens de quiz",
+          "default":"Score:"
+        },
+        {
+          "label":"Tijd",
+          "default":"Tijd: @time"
+        },
+        {
+          "label":"Kop resultaten pagina",
+          "default":"Beëindigd!"
+        },
+        {
+          "label":"Start label",
+          "default":"Start!"
+        },
+        {
+          "label":"Startknop label",
+          "default":"Start"
+        },
+        {
+          "label":"Tekst van de Opnieuw proberen knop",
+          "default":"Opnieuw proberen"
+        },
+        {
+          "label":"Readspeaker tekst voor het juiste antwoord",
+          "default":"Juist"
+        },
+        {
+          "label":"Readspeaker tekst voor het foute antwoord",
+          "default":"Fout. Het juiste antwoord was :num"
+        },
+        {
+          "label":"Readspeaker label voor de timer",
+          "default":"voortgang in uren, minuten en seconden."
+        },
+        {
+          "label":"Readspeaker tekst voor de vraag",
+          "default":"Wat is :rekenkundige gelijkheid?"
+        },
+        {
+          "label":"Plusteken tekst",
+          "default":"plus"
+        },
+        {
+          "label":"Minteken tekst",
+          "default":"min"
+        },
+        {
+          "label":"Maalteken tekst",
+          "default":"maal"
+        },
+        {
+          "label":"Deelteken tekst",
+          "default":"gedeeld door"
+        },
+        {
+          "label":"Dia nummer tekst",
+          "description":"Geeft het nummer van de huidige slide en het totaal aantal slides aan, variabelen zijn :num en :total",
+          "default":"Dia :num van :total"
+        }
+      ]
+    }
+  ]
+}

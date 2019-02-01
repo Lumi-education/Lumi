@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Johdanto",
+      "description":"Johdantoteksti (Max 100 merkkiä)"
+    },
+    {
+      "label":"Laskutyyppi",
+      "options":[
+        {
+          "label":"Summa"
+        },
+        {
+          "label":"Vähennys"
+        },
+        {
+          "label":"Kerto"
+        },
+        {
+          "label":"Jako"
+        }
+      ]
+    },
+    {
+      "label":"Kysymyksien enimmäismäärä"
+    },
+    {
+      "label":"Käyttöliittymän omat tekstit",
+      "fields":[
+        {
+          "label":"Tehtävänaikainen pistelasku",
+          "default":"Pisteet:"
+        },
+        {
+          "label":"Aika",
+          "default":"Aika: @time"
+        },
+        {
+          "label":"Tulossivun otsikko",
+          "default":"Tehty!"
+        },
+        {
+          "label":"Käynnistä painikkeen teksti",
+          "default":"Käynnistä!"
+        },
+        {
+          "label":"Aloita painikkeen teksti",
+          "default":"Aloita"
+        },
+        {
+          "label":"Painikkeen Yritä uudelleen teksti",
+          "default":"Yritä uudelleen"
+        },
+        {
+          "label":"Readspeaker teksti oikealle vastaukselle",
+          "default":"Oikein"
+        },
+        {
+          "label":"Readspeaker teksti väärälle vastaukselle",
+          "default":"Väärin. Oikea vastaus oli :num"
+        },
+        {
+          "label":"Readspeaker selite ajastimelle",
+          "default":"Kesto tunneissa, minuuteissa ja sekunneissa."
+        },
+        {
+          "label":"Readspeaker teksti kysymykselle",
+          "default":"Kuinka paljon on :arithmetic"
+        },
+        {
+          "label":"Summaoperaattorin teksti",
+          "default":"plus"
+        },
+        {
+          "label":"Vähennysoperaattorin teksti",
+          "default":"miinus"
+        },
+        {
+          "label":"Kerroinoperaattorin teksti",
+          "default":"kertaa"
+        },
+        {
+          "label":"Jako-operaattorin teksti",
+          "default":"jaettuna"
+        },
+        {
+          "label":"Sivunumeron teksti",
+          "description":"Ilmoittaa nykyisen sivunumeron ja sivumäärän. Muuttujat :num ja :total",
+          "default":"Sivu :num \/ :total"
+        }
+      ]
+    }
+  ]
+}

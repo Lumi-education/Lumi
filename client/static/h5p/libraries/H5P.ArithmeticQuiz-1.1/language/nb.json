@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Introduksjonstekst",
+      "description":"Tekst vises på forsiden"
+    },
+    {
+      "label":"Aritmetisk type",
+      "options":[
+        {
+          "label":"Addisjon (pluss)"
+        },
+        {
+          "label":"Subtraksjon (minus)"
+        },
+        {
+          "label":"Multiplikasjon (gange)"
+        },
+        {
+          "label":"Divisjon (dele)"
+        }
+      ]
+    },
+    {
+      "label":"Maksimalt antall spørsmål"
+    },
+    {
+      "label":"Oversettelser for brukergrensesnittet",
+      "fields":[
+        {
+          "label":"Poengtilbakemelding under quizen",
+          "default":"Poeng:"
+        },
+        {
+          "label":"Tid",
+          "default":"Tid: @time"
+        },
+        {
+          "label":"Overskrift på resultatsiden",
+          "default":"Ferdig!"
+        },
+        {
+          "label":"Kjør etikett",
+          "default":"KJØR!"
+        },
+        {
+          "label":"Etikett på start-knapp",
+          "default":"Start"
+        },
+        {
+          "label":"Tekst til \"Prøv igjen\" knapp",
+          "default":"Prøv igjen"
+        },
+        {
+          "label":"Rett svar tekst for hjelpemiddelteknologi",
+          "default":"Riktig"
+        },
+        {
+          "label":"Galt svar tekst for hjelpemiddelteknologi",
+          "default":"Feil svar. Rett var :num"
+        },
+        {
+          "label":"Hjelpetekst for nedtellingsklokke for hjelpemiddelteknologier",
+          "default":"Tid brukt i timer, minutter og sekunder"
+        },
+        {
+          "label":"Spørsmålstekst for hjelpemiddelteknologi",
+          "default":"Hva er :arithmetic lik?"
+        },
+        {
+          "label":"Pluss tegn til tekst",
+          "default":"pluss"
+        },
+        {
+          "label":"Minus tegn til tekst",
+          "default":"minus"
+        },
+        {
+          "label":"Multiplikasjon til tekst",
+          "default":"ganger"
+        },
+        {
+          "label":"Divisjon til tekst",
+          "default":"delt på"
+        },
+        {
+          "label":"Side nummer tekst",
+          "description":"Angir nåværende side og totalt antall sider, variabler er :num og :total",
+          "default":"Side :num av :total"
+        }
+      ]
+    }
+  ]
+}

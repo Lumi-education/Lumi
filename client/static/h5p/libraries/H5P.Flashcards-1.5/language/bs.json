@@ -1,0 +1,102 @@
+{
+  "semantics": [
+    {
+      "label": "Opis zadatka"
+    },
+    {
+      "widgets": [
+        {
+          "label": "Standard"
+        }
+      ],
+      "label": "Karte",
+      "entity": "kart",
+      "field": {
+        "label": "Karte",
+        "fields": [
+          {
+            "label": "Pitanje",
+            "description": "Opcionalni tekst za pitanje. (Pitanje može biti tekst, slika ili oboje)"
+          },
+          {
+            "label": "Odgovor",
+            "description": "Opcionalni odgovor (Rješenje) za kartu."
+          },
+          {
+            "label": "Slika",
+            "description": "Opcionalna slika za kartu. (Pitanje može biti tekst, slika ili oboje)"
+          },
+          {
+            "label": "Savjet",
+            "fields": [
+              {
+                "label": "Savjet"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Početni tekst",
+      "default": "Karte @card od @total",
+      "description": "Početni tekst, dostupne varijable: @card i @total. Primjer: 'Karte @card od @total'"
+    },
+    {
+      "label": "Tekst za dugme Naprijed",
+      "default": "Naprijed"
+    },
+    {
+      "label": "Tekst za dugme Nazad",
+      "default": "Nazad"
+    },
+    {
+      "label": "Tekst za dugme Potvrdi",
+      "default": "Potvrdi"
+    },
+    {
+      "label": "Obavezno je učešće korisnika, prije nego rješenje bude prikazano"
+    },
+    {
+      "label": "Text for the answer input field",
+      "default": "Your answer"
+    },
+    {
+      "label": "Text for correct answer",
+      "default": "Correct"
+    },
+    {
+      "label": "Text for incorrect answer",
+      "default": "Incorrect"
+    },
+    {
+      "label": "Show solution text",
+      "default": "Correct answer"
+    },
+    {
+      "label": "Text for results title",
+      "default": "Results"
+    },
+    {
+      "label": "Text for number of correct",
+      "default": "@score of @total correct",
+      "description": "Result text, variables available: @score and @total. Example: '@score of @total correct'"
+    },
+    {
+      "label": "Text for show results",
+      "default": "Show results"
+    },
+    {
+      "label": "Text for short answer label",
+      "default": "A:"
+    },
+    {
+      "label": "Text for \"retry\" button",
+      "default": "Retry"
+    },
+    {
+      "label": "Case sensitive",
+      "description": "Makes sure the user input has to be exactly the same as the answer."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "libraryStrings": {
+    "confirmReset": "Wirklich das Layout wechseln? Dies wird die Vorschau zurücksetzen.",
+    "sameAsSpacing": "Das gleiche wie der Abstand",
+    "noFrame": "Kein Rahmen",
+    "uploadError": "Bild kann nicht hochgeladen werden. Die Datei ist wohl zu groß.",
+    "zoomIn": "Hineinzoomen",
+    "zoomOut": "Herauszoomen",
+    "noMoreZoom": "Kein Zoom mehr",
+    "addImage": "Bild hinzufügen",
+    "changeImage": "Bild wechseln",
+    "imageSettings": "Image settings",
+    "close": "Schließen",
+    "imageAltLabel": "Alternativer Text",
+    "imageTitleLabel": "Schwebender Text"
+  }
+}

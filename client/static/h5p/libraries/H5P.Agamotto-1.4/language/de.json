@@ -1,0 +1,47 @@
+{
+  "semantics": [
+    {
+      "label": "Heading",
+      "placeholder": "Here you can add an optional heading.",
+      "description": "The heading you'd like to show above the image"
+    },
+    {
+      "label": "Elemente",
+      "entity": "Element",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Element",
+        "fields": [
+          {
+            "label": "Bild"
+          },
+          {
+            "label": "Beschriftung",
+            "description": "Optionale Beschriftung für eine Bildposition. Bitte stelle sicher, dass sie nicht zu lang ist, sonst wird sie nicht angezeigt."
+          },
+          {
+            "label": "Beschreibung",
+            "placeholder": "Meine Bildbeschreibung ...",
+            "description": "Optionale Beschreibung für das Bild"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Schieberegler einrasten",
+      "description": "Wenn diese Option aktiviert ist, wird der Schieberegler an den Bildpositionen einrasten."
+    },
+    {
+      "label": "Bildpositionen anzeigen",
+      "description": "Wenn diese Option aktiviert ist, werden die Bildpositionen am Schieberegler markiert."
+    },
+    {
+      "label": "Beschriftungen anzeigen",
+      "description": "Wenn diese Option aktiviert ist, werden beim Slider Beschriftungen zusätzlich/alternativ zu den Bildpositionen angezeigt."
+    }
+  ]
+}

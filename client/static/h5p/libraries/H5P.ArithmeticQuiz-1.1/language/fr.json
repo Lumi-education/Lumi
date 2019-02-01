@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Introduction",
+      "description":"Le texte d'introduction (maximum 100 caractères)"
+    },
+    {
+      "label":"Type d'opération",
+      "options":[
+        {
+          "label":"Addition"
+        },
+        {
+          "label":"Soustraction"
+        },
+        {
+          "label":"Multiplication"
+        },
+        {
+          "label":"Division"
+        }
+      ]
+    },
+    {
+      "label":"Nombre maximum de questions"
+    },
+    {
+      "label":"Traduction de l'interface utilisateurs",
+      "fields":[
+        {
+          "label":"Score qui s'affiche pendant le quiz",
+          "default":"Score :"
+        },
+        {
+          "label":"Temps",
+          "default":"Temps écoulé : @time"
+        },
+        {
+          "label":"Titre de la page de résultats",
+          "default":"C'est terminé !"
+        },
+        {
+          "label":"Texte du bouton GO",
+          "default":"GO !"
+        },
+        {
+          "label":"Texte du bouton de départ",
+          "default":"Commencer"
+        },
+        {
+          "label":"Texte du bouton \"Recommencer\"",
+          "default":"Recommencer"
+        },
+        {
+          "label":"Texte exprimé par la synthèse vocale en cas de réponse correcte",
+          "default":"Réponse correcte"
+        },
+        {
+          "label":"Texte exprimé par la synthèse vocale en cas de réponse incorrecte",
+          "default":"Réponse incorrecte"
+        },
+        {
+          "label":"Chronomètre exprimé par la synthèse vocale",
+          "default":"Durée en heures, minutes et secondes."
+        },
+        {
+          "label":"Question exprimée par la synthèse vocale",
+          "default":"Combien font :arithmetic ?"
+        },
+        {
+          "label":"Texte pour le signe de l'addition",
+          "default":"plus"
+        },
+        {
+          "label":"Texte pour le signe de la soustraction",
+          "default":"moins"
+        },
+        {
+          "label":"Texte pour le signe de la multiplication",
+          "default":"fois"
+        },
+        {
+          "label":"Texte pour le signe de la division",
+          "default":"divisé par"
+        },
+        {
+          "label":"Texte du numéro de diapositive",
+          "description":"Annonce la diapositive en cours et le nombre total de diapositives, les variables sont :sum et :total",
+          "default":"Diapositive :num sur :total"
+        }
+      ]
+    }
+  ]
+}

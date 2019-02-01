@@ -1,0 +1,113 @@
+.field.wizard > .h5peditor-label-wrapper {
+  display: none;
+}
+.field.wizard > .h5peditor-tabs {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+ol.h5peditor-tabs {
+  counter-reset: li;
+}
+ol.h5peditor-tabs > li.h5peditor-tab-li {
+  list-style-type: none;
+  position: relative;
+}
+ol.h5peditor-tabs > li.h5peditor-tab-li:before {
+  content: counter(li) ".";
+  counter-increment: li;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  pointer-events: none;
+}
+.field.wizard .h5peditor-tab-li {
+  padding: 0;
+  position: relative;
+  display: table-cell;
+}
+.field.wizard .h5peditor-tab-a {
+  display: block;
+  position: relative;
+  background: #bebebe;
+  margin-right: 20px;
+  padding: 16px 0 16px 36px;
+  height: 20px;
+  color: #333;
+}
+.field.wizard .h5peditor-tab-a:hover {
+  background: #ddd;
+  text-decoration: none;
+}
+.field.wizard .h5peditor-tab-a:focus {
+  box-shadow: none;
+}
+.field.wizard .h5peditor-tab-a:before,
+.field.wizard .h5peditor-tab-a:after {
+  position: absolute;
+  left: -10px;
+  border-top: 26px solid #bebebe;
+  border-bottom: 26px solid #bebebe;
+  border-left: 10px solid transparent;
+  content: "";
+  width: 0;
+  height: 0;
+  top: 0;
+}
+.field.wizard .h5peditor-tab-a:hover:before,
+.field.wizard .h5peditor-tab-a:hover:after {
+  border-top-color: #ddd;
+  border-bottom-color: #ddd;
+}
+.field.wizard .h5peditor-tab-a:after {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: #bebebe;
+  right: -10px;
+  left: auto;
+}
+.field.wizard .h5peditor-tab-a:hover:after {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: #ddd;
+}
+.field.wizard .h5peditor-tab-li:first-child > .h5peditor-tab-a:before,
+.field.wizard .h5peditor-tab-li:last-child > .h5peditor-tab-a:after {
+  border: 0;
+}
+.field.wizard .h5peditor-tab-li:last-child > .h5peditor-tab-a {
+  margin-right: 0;
+}
+.field.wizard .h5peditor-tab-a.h5peditor-active {
+  background: #e8e8e8;
+  cursor: default;
+}
+.field.wizard .h5peditor-tab-a.h5peditor-active:before {
+  border-top-color: #e8e8e8;
+  border-bottom-color: #e8e8e8;
+}
+.field.wizard .h5peditor-tab-a.h5peditor-active:after {
+  border-left-color: #e8e8e8;
+}
+.field.wizard .h5peditor-tab-a.h5peditor-active:hover:after {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+.field.wizard > .h5peditor-panes > .group {
+  background-color: transparent;
+  box-shadow: none;
+  border: 0px;
+  display: block;
+}
+.field.wizard > .h5peditor-panes > .group > .title {
+  display: none;
+}
+.field.wizard > .h5peditor-panes > .group > .content {
+  display: block;
+}
+.field.wizard > .h5peditor-panes > .field {
+  margin: 0;
+}

@@ -1,0 +1,40 @@
+{
+  "semantics":[
+    {
+      "label":"Diagrammtyp",
+      "options":[
+        {
+          "label":"Tortendiagramm"
+        },
+        {
+          "label":"Balkendiagramm"
+        }
+      ]
+    },
+    {
+      "label":"Datenelemente",
+      "entity":"option",
+      "field":{
+        "label":"Datenelement",
+        "fields":[
+          {
+            "label":"Name"
+          },
+          {
+            "label":"Wert"
+          },
+          {
+            "label":"Farbe"
+          },
+          {
+            "label":"Schriftfarbe"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Text read by readspeakers defining the figure as a chart.",
+      "default": "Chart"
+    }
+  ]
+}

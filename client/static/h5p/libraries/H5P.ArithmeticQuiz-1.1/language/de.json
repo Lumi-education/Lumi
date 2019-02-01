@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Intro",
+      "description":"Der Introtext (maximal 100 Zeichen)"
+    },
+    {
+      "label":"Arithmetischer Typ",
+      "options":[
+        {
+          "label":"Addition"
+        },
+        {
+          "label":"Subtraktion"
+        },
+        {
+          "label":"Multiplikation"
+        },
+        {
+          "label":"Division"
+        }
+      ]
+    },
+    {
+      "label":"Max. Anzahl an Fragen"
+    },
+    {
+      "label":"Benutzeroberflächenübersetzungen",
+      "fields":[
+        {
+          "label":"Erreichte Punkte während des Quizzes",
+          "default":"Punktzahl:"
+        },
+        {
+          "label":"Zeit",
+          "default":"Zeit: @time"
+        },
+        {
+          "label":"Kopfzeile der Ergebnisseite",
+          "default":"Beendet!"
+        },
+        {
+          "label":"Beschriftung für \"Los\"",
+          "default":"LOS!"
+        },
+        {
+          "label":"Beschriftung für den \"Start\"-Button",
+          "default":"Start"
+        },
+        {
+          "label":"Beschriftung für den \"Wiederholen\"-Button",
+          "default":"Wiederholen"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für eine richtige Antwort",
+          "default":"Korrekt!"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für eine falsche Antwort",
+          "default":"Falsch. Die richtige Antwort war :num."
+        },
+        {
+          "label":"\"Readspeaker\"-Text für den Timer",
+          "default":"Dauer in Stunden, Minuten und Sekunden."
+        },
+        {
+          "label":"\"Readspeaker\"-Text für die Frage",
+          "default":"Was ergibt :arithmetic?"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für das Pluszeichen",
+          "default":"plus"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für das Minuszeichen",
+          "default":"minus"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für das Malzeichen",
+          "default":"mal"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für das Geteiltzeichen",
+          "default":"geteilt durch"
+        },
+        {
+          "label":"\"Readspeaker\"-Text für die Nummer des Schaubilds",
+          "description":"Gibt das aktuelle Schaubild und die Gesamtzahl der Schaubilder an, Variablen sind :num und :total",
+          "default":"Schaubild :num von :total"
+        }
+      ]
+    }
+  ]
+}

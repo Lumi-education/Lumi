@@ -1,0 +1,258 @@
+{
+  "semantics": [
+    {
+      "label": "Quiz-Einführung",
+      "fields": [
+        {
+          "label": "Zeige Einführung"
+        },
+        {
+          "label": "Titel",
+          "description": "Dieser Titel wird über dem Einführungstext angezeigt."
+        },
+        {
+          "label": "Einführungstext",
+          "description": "Dieser Text wird angezeigt, bevor das Quiz anfängt."
+        },
+        {
+          "label": "Beschriftung des \"Start\"-Buttons",
+          "default": "Starte Quiz"
+        },
+        {
+          "label": "Hintergrundbild",
+          "description": "Ein optionales Hintergrundbild für die Einführung."
+        }
+      ]
+    },
+    {
+      "label": "Hintergrundbild",
+      "description": "Ein optionales Hintergrundbild für das Fragenset."
+    },
+    {
+      "label": "Fortschrittsanzeige",
+      "description": "Anzeigestil für die Fortschrittsanzeige des Fragensets.",
+      "options": [
+        {
+          "label": "Text"
+        },
+        {
+          "label": "Punkte"
+        }
+      ]
+    },
+    {
+      "label": "Prozentsatz zum Bestehen",
+      "description": "Prozentsatz der Gesamtpunktzahl, der nötig ist, um das Quiz zu bestehen"
+    },
+    {
+      "label": "Fragen",
+      "widgets": [
+        {
+          "label": "Vorgabe"
+        },
+        {
+          "label": "Text"
+        }
+      ],
+      "entity": "frage",
+      "field": {
+        "label": "Fragentyp",
+        "description": "Bibliothek für diese Frage."
+      }
+    },
+    {
+      "label": "Anzeigetexte im Quiz",
+      "fields": [
+        {
+          "label": "Zurück-Button",
+          "default": "Zurück"
+        },
+        {
+          "label": "Beschriftung des \"Weiter\"-Buttons",
+          "default": "Weiter"
+        },
+        {
+          "label": "Beschriftung des \"Beenden\"-Buttons",
+          "default": "Beenden"
+        },
+        {
+          "label": "Fortschrittsanzeigetext",
+          "description": "Verwendeter Text, wenn Fortschrittsanzeige in Textform gewählt wurde.",
+          "default": "Aktuelle Frage: @current von @total Fragen"
+        },
+        {
+          "label": "Beschriftung für das Springen zu einem bestimmten Punkt",
+          "description": "Nutze den Platzhalter '%d' für die Fragennummer und %total für die Gesamtzahl der Fragen.",
+          "default": "Frage %d von %total"
+        },
+        {
+          "label": "Beschriftung für eine Frage zum Urheberrechtsdialog",
+          "default": "Frage"
+        },
+        {
+          "label": "Fortschritt \"Readspeaker\"",
+          "description": "Variablen: @current und @total",
+          "default": "Frage @current von @total"
+        },
+        {
+          "label": "Text für unbeantwortete Fragen",
+          "default": "Unbeantwortet"
+        },
+        {
+          "label": "Text für beantwortete Fragen",
+          "default": "Beantwortet"
+        },
+        {
+          "label": "Text fpr aktuelle Frage",
+          "default": "Aktuelle Frage"
+        }
+      ]
+    },
+    {
+      "label": "Rückwärts-Navigation ausstellen",
+      "description": "Wenn aktiviert, kann der Nutzer nur vorwärts durch das Fragenset navigieren."
+    },
+    {
+      "label": "Fragen zufällig anordnen",
+      "description": "Aktivieren, um die Fragen auf dem Bildschirm zufällig anzuordnen."
+    },
+    {
+      "label": "Anzahl der anzuzeigenden Fragen:",
+      "description": "Kann benutzt werden, um eine zufällige Auswahl auf mehreren Fragen zu treffen."
+    },
+    {
+      "label": "Quiz beendet",
+      "fields": [
+        {
+          "label": "Ergebnisse anzeigen"
+        },
+        {
+          "label": "Den \"Lösung zeigen\"-Button anzeigen"
+        },
+        {
+          "label": "Nachricht bei keinen Ergebnissen",
+          "description": "Text, der auf der Endseite angezeigt wird, wenn \"Lösung zeigen\" deaktiviert ist",
+          "default": "Beendet"
+        },
+        {
+          "label": "Überschrift für die Rückmeldung",
+          "default": "Dein Ergebnis:",
+          "description": "Diese Überschrift wird am Ende angezeigt, wenn alle Fragen beantwortet wurden."
+        },
+        {
+          "label": "Rückmeldungen insgesamt",
+          "fields": [
+            {
+              "widgets": [
+                {
+                  "label": "Vorgabe"
+                }
+              ],
+              "label": "Lege individuelle Rückmeldungen für Punktebereiche fest",
+              "description": "Beispiel: 0-20 % Schlechte Punktzahk, 21-91 % Durchschnittliche Punktzahl, 91-100 % Hervorragende Punktzahl!",
+              "entity": "bereich",
+              "field": {
+                "fields": [
+                  {
+                    "label": "Punktebereich"
+                  },
+                  {},
+                  {
+                    "label": "Rückmeldung für den Punktebereich",
+                    "placeholder": "Trage die Rückmeldung ein"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "Alte Rückmeldung",
+          "fields": [
+            {
+              "label": "Kopfzeile für bestandenes Quiz",
+              "description": "Dieser Text wird oberhalb der Punkte angezeigt, wenn der Nutzer das Quiz nicht bestanden hat."
+            },
+            {
+              "label": "Kommentar für bestandenes Quiz",
+              "description": "Dieser Kommentar wird nach den Punkten angezeigt, wenn der Nutzer das Quiz erfolgreich bestanden hat."
+            },
+            {
+              "label": "Kopfzeile für nicht bestandenes Quiz",
+              "description": "Dieser Text wird oberhalb der Punkte angezeigt, wenn der Nutzer das Quiz nicht bestanden hat."
+            },
+            {
+              "label": "Kommentar für nicht bestandenes Quiz",
+              "description": "Dieser Kommentar wird nach den Punkten angezeigt, wenn der Nutzer das Quiz nicht bestanden hat."
+            }
+          ]
+        },
+        {
+          "label": "Beschriftung des \"Lösung zeigen\"-Buttons",
+          "default": "Lösung zeigen",
+          "description": "Beschriftung des \"Lösung zeigen\"-Buttons"
+        },
+        {
+          "label": "Beschriftung des \"Wiederholen\"-Buttons",
+          "default": "Wiederholen",
+          "description": "Beschriftung des \"Wiederholen\"-Buttons"
+        },
+        {
+          "label": "Beschriftung des \"Beenden\"-Buttons",
+          "default": "Beenden"
+        },
+        {
+          "label": "Zeige ein Video vor den Ergebnissen an"
+        },
+        {
+          "label": "Aktiviere \"Video überspringen\"-Button"
+        },
+        {
+          "label": "Beschriftung des \"Video überspringen\"-Buttons",
+          "default": "Video überspringen"
+        },
+        {
+          "label": "Bestanden-Video",
+          "description": "Dieses Video wird angezeigt, wenn der Nutzer das Quiz bestanden hat."
+        },
+        {
+          "label": "Nicht-bestanden-Video",
+          "description": "Dieses Video wird angezeigt, wenn der Nutzer das Quiz nicht bestanden hat."
+        }
+      ]
+    },
+    {
+      "label": "Einstellungen für \"Lösung zeigen\"-Button und \"Wiederholen\"-Button",
+      "fields": [
+        {
+          "label": "Zeige den \"Überprüfen\"-Button",
+          "description": "Diese Option legt fest, ob der \"Überprüfen\"-Button für alle Fragen angezeigt wird."
+        },
+        {
+          "label": "Überschreiben des \"Lösungen anzeigen\"-Buttons",
+          "description": "Diese Option gibt an, ob der \"Lösung anzeigen\"-Button für alle Fragen angezeigt, ausgeblendet oder für jede Frage individuell konfiguriert wird.",
+          "options": [
+            {
+              "label": "Anzeigen"
+            },
+            {
+              "label": "Ausblenden"
+            }
+          ]
+        },
+        {
+          "label": "berschreiben des \"Wiederholen\"-Buttons",
+          "description": "Diese Option gibt an, ob der \"Wiederholen\" Button für alle Fragen angezeigt, ausgeblendet oder für jede Frage individuell konfiguriert wird.",
+          "options": [
+            {
+              "label": "Anzeigen"
+            },
+            {
+              "label": "Ausblenden"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

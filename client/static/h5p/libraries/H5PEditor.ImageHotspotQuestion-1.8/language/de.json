@@ -1,0 +1,11 @@
+{
+  "libraryStrings": {
+    "noImage": "Es wurde kein Bild ausgewählt.",
+    "noImageTitle": "No Background Image",
+    "done": "Erledigt",
+    "back": "Zurück",
+    "remove": "Hotspot entfernen",
+    "rectangle": "Rechteck erstellen",
+    "circle": "Kreis erstellen"
+  }
+}
