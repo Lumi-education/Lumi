@@ -3,7 +3,7 @@ import * as debug from 'debug';
 import * as mkdirp from 'mkdirp';
 import * as PouchDB from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
-import * as express_pouchdb from 'express-pouchdb';
+// import * as express_pouchdb from 'express-pouchdb';
 import * as express from 'express';
 
 // import * as Event from 'events';
@@ -23,9 +23,9 @@ export default class DB {
     constructor() {
         log('creating ' + process.env.DB);
         mkdirp.sync(process.env.DB);
-        this.api = express_pouchdb(
-            PouchDB.defaults({ prefix: process.env.DB })
-        );
+        // this.api = express_pouchdb(
+        //     PouchDB.defaults({ prefix: process.env.DB })
+        // );
         this.db = new PouchDB.defaults({ prefix: process.env.DB })('lumi');
         this.findById = this.findById.bind(this);
         this.save = this.save.bind(this);

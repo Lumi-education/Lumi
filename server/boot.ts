@@ -28,7 +28,8 @@ export function boot(done: () => void) {
 
     if (
         process.env.NODE_ENV === 'development' ||
-        process.env.NODE_ENV === 'test'
+        process.env.NODE_ENV === 'test' ||
+        process.env.TARGET === 'electron'
     ) {
         log('booting in single-mode');
         boot_core((server: http.Server) => {

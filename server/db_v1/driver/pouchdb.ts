@@ -4,6 +4,8 @@ import { assign, noop } from 'lodash';
 import * as debug from 'debug';
 import * as PouchDB from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
+import * as express from 'express';
+import * as express_pouchdb from 'express-pouchdb';
 
 import * as raven from 'raven';
 
@@ -27,6 +29,8 @@ import {
 } from '../interface';
 
 export default class DB implements IDB {
+    public api: express.Router;
+
     private db: PouchDB;
     private name: string;
 
@@ -39,6 +43,14 @@ export default class DB implements IDB {
                 }
             );
             this.name = db_name;
+
+            this.api = express_pouchdb(
+                PouchDB.defaults({ prefix: process.env.DB }),
+                {
+                    logPath: process.env.DB + 'pouchdb.log',
+                    configPath: process.env.DB + 'pouchdb.config'
+                }
+            );
 
             this.init = this.init.bind(this);
             log_info('constructor', 'finished', this.name);

@@ -78,7 +78,11 @@ const h5pinterface: IH5PInterface = {
             cb(
                 undefined,
                 require(path.resolve(
-                    path.join('build/h5p/libraries', name, 'library.json')
+                    path.join(
+                        'build/client/static/h5p/libraries',
+                        name,
+                        'library.json'
+                    )
                 ))
             );
         } catch (error) {
@@ -218,8 +222,9 @@ const h5pinterface: IH5PInterface = {
     max_concurrent: 1,
     max_queued: Infinity,
 
-    library_dir: path.resolve('build/h5p/libraries'),
+    library_dir: path.resolve('build/client/static/h5p/libraries'),
     core_dir: path.resolve('build/client/static/h5p'),
+    tmp_dir: process.env.DATA_DIR + '/tmp',
     integration: {
         postUserStatistics: true,
         ajaxPath: '',

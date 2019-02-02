@@ -11,7 +11,7 @@ import CoreAPI from '../../api/v1/core';
 import MaterialAPI from '../../api/v1/material';
 import FlowAPI from '../../api/v1/flow';
 
-import db from '../../db';
+import DB from '../../db_v1';
 
 const log_info = debug('lumi:info:api:v1');
 const log_error = debug('lumi:error:api:v1');
@@ -19,7 +19,7 @@ const log_error = debug('lumi:error:api:v1');
 export default function(): express.Router {
     const router = express.Router();
 
-    const DB = url.parse(process.env.DB);
+    const _DB = url.parse(process.env.DB);
 
     router.post('/:db/auth/login', AuthAPI.login);
     // router.post('/:db/auth/register', AuthAPI.register);
@@ -61,9 +61,9 @@ export default function(): express.Router {
     );
     router.post('/:db/flow/assignment/:assignment_id/data', FlowAPI.save_data);
 
-    if (DB.protocol === null) {
+    if (_DB.protocol === null) {
         log_info('using pouchdb');
-        router.all('*', Auth.db, db.api);
+        router.all('*', Auth.db, new DB('lumi').api);
     } else {
         log_info('using couchdb');
         router.all(

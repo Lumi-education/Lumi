@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as jwt from 'jwt-simple';
-import * as raven from 'raven';
+import raven from '../core/raven';
 import ErrorResponse from '../core/error';
 
 export function auth(
