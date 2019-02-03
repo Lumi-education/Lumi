@@ -6,6 +6,9 @@ import * as PouchDB from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
 import * as express from 'express';
 import * as express_pouchdb from 'express-pouchdb';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as mkdirp from 'mkdirp';
 
 import * as raven from 'raven';
 
@@ -117,8 +120,70 @@ export default class DB implements IDB {
         doc_id: string,
         attachment_name: string
     ): Promise<Buffer> {
-        log_info('getAttachment', doc_id, attachment_name);
-        return this.db.getAttachment(doc_id, attachment_name);
+        return new Promise<Buffer>((resolve, reject) => {
+            log_info('getAttachment', doc_id, attachment_name);
+            const cached_file_path = path.join(
+                process.env.DATA_DIR,
+                'cache',
+                doc_id,
+                attachment_name
+            );
+
+            log_info(
+                'getAttachment',
+                'checking cached file at ',
+                cached_file_path
+            );
+            fs.readFile(cached_file_path, (err, data) => {
+                if (err) {
+                    log_info('getAttachment', 'no cached file found');
+                    return this.db
+                        .getAttachment(doc_id, attachment_name)
+                        .then(buffer => {
+                            mkdirp(
+                                path.join(
+                                    process.env.DATA_DIR,
+                                    'cache',
+                                    doc_id
+                                ),
+                                mkdirp_error => {
+                                    if (mkdirp_error) {
+                                        log_error(
+                                            'getAttachment',
+                                            'mkdirp',
+                                            mkdirp_error
+                                        );
+                                        return resolve(buffer);
+                                    }
+                                    fs.writeFile(
+                                        cached_file_path,
+                                        buffer,
+                                        _err => {
+                                            if (_err) {
+                                                return log_error(
+                                                    'getAttachment',
+                                                    _err
+                                                );
+                                            }
+                                            log_info(
+                                                'getAttachment',
+                                                'file cached'
+                                            );
+                                        }
+                                    );
+                                    log_info(
+                                        'getAttachment',
+                                        'sending cached file'
+                                    );
+                                    resolve(buffer);
+                                }
+                            );
+                        });
+                }
+                log_info('getAttachment', 'cached file found - sending file');
+                resolve(data);
+            });
+        });
     }
 
     public init(admin_user): Promise<any> {
