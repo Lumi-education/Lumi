@@ -46,7 +46,7 @@
         "express-http-proxy": "^1.5.0",
         "express-pouchdb": "^4.1.0",
         "express-react-views": "^0.10.5",
-        "h5p-nodejs-library": "0.0.13",
+        "h5p-nodejs-library": "0.0.17",
         "jwt-simple": "^0.5.1",
         "lodash": "^4.17.11",
         "mkdirp": "^0.5.1",
