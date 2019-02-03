@@ -10,7 +10,6 @@ import AuthAPI from '../../api/v1/auth';
 import CoreAPI from '../../api/v1/core';
 import MaterialAPI from '../../api/v1/material';
 import FlowAPI from '../../api/v1/flow';
-
 import DB from '../../db_v1';
 
 const log_info = debug('lumi:info:api:v1');
@@ -63,7 +62,31 @@ export default function(): express.Router {
 
     if (_DB.protocol === null) {
         log_info('using pouchdb');
-        router.all('*', Auth.db, new DB('lumi').api);
+        router.all(
+            '*',
+            Auth.db,
+            (
+                req: Auth.IRequest,
+                res: express.Response,
+                next: express.NextFunction
+            ) => {
+                const query = req.query;
+                if (req.user.level < 3) {
+                    assign(query, {
+                        filter: '_view',
+                        view: 'user/' + req.user._id
+                    });
+                } else {
+                    assign(query, {
+                        filter: '_view',
+                        view: 'user/admin'
+                    });
+                }
+                req.query = query;
+                next();
+            },
+            new DB('lumi').api
+        );
     } else {
         log_info('using couchdb');
         router.all(

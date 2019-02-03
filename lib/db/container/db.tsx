@@ -50,7 +50,9 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
         PouchDB.sync(db, this.remote_db, {
             live: true,
             retry: true,
-            batch_size: 10
+            batch_size: 10,
+            filter: '_view',
+            view: 'user/' + window.localStorage.user_id
         })
             .on('change', changes => {
                 log_info('changes', changes);
@@ -116,7 +118,9 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
         db.replicate
             .from(this.remote_db, {
                 retry: true,
-                batch_size: 10
+                batch_size: 10,
+                filter: '_view',
+                view: 'user/' + window.localStorage.user_id
             })
             .on('change', changes => {
                 log_info('changes', changes);
