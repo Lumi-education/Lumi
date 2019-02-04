@@ -34,6 +34,7 @@ export function boot(done: () => void) {
         log('booting in single-mode');
         boot_core((server: http.Server) => {
             raven.captureMessage('Server booted', { level: 'info' });
+            process.send({ message: 'ready' });
             done();
         });
     } else {
@@ -50,14 +51,15 @@ export function boot(done: () => void) {
             raven.captureMessage('Server booted', { level: 'info' });
             done();
         } else {
-            boot_core(server => {
+            boot_core((server: http.Server) => {
+                process.send({ message: 'ready' });
                 log('server booted');
             });
         }
     }
 }
 
-if (process.env.TARGET !== 'electron' && process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test') {
     boot(() => {
         log('ending boot-sequence');
     });

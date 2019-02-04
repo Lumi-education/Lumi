@@ -1,19 +1,28 @@
 var electron = require('electron');
+var cp = require('child_process');
+var sudo = require('sudo-prompt');
+var machineId = require('node-machine-id').machineId;
 
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 
-process.env.KEY = 'ABC';
-process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-process.env.PORT = 1337;
-process.env.TARGET = 'electron';
-process.env.DEBUG = '*';
-process.env.DB = app.getPath('appData') + '/Lumi/db/pouchdb';
-process.env.DATA_DIR = app.getPath('appData') + '/Lumi/data';
+// process.env.KEY = 'ABC';
+// process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+// process.env.PORT = 80;
+// process.env.TARGET = 'electron';
+// process.env.DEBUG = '*';
+// process.env.DB = app.getPath('appData') + '/Lumi/db/pouchdb';
+// process.env.DATA_DIR = app.getPath('appData') + '/Lumi/data';
+
+const PORT = 80;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow;
 let server;
+
+var options = {
+    name: 'Lumi'
+};
 
 function createMainWindow() {
     const window = new BrowserWindow({
@@ -29,7 +38,7 @@ function createMainWindow() {
     // if (isDevelopment) {
     //     window.loadURL(`http://localhost:8080`);
     // } else {
-    window.loadURL('http://localhost:1337');
+    window.loadURL('http://localhost:' + PORT);
     // }
 
     window.on('closed', () => {
@@ -63,9 +72,33 @@ app.on('activate', function() {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', function() {
-    server = require(__dirname + '/server/boot.js');
+    machineId().then(id => {
+        console.log('booting server with key ', id);
+        var server = cp.fork(__dirname + '/server/boot.js', {
+            env: {
+                PORT: PORT,
+                TARGET: 'electron',
+                DEBUG: 'lumi:*',
+                DB: app.getPath('appData') + '/Lumi/db/pouchdb',
+                DATA_DIR: app.getPath('appData') + '/Lumi/data',
+                KEY: id,
+                NODE_ENV: process.env.NODE_ENV || 'production'
+            }
+        });
 
-    server.boot(function() {
-        mainWindow = createMainWindow();
+        server.on('message', message => {
+            console.log('message', message);
+            mainWindow = createMainWindow();
+        });
     });
+
+    // sudo.exec(__dirname + '/server/boot.js', options, function(
+    //     error,
+    //     stdout,
+    //     stderr
+    // ) {
+    //     if (error) throw error;
+    //     console.log('stdout: ' + stdout);
+    //     mainWindow = createMainWindow();
+    // });
 });
