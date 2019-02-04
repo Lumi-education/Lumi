@@ -34,7 +34,13 @@ export function boot(done: () => void) {
         log('booting in single-mode');
         boot_core((server: http.Server) => {
             raven.captureMessage('Server booted', { level: 'info' });
-            process.send({ message: 'ready' });
+            switch (process.env.TARGET) {
+                case 'electron':
+                    process.send({ message: 'ready' });
+                    break;
+                default:
+            }
+
             done();
         });
     } else {
@@ -52,7 +58,12 @@ export function boot(done: () => void) {
             done();
         } else {
             boot_core((server: http.Server) => {
-                process.send({ message: 'ready' });
+                switch (process.env.TARGET) {
+                    case 'electron':
+                        process.send({ message: 'ready' });
+                        break;
+                    default:
+                }
                 log('server booted');
             });
         }
