@@ -57,6 +57,7 @@ export class InstallFinishComponent extends React.Component<
             })
             .then(login_res => {
                 this.props.dispatch(UI.actions.push('/admin'));
+                this.props.dispatch(Core.actions.get_settings());
             });
     }
 
