@@ -2,7 +2,7 @@ var electron = require('electron');
 var cp = require('child_process');
 var sudo = require('sudo-prompt');
 var machineId = require('node-machine-id').machineId;
-
+var autoUpdater = require('electron-updater').autoUpdater;
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 
@@ -74,6 +74,7 @@ app.on('activate', function() {
 app.on('ready', function() {
     machineId().then(id => {
         console.log('booting server with key ', id);
+        autoUpdater.checkForUpdatesAndNotify();
         var server = cp.fork(__dirname + '/server/boot.js', {
             env: {
                 PORT: PORT,
