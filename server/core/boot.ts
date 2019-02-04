@@ -21,9 +21,9 @@ export default function boot(done: (server: http.Server) => void) {
         switch (process.env.TARGET) {
             case 'electron':
             case 'pi':
-            default:
                 dns();
                 break;
+            default:
             case 'cloud':
                 break;
         }
