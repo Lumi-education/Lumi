@@ -6,6 +6,7 @@ process.env.PORT = process.env.PORT || 3000;
 process.env.KEY = process.env.KEY || 'abcdefg';
 process.env.VERSION =
     process.env.VERSION || require('../../package.json').version;
+process.env.TARGET = process.env.TARGET || 'default';
 
 import raven from './core/raven';
 
@@ -16,6 +17,7 @@ import * as os from 'os';
 import * as http from 'http';
 
 import boot_core from './core/boot';
+import boot_addons from './addons/boot';
 
 declare var process;
 
@@ -34,13 +36,7 @@ export function boot(done: () => void) {
         log('booting in single-mode');
         boot_core((server: http.Server) => {
             raven.captureMessage('Server booted', { level: 'info' });
-            switch (process.env.TARGET) {
-                case 'electron':
-                    process.send({ message: 'ready' });
-                    break;
-                default:
-            }
-
+            boot_addons();
             done();
         });
     } else {
@@ -55,22 +51,17 @@ export function boot(done: () => void) {
                 const worker = cluster.fork();
             });
             raven.captureMessage('Server booted', { level: 'info' });
+            boot_addons();
             done();
         } else {
             boot_core((server: http.Server) => {
-                switch (process.env.TARGET) {
-                    case 'electron':
-                        process.send({ message: 'ready' });
-                        break;
-                    default:
-                }
                 log('server booted');
             });
         }
     }
 }
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && process.env.TARGET !== 'electron') {
     boot(() => {
         log('ending boot-sequence');
     });

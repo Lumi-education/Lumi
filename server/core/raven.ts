@@ -36,16 +36,4 @@ const raven: IRaven =
           }
         : _raven;
 
-// if (
-//     process.env.NODE_ENV === 'development' ||
-//     process.env.TARGET === 'electron'
-// ) {
-//     (raven as any).captureException = (exception: Error) => {
-//         throw exception;
-//     };
-//     (raven as any).captureMessage = (message: string) => {
-//         log_info(message);
-//     };
-// }
-
 export default raven;

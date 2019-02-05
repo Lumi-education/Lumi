@@ -14,14 +14,7 @@ export class Host {
         this.ip_address = undefined;
 
         switch (process.env.TARGET) {
-            case 'electron':
-            case 'development':
-                this.ip_address = this.get_ip_address();
-                console.log(this.ip_address);
-                break;
-
             case 'pi':
-            default:
                 exec(
                     "/sbin/ip route|awk '/default/ { print $3 }'",
                     (ip_error, ip_stdout, ip_stderr) => {
@@ -35,6 +28,10 @@ export class Host {
                         log('HOST_IP_ADDRESS_SUCCESS', this.ip_address);
                     }
                 );
+                break;
+            case 'electron':
+            default:
+                this.ip_address = this.get_ip_address();
                 break;
         }
     }

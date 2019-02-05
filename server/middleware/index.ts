@@ -1,6 +1,8 @@
-import { auth, level } from './auth';
-
+import * as auth from './auth';
+import * as pouchdb from './db/pouchdb';
 export default {
     auth,
-    level
+    db: {
+        pouchdb
+    }
 };

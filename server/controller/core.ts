@@ -4,12 +4,12 @@ import * as jwt from 'jwt-simple';
 import * as debug from 'debug';
 import { assign } from 'lodash';
 import * as raven from 'raven';
-import { IRequest } from '../../middleware/auth';
+import { IRequest } from '../middleware/auth';
 
-import DB from '../../db_v1';
-import { IDB } from '../../db_v1/interface';
+import DB from '../db';
+import { IDB } from '../db/interface';
 
-import ErrorResponse from '../../core/error';
+import ErrorResponse from '../core/error';
 
 const log_info = debug('lumi:api:v1:system');
 
@@ -20,7 +20,11 @@ class CoreController {
 
             db.findById('core')
                 .then(core => {
-                    res.status(200).json(core);
+                    res.status(200).json({
+                        ...core,
+                        target: process.env.TARGET,
+                        version: process.env.VERSION
+                    });
                 })
                 .catch(error => {
                     res.status(404).json(

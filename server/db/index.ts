@@ -12,10 +12,10 @@ const DB = url.parse(process.env.DB);
 
 if (DB.protocol === null) {
     log('using pouchdb-driver');
-    db = new PouchDB();
+    db = PouchDB;
 } else {
     log('using couchdb-driver');
-    db = new CouchDB();
+    db = CouchDB;
 }
 
 export default db;

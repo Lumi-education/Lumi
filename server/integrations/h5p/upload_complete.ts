@@ -3,8 +3,8 @@ import * as raven from 'raven';
 import * as express from 'express';
 import * as Screenshot from 'url-to-screenshot';
 
-import DB from '../db_v1';
-import { IDB } from '../db_v1/interface';
+import DB from '../../db';
+import { IDB } from '../../db/interface';
 import { IMaterial } from 'lib/material/types';
 
 const log_error = debug('lumi:error:h5p:interface:upload_complete');
