@@ -44,7 +44,7 @@ export default class DB implements IDB {
             this.db = new PouchDB.defaults({ prefix: process.env.DB })(
                 db_name,
                 {
-                    skip_setup: true
+                    // skip_setup: true
                     // adapter: 'websql'
                 }
             );
