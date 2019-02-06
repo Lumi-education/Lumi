@@ -222,8 +222,14 @@ const h5pinterface: IH5PInterface = {
     max_concurrent: 1,
     max_queued: Infinity,
 
-    library_dir: path.resolve('build/client/static/h5p/libraries'),
-    core_dir: path.resolve('build/client/static/h5p'),
+    library_dir: path.join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        'client/static/h5p/libraries'
+    ),
+    core_dir: path.join(__dirname, '..', '..', '..', 'client/static/h5p'),
     tmp_dir: process.env.DATA_DIR + '/tmp',
     integration: {
         postUserStatistics: true,
