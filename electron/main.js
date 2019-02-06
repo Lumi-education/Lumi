@@ -6,15 +6,8 @@ var autoUpdater = require('electron-updater').autoUpdater;
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 
-// process.env.KEY = 'ABC';
-// process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-// process.env.PORT = 80;
-// process.env.TARGET = 'electron';
-// process.env.DEBUG = '*';
-// process.env.DB = app.getPath('appData') + '/Lumi/db/pouchdb';
-// process.env.DATA_DIR = app.getPath('appData') + '/Lumi/data';
-
 const PORT = 80;
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow;
@@ -75,20 +68,33 @@ app.on('ready', function() {
     machineId().then(id => {
         console.log('booting server with key ', id);
         autoUpdater.checkForUpdatesAndNotify();
-        var server = cp.fork(__dirname + '/server/boot.js', {
-            env: {
-                PORT: PORT,
-                TARGET: 'electron',
-                DEBUG: 'lumi:*',
-                DB: app.getPath('appData') + '/Lumi/db/pouchdb',
-                DATA_DIR: app.getPath('appData') + '/Lumi/data',
-                KEY: id,
-                NODE_ENV: process.env.NODE_ENV || 'production'
-            }
-        });
+        process.env.KEY = id;
+        process.env.PORT = 80;
+        process.env.TARGET = 'electron';
+        process.env.DEBUG = '*';
+        process.env.DB = app.getPath('appData') + '/Lumi/db/';
+        process.env.DATA_DIR = app.getPath('appData') + '/Lumi/data';
 
-        server.on('message', message => {
-            console.log('message', message);
+        // var server = cp.fork(__dirname + '/server/boot.js', {
+        //     env: {
+        //         PORT: PORT,
+        //         TARGET: 'electron',
+        //         DEBUG: 'lumi:*',
+        //         DB: app.getPath('appData') + '/Lumi/db/pouchdb',
+        //         DATA_DIR: app.getPath('appData') + '/Lumi/data',
+        //         KEY: id,
+        //         NODE_ENV: process.env.NODE_ENV || 'production'
+        //     }
+        // });
+
+        // server.on('message', message => {
+        //     console.log('message', message);
+        //     mainWindow = createMainWindow();
+        // });
+
+        var server = require(__dirname + '/server/boot.js');
+
+        server.boot(() => {
             mainWindow = createMainWindow();
         });
     });
@@ -100,6 +106,6 @@ app.on('ready', function() {
     // ) {
     //     if (error) throw error;
     //     console.log('stdout: ' + stdout);
-    //     mainWindow = createMainWindow();
+
     // });
 });
