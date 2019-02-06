@@ -38,32 +38,39 @@ interface IDispatchProps {
     dispatch: (action) => any;
 }
 
-interface IComponentState {}
+interface IComponentState {
+    loading: boolean;
+}
 interface IProps extends IStateProps, IDispatchProps {}
 
 export class CardPage extends React.Component<IProps, IComponentState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            loading: true
+        };
     }
 
     public componentWillMount() {
         log_info('componentWillMount');
-        this.props.dispatch(
-            Material.actions.ui_set_material(this.props.material_in_state)
-        );
+        this.props
+            .dispatch(Material.actions.get([this.props.material_id]))
+            .then(res => {
+                this.props.dispatch(Material.actions.ui_set_material(res[0]));
+                this.setState({ loading: false });
+            });
     }
 
     public componentWillUnmount() {
-        if (
-            this.props.material._rev.charAt(0) === '1' &&
-            this.props.material._rev.charAt(1) === '-'
-        ) {
-            this.props.dispatch(
-                Material.actions.destroy(this.props.material._id)
-            );
-        }
+        // if (
+        //     this.props.material._rev.charAt(0) === '1' &&
+        //     this.props.material._rev.charAt(1) === '-'
+        // ) {
+        //     this.props.dispatch(
+        //         Material.actions.destroy(this.props.material._id)
+        //     );
+        // }
     }
 
     public componentDidUpdate(prevProps: IProps) {
@@ -79,6 +86,9 @@ export class CardPage extends React.Component<IProps, IComponentState> {
 
     public render() {
         const { classes, material } = this.props;
+        if (this.state.loading) {
+            return <div>loading</div>;
+        }
         return (
             <div id="material-page" className={classes.contentContainer}>
                 <Paper className={classes.paper}>
