@@ -171,6 +171,7 @@
     "main": "build/main.js",
     "build": {
         "appId": "org.lumi.education",
+        "productName": "Lumi",
         "files": [
             "build/**/*",
             "node_modules/**/*",
@@ -178,7 +179,11 @@
         ],
         "mac": {
             "category": "org.lumi.education",
-            "publish": "github"
+            "publish": "github",
+            "fileAssociations": {
+                "ext": "h5p",
+                "name": "H5P"
+            }
         },
         "win": {
             "publish": "github"
