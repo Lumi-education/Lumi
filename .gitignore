@@ -6,8 +6,7 @@ npm-debug.log*
 
 makefile 
 tmp/
-test_db
-test_data
+dev/
 
 # Compiled files
 build
