@@ -354,7 +354,17 @@ const i18n = merge(
             users: 'Lernende',
             users_conflict: 'Benutzername existiert bereits',
             view: 'Ansehen',
-            welcome: 'Willkommen'
+            welcome: 'Willkommen',
+            install: {
+                welcome: {
+                    text: 'Willkommen bei Lumi... hier kommt noch text hin.'
+                },
+                account_creation: 'Verwaltungs-Account anlegen'
+            },
+            auth: {
+                password_repeat: 'Passwort wiederholen',
+                passwords_do_not_match: 'Passwörter stimmen nicht überein.'
+            }
         }
     },
     Auth.i18n
