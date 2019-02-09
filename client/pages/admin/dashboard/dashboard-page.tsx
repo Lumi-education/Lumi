@@ -54,10 +54,12 @@ export class AdminDashboardPage extends React.Component<
                                 variant="h5"
                                 component="h2"
                             >
-                                http://{system.ip}
-                                {parseInt(system.port, 10) === 80
-                                    ? null
-                                    : ':' + system.port}
+                                http://{system.ip || window.location.host}
+                                {system.port
+                                    ? parseInt(system.port, 10) === 80
+                                        ? null
+                                        : ':' + system.port
+                                    : null}
                             </Typography>
                             <Typography component="p">
                                 {Core.i18n.t('ip_description')}
@@ -65,48 +67,6 @@ export class AdminDashboardPage extends React.Component<
                         </CardContent>
                     </CardActionArea>
                 </Card>
-                <Card
-                                                        className={classes.card}
-                                                    >
-                                                        <CardActionArea>
-                                                           
-                                                            <CardContent>
-                                                                <Typography
-                                                                    gutterBottom={
-                                                                        true
-                                                                    }
-                                                                    variant="h5"
-                                                                    component="h2"
-                                                                >
-                                                                    {Core.i18n.t(
-                                                                        'assistant'
-                                                                    )}
-                                                                </Typography>
-                                                                <Typography component="p">
-                                                                    {Core.i18n.t(
-                                                                        'assistant_explain'
-                                                                    )}
-                                                                </Typography>
-                                                            </CardContent>
-                                                        </CardActionArea>
-                                                        <CardActions>
-                                                            <Button
-                                                                size="small"
-                                                                color="primary"
-                                                                onClick={() =>
-                                                                    this.props.dispatch(
-                                                                        UI.actions.push(
-                                                                            '/admin/assistant'
-                                                                        )
-                                                                    )
-                                                                }
-                                                            >
-                                                                {Core.i18n.t(
-                                                                    'go'
-                                                                )}
-                                                            </Button>
-                                                        </CardActions>
-                                                    </Card>
             </div>
         );
     }
@@ -128,7 +88,7 @@ const styles: StyleRulesCallback = theme => ({
     card: {
         maxWidth: 345,
         margin: '10px'
-    },
+    }
 });
 
 export default withStyles(styles)(

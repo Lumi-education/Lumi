@@ -13,6 +13,7 @@ import * as UI from 'lib/ui';
 import * as Users from 'lib/users';
 import * as Material from 'lib/material';
 import * as Notifications from 'lib/notifications';
+import * as Tour from 'lib/tour';
 
 const root_reducer = combineReducers({
     auth: Auth.reducer,
@@ -26,7 +27,8 @@ const root_reducer = combineReducers({
     notifications: Notifications.reducer,
     tags: Tags.reducer,
     ui: UI.reducer,
-    users: Users.reducer
+    users: Users.reducer,
+    tour: Tour.reducer
 });
 
 export default root_reducer;
@@ -42,4 +44,5 @@ export interface IState
         Groups.types.IState,
         UI.types.IState,
         Notifications.types.IState,
-        Flow.types.IState {}
+        Flow.types.IState,
+        Tour.types.IState {}

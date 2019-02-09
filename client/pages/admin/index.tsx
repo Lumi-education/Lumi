@@ -5,6 +5,8 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 import * as debug from 'debug';
 
+import Tour from './tour/Tour';
+
 // container
 import LeftDrawer from './left-drawer';
 import AppBar from './app-bar';
@@ -60,7 +62,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
         if (this.props.userlevel < 2) {
             this.props.dispatch(UI.actions.push('/user'));
         }
-        this.props.dispatch(Core.actions.check_update());
+        // this.props.dispatch(Core.actions.check_update());
     }
 
     public render() {
@@ -68,6 +70,9 @@ export class AdminRoot extends React.Component<IProps, {}> {
             <div id="AdminRoot" key={this.props.locale}>
                 <ErrorBoundary>
                     <AppBar />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <Tour />
                 </ErrorBoundary>
                 <ErrorBoundary>
                     <LeftDrawer />

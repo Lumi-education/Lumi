@@ -85,6 +85,7 @@ export default withStyles(styles, { withTheme: true })(
                             onClick={this.props.on_add_click}
                             aria-haspopup="true"
                             color="inherit"
+                            className={'core_list-toolbar_add-button'}
                         >
                             <AddCircleOutlinedIcon />
                         </IconButton>

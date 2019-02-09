@@ -117,6 +117,7 @@ export class AdminLeftDrawer extends React.Component<IProps, {}> {
                             onClick={() => {
                                 this.props.push('/admin/groups');
                             }}
+                            className={'left-drawer_groups'}
                         />
                         <Divider />
 

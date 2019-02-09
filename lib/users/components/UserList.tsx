@@ -126,7 +126,7 @@ export class UserListComponent extends React.Component<
                         useWindow={false}
                     >
                         {users.length === 0 ? (
-                            <div>
+                            <div className={'users_empty-list'}>
                                 <Typography
                                     className={classes.message}
                                     component="h5"
