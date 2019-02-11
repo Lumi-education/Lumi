@@ -19,7 +19,7 @@ var options = {
 
 function createMainWindow() {
     const window = new BrowserWindow({
-        width: 100,
+        width: 1000,
         height: 800
         // titleBarStyle: 'hidden'
     });
