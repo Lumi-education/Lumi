@@ -18,7 +18,7 @@
         "dev:server": "npm run build:server && node ./build/server/boot.js",
         "dev:client": "NODE_ENV=development VERSION=$(git describe --tags) ./node_modules/.bin/webpack-dev-server --config './config/webpack.config.dev.js' --progress --colors --hot --inline",
         "build": "npm run build:client && npm run build:server && cp electron/main.js build/",
-        "build:server": "npm run lint:server  && ./node_modules/.bin/tsc --project server/tsconfig.server.json &&  cp -r server/views build/server",
+        "build:server": "npm run lint:server  && ./node_modules/.bin/tsc --project server/tsconfig.server.json &&  cp -r server/views build/server && cp server/db/driver/pouchdb.config.json build/server/db/driver",
         "build:client": "NODE_ENV=production VERSION=$(echo ${VERSION}) TAG=$(echo ${TAG}) ./node_modules/.bin/webpack --config './config/webpack.config.prod.js' --progress --colors",
         "lint:client": "./node_modules/.bin/tslint --project tsconfig.json --config tslint.json",
         "lint:server": "./node_modules/.bin/tslint --project server/tsconfig.server.json --config tslint.json",

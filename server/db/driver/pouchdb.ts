@@ -53,8 +53,8 @@ export default class DB implements IDB {
             this.api = express_pouchdb(
                 PouchDB.defaults({ prefix: process.env.DB }),
                 {
-                    logPath: process.env.DB + 'pouchdb.log',
-                    configPath: process.env.DB + 'pouchdb.config'
+                    logPath: process.env.DATA_DIR + '/pouchdb.log',
+                    configPath: __dirname + '/pouchdb.config.json'
                 }
             );
 
