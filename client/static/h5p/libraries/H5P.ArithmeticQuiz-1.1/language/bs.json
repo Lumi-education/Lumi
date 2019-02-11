@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Intro",
+      "description":"The intro text (maximum 100 characters)"
+    },
+    {
+      "label":"Arithmetic type",
+      "options":[
+        {
+          "label":"Addition"
+        },
+        {
+          "label":"Subtraction"
+        },
+        {
+          "label":"Multiplication"
+        },
+        {
+          "label":"Division"
+        }
+      ]
+    },
+    {
+      "label":"Max number of questions"
+    },
+    {
+      "label":"User interface translations",
+      "fields":[
+        {
+          "label":"Scoring during quiz",
+          "default":"Score:"
+        },
+        {
+          "label":"Time",
+          "default":"Time: @time"
+        },
+        {
+          "label":"Result page header",
+          "default":"Finished!"
+        },
+        {
+          "label":"Go label",
+          "default":"GO!"
+        },
+        {
+          "label":"Start button label",
+          "default":"Start"
+        },
+        {
+          "label":"Oznaka za dugme \"Završi\"",
+          "default":"Ponovi"
+        },
+        {
+          "label":"\"Readspeaker\" tekst za tačan odgovor",
+          "default":"Correct"
+        },
+        {
+          "label":"\"Readspeaker\" tekst za netačan odgovor",
+          "default":"Incorrect. Correct answer was :num"
+        },
+        {
+          "label":"Readspeaker label for the timer",
+          "default":"Duration in hours, minutes and seconds."
+        },
+        {
+          "label":"Readspeaker text for question",
+          "default":"What does :arithmetic equal?"
+        },
+        {
+          "label":"Plus operator text",
+          "default":"plus"
+        },
+        {
+          "label":"Subtraction operator text",
+          "default":"minus"
+        },
+        {
+          "label":"Multiplication operator text",
+          "default":"times"
+        },
+        {
+          "label":"Division operator text",
+          "default":"divided by"
+        },
+        {
+          "label":"Tekst za broj slajda",
+          "description":"Prikazuje aktuelni slajd i broj svih slajdova, a mogućnosti su :num i :total",
+          "default":"Slajd :num od :total"
+        }
+      ]
+    }
+  ]
+}

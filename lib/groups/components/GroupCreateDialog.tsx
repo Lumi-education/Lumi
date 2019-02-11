@@ -69,42 +69,48 @@ export class GroupCreateDialog extends React.Component<
     public render() {
         const { classes } = this.props;
         return (
-            <Dialog
-                className={classes.dialog}
-                title={Core.i18n.t('group_create')}
-                open={this.props.open}
-            >
+            <Dialog title={Core.i18n.t('group_create')} open={this.props.open}>
                 <DialogTitle id="form-dialog-title">
                     {Core.i18n.t('group_create')}
                 </DialogTitle>
-                <DialogContent className={classes.dialogContent}>
-                    <GroupCreate />
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() =>
-                            this.props.dispatch(
-                                Groups.actions.ui_close_dialog('create')
-                            )
-                        }
-                        color="primary"
-                    >
-                        {Core.i18n.t('cancel')}
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            this.props.dispatch(
-                                Groups.actions.create_group(
-                                    this.props.group,
-                                    this.props.existing_groupnames
+                <div className={'groups_group-create-dialog'}>
+                    <DialogContent>
+                        <GroupCreate />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() =>
+                                this.props.dispatch(
+                                    Groups.actions.ui_close_dialog('create')
                                 )
-                            );
-                        }}
-                        color="primary"
-                    >
-                        {Core.i18n.t('create')}
-                    </Button>
-                </DialogActions>
+                            }
+                            color="primary"
+                        >
+                            {Core.i18n.t('cancel')}
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                this.props
+                                    .dispatch(
+                                        Groups.actions.create_group(
+                                            this.props.group,
+                                            this.props.existing_groupnames
+                                        )
+                                    )
+                                    .then(groups => {
+                                        this.props.dispatch(
+                                            UI.actions.push(
+                                                '/admin/groups/' + groups[0]._id
+                                            )
+                                        );
+                                    });
+                            }}
+                            color="primary"
+                        >
+                            {Core.i18n.t('create')}
+                        </Button>
+                    </DialogActions>
+                </div>
             </Dialog>
         );
     }
@@ -114,7 +120,7 @@ function mapStateToProps(state: Groups.types.IState, ownProps): IStateProps {
     return {
         open: Groups.selectors.dialog(state, 'create'),
         classes: ownProps.classes,
-        group: state.groups.ui.group,
+        group: Groups.selectors.ui_group(state),
         existing_groupnames: Groups.selectors
             .groups_list(state)
             .map(group => group.name)

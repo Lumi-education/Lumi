@@ -12,7 +12,6 @@ import { IState } from 'client/state';
 // modules
 import * as Core from 'lib/core';
 import * as UI from 'lib/ui';
-import * as Cards from 'lib/cards';
 import * as Flow from 'lib/flow';
 import * as Users from 'lib/users';
 import * as Comments from 'lib/comments';
@@ -23,7 +22,7 @@ interface IPassedProps {}
 
 interface IStateProps extends IPassedProps {
     open: boolean;
-    card: (card_id: string) => Cards.ICard;
+    // card: (card_id: string) => Cards.ICard;
     assignment: Flow.models.Assignment;
     comments: Comments.models.Comment[];
     user: (user_id: string) => Users.models.User;
@@ -65,10 +64,10 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
             >
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 2 }}>
-                        <Cards.CardViewContainer
+                        {/* <Cards.CardViewContainer
                             card_id={this.props.assignment.card_id}
                             assignment_id={this.props.assignment._id}
-                        />
+                        /> */}
                     </div>
                     <div
                         id="comments"
@@ -150,13 +149,13 @@ export class AssignmentDialog extends React.Component<IProps, IComponentState> {
 
 function mapStateToProps(state: IState, ownProps): IStateProps {
     return {
-        open: state.flow.ui.show_dialog,
+        open: false,
         assignment: state.flow.ui.assignment,
         comments: Comments.selectors.ref_id(
             state,
             state.flow.ui.assignment._id
         ),
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        // card: (card_id: string) => Cards.selectors.select_card(state, card_id),
         user: (user_id: string) => Users.selectors.user(state, user_id),
         me: state.users.me
     };

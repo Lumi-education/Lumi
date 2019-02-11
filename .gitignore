@@ -6,6 +6,7 @@ npm-debug.log*
 
 makefile 
 tmp/
+dev/
 
 # Compiled files
 build

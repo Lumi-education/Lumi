@@ -126,7 +126,7 @@ export class GroupListComponent extends React.Component<
                         useWindow={false}
                     >
                         {groups.length === 0 ? (
-                            <div>
+                            <div className={'groups_empty-list'}>
                                 <Typography
                                     className={classes.message}
                                     component="h5"

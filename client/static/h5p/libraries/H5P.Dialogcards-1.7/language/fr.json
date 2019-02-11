@@ -1,0 +1,195 @@
+{
+  "semantics": [
+    {
+      "label": "Heading"
+    },
+    {
+      "label": "Mode",
+      "description": "Mode of presenting the dialog cards",
+      "options": [
+        {
+          "label": "Normal"
+        },
+        {
+          "label": "Repetition"
+        }
+      ]
+    },
+    {
+      "label": "Consigne",
+      "default": ""
+    },
+    {
+      "widgets": [
+        {
+          "label": "Par défaut"
+        }
+      ],
+      "label": "Dialogue",
+      "entity": "dialogue",
+      "field": {
+        "label": "Question",
+        "fields": [
+          {
+            "label": "Question",
+            "description": "Texte pour la face avant de la carte"
+          },
+          {
+            "label": "Réponse",
+            "description": "Texte pour le dos de la carte"
+          },
+          {
+            "label": "Image",
+            "description": "Image facultative pour la carte. (Une carte peut contenir une image seule, un texte seul ou les deux combinés)"
+          },
+          {
+            "label": "Texte alternatif pour l'image"
+          },
+          {
+            "label": "Fichiers audio"
+          },
+          {
+            "label": "Indices",
+            "fields": [
+              {
+                "label": "Indice pour la face avant",
+                "description": "Indice pour la face avant de la carte"
+              },
+              {
+                "label": "Indice pour le dos",
+                "description": "Indice pour le dos de la carte"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Options générales",
+      "description": "Ces options vous permettent de paramétrer le déroulement de l'exercice.",
+      "fields": [
+        {
+          "label": "Activer le bouton \"Recommencer\""
+        },
+        {
+          "label": "Désactiver la possibilité de naviguer en arrière",
+          "description": "Cette option ne permettra plus que la navigation en avant au sein des cartes"
+        },
+        {
+          "label": "Mettre à l'échelle le texte afin de s'adapter à la taille de la carte",
+          "description": "Si cette option est décochée, la taille de la carte sera adaptée au texte placé à l'intérieur"
+        },
+        {
+          "label": "Mélanger les cartes",
+          "description": "Cocher pour mélanger l'ordre des cartes à l'affichage."
+        },
+        {
+          "label": "Maximum proficiency level"
+        },
+        {
+          "label": "Allow quick progression",
+          "description": "If activated, learners can decide to indicate that they know a card without turning it"
+        }
+      ]
+    },
+    {
+      "label": "Texte pour le bouton \"Retourner\"",
+      "default": "Retourner"
+    },
+    {
+      "label": "Texte pour le bouton \"Suivant\"",
+      "default": "Suivant"
+    },
+    {
+      "label": "Texte pour le bouton \"Précédent\"",
+      "default": "Précédent"
+    },
+    {
+      "label": "Texte pour le bouton \"Recommencer\"",
+      "default": "Recommencer"
+    },
+    {
+      "label": "Text for the \"correct answer\" button",
+      "default": "I got it right!"
+    },
+    {
+      "label": "Text for the \"incorrect answer\" button",
+      "default": "I got it wrong"
+    },
+    {
+      "label": "Text for \"Round\" message below cards and on the summary screen",
+      "description": "@round will be replaced by the number of the current round",
+      "default": "Round @round"
+    },
+    {
+      "label": "Text for \"Cards left\" message",
+      "description": "@number will be replaced by the number of cards left in this round",
+      "default": "Cards left: @number"
+    },
+    {
+      "label": "Text for the \"next round\" button",
+      "description": "@round will be replaced by the round number",
+      "default": "Proceed to round @round"
+    },
+    {
+      "label": "Text for the \"show summary\" button",
+      "default": "Next"
+    },
+    {
+      "label": "Title text for the summary page",
+      "default": "Summary"
+    },
+    {
+      "label": "Text for \"Cards you got right:\"",
+      "default": "Cards you got right:"
+    },
+    {
+      "label": "Text for \"Cards you got wrong:\"",
+      "default": "Cards you got wrong:"
+    },
+    {
+      "label": "Text for \"Cards not shown:\"",
+      "default": "Cards in pool not shown:"
+    },
+    {
+      "label": "Text for \"Overall Score\"",
+      "default": "Overall Score"
+    },
+    {
+      "label": "Text for \"Cards completed\"",
+      "default": "Cards you have completed learning:"
+    },
+    {
+      "label": "Text for \"Completed rounds:\"",
+      "default": "Completed rounds:"
+    },
+    {
+      "label": "Message when all cards have been learned proficiently",
+      "description": "@cards will be replaced by the number of all cards in the pool. @max will be replaced by the maximum proficiency level - 1.",
+      "default": "Well done! You got all @cards cards correct @max times in a row!"
+    },
+    {
+      "label": "Texte de progression",
+      "description": "Les variables disponibles sont @card et @total.",
+      "default": "Carte @card sur @total"
+    },
+    {
+      "label": "Etiquette pour le devant de la carte",
+      "description": "Est utilisée par les technologies d'assistance pour plus d'accessibilité",
+      "default": "Le devant de la carte"
+    },
+    {
+      "label": "Etiquette pour le dos de la carte",
+      "description": "Est utilisée par les technologies d'assistance pour plus d'accessibilité",
+      "default": "Le dos de la carte"
+    },
+    {
+      "label": "Etiquette pour montrer le bouton Indice",
+      "default": "Montrer l'indice"
+    },
+    {
+      "label": "Message L'audio n'est pas supporté",
+      "default": "Votre navigateur ne supporte pas ce fichier audio"
+    }
+  ]
+}

@@ -39,3 +39,25 @@ export function convert_files_url(markdown: string, ref_id: string): string {
         return '';
     }
 }
+
+export function get_grade_color(p: number): string {
+    if (p === null) {
+        return '#FFFFFF';
+    }
+    if (p >= 85) {
+        return '#bbeebb';
+    }
+    if (p >= 70) {
+        return '#ccffcc';
+    }
+    if (p >= 55) {
+        return '#ffffbb';
+    }
+    if (p >= 45) {
+        return '#ffeeaa';
+    }
+    if (p >= 20) {
+        return '#ffaaaa';
+    }
+    return '#c0392b';
+}

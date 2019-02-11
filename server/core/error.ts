@@ -6,9 +6,11 @@ export type ResponseErrorType =
     | 'ServerError'
     | 'SystemAlreadyInstalled'
     | 'init_db'
-    | 'InvalidJWTToken';
+    | 'InvalidJWTToken'
+    | 'MissingDoc'
+    | 'MissingAttachment';
 
-export type ModuleType = 'core' | 'auth' | 'users';
+export type ModuleType = 'core' | 'auth' | 'users' | 'material';
 
 export default class ResponseError {
     private module: ModuleType;

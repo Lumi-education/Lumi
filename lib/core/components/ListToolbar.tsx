@@ -36,7 +36,7 @@ const styles: StyleRulesCallback = theme => ({
         flexGrow: 1
     },
     toolbar: {
-        background: theme.palette.background.default
+        background: theme.background.gradient
     },
     title: {
         display: 'none',
@@ -85,6 +85,7 @@ export default withStyles(styles, { withTheme: true })(
                             onClick={this.props.on_add_click}
                             aria-haspopup="true"
                             color="inherit"
+                            className={'core_list-toolbar_add-button'}
                         >
                             <AddCircleOutlinedIcon />
                         </IconButton>

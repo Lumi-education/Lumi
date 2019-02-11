@@ -56,6 +56,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                                   type: successType
                               }
                     );
+                    return response.body || response;
                 } catch (error) {
                     Core.raven.captureException(error);
                     dispatch({

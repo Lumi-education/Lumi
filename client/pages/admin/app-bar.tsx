@@ -11,7 +11,6 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 // icons
 import MenuIcon from '@material-ui/icons/Menu';
-
 // state
 import { IState } from 'client/state';
 

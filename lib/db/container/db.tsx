@@ -49,7 +49,10 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
         log_info('sync start');
         PouchDB.sync(db, this.remote_db, {
             live: true,
-            retry: true
+            retry: true,
+            batch_size: 10,
+            filter: '_view',
+            view: 'user/' + window.localStorage.user_id
         })
             .on('change', changes => {
                 log_info('changes', changes);
@@ -91,7 +94,7 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
                 this.setState({ loading: false });
             })
             .catch(error => {
-                Core.raven.captureExceoption(error);
+                Core.raven.captureException(error);
                 this.props.dispatch(DB.actions.error(error));
             });
     }
@@ -111,9 +114,13 @@ export class DBContainer extends React.Component<IProps, IComponentState> {
             }
         );
 
+        this.props.dispatch(DB.actions.start());
         db.replicate
             .from(this.remote_db, {
-                retry: true
+                retry: true,
+                batch_size: 10,
+                filter: '_view',
+                view: 'user/' + window.localStorage.user_id
             })
             .on('change', changes => {
                 log_info('changes', changes);

@@ -46,3 +46,7 @@ export function dialog(state: IState, key: string): boolean {
         return false;
     }
 }
+
+export function ui_group(state: IState): Group {
+    return new Group(state.groups.ui.group);
+}

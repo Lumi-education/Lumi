@@ -1,0 +1,195 @@
+{
+  "semantics": [
+    {
+      "label": "Heading"
+    },
+    {
+      "label": "Mode",
+      "description": "Mode of presenting the dialog cards",
+      "options": [
+        {
+          "label": "Normal"
+        },
+        {
+          "label": "Repetition"
+        }
+      ]
+    },
+    {
+      "label": "Tehtävän kuvaus",
+      "default": ""
+    },
+    {
+      "widgets": [
+        {
+          "label": "Oletus"
+        }
+      ],
+      "label": "Kysymys/vastaus -kortit",
+      "entity": "kortti",
+      "field": {
+        "label": "Kysymys",
+        "fields": [
+          {
+            "label": "Kysymys",
+            "description": "Tekstisisältö kortin etupuolelle"
+          },
+          {
+            "label": "Vastaus",
+            "description": "Tekstisisältö kortin kääntöpuolelle"
+          },
+          {
+            "label": "Kuva",
+            "description": "Valinnainen kuva kortille. Kortti voi olla vain kuva, tekstiä tai molemmat."
+          },
+          {
+            "label": "Vaihtoehtoinen teksti kuvalle"
+          },
+          {
+            "label": "Äänitiedostot"
+          },
+          {
+            "label": "Vinkit",
+            "fields": [
+              {
+                "label": "Vinkki kysymykselle",
+                "description": "Vinkki kortin etupuolelle"
+              },
+              {
+                "label": "Vinkki vastaukselle",
+                "description": "Vinkki kortin kääntöpuolelle"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Yleisasetukset",
+      "description": "",
+      "fields": [
+        {
+          "label": "Salli \"Yritä uudelleen\" painike"
+        },
+        {
+          "label": "Estä paluu",
+          "description": "Asetus estää palaamisen edelliseen korttiin."
+        },
+        {
+          "label": "Mahduta teksti korttiin.",
+          "description": "Ilman valintaa kortin koko määräytyy tekstin mukaan"
+        },
+        {
+          "label": "Sekoita kortit",
+          "description": "Tällä valinnalla voit satunnaistaa korttien esiintymisjärjestyksen."
+        },
+        {
+          "label": "Maximum proficiency level"
+        },
+        {
+          "label": "Allow quick progression",
+          "description": "If activated, learners can decide to indicate that they know a card without turning it"
+        }
+      ]
+    },
+    {
+      "label": "Painikkeen Käännä teksti",
+      "default": "Käännä"
+    },
+    {
+      "label": "Painikkeen Seuraava teksti",
+      "default": "Seuraava"
+    },
+    {
+      "label": "Painikkeen Edellinen teksti",
+      "default": "Edellinen"
+    },
+    {
+      "label": "Painikkeen Yritä uudelleen teksti",
+      "default": "Yritä uudelleen"
+    },
+    {
+      "label": "Text for the \"correct answer\" button",
+      "default": "I got it right!"
+    },
+    {
+      "label": "Text for the \"incorrect answer\" button",
+      "default": "I got it wrong"
+    },
+    {
+      "label": "Text for \"Round\" message below cards and on the summary screen",
+      "description": "@round will be replaced by the number of the current round",
+      "default": "Round @round"
+    },
+    {
+      "label": "Text for \"Cards left\" message",
+      "description": "@number will be replaced by the number of cards left in this round",
+      "default": "Cards left: @number"
+    },
+    {
+      "label": "Text for the \"next round\" button",
+      "description": "@round will be replaced by the round number",
+      "default": "Proceed to round @round"
+    },
+    {
+      "label": "Text for the \"show summary\" button",
+      "default": "Next"
+    },
+    {
+      "label": "Title text for the summary page",
+      "default": "Summary"
+    },
+    {
+      "label": "Text for \"Cards you got right:\"",
+      "default": "Cards you got right:"
+    },
+    {
+      "label": "Text for \"Cards you got wrong:\"",
+      "default": "Cards you got wrong:"
+    },
+    {
+      "label": "Text for \"Cards not shown:\"",
+      "default": "Cards in pool not shown:"
+    },
+    {
+      "label": "Text for \"Overall Score\"",
+      "default": "Overall Score"
+    },
+    {
+      "label": "Text for \"Cards completed\"",
+      "default": "Cards you have completed learning:"
+    },
+    {
+      "label": "Text for \"Completed rounds:\"",
+      "default": "Completed rounds:"
+    },
+    {
+      "label": "Message when all cards have been learned proficiently",
+      "description": "@cards will be replaced by the number of all cards in the pool. @max will be replaced by the maximum proficiency level - 1.",
+      "default": "Well done! You got all @cards cards correct @max times in a row!"
+    },
+    {
+      "label": "Edistymisteksti",
+      "description": "Saatavilla olevat muuttujat ovat @card ja @total.",
+      "default": "Kortti @card / @total"
+    },
+    {
+      "label": "Kortin etupuolen kuvaus",
+      "description": "Käytetään esteettömyyssovelluksissa",
+      "default": "Kortin etupuoli"
+    },
+    {
+      "label": "Kortin kääntöpuolen kuvaus",
+      "description": "Käytetään esteettömyyssovelluksissa",
+      "default": "Kortin kääntöpuoli"
+    },
+    {
+      "label": "Näytä vinkki",
+      "default": "Näytä vinkki"
+    },
+    {
+      "label": "Audio not supported message",
+      "default": "Your browser does not support this audio"
+    }
+  ]
+}

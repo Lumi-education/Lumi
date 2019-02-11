@@ -1,0 +1,76 @@
+{
+  "semantics": [
+    {
+      "label": "Editor für Bilder-Hotspot-Fragen",
+      "fields": [
+        {
+          "label": "Hintergrundbild",
+          "fields": [
+            {
+              "label": "Hintergrundbild",
+              "description": "Wähle ein Bild als Hintergrundbild für die Bilder-Hotspot-Frage"
+            }
+          ]
+        },
+        {
+          "label": "Hotspots",
+          "description": "Wähle die passende Form für deinen Hotspot, konfiguriere ihn und dann wähle eine passende Stelle und Größe.",
+          "fields": [
+            {
+              "label": "Aufgabenbeschreibung",
+              "description": "Anweisungen für den Nutzer."
+            },
+            {
+              "label": "Hotspot",
+              "entity": "Hotspot",
+              "field": {
+                "label": "Hotspot",
+                "fields": [
+                  {
+                    "label": "Nutzereinstellungen",
+                    "fields": [
+                      {
+                        "label": "Korrekt!",
+                        "description": "Es kann mehrere richtige Hotspots geben. Der Nutzer bekommt die Rückmeldung über richtig oder falsch dennoch nach dem ersten Klick."
+                      },
+                      {
+                        "label": "Rückmeldung"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "berechnete Einstellungen"
+                  }
+                ]
+              }
+            },
+            {
+              "label": "Rückmeldung, wenn der Nutzer eine nicht besetzte Stelle anklickt:",
+              "placeholder": "Du hast keinen Hotspot getroffen. Versuch es noch einmal!"
+            },
+            {
+              "label": "Show feedback as a popup"
+            },
+            {
+              "label": "Localization",
+              "fields": [
+                {
+                  "label": "Retry button text",
+                  "default": "Retry"
+                },
+                {
+                  "label": "Close button text",
+                  "default": "Close"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Textual representation of the score bar for those using a readspeaker",
+      "default": "You got :num out of :total points"
+    }
+  ]
+}

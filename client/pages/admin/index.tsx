@@ -5,6 +5,8 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 import * as debug from 'debug';
 
+import Tour from './tour/Tour';
+
 // container
 import LeftDrawer from './left-drawer';
 import AppBar from './app-bar';
@@ -19,8 +21,8 @@ import GroupPage from 'client/pages/admin/groups/group-page';
 import GroupsPage from 'client/pages/admin/groups/groups-page';
 import UsersPage from './users/users-page';
 import UserPage from './users/user-page';
-import CardsPage from './cards/cards-page';
-import CardPage from './cards/card-page';
+import MaterialIndexPage from './material/MaterialIndexPage';
+import MaterialEditPage from './material/MaterialEditPage';
 import CommentsPage from './comments/comments-page';
 import SystemPage from './system/system-page';
 import DashboardPage from './dashboard/dashboard-page';
@@ -29,6 +31,7 @@ import SettingsPage from './settings-page';
 // modules
 import * as UI from 'lib/ui';
 import * as Core from 'lib/core';
+import * as DB from 'lib/db';
 
 import CreateCardDialog from 'client/dialogs/card-create-dialog';
 import AssignmentDialog from 'client/dialogs/assignment-view-dialog';
@@ -59,7 +62,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
         if (this.props.userlevel < 2) {
             this.props.dispatch(UI.actions.push('/user'));
         }
-        this.props.dispatch(Core.actions.check_update());
+        // this.props.dispatch(Core.actions.check_update());
     }
 
     public render() {
@@ -67,6 +70,9 @@ export class AdminRoot extends React.Component<IProps, {}> {
             <div id="AdminRoot" key={this.props.locale}>
                 <ErrorBoundary>
                     <AppBar />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <Tour />
                 </ErrorBoundary>
                 <ErrorBoundary>
                     <LeftDrawer />
@@ -77,6 +83,7 @@ export class AdminRoot extends React.Component<IProps, {}> {
                 <ErrorBoundary>
                     <AssignmentDialog />
                 </ErrorBoundary>
+                <DB.container.SyncProgress />
                 <div
                     style={{
                         paddingBottom: '40px'
@@ -121,13 +128,13 @@ export class AdminRoot extends React.Component<IProps, {}> {
                                 component={UserPage}
                             />
                             <Route
-                                path="/:db/admin/cards/:card_id"
-                                component={CardPage}
+                                path="/:db/admin/material/:material_id"
+                                component={MaterialEditPage}
                             />
                             <Route
                                 exact={true}
-                                path="/:db/admin/cards"
-                                component={CardsPage}
+                                path="/:db/admin/material"
+                                component={MaterialIndexPage}
                             />
                             <Route
                                 path="/:db/admin/comments"

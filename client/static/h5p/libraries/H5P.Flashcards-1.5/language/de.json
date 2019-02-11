@@ -1,0 +1,102 @@
+{
+  "semantics": [
+    {
+      "label": "Aufgabenbeschreibung"
+    },
+    {
+      "widgets": [
+        {
+          "label": "Standard"
+        }
+      ],
+      "label": "Karten",
+      "entity": "kart",
+      "field": {
+        "label": "Karte",
+        "fields": [
+          {
+            "label": "Frage",
+            "description": "Optionale textliche Frage für die Karte. (Die Karte braucht nur ein Bild, einen Text oder beides)"
+          },
+          {
+            "label": "Antwort",
+            "description": "Optionale Antwort(Lösung) für die Karte."
+          },
+          {
+            "label": "Bild",
+            "description": "Optionales Bild für die Karte. (Die Karte kann nur ein Bild, nur Text oder beides verwenden)"
+          },
+          {
+            "label": "Tipp",
+            "fields": [
+              {
+                "label": "Tipp Text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fortschrittstext",
+      "default": "Karte @card von @total",
+      "description": "Fortschrittstext, verfügbare Variablen: @card und @total. Beispiel: 'Karte @card von @total'"
+    },
+    {
+      "label": "Text des Weiter Buttons",
+      "default": "Weiter"
+    },
+    {
+      "label": "Text für den Vorherig Button",
+      "default": "Vorherig"
+    },
+    {
+      "label": "Text für den Antworten überprüfen Button",
+      "default": "Überprüfen"
+    },
+    {
+      "label": "Eingabe des Benutzers erfordern, bevor die Lösung eingesehen werden kann"
+    },
+    {
+      "label": "Text for the answer input field",
+      "default": "Your answer"
+    },
+    {
+      "label": "Text for correct answer",
+      "default": "Correct"
+    },
+    {
+      "label": "Text for incorrect answer",
+      "default": "Incorrect"
+    },
+    {
+      "label": "Show solution text",
+      "default": "Correct answer"
+    },
+    {
+      "label": "Text for results title",
+      "default": "Results"
+    },
+    {
+      "label": "Text for number of correct",
+      "default": "@score of @total correct",
+      "description": "Result text, variables available: @score and @total. Example: '@score of @total correct'"
+    },
+    {
+      "label": "Text for show results",
+      "default": "Show results"
+    },
+    {
+      "label": "Text for short answer label",
+      "default": "A:"
+    },
+    {
+      "label": "Text for \"retry\" button",
+      "default": "Retry"
+    },
+    {
+      "label": "Case sensitive",
+      "description": "Makes sure the user input has to be exactly the same as the answer."
+    }
+  ]
+}

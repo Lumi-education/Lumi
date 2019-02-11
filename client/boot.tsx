@@ -37,9 +37,9 @@ declare var navigator: any;
 const userLang = navigator.language || navigator.userLanguage;
 let locale = userLang.substring(0, 2);
 
-if ((locale !== 'en' && locale !== 'de') || !locale) {
-    locale = 'en';
-} // default to en
+// if ((locale !== 'en' && locale !== 'de') || !locale) {
+locale = 'de';
+// } // default to en
 
 moment.locale(locale);
 store.dispatch(setLocale(locale));

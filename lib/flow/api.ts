@@ -1,7 +1,15 @@
 import * as request from 'superagent';
 import { IAssignment } from './types';
 
+import * as DB from 'lib/db';
+
 declare var window;
+
+export function create_assignments(
+    assignments: IAssignment[]
+): Promise<IAssignment[]> {
+    return DB.api.batch_create<IAssignment>(assignments);
+}
 
 export function assign(user_ids: string[], card_ids: string[]) {
     return request

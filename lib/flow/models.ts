@@ -8,7 +8,7 @@ export class Assignment implements IAssignment {
     public _deleted: boolean;
     public _attachments: {};
     public user_id: string;
-    public card_id: string; // h5p content_id ?
+    public material_id: string;
     public completed: boolean;
     public data: {
         finished?: number;
@@ -17,27 +17,21 @@ export class Assignment implements IAssignment {
         maxScore?: number;
     };
     public state: any;
-    public updated_at?: Date;
-    public time: number;
     public archived: boolean;
-    public finished: number;
     public type: 'assignment';
 
-    constructor(assignment?: IAssignment) {
+    constructor(assignment?) {
         return assign(
             this,
             {
                 _id: null,
-                card_id: null,
+                material_id: null,
                 user_id: null,
                 type: 'assignment',
                 completed: false,
                 data: null,
                 archived: false,
-                score: null,
                 state: null,
-                time: 0,
-                finished: null,
                 _attachments: {}
             },
             assignment
@@ -63,8 +57,5 @@ export class Assignment implements IAssignment {
                 return moment(this.data.finished).format('llll');
             }
         }
-        return this.finished === null
-            ? null
-            : moment(this.finished).format('llll');
     }
 }

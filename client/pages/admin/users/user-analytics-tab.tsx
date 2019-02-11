@@ -17,7 +17,6 @@ import { SelectField, MenuItem, Paper, DatePicker } from 'material-ui';
 
 import * as Core from 'lib/core';
 import * as Flow from 'lib/flow';
-import * as Cards from 'lib/cards';
 import * as Users from 'lib/users';
 import * as Tags from 'lib/tags';
 
@@ -31,12 +30,12 @@ interface IStateProps extends IPassedProps {
     assignments: Flow.models.Assignment[];
     assignment: (assignment_id: string) => Flow.models.Assignment;
     assignments_for_cards: (card_id: string[]) => Flow.models.Assignment[];
-    card_name: (card_id: string) => string;
+    // card_name: (card_id: string) => string;
     user: Users.models.User;
-    card: (card_id: string) => Cards.ICard;
+    // card: (card_id: string) => Cards.ICard;
     selected_tags: string[];
     tag: (tag_id: string) => Tags.models.Tag;
-    cards_with_tag: (tag_id: string) => Cards.ICard[];
+    // cards_with_tag: (tag_id: string) => Cards.ICard[];
 }
 
 interface IDispatchProps {
@@ -89,12 +88,12 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
 
         const line_data = this.props.selected_tags.map(tag_id => {
             const tag = this.props.tag(tag_id);
-            const cards = this.props
-                .cards_with_tag(tag_id)
-                .filter(
-                    card =>
-                        card.card_type !== 'text' && card.card_type !== 'video'
-                );
+            const cards = []; // this.props
+            // .cards_with_tag(tag_id)
+            // .filter(
+            //     card =>
+            //         card.card_type !== 'text' && card.card_type !== 'video'
+            // );
             const assignments = this.props
                 .assignments_for_cards(cards.map(card => card._id))
                 .filter(assignment => assignment.get_finished() !== null)
@@ -132,12 +131,13 @@ export class UserAnalyticsTab extends React.Component<IProps, IComponentState> {
 
         const column_data = this.props.selected_tags.map(tag_id => {
             const tag = this.props.tag(tag_id);
-            const cards = this.props
-                .cards_with_tag(tag_id)
-                .filter(
-                    card =>
-                        card.card_type !== 'text' && card.card_type !== 'video'
-                );
+            const cards = [];
+            // this.props
+            //     .cards_with_tag(tag_id)
+            //     .filter(
+            //         card =>
+            //             card.card_type !== 'text' && card.card_type !== 'video'
+            //     );
             const assignments = this.props
                 .assignments_for_cards(cards.map(card => card._id))
                 .filter(assignment => assignment.get_finished() !== null)
@@ -251,9 +251,9 @@ function mapStateToProps(state: IState, ownProps): IStateProps {
         ),
         assignment: assignment_id =>
             Flow.selectors.assignment_by_id(state, assignment_id),
-        card_name: (card_id: string) => Cards.selectors.name(state, card_id),
-        card: (card_id: string) => Cards.selectors.select_card(state, card_id),
-        cards_with_tag: tag_id => Cards.selectors.with_tags(state, [tag_id]),
+        // card_name: (card_id: string) => Cards.selectors.name(state, card_id),
+        // card: (card_id: string) => Cards.selectors.select_card(state, card_id),
+        // cards_with_tag: tag_id => Cards.selectors.with_tags(state, [tag_id]),
         assignments_for_cards: (card_ids: string[]) =>
             Flow.selectors.assignments_for_cards(state, card_ids),
         tag: (tag_id: string) => Tags.selectors.tag(state, tag_id),

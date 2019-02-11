@@ -1,0 +1,298 @@
+{
+  "semantics": [
+    {
+      "label": "Zeitstrahl",
+      "fields": [
+        {
+          "label": "Überschrift",
+          "description": "Die Hauptüberschrift für den Zeitstrahl gehört hier hin (erste Seite)."
+        },
+        {
+          "label": "Inhaltstext",
+          "description": "Der Hauptinhaltstext für den Zeitstrahl gehört hier hin (erste Seite)."
+        },
+        {
+          "label": "Vorgabe-Zoomstufe",
+          "default": "0",
+          "description": "Hier wird der Vorgabewert für die Zoomstufe eingestellt. Entspricht dem entsprechend mehrmaligen Drücken des Buttons zum Hinein- oder Herauszoomen. Negative Zahlen zoomenen heraus. Vorgabe ist 0."
+        },
+        {
+          "label": "Hintergrundbild",
+          "description": "Ein Bild, das als Hintergrund dargestellt wird"
+        },
+        {
+          "label": "Höhe",
+          "description": "Die Höhe in Pixeln"
+        },
+        {
+          "label": "Inhalte",
+          "description": "Hier kannst du deinem Zeitstrahl für die \"Startseite\" Inhalte hinzufügen.",
+          "fields": [
+            {
+              "label": "Medien",
+              "description": "Link zur Medien-URL (Twitter, YouTube, Flickr, Vimeo, Google Maps und SoundCloud werden aktuell unterstützt)"
+            },
+            {
+              "label": "Quellenangaben",
+              "description": "Quellenangaben für die Medien"
+            },
+            {
+              "label": "Beschriftung",
+              "description": "Die Beschriftung kommt hier hin."
+            }
+          ]
+        },
+        {
+          "label": "Daten",
+          "description": "Füge ein paar Daten zu deinem Zeitstrahl hinzu!",
+          "field": {
+            "label": "Datum",
+            "description": "Datum",
+            "fields": [
+              {
+                "label": "Startdatum",
+                "description": "JJJJ,MM,TT (Mindestens JJJJ erforderlich)"
+              },
+              {
+                "label": "Enddatum",
+                "description": "JJJJ,MM,TT (Mindestens JJJJ erforderlich)"
+              },
+              {
+                "label": "Überschrift",
+                "description": "Überschrift für den Datumseintrag"
+              },
+              {
+                "label": "Inhaltstext",
+                "description": "Inhalt für den Datumseintrag"
+              },
+              {
+                "label": "Schlagworte",
+                "description": "Gib Schlagworte (Kategorien) ein."
+              },
+              {
+                "label": "Zugaben",
+                "description": "",
+                "fields": [
+                  {
+                    "label": "Medien",
+                    "description": "URL zum Medium (Twitter, YouTube, Flickr, Vimeo, Wikipedia, Google Maps und SoundCloud werden aktuell unterstützt)."
+                  },
+                  {
+                    "label": "Vorschaubild",
+                    "description": "Füge ein Vorschaubild hinzu, falls benötigt (32px mal 32px)"
+                  },
+                  {
+                    "label": "Quellenangabe",
+                    "description": "Quellenangabe für das Medium"
+                  },
+                  {
+                    "label": "Beschriftung",
+                    "description": "Beschriftungstext"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Äras",
+          "description": "Füge eine Ära zu deinem Zeitstrahl hinzu.",
+          "field": {
+            "label": "Ära",
+            "description": "",
+            "fields": [
+              {
+                "label": "Startdatum",
+                "description": "JJJJ,MM,TT (Mindestens JJJJ erforderlich)"
+              },
+              {
+                "label": "Enddatum",
+                "description": "JJJJ,MM,TT (Mindestens JJJJ erforderlich)"
+              },
+              {
+                "label": "Überschrift",
+                "description": "Überschrift für die Ära"
+              },
+              {
+                "label": "Inhaltstext",
+                "description": "Inhalt für die Ära"
+              },
+              {
+                "label": "Schlagworte",
+                "description": "Schlagworte für die Ära"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Sprache",
+          "description": "Die Sprache der Nutzerschnittstelle",
+          "options": [
+            {
+              "label": "Afrikaans"
+            },
+            {
+              "label": "Arabisch"
+            },
+            {
+              "label": "Armenisch"
+            },
+            {
+              "label": "Baskisch"
+            },
+            {
+              "label": "Bulgarisch"
+            },
+            {
+              "label": "Katalanisch"
+            },
+            {
+              "label": "Chinesisch"
+            },
+            {
+              "label": "Kroatisch"
+            },
+            {
+              "label": "Tschechisch"
+            },
+            {
+              "label": "Dänisch"
+            },
+            {
+              "label": "Niederländisch"
+            },
+            {
+              "label": "Englisch"
+            },
+            {
+              "label": "Englisch (24-Stunden-Zeitformat)"
+            },
+            {
+              "label": "Esperanto"
+            },
+            {
+              "label": "Estnisch"
+            },
+            {
+              "label": "Färöisch"
+            },
+            {
+              "label": "Farsi"
+            },
+            {
+              "label": "Finnisch"
+            },
+            {
+              "label": "Französisch"
+            },
+            {
+              "label": "Gälisch"
+            },
+            {
+              "label": "Georgisch"
+            },
+            {
+              "label": "Deutsch"
+            },
+            {
+              "label": "Griechisch"
+            },
+            {
+              "label": "Hebräisch"
+            },
+            {
+              "label": "Ungarisch"
+            },
+            {
+              "label": "Isländisch"
+            },
+            {
+              "label": "Indonesisch"
+            },
+            {
+              "label": "Italienisch"
+            },
+            {
+              "label": "Japanisch"
+            },
+            {
+              "label": "Koreanisch"
+            },
+            {
+              "label": "Lettisch"
+            },
+            {
+              "label": "Litauisch"
+            },
+            {
+              "label": "Luxembourgisch"
+            },
+            {
+              "label": "Malayisch"
+            },
+            {
+              "label": "Nepalesisch"
+            },
+            {
+              "label": "Norwegisch"
+            },
+            {
+              "label": "Polnisch"
+            },
+            {
+              "label": "Portugiesisch"
+            },
+            {
+              "label": "Portuguese (Brasilianisch)"
+            },
+            {
+              "label": "Rumänisch"
+            },
+            {
+              "label": "Russisch"
+            },
+            {
+              "label": "Serbisch - kyrillisch"
+            },
+            {
+              "label": "Serbisch - römisch"
+            },
+            {
+              "label": "Singhalesisch"
+            },
+            {
+              "label": "Slovakisch"
+            },
+            {
+              "label": "Slovenisch"
+            },
+            {
+              "label": "Spanisch"
+            },
+            {
+              "label": "Schwedisch"
+            },
+            {
+              "label": "Tagalog"
+            },
+            {
+              "label": "Tamil"
+            },
+            {
+              "label": "Taiwanesisch"
+            },
+            {
+              "label": "Telugu"
+            },
+            {
+              "label": "Türkisch"
+            },
+            {
+              "label": "Ukrainisch"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

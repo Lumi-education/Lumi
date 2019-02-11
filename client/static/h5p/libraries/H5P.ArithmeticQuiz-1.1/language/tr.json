@@ -1,0 +1,94 @@
+{
+  "semantics":[
+    {
+      "label":"Giriş",
+      "description":"Giriş metni (mmaksimum 100 karakter)"
+    },
+    {
+      "label":"Aritmetik işlem",
+      "options":[
+        {
+          "label":"Toplama"
+        },
+        {
+          "label":"Çıkarma"
+        },
+        {
+          "label":"Çarpma"
+        },
+        {
+          "label":"Bölme"
+        }
+      ]
+    },
+    {
+      "label":"Maksimum soru sayısı"
+    },
+    {
+      "label":"Kullanıcı arayüzü çevirileri",
+      "fields":[
+        {
+          "label":"Quiz sırasında puanlama",
+          "default":"Puan:"
+        },
+        {
+          "label":"Süre",
+          "default":"Süre: @time"
+        },
+        {
+          "label":"Sonuç sayfası başlığı",
+          "default":"Tamamlandı!"
+        },
+        {
+          "label":"Başla etiketi",
+          "default":"BAŞLA!"
+        },
+        {
+          "label":"Başlatma butonu etiketi",
+          "default":"Başlat"
+        },
+        {
+          "label":"Yeniden dene buton etiketi",
+          "default":"Yeniden dene"
+        },
+        {
+          "label":"Doğru cevap için sesli okuyucu (yardımcı teknolojiler) metni",
+          "default":"Doğru"
+        },
+        {
+          "label":"Yanlış cevap için sesli okuyucu (yardımcı teknolojiler) metni",
+          "default":"Yanlış. Doğru cevap :num"
+        },
+        {
+          "label":"Zamanlayıcı için sesli okuyucu (yardımcı teknolojiler) etiketi",
+          "default":"Saat, dakika ve saniye cinsinden süre."
+        },
+        {
+          "label":"Soru için sesli okuyucu (yardımcı teknolojiler) metni",
+          "default":":arithmetic kaça eşittir?"
+        },
+        {
+          "label":"Toplama işlemi metni",
+          "default":"artı"
+        },
+        {
+          "label":"Çıkarma işlemi metni",
+          "default":"eksi"
+        },
+        {
+          "label":"Çarpma işlemi metni",
+          "default":"çarpı"
+        },
+        {
+          "label":"Bölme işlemi metni",
+          "default":"bölü"
+        },
+        {
+          "label":"Slayt numarası metni",
+          "description":"Şimdiki slaytı ve toplam slayt sayısını bildirir, değişkenler: :num ve :total",
+          "default":"Toplam :total slayttan :num no'lu slayt"
+        }
+      ]
+    }
+  ]
+}

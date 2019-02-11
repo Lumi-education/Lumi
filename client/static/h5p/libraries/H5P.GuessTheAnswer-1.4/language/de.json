@@ -1,0 +1,26 @@
+{
+  "semantics": [
+    {
+      "label": "Aufgabenbeschreibung",
+      "description": "Beschreibung darüber, wie der Benutzer die Aufgabe lösen sollte."
+    },
+    {
+      "label": "Lösungsbild",
+      "fields": [
+        {
+          "label": "Type",
+          "description": "Optional media to display above the question."
+        }
+      ]
+    },
+    {
+      "label": "Label der beschreibenden Lösung",
+      "default": "Klicken, um Antwort zu sehen.",
+      "description": "Klickbarer Textbereich, in dem die Lösung erscheinen wird."
+    },
+    {
+      "label": "Lösungstext",
+      "description": "Die Lösung des Bildes."
+    }
+  ]
+}
